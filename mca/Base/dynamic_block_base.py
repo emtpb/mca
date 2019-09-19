@@ -4,38 +4,44 @@ from . import block_registry
 
 
 class DynamicBlock(block_base.Block):
-    """Basic dynamic block class the subclass of the 
-    :class:`.Block` class with the extension of adding and removing :class:`.Output` s 
-    and :class:`.Input` s. Further Blocks with dynamic amount of inputs or dynamic amount 
-    of outputs need to inherit from this class. Furthermore it can be chosen 
-    between only the amount of inputs being dynamic, only the amount of outputs 
-    being dynamic or both. It is advised to overwrite the following methods in 
-    subclasses, if only specific classes of inputs or outputs should be added 
-    to the block or if other validation is needed.
+    """Basic dynamic block class is the subclass of the 
+    :class:`.Block` class with the extension of adding and 
+    removing :class:`.Output` s and :class:`.Input` s. Further Blocks with 
+    dynamic amount of inputs or dynamic amount of outputs need to inherit from 
+    this class. Furthermore it can be chosen between only the amount of inputs 
+    being dynamic, only the amount of outputs being dynamic or both. It is 
+    advised to overwrite the following methods in subclasses, if only specific 
+    classes of inputs or outputs should be added to the block or if further 
+    validation is needed.
     
     Attributes:
         dynamic_output: (lower limit, upper limit) The upper limit and 
             lower limit of the amount of outputs. The lower limit is an 
-            interger has to be: lower limit >= 0.
+            interger and for it applies: lower limit >= 0.
             The upper limit is an interger and 
-            has to be: upper limit > lower limit. upper limit can also be set
-            to None meaning there is no upper limit. By default dynamic_output
-            is set to None meaning the amount of outputs are not dynamic and 
-            no outputs can be added or removed after the initialization.
+            for it applies: upper limit > lower limit. The upper limit can also
+            be set to None meaning there is no finite upper limit. 
+            By default dynamic_output is set to None meaning the amount of 
+            outputs are not dynamic and no outputs can be added or removed 
+            after the initialization.
             
         dynamic_input: (lower limit, upper limit) The upper limit and 
             lower limit of the amount of inputs. The lower limit is an 
-            interger has to be: lower limit >= 0. The upper limit is an 
-            integer and has to be: upper limit > lower limit. upper limit 
-            can also be set to None meaning there is no upper limit. By default 
-            dynamic_input is set to None meaning the amount of inputs are 
-            not dynamic and no inputs can be added or removed after the 
-            initialization.
+            interger and for it applies: lower limit >= 0. The upper limit 
+            is an integer and for it applies: upper limit > lower limit. 
+            The upper limit can also be set to None meaning there is no 
+            finite upper limit. By default dynamic_input is set to None 
+            meaning the amount of inputs are not dynamic and no inputs can 
+            be added or removed after the initialization.
             
-            Examples:
+            Examples:          
                 >>> self.dynamic_output = None
+                No outputs can be added or removed               
                 >>> self.dynamic_input = (0, 5)
+                The amount of inputs can vary between 0 and 5
                 >>> self.dynamic_output = (3, None)
+                There are at least 3 outputs and any amount of outputs 
+                can be added
             
     """
 
