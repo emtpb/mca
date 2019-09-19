@@ -6,6 +6,7 @@ class MCAError(Exception):
     
     All mca-specific exceptions are derived from this class.
     """
+
     pass
 
 
@@ -25,14 +26,16 @@ class BlockCircleError(MCAError):
 
 
 class IntervalError(MCAError):
-    """Exception raised when the increments of a signal are different."""
+    """Exception raised when there is incompatibility with intervals."""
 
-    def __init__(self):
-        """Initialize IntervalError."""
+    def __init__(self, cause):
+        """Initialize IntervalError.
+        
+        Args:
+            cause: Reason for the IntervalError"""
 
-        super().__init__(
-            "Can not process signals because of incompatible intervals"
-        )
+        super().__init__(cause)
+
 
 class OutOfBoundError(MCAError):
     """Exception raised when a given parameter is too small or to big 
@@ -44,7 +47,7 @@ class OutOfBoundError(MCAError):
         
         Args:
             parameter_name (str): Name of the parameter 
-            where the error occured. 
+                where the error occured. 
         """
 
         super().__init__(
@@ -61,8 +64,8 @@ class ParameterTypeError(MCAError):
         """Initialize ParameterTypeError.
         
         Args:
-            parameter_name (str): Name of the parameter 
-            where the error occured.
+            parameter_name (str): Name of the parameter
+                where the error occured.
         """
         super().__init__(
             "The value given to the parameter {} is not the correct type".format(
@@ -75,7 +78,7 @@ class InputOutputError(MCAError):
     """Exception raised when the adding or removing of an input or output
     was not successful.
     """
-    
+
     def __init__(self, cause):
         """Initialize InputOutputError.
         
@@ -83,20 +86,4 @@ class InputOutputError(MCAError):
             cause (str): Reason why the operation was not successful.
         """
         super().__init__(cause)
-
-class MCATypeError(MCAError):
-    """Exception raised when validation of types within the mca package failed.
-    """
-    
-    def __init__(self, obj, desired_class):
-        super().__init("{} is not instance of {}".format(obj, desired_class))
-                
-
-
-
-
-
-
-
-
 

@@ -56,11 +56,12 @@ class FloatParameter(BaseParameter):
         Args:
             value: Given value to be validated.
         Raises:
-            :class:`~mca.exceptions.MCATypeError`: Type of value is not float.
-            :obj:`~mca.exceptions.OutOfBoundError`: Value is not within min or max.
+            :class:`~mca.exceptions.ParameterTypeError`: Type of value is not float.
+            :obj:`~mca.exceptions.OutOfBoundError`: Value is not within min 
+            or max.
         """
         if not isinstance(value, float) and not isinstance(value, int):
-            raise exceptions.MCATypeError(self.name)
+            raise exceptions.ParameterTypeError(self.name)
         if self.max:
             if value > self.max:
                 raise exceptions.OutOfBoundError(self.name)
@@ -102,11 +103,12 @@ class IntParameter(BaseParameter):
         Args:
             value: Given value to be validated.
         Raises:
-            :class:`~mca.exceptions.MCATypeError`: Type of value is not int.
-            :class:`~mca.exceptions.OutOfBoundError`: Value is not within min or max.
+            :class:`~mca.exceptions.ParameterTypeError`: Type of value is not int.
+            :class:`~mca.exceptions.OutOfBoundError`: Value is not within min 
+            or max.
         """
         if not isinstance(value, int):
-            raise exceptions.MCATypeError(self.name)
+            raise exceptions.ParameterTypeError(self.name)
         if self.max:
             if value > self.max:
                 raise exceptions.OutOfBoundError(self.name)
@@ -130,13 +132,13 @@ class StrParameter(BaseParameter):
             name (str): Name of the parameter.
             max_length (int): Maximum length of the string.
             value (str): Value of the parameter.
-        """   
+        """
         super().__init__(name)
         self.max_length = max_length
         if value:
             self.validate(value)
         self.value = value
-        
+
     def validate(self, value):
         """Validates a value on type and if maximum of character length is
         reached.
@@ -144,11 +146,11 @@ class StrParameter(BaseParameter):
         Args:
             value: Given value to be validated.            
         Raises:
-            :class:`~mca.exceptions.MCATypeError`: Type of value is not str.
+            :class:`~mca.exceptions.ParameterTypeError`: Type of value is not str.
             :class:`~mca.exceptions.OutOfBoundError`: String is too long.
         """
         if not isinstance(value, str):
-            raise exceptions.MCATypeError(self.name)
+            raise exceptions.ParameterTypeError(self.name)
         if self.max_length < len(value):
             raise exceptions.OutOfBoundError(self.name)
 
@@ -185,11 +187,11 @@ class ChoiceParameter(BaseParameter):
         Args:
             value: Given value to be validated.            
         Raises:
-            :class:`~mca.exceptions.MCATypeError`: Type of value is not str.
+            :class:`~mca.exceptions.ParameterTypeError`: Type of value is not str.
             :class:`~mca.exceptions.OutOfBoundError`: String is too long.
         """
         if value not in self.choices:
-            raise exceptions.MCATypeError(self.name)
+            raise exceptions.ParameterTypeError(self.name)
 
 
 class BoolParameter(BaseParameter):
@@ -199,6 +201,7 @@ class BoolParameter(BaseParameter):
         name (str): Name of the Parameter.
         value (bool): Value of the Parameter.
     """
+
     def __init__(self, name, value=None):
         """Initialize BoolParameter class.
         
@@ -217,8 +220,8 @@ class BoolParameter(BaseParameter):
         Args:
             value: Given value to be validated.
             Raises:
-                :class:`~mca.exceptions.MCATypeError`: 
+                :class:`~mca.exceptions.ParameterTypeError`: 
                 Type of value is not bool.
         """
         if not isinstance(value, bool):
-            raise exceptions.MCATypeError(self.name)
+            raise exceptions.ParameterTypeError(self.name)
