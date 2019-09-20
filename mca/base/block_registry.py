@@ -114,7 +114,7 @@ class IORegistry:
         if isinstance(output, output_base.Output) and isinstance(
             input_, input_base.Input
         ):
-            if not [x for x in self._graph.predecessors(input_)]:
+            if not list(self._graph.predecessors(input_)):
                 self._graph.add_edge(output, input_)
                 if nx.is_directed_acyclic_graph(self._graph):
                     self.invalidate_and_update(input_.block)
@@ -158,8 +158,8 @@ class IORegistry:
         Args:
             input_: Input to which the Output is connected to.
         """
-        for i in self._graph.predecessors(input_):
-            return i
+        if list(self._graph.predecessors(input_)):
+            return list(self._graph.predecessors(input_))[0]
 
 
 Registry = IORegistry()
