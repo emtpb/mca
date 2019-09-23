@@ -2,6 +2,7 @@ from . import block_registry
 from . import output_base
 from . import input_base
 
+
 class Block:
     """Basic Block class of the Multi Channel Analyzer.
     
@@ -55,20 +56,22 @@ class Block:
         for o in self.outputs:
             o.disconnect()
 
-    def _new_output(self):
+    def _new_output(self, meta_data):
         """Creates and adds an new output to the block. Used to create new
-        outputs in the initialization of a new block.
+        outputs in the initialization of a new block. 
         
         .. warning:: Never call this method after a block instance has been
             initialized.
         .. see also::
             :class:`.DynamicBlock`
         """
+
         self.outputs.append(
             block_registry.Registry.add_node(
-                output_base.Output(self)
+                output_base.Output(self, meta_data=meta_data)
             )
         )
+
     def _new_input(self):
         """Creates and adds an new input to the block. Used to create new
         inputs in the initialization of a new block.
@@ -79,7 +82,5 @@ class Block:
             :class:`.DynamicBlock`
         """
         self.inputs.append(
-            block_registry.Registry.add_node(
-                    input_base.Input(self)
-            )
+            block_registry.Registry.add_node(input_base.Input(self))
         )
