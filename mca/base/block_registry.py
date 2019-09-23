@@ -111,17 +111,20 @@ class IORegistry:
             exceptions.BlockCircleError: When connecting two nodes leads to
                 a circle in the structure.
         """
-        if isinstance(output, output_base.Output) and isinstance(
+        if not isinstance(output, output_base.Output) or not isinstance(
             input_, input_base.Input
         ):
-            if not list(self._graph.predecessors(input_)):
-                self._graph.add_edge(output, input_)
-                if nx.is_directed_acyclic_graph(self._graph):
-                    self.invalidate_and_update(input_.block)
-                else:
-                    self._graph.remove_edge(output, input_)
-                    raise exceptions.BlockCircleError(input_.block)
-        
+            message = "{} is not instance of {} or {} is not instance of {}".format(
+                output, output_base.Output, input_, input_base.Input
+            )
+            raise exceptions.ConnectionsError(message)
+        if list(self._graph.predecessors(input_)):
+            raise exceptions.ConnectionsError("Input already connected")
+        self._graph.add_edge(output, input_)
+        if not nx.is_directed_acyclic_graph(self._graph):
+            self._graph.remove_edge(output, input_)
+            raise exceptions.BlockCircleError(input_.block)
+        self.invalidate_and_update(input_.block)
 
     def disconnect_input(self, input_):
         """Disconnects an Input from an Output if connected.
@@ -129,8 +132,8 @@ class IORegistry:
         Args:
             input_: Input which gets disconnected.
         """
-        output = [x for x in self._graph.predecessors(input_)]
-        if output:
+        output = list(self._graph.predecessors(input_))
+        if output:    
             self._graph.remove_edge(output[0], input_)
             self.invalidate_and_update(input_.block)
 
@@ -160,6 +163,9 @@ class IORegistry:
         """
         if list(self._graph.predecessors(input_)):
             return list(self._graph.predecessors(input_))[0]
-
+        
+    def clear(self):
+        """Removes all Inputs and Outputs from the IORegistry."""
+        self._graph.clear()
 
 Registry = IORegistry()
