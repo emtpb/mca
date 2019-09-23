@@ -11,13 +11,17 @@ class Block:
     Attributes:
         name (str): Name of the Block.
         inputs: List that contains all its :class:`.Input`.
-        outputs: List that conatins all its :class:`.Output`.
+        outputs: List that contains all its :class:`.Output`.
         parameters: List that contains all parameters.
     """
 
-    def __init__(self):
-        """Initialize the main Block class."""
+    def __init__(self, name=None):
+        """Initialize the main Block class.
 
+        Args:
+            name (str): Name of the Block.
+        """
+        self.name = name
         self.inputs = []
         self.outputs = []
         self.parameters = {}
@@ -84,3 +88,11 @@ class Block:
         self.inputs.append(
             block_registry.Registry.add_node(input_base.Input(self))
         )
+
+    def check_empty_inputs(self, process):
+        data = [input_.data for input_ in self.inputs]
+        if not data:
+            for output in self.outputs:
+                output.data = None
+        else:
+            process()
