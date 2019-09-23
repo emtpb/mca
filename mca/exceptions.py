@@ -47,7 +47,7 @@ class OutOfBoundError(MCAError):
         
         Args:
             parameter_name (str): Name of the parameter 
-                where the error occured. 
+                where the error occurred.
         """
 
         super().__init__(
@@ -87,3 +87,15 @@ class InputOutputError(MCAError):
         """
         super().__init__(cause)
 
+
+class ConnectionsError(MCAError):
+    """Exception raised when connecting or disconnecting fails.
+    """
+
+    def __init__(self, cause):
+        """Initialize ConnectionsError.
+        
+        Args:
+            cause (str): Reason why the connecting or disconnecting failed.
+        """
+        super().__init__(cause)
