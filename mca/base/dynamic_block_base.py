@@ -1,7 +1,7 @@
 from . import block_base
 from .. import exceptions
 from . import block_registry
-from mca.datatypes import signal
+from mca.datatypes import signal_2d
 
 
 class DynamicBlock(block_base.Block):

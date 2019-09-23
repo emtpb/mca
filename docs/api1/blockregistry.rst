@@ -1,4 +1,4 @@
 Block Registry
 ==============
 
-.. automodule:: mca.Base.block_registry
+.. automodule:: mca.base.block_registry

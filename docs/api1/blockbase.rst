@@ -1,4 +1,4 @@
 Base Block
 ==========
 
-.. automodule:: mca.Base.block_base
+.. automodule:: mca.base.block_base

@@ -89,10 +89,14 @@ class Block:
             block_registry.Registry.add_node(input_base.Input(self))
         )
 
-    def check_empty_inputs(self, process):
+    def check_empty_inputs(self):
+        """Checks if Inputs have any data and if that is not the case
+        the data of the Outputs will be set to None. This method should
+        be used as a `decorator <https://www.python.org/dev/peps/pep-0318/>`_
+        for the _process method in inheriting Blocks.
+        """
         data = [input_.data for input_ in self.inputs]
         if not data:
             for output in self.outputs:
                 output.data = None
-        else:
-            process()
+            return

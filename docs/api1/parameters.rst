@@ -1,4 +1,4 @@
 Parameters
 ==========
 
-.. automodule:: mca.Base.parameters
+.. automodule:: mca.base.parameters

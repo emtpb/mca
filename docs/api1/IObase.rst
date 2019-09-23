@@ -1,10 +1,10 @@
 Base Output
 ===========
 
-.. automodule:: mca.Base.output_base
+.. automodule:: mca.base.output_base
 
 Base Input
 ==========
 
-.. automodule:: mca.Base.input_base
+.. automodule:: mca.base.input_base
 

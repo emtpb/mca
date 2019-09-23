@@ -46,10 +46,7 @@ def check_intervals(signals):
             if signal.delta_x != i.delta_x:
                 raise exceptions.IntervalError
             diff = ((i.x_start - signal.x_start) / signal.delta_x) % 1
-            if diff > 0.000001 and diff < 0.9999999:
+            if 0.000001 < diff < 0.9999999:
                 raise exceptions.IntervalError
     else:
         raise ValueError("No signals given")
-
-
-

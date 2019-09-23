@@ -30,7 +30,7 @@ setup(
 
     # Runtime dependencies
     install_requires=[
-    ],
+        'numpy', 'scipy', 'networkx'],
 
     # Python version requirement
     python_requires='>=3',

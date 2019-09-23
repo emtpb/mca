@@ -11,7 +11,7 @@ class IORegistry:
     
     Attributes:
         _graph: :ref:`Networkx Graph <networkx:DiGraph>` which is base of 
-            IORegistry. 
+            IORegistry.
     """
 
     def __init__(self):
@@ -19,7 +19,7 @@ class IORegistry:
         self._graph = nx.DiGraph()
 
     def _invalidate_descendants(self, output):
-        """Sets a flag of the output itself and all decendants to indicate
+        """Sets a flag of the output itself and all descendants to indicate
         their data may be invalid.
         
         Args:
@@ -30,7 +30,7 @@ class IORegistry:
             descendant.up_to_date = False
 
     def _update_descendants(self, output):
-        """Goes threw all decendants and updates the flags and tries to update 
+        """Goes threw all descendants and updates the flags and tries to update
         the block of the descendants. For example if an output is updated
         all connected inputs will be updated and the outputs of the same Block 
         as the inputs and so on.
@@ -133,7 +133,7 @@ class IORegistry:
             input_: Input which gets disconnected.
         """
         output = list(self._graph.predecessors(input_))
-        if output:    
+        if output:
             self._graph.remove_edge(output[0], input_)
             self.invalidate_and_update(input_.block)
 
@@ -141,7 +141,7 @@ class IORegistry:
         """Disconnects an Output from all its Inputs.
         
         Args:
-            output: Output which gets disconnected.            
+            output: Output which gets disconnected.
         """
         inputs = [x for x in self._graph.neighbors(output)]
         for input_ in inputs:
@@ -163,9 +163,10 @@ class IORegistry:
         """
         if list(self._graph.predecessors(input_)):
             return list(self._graph.predecessors(input_))[0]
-        
+
     def clear(self):
         """Removes all Inputs and Outputs from the IORegistry."""
         self._graph.clear()
+
 
 Registry = IORegistry()

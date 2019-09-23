@@ -1,4 +1,4 @@
 Dynamic Block
 =============
 
-.. automodule:: mca.Base.dynamic_block_base
+.. automodule:: mca.base.dynamic_block_base
