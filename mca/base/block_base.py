@@ -99,6 +99,4 @@ class Block:
         if no_data:
             for output in self.outputs:
                 output.data = None
-            return None
-        else:
-            return 1
+            return True
