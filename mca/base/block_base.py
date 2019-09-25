@@ -95,8 +95,10 @@ class Block:
         be used as a `decorator <https://www.python.org/dev/peps/pep-0318/>`_
         for the _process method in inheriting Blocks.
         """
-        data = [input_.data for input_ in self.inputs]
-        if not data:
+        no_data = all([input_.data is None for input_ in self.inputs])
+        if no_data:
             for output in self.outputs:
                 output.data = None
-            return
+            return None
+        else:
+            return 1
