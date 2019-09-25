@@ -1,23 +1,18 @@
-import collections
-
-"""The main class to pack up data made by blocks."""
+from dataclasses import dataclass
 
 
 class Signal:
-    """Signal class of mca.
+    """Standard data type of mca.
     
-    To fully describe a signal there a several parameters needed.
-    All Signals have a unit for x- and y-axis to be able 
-    to plot it with these units. More important are 
-    the (x,y) points to describe the signal. X and Y are
-    stored in 2 separate :ref:`one dimensional numpy  arrays
-    <numpy:arrays.ndarray>` though the X array is here described with only
-    3 parameters (starting point, amount of values and increment) which 
-    can be converted to a numpy array again.
+    The class describes a signal with two axes and its meta data. The x-axis
+    and the y-axis are stored in one dimensional numpy arrays. Since this
+    class only allows signals with a constant sampling rate, the x-axis
+    can be described with 3 parameters: starting point, amount of values and
+    the sampling rate.
     
     Attributes:
-        meta_data: `namedtuple <https://docs.python.org/3/library/collections.html?highlight=namedtuple#collections.namedtuple>`_
-            with quantity, symbol and unit for x- and y-axis.
+        meta_data: Meta data of the signal with quantity, symbol and unit
+            for x- and y-axis.
         x_start (float): Starting point of the signal.
         x_values (int): Amount of values the signal contains.
         delta_x (float): Increment between two x values.
@@ -42,15 +37,23 @@ class Signal:
         self.y = y
 
 
-meta_data_signal = collections.namedtuple(
-    "signal_meta_data",
-    [
-        "name",
-        "x_quantity",
-        "x_symbol",
-        "x_unit",
-        "y_quantity",
-        "y_symbol",
-        "y_unit",
-    ],
-)
+@dataclass
+class MetaData:
+    """Meta data class for the :class:`.Signal` class.
+
+    Attributes:
+        name (str): Name of the Signal.
+        x_quantity (str): Quantity of the x-axis.
+        x_symbol (str): Symbol of the x-axis.
+        x_unit (str): Unit for the x-axis.
+        y_quantity (str): Quantity of the y-axis.
+        y_symbol (str): Symbol of the y-axis.
+        y_unit (str): Unit for the y-axis.
+    """
+    name: str
+    x_quantity: str
+    x_symbol: str
+    x_unit: str
+    y_quantity: str
+    y_symbol: str
+    y_unit: str
