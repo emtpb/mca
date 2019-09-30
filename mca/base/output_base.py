@@ -16,7 +16,7 @@ class Output:
         meta_data: Metadata for data.
     """
 
-    def __init__(self, block, name=None, meta_data=None):
+    def __init__(self, block, meta_data, name=None):
         """Initializes Output class.
         
         Args:
