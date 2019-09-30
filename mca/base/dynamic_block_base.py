@@ -1,7 +1,6 @@
 from . import block_base
 from .. import exceptions
 from . import block_registry
-from mca.datatypes import signal_2d
 
 
 class DynamicBlock(block_base.Block):
@@ -18,8 +17,8 @@ class DynamicBlock(block_base.Block):
     Attributes:
         dynamic_output: (lower limit, upper limit) The upper limit and 
             lower limit of the amount of outputs. The lower limit is an 
-            interger and for it applies: lower limit >= 0.
-            The upper limit is an interger and 
+            integer and for it applies: lower limit >= 0.
+            The upper limit is an integer and
             for it applies: upper limit > lower limit. The upper limit can also
             be set to None meaning there is no finite upper limit. 
             By default dynamic_output is set to None meaning the amount of 
