@@ -89,8 +89,7 @@ class InputOutputError(MCAError):
 
 
 class ConnectionsError(MCAError):
-    """Exception raised when connecting or disconnecting fails.
-    """
+    """Exception raised when connecting or disconnecting fails."""
 
     def __init__(self, cause):
         """Initialize ConnectionsError.
@@ -99,3 +98,20 @@ class ConnectionsError(MCAError):
             cause (str): Reason why the connecting or disconnecting failed.
         """
         super().__init__(cause)
+
+
+class DataTypeError(MCAError):
+    """Exception raised when the datatype of the data in the input does
+    not match with the requirements of the Block."""
+
+    def __init__(self, data, datatype, input):
+        """Initialize DataTypeError.
+
+        Args:
+            data: Given data object of the input.
+            datatype: Expected datatype for the input data.
+            input: Input where the error occured.
+        """
+        super().__init__(
+            "{} expected {} but was given {}".format(input, datatype, data)
+        )

@@ -91,9 +91,10 @@ class Block:
 
     def check_empty_inputs(self):
         """Checks if Inputs have any data and if that is not the case
-        the data of the Outputs will be set to None. This method should
-        be used as a `decorator <https://www.python.org/dev/peps/pep-0318/>`_
-        for the _process method in inheriting Blocks.
+        the data of the Outputs will be set to None.
+
+        Returns:
+            True: If all inputs contain no data.
         """
         no_data = all([input_.data is None for input_ in self.inputs])
         if no_data:

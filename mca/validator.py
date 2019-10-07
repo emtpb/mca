@@ -1,13 +1,14 @@
 """Validation methods used in mca."""
 
 from . import exceptions
+from mca.datatypes import signal
 
 
 def check_intervals(signals):
     """Checks if the values of the signals are compatible for example
     for adding or multiplying.
     
-    The abscissa of :class:`~mca.DataTypes.signal.Signal` is described with
+    The abscissa of :class:`~mca.datatypes.signal.Signal` is described with
     the starting point, amount of values and the increment. In order to add
     two signals they need to have the same increment 
     and a 'fitting' starting point.
@@ -45,8 +46,21 @@ def check_intervals(signals):
         for signal in signals:
             if signal.increment != i.increment:
                 raise exceptions.IntervalError
-            diff = ((i.abscissa_start - signal.abscissa_start) / signal.increment) % 1
+            diff = (
+                (i.abscissa_start - signal.abscissa_start) / signal.increment
+            ) % 1
             if 0.000001 < diff < 0.9999999:
                 raise exceptions.IntervalError
     else:
         raise ValueError("No signals given")
+
+
+def check_type_signal(input_):
+    """Checks if the given data is a :class:`.datatypes.signal.Signal`.
+
+    Raises:
+        :class:`.DataTypeError` : If the given data is not a signal.
+    """
+    if input_.data:
+        if not isinstance(input_.data, signal.Signal):
+            raise exceptions.DataTypeError(input_.data, signal.Signal, input_)
