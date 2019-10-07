@@ -68,7 +68,7 @@ class ParameterTypeError(MCAError):
                 where the error occured.
         """
         super().__init__(
-            "The value given to the parameter {} is not the correct type".format(
+            "The value given to the parameter '{}' is not the correct type".format(
                 parameter_name
             )
         )

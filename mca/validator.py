@@ -4,19 +4,19 @@ from . import exceptions
 
 
 def check_intervals(signals):
-    """Checks if the X coordinates of the signals are compatible for example
+    """Checks if the values of the signals are compatible for example
     for adding or multiplying.
     
-    X coordinates of :class:`~mca.DataTypes.signal.Signal` are described with 
-    the starting point, amount of points and the increment. In order to add
+    The abscissa of :class:`~mca.DataTypes.signal.Signal` is described with
+    the starting point, amount of values and the increment. In order to add
     two signals they need to have the same increment 
-    and a fitting starting point.
+    and a 'fitting' starting point.
     
     Example: 
         >>> x1 = np.linspace(0, 100, 1)
         >>> x2 = np.linspace(0, 100, 0.5)
         
-    Different increments cause incompatiblility.
+    Different increments cause incompatibility.
     
     Example:
         >>> x1 = np.linspace(0, 100, 1)
@@ -24,7 +24,7 @@ def check_intervals(signals):
         
     Same increment but the interval points do still not match.
     
-    Those intervals are not compatible for summation, multiplaction etc.
+    Those intervals are not compatible for summation, multiplication etc.
     
     Example:
         >>> x1 = np.linspace(-10, 100, 1)
@@ -38,14 +38,14 @@ def check_intervals(signals):
     
     Raises:
         :obj:`ValueError`: If an empty list is given.
-        :class:`.IntervalError`: If intervals are incomaptible.
+        :class:`.IntervalError`: If intervals are incompatible.
     """
     if signals:
         i = signals[0]
         for signal in signals:
-            if signal.delta_x != i.delta_x:
+            if signal.increment != i.increment:
                 raise exceptions.IntervalError
-            diff = ((i.x_start - signal.x_start) / signal.delta_x) % 1
+            diff = ((i.abscissa_start - signal.abscissa_start) / signal.increment) % 1
             if 0.000001 < diff < 0.9999999:
                 raise exceptions.IntervalError
     else:
