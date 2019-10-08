@@ -1,4 +1,4 @@
 Signal
 ======
 
-.. automodule:: mca.datatypes.signal_2d
+.. automodule:: mca.datatypes.signal

@@ -14,6 +14,6 @@ This chapter contains the API documentation for Multi Channel Analyzer.
     api1/parameters
     api1/exceptions
     api1/validator
-    api1/signal_2d
+    api1/signal
 
 

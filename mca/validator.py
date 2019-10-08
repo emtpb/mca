@@ -56,10 +56,10 @@ def check_intervals(signals):
 
 
 def check_type_signal(input_):
-    """Checks if the given data is a :class:`.datatypes.signal.Signal`.
+    """Checks if the given data is a :class:`.Signal`.
 
     Raises:
-        :class:`.DataTypeError` : If the given data is not a signal.
+        :class:`.DataTypeError`: If the given data is not a signal.
     """
     if input_.data:
         if not isinstance(input_.data, signal.Signal):

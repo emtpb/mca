@@ -94,7 +94,7 @@ class Block:
         the data of the Outputs will be set to None.
 
         Returns:
-            True: If all inputs contain no data.
+            bool: True if all inputs contain no data.
         """
         no_data = all([input_.data is None for input_ in self.inputs])
         if no_data:
