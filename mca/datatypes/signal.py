@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-
+import numpy as np
 
 class Signal:
     """Standard data type of mca.
@@ -36,6 +36,22 @@ class Signal:
         self.increment = increment
         self.ordinate = ordinate
 
+    def __eq__(self, other):
+        """Defines equality of two signals.
+
+        Equality is given if abscissa and ordinate are equal.
+        """
+        if not isinstance(other, self.__class__):
+            return False
+        if self.abscissa_start != other.abscissa_start:
+            return False
+        if self.values != other.values:
+            return False
+        if self.increment != other.increment:
+            return False
+        if not np.array_equal(self.ordinate, other.ordinate):
+            return False
+        return True
 
 @dataclass
 class MetaData:
