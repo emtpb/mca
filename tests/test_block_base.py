@@ -540,3 +540,12 @@ def test_dynamic_output_data():
     a.delete_output(1)
     assert d.inputs[1].data is None and d.inputs[0].data == 1
     block_registry.Registry.clear()
+
+
+def test_check_empty_inputs():
+    a = TwoInputBlock()
+    assert a.check_empty_inputs() is True
+    b = TwoOutputBlock()
+    b.outputs[0].data = 1
+    a.inputs[0].connect(b.outputs[0])
+    assert a.check_empty_inputs() is None
