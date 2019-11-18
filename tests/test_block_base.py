@@ -7,6 +7,7 @@ from mca.base import (
     input_base,
     block_registry,
     dynamic_block_base,
+    parameters
 )
 from mca import exceptions
 
@@ -64,6 +65,10 @@ class TestBlock(block_base.Block):
                 block_registry.Registry.add_node(output_base.Output(self,None))
             )
         self.process_count = 0
+
+    def _process(self):
+        pass
+
 
 
 class OneOutputBlock(TestBlock):
@@ -145,6 +150,21 @@ class TwoInputTwoOutputBlock(TestBlock):
         if self.inputs[0].data and self.inputs[1].data:
             self.outputs[0].data = self.inputs[0].data + self.inputs[1].data
             self.outputs[1].data = self.outputs[0].data + 1
+
+
+class ParameterBlock(TestBlock):
+    def __init__(self, **kwargs):
+        self.parameters = {
+            "test_parameter": parameters.FloatParameter(
+                "Test", value=0
+            ),
+            "test_parameter1": parameters.IntParameter(
+                "Test", value=100, min_=1
+            )}
+        self.read_kwargs(kwargs)
+
+    def _process(self):
+        pass
 
 
 """Fixtures for different scenarios."""
@@ -380,11 +400,11 @@ def test_third_scenario_behaviour(third_scenario):
 
 def test_third_scenario_data(third_scenario):
     a, b = third_scenario
-    b.inputs[0].data == 1
-    b.inputs[1].data == 1
+    assert b.inputs[0].data == 1
+    assert b.inputs[1].data == 1
     a.outputs[0].disconnect()
-    b.inputs[0].data is None
-    b.inputs[1].data is None
+    assert b.inputs[0].data is None
+    assert b.inputs[1].data is None
 
 
 def test_fourth_scenario_behaviour(fourth_scenario):
@@ -414,7 +434,7 @@ def test_fifth_scenario_behaviour(fifth_scenario):
 
 def test_fifth_scenario_data(fifth_scenario):
     a, b, c = fifth_scenario
-    c.inputs[0].data == 2
+    assert c.inputs[0].data == 2
     b.inputs[0].disconnect()
     assert c.inputs[0].data is None
 
@@ -549,3 +569,9 @@ def test_check_empty_inputs():
     b.outputs[0].data = 1
     a.inputs[0].connect(b.outputs[0])
     assert a.check_empty_inputs() is None
+
+
+def test_read_kwargs():
+    a = ParameterBlock(test_parameter=0.1, test_parameter1=1)
+    assert a.parameters["test_parameter"].value == 0.1
+    assert a.parameters["test_parameter1"].value == 1
