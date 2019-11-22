@@ -4,7 +4,8 @@ import os
 
 user_config_path = appdirs.user_config_dir('mca', 'Kevin Koch') + '/config.json'
 
-class ConfigDict(dict):
+
+class Config(dict):
     def __init__(self):
         super().__init__()
 
@@ -14,9 +15,9 @@ class ConfigDict(dict):
         super().__setitem__(key, value)
 
 
-standard_config = {"language": "en"}
-config = ConfigDict()
-config.update(standard_config)
+default_config = {"language": "en", }
+config = Config()
+config.update(default_config)
 
 try:
     with open(user_config_path, 'r') as config_file:
@@ -27,4 +28,3 @@ except FileNotFoundError:
         json.dump({}, config_file)
         user_config = {}
 config.update(user_config)
-
