@@ -3,9 +3,12 @@ import gettext
 import os
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-if config.config.get('language') == 'en':
+try:
+    language = gettext.translation('messages', localedir=dir_path + '/locales',
+                                   languages=[config.config.get('language')])
+except FileNotFoundError:
     _ = gettext.gettext
-elif config.config.get('language') == 'de':
-    de = gettext.translation('messages', localedir=dir_path + '/locales', languages=['de'])
-    de.install()
-    _ = de.gettext
+else:
+    language.install()
+    _ = language.gettext
+
