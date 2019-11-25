@@ -2,7 +2,7 @@ import json
 import appdirs
 import os
 
-user_config_path = appdirs.user_config_dir('mca', 'Kevin Koch') + '/config.json'
+user_config_path = appdirs.user_config_dir('mca') + '/config.json'
 
 
 class Config(dict):
