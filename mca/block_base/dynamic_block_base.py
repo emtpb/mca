@@ -1,9 +1,9 @@
-from . import block_base
+from . import basic_block_base
 from .. import exceptions
 from mca import block_registry
 
 
-class DynamicBlock(block_base.Block):
+class DynamicBlock(basic_block_base.Block):
     """Basic dynamic block class is the subclass of the 
     :class:`.Block` class with the extension of adding and 
     removing :class:`.Output` s and :class:`.Input` s. Further Blocks with 

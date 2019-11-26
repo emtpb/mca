@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import numpy as np
 
+
 class Signal:
     """Standard data type of mca.
     
