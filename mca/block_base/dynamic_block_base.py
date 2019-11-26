@@ -1,6 +1,6 @@
 from . import block_base
 from .. import exceptions
-from . import block_registry
+from mca import block_registry
 
 
 class DynamicBlock(block_base.Block):

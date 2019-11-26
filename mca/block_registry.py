@@ -1,7 +1,7 @@
 import networkx as nx
 
-from . import output_base, input_base
-from .. import exceptions
+from mca import output_base, input_base
+from mca import exceptions
 
 
 class IORegistry:

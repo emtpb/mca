@@ -1,7 +1,7 @@
 """Validation methods used in mca."""
 
 from . import exceptions
-from mca.datatypes import signal
+from mca import data_types
 
 
 def check_intervals(signals):
@@ -62,5 +62,5 @@ def check_type_signal(input_):
         :class:`.DataTypeError`: If the given data is not a signal.
     """
     if input_.data:
-        if not isinstance(input_.data, signal.Signal):
-            raise exceptions.DataTypeError(input_.data, signal.Signal, input_)
+        if not isinstance(input_.data, data_types.Signal):
+            raise exceptions.DataTypeError(input_.data, data_types.Signal, input_)

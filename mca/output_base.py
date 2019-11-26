@@ -1,4 +1,4 @@
-from . import block_registry
+from mca import block_registry
 
 
 class Output:

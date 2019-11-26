@@ -1,6 +1,4 @@
-from . import block_registry
-from . import output_base
-from . import input_base
+from mca import output_base, input_base, block_registry
 
 
 class Block:

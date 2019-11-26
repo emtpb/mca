@@ -1,4 +1,4 @@
-from mca.config import config
+from mca import config
 import gettext
 import os
 
@@ -11,4 +11,3 @@ except FileNotFoundError:
 else:
     language.install()
     _ = language.gettext
-
