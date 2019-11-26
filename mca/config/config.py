@@ -10,9 +10,9 @@ class Config(dict):
         super().__init__()
 
     def __setitem__(self, key, value):
+        super().__setitem__(key, value)
         with open(user_config_path, 'w') as config_file:
             json.dump(self, config_file)
-        super().__setitem__(key, value)
 
 
 default_config = {"language": "en", }
