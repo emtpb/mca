@@ -36,7 +36,7 @@ class Block:
             self.parameters[key].value = kwargs[key]
 
     def _process(self):
-        """Processes data from the inputs and the parameters and puts new
+        """Processes data from the Inputs and the parameters and puts new
         data to the outputs.
         """
         raise NotImplementedError
@@ -61,7 +61,7 @@ class Block:
 
     def _new_output(self, meta_data):
         """Creates and adds an new output to the block. Used to create new
-        outputs in the initialization of a new block. 
+        Outputs in the initialization of a new block.
         
         .. warning:: Never call this method after a block instance has been
             initialized.
@@ -76,8 +76,8 @@ class Block:
         )
 
     def _new_input(self):
-        """Creates and adds an new input to the block. Used to create new
-        inputs in the initialization of a new block.
+        """Creates and adds an new Input to the block. Used to create new
+        Inputs in the initialization of a new block.
         
         .. warning:: Never call this method after a block instance has been
             initialized.
@@ -93,7 +93,7 @@ class Block:
         the data of the Outputs will be set to None.
 
         Returns:
-            bool: True if all inputs contain no data.
+            bool: True if all Inputs contain no data.
         """
         no_data = all([input_.data is None for input_ in self.inputs])
         if no_data:
@@ -106,11 +106,11 @@ class DynamicBlock(Block):
     """Basic dynamic block class is the subclass of the
     :class:`.Block` class with the extension of adding and
     removing :class:`.Output` s and :class:`.Input` s. Further Blocks with
-    dynamic amount of inputs or dynamic amount of outputs need to inherit from
-    this class. Furthermore it can be chosen between only the amount of inputs
-    being dynamic, only the amount of outputs being dynamic or both. It is
+    dynamic amount of Inputs or dynamic amount of outputs need to inherit from
+    this class. Furthermore it can be chosen between only the amount of Inputs
+    being dynamic, only the amount of Outputs being dynamic or both. It is
     advised to overwrite the following methods in subclasses, if only specific
-    classes of inputs or outputs should be added to the block or if further
+    classes of Inputs or outputs should be added to the block or if further
     validation is needed.
 
     Attributes:
@@ -121,25 +121,25 @@ class DynamicBlock(Block):
             for it applies: upper limit > lower limit. The upper limit can also
             be set to None meaning there is no finite upper limit.
             By default dynamic_output is set to None meaning the amount of
-            outputs are not dynamic and no outputs can be added or removed
+            Outputs are not dynamic and no Outputs can be added or removed
             after the initialization.
 
         dynamic_input: (lower limit, upper limit) The upper limit and
-            lower limit of the amount of inputs. The lower limit is an
+            lower limit of the amount of Inputs. The lower limit is an
             integer and for it applies: lower limit >= 0. The upper limit
             is an integer and for it applies: upper limit > lower limit.
             The upper limit can also be set to None meaning there is no
             finite upper limit. By default dynamic_input is set to None
-            meaning the amount of inputs are not dynamic and no inputs can
+            meaning the amount of Inputs are not dynamic and no Inputs can
             be added or removed after the initialization.
 
             Examples:
                 >>> self.dynamic_output = None
-                No outputs can be added or removed
+                No Outputs can be added or removed
                 >>> self.dynamic_input = (0, 5)
-                The amount of inputs can vary between 0 and 5
+                The amount of Inputs can vary between 0 and 5
                 >>> self.dynamic_output = (3, None)
-                There are at least 3 outputs and any amount of outputs
+                There are at least 3 Outputs and any amount of Outputs
                 can be added
 
     """
@@ -151,7 +151,7 @@ class DynamicBlock(Block):
         self.dynamic_input = None
 
     def add_input(self, input_):
-        """Adds an input to the Block.
+        """Adds an Input to the Block.
 
         Args:
             input_: Input instance added to the block.
@@ -161,17 +161,17 @@ class DynamicBlock(Block):
         if input_ in block_registry.Registry._graph.nodes:
             raise exceptions.InputOutputError("Input already added")
         if not self.dynamic_input:
-            raise exceptions.InputOutputError("No permission to create input")
+            raise exceptions.InputOutputError("No permission to create Input")
 
         if self.dynamic_input[1]:
             if self.dynamic_input[1] <= len(self.inputs):
-                raise exceptions.InputOutputError("Maximum inputs reached")
+                raise exceptions.InputOutputError("Maximum Inputs reached")
             self.inputs.append(block_registry.Registry.add_node(input_))
         else:
             self.inputs.append(block_registry.Registry.add_node(input_))
 
     def add_output(self, output):
-        """Adds an output to the Block.
+        """Adds an Output to the Block.
 
         Args:
             output: Output instance added to the block.
@@ -181,41 +181,41 @@ class DynamicBlock(Block):
         if output in block_registry.Registry._graph.nodes:
             raise exceptions.InputOutputError("Output already added")
         if not self.dynamic_output:
-            raise exceptions.InputOutputError("No permission to create output")
+            raise exceptions.InputOutputError("No permission to create Output")
         if self.dynamic_output[1]:
             if self.dynamic_output[1] <= len(self.outputs):
-                raise exceptions.InputOutputError("Maximum outputs reached")
+                raise exceptions.InputOutputError("Maximum Outputs reached")
             self.outputs.append(block_registry.Registry.add_node(output))
         else:
             self.outputs.append(block_registry.Registry.add_node(output))
         self._process()
 
     def delete_input(self, input_index):
-        """Removes an input from the Block.
+        """Removes an Input from the Block.
 
         Args:
-            input_index: Index of the input in the list called inputs.
+            input_index: Index of the Input in the list called inputs.
         Raises:
-            :class:`.InputOutputError`: If the lower limit of the inputs is
+            :class:`.InputOutputError`: If the lower limit of the Inputs is
                 reached or dynamic_input is set to None.
         """
         if not self.dynamic_input:
-            raise exceptions.InputOutputError("No permission to delete input")
+            raise exceptions.InputOutputError("No permission to delete Input")
         if self.dynamic_input[0] >= len(self.inputs):
-            raise exceptions.InputOutputError("Minimum inputs reached")
+            raise exceptions.InputOutputError("Minimum Inputs reached")
         block_registry.Registry.remove_input(self.inputs.pop(input_index))
 
     def delete_output(self, output_index):
-        """Removes an output from the Block.
+        """Removes an Output from the Block.
 
         Args:
-            output_index: Index of the output in the list called outputs.
+            output_index: Index of the Output in the list called outputs.
         Raises:
-            :class:`.InputOutputError`: If the lower limit of the outputs is
+            :class:`.InputOutputError`: If the lower limit of the Outputs is
                 reached or dynamic_output is set to None.
         """
         if not self.dynamic_output:
-            raise exceptions.InputOutputError("No permission to delete output")
+            raise exceptions.InputOutputError("No permission to delete Output")
         if self.dynamic_output[0] >= len(self.outputs):
-            raise exceptions.InputOutputError("Minimum outputs reached")
+            raise exceptions.InputOutputError("Minimum Outputs reached")
         block_registry.Registry.remove_output(self.outputs.pop(output_index))

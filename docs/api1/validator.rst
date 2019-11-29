@@ -1,4 +1,0 @@
-Validator
-=========
-
-.. automodule:: mca.validator

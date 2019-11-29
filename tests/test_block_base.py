@@ -1,26 +1,23 @@
 """Tests for `mca` package."""
 import pytest
 
-from mca.base import (
-    block_base,
-    output_base,
-    input_base,
-    block_registry,
-    dynamic_block_base,
-    parameters
-)
+from mca.framework import (
+    Block,
+    DynamicBlock,
+    parameters,
+    block_io, block_registry)
 from mca import exceptions
 
 
-class DynamicInputBlock(dynamic_block_base.DynamicBlock):
+class DynamicInputBlock(DynamicBlock):
     def __init__(self):
         super().__init__()
         self.dynamic_input = [1, 3]
         self.outputs.append(
-            block_registry.Registry.add_node(output_base.Output(self,None))
+            block_registry.Registry.add_node(block_io.Output(self, None))
         )
         self.inputs.append(
-            block_registry.Registry.add_node(input_base.Input(self))
+            block_registry.Registry.add_node(block_io.Input(self))
         )
         self.process_count = 0
 
@@ -32,15 +29,15 @@ class DynamicInputBlock(dynamic_block_base.DynamicBlock):
         self.process_count += 1
 
 
-class DynamicOutputBlock(dynamic_block_base.DynamicBlock):
+class DynamicOutputBlock(DynamicBlock):
     def __init__(self):
         super().__init__()
         self.dynamic_output = [1, None]
         self.outputs.append(
-            block_registry.Registry.add_node(output_base.Output(self,None))
+            block_registry.Registry.add_node(block_io.Output(self, None))
         )
         self.inputs.append(
-            block_registry.Registry.add_node(input_base.Input(self))
+            block_registry.Registry.add_node(block_io.Input(self))
         )
         self.process_count = 0
 
@@ -53,22 +50,22 @@ class DynamicOutputBlock(dynamic_block_base.DynamicBlock):
         self.process_count += 1
 
 
-class TestBlock(block_base.Block):
+class TestBlock(Block):
     def __init__(self, inputs, outputs):
         super().__init__()
         for i in range(inputs):
             self.inputs.append(
-                block_registry.Registry.add_node(input_base.Input(self))
+                block_registry.Registry.add_node(block_io.Input(self))
             )
         for o in range(outputs):
             self.outputs.append(
-                block_registry.Registry.add_node(output_base.Output(self,None))
+                block_registry.Registry.add_node(
+                    block_io.Output(self, None))
             )
         self.process_count = 0
 
     def _process(self):
         pass
-
 
 
 class OneOutputBlock(TestBlock):
@@ -259,8 +256,8 @@ def seventh_scenario():
 @pytest.fixture
 def add_input_scenario():
     a = DynamicInputBlock()
-    a.add_input(input_base.Input(a))
-    a.add_input(input_base.Input(a))
+    a.add_input(block_io.Input(a))
+    a.add_input(block_io.Input(a))
     yield a
     block_registry.Registry.clear()
 
@@ -518,7 +515,7 @@ def test_add_input(add_input_scenario):
     assert len(a.inputs) == 3
     assert [a.inputs[1], a.outputs[0]] in block_registry.Registry._graph.edges
     with pytest.raises(exceptions.InputOutputError):
-        a.add_input(input_base.Input(a))
+        a.add_input(block_io.Input(a))
 
 
 def test_delete_input(delete_input_scenario):
@@ -550,8 +547,8 @@ def test_dynamic_output_data():
     d = TwoInputBlock()
     b.apply_parameter_changes()
     a.inputs[0].connect(b.outputs[0])
-    a.add_output(output_base.Output(a, None))
-    a.add_output(output_base.Output(a, None))
+    a.add_output(block_io.Output(a, None))
+    a.add_output(block_io.Output(a, None))
     c.inputs[0].connect(a.outputs[0])
     c.inputs[1].connect(a.outputs[1])
     assert c.inputs[0].data == 1 and c.inputs[1].data == 1

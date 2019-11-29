@@ -3,7 +3,7 @@ the mca."""
 
 
 import pytest
-from mca.base import parameters as pm
+from mca.framework import parameters as pm
 from mca import exceptions
 
 """Test for the FloatParameter validation method."""

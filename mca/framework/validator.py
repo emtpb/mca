@@ -8,7 +8,7 @@ def check_intervals(signals):
     """Checks if the values of the signals are compatible for example
     for adding or multiplying.
     
-    The abscissa of :class:`~mca.datatypes.signal.Signal` is described with
+    The abscissa of :class:`~mca.framework.data_types.Signal` is described with
     the starting point, amount of values and the increment. In order to add
     two signals they need to have the same increment 
     and a 'fitting' starting point.
@@ -34,8 +34,7 @@ def check_intervals(signals):
     Those intervals are compatible.
     
     Args:
-        signals: List of :class:`~mca.DataTypes.signal.Signal` to be 
-            checked.
+        signals: List of Signals to be checked.
     
     Raises:
         :obj:`ValueError`: If an empty list is given.
