@@ -8,6 +8,8 @@ from mca.framework import (
     block_io, block_registry)
 from mca import exceptions
 
+"""Defines dynamic test blocks."""
+
 
 class DynamicInputBlock(DynamicBlock):
     def __init__(self):
@@ -48,6 +50,9 @@ class DynamicOutputBlock(DynamicBlock):
             else:
                 o.data = None
         self.process_count += 1
+
+
+"""Defines test blocks with various input-output variations."""
 
 
 class TestBlock(Block):
@@ -507,7 +512,7 @@ def test_block_circle_error_2():
     block_registry.Registry.clear()
 
 
-"""Tests concerning the dynamic block"""
+"""Tests concerning the dynamic block."""
 
 
 def test_add_input(add_input_scenario):
@@ -557,6 +562,9 @@ def test_dynamic_output_data():
     a.delete_output(1)
     assert d.inputs[1].data is None and d.inputs[0].data == 1
     block_registry.Registry.clear()
+
+
+"""Tests for block helper methods."""
 
 
 def test_check_empty_inputs():
