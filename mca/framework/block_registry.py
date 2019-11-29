@@ -1,6 +1,6 @@
 import networkx as nx
 
-from mca import output_base, input_base
+from . import block_io
 from mca import exceptions
 
 
@@ -41,8 +41,8 @@ class IORegistry:
             output: Output from which the update process starts.
         """
         for edge in nx.bfs_edges(self._graph, output):
-            if isinstance(edge[0], output_base.Output) and isinstance(
-                edge[1], input_base.Input
+            if isinstance(edge[0], block_io.Output) and isinstance(
+                edge[1], block_io.Input
             ):
                 edge[1].up_to_date = edge[0].up_to_date
                 edge[1].block.update_my_block()
@@ -73,11 +73,11 @@ class IORegistry:
             The node which has been added to the structure.
         """
         self._graph.add_node(node)
-        if isinstance(node, output_base.Output):
+        if isinstance(node, block_io.Output):
             for input_ in node.block.inputs:
                 self._graph.add_edge(input_, node)
             return node
-        if isinstance(node, input_base.Input):
+        if isinstance(node, block_io.Input):
             for output in node.block.outputs:
                 self._graph.add_edge(node, output)
             return node
@@ -111,11 +111,11 @@ class IORegistry:
             exceptions.BlockCircleError: When connecting two nodes leads to
                 a circle in the structure.
         """
-        if not isinstance(output, output_base.Output) or not isinstance(
-            input_, input_base.Input
+        if not isinstance(output, block_io.Output) or not isinstance(
+            input_, block_io.Input
         ):
             message = "{} is not instance of {} or {} is not instance of {}".format(
-                output, output_base.Output, input_, input_base.Input
+                output, block_io.Output, input_, block_io.Input
             )
             raise exceptions.ConnectionsError(message)
         if list(self._graph.predecessors(input_)):
