@@ -32,7 +32,7 @@ class IntervalError(MCAError):
         """Initialize IntervalError.
         
         Args:
-            cause: Reason for the IntervalError"""
+            cause: Reason for the IntervalError."""
 
         super().__init__(cause)
 
@@ -65,7 +65,7 @@ class ParameterTypeError(MCAError):
         
         Args:
             parameter_name (str): Name of the parameter
-                where the error occured.
+                where the error occurred.
         """
         super().__init__(
             "The value given to the parameter '{}' is not the correct type".format(
@@ -101,17 +101,16 @@ class ConnectionsError(MCAError):
 
 
 class DataTypeError(MCAError):
-    """Exception raised when the datatype of the data in the input does
+    """Exception raised when the data type of the data in the input does
     not match with the requirements of the Block."""
 
-    def __init__(self, data, datatype, input):
+    def __init__(self, data, data_type):
         """Initialize DataTypeError.
 
         Args:
             data: Given data object of the input.
-            datatype: Expected datatype for the input data.
-            input: Input where the error occured.
+            data_type: Expected data type for the input data.
         """
         super().__init__(
-            "{} expected {} but was given {}".format(input, datatype, data)
+            "Input expected {} but was given {}".format(data_type, data)
         )

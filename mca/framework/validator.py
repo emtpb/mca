@@ -44,22 +44,24 @@ def check_intervals(signals):
         i = signals[0]
         for signal in signals:
             if signal.increment != i.increment:
-                raise exceptions.IntervalError
+                raise exceptions.IntervalError("Increment of two signals "
+                                               "are not equal")
             diff = (
                 (i.abscissa_start - signal.abscissa_start) / signal.increment
             ) % 1
             if 0.000001 < diff < 0.9999999:
-                raise exceptions.IntervalError
+                raise exceptions.IntervalError("Two signals are incompatible"
+                                               "due signal starts")
     else:
         raise ValueError("No signals given")
 
 
-def check_type_signal(input_):
+def check_type_signal(data):
     """Checks if the given data is a :class:`.Signal`.
 
     Raises:
         :class:`.DataTypeError`: If the given data is not a signal.
     """
-    if input_.data:
-        if not isinstance(input_.data, data_types.Signal):
-            raise exceptions.DataTypeError(input_.data, data_types.Signal, input_)
+    if data:
+        if not isinstance(data, data_types.Signal):
+            raise exceptions.DataTypeError(data, data_types.Signal)
