@@ -11,7 +11,7 @@ from mca import exceptions
 
 @pytest.mark.parametrize("test_input", ["a", [1, 2]])
 def test_type_float(test_input):
-    a = pm.FloatParameter("Test")
+    a = pm.FloatParameter("Test", value=42.2)
     with pytest.raises(exceptions.ParameterTypeError):
         a.validate(test_input)
     a.validate(42)
@@ -31,7 +31,7 @@ def test_bounds_float():
 
 
 def test_type_int():
-    a = pm.IntParameter("Test")
+    a = pm.IntParameter("Test", value=42)
     with pytest.raises(exceptions.ParameterTypeError):
         a.validate("a")
 
@@ -49,7 +49,7 @@ def test_bounds_int():
 
 
 def test_type_str():
-    a = pm.StrParameter("Test")
+    a = pm.StrParameter("Test", value="test")
     with pytest.raises(exceptions.ParameterTypeError):
         a.validate(5.1)
 
@@ -65,7 +65,7 @@ def test_bounds_str():
 
 
 def test_choice():
-    a = pm.ChoiceParameter("Test", choices=[1.2, "a", 42])
+    a = pm.ChoiceParameter("Test", choices=[1.2, "a", 42], value=1.2)
     with pytest.raises(exceptions.ParameterTypeError):
         a.validate("test")
     a.validate(42)
@@ -76,10 +76,7 @@ def test_choice():
 
 
 def test_type_bool():
-    a = pm.BoolParameter("Test")
+    a = pm.BoolParameter("Test", value=True)
     with pytest.raises(exceptions.ParameterTypeError):
         a.validate("test")
     a.validate(True)
-
-
-

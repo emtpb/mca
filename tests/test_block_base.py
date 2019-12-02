@@ -1,4 +1,4 @@
-"""Tests for `mca` package."""
+"""Tests for the Block, the DynamicBlock and the Connection between blocks."""
 import pytest
 
 from mca.framework import (
@@ -521,6 +521,17 @@ def test_add_input(add_input_scenario):
     assert [a.inputs[1], a.outputs[0]] in block_registry.Registry._graph.edges
     with pytest.raises(exceptions.InputOutputError):
         a.add_input(block_io.Input(a))
+    b = DynamicOutputBlock()
+    with pytest.raises(exceptions.InputOutputError):
+        b.add_input(block_io.Input(b))
+
+
+def test_add_input_2():
+    a = DynamicInputBlock()
+    b = block_io.Input(a)
+    a.add_input(b)
+    with pytest.raises(exceptions.InputOutputError):
+        a.add_input(b)
 
 
 def test_delete_input(delete_input_scenario):
@@ -530,6 +541,9 @@ def test_delete_input(delete_input_scenario):
     a.delete_input(1)
     with pytest.raises(exceptions.InputOutputError):
         a.delete_input(0)
+    b = DynamicOutputBlock()
+    with pytest.raises(exceptions.InputOutputError):
+        b.delete_input(0)
 
 
 def test_dynamic_input_behaviour(dynamic_input_scenario):
@@ -564,12 +578,14 @@ def test_dynamic_output_data():
     block_registry.Registry.clear()
 
 
-"""Tests for block helper methods."""
+"""Tests for block convenience methods."""
 
 
 def test_check_empty_inputs():
-    a = TwoInputBlock()
+    a = TwoInputOneOutputBlock()
+    a.outputs[0].data = 1
     assert a.check_empty_inputs() is True
+    assert a.outputs[0].data is None
     b = TwoOutputBlock()
     b.outputs[0].data = 1
     a.inputs[0].connect(b.outputs[0])
@@ -580,3 +596,14 @@ def test_read_kwargs():
     a = ParameterBlock(test_parameter=0.1, test_parameter1=1)
     assert a.parameters["test_parameter"].value == 0.1
     assert a.parameters["test_parameter1"].value == 1
+
+
+def test_disconnect_all(seventh_scenario):
+    a, b, c, d = seventh_scenario
+    c.disconnect_all()
+    assert [a.outputs[0],
+            c.inputs[0]] not in block_registry.Registry._graph.edges
+    assert [b.outputs[0],
+            c.inputs[1]] not in block_registry.Registry._graph.edges
+    assert [c.outputs[0],
+            d.inputs[0]] not in block_registry.Registry._graph.edges
