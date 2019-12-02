@@ -1,0 +1,140 @@
+# German translations for .
+# Copyright (C) 2019 ORGANIZATION
+# This file is distributed under the same license as the  project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version:  1.0\n"
+"Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
+"POT-Creation-Date: 2019-11-26 13:16+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
+"Language: de\n"
+"Language-Team: de <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: blocks/absolute.py:8
+msgid "AbsoluteBlock"
+msgstr "BetragBlock"
+
+#: blocks/absolute.py:9
+msgid "Computes the absolute of the input signal."
+msgstr "Berechnet den Betrag des Eingangssignals."
+
+#: blocks/absolute.py:15 blocks/adder.py:20 blocks/real_imag.py:19
+#: blocks/real_imag.py:24 blocks/signal_generator_periodic.py:20
+msgid "Time"
+msgstr "Zeit"
+
+#: blocks/absolute.py:16 blocks/adder.py:20 blocks/fft.py:18
+#: blocks/real_imag.py:19 blocks/real_imag.py:24
+#: blocks/signal_generator_periodic.py:20
+msgid "Voltage"
+msgstr "Spannung"
+
+#: blocks/adder.py:11
+msgid "Adder"
+msgstr "Addierer"
+
+#: blocks/adder.py:12
+msgid "Adds multiple signals to one signal."
+msgstr "Addiert mehrere Signale zu einem Signal auf."
+
+#: blocks/fft.py:11
+msgid "Computes the FFT of the input signal."
+msgstr "Berechnet die FFT des Eingangssignals."
+
+#: blocks/fft.py:18 blocks/signal_generator_periodic.py:24
+msgid "Frequency"
+msgstr "Frequenz"
+
+#: blocks/fftplot.py:11
+msgid ""
+"Computes the FFT of the input signal and plots either the real part, "
+"imaginary part, the absolute or the phase of the FFT. Shifts the FFT "
+"optionally or cuts the inputsignal before the conversion."
+msgstr ""
+"Berechnet die FFT des Eingangssignals und plottet entweder den Realteil, "
+"den Imaginärteil, den Betrag oder die Phase der FFT. Kann auch die FFT "
+"verschieben oder das Eingangsignal abscheiden vor der Transformation."
+
+#: blocks/fftplot.py:23
+msgid "Starting point of the FFT"
+msgstr "Startpunkt der FFT"
+
+#: blocks/fftplot.py:26
+msgid "Amount of values transformed"
+msgstr "Anzahl der transformierten Werte"
+
+#: blocks/fftplot.py:29
+msgid "Shift to ordinate"
+msgstr "Zur Ordinate verschieben"
+
+#: blocks/fftplot.py:30
+msgid "No shift"
+msgstr "Kein Verschieben"
+
+#: blocks/fftplot.py:30
+msgid "Shift"
+msgstr "Verschieben"
+
+#: blocks/fftplot.py:31
+msgid "Shift and only positive frequencies"
+msgstr "Verschieben und nur positive Frequenzen"
+
+#: blocks/fftplot.py:35
+msgid "Plot Mode"
+msgstr "Plot Modus"
+
+#: blocks/fftplot.py:36
+msgid "Real"
+msgstr "Real"
+
+#: blocks/fftplot.py:36
+msgid "Imaginary"
+msgstr "Imaginär"
+
+#: blocks/fftplot.py:36
+msgid "Absolute"
+msgstr "Betrag"
+
+#: blocks/fftplot.py:36
+msgid "Phase"
+msgstr "Phase"
+
+#: blocks/real_imag.py:11
+msgid ""
+"Divides the real and imaginary part of the input signal into two output "
+"signals."
+msgstr ""
+"Teilt Real- und Imaginärteil the Eingangssignals in zwei Ausgangssignale "
+"auf."
+
+#: blocks/signal_generator_periodic.py:12
+msgid "Generates a Sinus, a Rectangle function or a Triangle function."
+msgstr ""
+"Generiert einen Sinus, eine Rechtecksfunktion oder eine Dreiecksfunktion "
+"(periodisch)."
+
+#: blocks/signal_generator_periodic.py:28
+msgid "Values"
+msgstr "Werte"
+
+#: blocks/signal_generator_periodic.py:29
+msgid "Increment"
+msgstr "Inkrement"
+
+#: blocks/signal_generator_periodic.py:31
+msgid "Function"
+msgstr "Funktion"
+
+#: blocks/signalplot.py:12
+msgid "Plots all input signals in matplotlib."
+msgstr "Plottet alle Eingangssignale in matplotlib."
+
