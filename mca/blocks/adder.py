@@ -1,22 +1,34 @@
 import numpy as np
 import copy
 
-import mca.base as base
-from mca.datatypes import signal
-from mca import validator, language
+import mca.framework
+from mca.framework import validator
+from mca.language import _
 
 
-class Adder(base.dynamic_block_base.DynamicBlock):
-    name = language._("Adder")
-    description = language._("Adds multiple signals to one signal.")
+class Adder(mca.framework.DynamicBlock):
+    """Block class for adding multiple signals to one new signal.
+
+    This Block has at least one and no upper limit for the inputs and
+    one output.
+
+    Note:
+        This Block cannot add any signals which are incompatible.
+
+        See also: :meth:`mca.framework.validator.check_intervals`.
+    """
+    name = _("Adder")
+    description = _("Adds multiple signals to one signal.")
 
     def __init__(self, **kwargs):
+        """Initialize Adder Block class."""
+
         super().__init__()
 
         self.dynamic_input = (1, None)
         self._new_output(
-            meta_data=signal.MetaData(
-                "Test", "Zeit", "t", "s", "Spannung", "U", "V"
+            meta_data=mca.framework.data_types.MetaData(
+                "Test", _("Time"), "t", "s", _("Voltage"), "U", "V"
             )
         )
         self._new_input()
@@ -27,18 +39,19 @@ class Adder(base.dynamic_block_base.DynamicBlock):
         if self.check_empty_inputs():
             return
         for i in self.inputs:
-            validator.check_type_signal(i)
-
+            validator.check_type_signal(i.data)
         signals = [copy.deepcopy(i.data) for i in self.inputs if i.data]
         validator.check_intervals(signals)
+
         modified_signals = fill_zeros(signals)
+
         y = np.zeros(modified_signals[0].values)
         for sgn in modified_signals:
             y += sgn.ordinate
-            abscissa_start = sgn.abscissa_start
-            values = sgn.values
-            increment = sgn.increment
-        self.outputs[0].data = signal.Signal(
+        abscissa_start = modified_signals[0].abscissa_start
+        values = modified_signals[0].values
+        increment = modified_signals[0].increment
+        self.outputs[0].data = mca.framework.data_types.Signal(
             self.outputs[0].meta_data, abscissa_start, values, increment, y
         )
 
@@ -46,8 +59,8 @@ class Adder(base.dynamic_block_base.DynamicBlock):
 def fill_zeros(signals):
     """This is a helper method for :meth:`.Adder._process`.
     
-    Intervals often overlap and are not always the same. So this method
-    fills up the arrays with zeros.
+    Intervals are often not identical thus cannot be added immediately.
+    This method fills up the arrays with zeros.
     """
     new_signals = []
     increment = signals[0].increment
@@ -69,8 +82,8 @@ def fill_zeros(signals):
         )
         zeros_to_ending = round(
             (
-                (min_abscissa_start + max_values * increment)
-                - (sgn.abscissa_start + sgn.values * increment)
+                    (min_abscissa_start + max_values * increment)
+                    - (sgn.abscissa_start + sgn.values * increment)
             )
             / increment
         )
