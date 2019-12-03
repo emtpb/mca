@@ -32,7 +32,7 @@ class FFT(mca.framework.Block):
         ordinate = np.fft.fft(input_signal.ordinate)
         increment = 1 / (
                     input_signal.increment * input_signal.values) * 2 * np.pi
-        values = round(1 / input_signal.increment / increment * 2 * np.pi)
+        values = input_signal.values
         self.outputs[0].data = mca.framework.data_types.Signal(
             meta_data=self.outputs[0].meta_data,
             abscissa_start=0,
