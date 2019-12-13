@@ -35,15 +35,15 @@ class SignalGenerator(mca.framework.Block):
             "function": mca.framework.parameters.ChoiceParameter(
                 _("Function"), choices=["Rect", "Triangle", "Sin"], value="Sin"
             ),
-            "freq": mca.framework.parameters.IntParameter(_("Frequency"),
-                                                          unit="Hz", value=1),
+            "freq": mca.framework.parameters.FloatParameter(_("Frequency"),
+                                                        unit="Hz", value=1),
             "amp": mca.framework.parameters.FloatParameter("Amplitude",
                                                            value=1),
-            "phase": mca.framework.parameters.FloatParameter("Phase", value=1),
+            "phase": mca.framework.parameters.FloatParameter("Phase", value=0),
             "start_a": mca.framework.parameters.FloatParameter("Start",
                                                                value=0),
             "values": mca.framework.parameters.IntParameter(_("Values"),
-                                                            min_=1, value=600),
+                                                            min_=1, value=628),
             "increment": mca.framework.parameters.FloatParameter(
                 _("Increment"), min_=0, value=0.01)
         }
@@ -65,11 +65,11 @@ class SignalGenerator(mca.framework.Block):
                 - phase
         )
         if function == "Sin":
-            ordinate = amp * np.sin(freq * abscissa)
+            ordinate = amp * np.sin(2*np.pi*freq * abscissa)
         elif function == "Rect":
-            ordinate = rect(abscissa, freq, amp, phase)
+            ordinate = rect(abscissa, freq, amp)
         elif function == "Triangle":
-            ordinate = triangle(abscissa, freq, amp, phase)
+            ordinate = triangle(abscissa, freq, amp)
         self.outputs[0].data = mca.framework.data_types.Signal(
             self.outputs[0].meta_data,
             abscissa_start,
@@ -79,12 +79,10 @@ class SignalGenerator(mca.framework.Block):
         )
 
 
-def triangle(abscissa, freq, amp, phase):
-    ordinate = amp * sgn.sawtooth(
-        (np.pi / 2 * freq) * (abscissa - phase) + np.pi / 2, 0.5
-    )
+def triangle(abscissa, freq, amp):
+    ordinate = amp * sgn.sawtooth(2 * np.pi * freq * abscissa + np.pi / 2, 0.5)
     return ordinate
 
 
-def rect(abscissa, freq, amp, phase):
-    return amp * np.where(((abscissa - phase) % (2 / freq)) < 1 / freq, 1, -1)
+def rect(abscissa, freq, amp):
+    return amp*np.sign(np.sin(2 * np.pi * freq*abscissa))
