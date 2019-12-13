@@ -21,27 +21,27 @@ class SignalPlot(mca.framework.DynamicBlock):
         self.dynamic_input = [1, None]
         self._new_input()
         self.read_kwargs(kwargs)
+        self.fig = plt.figure(num="SignalPlot")
 
     def _process(self):
+        plt.close(self.fig)
         for i in self.inputs:
             validator.check_type_signal(i.data)
         signals = [copy.deepcopy(i.data) for i in self.inputs if i.data]
-        legend = []
-        fig = plt.figure(num="SignalPlot")
+        self.fig = plt.figure(num="SignalPlot")
+
         for signal in signals:
-            legend.append(
-                plt.plot(
-                    np.linspace(
-                        signal.abscissa_start,
-                        signal.abscissa_start
-                        + signal.increment * signal.values,
-                        signal.values,
-                    ),
-                    signal.ordinate,
-                    label=signal.meta_data.name,
-                )[0]
+            plt.plot(
+                np.linspace(
+                    signal.abscissa_start,
+                    signal.abscissa_start
+                    + signal.increment * signal.values,
+                    signal.values,
+                ),
+                signal.ordinate,
+                label=signal.meta_data.name,
             )
-        fig.legend(handles=legend)
+        plt.legend()
 
         if len(signals) == 1:
             meta_data = signals[0].meta_data
@@ -56,3 +56,6 @@ class SignalPlot(mca.framework.DynamicBlock):
                 )
             )
         plt.grid(True)
+
+    def show(self):
+        self.fig.show()

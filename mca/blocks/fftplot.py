@@ -42,8 +42,11 @@ class FFTPlot(mca.framework.Block):
             ),
         }
         self.read_kwargs(kwargs)
+        self.fig = plt.figure(num="FFTPlot")
 
     def _process(self):
+        # Close old figure
+        plt.close(self.fig)
         # Finish when no inputs connected
         if self.check_empty_inputs():
             return
@@ -57,14 +60,14 @@ class FFTPlot(mca.framework.Block):
         # Calculate fft
         ordinate = np.fft.fft(input_signal.ordinate)
         values = input_signal.values
-        abscissa = np.linspace(0, sample_freq * 2 * np.pi, values)
+        abscissa = np.linspace(0, sample_freq, values)
         # Apply parameters
         if shift == _("Shift") or \
                 shift == _("Shift and only positive frequencies"):
             ordinate = np.fft.fftshift(ordinate)
         if shift == _("Shift"):
-            abscissa = np.linspace(-sample_freq * np.pi,
-                                 sample_freq * np.pi, values)
+            abscissa = np.linspace(-sample_freq/2,
+                                   sample_freq/2, values)
         elif shift == _("Shift and only positive frequencies"):
             ordinate = ordinate[len(ordinate) // 2:]
             abscissa = abscissa[len(abscissa) // 2:]
@@ -76,7 +79,10 @@ class FFTPlot(mca.framework.Block):
             ordinate = abs(ordinate)
         elif plot_mode == _("Phase"):
             ordinate = np.angle(ordinate)
-        plt.figure(num="FFTPlot")
+        self.figure = plt.figure(num="FFTPlot")
         plt.plot(abscissa, ordinate)
         plt.xlabel("Freq / Hz")
         plt.grid(True)
+
+    def show(self):
+        self.fig.show()
