@@ -66,9 +66,9 @@ class SignalGenerator(mca.framework.Block):
         if function == "Sin":
             ordinate = amp * np.sin(2*np.pi*freq * abscissa - phase)
         elif function == "Rect":
-            ordinate = rect(abscissa, freq, amp)
+            ordinate = rect(abscissa, freq, amp, phase)
         elif function == "Triangle":
-            ordinate = triangle(abscissa, freq, amp)
+            ordinate = triangle(abscissa, freq, amp, phase)
         self.outputs[0].data = mca.framework.data_types.Signal(
             self.outputs[0].meta_data,
             abscissa_start,
