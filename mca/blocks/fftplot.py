@@ -43,7 +43,7 @@ class FFTPlot(mca.framework.Block):
             ),
         }
         self.read_kwargs(kwargs)
-        self.fig = plt.figure(num="FFTPlot")
+        self.fig = plt.figure()
 
     def _process(self):
         # Close old figure
@@ -80,7 +80,7 @@ class FFTPlot(mca.framework.Block):
             ordinate = abs(ordinate)
         elif plot_mode == "phase":
             ordinate = np.angle(ordinate)
-        self.figure = plt.figure(num="FFTPlot")
+        self.figure = plt.figure()
         plt.plot(abscissa, ordinate)
         plt.xlabel("Freq / Hz")
         plt.grid(True)

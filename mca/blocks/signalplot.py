@@ -21,15 +21,14 @@ class SignalPlot(mca.framework.DynamicBlock):
         self.dynamic_input = [1, None]
         self._new_input()
         self.read_kwargs(kwargs)
-        self.fig = plt.figure(num="SignalPlot")
+        self.fig = plt.figure()
 
     def _process(self):
         plt.close(self.fig)
         for i in self.inputs:
             validator.check_type_signal(i.data)
         signals = [copy.deepcopy(i.data) for i in self.inputs if i.data]
-        self.fig = plt.figure(num="SignalPlot")
-
+        self.fig = plt.figure()
         for signal in signals:
             plt.plot(
                 np.linspace(
