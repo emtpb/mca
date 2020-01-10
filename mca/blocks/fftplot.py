@@ -31,14 +31,15 @@ class FFTPlot(mca.framework.Block):
         self.parameters = {
             "shift": mca.framework.parameters.ChoiceParameter(
                 _("Shift to ordinate"),
-                [_("No shift"), _("Shift"),
-                 _("Shift and only positive frequencies")],
-                value=_("No shift"),
+                [("no_shift", _("No shift")), ("shift", _("Shift")),
+                 ("shift_positive", _("Shift and only positive frequencies"))],
+                value=_("no_shift"),
             ),
             "plot_mode": mca.framework.parameters.ChoiceParameter(
                 _("Plot Mode"),
-                [_("Real"), _("Imaginary"), _("Absolute"), _("Phase")],
-                value=_("Absolute"),
+                [("real", _("Real")), ("imaginary", _("Imaginary")),
+                 ("absolute", _("Absolute")), ("phase", _("Phase"))],
+                value=_("absolute"),
             ),
         }
         self.read_kwargs(kwargs)
@@ -62,22 +63,22 @@ class FFTPlot(mca.framework.Block):
         values = input_signal.values
         abscissa = np.linspace(0, sample_freq, values)
         # Apply parameters
-        if shift == _("Shift") or \
-                shift == _("Shift and only positive frequencies"):
+        if shift == "shift" or \
+                shift == "shift_positive":
             ordinate = np.fft.fftshift(ordinate)
-        if shift == _("Shift"):
+        if shift == "shift":
             abscissa = np.linspace(-sample_freq/2,
                                    sample_freq/2, values)
-        elif shift == _("Shift and only positive frequencies"):
+        elif shift == "shift_positive":
             ordinate = ordinate[len(ordinate) // 2:]
             abscissa = abscissa[len(abscissa) // 2:]
-        if plot_mode == _("Real"):
+        if plot_mode == "real":
             ordinate = ordinate.real
-        elif plot_mode == _("Imaginary"):
+        elif plot_mode == "imaginary":
             ordinate = ordinate.imag
-        elif plot_mode == _("Absolute"):
+        elif plot_mode == "absolute":
             ordinate = abs(ordinate)
-        elif plot_mode == _("Phase"):
+        elif plot_mode == "phase":
             ordinate = np.angle(ordinate)
         self.figure = plt.figure(num="FFTPlot")
         plt.plot(abscissa, ordinate)

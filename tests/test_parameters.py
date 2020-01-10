@@ -65,7 +65,7 @@ def test_bounds_str():
 
 
 def test_choice():
-    a = pm.ChoiceParameter("Test", choices=[1.2, "a", 42], value=1.2)
+    a = pm.ChoiceParameter("Test", choices=[(1.2, "1.2"), ("a", "all"), (42, "42")], value=1.2)
     with pytest.raises(exceptions.ParameterTypeError):
         a.validate("test")
     a.validate(42)

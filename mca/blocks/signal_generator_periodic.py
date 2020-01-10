@@ -33,10 +33,10 @@ class SignalGenerator(mca.framework.Block):
         )
         self.parameters = {
             "function": mca.framework.parameters.ChoiceParameter(
-                _("Function"), choices=["Rect", "Triangle", "Sin"], value="Sin"
+                _("Function"), choices=[("rect", _("Rectangle")), ("tri", _("Triangle")), ("sin", _("Sine"))],
+                value="sin"
             ),
-            "freq": mca.framework.parameters.FloatParameter(_("Frequency"),
-                                                        unit="Hz", value=1),
+            "freq": mca.framework.parameters.FloatParameter(_("Frequency"), unit="Hz", value=1),
             "amp": mca.framework.parameters.FloatParameter("Amplitude",
                                                            value=1),
             "phase": mca.framework.parameters.FloatParameter("Phase", value=0),
@@ -63,11 +63,11 @@ class SignalGenerator(mca.framework.Block):
                     values
                 )
         )
-        if function == "Sin":
+        if function == "sin":
             ordinate = amp * np.sin(2*np.pi*freq * abscissa - phase)
-        elif function == "Rect":
+        elif function == "rect":
             ordinate = rect(abscissa, freq, amp, phase)
-        elif function == "Triangle":
+        elif function == "tri":
             ordinate = triangle(abscissa, freq, amp, phase)
         self.outputs[0].data = mca.framework.data_types.Signal(
             self.outputs[0].meta_data,

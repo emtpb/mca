@@ -7,7 +7,7 @@ from mca.framework import data_types
 
 
 def test_function():
-    a = signal_generator_periodic.SignalGenerator(function="Sin")
+    a = signal_generator_periodic.SignalGenerator(function="sin")
     a.apply_parameter_changes()
     sin_signal = data_types.Signal(None,
                                    a.parameters["start_a"].value,
@@ -18,7 +18,7 @@ def test_function():
                                        a.parameters["values"].value*a.parameters["increment"].value,
                                        a.parameters["values"].value)))
     assert a.outputs[0].data == sin_signal
-    a.parameters["function"].value = "Rect"
+    a.parameters["function"].value = "rect"
     a.apply_parameter_changes()
     rect_signal = data_types.Signal(None,
                                     a.parameters["start_a"].value,
@@ -29,7 +29,7 @@ def test_function():
                                         a.parameters["values"].value*a.parameters["increment"].value,
                                         a.parameters["values"].value))))
     assert a.outputs[0].data == rect_signal
-    a.parameters["function"].value = "Triangle"
+    a.parameters["function"].value = "tri"
     a.apply_parameter_changes()
     triangle_signal = data_types.Signal(None,
                                         a.parameters["start_a"].value,
