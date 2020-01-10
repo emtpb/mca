@@ -15,7 +15,7 @@ def test_function():
                                    a.parameters["increment"].value,
                                    np.sin(2*np.pi*np.linspace(
                                        a.parameters["start_a"].value,
-                                       a.parameters["values"].value*a.parameters["increment"].value,
+                                       (a.parameters["values"].value-1)*a.parameters["increment"].value,
                                        a.parameters["values"].value)))
     assert a.outputs[0].data == sin_signal
     a.parameters["function"].value = "rect"
@@ -26,7 +26,7 @@ def test_function():
                                     a.parameters["increment"].value,
                                     np.sign(np.sin(2*np.pi*np.linspace(
                                         a.parameters["start_a"].value,
-                                        a.parameters["values"].value*a.parameters["increment"].value,
+                                        (a.parameters["values"].value-1)*a.parameters["increment"].value,
                                         a.parameters["values"].value))))
     assert a.outputs[0].data == rect_signal
     a.parameters["function"].value = "tri"
@@ -37,7 +37,7 @@ def test_function():
                                         a.parameters["increment"].value,
                                         sgn.sawtooth(2*np.pi*np.linspace(
                                             a.parameters["start_a"].value,
-                                            a.parameters["values"].value*a.parameters["increment"].value,
+                                            (a.parameters["values"].value-1)*a.parameters["increment"].value,
                                             a.parameters["values"].value) + np.pi / 2, 0.5))
     assert a.outputs[0].data == triangle_signal
 
@@ -52,7 +52,7 @@ def test_frequency(test_input):
                                     a.parameters["increment"].value,
                                     np.sin(2*test_input*np.pi*np.linspace(
                                        a.parameters["start_a"].value,
-                                       a.parameters["values"].value*a.parameters["increment"].value,
+                                       (a.parameters["values"].value-1)*a.parameters["increment"].value,
                                        a.parameters["values"].value)))
     assert a.outputs[0].data == test_signal
 
@@ -67,7 +67,7 @@ def test_amp(test_input):
                                     a.parameters["increment"].value,
                                     test_input*np.sin(2*np.pi*np.linspace(
                                        a.parameters["start_a"].value,
-                                       a.parameters["values"].value*a.parameters["increment"].value,
+                                       (a.parameters["values"].value-1)*a.parameters["increment"].value,
                                        a.parameters["values"].value)))
     assert a.outputs[0].data == test_signal
 
@@ -82,7 +82,7 @@ def test_phase(test_input):
                                     a.parameters["increment"].value,
                                     np.sin(2*np.pi*np.linspace(
                                        a.parameters["start_a"].value,
-                                       a.parameters["values"].value*a.parameters["increment"].value,
+                                       (a.parameters["values"].value-1)*a.parameters["increment"].value,
                                        a.parameters["values"].value)-test_input))
     assert a.outputs[0].data == test_signal
 
@@ -97,7 +97,8 @@ def test_start_a(test_input):
                                     a.parameters["increment"].value,
                                     np.sin(2*np.pi*np.linspace(
                                        a.parameters["start_a"].value,
-                                       a.parameters["start_a"].value + a.parameters["values"].value*a.parameters["increment"].value,
+                                       a.parameters["start_a"].value + (a.parameters["values"].value-1) *
+                                       a.parameters["increment"].value,
                                        a.parameters["values"].value)))
     assert a.outputs[0].data == test_signal
 
@@ -112,7 +113,7 @@ def test_values(test_input):
                                     a.parameters["increment"].value,
                                     np.sin(2*np.pi*np.linspace(
                                        a.parameters["start_a"].value,
-                                       a.parameters["values"].value*a.parameters["increment"].value,
+                                       (a.parameters["values"].value-1)*a.parameters["increment"].value,
                                        a.parameters["values"].value)))
     assert a.outputs[0].data == test_signal
 
@@ -127,6 +128,6 @@ def test_increment(test_input):
                                     a.parameters["increment"].value,
                                     np.sin(2*np.pi*np.linspace(
                                        a.parameters["start_a"].value,
-                                       a.parameters["values"].value*a.parameters["increment"].value,
+                                       (a.parameters["values"].value-1)*a.parameters["increment"].value,
                                        a.parameters["values"].value)))
     assert a.outputs[0].data == test_signal

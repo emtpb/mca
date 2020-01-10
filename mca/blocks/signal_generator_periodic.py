@@ -59,7 +59,7 @@ class SignalGenerator(mca.framework.Block):
         function = self.parameters["function"].value
         abscissa = (
                 np.linspace(
-                    abscissa_start, abscissa_start + values * increment,
+                    abscissa_start, abscissa_start + (values-1) * increment,
                     values
                 )
         )

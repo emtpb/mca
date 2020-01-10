@@ -35,7 +35,7 @@ class SignalPlot(mca.framework.DynamicBlock):
                 np.linspace(
                     signal.abscissa_start,
                     signal.abscissa_start
-                    + signal.increment * signal.values,
+                    + signal.increment * (signal.values-1),
                     signal.values,
                 ),
                 signal.ordinate,
