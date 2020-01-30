@@ -42,8 +42,16 @@ class Input:
     @property
     def data(self):
         """Data retrieved from the connected Output."""
-        if block_registry.Registry.get_output(self):
-            return block_registry.Registry.get_output(self).data
+        if self.connected_output():
+            return self.connected_output().data
+
+    def connected_output(self):
+        """Convenience method to get the current Output.
+
+        Returns:
+            output (Output): If the Input is connected the output is returned.
+        """
+        return block_registry.Registry.get_output(self)
 
 
 class Output:
