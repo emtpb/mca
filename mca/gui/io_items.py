@@ -1,5 +1,4 @@
 from PySide2 import QtWidgets, QtCore, QtGui
-import copy
 from mca import exceptions
 
 
@@ -13,8 +12,6 @@ class InputItem(QtWidgets.QGraphicsItem):
         self.mca_input = mca_input
         self.setAcceptDrops(True)
         self.connection_line = None
-
-        self.output = None
 
     def boundingRect(self, *args, **kwargs):
         return QtCore.QRectF(0, 0, self.width, self.height)
@@ -48,12 +45,10 @@ class InputItem(QtWidgets.QGraphicsItem):
             if isinstance(i, OutputItem):
                 try:
                     self.mca_input.connect(i.mca_output)
-                    self.connection_line.setLine(self.scenePos().x(),
+                    self.connection_line.setLine(self.scenePos().x() + 5,
                                                  self.scenePos().y() + self.height / 2,
-                                                 i.scenePos().x() + self.width, i.scenePos().y() + i.height/2)
+                                                 i.scenePos().x() - 5 + self.width, i.scenePos().y() + i.height/2)
                     i.connection_lines.append(self.connection_line)
-                    self.output = i
-                    print(self.output)
                     return
                 except exceptions.BlockCircleError:
                     self.scene().removeItem(self.connection_line)
@@ -61,11 +56,10 @@ class InputItem(QtWidgets.QGraphicsItem):
                     return
         self.scene().removeItem(self.connection_line)
         self.connection_line = None
-        self.output = None
 
     def update_connection_line(self):
         if self.connection_line:
-            self.connection_line.setLine(self.scenePos().x(), self.scenePos().y() + self.height / 2,
+            self.connection_line.setLine(self.scenePos().x() + 5, self.scenePos().y() + self.height / 2,
                                          self.connection_line.line().x2(), self.connection_line.line().y2())
 
     def contextMenuEvent(self, e):
@@ -76,11 +70,12 @@ class InputItem(QtWidgets.QGraphicsItem):
         menu.exec_(e.screenPos())
 
     def disconnect(self):
-        print(self.output)
         self.mca_input.disconnect()
-        if self.connection_line and self.output:
+        if self.connection_line:
+            for i in self.scene().items(self.connection_line.line().p2()):
+                if isinstance(i, OutputItem):
+                    i.connection_lines.remove(self.connection_line)
             self.scene().removeItem(self.connection_line)
-            self.output.connection_lines.remove(self.connection_line)
         self.connection_line = None
 
 
@@ -126,9 +121,10 @@ class OutputItem(QtWidgets.QGraphicsItem):
                 if not i.mca_input.connected_output():
                     try:
                         i.mca_input.connect(self.mca_output)
-                        self.connection_lines[-1].setLine(i.scenePos().x(),
+                        self.connection_lines[-1].setLine(i.scenePos().x() + 5,
                                                           i.scenePos().y() + i.height / 2,
-                                                          self.scenePos().x() + self.width, self.scenePos().y() + self.height/2)
+                                                          self.scenePos().x() - 5 + self.width,
+                                                          self.scenePos().y() + self.height/2)
                         i.connection_line = self.connection_lines[-1]
                         i.output = self
                         return
@@ -142,7 +138,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
     def update_connection_line(self):
         for i in self.connection_lines:
             i.setLine(i.line().x1(), i.line().y1(),
-                      self.scenePos().x() + self.width, self.scenePos().y() + self.height/2)
+                      self.scenePos().x() - 5 + self.width, self.scenePos().y() + self.height/2)
 
     def contextMenuEvent(self, e):
         menu = QtWidgets.QMenu(self.scene().views()[0])
@@ -154,5 +150,8 @@ class OutputItem(QtWidgets.QGraphicsItem):
     def disconnect(self):
         self.mca_output.disconnect()
         for connection in self.connection_lines:
+            for i in self.scene().items(connection.line().p1()):
+                if isinstance(i, InputItem):
+                    i.connection_line = None
             self.scene().removeItem(connection)
         self.connection_lines = []
