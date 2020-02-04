@@ -63,6 +63,10 @@ class BlockItem(QtWidgets.QGraphicsItem):
             delete_input_action = QtWidgets.QAction("Delete Input", self.scene().views()[0])
             delete_input_action.triggered.connect(self.delete_input)
             menu.addAction(delete_input_action)
+        if callable(getattr(self.block, "show", None)):
+            show_plot_action = QtWidgets.QAction("Show Plot", self.scene().views()[0])
+            show_plot_action.triggered.connect(self.block.show)
+            menu.addAction(show_plot_action)
         delete_action = QtWidgets.QAction("Delete Block", self.scene().views()[0])
         delete_action.triggered.connect(self.delete)
         menu.addAction(delete_action)
