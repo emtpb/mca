@@ -39,15 +39,3 @@ class MainWindow(QtWidgets.QMainWindow):
     @QtCore.Slot()
     def exit_app(self):
         QtWidgets.QApplication.quit()
-
-
-if __name__ == "__main__":
-    # Qt Application
-    app = QtWidgets.QApplication(sys.argv)
-    # QWidget
-    # QMainWindow using QWidget as central widget
-    window = MainWindow()
-
-    window.show()
-    # Execute application
-    sys.exit(app.exec_())

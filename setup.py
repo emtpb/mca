@@ -30,7 +30,7 @@ setup(
 
     # Runtime dependencies
     install_requires=[
-        'numpy', 'scipy', 'networkx', 'matplotlib', 'appdirs'],
+        'numpy', 'scipy', 'networkx', 'matplotlib', 'appdirs', 'PySide2'],
 
     # Python version requirement
     python_requires='>=3',
@@ -49,4 +49,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Topic :: Scientific/Engineering',
     ],
+    entry_points={
+        'console_scripts': ['mca=mca.main:main'],
+    },
 )
