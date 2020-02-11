@@ -7,7 +7,7 @@ from mca.framework import data_types
 
 
 def test_function():
-    a = signal_generator_periodic.SignalGenerator(function="sin")
+    a = signal_generator_periodic.SignalGeneratorPeriodic(function="sin")
     a.apply_parameter_changes()
     sin_signal = data_types.Signal(None,
                                    a.parameters["start_a"].value,
@@ -44,7 +44,7 @@ def test_function():
 
 @pytest.mark.parametrize("test_input", [-5, 2])
 def test_frequency(test_input):
-    a = signal_generator_periodic.SignalGenerator(freq=test_input)
+    a = signal_generator_periodic.SignalGeneratorPeriodic(freq=test_input)
     a.apply_parameter_changes()
     test_signal = data_types.Signal(None,
                                     a.parameters["start_a"].value,
@@ -59,7 +59,7 @@ def test_frequency(test_input):
 
 @pytest.mark.parametrize("test_input", [-5, 2])
 def test_amp(test_input):
-    a = signal_generator_periodic.SignalGenerator(amp=test_input)
+    a = signal_generator_periodic.SignalGeneratorPeriodic(amp=test_input)
     a.apply_parameter_changes()
     test_signal = data_types.Signal(None,
                                     a.parameters["start_a"].value,
@@ -74,7 +74,7 @@ def test_amp(test_input):
 
 @pytest.mark.parametrize("test_input", [np.pi, 1, -np.pi/2])
 def test_phase(test_input):
-    a = signal_generator_periodic.SignalGenerator(phase=test_input)
+    a = signal_generator_periodic.SignalGeneratorPeriodic(phase=test_input)
     a.apply_parameter_changes()
     test_signal = data_types.Signal(None,
                                     a.parameters["start_a"].value,
@@ -89,7 +89,7 @@ def test_phase(test_input):
 
 @pytest.mark.parametrize("test_input", [-0.5, 2, 4.23])
 def test_start_a(test_input):
-    a = signal_generator_periodic.SignalGenerator(start_a=test_input)
+    a = signal_generator_periodic.SignalGeneratorPeriodic(start_a=test_input)
     a.apply_parameter_changes()
     test_signal = data_types.Signal(None,
                                     a.parameters["start_a"].value,
@@ -105,7 +105,7 @@ def test_start_a(test_input):
 
 @pytest.mark.parametrize("test_input", [30, 90, 1746])
 def test_values(test_input):
-    a = signal_generator_periodic.SignalGenerator(values=test_input)
+    a = signal_generator_periodic.SignalGeneratorPeriodic(values=test_input)
     a.apply_parameter_changes()
     test_signal = data_types.Signal(None,
                                     a.parameters["start_a"].value,
@@ -120,7 +120,7 @@ def test_values(test_input):
 
 @pytest.mark.parametrize("test_input", [1, 0.03, 0.05])
 def test_increment(test_input):
-    a = signal_generator_periodic.SignalGenerator(increment=test_input)
+    a = signal_generator_periodic.SignalGeneratorPeriodic(increment=test_input)
     a.apply_parameter_changes()
     test_signal = data_types.Signal(None,
                                     a.parameters["start_a"].value,
