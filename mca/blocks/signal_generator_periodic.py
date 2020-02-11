@@ -5,7 +5,7 @@ import mca.framework
 from mca.language import _
 
 
-class SignalGenerator(mca.framework.Block):
+class SignalGeneratorPeriodic(mca.framework.Block):
     """Block class which generates a periodic signal.
 
     This block has one input.
@@ -19,7 +19,7 @@ class SignalGenerator(mca.framework.Block):
         values: Amount of values taken (int).
         increment: Sampling frequency (float).
     """
-    name = "SignalGenerator"
+    name = "SignalGeneratorPeriodic"
     description = _("Generates a Sinus, a Rectangle function or "
                     "a Triangle function.")
 

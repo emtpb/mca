@@ -54,6 +54,7 @@ class Signal:
             return False
         return True
 
+
 @dataclass
 class MetaData:
     """Meta data class for the :class:`.Signal` class.

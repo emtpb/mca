@@ -1,6 +1,6 @@
 import pytest
 from mca.framework import data_types, block_io, block_registry
-from mca.blocks import signalplot
+from mca.blocks import signal_plot
 import numpy as np
 import test_data
 
@@ -16,7 +16,7 @@ sin_signal_2 = data_types.Signal(data_types.MetaData("test_2", "Time", "t", "s",
 
 def test_labels():
     a = test_data.TestBlock(sin_signal)
-    b = signalplot.SignalPlot()
+    b = signal_plot.SignalPlot()
     b.inputs[0].connect(a.outputs[0])
     assert b.fig.axes[0].get_xlabel() == "Time t / s"
     assert b.fig.axes[0].get_ylabel() == "Voltage U / V"
@@ -29,7 +29,7 @@ def test_labels():
 
 def test_axes():
     a = test_data.TestBlock(sin_signal)
-    b = signalplot.SignalPlot()
+    b = signal_plot.SignalPlot()
     c = test_data.TestBlock(sin_signal)
     assert len(b.fig.axes) == 0
     b.inputs[0].connect(a.outputs[0])
@@ -41,7 +41,7 @@ def test_axes():
 
 def test_lines():
     a = test_data.TestBlock(sin_signal)
-    b = signalplot.SignalPlot()
+    b = signal_plot.SignalPlot()
     c = test_data.TestBlock(sin_signal_2)
     b.inputs[0].connect(a.outputs[0])
     assert len(b.fig.axes[0].lines) == 1
@@ -56,7 +56,7 @@ def test_lines():
 
 def test_legend():
     a = test_data.TestBlock(sin_signal)
-    b = signalplot.SignalPlot()
+    b = signal_plot.SignalPlot()
     c = test_data.TestBlock(sin_signal_2)
     b.inputs[0].connect(a.outputs[0])
     b.fig.axes[0].get_legend_handles_labels()[1][0] == sin_signal.meta_data.name
