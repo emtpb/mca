@@ -1,3 +1,4 @@
+import json
 from . import block_io, block_registry
 from mca import exceptions
 
@@ -100,6 +101,21 @@ class Block:
             for output in self.outputs:
                 output.data = None
             return True
+
+    def save_output_data(self, output_index, file_name):
+        with open(file_name, 'w') as save_file:
+            save_data = {"name": self.outputs[output_index].data.meta_data.name,
+                         "quantity_a": self.outputs[output_index].data.meta_data.quantity_a,
+                         "symbol_a": self.outputs[output_index].data.meta_data.symbol_a,
+                         "unit_a": self.outputs[output_index].data.meta_data.unit_a,
+                         "quantity_o": self.outputs[output_index].data.meta_data.quantity_o,
+                         "symbol_o": self.outputs[output_index].data.meta_data.symbol_o,
+                         "unit_o": self.outputs[output_index].data.meta_data.unit_o,
+                         "abscissa_start": self.outputs[output_index].data.abscissa_start,
+                         "values": self.outputs[output_index].data.values,
+                         "increment": self.outputs[output_index].data.increment,
+                         "ordinate": str(self.outputs[output_index].data.ordinate)}
+            json.dump(save_data, save_file)
 
 
 class DynamicBlock(Block):
