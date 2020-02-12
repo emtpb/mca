@@ -36,7 +36,7 @@ class Absolute(mca.framework.Block):
         input_signal = self.inputs[0].data
         ordinate = abs(input_signal.ordinate)
         self.outputs[0].data = mca.framework.data_types.Signal(
-            meta_data=self.inputs[0].data.meta_data,
+            meta_data=self.outputs[0].meta_data,
             abscissa_start=input_signal.abscissa_start,
             values=input_signal.values,
             increment=input_signal.increment,

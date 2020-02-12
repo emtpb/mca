@@ -8,7 +8,7 @@ from mca.language import _
 class SignalGeneratorPeriodic(mca.framework.Block):
     """Block class which generates a periodic signal.
 
-    This block has one input.
+    This block has one output.
 
     Parameters:
         function: Rect, Triangle or Sin.

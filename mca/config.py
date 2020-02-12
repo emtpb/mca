@@ -25,6 +25,9 @@ class Config(dict):
         self.update(user_config)
 
     def __setitem__(self, key, value):
+        """Sets a key with a value in the config
+        that will automatically update the  corresponding config file.
+        """
         super().__setitem__(key, value)
         with open(user_config_path, 'w') as config_file:
             user_config = {k: self[k] for k in self if k not in default_config or self[k] != default_config[k]}

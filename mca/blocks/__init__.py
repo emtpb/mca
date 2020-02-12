@@ -5,3 +5,4 @@ from .fftplot import FFTPlot
 from .signal_generator_periodic import SignalGeneratorPeriodic
 from .adder import Adder
 from .absolute import Absolute
+from .signal_generator_arbitrary import SignalGeneratorArbitrary
