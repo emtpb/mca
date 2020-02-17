@@ -50,7 +50,7 @@ class Signal:
             return False
         if self.increment != other.increment:
             return False
-        if not np.array_equal(self.ordinate, other.ordinate):
+        if not np.allclose(self.ordinate, other.ordinate):
             return False
         return True
 
