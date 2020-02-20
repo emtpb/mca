@@ -113,7 +113,7 @@ class Block:
             raise exceptions.DataSavingError("Output has no data to save.")
         with open(file_name, 'w') as save_file:
             if isinstance(self.outputs[output_index].data, data_types.Signal):
-                save_data = {"data_type": type(self.outputs[output_index].data),
+                save_data = {"data_type": "Signal",
                              "name": self.outputs[output_index].data.meta_data.name,
                              "quantity_a": self.outputs[output_index].data.meta_data.quantity_a,
                              "symbol_a": self.outputs[output_index].data.meta_data.symbol_a,
@@ -125,6 +125,7 @@ class Block:
                              "values": self.outputs[output_index].data.values,
                              "increment": self.outputs[output_index].data.increment,
                              "ordinate": str(self.outputs[output_index].data.ordinate)}
+                print(save_data)
                 json.dump(save_data, save_file)
 
 

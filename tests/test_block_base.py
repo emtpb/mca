@@ -607,3 +607,6 @@ def test_disconnect_all(seventh_scenario):
             c.inputs[1]] not in block_registry.Registry._graph.edges
     assert [c.outputs[0],
             d.inputs[0]] not in block_registry.Registry._graph.edges
+
+def test_save_output_data():
+    pass
