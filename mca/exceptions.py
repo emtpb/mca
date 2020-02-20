@@ -114,3 +114,14 @@ class DataTypeError(MCAError):
         super().__init__(
             "Input expected {} but was given {}".format(data_type, data)
         )
+
+
+class DataSavingError(MCAError):
+    """Exception raised when the saving of output data was unsuccessful."""
+    def __init__(self, cause):
+        """Initialize DataSavingError.
+
+        Args:
+            cause (str): Reason why saving was unsuccessful.
+        """
+        super().__init__(cause)
