@@ -2,6 +2,7 @@ import json
 import numpy as np
 
 import mca.framework
+import mca.exceptions
 from mca.language import _
 
 
@@ -29,7 +30,8 @@ class SignalGeneratorArbitrary(mca.framework.Block):
     def load_data(self, file_name):
         with open(file_name, 'r') as arbitrary_file:
             arbitrary_data = json.load(arbitrary_file)
-
+            if arbitrary_data.get("data_type") != "Signal":
+                raise mca.exceptions.DataLoadingError("Loaded data type is not a signal.")
             meta_data = mca.framework.data_types.MetaData(arbitrary_data["name"],
                                                           arbitrary_data["quantity_a"],
                                                           arbitrary_data["symbol_a"],
