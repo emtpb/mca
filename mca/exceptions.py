@@ -125,3 +125,15 @@ class DataSavingError(MCAError):
             cause (str): Reason why saving was unsuccessful.
         """
         super().__init__(cause)
+
+
+class DataLoadingError(MCAError):
+    """Exception raised when the loading data was unsuccessful."""
+
+    def __init__(self, cause):
+        """Initialize DataLoadingError.
+
+        Args:
+            cause (str): Reason why loading was unsuccessful.
+        """
+        super().__init__(cause)
