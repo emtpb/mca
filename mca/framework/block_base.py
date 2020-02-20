@@ -1,5 +1,5 @@
 import json
-from . import block_io, block_registry
+from . import block_io, block_registry, data_types
 from mca import exceptions
 
 
@@ -103,19 +103,29 @@ class Block:
             return True
 
     def save_output_data(self, output_index, file_name):
+        """Saves the data of the output in a json-file. Currently only supports saving the data type :class:`.Signal`.
+
+        Args:
+            output_index (int): Index of the output which data should be saved.
+            file_name (str): Name of the file with the full path. Requires .json as file type.
+        """
+        if not self.outputs[output_index].data:
+            raise exceptions.DataSavingError("Output has no data to save.")
         with open(file_name, 'w') as save_file:
-            save_data = {"name": self.outputs[output_index].data.meta_data.name,
-                         "quantity_a": self.outputs[output_index].data.meta_data.quantity_a,
-                         "symbol_a": self.outputs[output_index].data.meta_data.symbol_a,
-                         "unit_a": self.outputs[output_index].data.meta_data.unit_a,
-                         "quantity_o": self.outputs[output_index].data.meta_data.quantity_o,
-                         "symbol_o": self.outputs[output_index].data.meta_data.symbol_o,
-                         "unit_o": self.outputs[output_index].data.meta_data.unit_o,
-                         "abscissa_start": self.outputs[output_index].data.abscissa_start,
-                         "values": self.outputs[output_index].data.values,
-                         "increment": self.outputs[output_index].data.increment,
-                         "ordinate": str(self.outputs[output_index].data.ordinate)}
-            json.dump(save_data, save_file)
+            if isinstance(self.outputs[output_index].data, data_types.Signal):
+                save_data = {"data_type": type(self.outputs[output_index].data),
+                             "name": self.outputs[output_index].data.meta_data.name,
+                             "quantity_a": self.outputs[output_index].data.meta_data.quantity_a,
+                             "symbol_a": self.outputs[output_index].data.meta_data.symbol_a,
+                             "unit_a": self.outputs[output_index].data.meta_data.unit_a,
+                             "quantity_o": self.outputs[output_index].data.meta_data.quantity_o,
+                             "symbol_o": self.outputs[output_index].data.meta_data.symbol_o,
+                             "unit_o": self.outputs[output_index].data.meta_data.unit_o,
+                             "abscissa_start": self.outputs[output_index].data.abscissa_start,
+                             "values": self.outputs[output_index].data.values,
+                             "increment": self.outputs[output_index].data.increment,
+                             "ordinate": str(self.outputs[output_index].data.ordinate)}
+                json.dump(save_data, save_file)
 
 
 class DynamicBlock(Block):
