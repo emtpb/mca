@@ -43,7 +43,6 @@ class BlockScene(QtWidgets.QGraphicsScene):
             e.ignore()
 
     def dropEvent(self, e):
-        # item = self.itemAt(e.scenePos(), QtGui.QTransform(1, 0, 0, 0, 1, 0))
         if e.source() in self.parent().children():
             e.setDropAction(QtCore.Qt.CopyAction)
             e.accept()
@@ -53,18 +52,3 @@ class BlockScene(QtWidgets.QGraphicsScene):
             self.addItem(new_block)
         else:
             e.ignore()
-
-    """def contextMenuEvent(self, e):
-        if self.itemAt(e.scenePos(), QtGui.QTransform(1, 0, 0, 0, 1, 0)) is None:
-            menu = QtWidgets.QMenu(self.views()[0])
-            create_input = QtWidgets.QAction("New Input", self)
-            create_input.triggered.connect(self.new_input)
-            menu.addAction(create_input)
-            self.mouse_pos = e.scenePos()
-            menu.exec_(e.screenPos())
-        else:
-            self.itemAt(e.scenePos(), QtGui.QTransform(1, 0, 0, 0, 1, 0)).contextMenuEvent(e)
-
-    @QtCore.Slot()
-    def new_input(self):
-        self.addItem(InputItem(self.mouse_pos.x(), self.mouse_pos.y(), block_io.Input()))"""

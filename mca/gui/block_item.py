@@ -30,8 +30,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.block = block_class()
 
         self.difference = 0
-        self.height = 100
-        self.setToolTip("This is a test tool tip of {}".format(block_class.name))
+        self.setToolTip(type(self.block).description)
         self.parameter_window()
         self.setFlag(self.ItemIsMovable, True)
         self.setFlag(self.ItemSendsGeometryChanges, True)
@@ -39,7 +38,6 @@ class BlockItem(QtWidgets.QGraphicsItem):
             self.add_new_input(i)
         for o in self.block.outputs:
             self.add_new_output(o)
-        # self.setFlags(self.ItemIsSelectable)
 
     def boundingRect(self, *args, **kwargs):
         return QtCore.QRectF(0, 0, self.width, self.height)
@@ -50,12 +48,10 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     def contextMenuEvent(self, e):
         menu = QtWidgets.QMenu(self.scene().views()[0])
-        inspect_action = QtWidgets.QAction("Inspect", self.scene().views()[0])
-        inspect_action.triggered.connect(self.inspect_window)
-        menu.addAction(inspect_action)
-        parameter_action = QtWidgets.QAction("Edit Parameters", self.scene().views()[0])
-        parameter_action.triggered.connect(self.parameter_window)
-        menu.addAction(parameter_action)
+        if self.block.parameters:
+            parameter_action = QtWidgets.QAction("Edit Parameters", self.scene().views()[0])
+            parameter_action.triggered.connect(self.parameter_window)
+            menu.addAction(parameter_action)
         if isinstance(self.block, framework.DynamicBlock):
             add_input_action = QtWidgets.QAction("Add Input", self.scene().views()[0])
             add_input_action.triggered.connect(self.new_input)
@@ -97,29 +93,25 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     @QtCore.Slot()
     def parameter_window(self):
-        window = ParameterWindow(self.block)
-        window.exec_()
-
-    @QtCore.Slot()
-    def inspect_window(self):
-        test = InspectWindow()
-        test.exec_()
+        if self.block.parameters:
+            window = ParameterWindow(self.block)
+            window.exec_()
 
     def add_new_input(self, input):
-            new_input = InputItem(-self.input_width, len(self.inputs)*(self.input_height + self.input_dist) + 5,
-                                  self.input_width, self.input_height, input, self)
-            self.inputs.append(new_input)
-            if len(self.inputs) * (self.input_height + self.input_dist) + 5 > self.height:
-                self.height = len(self.inputs) * (self.input_height + self.input_dist) + 5
-                self.update()
+        new_input = InputItem(-self.input_width, len(self.inputs)*(self.input_height + self.input_dist) + 5,
+                              self.input_width, self.input_height, input, self)
+        self.inputs.append(new_input)
+        if len(self.inputs) * (self.input_height + self.input_dist) + 5 > self.height:
+            self.height = len(self.inputs) * (self.input_height + self.input_dist) + 5
+            self.update()
 
     def add_new_output(self, output):
-            new_output = OutputItem(self.width, len(self.outputs)*(self.output_height + self.output_dist) + 5,
-                                    self.output_width, self.output_height, output, self)
-            self.outputs.append(new_output)
-            if len(self.outputs) * (self.output_height + self.output_dist) + 5 > self.height:
-                self.height = len(self.outputs) * (self.output_height + self.output_dist) + 5
-                self.update()
+        new_output = OutputItem(self.width, len(self.outputs)*(self.output_height + self.output_dist) + 5,
+                                self.output_width, self.output_height, output, self)
+        self.outputs.append(new_output)
+        if len(self.outputs) * (self.output_height + self.output_dist) + 5 > self.height:
+            self.height = len(self.outputs) * (self.output_height + self.output_dist) + 5
+            self.update()
 
     def itemChange(self, change, value):
         if change == self.ItemPositionChange:

@@ -1,6 +1,5 @@
 from PySide2 import QtWidgets, QtCore
 import inspect
-import sys
 
 import mca.blocks
 from mca.gui import block_list, block_display
@@ -12,12 +11,10 @@ class MainWindow(QtWidgets.QMainWindow):
         QtWidgets.QMainWindow.__init__(self)
         self.resize(1000, 800)
         self.setWindowTitle("MCA")
-        # Menu
 
         self.menu = self.menuBar()
         self.file_menu = self.menu.addMenu("File")
 
-        # Exit QAction
         exit_action = QtWidgets.QAction("Exit", self)
         exit_action.setShortcut("Ctrl+Q")
         exit_action.setStatusTip("Close Application")
