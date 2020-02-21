@@ -75,3 +75,22 @@ class MetaData:
     quantity_o: str
     symbol_o: str
     unit_o: str
+
+    def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return False
+        if self.name != other.name:
+            return False
+        if self.quantity_a != other.quantity_a:
+            return False
+        if self.unit_a != other.unit_a:
+            return False
+        if self.symbol_a != other.symbol_a:
+            return False
+        if self.quantity_o != other.quantity_o:
+            return False
+        if self.unit_o != other.unit_o:
+            return False
+        if self.symbol_o != other.symbol_o:
+            return False
+        return True
