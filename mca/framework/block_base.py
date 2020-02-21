@@ -125,7 +125,6 @@ class Block:
                              "values": self.outputs[output_index].data.values,
                              "increment": self.outputs[output_index].data.increment,
                              "ordinate": str(self.outputs[output_index].data.ordinate)}
-                print(save_data)
                 json.dump(save_data, save_file)
 
 
