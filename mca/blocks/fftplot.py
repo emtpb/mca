@@ -80,7 +80,7 @@ class FFTPlot(mca.framework.Block):
             ordinate = abs(ordinate)
         elif plot_mode == "phase":
             ordinate = np.angle(ordinate)
-        self.figure = plt.figure()
+        self.fig = plt.figure()
         plt.plot(abscissa, ordinate)
         plt.xlabel("Freq / Hz")
         plt.grid(True)

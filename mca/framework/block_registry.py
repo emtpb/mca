@@ -168,5 +168,13 @@ class IORegistry:
         """Removes all Inputs and Outputs from the IORegistry."""
         self._graph.clear()
 
+    def get_all_blocks(self):
+        """Returns all blocks currently in the IORegistry."""
+        all_blocks = []
+        for node in self._graph.nodes:
+            if node.block not in all_blocks:
+                all_blocks.append(node.block)
+        return all_blocks
+
 
 Registry = IORegistry()
