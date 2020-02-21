@@ -36,9 +36,9 @@ class SignalGeneratorArbitrary(mca.framework.Block):
                                                           arbitrary_data["quantity_a"],
                                                           arbitrary_data["symbol_a"],
                                                           arbitrary_data["unit_a"],
-                                                          arbitrary_data["symbol_o"],
                                                           arbitrary_data["quantity_o"],
-                                                          arbitrary_data["symbol_o"])
+                                                          arbitrary_data["symbol_o"],
+                                                          arbitrary_data["unit_o"])
         self.outputs[0].data = mca.framework.data_types.Signal(meta_data=meta_data,
                                                                abscissa_start=arbitrary_data["abscissa_start"],
                                                                values=arbitrary_data["values"],
