@@ -1,5 +1,7 @@
 """Tests for the Block, the DynamicBlock and the Connection between blocks."""
 import pytest
+import os
+import json
 
 from mca.framework import (
     Block,
@@ -7,6 +9,7 @@ from mca.framework import (
     parameters,
     block_io, block_registry)
 from mca import exceptions
+import test_data
 
 """Defines dynamic test blocks."""
 
@@ -608,5 +611,27 @@ def test_disconnect_all(seventh_scenario):
     assert [c.outputs[0],
             d.inputs[0]] not in block_registry.Registry._graph.edges
 
+
 def test_save_output_data():
-    pass
+
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    test_data.sin_block.save_output_data(0, dir_path + "/sin.json")
+    test_dict = {"data_type": "Signal",
+                 "name": test_data.sin_signal.meta_data.name,
+                 "quantity_a": test_data.sin_signal.meta_data.quantity_a,
+                 "symbol_a": test_data.sin_signal.meta_data.symbol_a,
+                 "unit_a": test_data.sin_signal.meta_data.unit_a,
+                 "quantity_o": test_data.sin_signal.meta_data.quantity_o,
+                 "symbol_o": test_data.sin_signal.meta_data.symbol_o,
+                 "unit_o": test_data.sin_signal.meta_data.unit_o,
+                 "abscissa_start": test_data.sin_signal.abscissa_start,
+                 "values": test_data.sin_signal.values,
+                 "increment": test_data.sin_signal.increment,
+                 "ordinate": str(test_data.sin_signal.ordinate)}
+    with open(dir_path + "/sin.json", "r") as save_file:
+        test_dict_saved = json.load(save_file)
+    assert test_dict == test_dict_saved
+
+    file_list = [f for f in os.listdir(dir_path) if f.endswith(".json")]
+    for f in file_list:
+        os.remove(os.path.join(dir_path, f))
