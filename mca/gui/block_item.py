@@ -3,6 +3,7 @@ from mca.gui.parameter_window import ParameterWindow
 from mca.gui.io_items import InputItem, OutputItem
 from mca import framework
 from mca import exceptions
+import os
 
 
 class BlockItem(QtWidgets.QGraphicsItem):
@@ -29,7 +30,6 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.outputs = []
         self.block = block_class()
 
-        self.difference = 0
         self.setToolTip(type(self.block).description)
         self.parameter_window()
         self.setFlag(self.ItemIsMovable, True)
@@ -39,12 +39,20 @@ class BlockItem(QtWidgets.QGraphicsItem):
         for o in self.block.outputs:
             self.add_new_output(o)
 
+        self.resize_mode = False
+        self.last_point = (None, None)
+
     def boundingRect(self, *args, **kwargs):
         return QtCore.QRectF(0, 0, self.width, self.height)
 
     def paint(self, painter, option, widget):
         painter.setBrush(QtGui.QBrush(QtGui.QColor(122, 122, 122)))
         painter.drawRoundedRect(0, 0, self.width, self.height, 5, 5)
+        painter.setBrush(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
+        painter.drawRoundedRect(self.width-20, self.height-20, 20, 20, 5, 5)
+        painter.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0)))
+        painter.drawLine(self.width -10, self.height -20, self.width -10, self.height)
+        painter.drawLine(self.width -20, self.height - 10, self.width, self.height-10)
 
     def contextMenuEvent(self, e):
         menu = QtWidgets.QMenu(self.scene().views()[0])
@@ -102,16 +110,14 @@ class BlockItem(QtWidgets.QGraphicsItem):
                               self.input_width, self.input_height, input, self)
         self.inputs.append(new_input)
         if len(self.inputs) * (self.input_height + self.input_dist) + 5 > self.height:
-            self.height = len(self.inputs) * (self.input_height + self.input_dist) + 5
-            self.update()
+            self.resize(self.width, len(self.inputs) * (self.input_height + self.input_dist) + 5)
 
     def add_new_output(self, output):
         new_output = OutputItem(self.width, len(self.outputs)*(self.output_height + self.output_dist) + 5,
                                 self.output_width, self.output_height, output, self)
         self.outputs.append(new_output)
         if len(self.outputs) * (self.output_height + self.output_dist) + 5 > self.height:
-            self.height = len(self.outputs) * (self.output_height + self.output_dist) + 5
-            self.update()
+            self.resize(self.width, len(self.outputs) * (self.output_height + self.output_dist) + 5)
 
     def itemChange(self, change, value):
         if change == self.ItemPositionChange:
@@ -120,3 +126,41 @@ class BlockItem(QtWidgets.QGraphicsItem):
             for o in self.outputs:
                 o.update_connection_line()
         return super().itemChange(change, value)
+
+    def mouseDoubleClickEvent(self, e):
+        if self.block.parameters:
+            self.parameter_window()
+
+    def mousePressEvent(self, e):
+        self.setZValue(1.0)
+        if e.pos().x() > self.width - 20 and e.pos().y() > self.height - 20:
+            self.resize_mode = True
+        super().mousePressEvent(e)
+
+    def mouseMoveEvent(self, e):
+        if self.resize_mode:
+            if self.last_point[0] is not None and self.last_point[1] is not None:
+                self.resize(self.width + e.screenPos().x() - self.last_point[0], self.height + e.screenPos().y() - self.last_point[1])
+            self.last_point = (e.screenPos().x(), e.screenPos().y())
+        else:
+            super().mouseMoveEvent(e)
+
+    def mouseReleaseEvent(self, e):
+        self.setZValue(0.0)
+        self.resize_mode = False
+        self.last_point = (None, None)
+        super().mouseReleaseEvent(e)
+
+    def resize(self, width, height):
+        if max(len(self.outputs) * (self.output_height + self.output_dist) + 5,
+               len(self.inputs) * (self.input_height + self.input_dist) + 5) > height:
+            return
+        if width < 100:
+            return
+        for o in self.outputs:
+            o.setPos(self.width, o.pos().y())
+            o.update_connection_line()
+        self.scene().update(self.scenePos().x(), self.scenePos().y(), self.width, self.height)
+        self.height = height
+        self.width = width
+        self.update()
