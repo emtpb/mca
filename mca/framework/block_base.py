@@ -2,7 +2,7 @@ import json
 from . import block_io, block_registry, data_types
 from mca import exceptions
 from . import parameters
-
+from mca.language import _
 
 class Block:
     """Basic Block class of the Multi Channel Analyzer.
