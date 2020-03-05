@@ -1,6 +1,7 @@
 import json
 from . import block_io, block_registry, data_types
 from mca import exceptions
+from . import parameters
 
 
 class Block:
@@ -15,16 +16,15 @@ class Block:
         parameters: List that contains all parameters.
     """
 
-    def __init__(self, name=None):
+    def __init__(self):
         """Initialize the main Block class.
 
         Args:
             name (str): Name of the Block.
         """
-        self.name = name
         self.inputs = []
         self.outputs = []
-        self.parameters = {}
+        self.parameters = {"name": parameters.StrParameter(_("Name"), max_length=35, value=self.name)}
 
     def apply_parameter_changes(self):
         """Applies all changes to the parameters and triggers an update."""

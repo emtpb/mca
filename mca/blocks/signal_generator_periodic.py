@@ -31,7 +31,7 @@ class SignalGeneratorPeriodic(mca.framework.Block):
                 "Test", _("Time"), "t", "s", _("Voltage"), "U", "V"
             )
         )
-        self.parameters = {
+        self.parameters.update({
             "function": mca.framework.parameters.ChoiceParameter(
                 _("Function"), choices=[("rect", _("Rectangle")), ("tri", _("Triangle")), ("sin", _("Sine"))],
                 value="sin"
@@ -46,7 +46,7 @@ class SignalGeneratorPeriodic(mca.framework.Block):
                                                             min_=1, value=628),
             "increment": mca.framework.parameters.FloatParameter(
                 _("Increment"), min_=0, value=0.01)
-        }
+        })
         self.read_kwargs(kwargs)
 
     def _process(self):

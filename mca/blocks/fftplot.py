@@ -28,7 +28,7 @@ class FFTPlot(mca.framework.Block):
         super().__init__()
 
         self._new_input()
-        self.parameters = {
+        self.parameters.update({
             "shift": mca.framework.parameters.ChoiceParameter(
                 _("Shift to ordinate"),
                 [("no_shift", _("No shift")), ("shift", _("Shift")),
@@ -41,7 +41,7 @@ class FFTPlot(mca.framework.Block):
                  ("absolute", _("Absolute")), ("phase", _("Phase"))],
                 value=_("absolute"),
             ),
-        }
+        })
         self.read_kwargs(kwargs)
         self.fig = plt.figure()
 
