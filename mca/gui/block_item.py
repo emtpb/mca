@@ -3,7 +3,6 @@ from mca.gui.parameter_window import ParameterWindow
 from mca.gui.io_items import InputItem, OutputItem
 from mca import framework
 from mca import exceptions
-import os
 
 
 class BlockItem(QtWidgets.QGraphicsItem):
@@ -20,11 +19,6 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.output_height = 20
         self.output_width = 10
         self.output_dist = 10
-
-        self.text = QtWidgets.QGraphicsTextItem()
-        self.text.setParentItem(self)
-        self.text.setPos(0, 0)
-        self.text.setPlainText(block_class.name)
 
         self.inputs = []
         self.outputs = []
@@ -48,11 +42,14 @@ class BlockItem(QtWidgets.QGraphicsItem):
     def paint(self, painter, option, widget):
         painter.setBrush(QtGui.QBrush(QtGui.QColor(122, 122, 122)))
         painter.drawRoundedRect(0, 0, self.width, self.height, 5, 5)
+        painter.drawText(5, 2, self.width-5, 20, 0, self.block.parameters["name"].value)
+        if self.block.parameters["name"].value != self.block.name:
+            painter.drawText(5, 22, self.width-5, 20, 0, self.block.name)
         painter.setBrush(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
         painter.drawRoundedRect(self.width-20, self.height-20, 20, 20, 5, 5)
         painter.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0)))
-        painter.drawLine(self.width -10, self.height -20, self.width -10, self.height)
-        painter.drawLine(self.width -20, self.height - 10, self.width, self.height-10)
+        painter.drawLine(self.width-10, self.height-20, self.width-10, self.height)
+        painter.drawLine(self.width-20, self.height-10, self.width, self.height-10)
 
     def contextMenuEvent(self, e):
         menu = QtWidgets.QMenu(self.scene().views()[0])
@@ -104,6 +101,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         if self.block.parameters:
             window = ParameterWindow(self.block)
             window.exec_()
+        self.update()
 
     def add_new_input(self, input):
         new_input = InputItem(-self.input_width, len(self.inputs)*(self.input_height + self.input_dist) + 5,
@@ -158,9 +156,11 @@ class BlockItem(QtWidgets.QGraphicsItem):
         if width < 100:
             return
         for o in self.outputs:
-            o.setPos(self.width, o.pos().y())
+            o.setPos(width, o.pos().y())
             o.update_connection_line()
         self.scene().update(self.scenePos().x(), self.scenePos().y(), self.width, self.height)
         self.height = height
         self.width = width
+
         self.update()
+
