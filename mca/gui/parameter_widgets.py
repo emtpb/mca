@@ -31,3 +31,13 @@ class ChoiceWidget(QtWidgets.QComboBox):
         index = self.findText(self.currentText())
         data = self.itemData(index)
         self.parameter.value = data
+
+
+class StringWidget(QtWidgets.QLineEdit):
+    def __init__(self, parameter, parent):
+        QtWidgets.QLineEdit.__init__(self)
+        self.parameter = parameter
+        self.setParent(parent)
+
+    def set_parameter(self):
+        self.parameter.value = self.text()

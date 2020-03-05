@@ -74,7 +74,8 @@ class ParameterWindow(QtWidgets.QDialog):
                 name_label = QtWidgets.QLabel(self.layout_widget)
                 self.layout.addWidget(name_label, index, 0, 1, 1)
                 name_label.setText(block_parameter.name)
-                line_edit = QtWidgets.QLineEdit(self.layout_widget)
+                line_edit = parameter_widgets.StringWidget(block_parameter, self.layout_widget)
+                QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"), line_edit.set_parameter)
                 line_edit.setText(block_parameter.value)
                 self.layout.addWidget(line_edit, index, 1, 1, 1)
 
