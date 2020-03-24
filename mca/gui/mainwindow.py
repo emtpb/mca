@@ -9,6 +9,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
+        self.exit_code_reboot = 105
         self.resize(1000, 800)
         self.setWindowTitle("MCA")
 
@@ -20,6 +21,9 @@ class MainWindow(QtWidgets.QMainWindow):
         exit_action.setStatusTip("Close Application")
         exit_action.triggered.connect(self.exit_app)
         self.file_menu.addAction(exit_action)
+        restart_action = QtWidgets.QAction("Restart", self)
+        restart_action.triggered.connect(self.restart_app)
+        self.file_menu.addAction(restart_action)
 
         self.main_widget = QtWidgets.QSplitter(QtCore.Qt.Horizontal)
         self.blocks = [m[1] for m in inspect.getmembers(mca.blocks, inspect.isclass)]
@@ -33,6 +37,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.main_widget.setSizes([50, 200])
         self.setCentralWidget(self.main_widget)
 
+    def restart_app(self):
+        return QtCore.QCoreApplication.exit(self.exit_code_reboot)
+
     @QtCore.Slot()
     def exit_app(self):
-        QtWidgets.QApplication.quit()
+        QtWidgets.QApplication.quit(4)
