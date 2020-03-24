@@ -7,7 +7,7 @@ from mca import exceptions
 
 class BlockItem(QtWidgets.QGraphicsItem):
 
-    def __init__(self, x, y, block_class):
+    def __init__(self, scene, x, y, block_class):
         QtWidgets.QGraphicsItem.__init__(self)
         self.setPos(x, y)
 
@@ -36,6 +36,30 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.resize_mode = False
         self.last_point = (None, None)
 
+        self.menu = QtWidgets.QMenu(scene.views()[0])
+        if self.block.parameters:
+            self.parameter_action = QtWidgets.QAction("Edit Parameters", scene.views()[0])
+            self.parameter_action.triggered.connect(self.parameter_window)
+            self.menu.addAction(self.parameter_action)
+        if isinstance(self.block, framework.DynamicBlock):
+            self.add_input_action = QtWidgets.QAction("Add Input", scene.views()[0])
+            self.add_input_action.triggered.connect(self.new_input)
+            if len(self.block.inputs) == self.block.dynamic_input[1]:
+                self.add_input_action.setEnabled(False)
+            self.menu.addAction(self.add_input_action)
+            self.delete_input_action = QtWidgets.QAction("Delete Input", scene.views()[0])
+            self.delete_input_action.triggered.connect(self.delete_input)
+            if len(self.block.inputs) == self.block.dynamic_input[0]:
+                self.delete_input_action.setEnabled(False)
+            self.menu.addAction(self.delete_input_action)
+        if callable(getattr(self.block, "show", None)):
+            self.show_plot_action = QtWidgets.QAction("Show Plot", scene.views()[0])
+            self.show_plot_action.triggered.connect(self.block.show)
+            self.menu.addAction(self.show_plot_action)
+        self.delete_action = QtWidgets.QAction("Delete Block", scene.views()[0])
+        self.delete_action.triggered.connect(self.delete)
+        self.menu.addAction(self.delete_action)
+
     def boundingRect(self, *args, **kwargs):
         return QtCore.QRectF(0, 0, self.width, self.height)
 
@@ -52,42 +76,25 @@ class BlockItem(QtWidgets.QGraphicsItem):
         painter.drawLine(self.width-20, self.height-10, self.width, self.height-10)
 
     def contextMenuEvent(self, e):
-        menu = QtWidgets.QMenu(self.scene().views()[0])
-        if self.block.parameters:
-            parameter_action = QtWidgets.QAction("Edit Parameters", self.scene().views()[0])
-            parameter_action.triggered.connect(self.parameter_window)
-            menu.addAction(parameter_action)
-        if isinstance(self.block, framework.DynamicBlock):
-            add_input_action = QtWidgets.QAction("Add Input", self.scene().views()[0])
-            add_input_action.triggered.connect(self.new_input)
-            menu.addAction(add_input_action)
-            delete_input_action = QtWidgets.QAction("Delete Input", self.scene().views()[0])
-            delete_input_action.triggered.connect(self.delete_input)
-            menu.addAction(delete_input_action)
-        if callable(getattr(self.block, "show", None)):
-            show_plot_action = QtWidgets.QAction("Show Plot", self.scene().views()[0])
-            show_plot_action.triggered.connect(self.block.show)
-            menu.addAction(show_plot_action)
-        delete_action = QtWidgets.QAction("Delete Block", self.scene().views()[0])
-        delete_action.triggered.connect(self.delete)
-        menu.addAction(delete_action)
-        menu.exec_(e.screenPos())
+        self.menu.exec_(e.screenPos())
 
     def delete_input(self):
-        try:
-            self.inputs[-1].disconnect()
-            self.block.delete_input(-1)
-            self.scene().removeItem(self.inputs.pop(-1))
-        except exceptions.InputOutputError:
-            return
+        self.inputs[-1].disconnect()
+        self.block.delete_input(-1)
+        self.scene().removeItem(self.inputs.pop(-1))
+        if len(self.block.inputs) == self.block.dynamic_input[0]:
+            self.delete_input_action.setEnabled(False)
+        if len(self.block.inputs) < self.block.dynamic_input[1]:
+            self.add_input_action.setEnabled(True)
 
     def new_input(self):
-        try:
-            new_mca_input = framework.block_io.Input(self.block)
-            self.block.add_input(new_mca_input)
-            self.add_new_input(new_mca_input)
-        except exceptions.InputOutputError:
-            return
+        new_mca_input = framework.block_io.Input(self.block)
+        self.block.add_input(new_mca_input)
+        self.add_new_input(new_mca_input)
+        if len(self.block.inputs) == self.block.dynamic_input[1]:
+            self.add_input_action.setEnabled(False)
+        if len(self.block.inputs) > self.block.dynamic_input[0]:
+            self.delete_input_action.setEnabled(True)
 
     def delete(self):
         for i in self.inputs:
