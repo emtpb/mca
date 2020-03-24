@@ -44,12 +44,12 @@ class BlockItem(QtWidgets.QGraphicsItem):
         if isinstance(self.block, framework.DynamicBlock):
             self.add_input_action = QtWidgets.QAction("Add Input", scene.views()[0])
             self.add_input_action.triggered.connect(self.new_input)
-            if len(self.block.inputs) == self.block.dynamic_input[1]:
+            if self.block.dynamic_input[1] and len(self.block.inputs) == self.block.dynamic_input[1]:
                 self.add_input_action.setEnabled(False)
             self.menu.addAction(self.add_input_action)
             self.delete_input_action = QtWidgets.QAction("Delete Input", scene.views()[0])
             self.delete_input_action.triggered.connect(self.delete_input)
-            if len(self.block.inputs) == self.block.dynamic_input[0]:
+            if self.block.dynamic_input[0] and len(self.block.inputs) == self.block.dynamic_input[0]:
                 self.delete_input_action.setEnabled(False)
             self.menu.addAction(self.delete_input_action)
         if callable(getattr(self.block, "show", None)):
@@ -82,18 +82,18 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.inputs[-1].disconnect()
         self.block.delete_input(-1)
         self.scene().removeItem(self.inputs.pop(-1))
-        if len(self.block.inputs) == self.block.dynamic_input[0]:
+        if self.block.dynamic_input[0] and len(self.block.inputs) == self.block.dynamic_input[0]:
             self.delete_input_action.setEnabled(False)
-        if len(self.block.inputs) < self.block.dynamic_input[1]:
+        if self.block.dynamic_input[1] and len(self.block.inputs) < self.block.dynamic_input[1]:
             self.add_input_action.setEnabled(True)
 
     def new_input(self):
         new_mca_input = framework.block_io.Input(self.block)
         self.block.add_input(new_mca_input)
         self.add_new_input(new_mca_input)
-        if len(self.block.inputs) == self.block.dynamic_input[1]:
+        if self.block.dynamic_input[1] and len(self.block.inputs) == self.block.dynamic_input[1]:
             self.add_input_action.setEnabled(False)
-        if len(self.block.inputs) > self.block.dynamic_input[0]:
+        if self.block.dynamic_input[0] and len(self.block.inputs) > self.block.dynamic_input[0]:
             self.delete_input_action.setEnabled(True)
 
     def delete(self):
@@ -158,7 +158,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     def resize(self, width, height):
         if max(len(self.outputs) * (self.output_height + self.output_dist) + 5,
-               height < len(self.inputs) * (self.input_height + self.input_dist) + 5) > height or height <= 100:
+               height < len(self.inputs) * (self.input_height + self.input_dist) + 5) > height:
             return
         if width <= 100:
             return
