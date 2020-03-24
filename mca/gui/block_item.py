@@ -151,9 +151,9 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     def resize(self, width, height):
         if max(len(self.outputs) * (self.output_height + self.output_dist) + 5,
-               len(self.inputs) * (self.input_height + self.input_dist) + 5) > height:
+               height < len(self.inputs) * (self.input_height + self.input_dist) + 5) > height or height <= 100:
             return
-        if width < 100:
+        if width <= 100:
             return
         for o in self.outputs:
             o.setPos(width, o.pos().y())
