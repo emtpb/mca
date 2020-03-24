@@ -24,9 +24,6 @@ class MainWindow(QtWidgets.QMainWindow):
             action = QtWidgets.QAction(i[0], self)
             action.triggered.connect(self.change_language(i[1]))
             self.language_menu.addAction(action)
-        restart_action = QtWidgets.QAction("Restart", self)
-        restart_action.triggered.connect(self.restart_app)
-        self.file_menu.addAction(restart_action)
         exit_action = QtWidgets.QAction("Exit", self)
         exit_action.setShortcut("Ctrl+Q")
         exit_action.setStatusTip("Close Application")
@@ -44,9 +41,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.main_widget.setSizes([50, 200])
         self.setCentralWidget(self.main_widget)
-
-    def restart_app(self):
-        return QtCore.QCoreApplication.exit(self.exit_code_reboot)
 
     @QtCore.Slot()
     def exit_app(self):
