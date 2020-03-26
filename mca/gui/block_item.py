@@ -13,9 +13,14 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
         self.width = 100
         self.height = 100
+
+        self.min_heigth = 100
+        self.min_width = 100
+
         self.input_height = 20
         self.input_width = 10
         self.input_dist = 10
+
         self.output_height = 20
         self.output_width = 10
         self.output_dist = 10
@@ -137,6 +142,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
             self.parameter_window()
 
     def mousePressEvent(self, e):
+        if e.button() == QtCore.Qt.MouseButton.RightButton:
+            e.ignore()
         self.setZValue(1.0)
         if e.pos().x() > self.width - 20 and e.pos().y() > self.height - 20:
             self.resize_mode = True
@@ -158,9 +165,9 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     def resize(self, width, height):
         if max(len(self.outputs) * (self.output_height + self.output_dist) + 5,
-               height < len(self.inputs) * (self.input_height + self.input_dist) + 5) > height:
+               len(self.inputs) * (self.input_height + self.input_dist) + 5) > height or height < self.min_heigth:
             return
-        if width <= 100:
+        if width < self.min_width:
             return
         for o in self.outputs:
             o.setPos(width, o.pos().y())
@@ -168,6 +175,4 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.scene().update(self.scenePos().x(), self.scenePos().y(), self.width, self.height)
         self.height = height
         self.width = width
-
         self.update()
-
