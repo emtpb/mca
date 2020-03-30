@@ -4,6 +4,12 @@ from mca.framework import parameters
 from mca.gui import parameter_widgets
 from mca.language import _
 
+widget_dict = {parameters.BoolParameter: parameter_widgets.BoolWidget,
+               parameters.IntParameter: parameter_widgets.IntWidget,
+               parameters.FloatParameter: parameter_widgets.FloatWidget,
+               parameters.ChoiceParameter: parameter_widgets.ChoiceWidget,
+               parameters.StrParameter: parameter_widgets.StringWidget}
+
 
 class ParameterWindow(QtWidgets.QDialog):
     def __init__(self, block):
@@ -46,58 +52,15 @@ class ParameterWindow(QtWidgets.QDialog):
             font.setBold(True)
             parameter_label.setFont(font)
         for block_parameter, index in zip(block_parameters, range(1, len(block_parameters) + 1)):
-            if isinstance(block_parameter, parameters.FloatParameter):
+            if not isinstance(block_parameter, parameters.BoolParameter):
                 name_label = QtWidgets.QLabel(self.layout_widget)
-                self.layout.addWidget(name_label, index, 0, 1, 1)
                 name_label.setText(block_parameter.name)
-                line_edit = parameter_widgets.FloatWidget(block_parameter, self.layout_widget)
-                QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"), line_edit.set_parameter)
-                line_edit.setText(str(block_parameter.value))
-                self.layout.addWidget(line_edit, index, 1, 1, 1)
-                if block_parameter.unit:
-                    unit_label = QtWidgets.QLabel(self.layout_widget)
-                    self.layout.addWidget(unit_label, index, 2, 1, 1)
-                    unit_label.setText(block_parameter.unit)
-
-            if isinstance(block_parameter, parameters.IntParameter):
-                name_label = QtWidgets.QLabel(self.layout_widget)
                 self.layout.addWidget(name_label, index, 0, 1, 1)
-                name_label.setText(block_parameter.name)
-                line_edit = parameter_widgets.IntWidget(block_parameter, self.layout_widget)
-                QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"), line_edit.set_parameter)
-                line_edit.setText(str(block_parameter.value))
-                self.layout.addWidget(line_edit, index, 1, 1, 1)
-                if block_parameter.unit:
-                    unit_label = QtWidgets.QLabel(self.layout_widget)
-                    self.layout.addWidget(unit_label, index, 2, 1, 1)
-                    unit_label.setText(block_parameter.unit)
-
-            if isinstance(block_parameter, parameters.StrParameter):
-                name_label = QtWidgets.QLabel(self.layout_widget)
-                self.layout.addWidget(name_label, index, 0, 1, 1)
-                name_label.setText(block_parameter.name)
-                line_edit = parameter_widgets.StringWidget(block_parameter, self.layout_widget)
-                QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"), line_edit.set_parameter)
-                line_edit.setText(block_parameter.value)
-                self.layout.addWidget(line_edit, index, 1, 1, 1)
-
-            if isinstance(block_parameter, parameters.ChoiceParameter):
-                name_label = QtWidgets.QLabel(self.layout_widget)
-                self.layout.addWidget(name_label, index, 0, 1, 1)
-                name_label.setText(block_parameter.name)
-                combo_box = parameter_widgets.ChoiceWidget(block_parameter, self.layout_widget)
-                for i in range(len(block_parameter.choices)):
-                    combo_box.addItem(block_parameter.choices[i][1], userData=block_parameter.choices[i][0])
-                    if block_parameter.choices[i][0] == block_parameter.value:
-                        combo_box.setCurrentText(block_parameter.choices[i][1])
-
-                QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"), combo_box.set_parameter)
-                self.layout.addWidget(combo_box, index, 1, 1, 1)
-                if block_parameter.unit:
-                    unit_label = QtWidgets.QLabel(self.layout_widget)
-                    self.layout.addWidget(unit_label, index, 2, 1, 1)
-                    unit_label.setText(block_parameter.unit)
-
-            if isinstance(block_parameter, parameters.BoolParameter):
-                check_box = QtWidgets.QComboBox(self.layout_widget)
-                self.layout.addWidget(check_box, index, 1, 1, 1)
+            widget = widget_dict[type(block_parameter)](block_parameter, self.layout_widget)
+            widget.read_parameter()
+            QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"), widget.set_parameter)
+            self.layout.addWidget(widget, index, 1, 1, 1)
+            if block_parameter.unit:
+                unit_label = QtWidgets.QLabel(self.layout_widget)
+                self.layout.addWidget(unit_label, index, 2, 1, 1)
+                unit_label.setText(block_parameter.unit)
