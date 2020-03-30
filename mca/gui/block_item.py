@@ -7,10 +7,10 @@ from mca import exceptions
 
 class BlockItem(QtWidgets.QGraphicsItem):
 
-    def __init__(self, scene, x, y, block_class):
+    def __init__(self, view, x, y, block_class):
         QtWidgets.QGraphicsItem.__init__(self)
         self.setPos(x, y)
-
+        self.view = view
         self.width = 100
         self.height = 100
 
@@ -41,27 +41,27 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.resize_mode = False
         self.last_point = (None, None)
 
-        self.menu = QtWidgets.QMenu(scene.views()[0])
+        self.menu = QtWidgets.QMenu(self.view)
         if self.block.parameters:
-            self.parameter_action = QtWidgets.QAction("Edit Parameters", scene.views()[0])
+            self.parameter_action = QtWidgets.QAction("Edit Parameters", self.view)
             self.parameter_action.triggered.connect(self.parameter_window)
             self.menu.addAction(self.parameter_action)
         if isinstance(self.block, framework.DynamicBlock):
-            self.add_input_action = QtWidgets.QAction("Add Input", scene.views()[0])
+            self.add_input_action = QtWidgets.QAction("Add Input", self.view)
             self.add_input_action.triggered.connect(self.new_input)
             if self.block.dynamic_input[1] and len(self.block.inputs) == self.block.dynamic_input[1]:
                 self.add_input_action.setEnabled(False)
             self.menu.addAction(self.add_input_action)
-            self.delete_input_action = QtWidgets.QAction("Delete Input", scene.views()[0])
+            self.delete_input_action = QtWidgets.QAction("Delete Input", self.view)
             self.delete_input_action.triggered.connect(self.delete_input)
             if self.block.dynamic_input[0] and len(self.block.inputs) == self.block.dynamic_input[0]:
                 self.delete_input_action.setEnabled(False)
             self.menu.addAction(self.delete_input_action)
         if callable(getattr(self.block, "show", None)):
-            self.show_plot_action = QtWidgets.QAction("Show Plot", scene.views()[0])
+            self.show_plot_action = QtWidgets.QAction("Show Plot", self.view)
             self.show_plot_action.triggered.connect(self.block.show)
             self.menu.addAction(self.show_plot_action)
-        self.delete_action = QtWidgets.QAction("Delete Block", scene.views()[0])
+        self.delete_action = QtWidgets.QAction("Delete Block", self.view)
         self.delete_action.triggered.connect(self.delete)
         self.menu.addAction(self.delete_action)
 
@@ -117,14 +117,14 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     def add_new_input(self, input):
         new_input = InputItem(-self.input_width, len(self.inputs)*(self.input_height + self.input_dist) + 5,
-                              self.input_width, self.input_height, input, self)
+                              self.input_width, self.input_height, input, self.view, self)
         self.inputs.append(new_input)
         if len(self.inputs) * (self.input_height + self.input_dist) + 5 > self.height:
             self.resize(self.width, len(self.inputs) * (self.input_height + self.input_dist) + 5)
 
     def add_new_output(self, output):
         new_output = OutputItem(self.width, len(self.outputs)*(self.output_height + self.output_dist) + 5,
-                                self.output_width, self.output_height, output, self)
+                                self.output_width, self.output_height, output, self.view, self)
         self.outputs.append(new_output)
         if len(self.outputs) * (self.output_height + self.output_dist) + 5 > self.height:
             self.resize(self.width, len(self.outputs) * (self.output_height + self.output_dist) + 5)
