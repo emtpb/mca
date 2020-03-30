@@ -14,19 +14,19 @@ class MainWindow(QtWidgets.QMainWindow):
         QtWidgets.QMainWindow.__init__(self)
         self.exit_code_reboot = 105
         self.resize(1000, 800)
-        self.setWindowTitle("MCA")
+        self.setWindowTitle(_("MCA"))
 
         self.menu = self.menuBar()
-        self.file_menu = self.menu.addMenu("File")
-        self.language_menu = self.menu.addMenu("Language")
+        self.file_menu = self.menu.addMenu(_("File"))
+        self.language_menu = self.menu.addMenu(_("Language"))
         languages = [("Deutsch", "de"), ("English", "en")]
         for i in languages:
             action = QtWidgets.QAction(i[0], self)
             action.triggered.connect(self.change_language(i[1]))
             self.language_menu.addAction(action)
-        exit_action = QtWidgets.QAction("Exit", self)
+        exit_action = QtWidgets.QAction(_("Exit"), self)
         exit_action.setShortcut("Ctrl+Q")
-        exit_action.setStatusTip("Close Application")
+        exit_action.setStatusTip(_("Close Application"))
         exit_action.triggered.connect(self.exit_app)
         self.file_menu.addAction(exit_action)
 
@@ -49,7 +49,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def change_language(self, new_language):
         def tmp():
             msg_box = QtWidgets.QMessageBox()
-            msg_box.setText("Changes will be applied after restart.")
+            msg_box.setText(_("Changes will be applied after restart."))
             msg_box.exec()
             config.Config()["language"] = new_language
         return tmp

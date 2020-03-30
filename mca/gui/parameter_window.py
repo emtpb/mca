@@ -1,6 +1,8 @@
 from PySide2 import QtWidgets, QtCore, QtGui
+
 from mca.framework import parameters
 from mca.gui import parameter_widgets
+from mca.language import _
 
 
 class ParameterWindow(QtWidgets.QDialog):
@@ -8,7 +10,7 @@ class ParameterWindow(QtWidgets.QDialog):
         QtWidgets.QDialog.__init__(self)
         self.block = block
         self.resize(500, 400)
-        self.setWindowTitle("Edit")
+        self.setWindowTitle(_("Edit"))
         self.setMaximumSize(QtCore.QSize(500, 400))
         self.buttonBox = QtWidgets.QDialogButtonBox(self)
         self.buttonBox.setGeometry(QtCore.QRect(140, 360, 329, 23))
@@ -35,7 +37,7 @@ class ParameterWindow(QtWidgets.QDialog):
     def display_parameters(self):
         block_parameters = self.block.parameters.values()
         if block_parameters:
-            parameter_label = QtWidgets.QLabel("Parameters:", self.layout_widget)
+            parameter_label = QtWidgets.QLabel(_("Parameters:"), self.layout_widget)
             self.layout.addWidget(parameter_label, 0, 0, 1, 1)
             font = QtGui.QFont()
             font.setFamily("TeXGyreHeros")

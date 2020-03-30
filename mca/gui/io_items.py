@@ -16,7 +16,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         self.connection_line = None
 
         self.menu = QtWidgets.QMenu(self.view)
-        self.disconnect_action = QtWidgets.QAction("Disconnect", self.view)
+        self.disconnect_action = QtWidgets.QAction(_("Disconnect"), self.view)
         self.disconnect_action.triggered.connect(self.disconnect)
         self.menu.addAction(self.disconnect_action)
 
@@ -58,7 +58,7 @@ class InputItem(QtWidgets.QGraphicsItem):
                 except exceptions.BlockCircleError:
                     self.scene().removeItem(self.connection_line)
                     self.connection_line = None
-                    QtWidgets.QMessageBox().warning(None, "MCA", "Cyclic structures are not allowed.")
+                    QtWidgets.QMessageBox().warning(None, _("MCA"), _("Cyclic structures are not allowed."))
                     return
         self.scene().removeItem(self.connection_line)
         self.connection_line = None
@@ -94,7 +94,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
         self.connection_lines = []
 
         self.menu = QtWidgets.QMenu(self.view)
-        self.disconnect_action = QtWidgets.QAction("Disconnect", self.view)
+        self.disconnect_action = QtWidgets.QAction(_("Disconnect"), self.view)
         self.disconnect_action.triggered.connect(self.disconnect)
         self.menu.addAction(self.disconnect_action)
 
@@ -136,7 +136,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
                     return
                 except exceptions.BlockCircleError:
                     self.scene().removeItem(self.connection_lines.pop(-1))
-                    QtWidgets.QMessageBox().warning(None, "MCA", "Cyclic structures are not allowed.")
+                    QtWidgets.QMessageBox().warning(None, _("MCA"), _("Cyclic structures are not allowed."))
                     return
         self.scene().removeItem(self.connection_lines.pop(-1))
 

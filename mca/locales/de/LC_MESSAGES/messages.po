@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2020-01-10 16:53+0100\n"
+"POT-Creation-Date: 2020-03-30 13:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"Generated-By: Babel 2.8.0\n"
 
 #: blocks/absolute.py:11
 msgid "AbsoluteBlock"
@@ -28,12 +28,14 @@ msgid "Computes the absolute of the input signal."
 msgstr "Berechnet den Betrag des Eingangssignals."
 
 #: blocks/absolute.py:25 blocks/adder.py:31 blocks/real_imag.py:24
-#: blocks/real_imag.py:29 blocks/signal_generator_periodic.py:31
+#: blocks/real_imag.py:29 blocks/signal_generator_arbitrary.py:22
+#: blocks/signal_generator_periodic.py:31
 msgid "Time"
 msgstr "Zeit"
 
 #: blocks/absolute.py:26 blocks/adder.py:31 blocks/fft.py:21
 #: blocks/real_imag.py:24 blocks/real_imag.py:29
+#: blocks/signal_generator_arbitrary.py:22
 #: blocks/signal_generator_periodic.py:31
 msgid "Voltage"
 msgstr "Spannung"
@@ -82,7 +84,7 @@ msgstr "Verschieben und nur positive Frequenzen"
 
 #: blocks/fftplot.py:36
 msgid "no_shift"
-msgstr ""
+msgstr "Kein Verschieben"
 
 #: blocks/fftplot.py:39
 msgid "Plot Mode"
@@ -106,7 +108,7 @@ msgstr "Phase"
 
 #: blocks/fftplot.py:42
 msgid "absolute"
-msgstr ""
+msgstr "Betrag"
 
 #: blocks/real_imag.py:16
 msgid ""
@@ -115,6 +117,14 @@ msgid ""
 msgstr ""
 "Teilt Real- und Imaginärteil the Eingangssignals in zwei Ausgangssignale "
 "auf."
+
+#: blocks/signal_generator_arbitrary.py:14
+msgid "SignalGeneratorArbitrary"
+msgstr "SignalGenratorArbiträr"
+
+#: blocks/signal_generator_arbitrary.py:15
+msgid "Loads arbitrary data to generate a signal on its output."
+msgstr "Läd arbiträre Daten um ein Signal an seinem Output zu generieren."
 
 #: blocks/signal_generator_periodic.py:23
 msgid "Generates a Sinus, a Rectangle function or a Triangle function."
@@ -146,9 +156,81 @@ msgstr "Werte"
 msgid "Increment"
 msgstr "Inkrement"
 
-#: blocks/signalplot.py:16
+#: blocks/signal_plot.py:16
 msgid "Plots all input signals in matplotlib."
 msgstr "Plottet alle Eingangssignale in matplotlib."
+
+#: framework/block_base.py:27
+msgid "Name"
+msgstr "Name"
+
+#: gui/block_display.py:8
+msgid "Zoom in"
+msgstr "Reinzoomen"
+
+#: gui/block_display.py:13
+msgid "Zoom out"
+msgstr "Rauszoomen"
+
+#: gui/block_item.py:47
+msgid "Edit Parameters"
+msgstr "Parameter bearbeiten"
+
+#: gui/block_item.py:51
+msgid "Add Input"
+msgstr "Input hinzufügen"
+
+#: gui/block_item.py:56
+msgid "Delete Input"
+msgstr "Input löschen"
+
+#: gui/block_item.py:62
+msgid "Show Plot"
+msgstr "Plot zeigen"
+
+#: gui/block_item.py:65
+msgid "Delete Block"
+msgstr "Block löschen"
+
+#: gui/io_items.py:19 gui/io_items.py:97
+msgid "Disconnect"
+msgstr "Verbindung trennen"
+
+#: gui/io_items.py:61 gui/io_items.py:139 gui/mainwindow.py:17
+msgid "MCA"
+msgstr "MKA"
+
+#: gui/io_items.py:61 gui/io_items.py:139
+msgid "Cyclic structures are not allowed."
+msgstr "Zyklische Strukturen sind nicht erlaubt."
+
+#: gui/mainwindow.py:20
+msgid "File"
+msgstr "Datei"
+
+#: gui/mainwindow.py:21
+msgid "Language"
+msgstr "Sprache"
+
+#: gui/mainwindow.py:27
+msgid "Exit"
+msgstr "Verlassen"
+
+#: gui/mainwindow.py:29
+msgid "Close Application"
+msgstr "Programm beenden"
+
+#: gui/mainwindow.py:52
+msgid "Changes will be applied after restart."
+msgstr "Einstellungen werden nach Neustart übernommen."
+
+#: gui/parameter_window.py:13
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: gui/parameter_window.py:40
+msgid "Parameters:"
+msgstr "Parameter:"
 
 #~ msgid "Starting point of the FFT"
 #~ msgstr "Startpunkt der FFT"

@@ -1,9 +1,10 @@
 from PySide2 import QtWidgets, QtCore, QtGui
+
 from mca.gui.parameter_window import ParameterWindow
 from mca.gui.io_items import InputItem, OutputItem
 from mca import framework
 from mca import exceptions
-
+from mca.language import _
 
 class BlockItem(QtWidgets.QGraphicsItem):
 
@@ -43,25 +44,25 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
         self.menu = QtWidgets.QMenu(self.view)
         if self.block.parameters:
-            self.parameter_action = QtWidgets.QAction("Edit Parameters", self.view)
+            self.parameter_action = QtWidgets.QAction(_("Edit Parameters"), self.view)
             self.parameter_action.triggered.connect(self.parameter_window)
             self.menu.addAction(self.parameter_action)
         if isinstance(self.block, framework.DynamicBlock):
-            self.add_input_action = QtWidgets.QAction("Add Input", self.view)
+            self.add_input_action = QtWidgets.QAction(_("Add Input"), self.view)
             self.add_input_action.triggered.connect(self.new_input)
             if self.block.dynamic_input[1] and len(self.block.inputs) == self.block.dynamic_input[1]:
                 self.add_input_action.setEnabled(False)
             self.menu.addAction(self.add_input_action)
-            self.delete_input_action = QtWidgets.QAction("Delete Input", self.view)
+            self.delete_input_action = QtWidgets.QAction(_("Delete Input"), self.view)
             self.delete_input_action.triggered.connect(self.delete_input)
             if self.block.dynamic_input[0] and len(self.block.inputs) == self.block.dynamic_input[0]:
                 self.delete_input_action.setEnabled(False)
             self.menu.addAction(self.delete_input_action)
         if callable(getattr(self.block, "show", None)):
-            self.show_plot_action = QtWidgets.QAction("Show Plot", self.view)
+            self.show_plot_action = QtWidgets.QAction(_("Show Plot"), self.view)
             self.show_plot_action.triggered.connect(self.block.show)
             self.menu.addAction(self.show_plot_action)
-        self.delete_action = QtWidgets.QAction("Delete Block", self.view)
+        self.delete_action = QtWidgets.QAction(_("Delete Block"), self.view)
         self.delete_action.triggered.connect(self.delete)
         self.menu.addAction(self.delete_action)
 

@@ -1,16 +1,18 @@
 from PySide2 import QtWidgets, QtCore
+
 from mca.gui import block_item
+from mca.language import _
 
 
 class BlockView(QtWidgets.QGraphicsView):
     def __init__(self, scene, parent):
         QtWidgets.QGraphicsView.__init__(self, scene=scene, parent=parent)
-        zoom_in_action = QtWidgets.QAction("Zoom in", self)
+        zoom_in_action = QtWidgets.QAction(_("Zoom in"), self)
         zoom_in_action.setShortcut("Ctrl++")
         zoom_in_action.triggered.connect(self.zoom_in)
         self.addAction(zoom_in_action)
 
-        zoom_out_action = QtWidgets.QAction("Zoom out", self)
+        zoom_out_action = QtWidgets.QAction(_("Zoom out"), self)
         zoom_out_action.setShortcut("Ctrl+-")
         zoom_out_action.triggered.connect(self.zoom_out)
         self.addAction(zoom_out_action)
