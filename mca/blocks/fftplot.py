@@ -33,13 +33,13 @@ class FFTPlot(mca.framework.Block):
                 _("Shift to ordinate"),
                 [("no_shift", _("No shift")), ("shift", _("Shift")),
                  ("shift_positive", _("Shift and only positive frequencies"))],
-                value=_("no_shift"),
+                value="no_shift",
             ),
             "plot_mode": mca.framework.parameters.ChoiceParameter(
                 _("Plot Mode"),
                 [("real", _("Real")), ("imaginary", _("Imaginary")),
                  ("absolute", _("Absolute")), ("phase", _("Phase"))],
-                value=_("absolute"),
+                value="absolute",
             ),
         })
         self.read_kwargs(kwargs)
