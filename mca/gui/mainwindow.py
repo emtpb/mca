@@ -1,6 +1,5 @@
 from PySide2 import QtWidgets, QtCore
 import inspect
-import importlib
 
 import mca.blocks
 from mca.gui import block_list, block_display
@@ -9,7 +8,17 @@ from mca.language import _
 
 
 class MainWindow(QtWidgets.QMainWindow):
+    """Mainwindow of the mca. Holds the main widgets of the application.
 
+    Attributes:
+        menu: Menu bar of the application.
+        file_menu: File menu.
+        langauge_menu: Language menu.
+        blocks (list): List of all block classes.
+        main_widget: Splitter widget to split the :class:`.BlockList` and the :class:`.BlockScene`.
+        scene: :class:`.BlockScene` to manage and hold blocks.
+        view: :class:`.BlockView` to visualize the items of the :class:`.BlockScene`.
+    """
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         self.exit_code_reboot = 105
@@ -24,6 +33,7 @@ class MainWindow(QtWidgets.QMainWindow):
             action = QtWidgets.QAction(i[0], self)
             action.triggered.connect(self.change_language(i[1]))
             self.language_menu.addAction(action)
+
         exit_action = QtWidgets.QAction(_("Exit"), self)
         exit_action.setShortcut("Ctrl+Q")
         exit_action.setStatusTip(_("Close Application"))
@@ -44,9 +54,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
     @QtCore.Slot()
     def exit_app(self):
+        """Quit the application."""
         QtWidgets.QApplication.quit()
 
     def change_language(self, new_language):
+        """Change the language in the config.
+
+        Args:
+            new_language (str): New language which should be applied.
+        """
         def tmp():
             msg_box = QtWidgets.QMessageBox()
             msg_box.setText(_("Changes will be applied after restart."))

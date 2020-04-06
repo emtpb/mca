@@ -5,7 +5,16 @@ from mca.language import _
 
 
 class BlockView(QtWidgets.QGraphicsView):
+    """Class for visualizing the blocks in the connected :class:`.BlockScene`. Manages how blocks are displayed like
+    deciding which :class:`.BlockItem` or `.ConnectionLine` is painted over other colliding items.
+    """
     def __init__(self, scene, parent):
+        """Initialize BlockView class.
+
+        Args:
+            scene: Scene belonging to this view which holds the items to display.
+            parent: Parent of this widget.
+        """
         QtWidgets.QGraphicsView.__init__(self, scene=scene, parent=parent)
         zoom_in_action = QtWidgets.QAction(_("Zoom in"), self)
         zoom_in_action.setShortcut("Ctrl++")
@@ -17,40 +26,57 @@ class BlockView(QtWidgets.QGraphicsView):
         zoom_out_action.triggered.connect(self.zoom_out)
         self.addAction(zoom_out_action)
 
-    @QtCore.Slot()
     def zoom_in(self):
+        """Zooms in by scaling the size of all items."""
         self.scale(1.2, 1.2)
 
     def zoom_out(self):
+        """Zooms out by scaling the size of all items."""
         self.scale(1 / 1.2, 1 / 1.2)
 
 
 class BlockScene(QtWidgets.QGraphicsScene):
+    """Main class for basic operations with graphic items. This class manages for example adding items,
+    finding items or removing items from itself.
+    """
     def __init__(self, parent):
+        """Initialize BlockScene class.
+
+        Args:
+            parent: Parent of this widget.
+        """
         QtWidgets.QGraphicsScene.__init__(self, parent=parent)
         self.setSceneRect(0, 0, 1000, 800)
-        self.setStickyFocus(True)
-        self.mouse_pos = None
 
-    def dragEnterEvent(self, e):
-        if e.mimeData().hasText:
-            e.accept()
+    def dragEnterEvent(self, event):
+        """Reimplements the event when a drag enters this widget. Accepts only events
+        that were created from this application.
+        """
+        if event.source() in self.parent().children():
+            event.accept()
         else:
-            e.ignore()
+            event.ignore()
 
-    def dragMoveEvent(self, e):
-        if e.mimeData().hasText:
-            e.accept()
+    def dragMoveEvent(self, event):
+        """Reimplements the event when a drag moves in this widget. Accepts only events
+        that were created from this application.
+        """
+        if event.source() in self.parent().children():
+            event.accept()
         else:
-            e.ignore()
+            event.ignore()
 
-    def dropEvent(self, e):
-        if e.source() in self.parent().children():
-            e.setDropAction(QtCore.Qt.CopyAction)
-            e.accept()
-            x = e.scenePos().x()
-            y = e.scenePos().y()
-            new_block = block_item.BlockItem(self.views()[0], x, y, e.source().selectedItems()[0].data(1))
+    def dropEvent(self, event):
+        """Reimplements the event when something gets dropped in this widget. Accepts only events
+        that were created from this application. Creates a block and adds it to the scene if source
+        of the event was from an item of the :class:`.BlockList`.
+        """
+        if event.source() in self.parent().children():
+            event.setDropAction(QtCore.Qt.CopyAction)
+            event.accept()
+            x = event.scenePos().x()
+            y = event.scenePos().y()
+            new_block = block_item.BlockItem(self.views()[0], x, y, event.source().selectedItems()[0].data(1))
             self.addItem(new_block)
         else:
-            e.ignore()
+            event.ignore()

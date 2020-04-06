@@ -12,7 +12,19 @@ widget_dict = {parameters.BoolParameter: parameter_widgets.BoolWidget,
 
 
 class ParameterWindow(QtWidgets.QDialog):
+    """Window to display the parameter of a :class:`.Block`.
+
+    Attributes:
+        block: Reference of the :class:`.Block` instance.
+        layout_widget: Widget holding the layout.
+        layout: Layout which arranges the :mod:`.parameter_widgets` underneath each other.
+    """
     def __init__(self, block):
+        """Initialize ParameterWindow class.
+
+        Args:
+            block: Reference of the :class:`.Block` instance.
+        """
         QtWidgets.QDialog.__init__(self)
         self.block = block
         self.resize(500, 400)
@@ -41,6 +53,9 @@ class ParameterWindow(QtWidgets.QDialog):
         QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"), block.apply_parameter_changes)
 
     def display_parameters(self):
+        """Arranges the given parameters in rows in the window underneath each other. One row includes
+        the name of the parameter as a label, the desired widget and the unit optionally.
+        """
         block_parameters = self.block.parameters.values()
         if block_parameters:
             parameter_label = QtWidgets.QLabel(_("Parameters:"), self.layout_widget)
