@@ -22,12 +22,14 @@ class RealImag(mca.framework.Block):
         self._new_output(
             meta_data=mca.framework.data_types.MetaData(
                 "Test", _("Time"), "t", "s", _("Voltage"), "U", "V"
-            )
+            ),
+            name=_("Real part")
         )
         self._new_output(
             meta_data=mca.framework.data_types.MetaData(
                 "Test", _("Time"), "t", "s", _("Voltage"), "U", "V"
-            )
+            ),
+            name=_("Imaginary part")
         )
         self._new_input()
         self.read_kwargs(kwargs)
