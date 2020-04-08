@@ -4,6 +4,7 @@ from mca import exceptions
 from . import parameters
 from mca.language import _
 
+
 class Block:
     """Basic Block class of the Multi Channel Analyzer.
     
@@ -60,7 +61,7 @@ class Block:
         for o in self.outputs:
             o.disconnect()
 
-    def _new_output(self, meta_data):
+    def _new_output(self, meta_data, name=None):
         """Creates and adds an new output to the block. Used to create new
         Outputs in the initialization of a new block.
         
@@ -72,11 +73,11 @@ class Block:
 
         self.outputs.append(
             block_registry.Registry.add_node(
-                block_io.Output(self, meta_data=meta_data)
+                block_io.Output(self, meta_data=meta_data, name=name)
             )
         )
 
-    def _new_input(self):
+    def _new_input(self, name=None):
         """Creates and adds an new Input to the block. Used to create new
         Inputs in the initialization of a new block.
         
@@ -86,7 +87,7 @@ class Block:
             :class:`.DynamicBlock`
         """
         self.inputs.append(
-            block_registry.Registry.add_node(block_io.Input(self))
+            block_registry.Registry.add_node(block_io.Input(self, name=name))
         )
 
     def check_empty_inputs(self):
