@@ -45,6 +45,9 @@ class InputItem(QtWidgets.QGraphicsItem):
         self.disconnect_action.triggered.connect(self.disconnect)
         self.menu.addAction(self.disconnect_action)
 
+        if mca_input.name:
+            self.setToolTip(mca_input.name)
+
     def boundingRect(self, *args, **kwargs):
         """Rectangle which marks where events should be invoked."""
         return QtCore.QRectF(0, 0, self.width, self.height)
@@ -157,6 +160,9 @@ class OutputItem(QtWidgets.QGraphicsItem):
         self.disconnect_action = QtWidgets.QAction(_("Disconnect"), self.view)
         self.disconnect_action.triggered.connect(self.disconnect)
         self.menu.addAction(self.disconnect_action)
+
+        if mca_output.name:
+            self.setToolTip(mca_output.name)
 
     def boundingRect(self, *args, **kwargs):
         """Rectangle which marks where events should be invoked."""
