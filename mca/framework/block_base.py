@@ -246,3 +246,9 @@ class DynamicBlock(Block):
         if self.dynamic_output[0] >= len(self.outputs):
             raise exceptions.InputOutputError("Minimum Outputs reached")
         block_registry.Registry.remove_output(self.outputs.pop(output_index))
+
+    def _process(self):
+        """Processes data from the Inputs and the parameters and puts new
+        data to the outputs.
+        """
+        raise NotImplementedError
