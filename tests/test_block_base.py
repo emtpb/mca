@@ -3,26 +3,23 @@ import pytest
 import os
 import json
 
-from mca.framework import (
-    Block,
-    DynamicBlock,
-    parameters,
-    block_io, block_registry)
+import mca.framework
 from mca import exceptions
-import test_data
 
 """Defines dynamic test blocks."""
 
 
-class DynamicInputBlock(DynamicBlock):
+class DynamicInputBlock(mca.framework.DynamicBlock):
+    name = "DynamicInputBlock"
+
     def __init__(self):
         super().__init__()
         self.dynamic_input = [1, 3]
         self.outputs.append(
-            block_registry.Registry.add_node(block_io.Output(self, None))
+            mca.framework.block_registry.Registry.add_node(mca.framework.block_io.Output(self, None))
         )
         self.inputs.append(
-            block_registry.Registry.add_node(block_io.Input(self))
+            mca.framework.block_registry.Registry.add_node(mca.framework.block_io.Input(self))
         )
         self.process_count = 0
 
@@ -34,15 +31,17 @@ class DynamicInputBlock(DynamicBlock):
         self.process_count += 1
 
 
-class DynamicOutputBlock(DynamicBlock):
+class DynamicOutputBlock(mca.framework.DynamicBlock):
+    name = "DynamicOutputBlock"
+
     def __init__(self):
         super().__init__()
         self.dynamic_output = [1, None]
         self.outputs.append(
-            block_registry.Registry.add_node(block_io.Output(self, None))
+            mca.framework.block_registry.Registry.add_node(mca.framework.block_io.Output(self, None))
         )
         self.inputs.append(
-            block_registry.Registry.add_node(block_io.Input(self))
+            mca.framework.block_registry.Registry.add_node(mca.framework.block_io.Input(self))
         )
         self.process_count = 0
 
@@ -58,17 +57,17 @@ class DynamicOutputBlock(DynamicBlock):
 """Defines test blocks with various input-output variations."""
 
 
-class TestBlock(Block):
+class TestBlock(mca.framework.Block):
     def __init__(self, inputs, outputs):
         super().__init__()
         for i in range(inputs):
             self.inputs.append(
-                block_registry.Registry.add_node(block_io.Input(self))
+                mca.framework.block_registry.Registry.add_node(mca.framework.block_io.Input(self))
             )
         for o in range(outputs):
             self.outputs.append(
-                block_registry.Registry.add_node(
-                    block_io.Output(self, None))
+                mca.framework.block_registry.Registry.add_node(
+                    mca.framework.block_io.Output(self, None))
             )
         self.process_count = 0
 
@@ -77,6 +76,8 @@ class TestBlock(Block):
 
 
 class OneOutputBlock(TestBlock):
+    name = "OneOutputBlock"
+
     def __init__(self, **kwargs):
         super().__init__(0, 1)
 
@@ -86,6 +87,8 @@ class OneOutputBlock(TestBlock):
 
 
 class OneInputBlock(TestBlock):
+    name = "OneInputBlock"
+
     def __init__(self, **kwargs):
         super().__init__(1, 0)
 
@@ -94,6 +97,8 @@ class OneInputBlock(TestBlock):
 
 
 class TwoOutputBlock(TestBlock):
+    name = "TwoOutputBlock"
+
     def __init__(self, **kwargs):
         super().__init__(0, 2)
 
@@ -104,6 +109,8 @@ class TwoOutputBlock(TestBlock):
 
 
 class TwoInputBlock(TestBlock):
+    name = "TwoInputBlock"
+
     def __init__(self, **kwargs):
         super().__init__(2, 0)
 
@@ -112,6 +119,8 @@ class TwoInputBlock(TestBlock):
 
 
 class OneInputOneOutputBlock(TestBlock):
+    name = "OneInputOneOutputBlock"
+
     def __init__(self, **kwargs):
         super().__init__(1, 1)
 
@@ -124,6 +133,8 @@ class OneInputOneOutputBlock(TestBlock):
 
 
 class TwoInputOneOutputBlock(TestBlock):
+    name = "TwoInputOneOutputBlock"
+
     def __init__(self, **kwargs):
         super().__init__(2, 1)
 
@@ -136,6 +147,8 @@ class TwoInputOneOutputBlock(TestBlock):
 
 
 class OneInputTwoOutputBlock(TestBlock):
+    name = "OneInputTwoOutputBlock"
+
     def __init__(self, **kwargs):
         super().__init__(1, 2)
 
@@ -147,6 +160,8 @@ class OneInputTwoOutputBlock(TestBlock):
 
 
 class TwoInputTwoOutputBlock(TestBlock):
+    name = "TwoInputTwoOutputBlock"
+
     def __init__(self, **kwargs):
         super().__init__(2, 2)
 
@@ -158,12 +173,14 @@ class TwoInputTwoOutputBlock(TestBlock):
 
 
 class ParameterBlock(TestBlock):
+    name = "TwoInputTwoOutputBlock"
+
     def __init__(self, **kwargs):
         self.parameters = {
-            "test_parameter": parameters.FloatParameter(
+            "test_parameter": mca.framework.parameters.FloatParameter(
                 "Test", value=0
             ),
-            "test_parameter1": parameters.IntParameter(
+            "test_parameter1": mca.framework.parameters.IntParameter(
                 "Test", value=100, min_=1
             )}
         self.read_kwargs(kwargs)
@@ -182,7 +199,7 @@ def basic_scenario():
     b.inputs[0].connect(a.outputs[0])
     a.apply_parameter_changes()
     yield a, b
-    block_registry.Registry.clear()
+    mca.framework.block_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -193,7 +210,7 @@ def second_scenario():
     b.inputs[1].connect(a.outputs[1])
     a.apply_parameter_changes()
     yield a, b
-    block_registry.Registry.clear()
+    mca.framework.block_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -204,7 +221,7 @@ def third_scenario():
     b.inputs[0].connect(a.outputs[0])
     b.inputs[1].connect(a.outputs[0])
     yield a, b
-    block_registry.Registry.clear()
+    mca.framework.block_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -216,7 +233,7 @@ def fourth_scenario():
     b.inputs[0].connect(a.outputs[0])
     c.inputs[0].connect(a.outputs[0])
     yield a, b, c
-    block_registry.Registry.clear()
+    mca.framework.block_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -228,7 +245,7 @@ def fifth_scenario():
     b.inputs[0].connect(a.outputs[0])
     c.inputs[0].connect(b.outputs[0])
     yield a, b, c
-    block_registry.Registry.clear()
+    mca.framework.block_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -243,7 +260,7 @@ def sixth_scenario():
     d.inputs[0].connect(b.outputs[0])
     d.inputs[1].connect(c.outputs[0])
     yield a, b, c, d
-    block_registry.Registry.clear()
+    mca.framework.block_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -258,16 +275,16 @@ def seventh_scenario():
     c.inputs[1].connect(b.outputs[0])
     d.inputs[0].connect(c.outputs[0])
     yield a, b, c, d
-    block_registry.Registry.clear()
+    mca.framework.block_registry.Registry.clear()
 
 
 @pytest.fixture
 def add_input_scenario():
     a = DynamicInputBlock()
-    a.add_input(block_io.Input(a))
-    a.add_input(block_io.Input(a))
+    a.add_input(mca.framework.block_io.Input(a))
+    a.add_input(mca.framework.block_io.Input(a))
     yield a
-    block_registry.Registry.clear()
+    mca.framework.block_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -297,7 +314,7 @@ def dynamic_input_scenario(add_input_scenario):
 
 def test_connect(basic_scenario):
     a, b = basic_scenario
-    assert [a.outputs[0], b.inputs[0]] in block_registry.Registry._graph.edges
+    assert [a.outputs[0], b.inputs[0]] in mca.framework.block_registry.Registry._graph.edges
 
 
 def test_connect_2():
@@ -305,7 +322,7 @@ def test_connect_2():
     b = OneInputBlock()
     with pytest.raises(exceptions.ConnectionsError):
         b.inputs[0].connect(a.inputs[0])
-    block_registry.Registry.clear()
+    mca.framework.block_registry.Registry.clear()
 
 
 def test_connect_3(basic_scenario):
@@ -321,12 +338,12 @@ def test_disconnect_input(basic_scenario):
     assert [
         a.outputs[0],
         b.inputs[0],
-    ] not in block_registry.Registry._graph.edges
+    ] not in mca.framework.block_registry.Registry._graph.edges
     b.inputs[0].disconnect()
     assert [
         a.outputs[0],
         b.inputs[0],
-    ] not in block_registry.Registry._graph.edges
+    ] not in mca.framework.block_registry.Registry._graph.edges
 
 
 def test_disconnect_output(basic_scenario):
@@ -337,23 +354,23 @@ def test_disconnect_output(basic_scenario):
     assert [
         a.outputs[0],
         b.inputs[0],
-    ] not in block_registry.Registry._graph.edges
+    ] not in mca.framework.block_registry.Registry._graph.edges
     assert [
         a.outputs[0],
         c.inputs[0],
-    ] not in block_registry.Registry._graph.edges
+    ] not in mca.framework.block_registry.Registry._graph.edges
     a.outputs[0].disconnect()
     assert [
         a.outputs[0],
         c.inputs[0],
-    ] not in block_registry.Registry._graph.edges
+    ] not in mca.framework.block_registry.Registry._graph.edges
 
 
 def test_get_output(basic_scenario):
     a, b = basic_scenario
-    assert block_registry.Registry.get_output(b.inputs[0]) is a.outputs[0]
+    assert mca.framework.block_registry.Registry.get_output(b.inputs[0]) is a.outputs[0]
     b.inputs[0].disconnect()
-    assert block_registry.Registry.get_output(b.inputs[0]) is None
+    assert mca.framework.block_registry.Registry.get_output(b.inputs[0]) is None
 
 
 def test_data_availability(basic_scenario):
@@ -512,7 +529,7 @@ def test_block_circle_error_2():
     c.inputs[1].connect(d.outputs[0])
     with pytest.raises(exceptions.BlockCircleError):
         d.inputs[1].connect(c.outputs[0])
-    block_registry.Registry.clear()
+    mca.framework.block_registry.Registry.clear()
 
 
 """Tests concerning the dynamic block."""
@@ -521,17 +538,17 @@ def test_block_circle_error_2():
 def test_add_input(add_input_scenario):
     a = add_input_scenario
     assert len(a.inputs) == 3
-    assert [a.inputs[1], a.outputs[0]] in block_registry.Registry._graph.edges
+    assert [a.inputs[1], a.outputs[0]] in mca.framework.block_registry.Registry._graph.edges
     with pytest.raises(exceptions.InputOutputError):
-        a.add_input(block_io.Input(a))
+        a.add_input(mca.framework.block_io.Input(a))
     b = DynamicOutputBlock()
     with pytest.raises(exceptions.InputOutputError):
-        b.add_input(block_io.Input(b))
+        b.add_input(mca.framework.block_io.Input(b))
 
 
 def test_add_input_2():
     a = DynamicInputBlock()
-    b = block_io.Input(a)
+    b = mca.framework.block_io.Input(a)
     a.add_input(b)
     with pytest.raises(exceptions.InputOutputError):
         a.add_input(b)
@@ -540,7 +557,7 @@ def test_add_input_2():
 def test_delete_input(delete_input_scenario):
     a = delete_input_scenario
     assert len(a.inputs) == 2
-    assert all([x in block_registry.Registry._graph.nodes() for x in a.inputs])
+    assert all([x in mca.framework.block_registry.Registry._graph.nodes() for x in a.inputs])
     a.delete_input(1)
     with pytest.raises(exceptions.InputOutputError):
         a.delete_input(0)
@@ -569,8 +586,8 @@ def test_dynamic_output_data():
     d = TwoInputBlock()
     b.apply_parameter_changes()
     a.inputs[0].connect(b.outputs[0])
-    a.add_output(block_io.Output(a, None))
-    a.add_output(block_io.Output(a, None))
+    a.add_output(mca.framework.block_io.Output(a, None))
+    a.add_output(mca.framework.block_io.Output(a, None))
     c.inputs[0].connect(a.outputs[0])
     c.inputs[1].connect(a.outputs[1])
     assert c.inputs[0].data == 1 and c.inputs[1].data == 1
@@ -578,7 +595,7 @@ def test_dynamic_output_data():
     d.inputs[1].connect(a.outputs[1])
     a.delete_output(1)
     assert d.inputs[1].data is None and d.inputs[0].data == 1
-    block_registry.Registry.clear()
+    mca.framework.block_registry.Registry.clear()
 
 
 """Tests for block convenience methods."""
@@ -605,29 +622,28 @@ def test_disconnect_all(seventh_scenario):
     a, b, c, d = seventh_scenario
     c.disconnect_all()
     assert [a.outputs[0],
-            c.inputs[0]] not in block_registry.Registry._graph.edges
+            c.inputs[0]] not in mca.framework.block_registry.Registry._graph.edges
     assert [b.outputs[0],
-            c.inputs[1]] not in block_registry.Registry._graph.edges
+            c.inputs[1]] not in mca.framework.block_registry.Registry._graph.edges
     assert [c.outputs[0],
-            d.inputs[0]] not in block_registry.Registry._graph.edges
+            d.inputs[0]] not in mca.framework.block_registry.Registry._graph.edges
 
 
-def test_save_output_data():
-
+def test_save_output_data(sin_block, sin_signal):
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    test_data.sin_block.save_output_data(0, dir_path + "/sin.json")
+    sin_block.save_output_data(0, dir_path + "/sin.json")
     test_dict = {"data_type": "Signal",
-                 "name": test_data.sin_signal.meta_data.name,
-                 "quantity_a": test_data.sin_signal.meta_data.quantity_a,
-                 "symbol_a": test_data.sin_signal.meta_data.symbol_a,
-                 "unit_a": test_data.sin_signal.meta_data.unit_a,
-                 "quantity_o": test_data.sin_signal.meta_data.quantity_o,
-                 "symbol_o": test_data.sin_signal.meta_data.symbol_o,
-                 "unit_o": test_data.sin_signal.meta_data.unit_o,
-                 "abscissa_start": test_data.sin_signal.abscissa_start,
-                 "values": test_data.sin_signal.values,
-                 "increment": test_data.sin_signal.increment,
-                 "ordinate": str(test_data.sin_signal.ordinate)}
+                 "name": sin_signal.meta_data.name,
+                 "quantity_a": sin_signal.meta_data.quantity_a,
+                 "symbol_a": sin_signal.meta_data.symbol_a,
+                 "unit_a": sin_signal.meta_data.unit_a,
+                 "quantity_o": sin_signal.meta_data.quantity_o,
+                 "symbol_o": sin_signal.meta_data.symbol_o,
+                 "unit_o": sin_signal.meta_data.unit_o,
+                 "abscissa_start": sin_signal.abscissa_start,
+                 "values": sin_signal.values,
+                 "increment": sin_signal.increment,
+                 "ordinate": str(sin_signal.ordinate)}
     with open(dir_path + "/sin.json", "r") as save_file:
         test_dict_saved = json.load(save_file)
     assert test_dict == test_dict_saved

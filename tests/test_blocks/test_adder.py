@@ -2,7 +2,6 @@ import pytest
 from mca.blocks import adder
 from mca.framework import data_types
 import numpy as np
-import test_data
 
 
 test_signal0 = data_types.Signal(None, 0, 5, 0.1, np.full((5,), 1))
@@ -21,11 +20,11 @@ test_cases = [((test_signal0, test_signal1), expected_signal0),
 
 
 @pytest.mark.parametrize("test_input, expected_signal", test_cases)
-def test_adder(test_input, expected_signal):
+def test_adder(test_input, expected_signal, test_output_block):
     a = adder.Adder()
-    b = test_data.TestBlock(test_input[0])
+    b = test_output_block(test_input[0])
     a.inputs[0].connect(b.outputs[0])
-    c = test_data.TestBlock(test_input[1])
+    c = test_output_block(test_input[1])
     a.inputs[1].connect(c.outputs[0])
     if test_input[1] == test_signal1:
         assert a.outputs[0].data == expected_signal

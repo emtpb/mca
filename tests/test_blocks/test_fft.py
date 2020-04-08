@@ -1,13 +1,12 @@
 from mca.blocks import fft
 from mca.framework import data_types
 import numpy as np
-import test_data
 
 
-def test_fft():
+def test_fft(sin_block):
     a = fft.FFT()
-    a.inputs[0].connect(test_data.sin_block.outputs[0])
-    sin = test_data.sin_block.outputs[0].data
+    a.inputs[0].connect(sin_block.outputs[0])
+    sin = sin_block.outputs[0].data
     expected_ordinate = np.fft.fft(sin.ordinate)
     increment = 1 / (sin.increment * sin.values)
     values = sin.values

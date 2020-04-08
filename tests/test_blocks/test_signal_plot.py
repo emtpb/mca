@@ -1,8 +1,8 @@
-import pytest
+import numpy as np
+
 from mca.framework import data_types, block_io, block_registry
 from mca.blocks import signal_plot
-import numpy as np
-import test_data
+
 
 abscissa = np.linspace(0, 19 * 0.1, 20)
 ordinate = np.sin(abscissa)
@@ -14,23 +14,23 @@ sin_signal_2 = data_types.Signal(data_types.MetaData("test_2", "Time", "t", "s",
                                  ordinate_2)
 
 
-def test_labels():
-    a = test_data.TestBlock(sin_signal)
+def test_labels(test_output_block):
+    a = test_output_block(sin_signal)
     b = signal_plot.SignalPlot()
     b.inputs[0].connect(a.outputs[0])
     assert b.fig.axes[0].get_xlabel() == "Time t / s"
     assert b.fig.axes[0].get_ylabel() == "Voltage U / V"
-    c = test_data.TestBlock(sin_signal)
+    c = test_output_block(sin_signal)
     b.add_input(block_io.Input(b))
     b.inputs[1].connect(c.outputs[0])
     assert b.fig.axes[0].get_xlabel() == ""
     assert b.fig.axes[0].get_ylabel() == ""
 
 
-def test_axes():
-    a = test_data.TestBlock(sin_signal)
+def test_axes(test_output_block):
+    a = test_output_block(sin_signal)
     b = signal_plot.SignalPlot()
-    c = test_data.TestBlock(sin_signal)
+    c = test_output_block(sin_signal)
     assert len(b.fig.axes) == 0
     b.inputs[0].connect(a.outputs[0])
     assert len(b.fig.axes) == 1
@@ -39,10 +39,10 @@ def test_axes():
     assert len(b.fig.axes) == 1
 
 
-def test_lines():
-    a = test_data.TestBlock(sin_signal)
+def test_lines(test_output_block):
+    a = test_output_block(sin_signal)
     b = signal_plot.SignalPlot()
-    c = test_data.TestBlock(sin_signal_2)
+    c = test_output_block(sin_signal_2)
     b.inputs[0].connect(a.outputs[0])
     assert len(b.fig.axes[0].lines) == 1
     assert np.array_equal(b.fig.axes[0].lines[0].get_xdata(), abscissa)
@@ -54,10 +54,10 @@ def test_lines():
     assert np.array_equal(b.fig.axes[0].lines[1].get_ydata(), ordinate_2)
 
 
-def test_legend():
-    a = test_data.TestBlock(sin_signal)
+def test_legend(test_output_block):
+    a = test_output_block(sin_signal)
     b = signal_plot.SignalPlot()
-    c = test_data.TestBlock(sin_signal_2)
+    c = test_output_block(sin_signal_2)
     b.inputs[0].connect(a.outputs[0])
     b.fig.axes[0].get_legend_handles_labels()[1][0] == sin_signal.meta_data.name
     b.add_input(block_io.Input(b))
