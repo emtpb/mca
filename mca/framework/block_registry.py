@@ -1,4 +1,5 @@
 import networkx as nx
+import json
 
 from . import block_io
 from mca import exceptions
@@ -175,6 +176,15 @@ class IORegistry:
             if node.block not in all_blocks:
                 all_blocks.append(node.block)
         return all_blocks
+
+    def save_block_structure(self, file_path):
+        save_data = {"blocks": []}
+        for block in self.get_all_blocks():
+            save_block = {"class": block.name,
+                          "parameters": {parameter.name: parameter.value for parameter in block.parameters},
+                          "inputs": [{"connected_output": input_.connected_output.id.int} for input_ in block.inputs],
+                          "outputs": [{"id": output.id.int, } for output in block.outputs]
+                          }
 
 
 Registry = IORegistry()

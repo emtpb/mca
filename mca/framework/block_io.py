@@ -1,4 +1,5 @@
 from . import block_registry
+import uuid
 
 
 class Input:
@@ -67,6 +68,7 @@ class Output:
             valid or needs to be updated.
         data: Data which the Output may contain.
         meta_data: Metadata for data.
+        id: To identify input after saving.
     """
 
     def __init__(self, block, meta_data, name=None):
@@ -82,6 +84,7 @@ class Output:
         self.up_to_date = True
         self.data = None
         self.meta_data = meta_data
+        self.id = uuid.uuid4()
 
     def disconnect(self):
         """Disconnects itself from all Inputs."""
