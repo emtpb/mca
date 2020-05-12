@@ -209,7 +209,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
                     self.connection_lines[-1].x2 = i.scenePos().x() + 5
                     self.connection_lines[-1].y2 = i.scenePos().y() + i.height/2
                     i.connection_line = self.connection_lines[-1]
-                    self.connection_lines[-1].output = i
+                    self.connection_lines[-1].input = i
                     return
                 except exceptions.BlockCircleError:
                     self.scene().removeItem(self.connection_lines.pop(-1))
@@ -308,7 +308,3 @@ class ConnectionLine(QtWidgets.QGraphicsLineItem):
     @y2.setter
     def y2(self, value):
         self.setLine(self.line().x1(), self.line().y1(), self.line().x2(), value)
-
-
-
-
