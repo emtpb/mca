@@ -16,13 +16,9 @@ class Block:
         outputs: List that contains all its :class:`.Output`.
         parameters: List that contains all parameters.
     """
-
+    icon_file = None
     def __init__(self):
-        """Initialize the main Block class.
-
-        Args:
-            name (str): Name of the Block.
-        """
+        """Initializes the main Block class."""
         self.inputs = []
         self.outputs = []
         self.parameters = {"name": parameters.StrParameter(_("Name"), max_length=35, value=self.name)}

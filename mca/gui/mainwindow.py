@@ -1,5 +1,6 @@
-from PySide2 import QtWidgets, QtCore
+from PySide2 import QtWidgets, QtCore, QtGui
 import inspect
+import os
 
 import mca.blocks
 from mca.gui import block_list, block_display
@@ -29,6 +30,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.file_menu = self.menu.addMenu(_("File"))
         self.language_menu = self.menu.addMenu(_("Language"))
         languages = [("Deutsch", "de"), ("English", "en")]
+
+        self.setWindowIcon(QtGui.QIcon(os.path.dirname(mca.blocks.__file__) + "/icons/emt_logo.png"))
         for i in languages:
             action = QtWidgets.QAction(i[0], self)
             action.triggered.connect(self.change_language(i[1]))

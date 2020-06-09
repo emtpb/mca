@@ -1,5 +1,7 @@
 from PySide2 import QtWidgets, QtCore, QtGui
+import os
 
+import mca
 from mca.framework import parameters
 from mca.gui import parameter_widgets
 from mca.language import _
@@ -43,7 +45,9 @@ class ParameterWindow(QtWidgets.QDialog):
         self.layout = QtWidgets.QGridLayout(self.layout_widget)
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setObjectName("layout")
-
+        if self.block.icon_file:
+            icon = QtGui.QIcon(os.path.dirname(mca.__file__) + "/blocks/icons/" + self.block.icon_file)
+            self.setWindowIcon(icon)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"),
                                self.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("rejected()"),

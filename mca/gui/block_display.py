@@ -76,7 +76,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
             event.accept()
             x = event.scenePos().x()
             y = event.scenePos().y()
-            new_block = block_item.BlockItem(self.views()[0], x, y, event.source().selectedItems()[0].data(1))
+            new_block = block_item.BlockItem(self.views()[0], x, y, event.source().selectedItems()[0].data(3))
             self.addItem(new_block)
         else:
             event.ignore()

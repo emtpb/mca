@@ -1,4 +1,7 @@
 from PySide2 import QtWidgets, QtCore, QtGui
+import os
+
+import mca
 
 
 class BlockList(QtWidgets.QListWidget):
@@ -17,8 +20,11 @@ class BlockList(QtWidgets.QListWidget):
         self.setGeometry(0, 0, self.parent().width() * 0.2, self.parent().height() * 0.7)
         for block in blocks:
             i = QtWidgets.QListWidgetItem()
-            i.setData(1, block)
-            i.setText(i.data(1).name)
+            if block.icon_file:
+                i.setIcon(QtGui.QIcon(os.path.dirname(mca.__file__)+ "/blocks/icons/" + block.icon_file))
+            i.setData(3, block)
+            i.setText(block.name)
+
             i.setBackgroundColor(QtGui.QColor(255, 255, 255))
             self.addItem(i)
         self.setMaximumSize(QtCore.QSize(200, 16777215))
