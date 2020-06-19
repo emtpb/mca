@@ -17,11 +17,14 @@ class Block:
         parameters: List that contains all parameters.
     """
     icon_file = None
+
     def __init__(self):
         """Initializes the main Block class."""
         self.inputs = []
         self.outputs = []
-        self.parameters = {"name": parameters.StrParameter(_("Name"), max_length=35, value=self.name)}
+        self.parameters = {
+            "name": parameters.StrParameter(_("Name"), max_length=35,
+                                            value=self.name)}
 
     def apply_parameter_changes(self):
         """Applies all changes to the parameters and triggers an update."""
@@ -43,8 +46,8 @@ class Block:
         """Updates the data and the flags of the Outputs if all
         Inputs have valid data."""
         if (not self.inputs) or all(
-            elem == True
-            for elem in [input_.up_to_date for input_ in self.inputs]
+                elem == True
+                for elem in [input_.up_to_date for input_ in self.inputs]
         ):
             self._process()
             for output in self.outputs:
@@ -111,17 +114,27 @@ class Block:
         with open(file_name, 'w') as save_file:
             if isinstance(self.outputs[output_index].data, data_types.Signal):
                 save_data = {"data_type": "Signal",
-                             "name": self.outputs[output_index].data.meta_data.name,
-                             "quantity_a": self.outputs[output_index].data.meta_data.quantity_a,
-                             "symbol_a": self.outputs[output_index].data.meta_data.symbol_a,
-                             "unit_a": self.outputs[output_index].data.meta_data.unit_a,
-                             "quantity_o": self.outputs[output_index].data.meta_data.quantity_o,
-                             "symbol_o": self.outputs[output_index].data.meta_data.symbol_o,
-                             "unit_o": self.outputs[output_index].data.meta_data.unit_o,
-                             "abscissa_start": self.outputs[output_index].data.abscissa_start,
+                             "name": self.outputs[
+                                 output_index].data.meta_data.name,
+                             "quantity_a": self.outputs[
+                                 output_index].data.meta_data.quantity_a,
+                             "symbol_a": self.outputs[
+                                 output_index].data.meta_data.symbol_a,
+                             "unit_a": self.outputs[
+                                 output_index].data.meta_data.unit_a,
+                             "quantity_o": self.outputs[
+                                 output_index].data.meta_data.quantity_o,
+                             "symbol_o": self.outputs[
+                                 output_index].data.meta_data.symbol_o,
+                             "unit_o": self.outputs[
+                                 output_index].data.meta_data.unit_o,
+                             "abscissa_start": self.outputs[
+                                 output_index].data.abscissa_start,
                              "values": self.outputs[output_index].data.values,
-                             "increment": self.outputs[output_index].data.increment,
-                             "ordinate": str(self.outputs[output_index].data.ordinate)}
+                             "increment": self.outputs[
+                                 output_index].data.increment,
+                             "ordinate": str(
+                                 self.outputs[output_index].data.ordinate)}
                 json.dump(save_data, save_file)
 
 

@@ -17,6 +17,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         menu: Menu which pops up when the right mouse button is pressed.
         disconnect_action: Action which calls :meth:`.disconnect`.
     """
+
     def __init__(self, x, y, width, height, mca_input, view, parent=None):
         """Initialize InputItem class.
 
@@ -59,20 +60,22 @@ class InputItem(QtWidgets.QGraphicsItem):
         path = QtGui.QPainterPath()
         path.moveTo(self.width, 0)
         path.lineTo(self.width, self.height)
-        path.lineTo(0, self.height/2)
+        path.lineTo(0, self.height / 2)
         path.lineTo(self.width, 0)
         painter.fillPath(path, QtGui.QBrush(QtGui.QColor(0, 0, 0)))
 
     def mousePressEvent(self, event):
-        """Method invoked when the block gets clicked. Creates a :class:`.ConnectionLine` if the input is not
-        yet connected else the event is ignored.
+        """Method invoked when the block gets clicked. Creates a
+        :class:`.ConnectionLine` if the input is not yet connected else the
+        event is ignored.
         """
         if self.mca_input.connected_output() or event.button() == QtCore.Qt.MouseButton.RightButton:
             event.ignore()
             return
         self.connection_line = ConnectionLine(event.scenePos().x(),
                                               event.scenePos().y(),
-                                              self.scenePos().x()+5, self.scenePos().y() + self.height/2)
+                                              self.scenePos().x() + 5,
+                                              self.scenePos().y() + self.height / 2)
         self.connection_line.input = self
         self.scene().addItem(self.connection_line)
 
@@ -90,14 +93,15 @@ class InputItem(QtWidgets.QGraphicsItem):
                 try:
                     self.mca_input.connect(i.mca_output)
                     self.connection_line.x1 = i.scenePos().x() - 5 + self.width
-                    self.connection_line.y1 = i.scenePos().y() + i.height/2
+                    self.connection_line.y1 = i.scenePos().y() + i.height / 2
                     i.connection_lines.append(self.connection_line)
                     self.connection_line.output = i
                     return
                 except exceptions.BlockCircleError:
                     self.scene().removeItem(self.connection_line)
                     self.connection_line = None
-                    QtWidgets.QMessageBox().warning(None, _("MCA"), _("Cyclic structures are not allowed."))
+                    QtWidgets.QMessageBox().warning(None, _("MCA"), _(
+                        "Cyclic structures are not allowed."))
                     return
         self.scene().removeItem(self.connection_line)
         self.connection_line = None
@@ -116,7 +120,8 @@ class InputItem(QtWidgets.QGraphicsItem):
         """Disconnects the :class:`.InputItem` from its :class:`.OutputItem` if they are connected."""
         self.mca_input.disconnect()
         if self.connection_line:
-            self.connection_line.output.connection_lines.remove(self.connection_line)
+            self.connection_line.output.connection_lines.remove(
+                self.connection_line)
             self.scene().removeItem(self.connection_line)
             self.connection_line = None
 
@@ -133,6 +138,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
            menu: Menu which pops up when the right mouse button is pressed.
            disconnect_action: Action which calls :meth:`.disconnect`.
        """
+
     def __init__(self, x, y, width, height, mca_output, view, parent=None):
         """Initialize InputItem class.
 
@@ -174,7 +180,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
         """
         path = QtGui.QPainterPath()
         path.moveTo(0, 0)
-        path.lineTo(self.width, self.height/2)
+        path.lineTo(self.width, self.height / 2)
         path.lineTo(0, self.height)
         path.lineTo(0, 0)
         painter.fillPath(path, QtGui.QBrush(QtGui.QColor(0, 0, 0)))
@@ -186,7 +192,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
         if event.button() == QtCore.Qt.MouseButton.RightButton:
             event.ignore()
             return
-        self.connection_lines.append(ConnectionLine(self.scenePos().x()+5,
+        self.connection_lines.append(ConnectionLine(self.scenePos().x() + 5,
                                                     self.scenePos().y() + self.height / 2,
                                                     event.scenePos().x(),
                                                     event.scenePos().y()))
@@ -207,13 +213,15 @@ class OutputItem(QtWidgets.QGraphicsItem):
                 try:
                     i.mca_input.connect(self.mca_output)
                     self.connection_lines[-1].x2 = i.scenePos().x() + 5
-                    self.connection_lines[-1].y2 = i.scenePos().y() + i.height/2
+                    self.connection_lines[
+                        -1].y2 = i.scenePos().y() + i.height / 2
                     i.connection_line = self.connection_lines[-1]
                     self.connection_lines[-1].input = i
                     return
                 except exceptions.BlockCircleError:
                     self.scene().removeItem(self.connection_lines.pop(-1))
-                    QtWidgets.QMessageBox().warning(None, _("MCA"), _("Cyclic structures are not allowed."))
+                    QtWidgets.QMessageBox().warning(None, _("MCA"), _(
+                        "Cyclic structures are not allowed."))
                     return
         self.scene().removeItem(self.connection_lines.pop(-1))
 
@@ -243,6 +251,7 @@ class ConnectionLine(QtWidgets.QGraphicsLineItem):
         output: :class:`.OutputItem` which is part of the connection.
         input: :class:`.InputItem` which is part of the connection.
     """
+
     def __init__(self, x1, y1, x2, y2):
         """Initialize ConnectionLine class.
 
@@ -268,7 +277,8 @@ class ConnectionLine(QtWidgets.QGraphicsLineItem):
 
     @x1.setter
     def x1(self, value):
-        self.setLine(value, self.line().y1(), self.line().x2(), self.line().y2())
+        self.setLine(value, self.line().y1(), self.line().x2(),
+                     self.line().y2())
 
     @property
     def y1(self):
@@ -281,7 +291,8 @@ class ConnectionLine(QtWidgets.QGraphicsLineItem):
 
     @y1.setter
     def y1(self, value):
-        self.setLine(self.line().x1(), value, self.line().x2(), self.line().y2())
+        self.setLine(self.line().x1(), value, self.line().x2(),
+                     self.line().y2())
 
     @property
     def x2(self):
@@ -294,7 +305,8 @@ class ConnectionLine(QtWidgets.QGraphicsLineItem):
 
     @x2.setter
     def x2(self, value):
-        self.setLine(self.line().x1(), self.line().y1(), value, self.line().y2())
+        self.setLine(self.line().x1(), self.line().y1(), value,
+                     self.line().y2())
 
     @property
     def y2(self):
@@ -307,4 +319,5 @@ class ConnectionLine(QtWidgets.QGraphicsLineItem):
 
     @y2.setter
     def y2(self, value):
-        self.setLine(self.line().x1(), self.line().y1(), self.line().x2(), value)
+        self.setLine(self.line().x1(), self.line().y1(), self.line().x2(),
+                     value)

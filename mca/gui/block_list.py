@@ -17,11 +17,13 @@ class BlockList(QtWidgets.QListWidget):
         """
         QtWidgets.QListWidget.__init__(self, parent=parent)
         self.setDragEnabled(True)
-        self.setGeometry(0, 0, self.parent().width() * 0.2, self.parent().height() * 0.7)
+        self.setGeometry(0, 0, self.parent().width() * 0.2,
+                         self.parent().height() * 0.7)
         for block in blocks:
             i = QtWidgets.QListWidgetItem()
             if block.icon_file:
-                i.setIcon(QtGui.QIcon(os.path.dirname(mca.__file__)+ "/blocks/icons/" + block.icon_file))
+                i.setIcon(QtGui.QIcon(os.path.dirname(
+                    mca.__file__) + "/blocks/icons/" + block.icon_file))
             i.setData(3, block)
             i.setText(block.name)
 
@@ -30,8 +32,8 @@ class BlockList(QtWidgets.QListWidget):
         self.setMaximumSize(QtCore.QSize(200, 16777215))
 
     def mouseMoveEvent(self, event):
-        """Event triggered when mouse grabbed an item from the list. Method allows dragging the block classes into
-        the :class:`.BlockScene`.
+        """Event triggered when mouse grabbed an item from the list. Method
+        allows dragging the block classes into the :class:`.BlockScene`.
         """
         mimeData = QtCore.QMimeData()
         drag = QtGui.QDrag(self)

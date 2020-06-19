@@ -56,7 +56,8 @@ class FloatParameter(BaseParameter):
         Args:
             value: Given value to be validated.
         Raises:
-            :class:`~mca.exceptions.ParameterTypeError`: Type of value is not float.
+            :class:`~mca.exceptions.ParameterTypeError`: Type of value is not
+                                                         float.
             :obj:`~mca.exceptions.OutOfBoundError`: Value is not within min 
             or max.
         """
@@ -103,7 +104,8 @@ class IntParameter(BaseParameter):
         Args:
             value: Given value to be validated.
         Raises:
-            :class:`~mca.exceptions.ParameterTypeError`: Type of value is not int.
+            :class:`~mca.exceptions.ParameterTypeError`: Type of value is not
+                                                         int.
             :class:`~mca.exceptions.OutOfBoundError`: Value is not within min 
             or max.
         """
@@ -146,7 +148,8 @@ class StrParameter(BaseParameter):
         Args:
             value: Given value to be validated.            
         Raises:
-            :class:`~mca.exceptions.ParameterTypeError`: Type of value is not str.
+            :class:`~mca.exceptions.ParameterTypeError`: Type of value is not
+                                                         str.
             :class:`~mca.exceptions.OutOfBoundError`: String is too long.
         """
         if not isinstance(value, str):

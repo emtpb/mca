@@ -19,8 +19,10 @@ class ParameterWindow(QtWidgets.QDialog):
     Attributes:
         block: Reference of the :class:`.Block` instance.
         layout_widget: Widget holding the layout.
-        layout: Layout which arranges the :mod:`.parameter_widgets` underneath each other.
+        layout: Layout which arranges the :mod:`.parameter_widgets`
+                underneath each other.
     """
+
     def __init__(self, block):
         """Initialize ParameterWindow class.
 
@@ -46,7 +48,8 @@ class ParameterWindow(QtWidgets.QDialog):
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setObjectName("layout")
         if self.block.icon_file:
-            icon = QtGui.QIcon(os.path.dirname(mca.__file__) + "/blocks/icons/" + self.block.icon_file)
+            icon = QtGui.QIcon(os.path.dirname(
+                mca.__file__) + "/blocks/icons/" + self.block.icon_file)
             self.setWindowIcon(icon)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"),
                                self.accept)
@@ -54,15 +57,18 @@ class ParameterWindow(QtWidgets.QDialog):
                                self.reject)
 
         self.display_parameters()
-        QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"), block.apply_parameter_changes)
+        QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"),
+                               block.apply_parameter_changes)
 
     def display_parameters(self):
-        """Arranges the given parameters in rows in the window underneath each other. One row includes
-        the name of the parameter as a label, the desired widget and the unit optionally.
+        """Arranges the given parameters in rows in the window underneath each
+        other. One row includes the name of the parameter as a label, the
+        desired widget and the unit optionally.
         """
         block_parameters = self.block.parameters.values()
         if block_parameters:
-            parameter_label = QtWidgets.QLabel(_("Parameters:"), self.layout_widget)
+            parameter_label = QtWidgets.QLabel(_("Parameters:"),
+                                               self.layout_widget)
             self.layout.addWidget(parameter_label, 0, 0, 1, 1)
             font = QtGui.QFont()
             font.setFamily("TeXGyreHeros")
@@ -70,14 +76,17 @@ class ParameterWindow(QtWidgets.QDialog):
             font.setWeight(75)
             font.setBold(True)
             parameter_label.setFont(font)
-        for block_parameter, index in zip(block_parameters, range(1, len(block_parameters) + 1)):
+        for block_parameter, index in zip(block_parameters,
+                                          range(1, len(block_parameters) + 1)):
             if not isinstance(block_parameter, parameters.BoolParameter):
                 name_label = QtWidgets.QLabel(self.layout_widget)
                 name_label.setText(block_parameter.name)
                 self.layout.addWidget(name_label, index, 0, 1, 1)
-            widget = widget_dict[type(block_parameter)](block_parameter, self.layout_widget)
+            widget = widget_dict[type(block_parameter)](block_parameter,
+                                                        self.layout_widget)
             widget.read_parameter()
-            QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"), widget.set_parameter)
+            QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"),
+                                   widget.set_parameter)
             self.layout.addWidget(widget, index, 1, 1, 1)
             if block_parameter.unit:
                 unit_label = QtWidgets.QLabel(self.layout_widget)

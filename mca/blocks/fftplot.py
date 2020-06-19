@@ -67,8 +67,8 @@ class FFTPlot(mca.framework.Block):
                 shift == "shift_positive":
             ordinate = np.fft.fftshift(ordinate)
         if shift == "shift" or shift == "shift_positive":
-            abscissa = np.linspace(-sample_freq/2,
-                                   sample_freq/2, values)
+            abscissa = np.linspace(-sample_freq / 2,
+                                   sample_freq / 2, values)
         if shift == "shift_positive":
             ordinate = ordinate[len(ordinate) // 2:]
             abscissa = abscissa[len(abscissa) // 2:]

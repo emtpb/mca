@@ -118,6 +118,7 @@ class DataTypeError(MCAError):
 
 class DataSavingError(MCAError):
     """Exception raised when the saving of output data was unsuccessful."""
+
     def __init__(self, cause):
         """Initialize DataSavingError.
 

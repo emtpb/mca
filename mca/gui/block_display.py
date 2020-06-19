@@ -5,9 +5,11 @@ from mca.language import _
 
 
 class BlockView(QtWidgets.QGraphicsView):
-    """Class for visualizing the blocks in the connected :class:`.BlockScene`. Manages how blocks are displayed like
-    deciding which :class:`.BlockItem` or `.ConnectionLine` is painted over other colliding items.
+    """Class for visualizing the blocks in the connected :class:`.BlockScene`.
+    Manages how blocks are displayed like deciding which :class:`.BlockItem`
+    or `.ConnectionLine` is painted over other colliding items.
     """
+
     def __init__(self, scene, parent):
         """Initialize BlockView class.
 
@@ -39,6 +41,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
     """Main class for basic operations with graphic items. This class manages for example adding items,
     finding items or removing items from itself.
     """
+
     def __init__(self, parent):
         """Initialize BlockScene class.
 
@@ -76,7 +79,9 @@ class BlockScene(QtWidgets.QGraphicsScene):
             event.accept()
             x = event.scenePos().x()
             y = event.scenePos().y()
-            new_block = block_item.BlockItem(self.views()[0], x, y, event.source().selectedItems()[0].data(3))
+            new_block = block_item.BlockItem(self.views()[0], x, y,
+                                             event.source().selectedItems()[
+                                                 0].data(3))
             self.addItem(new_block)
         else:
             event.ignore()

@@ -14,12 +14,15 @@ class MainWindow(QtWidgets.QMainWindow):
     Attributes:
         menu: Menu bar of the application.
         file_menu: File menu.
-        langauge_menu: Language menu.
+        language_menu: Language menu.
         blocks (list): List of all block classes.
-        main_widget: Splitter widget to split the :class:`.BlockList` and the :class:`.BlockScene`.
+        main_widget: Splitter widget to split the :class:`.BlockList` and the
+                     :class:`.BlockScene`.
         scene: :class:`.BlockScene` to manage and hold blocks.
-        view: :class:`.BlockView` to visualize the items of the :class:`.BlockScene`.
+        view: :class:`.BlockView` to visualize the items of the
+              :class:`.BlockScene`.
     """
+
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         self.exit_code_reboot = 105
@@ -31,7 +34,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.language_menu = self.menu.addMenu(_("Language"))
         languages = [("Deutsch", "de"), ("English", "en")]
 
-        self.setWindowIcon(QtGui.QIcon(os.path.dirname(mca.blocks.__file__) + "/icons/emt_logo.png"))
+        self.setWindowIcon(QtGui.QIcon(
+            os.path.dirname(mca.blocks.__file__) + "/icons/emt_logo.png"))
         for i in languages:
             action = QtWidgets.QAction(i[0], self)
             action.triggered.connect(self.change_language(i[1]))
@@ -44,11 +48,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.file_menu.addAction(exit_action)
 
         self.main_widget = QtWidgets.QSplitter(QtCore.Qt.Horizontal)
-        self.blocks = [m[1] for m in inspect.getmembers(mca.blocks, inspect.isclass)]
-        self.main_widget.addWidget(block_list.BlockList(self.main_widget, self.blocks))
+        self.blocks = [m[1] for m in
+                       inspect.getmembers(mca.blocks, inspect.isclass)]
+        self.main_widget.addWidget(
+            block_list.BlockList(self.main_widget, self.blocks))
 
         self.scene = block_display.BlockScene(self.main_widget)
-        self.view = block_display.BlockView(scene=self.scene, parent=self.main_widget)
+        self.view = block_display.BlockView(scene=self.scene,
+                                            parent=self.main_widget)
         self.view.show()
         self.main_widget.addWidget(self.view)
 
@@ -66,9 +73,11 @@ class MainWindow(QtWidgets.QMainWindow):
         Args:
             new_language (str): New language which should be applied.
         """
+
         def tmp():
             msg_box = QtWidgets.QMessageBox()
             msg_box.setText(_("Changes will be applied after restart."))
             msg_box.exec()
             config.Config()["language"] = new_language
+
         return tmp

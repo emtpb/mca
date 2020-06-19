@@ -43,7 +43,7 @@ class IORegistry:
         """
         for edge in nx.bfs_edges(self._graph, output):
             if isinstance(edge[0], block_io.Output) and isinstance(
-                edge[1], block_io.Input
+                    edge[1], block_io.Input
             ):
                 edge[1].up_to_date = edge[0].up_to_date
                 edge[1].block.update_my_block()
@@ -113,7 +113,7 @@ class IORegistry:
                 a circle in the structure.
         """
         if not isinstance(output, block_io.Output) or not isinstance(
-            input_, block_io.Input
+                input_, block_io.Input
         ):
             message = "{} is not instance of {} or {} is not instance of {}".format(
                 output, block_io.Output, input_, block_io.Input
@@ -181,9 +181,13 @@ class IORegistry:
         save_data = {"blocks": []}
         for block in self.get_all_blocks():
             save_block = {"class": block.name,
-                          "parameters": {parameter.name: parameter.value for parameter in block.parameters},
-                          "inputs": [{"connected_output": input_.connected_output.id.int} for input_ in block.inputs],
-                          "outputs": [{"id": output.id.int, } for output in block.outputs]
+                          "parameters": {parameter.name: parameter.value for
+                                         parameter in block.parameters},
+                          "inputs": [{
+                                         "connected_output": input_.connected_output.id.int}
+                                     for input_ in block.inputs],
+                          "outputs": [{"id": output.id.int, } for output in
+                                      block.outputs]
                           }
 
 

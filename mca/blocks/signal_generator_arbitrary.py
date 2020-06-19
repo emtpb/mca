@@ -31,18 +31,21 @@ class SignalGeneratorArbitrary(mca.framework.Block):
         with open(file_name, 'r') as arbitrary_file:
             arbitrary_data = json.load(arbitrary_file)
             if arbitrary_data.get("data_type") != "Signal":
-                raise mca.exceptions.DataLoadingError("Loaded data type is not a signal.")
-            meta_data = mca.framework.data_types.MetaData(arbitrary_data["name"],
-                                                          arbitrary_data["quantity_a"],
-                                                          arbitrary_data["symbol_a"],
-                                                          arbitrary_data["unit_a"],
-                                                          arbitrary_data["quantity_o"],
-                                                          arbitrary_data["symbol_o"],
-                                                          arbitrary_data["unit_o"])
-        self.outputs[0].data = mca.framework.data_types.Signal(meta_data=meta_data,
-                                                               abscissa_start=arbitrary_data["abscissa_start"],
-                                                               values=arbitrary_data["values"],
-                                                               increment=arbitrary_data["increment"],
-                                                               ordinate=np.fromstring(arbitrary_data["ordinate"][1:-1],
-                                                                                      sep=" ", dtype=float)
-                                                               )
+                raise mca.exceptions.DataLoadingError(
+                    "Loaded data type is not a signal.")
+            meta_data = mca.framework.data_types.MetaData(
+                arbitrary_data["name"],
+                arbitrary_data["quantity_a"],
+                arbitrary_data["symbol_a"],
+                arbitrary_data["unit_a"],
+                arbitrary_data["quantity_o"],
+                arbitrary_data["symbol_o"],
+                arbitrary_data["unit_o"])
+        self.outputs[0].data = mca.framework.data_types.Signal(
+            meta_data=meta_data,
+            abscissa_start=arbitrary_data["abscissa_start"],
+            values=arbitrary_data["values"],
+            increment=arbitrary_data["increment"],
+            ordinate=np.fromstring(arbitrary_data["ordinate"][1:-1],
+                                   sep=" ", dtype=float)
+            )

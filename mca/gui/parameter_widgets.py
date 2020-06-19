@@ -7,6 +7,7 @@ class BaseWidget:
     Attributes:
         parameter: Given parameter to display.
     """
+
     def __init__(self, parameter, parent):
         """Initialize BaseWidget class.
 
@@ -18,16 +19,21 @@ class BaseWidget:
         self.setParent(parent)
 
     def set_parameter(self):
-        """Takes the current value in the widget and sets it in the parameter."""
+        """Takes the current value in the widget and sets
+        it in the parameter.
+        """
         pass
 
     def read_parameter(self):
-        """Reads the current value in the parameter and sets it in the widget."""
+        """Reads the current value in the parameter
+        and sets it in the widget.
+        """
         pass
 
 
 class FloatWidget(BaseWidget, QtWidgets.QLineEdit):
     """Widget to display a FloatParameter."""
+
     def __init__(self, parameter, parent):
         """Initialize FloatWidget class."""
         QtWidgets.QLineEdit.__init__(self)
@@ -42,6 +48,7 @@ class FloatWidget(BaseWidget, QtWidgets.QLineEdit):
 
 class IntWidget(BaseWidget, QtWidgets.QLineEdit):
     """Widget to display a IntParameter."""
+
     def __init__(self, parameter, parent):
         """Initialize IntWidget class."""
         QtWidgets.QLineEdit.__init__(self)
@@ -56,12 +63,14 @@ class IntWidget(BaseWidget, QtWidgets.QLineEdit):
 
 class ChoiceWidget(BaseWidget, QtWidgets.QComboBox):
     """Widget to display a ChoiceParameter."""
+
     def __init__(self, parameter, parent):
         """Initialize ChoiceWidget class."""
         QtWidgets.QComboBox.__init__(self)
         BaseWidget.__init__(self, parameter, parent)
         for i in range(len(self.parameter.choices)):
-            self.addItem(self.parameter.choices[i][1], userData=self.parameter.choices[i][0])
+            self.addItem(self.parameter.choices[i][1],
+                         userData=self.parameter.choices[i][0])
 
     def set_parameter(self):
         index = self.findText(self.currentText())
@@ -76,6 +85,7 @@ class ChoiceWidget(BaseWidget, QtWidgets.QComboBox):
 
 class StringWidget(BaseWidget, QtWidgets.QLineEdit):
     """Widget to display a StringParameter."""
+
     def __init__(self, parameter, parent):
         """Initialize StringWidget class."""
         QtWidgets.QLineEdit.__init__(self)
@@ -90,6 +100,7 @@ class StringWidget(BaseWidget, QtWidgets.QLineEdit):
 
 class BoolWidget(BaseWidget, QtWidgets.QCheckBox):
     """Widget to display a BoolParameter."""
+
     def __init__(self, parameter, parent):
         """Initialize BoolWidget class."""
         QtWidgets.QCheckBox.__init__(self)

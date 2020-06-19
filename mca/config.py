@@ -18,7 +18,8 @@ class Config(dict):
             with open(Config.user_config_path, 'r') as config_file:
                 user_config = json.load(config_file)
         except FileNotFoundError:
-            os.makedirs(os.path.dirname(Config.user_config_path), exist_ok=True)
+            os.makedirs(os.path.dirname(Config.user_config_path),
+                        exist_ok=True)
             with open(Config.user_config_path, 'w') as config_file:
                 json.dump({}, config_file)
                 user_config = {}
@@ -31,5 +32,6 @@ class Config(dict):
         super().__setitem__(key, value)
         with open(Config.user_config_path, 'w') as config_file:
             user_config = {k: self[k] for k in self
-                           if k not in Config.default_config or self[k] != Config.default_config[k]}
+                           if k not in Config.default_config or self[k] !=
+                           Config.default_config[k]}
             json.dump(user_config, config_file)

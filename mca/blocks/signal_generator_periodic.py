@@ -33,10 +33,14 @@ class SignalGeneratorPeriodic(mca.framework.Block):
         )
         self.parameters.update({
             "function": mca.framework.parameters.ChoiceParameter(
-                _("Function"), choices=[("rect", _("Rectangle")), ("tri", _("Triangle")), ("sin", _("Sine"))],
+                _("Function"),
+                choices=[("rect", _("Rectangle")), ("tri", _("Triangle")),
+                         ("sin", _("Sine"))],
                 value="sin"
             ),
-            "freq": mca.framework.parameters.FloatParameter(_("Frequency"), unit="Hz", value=1),
+            "freq": mca.framework.parameters.FloatParameter(_("Frequency"),
+                                                            unit="Hz",
+                                                            value=1),
             "amp": mca.framework.parameters.FloatParameter("Amplitude",
                                                            value=1),
             "phase": mca.framework.parameters.FloatParameter("Phase", value=0),
@@ -58,13 +62,13 @@ class SignalGeneratorPeriodic(mca.framework.Block):
         phase = self.parameters["phase"].value
         function = self.parameters["function"].value
         abscissa = (
-                np.linspace(
-                    abscissa_start, abscissa_start + (values-1) * increment,
-                    values
-                )
+            np.linspace(
+                abscissa_start, abscissa_start + (values - 1) * increment,
+                values
+            )
         )
         if function == "sin":
-            ordinate = amp * np.sin(2*np.pi*freq * abscissa - phase)
+            ordinate = amp * np.sin(2 * np.pi * freq * abscissa - phase)
         elif function == "rect":
             ordinate = rect(abscissa, freq, amp, phase)
         elif function == "tri":
@@ -79,9 +83,10 @@ class SignalGeneratorPeriodic(mca.framework.Block):
 
 
 def triangle(abscissa, freq, amp, phase):
-    ordinate = amp * sgn.sawtooth(2 * np.pi * freq * abscissa - phase + np.pi / 2, 0.5)
+    ordinate = amp * sgn.sawtooth(
+        2 * np.pi * freq * abscissa - phase + np.pi / 2, 0.5)
     return ordinate
 
 
 def rect(abscissa, freq, amp, phase):
-    return amp*np.sign(np.sin(2 * np.pi * freq*abscissa - phase))
+    return amp * np.sign(np.sin(2 * np.pi * freq * abscissa - phase))

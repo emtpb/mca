@@ -46,9 +46,8 @@ def check_intervals(signals):
             if signal.increment != i.increment:
                 raise exceptions.IntervalError("Increment of two signals "
                                                "are not equal")
-            diff = (
-                (i.abscissa_start - signal.abscissa_start) / signal.increment
-            ) % 1
+            diff = ((
+                                i.abscissa_start - signal.abscissa_start) / signal.increment) % 1
             if 0.000001 < diff < 0.9999999:
                 raise exceptions.IntervalError("Two signals are incompatible"
                                                "due signal starts")
