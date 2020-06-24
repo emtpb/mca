@@ -14,7 +14,8 @@ class BlockView(QtWidgets.QGraphicsView):
         """Initialize BlockView class.
 
         Args:
-            scene: Scene belonging to this view which holds the items to display.
+            scene: Scene belonging to this view which holds the items to
+                   display.
             parent: Parent of this widget.
         """
         QtWidgets.QGraphicsView.__init__(self, scene=scene, parent=parent)
@@ -38,8 +39,8 @@ class BlockView(QtWidgets.QGraphicsView):
 
 
 class BlockScene(QtWidgets.QGraphicsScene):
-    """Main class for basic operations with graphic items. This class manages for example adding items,
-    finding items or removing items from itself.
+    """Main class for basic operations with graphic items. This class manages
+    for example adding items, finding items or removing items from itself.
     """
 
     def __init__(self, parent):
@@ -49,11 +50,11 @@ class BlockScene(QtWidgets.QGraphicsScene):
             parent: Parent of this widget.
         """
         QtWidgets.QGraphicsScene.__init__(self, parent=parent)
-        self.setSceneRect(0, 0, 1000, 800)
+        self.setSceneRect(0, 0, 880, 800)
 
     def dragEnterEvent(self, event):
-        """Reimplements the event when a drag enters this widget. Accepts only events
-        that were created from this application.
+        """Reimplements the event when a drag enters this widget. Accepts only
+        events that were created from this application.
         """
         if event.source() in self.parent().children():
             event.accept()
@@ -61,8 +62,8 @@ class BlockScene(QtWidgets.QGraphicsScene):
             event.ignore()
 
     def dragMoveEvent(self, event):
-        """Reimplements the event when a drag moves in this widget. Accepts only events
-        that were created from this application.
+        """Reimplements the event when a drag moves in this widget.
+        Accepts only events that were created from this application.
         """
         if event.source() in self.parent().children():
             event.accept()
@@ -70,18 +71,28 @@ class BlockScene(QtWidgets.QGraphicsScene):
             event.ignore()
 
     def dropEvent(self, event):
-        """Reimplements the event when something gets dropped in this widget. Accepts only events
-        that were created from this application. Creates a block and adds it to the scene if source
-        of the event was from an item of the :class:`.BlockList`.
+        """Reimplements the event when something gets dropped in this widget.
+        Accepts only events that were created from this application.
+        Creates a block and adds it to the scene if source of the event was
+        from an item of the :class:`.BlockList`.
         """
         if event.source() in self.parent().children():
             event.setDropAction(QtCore.Qt.CopyAction)
             event.accept()
             x = event.scenePos().x()
             y = event.scenePos().y()
-            new_block = block_item.BlockItem(self.views()[0], x, y,
-                                             event.source().selectedItems()[
-                                                 0].data(3))
-            self.addItem(new_block)
+            block_class = event.source().selectedItems()[0].data(3)
+            self.create_block(x, y, block_class)
         else:
             event.ignore()
+
+    def create_block(self, x, y, block_class):
+        for i in range(int(y), self.parent().height(), 4):
+            for j in range(int(x), self.parent().width(), 4):
+                if not self.items(QtCore.QRect(j, i, 100, 100)):
+                    new_block = block_item.BlockItem(self.views()[0], j, i,
+                                                     block_class)
+                    self.addItem(new_block)
+                    return
+            x = 0
+

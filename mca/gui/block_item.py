@@ -3,12 +3,12 @@ from PySide2 import QtWidgets, QtCore, QtGui
 from mca.gui.parameter_window import ParameterWindow
 from mca.gui.io_items import InputItem, OutputItem
 from mca import framework
-from mca import exceptions
 from mca.language import _
 
 
 class BlockItem(QtWidgets.QGraphicsItem):
-    """Class to display any kind of :class:`.Block` and supports all its functionalities.
+    """Class to display any kind of :class:`.Block` and supports all its
+    functionalities.
 
     Attributes:
         view: Reference of the :class:`.BlockView` instance.
@@ -243,7 +243,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         if event.button() == QtCore.Qt.MouseButton.RightButton:
             event.ignore()
         self.setZValue(1.0)
-        if event.pos().x() > self.width - 20 and event.pos().y() > self.height - 20:
+        if event.pos().x() > self.width - 20 and \
+                event.pos().y() > self.height - 20:
             self.resize_mode = True
         super().mousePressEvent(event)
 
@@ -253,8 +254,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         the block gets resized.
         """
         if self.resize_mode:
-            if self.last_point[0] is not None and self.last_point[
-                1] is not None:
+            if self.last_point[0] is not None and \
+                    self.last_point[1] is not None:
                 self.resize(
                     self.width + event.screenPos().x() - self.last_point[0],
                     self.height + event.screenPos().y() - self.last_point[1])
@@ -276,7 +277,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
         Args:
             width: Width to which the block should be resized.
-            height: Height to whoch the block should be resized.
+            height: Height to which the block should be resized.
         """
         if max(len(self.outputs) * (self.output_height + self.output_dist) + 5,
                len(self.inputs) * (

@@ -25,10 +25,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
-        self.exit_code_reboot = 105
         self.resize(1000, 800)
         self.setWindowTitle(_("MCA"))
-
         self.menu = self.menuBar()
         self.file_menu = self.menu.addMenu(_("File"))
         self.language_menu = self.menu.addMenu(_("Language"))
@@ -50,16 +48,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.main_widget = QtWidgets.QSplitter(QtCore.Qt.Horizontal)
         self.blocks = [m[1] for m in
                        inspect.getmembers(mca.blocks, inspect.isclass)]
-        self.main_widget.addWidget(
-            block_list.BlockList(self.main_widget, self.blocks))
-
         self.scene = block_display.BlockScene(self.main_widget)
+        self.block_list = block_list.BlockList(self.main_widget,
+                                               self.blocks, self.scene)
+        self.main_widget.addWidget(self.block_list)
         self.view = block_display.BlockView(scene=self.scene,
                                             parent=self.main_widget)
         self.view.show()
         self.main_widget.addWidget(self.view)
-
-        self.main_widget.setSizes([50, 200])
         self.setCentralWidget(self.main_widget)
 
     @QtCore.Slot()
