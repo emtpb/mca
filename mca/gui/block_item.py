@@ -52,6 +52,10 @@ class BlockItem(QtWidgets.QGraphicsItem):
         QtWidgets.QGraphicsItem.__init__(self)
         self.setPos(x, y)
         self.view = view
+        self.default_color = QtGui.QColor(250, 235, 215)
+        self.hover_color = QtGui.QColor(255, 228, 181)
+        self.setAcceptHoverEvents(True)
+        self.current_color = self.default_color
         self.width = 100
         self.height = 100
 
@@ -124,7 +128,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """Method to paint the the block. This method gets invoked after
         initialization and every time the block gets updated.
         """
-        painter.setBrush(QtGui.QBrush(QtGui.QColor(122, 122, 122)))
+        painter.setBrush(QtGui.QBrush(self.current_color))
         painter.drawRoundedRect(0, 0, self.width, self.height, 5, 5)
         painter.drawText(5, 2, self.width - 5, 20, 0,
                          self.block.parameters["name"].value)
@@ -294,3 +298,20 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.height = height
         self.width = width
         self.update()
+
+    def hoverEnterEvent(self, event):
+        """Change color of the block to the hover color."""
+        event.accept()
+        self.current_color = self.hover_color
+        self.update()
+
+    def hoverMoveEvent(self, event):
+        event.accept()
+
+    def hoverLeaveEvent(self, event):
+        """Change color of the block back to the default color."""
+        event.accept()
+        self.current_color = self.default_color
+        self.update()
+
+

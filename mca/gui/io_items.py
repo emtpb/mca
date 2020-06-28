@@ -33,6 +33,9 @@ class InputItem(QtWidgets.QGraphicsItem):
         """
         super(InputItem, self).__init__(parent=parent)
 
+        self.default_color = QtGui.QColor(0, 0, 0)
+        self.hover_color = QtGui.QColor(84, 84, 84)
+        self.current_color = self.default_color
         self.width = width
         self.height = height
         self.setPos(x, y)
@@ -40,6 +43,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         self.mca_input = mca_input
         self.view = view
         self.setAcceptDrops(True)
+        self.setAcceptHoverEvents(True)
         self.connection_line = None
 
         self.menu = QtWidgets.QMenu(self.view)
@@ -63,7 +67,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         path.lineTo(self.width, self.height)
         path.lineTo(0, self.height / 2)
         path.lineTo(self.width, 0)
-        painter.fillPath(path, QtGui.QBrush(QtGui.QColor(0, 0, 0)))
+        painter.fillPath(path, QtGui.QBrush(self.current_color))
 
     def mousePressEvent(self, event):
         """Method invoked when the block gets clicked. Creates a
@@ -133,6 +137,21 @@ class InputItem(QtWidgets.QGraphicsItem):
             self.scene().removeItem(self.connection_line)
             self.connection_line = None
 
+    def hoverEnterEvent(self, event):
+        """Change color of the output to the hover color."""
+        event.accept()
+        self.current_color = self.hover_color
+        self.update()
+
+    def hoverMoveEvent(self, event):
+        event.accept()
+
+    def hoverLeaveEvent(self, event):
+        """Change color of the input back to the default color."""
+        event.accept()
+        self.current_color = self.default_color
+        self.update()
+
 
 class OutputItem(QtWidgets.QGraphicsItem):
     """Class to display an :class:`.Output` in the UI. This class supports all
@@ -162,12 +181,17 @@ class OutputItem(QtWidgets.QGraphicsItem):
                 """
         super(OutputItem, self).__init__(parent=parent)
 
+        self.default_color = QtGui.QColor(0, 0, 0)
+        self.hover_color = QtGui.QColor(84, 84, 84)
+        self.current_color = self.default_color
         self.width = width
         self.height = height
         self.setPos(x, y)
 
         self.mca_output = mca_output
         self.view = view
+
+        self.setAcceptHoverEvents(True)
         self.setAcceptDrops(True)
         self.connection_lines = []
 
@@ -192,7 +216,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
         path.lineTo(self.width, self.height / 2)
         path.lineTo(0, self.height)
         path.lineTo(0, 0)
-        painter.fillPath(path, QtGui.QBrush(QtGui.QColor(0, 0, 0)))
+        painter.fillPath(path, QtGui.QBrush(self.current_color))
 
     def mousePressEvent(self, event):
         """Method invoked when the block gets clicked. Creates a
@@ -258,6 +282,21 @@ class OutputItem(QtWidgets.QGraphicsItem):
         Opens the context menu of the output.
         """
         self.menu.exec_(event.screenPos())
+
+    def hoverEnterEvent(self, event):
+        """Change color of the output to the hover color."""
+        event.accept()
+        self.current_color = self.hover_color
+        self.update()
+
+    def hoverMoveEvent(self, event):
+        event.accept()
+
+    def hoverLeaveEvent(self, event):
+        """Change color of the output back to the default color."""
+        event.accept()
+        self.current_color = self.default_color
+        self.update()
 
 
 class ConnectionLine(QtWidgets.QGraphicsLineItem):
