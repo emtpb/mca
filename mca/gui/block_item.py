@@ -244,6 +244,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         bottom right 20x20 pixels of the block is pressed the block switches to
         resize mode.
         """
+        print(event.scenePos())
+        print(self.scene().sceneRect())
         if event.button() == QtCore.Qt.MouseButton.RightButton:
             event.ignore()
         self.setZValue(1.0)
@@ -313,5 +315,3 @@ class BlockItem(QtWidgets.QGraphicsItem):
         event.accept()
         self.current_color = self.default_color
         self.update()
-
-

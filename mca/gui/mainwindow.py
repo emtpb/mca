@@ -45,17 +45,16 @@ class MainWindow(QtWidgets.QMainWindow):
         exit_action.triggered.connect(self.exit_app)
         self.file_menu.addAction(exit_action)
 
-        self.main_widget = QtWidgets.QSplitter(QtCore.Qt.Horizontal)
+        self.main_widget = QtWidgets.QWidget(self)
+        self.main_layout = QtWidgets.QHBoxLayout(self.main_widget)
         self.blocks = [m[1] for m in
                        inspect.getmembers(mca.blocks, inspect.isclass)]
         self.scene = block_display.BlockScene(self.main_widget)
-        self.block_list = block_list.BlockList(self.main_widget,
-                                               self.blocks, self.scene)
-        self.main_widget.addWidget(self.block_list)
-        self.view = block_display.BlockView(scene=self.scene,
-                                            parent=self.main_widget)
+        self.block_list = block_list.BlockList(self, self.blocks, self.scene)
+        self.main_layout.addWidget(self.block_list)
+        self.view = block_display.BlockView(scene=self.scene, parent=self)
         self.view.show()
-        self.main_widget.addWidget(self.view)
+        self.main_layout.addWidget(self.view)
         self.setCentralWidget(self.main_widget)
 
     @QtCore.Slot()

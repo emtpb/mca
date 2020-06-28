@@ -50,7 +50,6 @@ class BlockScene(QtWidgets.QGraphicsScene):
             parent: Parent of this widget.
         """
         QtWidgets.QGraphicsScene.__init__(self, parent=parent)
-        self.setSceneRect(0, 0, 880, 800)
 
     def dragEnterEvent(self, event):
         """Reimplements the event when a drag enters this widget. Accepts only
@@ -95,4 +94,3 @@ class BlockScene(QtWidgets.QGraphicsScene):
                     self.addItem(new_block)
                     return
             x = 0
-

@@ -56,7 +56,7 @@ class BlockList(QtWidgets.QListWidget):
         """Event triggered when an item in the list gets double clicked.
         The clicked block will get initialized in the :class:`.BlockScene`."""
         selected_block_class = self.currentItem().data(3)
-        self.scene.create_block(self.width(), 10, selected_block_class)
+        self.scene.create_block(0, 0, selected_block_class)
 
     def contextMenuEvent(self, event):
         """Event triggered when right clicking with the mouse. Opens
