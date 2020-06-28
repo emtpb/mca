@@ -36,7 +36,7 @@ class MainWindow(QtWidgets.QMainWindow):
             os.path.dirname(mca.blocks.__file__) + "/icons/emt_logo.png"))
         for i in languages:
             action = QtWidgets.QAction(i[0], self)
-            action.triggered.connect(self.change_language(i[1]))
+            action.triggered.connect(lambda: self.change_language(i[1]))
             self.language_menu.addAction(action)
 
         exit_action = QtWidgets.QAction(_("Exit"), self)
@@ -69,11 +69,7 @@ class MainWindow(QtWidgets.QMainWindow):
         Args:
             new_language (str): New language which should be applied.
         """
-
-        def tmp():
-            msg_box = QtWidgets.QMessageBox()
-            msg_box.setText(_("Changes will be applied after restart."))
-            msg_box.exec()
-            config.Config()["language"] = new_language
-
-        return tmp
+        msg_box = QtWidgets.QMessageBox()
+        msg_box.setText(_("Changes will be applied after restart."))
+        msg_box.exec()
+        config.Config()["language"] = new_language
