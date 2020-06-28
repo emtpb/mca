@@ -257,7 +257,7 @@ class DynamicBlock(Block):
         block_registry.Registry.remove_output(self.outputs.pop(output_index))
 
     def _process(self):
-        """Processes data from the Inputs and the parameters and puts new
+        """Processes data from the Inputs and the parameters and put new
         data to the outputs.
         """
         raise NotImplementedError
