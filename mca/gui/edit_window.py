@@ -35,7 +35,7 @@ class EditWindow(QtWidgets.QDialog):
         QtWidgets.QDialog.__init__(self)
         self.block = block
         self.resize(500, 400)
-        self.setMaximumSize(QtCore.QSize(500, 4000))
+        self.setMaximumSize(QtCore.QSize(500, 400))
         self.setWindowTitle(_("Edit"))
         # Define font for headline labels in the edit window
         self.headline_font = QtGui.QFont()
@@ -54,16 +54,25 @@ class EditWindow(QtWidgets.QDialog):
         self.parameter_layout = QtWidgets.QGridLayout(self.parameter_tab)
         parameters_tab_height = (len(block.parameters) + 1) * 30
         self.parameter_tab.setFixedHeight(parameters_tab_height)
-        self.tab_widget.addTab(self.parameter_tab, _("Parameters"))
+
+        scroll = QtWidgets.QScrollArea()
+        scroll.setWidget(self.parameter_tab)
+        scroll.setWidgetResizable(True)
+        scroll.setFixedHeight(400)
+        self.tab_widget.addTab(scroll, _("Parameters"))
         self.display_parameters()
         # Initialize meta data tab
         if block.outputs:
             self.meta_data_tab = QtWidgets.QWidget()
             self.meta_data_layout = QtWidgets.QGridLayout(self.meta_data_tab)
-            meta_data_tab_height = len(block.outputs) * 210
+            meta_data_tab_height = len(self.block.outputs)*240
             self.meta_data_tab.setFixedHeight(meta_data_tab_height)
-            self.tab_widget.addTab(self.meta_data_tab, _("Meta data"))
             self.tab_widget.setCurrentIndex(0)
+            scroll = QtWidgets.QScrollArea()
+            scroll.setWidget(self.meta_data_tab)
+            scroll.setWidgetResizable(True)
+            scroll.setFixedHeight(400)
+            self.tab_widget.addTab(scroll, _("Meta data"))
         self.display_meta_data()
         # Set buttons
         self.button_box = QtWidgets.QDialogButtonBox()
