@@ -9,7 +9,7 @@ from mca.language import _
 
 
 class MainWindow(QtWidgets.QMainWindow):
-    """Mainwindow of the mca. Holds the main widgets of the application.
+    """Main window of the mca. Holds the main widgets of the application.
 
     Attributes:
         menu: Menu bar of the application.
@@ -36,7 +36,7 @@ class MainWindow(QtWidgets.QMainWindow):
             os.path.dirname(mca.blocks.__file__) + "/icons/emt_logo.png"))
         for i in languages:
             action = QtWidgets.QAction(i[0], self)
-            action.triggered.connect(lambda: self.change_language(i[1]))
+            action.triggered.connect(change_language(i[1]))
             self.language_menu.addAction(action)
 
         exit_action = QtWidgets.QAction(_("Exit"), self)
@@ -62,13 +62,17 @@ class MainWindow(QtWidgets.QMainWindow):
         """Quit the application."""
         QtWidgets.QApplication.quit()
 
-    def change_language(self, new_language):
-        """Change the language in the config.
 
-        Args:
-            new_language (str): New language which should be applied.
-        """
+def change_language(new_language):
+    """Change the language in the config.
+
+    Args:
+        new_language (str): New language which should be applied.
+    """
+
+    def tmp():
+        config.Config()["language"] = new_language
         msg_box = QtWidgets.QMessageBox()
         msg_box.setText(_("Changes will be applied after restart."))
         msg_box.exec()
-        config.Config()["language"] = new_language
+    return tmp
