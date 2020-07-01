@@ -31,11 +31,10 @@ class BlockItem(QtWidgets.QGraphicsItem):
                             coordinates of the last mouse movement to
                             calculate the current size.
         menu: Menu which pops up when the right mouse button is pressed.
-        edit_window: Window which carries all parameters of the block as
-                          :mod:`.parameter_widgets` to manipulate the
-                          parameters.
-        parameter_action: Action added to the menu which opens the
-                          :class:`.EditWindow` of the class.
+        edit_window: Window which carries all parameters and meta data
+                     of the block.
+        edit_action: Action added to the menu which opens the
+                     :class:`.EditWindow` of the class.
         add_input_action: Action added to the menu which only exists when the
                           block instance is a :class:`.DynamicBlock`. A new
                           :class:`.InputItem` is dynamically added.
@@ -231,9 +230,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         return super().itemChange(change, value)
 
     def mouseDoubleClickEvent(self, event):
-        """Opens the parameter_window with a double click."""
-        if self.block.parameters:
-            self.open_parameter_window()
+        """Opens the edit_window with a double click."""
+        self.open_edit_window()
 
     def mousePressEvent(self, event):
         """Method invoked when the block gets clicked. Increases its Z value
