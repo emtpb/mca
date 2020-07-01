@@ -37,6 +37,12 @@ class EditWindow(QtWidgets.QDialog):
         self.resize(500, 400)
         self.setMaximumSize(QtCore.QSize(500, 4000))
         self.setWindowTitle(_("Edit"))
+        # Define font for headline labels in the edit window
+        self.headline_font = QtGui.QFont()
+        self.headline_font.setFamily("TeXGyreHeros")
+        self.headline_font.setPointSize(11)
+        self.headline_font.setWeight(75)
+        self.headline_font.setBold(True)
 
         self.main_layout = QtWidgets.QVBoxLayout()
         self.setLayout(self.main_layout)
@@ -90,12 +96,7 @@ class EditWindow(QtWidgets.QDialog):
             parameter_label = QtWidgets.QLabel(_("Parameters:"),
                                                self.parameter_tab)
             self.parameter_layout.addWidget(parameter_label, 0, 0, 1, 1)
-            font = QtGui.QFont()
-            font.setFamily("TeXGyreHeros")
-            font.setPointSize(11)
-            font.setWeight(75)
-            font.setBold(True)
-            parameter_label.setFont(font)
+            parameter_label.setFont(self.headline_font)
         for block_parameter, index in zip(block_parameters,
                                           range(1, len(block_parameters) + 1)):
             if not isinstance(block_parameter, parameters.BoolParameter):
@@ -118,6 +119,7 @@ class EditWindow(QtWidgets.QDialog):
                     "Output '{}' meta data:".format(output.name))
             else:
                 output_label = QtWidgets.QLabel("Output meta data:")
+            output_label.setFont(self.headline_font)
             self.meta_data_layout.addWidget(output_label, index*8, 0, 1, 1)
             self.meta_data_layout.addWidget(QtWidgets.QLabel("Signal name:"),
                                             index*8+1, 0, 1, 1)
