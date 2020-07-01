@@ -54,15 +54,15 @@ class EditWindow(QtWidgets.QDialog):
         self.parameter_layout = QtWidgets.QGridLayout(self.parameter_tab)
         parameters_tab_height = (len(block.parameters) + 1) * 30
         self.parameter_tab.setFixedHeight(parameters_tab_height)
-        self.tab_widget.addTab(self.parameter_tab, "Parameters")
+        self.tab_widget.addTab(self.parameter_tab, _("Parameters"))
         self.display_parameters()
         # Initialize meta data tab
         if block.outputs:
             self.meta_data_tab = QtWidgets.QWidget()
             self.meta_data_layout = QtWidgets.QGridLayout(self.meta_data_tab)
-            meta_data_tab_height = len(block.outputs)*210
+            meta_data_tab_height = len(block.outputs) * 210
             self.meta_data_tab.setFixedHeight(meta_data_tab_height)
-            self.tab_widget.addTab(self.meta_data_tab, "Meta data")
+            self.tab_widget.addTab(self.meta_data_tab, _("Meta data"))
             self.tab_widget.setCurrentIndex(0)
         self.display_meta_data()
         # Set buttons
@@ -116,39 +116,51 @@ class EditWindow(QtWidgets.QDialog):
         for index, output in enumerate(self.block.outputs):
             if output.name:
                 output_label = QtWidgets.QLabel(
-                    "Output '{}' meta data:".format(output.name))
+                    _("Output '{}' meta data:").format(output.name))
             else:
-                output_label = QtWidgets.QLabel("Output meta data:")
+                output_label = QtWidgets.QLabel(_("Output meta data:"))
             output_label.setFont(self.headline_font)
-            self.meta_data_layout.addWidget(output_label, index*8, 0, 1, 1)
-            self.meta_data_layout.addWidget(QtWidgets.QLabel("Signal name:"),
-                                            index*8+1, 0, 1, 1)
+            self.meta_data_layout.addWidget(output_label, index * 8, 0, 1, 1)
+            self.meta_data_layout.addWidget(QtWidgets.QLabel(
+                _("Signal name:")),
+                index * 8 + 1, 0, 1, 1)
             name_edit = QtWidgets.QLineEdit(output.meta_data.name)
-            self.meta_data_layout.addWidget(name_edit, index*8+1, 1, 1, 1)
+            self.meta_data_layout.addWidget(name_edit, index * 8 + 1, 1, 1, 1)
             self.meta_data_layout.addWidget(
-                QtWidgets.QLabel("Abscissa quantity:"), index*8+2, 0, 1, 1)
+                QtWidgets.QLabel(_("Abscissa quantity:")),
+                index * 8 + 2, 0, 1, 1)
             quantity_a_edit = QtWidgets.QLineEdit(output.meta_data.quantity_a)
-            self.meta_data_layout.addWidget(quantity_a_edit, index*8+2, 1, 1, 1)
+            self.meta_data_layout.addWidget(quantity_a_edit,
+                                            index * 8 + 2, 1, 1, 1)
             symbol_a_edit = QtWidgets.QLineEdit(output.meta_data.symbol_a)
             self.meta_data_layout.addWidget(
-                QtWidgets.QLabel("Abscissa symbol:"), index*8+3, 0, 1, 1)
-            self.meta_data_layout.addWidget(symbol_a_edit, index*8+3, 1, 1, 1)
-            self.meta_data_layout.addWidget(QtWidgets.QLabel("Abscissa unit:"),
-                                            index*8+4, 0, 1, 1)
+                QtWidgets.QLabel(_("Abscissa symbol:")),
+                index * 8 + 3, 0, 1, 1)
+            self.meta_data_layout.addWidget(symbol_a_edit,
+                                            index * 8 + 3, 1, 1, 1)
+            self.meta_data_layout.addWidget(
+                QtWidgets.QLabel(_("Abscissa unit:")), index * 8 + 4, 0, 1, 1)
             unit_a_edit = QtWidgets.QLineEdit(output.meta_data.unit_a)
-            self.meta_data_layout.addWidget(unit_a_edit, index*8+4, 1, 1, 1)
-            self.meta_data_layout.addWidget(QtWidgets.QLabel("Ordinate quantity:"),
-                                            index*8+5, 0, 1, 1)
+            self.meta_data_layout.addWidget(unit_a_edit,
+                                            index * 8 + 4, 1, 1, 1)
+            self.meta_data_layout.addWidget(
+                QtWidgets.QLabel(_("Ordinate quantity:")),
+                index * 8 + 5, 0, 1, 1)
             quantity_o_edit = QtWidgets.QLineEdit(output.meta_data.quantity_o)
-            self.meta_data_layout.addWidget(quantity_o_edit, index*8+5, 1, 1, 1)
-            self.meta_data_layout.addWidget(QtWidgets.QLabel("Ordinate symbol:"),
-                                            index*8+6, 0, 1, 1)
+            self.meta_data_layout.addWidget(quantity_o_edit, index * 8 + 5, 1,
+                                            1, 1)
+            self.meta_data_layout.addWidget(
+                QtWidgets.QLabel(_("Ordinate symbol:")),
+                index * 8 + 6, 0, 1, 1)
             symbol_o_edit = QtWidgets.QLineEdit(output.meta_data.symbol_o)
-            self.meta_data_layout.addWidget(symbol_o_edit, index*8+6, 1, 1, 1)
-            self.meta_data_layout.addWidget(QtWidgets.QLabel("Ordinate unit:"),
-                                            index*8+7, 0, 1, 1)
+            self.meta_data_layout.addWidget(symbol_o_edit, index * 8 + 6, 1, 1,
+                                            1)
+            self.meta_data_layout.addWidget(
+                QtWidgets.QLabel(_("Ordinate unit:")),
+                index * 8 + 7, 0, 1, 1)
             unit_o_edit = QtWidgets.QLineEdit(output.meta_data.unit_o)
-            self.meta_data_layout.addWidget(unit_o_edit, index*8+7, 1, 1, 1)
+            self.meta_data_layout.addWidget(unit_o_edit,
+                                            index * 8 + 7, 1, 1, 1)
 
             def set_meta_data():
                 output.meta_data.name = name_edit.text()
@@ -158,5 +170,6 @@ class EditWindow(QtWidgets.QDialog):
                 output.meta_data.quantity_o = quantity_o_edit.text()
                 output.meta_data.symbol_o = symbol_o_edit.text()
                 output.meta_data.unit_o = unit_o_edit.text()
+
             QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"),
                                    set_meta_data)

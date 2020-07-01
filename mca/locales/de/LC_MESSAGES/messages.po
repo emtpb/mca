@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2020-03-30 13:02+0200\n"
+"POT-Creation-Date: 2020-07-01 23:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -28,13 +28,13 @@ msgid "Computes the absolute of the input signal."
 msgstr "Berechnet den Betrag des Eingangssignals."
 
 #: blocks/absolute.py:25 blocks/adder.py:31 blocks/real_imag.py:24
-#: blocks/real_imag.py:29 blocks/signal_generator_arbitrary.py:22
+#: blocks/real_imag.py:30 blocks/signal_generator_arbitrary.py:22
 #: blocks/signal_generator_periodic.py:31
 msgid "Time"
 msgstr "Zeit"
 
 #: blocks/absolute.py:26 blocks/adder.py:31 blocks/fft.py:21
-#: blocks/real_imag.py:24 blocks/real_imag.py:29
+#: blocks/real_imag.py:24 blocks/real_imag.py:30
 #: blocks/signal_generator_arbitrary.py:22
 #: blocks/signal_generator_periodic.py:31
 msgid "Voltage"
@@ -52,7 +52,7 @@ msgstr "Addiert mehrere Signale zu einem Signal auf."
 msgid "Computes the FFT of the input signal."
 msgstr "Berechnet die FFT des Eingangssignals."
 
-#: blocks/fft.py:21 blocks/signal_generator_periodic.py:39
+#: blocks/fft.py:21 blocks/signal_generator_periodic.py:41
 msgid "Frequency"
 msgstr "Frequenz"
 
@@ -82,10 +82,6 @@ msgstr "Verschieben"
 msgid "Shift and only positive frequencies"
 msgstr "Verschieben und nur positive Frequenzen"
 
-#: blocks/fftplot.py:36
-msgid "no_shift"
-msgstr "Kein Verschieben"
-
 #: blocks/fftplot.py:39
 msgid "Plot Mode"
 msgstr "Plot Modus"
@@ -106,10 +102,6 @@ msgstr "Betrag"
 msgid "Phase"
 msgstr "Phase"
 
-#: blocks/fftplot.py:42
-msgid "absolute"
-msgstr "Betrag"
-
 #: blocks/real_imag.py:16
 msgid ""
 "Divides the real and imaginary part of the input signal into two output "
@@ -117,6 +109,14 @@ msgid ""
 msgstr ""
 "Teilt Real- und Imaginärteil the Eingangssignals in zwei Ausgangssignale "
 "auf."
+
+#: blocks/real_imag.py:26
+msgid "Real part"
+msgstr "Realteil"
+
+#: blocks/real_imag.py:32
+msgid "Imaginary part"
+msgstr "Imaginärteil"
 
 #: blocks/signal_generator_arbitrary.py:14
 msgid "SignalGeneratorArbitrary"
@@ -136,23 +136,23 @@ msgstr ""
 msgid "Function"
 msgstr "Funktion"
 
-#: blocks/signal_generator_periodic.py:36
+#: blocks/signal_generator_periodic.py:37
 msgid "Rectangle"
 msgstr "Rechteck"
 
-#: blocks/signal_generator_periodic.py:36
+#: blocks/signal_generator_periodic.py:37
 msgid "Triangle"
 msgstr "Dreieck"
 
-#: blocks/signal_generator_periodic.py:36
+#: blocks/signal_generator_periodic.py:38
 msgid "Sine"
 msgstr "Sinus"
 
-#: blocks/signal_generator_periodic.py:45
+#: blocks/signal_generator_periodic.py:49
 msgid "Values"
 msgstr "Werte"
 
-#: blocks/signal_generator_periodic.py:48
+#: blocks/signal_generator_periodic.py:52
 msgid "Increment"
 msgstr "Inkrement"
 
@@ -160,77 +160,121 @@ msgstr "Inkrement"
 msgid "Plots all input signals in matplotlib."
 msgstr "Plottet alle Eingangssignale in matplotlib."
 
-#: framework/block_base.py:27
+#: framework/block_base.py:26
 msgid "Name"
 msgstr "Name"
 
-#: gui/block_display.py:8
+#: gui/block_display.py:22
 msgid "Zoom in"
 msgstr "Reinzoomen"
 
-#: gui/block_display.py:13
+#: gui/block_display.py:27
 msgid "Zoom out"
 msgstr "Rauszoomen"
 
-#: gui/block_item.py:47
-msgid "Edit Parameters"
-msgstr "Parameter bearbeiten"
-
-#: gui/block_item.py:51
-msgid "Add Input"
-msgstr "Input hinzufügen"
-
-#: gui/block_item.py:56
-msgid "Delete Input"
-msgstr "Input löschen"
-
-#: gui/block_item.py:62
-msgid "Show Plot"
-msgstr "Plot zeigen"
-
-#: gui/block_item.py:65
-msgid "Delete Block"
-msgstr "Block löschen"
-
-#: gui/io_items.py:19 gui/io_items.py:97
-msgid "Disconnect"
-msgstr "Verbindung trennen"
-
-#: gui/io_items.py:61 gui/io_items.py:139 gui/mainwindow.py:17
-msgid "MCA"
-msgstr "MKA"
-
-#: gui/io_items.py:61 gui/io_items.py:139
-msgid "Cyclic structures are not allowed."
-msgstr "Zyklische Strukturen sind nicht erlaubt."
-
-#: gui/mainwindow.py:20
-msgid "File"
-msgstr "Datei"
-
-#: gui/mainwindow.py:21
-msgid "Language"
-msgstr "Sprache"
-
-#: gui/mainwindow.py:27
-msgid "Exit"
-msgstr "Verlassen"
-
-#: gui/mainwindow.py:29
-msgid "Close Application"
-msgstr "Programm beenden"
-
-#: gui/mainwindow.py:52
-msgid "Changes will be applied after restart."
-msgstr "Einstellungen werden nach Neustart übernommen."
-
-#: gui/parameter_window.py:13
+#: gui/block_item.py:94 gui/edit_window.py:39
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: gui/parameter_window.py:40
+#: gui/block_item.py:98
+msgid "Add Input"
+msgstr "Input hinzufügen"
+
+#: gui/block_item.py:105
+msgid "Delete Input"
+msgstr "Input löschen"
+
+#: gui/block_item.py:113
+msgid "Show Plot"
+msgstr "Plot zeigen"
+
+#: gui/block_item.py:117
+msgid "Delete Block"
+msgstr "Block löschen"
+
+#: gui/block_list.py:27
+msgid "Create new block"
+msgstr "Erstelle neuen Block"
+
+#: gui/edit_window.py:57
+msgid "Parameters"
+msgstr "Parameter"
+
+#: gui/edit_window.py:65
+msgid "Meta data"
+msgstr "Metadaten"
+
+#: gui/edit_window.py:96
 msgid "Parameters:"
 msgstr "Parameter:"
+
+#: gui/edit_window.py:119
+msgid "Output '{}' meta data:"
+msgstr "Output '{}' Metadaten"
+
+#: gui/edit_window.py:121
+msgid "Output meta data:"
+msgstr "Output Metadaten"
+
+#: gui/edit_window.py:125
+msgid "Signal name:"
+msgstr "Signal name:"
+
+#: gui/edit_window.py:130
+msgid "Abscissa quantity:"
+msgstr "Abszissengröße:"
+
+#: gui/edit_window.py:137
+msgid "Abscissa symbol:"
+msgstr "Abszissensymbol:"
+
+#: gui/edit_window.py:142
+msgid "Abscissa unit:"
+msgstr "Abszisseneinheit:"
+
+#: gui/edit_window.py:147
+msgid "Ordinate quantity:"
+msgstr "Ordinatengröße:"
+
+#: gui/edit_window.py:153
+msgid "Ordinate symbol:"
+msgstr "Ordinatensymbol:"
+
+#: gui/edit_window.py:159
+msgid "Ordinate unit:"
+msgstr "Ordinateneinheit:"
+
+#: gui/io_items.py:50 gui/io_items.py:199
+msgid "Disconnect"
+msgstr "Verbindung trennen"
+
+#: gui/io_items.py:109 gui/io_items.py:257 gui/mainwindow.py:29
+msgid "MCA"
+msgstr "MKA"
+
+#: gui/io_items.py:109 gui/io_items.py:257
+msgid "Cyclic structures are not allowed."
+msgstr "Zyklische Strukturen sind nicht erlaubt."
+
+#: gui/mainwindow.py:31
+msgid "File"
+msgstr "Datei"
+
+#: gui/mainwindow.py:32
+msgid "Language"
+msgstr "Sprache"
+
+#: gui/mainwindow.py:42
+msgid "Exit"
+msgstr "Verlassen"
+
+#: gui/mainwindow.py:44
+msgid "Close Application"
+msgstr "Programm beenden"
+
+#: gui/mainwindow.py:76
+msgid "Changes will be applied after restart."
+msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Starting point of the FFT"
 #~ msgstr "Startpunkt der FFT"
