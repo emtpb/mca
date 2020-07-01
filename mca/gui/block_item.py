@@ -1,6 +1,6 @@
 from PySide2 import QtWidgets, QtCore, QtGui
 
-from mca.gui.parameter_window import ParameterWindow
+from mca.gui.edit_window import EditWindow
 from mca.gui.io_items import InputItem, OutputItem
 from mca import framework
 from mca.language import _
@@ -31,11 +31,11 @@ class BlockItem(QtWidgets.QGraphicsItem):
                             coordinates of the last mouse movement to
                             calculate the current size.
         menu: Menu which pops up when the right mouse button is pressed.
-        parameter_window: Window which carries all parameters of the block as
+        edit_window: Window which carries all parameters of the block as
                           :mod:`.parameter_widgets` to manipulate the
                           parameters.
         parameter_action: Action added to the menu which opens the
-                          :class:`.ParameterWindow` of the class.
+                          :class:`.EditWindow` of the class.
         add_input_action: Action added to the menu which only exists when the
                           block instance is a :class:`.DynamicBlock`. A new
                           :class:`.InputItem` is dynamically added.
@@ -52,8 +52,10 @@ class BlockItem(QtWidgets.QGraphicsItem):
         QtWidgets.QGraphicsItem.__init__(self)
         self.setPos(x, y)
         self.view = view
+        self.block = block_class()
         self.default_color = QtGui.QColor(250, 235, 215)
         self.hover_color = QtGui.QColor(255, 228, 181)
+        self.setToolTip(self.block.description)
         self.setAcceptHoverEvents(True)
         self.current_color = self.default_color
         self.width = 100
@@ -72,9 +74,6 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
         self.inputs = []
         self.outputs = []
-        self.block = block_class()
-
-        self.setToolTip(type(self.block).description)
 
         self.setFlag(self.ItemIsMovable, True)
         self.setFlag(self.ItemSendsGeometryChanges, True)
@@ -88,14 +87,13 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.last_point = (None, None)
 
         self.menu = QtWidgets.QMenu(self.view)
-        self.parameter_window = ParameterWindow(self.block)
-        self.open_parameter_window()
+        self.edit_window = EditWindow(self.block)
+        self.open_edit_window()
 
         if self.block.parameters:
-            self.parameter_action = QtWidgets.QAction(_("Edit Parameters"),
-                                                      self.view)
-            self.parameter_action.triggered.connect(self.open_parameter_window)
-            self.menu.addAction(self.parameter_action)
+            self.edit_action = QtWidgets.QAction(_("Edit"), self.view)
+            self.edit_action.triggered.connect(self.open_edit_window)
+            self.menu.addAction(self.edit_action)
         if isinstance(self.block, framework.DynamicBlock):
             self.add_input_action = QtWidgets.QAction(_("Add Input"),
                                                       self.view)
@@ -188,10 +186,9 @@ class BlockItem(QtWidgets.QGraphicsItem):
             o.disconnect()
         self.scene().removeItem(self)
 
-    def open_parameter_window(self):
+    def open_edit_window(self):
         """Opens up the parameter window."""
-        if self.block.parameters:
-            self.parameter_window.exec_()
+        self.edit_window.exec_()
         self.update()
 
     def add_existing_input(self, input):
