@@ -99,19 +99,16 @@ class EditWindow(QtWidgets.QDialog):
         for block_parameter, index in zip(block_parameters,
                                           range(1, len(block_parameters) + 1)):
             if not isinstance(block_parameter, parameters.BoolParameter):
-                name_label = QtWidgets.QLabel(self.parameter_tab)
-                name_label.setText(block_parameter.name)
+                name_label = QtWidgets.QLabel(block_parameter.name)
                 self.parameter_layout.addWidget(name_label, index, 0, 1, 1)
-            widget = widget_dict[type(block_parameter)](block_parameter,
-                                                        self.parameter_tab)
+            widget = widget_dict[type(block_parameter)](block_parameter)
             widget.read_parameter()
             QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"),
                                    widget.set_parameter)
             self.parameter_layout.addWidget(widget, index, 1, 1, 1)
             if block_parameter.unit:
-                unit_label = QtWidgets.QLabel(self.parameter_tab)
+                unit_label = QtWidgets.QLabel(block_parameter.unit)
                 self.parameter_layout.addWidget(unit_label, index, 2, 1, 1)
-                unit_label.setText(block_parameter.unit)
 
     def display_meta_data(self):
         """Arranges the meta data of the outputs of the block in the window."""
