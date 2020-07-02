@@ -172,7 +172,8 @@ class ChoiceParameter(BaseParameter):
         
         Args:
             name (str): Name of the parameter.
-            choices: List of different choices which are tuples with a key and a translatable display name.
+            choices: List of different choices which are tuples with a key and
+                     a translatable display name.
             unit (str): Unit of the parameter.
             value: Value of the parameter of one of the choices.
         """
@@ -189,7 +190,8 @@ class ChoiceParameter(BaseParameter):
         Args:
             value: Given value to be validated.            
         Raises:
-            :class:`~mca.exceptions.ParameterTypeError`: Type of value is not str.
+            :class:`~mca.exceptions.ParameterTypeError`: Type of value is
+                                                         not str.
             :class:`~mca.exceptions.OutOfBoundError`: String is too long.
         """
         if value not in [i[0] for i in self.choices]:

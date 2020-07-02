@@ -4,8 +4,9 @@ import os
 
 
 class Config(dict):
-    """Config class of the mca. This class loads user configs and the default config into its own dict.
-    It also automatically creates the config directory and file and stores all new user configs there.
+    """Config class of the mca. This class loads user configs and the default
+    config into its own dict. It also automatically creates the config
+    directory and file and stores all new user configs there.
     """
     user_config_path = appdirs.user_config_dir('mca') + '/config.json'
     default_config = {"language": "en", }
