@@ -47,10 +47,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.main_widget = QtWidgets.QWidget(self)
         self.main_layout = QtWidgets.QHBoxLayout(self.main_widget)
-        self.blocks = [m[1] for m in
-                       inspect.getmembers(mca.blocks, inspect.isclass)]
+        self.block_classes = mca.blocks.block_classes
         self.scene = block_display.BlockScene(self.main_widget)
-        self.block_list = block_list.BlockList(self, self.blocks, self.scene)
+        self.block_list = block_list.BlockList(self, self.block_classes,
+                                               self.scene)
         self.main_layout.addWidget(self.block_list)
         self.view = block_display.BlockView(scene=self.scene, parent=self)
         self.view.show()
