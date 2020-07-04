@@ -6,196 +6,14 @@ import json
 import mca.framework
 from mca import exceptions
 
-"""Defines dynamic test blocks."""
-
-
-class DynamicInputBlock(mca.framework.DynamicBlock):
-    name = "DynamicInputBlock"
-
-    def __init__(self):
-        super().__init__()
-        self.dynamic_input = [1, 3]
-        self.outputs.append(
-            mca.framework.block_registry.Registry.add_node(mca.framework.block_io.Output(self, None))
-        )
-        self.inputs.append(
-            mca.framework.block_registry.Registry.add_node(mca.framework.block_io.Input(self))
-        )
-        self.process_count = 0
-
-    def _process(self):
-        self.outputs[0].data = 0
-        for i in self.inputs:
-            if i.data:
-                self.outputs[0].data += i.data
-        self.process_count += 1
-
-
-class DynamicOutputBlock(mca.framework.DynamicBlock):
-    name = "DynamicOutputBlock"
-
-    def __init__(self):
-        super().__init__()
-        self.dynamic_output = [1, None]
-        self.outputs.append(
-            mca.framework.block_registry.Registry.add_node(mca.framework.block_io.Output(self, None))
-        )
-        self.inputs.append(
-            mca.framework.block_registry.Registry.add_node(mca.framework.block_io.Input(self))
-        )
-        self.process_count = 0
-
-    def _process(self):
-        for o in self.outputs:
-            if self.inputs[0].data:
-                o.data = self.inputs[0].data
-            else:
-                o.data = None
-        self.process_count += 1
-
-
-"""Defines test blocks with various input-output variations."""
-
-
-class TestBlock(mca.framework.Block):
-    def __init__(self, inputs, outputs):
-        super().__init__()
-        for i in range(inputs):
-            self.inputs.append(
-                mca.framework.block_registry.Registry.add_node(mca.framework.block_io.Input(self))
-            )
-        for o in range(outputs):
-            self.outputs.append(
-                mca.framework.block_registry.Registry.add_node(
-                    mca.framework.block_io.Output(self, None))
-            )
-        self.process_count = 0
-
-    def _process(self):
-        pass
-
-
-class OneOutputBlock(TestBlock):
-    name = "OneOutputBlock"
-
-    def __init__(self, **kwargs):
-        super().__init__(0, 1)
-
-    def _process(self):
-        self.outputs[0].data = 1
-        self.process_count += 1
-
-
-class OneInputBlock(TestBlock):
-    name = "OneInputBlock"
-
-    def __init__(self, **kwargs):
-        super().__init__(1, 0)
-
-    def _process(self):
-        self.process_count += 1
-
-
-class TwoOutputBlock(TestBlock):
-    name = "TwoOutputBlock"
-
-    def __init__(self, **kwargs):
-        super().__init__(0, 2)
-
-    def _process(self):
-        self.outputs[0].data = 1
-        self.outputs[1].data = 2
-        self.process_count += 1
-
-
-class TwoInputBlock(TestBlock):
-    name = "TwoInputBlock"
-
-    def __init__(self, **kwargs):
-        super().__init__(2, 0)
-
-    def _process(self):
-        self.process_count += 1
-
-
-class OneInputOneOutputBlock(TestBlock):
-    name = "OneInputOneOutputBlock"
-
-    def __init__(self, **kwargs):
-        super().__init__(1, 1)
-
-    def _process(self):
-        self.process_count += 1
-        if self.inputs[0].data:
-            self.outputs[0].data = self.inputs[0].data + 1
-        else:
-            self.outputs[0].data = None
-
-
-class TwoInputOneOutputBlock(TestBlock):
-    name = "TwoInputOneOutputBlock"
-
-    def __init__(self, **kwargs):
-        super().__init__(2, 1)
-
-    def _process(self):
-        self.process_count += 1
-        if self.inputs[0].data and self.inputs[1].data:
-            self.outputs[0].data = self.inputs[0].data + self.inputs[1].data
-        else:
-            self.outputs[0].data = None
-
-
-class OneInputTwoOutputBlock(TestBlock):
-    name = "OneInputTwoOutputBlock"
-
-    def __init__(self, **kwargs):
-        super().__init__(1, 2)
-
-    def _process(self):
-        self.process_count += 1
-        if self.inputs[0].data:
-            self.outputs[0].data = self.inputs[0].data
-            self.outputs[1].data = self.outputs[0].data + 1
-
-
-class TwoInputTwoOutputBlock(TestBlock):
-    name = "TwoInputTwoOutputBlock"
-
-    def __init__(self, **kwargs):
-        super().__init__(2, 2)
-
-    def _process(self):
-        self.process_count += 1
-        if self.inputs[0].data and self.inputs[1].data:
-            self.outputs[0].data = self.inputs[0].data + self.inputs[1].data
-            self.outputs[1].data = self.outputs[0].data + 1
-
-
-class ParameterBlock(TestBlock):
-    name = "TwoInputTwoOutputBlock"
-
-    def __init__(self, **kwargs):
-        self.parameters = {
-            "test_parameter": mca.framework.parameters.FloatParameter(
-                "Test", value=0
-            ),
-            "test_parameter1": mca.framework.parameters.IntParameter(
-                "Test", value=100, min_=1
-            )}
-        self.read_kwargs(kwargs)
-
-    def _process(self):
-        pass
-
 
 """Fixtures for different scenarios."""
 
 
 @pytest.fixture
-def basic_scenario():
-    a = OneOutputBlock()
-    b = OneInputBlock()
+def basic_scenario(one_input_block, one_output_block):
+    a = one_output_block()
+    b = one_input_block()
     b.inputs[0].connect(a.outputs[0])
     a.apply_parameter_changes()
     yield a, b
@@ -203,9 +21,9 @@ def basic_scenario():
 
 
 @pytest.fixture
-def second_scenario():
-    a = TwoOutputBlock()
-    b = TwoInputBlock()
+def second_scenario(two_output_block, two_input_block):
+    a = two_output_block()
+    b = two_input_block()
     b.inputs[0].connect(a.outputs[0])
     b.inputs[1].connect(a.outputs[1])
     a.apply_parameter_changes()
@@ -214,9 +32,9 @@ def second_scenario():
 
 
 @pytest.fixture
-def third_scenario():
-    a = OneOutputBlock()
-    b = TwoInputBlock()
+def third_scenario(one_output_block, two_input_block):
+    a = one_output_block()
+    b = two_input_block()
     a.apply_parameter_changes()
     b.inputs[0].connect(a.outputs[0])
     b.inputs[1].connect(a.outputs[0])
@@ -225,10 +43,10 @@ def third_scenario():
 
 
 @pytest.fixture
-def fourth_scenario():
-    a = OneOutputBlock()
-    b = OneInputBlock()
-    c = OneInputBlock()
+def fourth_scenario(one_output_block, one_input_block):
+    a = one_output_block()
+    b = one_input_block()
+    c = one_input_block()
     a.apply_parameter_changes()
     b.inputs[0].connect(a.outputs[0])
     c.inputs[0].connect(a.outputs[0])
@@ -237,10 +55,11 @@ def fourth_scenario():
 
 
 @pytest.fixture
-def fifth_scenario():
-    a = OneOutputBlock()
-    b = OneInputOneOutputBlock()
-    c = OneInputBlock()
+def fifth_scenario(one_output_block, one_input_one_output_block,
+                   one_input_block):
+    a = one_output_block()
+    b = one_input_one_output_block()
+    c = one_input_block()
     a.apply_parameter_changes()
     b.inputs[0].connect(a.outputs[0])
     c.inputs[0].connect(b.outputs[0])
@@ -249,11 +68,12 @@ def fifth_scenario():
 
 
 @pytest.fixture
-def sixth_scenario():
-    a = OneOutputBlock()
-    b = OneInputOneOutputBlock()
-    c = OneInputOneOutputBlock()
-    d = TwoInputBlock()
+def sixth_scenario(one_output_block, one_input_one_output_block,
+                   two_input_block):
+    a = one_output_block()
+    b = one_input_one_output_block()
+    c = one_input_one_output_block()
+    d = two_input_block()
     a.apply_parameter_changes()
     b.inputs[0].connect(a.outputs[0])
     c.inputs[0].connect(a.outputs[0])
@@ -264,11 +84,12 @@ def sixth_scenario():
 
 
 @pytest.fixture
-def seventh_scenario():
-    a = OneOutputBlock()
-    b = OneOutputBlock()
-    c = TwoInputOneOutputBlock()
-    d = OneInputBlock()
+def seventh_scenario(one_output_block, two_input_one_output_block,
+                     one_input_block):
+    a = one_output_block()
+    b = one_output_block()
+    c = two_input_one_output_block()
+    d = one_input_block()
     a.apply_parameter_changes()
     b.apply_parameter_changes()
     c.inputs[0].connect(a.outputs[0])
@@ -279,8 +100,8 @@ def seventh_scenario():
 
 
 @pytest.fixture
-def add_input_scenario():
-    a = DynamicInputBlock()
+def add_input_scenario(dynamic_input_block):
+    a = dynamic_input_block()
     a.add_input(mca.framework.block_io.Input(a))
     a.add_input(mca.framework.block_io.Input(a))
     yield a
@@ -295,11 +116,12 @@ def delete_input_scenario(add_input_scenario):
 
 
 @pytest.fixture
-def dynamic_input_scenario(add_input_scenario):
+def dynamic_input_scenario(add_input_scenario, two_output_block,
+                           one_output_block, one_input_block):
     a = add_input_scenario
-    b = TwoOutputBlock()
-    c = OneOutputBlock()
-    d = OneInputBlock()
+    b = two_output_block()
+    c = one_output_block()
+    d = one_input_block()
     b.apply_parameter_changes()
     c.apply_parameter_changes()
     a.inputs[0].connect(b.outputs[0])
@@ -317,17 +139,18 @@ def test_connect(basic_scenario):
     assert [a.outputs[0], b.inputs[0]] in mca.framework.block_registry.Registry._graph.edges
 
 
-def test_connect_2():
-    a = OneInputBlock()
-    b = OneInputBlock()
+def test_connect_2(one_input_block):
+    a = one_input_block()
+    b = one_input_block()
+    print(a is b)
     with pytest.raises(exceptions.ConnectionsError):
         b.inputs[0].connect(a.inputs[0])
     mca.framework.block_registry.Registry.clear()
 
 
-def test_connect_3(basic_scenario):
+def test_connect_3(basic_scenario, one_output_block):
     a, b = basic_scenario
-    c = OneOutputBlock()
+    c = one_output_block()
     with pytest.raises(exceptions.ConnectionsError):
         b.inputs[0].connect(c.outputs[0])
 
@@ -346,9 +169,9 @@ def test_disconnect_input(basic_scenario):
     ] not in mca.framework.block_registry.Registry._graph.edges
 
 
-def test_disconnect_output(basic_scenario):
+def test_disconnect_output(basic_scenario, one_input_block):
     a, b = basic_scenario
-    c = OneInputBlock()
+    c = one_input_block()
     c.inputs[0].connect(a.outputs[0])
     a.outputs[0].disconnect()
     assert [
@@ -497,10 +320,12 @@ def test_seventh_scenario_data(seventh_scenario):
     assert d.inputs[0].data is None
 
 
-def test_eighth_scenario_behaviour():
-    a = OneOutputBlock()
-    b = TwoInputTwoOutputBlock()
-    c = TwoInputBlock()
+def test_eighth_scenario_behaviour(one_output_block,
+                                   two_input_two_output_block,
+                                   two_input_block):
+    a = one_output_block()
+    b = two_input_two_output_block()
+    c = two_input_block()
     b.inputs[0].connect(a.outputs[0])
     b.inputs[1].connect(a.outputs[0])
     c.inputs[0].connect(b.outputs[0])
@@ -519,11 +344,11 @@ def test_block_circle_error(seventh_scenario):
         c.inputs[0].connect(c.outputs[0])
 
 
-def test_block_circle_error_2():
-    a = OneOutputBlock()
-    b = OneOutputBlock()
-    c = TwoInputOneOutputBlock()
-    d = TwoInputOneOutputBlock()
+def test_block_circle_error_2(one_output_block, two_input_one_output_block):
+    a = one_output_block()
+    b = one_output_block()
+    c = two_input_one_output_block()
+    d = two_input_one_output_block()
     c.inputs[0].connect(a.outputs[0])
     d.inputs[0].connect(b.outputs[0])
     c.inputs[1].connect(d.outputs[0])
@@ -535,33 +360,33 @@ def test_block_circle_error_2():
 """Tests concerning the dynamic block."""
 
 
-def test_add_input(add_input_scenario):
+def test_add_input(add_input_scenario, dynamic_output_block):
     a = add_input_scenario
     assert len(a.inputs) == 3
     assert [a.inputs[1], a.outputs[0]] in mca.framework.block_registry.Registry._graph.edges
     with pytest.raises(exceptions.InputOutputError):
         a.add_input(mca.framework.block_io.Input(a))
-    b = DynamicOutputBlock()
+    b = dynamic_output_block()
     with pytest.raises(exceptions.InputOutputError):
         b.add_input(mca.framework.block_io.Input(b))
 
 
-def test_add_input_2():
-    a = DynamicInputBlock()
+def test_add_input_2(dynamic_input_block):
+    a = dynamic_input_block()
     b = mca.framework.block_io.Input(a)
     a.add_input(b)
     with pytest.raises(exceptions.InputOutputError):
         a.add_input(b)
 
 
-def test_delete_input(delete_input_scenario):
+def test_delete_input(delete_input_scenario, dynamic_output_block):
     a = delete_input_scenario
     assert len(a.inputs) == 2
     assert all([x in mca.framework.block_registry.Registry._graph.nodes() for x in a.inputs])
     a.delete_input(1)
     with pytest.raises(exceptions.InputOutputError):
         a.delete_input(0)
-    b = DynamicOutputBlock()
+    b = dynamic_output_block()
     with pytest.raises(exceptions.InputOutputError):
         b.delete_input(0)
 
@@ -579,11 +404,12 @@ def test_dynamic_input_data(dynamic_input_scenario):
     assert d.inputs[0].data == 3
 
 
-def test_dynamic_output_data():
-    a = DynamicOutputBlock()
-    b = OneOutputBlock()
-    c = TwoInputBlock()
-    d = TwoInputBlock()
+def test_dynamic_output_data(dynamic_output_block,
+                             one_output_block, two_input_block):
+    a = dynamic_output_block()
+    b = one_output_block()
+    c = two_input_block()
+    d = two_input_block()
     b.apply_parameter_changes()
     a.inputs[0].connect(b.outputs[0])
     a.add_output(mca.framework.block_io.Output(a, None))
@@ -601,19 +427,19 @@ def test_dynamic_output_data():
 """Tests for block convenience methods."""
 
 
-def test_check_empty_inputs():
-    a = TwoInputOneOutputBlock()
+def test_check_empty_inputs(two_input_one_output_block, two_output_block):
+    a = two_input_one_output_block()
     a.outputs[0].data = 1
     assert a.check_empty_inputs() is True
     assert a.outputs[0].data is None
-    b = TwoOutputBlock()
+    b = two_output_block()
     b.outputs[0].data = 1
     a.inputs[0].connect(b.outputs[0])
     assert a.check_empty_inputs() is None
 
 
-def test_read_kwargs():
-    a = ParameterBlock(test_parameter=0.1, test_parameter1=1)
+def test_read_kwargs(parameter_block):
+    a = parameter_block(test_parameter=0.1, test_parameter1=1)
     assert a.parameters["test_parameter"].value == 0.1
     assert a.parameters["test_parameter1"].value == 1
 
