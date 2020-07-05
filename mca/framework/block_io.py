@@ -71,7 +71,7 @@ class Output:
         id: To identify input after saving.
     """
 
-    def __init__(self, block, meta_data, name=None):
+    def __init__(self, block=None, meta_data=None, name=None):
         """Initializes Output class.
 
         Args:
