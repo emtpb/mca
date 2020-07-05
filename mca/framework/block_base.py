@@ -63,9 +63,7 @@ class Block:
     def _new_output(self, meta_data, name=None):
         """Creates and adds an new output to the block. Used to create new
         Outputs in the initialization of a new block.
-        
-        .. warning:: Never call this method after a block instance has been
-            initialized.
+
         .. see also::
             :class:`.DynamicBlock`
         """
@@ -103,11 +101,13 @@ class Block:
             return True
 
     def save_output_data(self, output_index, file_name):
-        """Saves the data of the output in a json-file. Currently only supports saving the data type :class:`.Signal`.
+        """Saves the data of the output in a json-file. Currently only supports
+        saving the data type :class:`.Signal`.
 
         Args:
             output_index (int): Index of the output which data should be saved.
-            file_name (str): Name of the file with the full path. Requires .json as file type.
+            file_name (str): Name of the file with the full path.
+                             Requires .json as file type.
         """
         if not self.outputs[output_index].data:
             raise exceptions.DataSavingError("Output has no data to save.")
