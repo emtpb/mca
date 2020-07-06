@@ -204,8 +204,9 @@ class IORegistry:
                               "quantity_o": output.meta_data.quantity_o,
                               "symbol_o": output.meta_data.symbol_o,
                               "unit_o": output.meta_data.unit_o,
-                          }
-                              for output in block.outputs], }
+                              }
+                              for output in block.outputs],
+                          "gui_data": block.gui_data}
             for input_ in block.inputs:
                 input_save = {}
                 if input_.connected_output():
@@ -228,10 +229,9 @@ class IORegistry:
         for block_save in load_data["blocks"]:
             block_instance = str_to_block_types[block_save["class"]]()
             block_structure.append(block_instance)
-            for parameter_name, parameter_value in block_save[
-                "parameters"].items():
-                block_instance.parameters[
-                    parameter_name].value = parameter_value
+            block_instance.gui_data = block_save["gui_data"]
+            for parameter_name, parameter_value in block_save["parameters"].items():
+                block_instance.parameters[parameter_name].value = parameter_value
             for index, input_save in enumerate(block_save["inputs"]):
                 if index + 1 > len(block_instance.inputs):
                     block_instance.add_input(block_io.Input(block_instance))

@@ -11,7 +11,6 @@ class Block:
     All specific Blocks must derive from this basic Block class.
     
     Attributes:
-        name (str): Name of the Block.
         inputs: List that contains all its :class:`.Input`.
         outputs: List that contains all its :class:`.Output`.
         parameters: List that contains all parameters.
@@ -25,6 +24,7 @@ class Block:
         self.parameters = {
             "name": parameters.StrParameter(_("Name"), max_length=35,
                                             value=self.name)}
+        self.gui_data = {}
 
     def apply_parameter_changes(self):
         """Applies all changes to the parameters and triggers an update."""

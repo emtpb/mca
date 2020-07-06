@@ -72,4 +72,3 @@ def test_load_block_structure(adder_signal_generator):
             assert block.parameters["name"].value == "test"
             assert block.parameters["amp"].value == 3
             assert block.outputs[0].meta_data.name == "test1"
-

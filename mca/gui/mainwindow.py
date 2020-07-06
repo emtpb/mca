@@ -39,6 +39,13 @@ class MainWindow(QtWidgets.QMainWindow):
             action.triggered.connect(change_language(i[1]))
             self.language_menu.addAction(action)
 
+        save_action = QtWidgets.QAction(_("Save"), self)
+        save_action.setShortcut("Ctrl+S")
+        self.file_menu.addAction(save_action)
+
+        save_as_action = QtWidgets.QAction(_("Save as"), self)
+        self.file_menu.addAction(save_as_action)
+
         exit_action = QtWidgets.QAction(_("Exit"), self)
         exit_action.setShortcut("Ctrl+Q")
         exit_action.setStatusTip(_("Close Application"))
