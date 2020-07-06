@@ -196,20 +196,21 @@ class IORegistry:
                                          block.parameters.items()},
                           "inputs": [],
                           "outputs": [{
-                               "id": output.id.int,
-                               "signal_name": output.meta_data.name,
-                               "quantity_a": output.meta_data.quantity_a,
-                               "symbol_a": output.meta_data.symbol_a,
-                               "unit_a": output.meta_data.unit_a,
-                               "quantity_o": output.meta_data.quantity_o,
-                               "symbol_o": output.meta_data.symbol_o,
-                               "unit_o": output.meta_data.unit_o,
-                               }
+                              "id": output.id.int,
+                              "signal_name": output.meta_data.name,
+                              "quantity_a": output.meta_data.quantity_a,
+                              "symbol_a": output.meta_data.symbol_a,
+                              "unit_a": output.meta_data.unit_a,
+                              "quantity_o": output.meta_data.quantity_o,
+                              "symbol_o": output.meta_data.symbol_o,
+                              "unit_o": output.meta_data.unit_o,
+                          }
                               for output in block.outputs], }
             for input_ in block.inputs:
                 input_save = {}
                 if input_.connected_output():
-                    input_save["connected_output"] = input_.connected_output().id.int
+                    input_save[
+                        "connected_output"] = input_.connected_output().id.int
                 save_block["inputs"].append(input_save)
             save_data["blocks"].append(save_block)
         with open(file_path, "w") as save_file:
@@ -227,10 +228,12 @@ class IORegistry:
         for block_save in load_data["blocks"]:
             block_instance = str_to_block_types[block_save["class"]]()
             block_structure.append(block_instance)
-            for parameter_name, parameter_value in block_save["parameters"].items():
-                block_instance.parameters[parameter_name].value = parameter_value
+            for parameter_name, parameter_value in block_save[
+                "parameters"].items():
+                block_instance.parameters[
+                    parameter_name].value = parameter_value
             for index, input_save in enumerate(block_save["inputs"]):
-                if index+1 > len(block_instance.inputs):
+                if index + 1 > len(block_instance.inputs):
                     block_instance.add_input(block_io.Input(block_instance))
             for index, output_save in enumerate(block_save["outputs"]):
                 meta_data = data_types.MetaData(
@@ -242,19 +245,24 @@ class IORegistry:
                     output_save["symbol_o"],
                     output_save["unit_o"],
                 )
-                if index+1 > len(block_instance.outputs):
+                if index + 1 > len(block_instance.outputs):
                     block_instance.add_output(block_io.Output(block_instance))
                 block_instance.outputs[index].meta_data = meta_data
-        for block_index_outer, block_save_outer in enumerate(load_data["blocks"]):
-            for input_index, input_save in enumerate(block_save_outer["inputs"]):
+        for block_index_outer, block_save_outer in enumerate(
+                load_data["blocks"]):
+            for input_index, input_save in enumerate(
+                    block_save_outer["inputs"]):
                 if input_save.get("connected_output"):
                     found = False
-                    for block_index_inner, block_save_inner in enumerate(load_data["blocks"]):
+                    for block_index_inner, block_save_inner in enumerate(
+                            load_data["blocks"]):
                         if found:
                             break
-                        for output_index, output_save in enumerate(block_save_inner["outputs"]):
+                        for output_index, output_save in enumerate(
+                                block_save_inner["outputs"]):
                             if input_save["connected_output"] == output_save["id"]:
-                                block_structure[block_index_outer].inputs[input_index].connect(block_structure[block_index_inner].outputs[output_index])
+                                block_structure[block_index_outer].inputs[input_index].connect(
+                                    block_structure[block_index_inner].outputs[output_index])
                                 found = True
         return block_structure
 
