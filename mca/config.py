@@ -9,7 +9,10 @@ class Config(dict):
     directory and file and stores all new user configs there.
     """
     user_config_path = appdirs.user_config_dir('mca') + '/config.json'
-    default_config = {"language": "en", }
+
+    default_config = {"language": "en",
+                      "save_file_dir": os.path.expanduser("~"),
+                      "load_file_dir": os.path.expanduser("~")}
 
     def __init__(self):
         """Initialize the Config class."""

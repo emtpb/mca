@@ -3,6 +3,7 @@ import inspect
 import os
 
 import mca.blocks
+from mca.framework import block_registry
 from mca.gui import block_list, block_display
 from mca import config
 from mca.language import _
@@ -27,6 +28,7 @@ class MainWindow(QtWidgets.QMainWindow):
         QtWidgets.QMainWindow.__init__(self)
         self.resize(1000, 800)
         self.setWindowTitle(_("MCA"))
+
         self.menu = self.menuBar()
         self.file_menu = self.menu.addMenu(_("File"))
         self.language_menu = self.menu.addMenu(_("Language"))
@@ -41,9 +43,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
         save_action = QtWidgets.QAction(_("Save"), self)
         save_action.setShortcut("Ctrl+S")
+        save_action.triggered.connect(self.save_file)
+        self.save_file_path = None
         self.file_menu.addAction(save_action)
 
         save_as_action = QtWidgets.QAction(_("Save as"), self)
+        save_as_action.setShortcut("Ctrl+Shift+S")
+        save_as_action.triggered.connect(self.save_file_as)
         self.file_menu.addAction(save_as_action)
 
         exit_action = QtWidgets.QAction(_("Exit"), self)
@@ -51,6 +57,8 @@ class MainWindow(QtWidgets.QMainWindow):
         exit_action.setStatusTip(_("Close Application"))
         exit_action.triggered.connect(self.exit_app)
         self.file_menu.addAction(exit_action)
+
+        self.conf = config.Config()
 
         self.main_widget = QtWidgets.QWidget(self)
         self.main_layout = QtWidgets.QHBoxLayout(self.main_widget)
@@ -69,6 +77,24 @@ class MainWindow(QtWidgets.QMainWindow):
         """Quit the application."""
         QtWidgets.QApplication.quit()
 
+    def save_file_as(self):
+        file_name = QtWidgets.QFileDialog.getSaveFileName(
+            self, _("Save"), self.conf["save_file_dir"], "json (*.json)")
+        if not file_name[0]:
+            return
+        if not file_name[0].endswith(".json"):
+            QtWidgets.QMessageBox.warning(
+                self, _("Error"), _("File has to be a .json!"))
+        else:
+            self.save_file_path = file_name[0]
+            self.save_file()
+
+    def save_file(self):
+        if self.save_file_path:
+            block_registry.Registry.save_block_structure(self.save_file_path)
+        else:
+            self.save_file_as()
+
 
 def change_language(new_language):
     """Change the language in the config.
@@ -82,4 +108,5 @@ def change_language(new_language):
         msg_box = QtWidgets.QMessageBox()
         msg_box.setText(_("Changes will be applied after restart."))
         msg_box.exec()
+
     return tmp

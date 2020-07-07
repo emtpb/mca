@@ -117,6 +117,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.delete_action.triggered.connect(self.delete)
         self.menu.addAction(self.delete_action)
 
+        self.save_gui_data()
+
     def boundingRect(self, *args, **kwargs):
         """Rectangle which marks where events should be invoked."""
         return QtCore.QRectF(0, 0, self.width, self.height)
@@ -190,13 +192,13 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.edit_window.exec_()
         self.update()
 
-    def add_existing_input(self, input):
+    def add_existing_input(self, input_):
         """Adds an existing :class:`.Input` from the block instance to a new
         :class:`.InputItem` and adds it to its input list.
         """
         new_input = InputItem(-self.input_width, len(self.inputs) * (
                     self.input_height + self.input_dist) + 5,
-                              self.input_width, self.input_height, input,
+                              self.input_width, self.input_height, input_,
                               self.view, self)
         self.inputs.append(new_input)
         if len(self.inputs) * (
@@ -267,6 +269,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.setZValue(0.0)
         self.resize_mode = False
         self.last_point = (None, None)
+        self.save_gui_data()
         super().mouseReleaseEvent(event)
 
     def resize(self, width, height):
@@ -308,3 +311,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         event.accept()
         self.current_color = self.default_color
         self.update()
+
+    def save_gui_data(self):
+        self.block.gui_data["pos"] = [self.scenePos().x(), self.scenePos().y()]
+        self.block.gui_data["size"] = [self.width, self.height]
