@@ -78,6 +78,7 @@ class MainWindow(QtWidgets.QMainWindow):
         QtWidgets.QApplication.quit()
 
     def save_file_as(self):
+        """Open file dialog and save the current state to the given file."""
         file_name = QtWidgets.QFileDialog.getSaveFileName(
             self, _("Save"), self.conf["save_file_dir"], "json (*.json)")
         if not file_name[0]:
@@ -90,6 +91,10 @@ class MainWindow(QtWidgets.QMainWindow):
             self.save_file()
 
     def save_file(self):
+        """Save the current state.
+
+        Opens up a file dialog if no safe file has been specified yet.
+        """
         if self.save_file_path:
             block_registry.Registry.save_block_structure(self.save_file_path)
         else:

@@ -202,8 +202,6 @@ class IORegistry:
 
         Args:
             file_path (str): Path of the .json file.
-        Returns:
-            list: All saved blocks in no particular order.
         """
         save_data = {"blocks": []}
         for block in self.get_all_blocks():
@@ -235,6 +233,14 @@ class IORegistry:
             json.dump(save_data, save_file)
 
     def load_block_structure(self, file_path):
+        """Loads a block structure into an empty structure.
+
+        Args:
+            file_path (str): Path of the .json file.
+
+        Returns:
+            list: All saved blocks in no particular order.
+        """
         if self.get_all_blocks():
             raise exceptions.DataLoadingError("Cannot load block structure"
                                               "into an existing structure.")
