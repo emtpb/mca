@@ -181,6 +181,21 @@ class IORegistry:
                 all_blocks.append(node.block)
         return all_blocks
 
+    def remove_block(self, block):
+        """Removes inputs and outputs of a block (thus removing the block)
+        from the IORegistry.
+
+        Removing a block means that all other blocks get disconnected from its
+        inputs and outputs and can not be reconnected.
+
+        Args:
+            block: Block object which inputs and outputs should be removed.
+        """
+        for input_ in block.inputs:
+            self.remove_input(input_)
+        for output in block.outputs:
+            self.remove_output(output)
+
     def save_block_structure(self, file_path):
         """Saves the current block structure to the given file_path as
         a .json.
