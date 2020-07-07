@@ -72,3 +72,15 @@ def test_load_block_structure(adder_signal_generator):
             assert block.parameters["name"].value == "test"
             assert block.parameters["amp"].value == 3
             assert block.outputs[0].meta_data.name == "test1"
+
+
+def test_remove_block(one_input_block, one_input_one_output_block):
+    block_registry.Registry.clear()
+    a = one_input_block()
+    b = one_input_one_output_block()
+    a.inputs[0].connect(b.outputs[0])
+    block_registry.Registry.remove_block(b)
+    assert a.inputs[0].connected_output is None
+    assert b.inputs[0] not in block_registry.Registry._graph.nodes
+    assert b.outputs[0] not in block_registry.Registry._graph.nodes
+    assert b not in block_registry.Registry.get_all_blocks()
