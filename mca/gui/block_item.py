@@ -185,6 +185,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
             i.disconnect()
         for o in self.outputs:
             o.disconnect()
+        framework.block_registry.Registry.remove_block(self.block)
         self.scene().removeItem(self)
 
     def open_edit_window(self):
