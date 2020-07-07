@@ -168,7 +168,9 @@ class IORegistry:
             return list(self._graph.predecessors(input_))[0]
 
     def clear(self):
-        """Removes all Inputs and Outputs from the IORegistry."""
+        """Removes all Inputs and Outputs (thus all blocks)
+        from the IORegistry.
+        """
         self._graph.clear()
 
     def get_all_blocks(self):
@@ -209,9 +211,9 @@ class IORegistry:
                           "gui_data": block.gui_data}
             for input_ in block.inputs:
                 input_save = {}
-                if input_.connected_output():
+                if input_.connected_output:
                     input_save[
-                        "connected_output"] = input_.connected_output().id.int
+                        "connected_output"] = input_.connected_output.id.int
                 save_block["inputs"].append(input_save)
             save_data["blocks"].append(save_block)
         with open(file_path, "w") as save_file:

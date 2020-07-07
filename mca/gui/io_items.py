@@ -74,7 +74,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         :class:`.ConnectionLine` if the input is not yet connected else the
         event is ignored.
         """
-        if self.mca_input.connected_output() or \
+        if self.mca_input.connected_output or \
                 event.button() == QtCore.Qt.MouseButton.RightButton:
             event.ignore()
             return
@@ -106,7 +106,7 @@ class InputItem(QtWidgets.QGraphicsItem):
                 except exceptions.BlockCircleError:
                     self.scene().removeItem(self.connection_line)
                     self.connection_line = None
-                    QtWidgets.QMessageBox().warning(None, _("MCA"), _(
+                    QtWidgets.QMessageBox().warning(None, _("Error"), _(
                         "Cyclic structures are not allowed."))
                     return
         self.scene().removeItem(self.connection_line)

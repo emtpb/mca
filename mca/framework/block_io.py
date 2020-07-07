@@ -43,9 +43,10 @@ class Input:
     @property
     def data(self):
         """Data retrieved from the connected Output."""
-        if self.connected_output():
-            return self.connected_output().data
+        if self.connected_output:
+            return self.connected_output.data
 
+    @property
     def connected_output(self):
         """Convenience method to get the current Output.
 
