@@ -1,4 +1,4 @@
-from PySide2 import QtWidgets
+from PySide2 import QtWidgets, QtCore
 
 
 class BaseWidget:
@@ -20,13 +20,16 @@ class BaseWidget:
         """Takes the current value in the widget and sets
         it in the parameter.
         """
-        pass
 
     def read_parameter(self):
         """Reads the current value in the parameter
         and sets it in the widget.
         """
         pass
+
+    def modified(self):
+        """Informs the :class:`.MainWindow` that there are unsaved changes."""
+        self.window().parent().modified = True
 
 
 class FloatWidget(BaseWidget, QtWidgets.QLineEdit):
@@ -38,7 +41,9 @@ class FloatWidget(BaseWidget, QtWidgets.QLineEdit):
         BaseWidget.__init__(self, parameter)
 
     def set_parameter(self):
-        self.parameter.value = float(self.text())
+        if self.parameter.value != float(self.text()):
+            self.parameter.value = float(self.text())
+            self.modified()
 
     def read_parameter(self):
         self.setText(str(self.parameter.value))
@@ -53,7 +58,9 @@ class IntWidget(BaseWidget, QtWidgets.QLineEdit):
         BaseWidget.__init__(self, parameter)
 
     def set_parameter(self):
-        self.parameter.value = int(self.text())
+        if self.parameter.value != int(self.text()):
+            self.parameter.value = int(self.text())
+            self.modified()
 
     def read_parameter(self):
         self.setText(str(self.parameter.value))
@@ -73,7 +80,9 @@ class ChoiceWidget(BaseWidget, QtWidgets.QComboBox):
     def set_parameter(self):
         index = self.findText(self.currentText())
         data = self.itemData(index)
-        self.parameter.value = data
+        if self.parameter.value != data:
+            self.parameter.value = data
+            self.modified()
 
     def read_parameter(self):
         for i in range(len(self.parameter.choices)):
@@ -90,7 +99,9 @@ class StringWidget(BaseWidget, QtWidgets.QLineEdit):
         BaseWidget.__init__(self, parameter)
 
     def set_parameter(self):
-        self.parameter.value = self.text()
+        if self.parameter.value != self.text():
+            self.parameter.value = self.text()
+            self.modified()
 
     def read_parameter(self):
         self.setText(self.parameter.value)
@@ -105,7 +116,9 @@ class BoolWidget(BaseWidget, QtWidgets.QCheckBox):
         BaseWidget.__init__(self, parameter)
 
     def set_parameter(self):
-        self.parameter.value = self.isChecked()
+        if self.parameter.value != self.isChecked():
+            self.parameter.value = self.isChecked()
+            self.modified()
 
     def read_parameter(self):
         self.setChecked(self.parameter.value)

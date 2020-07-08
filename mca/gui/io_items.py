@@ -127,6 +127,7 @@ class InputItem(QtWidgets.QGraphicsItem):
             self.connection_line.input = self
         output_item.connection_lines.append(self.connection_line)
         self.connection_line.output = output_item
+        self.modified()
 
     def update_connection_line(self):
         """Method to update its connection line according to its own
@@ -152,6 +153,7 @@ class InputItem(QtWidgets.QGraphicsItem):
                 self.connection_line)
             self.scene().removeItem(self.connection_line)
             self.connection_line = None
+        self.modified()
 
     def hoverEnterEvent(self, event):
         """Change color of the output to the hover color."""
@@ -167,6 +169,10 @@ class InputItem(QtWidgets.QGraphicsItem):
         event.accept()
         self.current_color = self.default_color
         self.update()
+
+    def modified(self):
+        """Signalizes the :class:`.MainWindow` the scene has been modified."""
+        self.scene().parent().parent().modified = True
 
 
 class OutputItem(QtWidgets.QGraphicsItem):
@@ -292,6 +298,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
         self.new_connection_line.input = input_item
         self.connection_lines.append(self.new_connection_line)
         self.new_connection_line = None
+        self.modified()
 
     def update_connection_line(self):
         """Method to update all its connection lines according to its own
@@ -310,6 +317,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
             connection_line.input.connection_line = None
             self.scene().removeItem(connection_line)
         self.connection_lines = []
+        self.modified()
 
     def contextMenuEvent(self, event):
         """Method that is invoked when the user right-clicks the output.
@@ -331,6 +339,10 @@ class OutputItem(QtWidgets.QGraphicsItem):
         event.accept()
         self.current_color = self.default_color
         self.update()
+
+    def modified(self):
+        """Signalizes the :class:`.MainWindow` the scene has been modified."""
+        self.scene().parent().parent().modified = True
 
 
 class ConnectionLine(QtWidgets.QGraphicsLineItem):

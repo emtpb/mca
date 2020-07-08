@@ -51,6 +51,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         QtWidgets.QGraphicsItem.__init__(self)
         self.setPos(x, y)
         self.view = view
+
         self.block = block_class()
         self.default_color = QtGui.QColor(250, 235, 215)
         self.hover_color = QtGui.QColor(255, 228, 181)
@@ -86,7 +87,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.last_point = (None, None)
 
         self.menu = QtWidgets.QMenu(self.view)
-        self.edit_window = EditWindow(self.block)
+        self.edit_window = EditWindow(self.view.scene().parent().parent(),
+                                      self.block)
         self.open_edit_window()
 
         if self.block.parameters:
@@ -155,6 +157,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.inputs[-1].disconnect()
         self.block.delete_input(-1)
         self.scene().removeItem(self.inputs.pop(-1))
+        self.modified()
         if self.block.dynamic_input[0] and len(self.block.inputs) == \
                 self.block.dynamic_input[0]:
             self.delete_input_action.setEnabled(False)
@@ -170,6 +173,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         new_mca_input = framework.block_io.Input(self.block)
         self.block.add_input(new_mca_input)
         self.add_existing_input(new_mca_input)
+        self.modified()
         if self.block.dynamic_input[1] and len(self.block.inputs) == \
                 self.block.dynamic_input[1]:
             self.add_input_action.setEnabled(False)
@@ -187,6 +191,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
             o.disconnect()
         framework.block_registry.Registry.remove_block(self.block)
         self.scene().removeItem(self)
+        self.modified()
 
     def open_edit_window(self):
         """Opens up the parameter window."""
@@ -271,6 +276,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.resize_mode = False
         self.last_point = (None, None)
         self.save_gui_data()
+        self.modified()
         super().mouseReleaseEvent(event)
 
     def resize(self, width, height):
@@ -316,3 +322,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
     def save_gui_data(self):
         self.block.gui_data["pos"] = [self.scenePos().x(), self.scenePos().y()]
         self.block.gui_data["size"] = [self.width, self.height]
+
+    def modified(self):
+        """Signalizes the :class:`.MainWindow` the scene has been modified."""
+        self.scene().parent().parent().modified = True

@@ -26,13 +26,13 @@ class EditWindow(QtWidgets.QDialog):
         button_box: "Ok|Cancel" button widgets.
     """
 
-    def __init__(self, block):
+    def __init__(self, parent, block):
         """Initialize EditWindow class.
 
         Args:
             block: Reference of the :class:`.Block` instance.
         """
-        QtWidgets.QDialog.__init__(self)
+        QtWidgets.QDialog.__init__(self, parent=parent)
         self.block = block
         self.resize(500, 400)
         self.setMaximumSize(QtCore.QSize(500, 400))
@@ -172,13 +172,27 @@ class EditWindow(QtWidgets.QDialog):
                                             index * 8 + 7, 1, 1, 1)
 
             def set_meta_data():
-                output.meta_data.name = name_edit.text()
-                output.meta_data.quantity_a = quantity_a_edit.text()
-                output.meta_data.symbol_a = symbol_a_edit.text()
-                output.meta_data.unit_a = unit_a_edit.text()
-                output.meta_data.quantity_o = quantity_o_edit.text()
-                output.meta_data.symbol_o = symbol_o_edit.text()
-                output.meta_data.unit_o = unit_o_edit.text()
+                if output.meta_data.name != name_edit.text():
+                    output.meta_data.name = name_edit.text()
+                    self.parent().modified = True
+                if output.meta_data.quantity_a != quantity_a_edit.text():
+                    output.meta_data.quantity_a = quantity_a_edit.text()
+                    self.parent().modified = True
+                if output.meta_data.symbol_a != symbol_a_edit.text():
+                    output.meta_data.symbol_a = symbol_a_edit.text()
+                    self.parent().modified = True
+                if output.meta_data.unit_a != unit_a_edit.text():
+                    output.meta_data.unit_a = unit_a_edit.text()
+                    self.parent().modified = True
+                if output.meta_data.quantity_o != quantity_o_edit.text():
+                    output.meta_data.quantity_o = quantity_o_edit.text()
+                    self.parent().modified = True
+                if output.meta_data.symbol_o != symbol_o_edit.text():
+                    output.meta_data.symbol_o = symbol_o_edit.text()
+                    self.parent().modified = True
+                if output.meta_data.unit_o != unit_o_edit.text():
+                    output.meta_data.unit_o = unit_o_edit.text()
+                    self.parent().modified = True
 
             QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"),
                                    set_meta_data)

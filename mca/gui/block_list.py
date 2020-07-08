@@ -46,9 +46,9 @@ class BlockList(QtWidgets.QListWidget):
         """Event triggered when mouse grabbed an item from the list. Method
         allows dragging the blocks into the :class:`.BlockScene`.
         """
-        mimeData = QtCore.QMimeData()
+        mime_data = QtCore.QMimeData()
         drag = QtGui.QDrag(self)
-        drag.setMimeData(mimeData)
+        drag.setMimeData(mime_data)
         drag.exec_(QtCore.Qt.CopyAction | QtCore.Qt.MoveAction,
                    QtCore.Qt.CopyAction)
 

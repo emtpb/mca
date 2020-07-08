@@ -15,7 +15,6 @@ class MainWindow(QtWidgets.QMainWindow):
         menu: Menu bar of the application.
         file_menu: File menu.
         language_menu: Language menu.
-        blocks (list): List of all block classes.
         main_widget: Splitter widget to split the :class:`.BlockList` and the
                      :class:`.BlockScene`.
         scene: :class:`.BlockScene` to manage and hold blocks.
@@ -26,7 +25,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         self.resize(1000, 800)
-        self.setWindowTitle(_("MCA"))
 
         self.menu = self.menuBar()
         self.file_menu = self.menu.addMenu(_("File"))
@@ -62,6 +60,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.file_menu.addAction(exit_action)
 
         self.conf = config.Config()
+        self.modified = False
 
         self.main_widget = QtWidgets.QWidget(self)
         self.main_layout = QtWidgets.QHBoxLayout(self.main_widget)
@@ -80,28 +79,70 @@ class MainWindow(QtWidgets.QMainWindow):
         """Quit the application."""
         QtWidgets.QApplication.quit()
 
+    def closeEvent(self, event):
+        if self.save_maybe():
+            event.accept()
+        else:
+            event.ignore()
+
     def save_file_as(self):
-        """Open file dialog and save the current state to the given file."""
+        """Open file dialog and save the current state to the given file.
+
+        Returns:
+            bool: True, if saving has been successful. False, otherwise.
+        """
         file_name = QtWidgets.QFileDialog.getSaveFileName(
             self, _("Save"), self.conf["save_file_dir"], "json (*.json)")
         if not file_name[0]:
-            return
+            return False
         if not file_name[0].endswith(".json"):
             QtWidgets.QMessageBox.warning(
                 self, _("Error"), _("File has to be a .json!"))
+            return False
         else:
             self.save_file_path = file_name[0]
+            self.conf["save_file_dir"] = os.path.dirname(self.save_file_path)
             self.save_file()
+            return True
 
     def save_file(self):
-        """Save the current state.
+        """Saves the current state.
 
         Opens up a file dialog if no safe file has been specified yet.
+
+        Returns:
+            bool: True, if the file has been saved successfully.
+                  Otherwise False.
         """
         if self.save_file_path:
             block_registry.Registry.save_block_structure(self.save_file_path)
+            self.modified = False
+            return True
         else:
-            self.save_file_as()
+            return self.save_file_as()
+
+    def save_maybe(self):
+        """Opens up a message dialogue asking if the user wants to save
+        changes if the document has been modified.
+
+        Returns:
+            bool: True, if the action was accepted regardless
+                  if the file was saved or not. False, if the action was
+                  cancelled.
+        """
+        if self.modified:
+            result = QtWidgets.QMessageBox.warning(
+                self, _("Warning"),
+                _("The document has been modified.\nDo you want to save your changes?"),
+                QtWidgets.QMessageBox.Save | QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.Discard)
+        else:
+            return True
+        if result == QtWidgets.QMessageBox.Save:
+            return self.save_file()
+        elif result == QtWidgets.QMessageBox.Discard:
+            return True
+        else:
+            return False
 
     def clear(self):
         """Clears the :class:`.BlockScene` from all blocks."""
@@ -112,6 +153,25 @@ class MainWindow(QtWidgets.QMainWindow):
             for item in self.scene.items():
                 if isinstance(item, block_item.BlockItem):
                     item.delete()
+
+    @property
+    def modified(self):
+        """Get or set whether there are any unsaved changes.
+
+        Setting this property causes an update of the window title.
+        """
+        return self._modified
+
+    @modified.setter
+    def modified(self, value):
+        self._modified = value
+        if self.save_file_path:
+            show_file = self.save_file_path
+        else:
+            show_file = _("untitled.json")
+        if self._modified:
+            show_file = "*" + show_file
+        self.setWindowTitle("{} - {}".format(show_file, _("MCA")))
 
 
 def change_language(new_language):

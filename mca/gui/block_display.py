@@ -92,5 +92,6 @@ class BlockScene(QtWidgets.QGraphicsScene):
                     new_block = block_item.BlockItem(self.views()[0], j, i,
                                                      block_class)
                     self.addItem(new_block)
+                    self.parent().parent().modified = True
                     return
             x = 0
