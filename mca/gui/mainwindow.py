@@ -1,10 +1,9 @@
 from PySide2 import QtWidgets, QtCore, QtGui
-import inspect
 import os
 
 import mca.blocks
 from mca.framework import block_registry
-from mca.gui import block_list, block_display
+from mca.gui import block_list, block_display, block_item
 from mca import config
 from mca.language import _
 
@@ -40,6 +39,10 @@ class MainWindow(QtWidgets.QMainWindow):
             action = QtWidgets.QAction(i[0], self)
             action.triggered.connect(change_language(i[1]))
             self.language_menu.addAction(action)
+
+        clear_action = QtWidgets.QAction(_("Clear"), self)
+        clear_action.triggered.connect(self.clear)
+        self.file_menu.addAction(clear_action)
 
         save_action = QtWidgets.QAction(_("Save"), self)
         save_action.setShortcut("Ctrl+S")
@@ -99,6 +102,16 @@ class MainWindow(QtWidgets.QMainWindow):
             block_registry.Registry.save_block_structure(self.save_file_path)
         else:
             self.save_file_as()
+
+    def clear(self):
+        """Clears the :class:`.BlockScene` from all blocks."""
+        result = QtWidgets.QMessageBox.question(
+            self, _("Warning"),
+            _("Are you sure you want to remove all blocks?"))
+        if result == QtWidgets.QMessageBox.StandardButton.Yes:
+            for item in self.scene.items():
+                if isinstance(item, block_item.BlockItem):
+                    item.delete()
 
 
 def change_language(new_language):
