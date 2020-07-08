@@ -97,11 +97,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         for i in self.scene().items(event.scenePos()):
             if isinstance(i, OutputItem):
                 try:
-                    self.mca_input.connect(i.mca_output)
-                    self.connection_line.x1 = i.scenePos().x() - 5 + self.width
-                    self.connection_line.y1 = i.scenePos().y() + i.height / 2
-                    i.connection_lines.append(self.connection_line)
-                    self.connection_line.output = i
+                    self.connect_to_output_item(i)
                     return
                 except exceptions.BlockCircleError:
                     self.scene().removeItem(self.connection_line)
@@ -111,6 +107,26 @@ class InputItem(QtWidgets.QGraphicsItem):
                     return
         self.scene().removeItem(self.connection_line)
         self.connection_line = None
+
+    def connect_to_output_item(self, output_item):
+        """Connects itself to an :class:`.OutputItem`.
+
+        Args:
+            output_item: Item to connect to.
+        """
+        self.mca_input.connect(output_item.mca_output)
+        if self.connection_line:
+            self.connection_line.x1 = output_item.scenePos().x() - 5 + output_item.width
+            self.connection_line.y1 = output_item.scenePos().y() + output_item.height / 2
+        else:
+            self.connection_line = ConnectionLine(
+                output_item.scenePos().x() - 5 + output_item.width,
+                output_item.scenePos().y() + output_item.height / 2,
+                self.scenePos().x() + 5,
+                self.scenePos().y() + self.height / 2)
+            self.connection_line.input = self
+        output_item.connection_lines.append(self.connection_line)
+        self.connection_line.output = output_item
 
     def update_connection_line(self):
         """Method to update its connection line according to its own
@@ -194,6 +210,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
         self.setAcceptHoverEvents(True)
         self.setAcceptDrops(True)
         self.connection_lines = []
+        self.new_connection_line = None
 
         self.menu = QtWidgets.QMenu(self.view)
         self.disconnect_action = QtWidgets.QAction(_("Disconnect"), self.view)
@@ -225,17 +242,18 @@ class OutputItem(QtWidgets.QGraphicsItem):
         if event.button() == QtCore.Qt.MouseButton.RightButton:
             event.ignore()
             return
-        self.connection_lines.append(ConnectionLine(self.scenePos().x() + 5,
-                                                    self.scenePos().y() + self.height / 2,
-                                                    event.scenePos().x(),
-                                                    event.scenePos().y()))
-        self.connection_lines[-1].output = self
-        self.scene().addItem(self.connection_lines[-1])
+        self.new_connection_line = ConnectionLine(
+            self.scenePos().x() + 5,
+            self.scenePos().y() + self.height / 2,
+            event.scenePos().x(),
+            event.scenePos().y())
+        self.new_connection_line.output = self
+        self.scene().addItem(self.new_connection_line)
 
     def mouseMoveEvent(self, event):
         """Updates all connection lines when the output is being dragged."""
-        self.connection_lines[-1].x2 = event.scenePos().x()
-        self.connection_lines[-1].y2 = event.scenePos().y()
+        self.new_connection_line.x2 = event.scenePos().x()
+        self.new_connection_line.y2 = event.scenePos().y()
 
     def mouseReleaseEvent(self, event):
         """Attaches the last added connection line to an :class:`.InputItem`
@@ -245,19 +263,35 @@ class OutputItem(QtWidgets.QGraphicsItem):
         for i in self.scene().items(event.scenePos()):
             if isinstance(i, InputItem):
                 try:
-                    i.mca_input.connect(self.mca_output)
-                    self.connection_lines[-1].x2 = i.scenePos().x() + 5
-                    self.connection_lines[
-                        -1].y2 = i.scenePos().y() + i.height / 2
-                    i.connection_line = self.connection_lines[-1]
-                    self.connection_lines[-1].input = i
+                    self.connect_to_input_item(i)
                     return
                 except exceptions.BlockCircleError:
-                    self.scene().removeItem(self.connection_lines.pop(-1))
+                    self.scene().removeItem(self.new_connection_line)
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                         "Cyclic structures are not allowed."))
                     return
-        self.scene().removeItem(self.connection_lines.pop(-1))
+        self.scene().removeItem(self.new_connection_line)
+
+    def connect_to_input_item(self, input_item):
+        """Connects itself to an :class:`.InputItem`.
+
+        Args:
+            input_item: Item to connect to.
+        """
+        input_item.mca_input.connect(self.mca_output)
+        if self.new_connection_line:
+            self.new_connection_line.x2 = input_item.scenePos().x() + 5
+            self.new_connection_line.y2 = input_item.scenePos().y() + input_item.height / 2
+        else:
+            self.new_connection_line = ConnectionLine(
+                self.scenePos().x() + 5,
+                self.scenePos().y() + self.height / 2,
+                input_item.scenePos().x() + 5,
+                input_item.scenePos().y() + input_item.height / 2)
+        input_item.connection_line = self.new_connection_line
+        self.new_connection_line.input = input_item
+        self.connection_lines.append(self.new_connection_line)
+        self.new_connection_line = None
 
     def update_connection_line(self):
         """Method to update all its connection lines according to its own
