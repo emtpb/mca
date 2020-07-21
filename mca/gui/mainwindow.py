@@ -96,7 +96,10 @@ class MainWindow(QtWidgets.QMainWindow):
                 "json (*json)")
             self.scene.clear()
             blocks = block_registry.Registry.load_block_structure(file_name[0])
+            self.save_file_path = file_name[0]
+            self.conf["load_file_dir"] = os.path.dirname(file_name[0])
             self.scene.create_blocks(blocks)
+            self.modified = False
 
     def save_file_as(self):
         """Open file dialog and save the current state to the given file.
@@ -147,12 +150,12 @@ class MainWindow(QtWidgets.QMainWindow):
             result = QtWidgets.QMessageBox.warning(
                 self, _("Warning"),
                 _("The document has been modified.\nDo you want to save your changes?"),
-                QtWidgets.QMessageBox.Save | QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.Discard)
+                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.No)
         else:
             return True
-        if result == QtWidgets.QMessageBox.Save:
+        if result == QtWidgets.QMessageBox.Yes:
             return self.save_file()
-        elif result == QtWidgets.QMessageBox.Discard:
+        elif result == QtWidgets.QMessageBox.No:
             return True
         else:
             return False
