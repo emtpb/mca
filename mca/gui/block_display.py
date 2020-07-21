@@ -91,7 +91,8 @@ class BlockScene(QtWidgets.QGraphicsScene):
             if isinstance(item, block_item.BlockItem):
                 item.delete()
 
-    def create_block_item(self, block, x, y, width=100, height=100):
+    def create_block_item(self, block, x, y, width=100, height=100,
+                          open_edit_window=True):
         """Creates a new :class:`.BlockItem` to an existing :class:`.Block`.
 
         Args:
@@ -100,6 +101,10 @@ class BlockScene(QtWidgets.QGraphicsScene):
             block: :class:`.Block` instance the block item represents.
             width (int): Width of the BlockItem.
             height (int): Width of the BlockItem.
+            open_edit_window (bool): Check whether the window edit window
+                                     should be opened immediately after
+                                     initializing the block.
+
         """
         for i in range(int(y), self.parent().height(), 4):
             for j in range(int(x), self.parent().width(), 4):
@@ -107,6 +112,8 @@ class BlockScene(QtWidgets.QGraphicsScene):
                     new_block = block_item.BlockItem(self.views()[0], j, i,
                                                      block, width, height)
                     self.addItem(new_block)
+                    if open_edit_window:
+                        new_block.open_edit_window()
                     self.parent().parent().modified = True
                     return
             x = 0
@@ -129,7 +136,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
                 y_pos = 0
                 width = 100
                 height = 100
-            self.create_block_item(block, x_pos, y_pos, width, height)
+            self.create_block_item(block, x_pos, y_pos, width, height, False)
         for block in blocks:
             for input_index, input_ in enumerate(block.inputs):
                 if input_.connected_output:

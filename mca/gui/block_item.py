@@ -90,7 +90,6 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.menu = QtWidgets.QMenu(self.view)
         self.edit_window = EditWindow(self.view.scene().parent().parent(),
                                       self.block)
-        self.open_edit_window()
 
         if self.block.parameters:
             self.edit_action = QtWidgets.QAction(_("Edit"), self.view)
