@@ -221,7 +221,7 @@ class IORegistry:
                               "unit_o": output.meta_data.unit_o,
                               }
                               for output in block.outputs],
-                          "gui_data": block.gui_data}
+                          "gui_data": block.gui_data["save_data"]}
             for input_ in block.inputs:
                 input_save = {}
                 if input_.connected_output:
@@ -252,7 +252,7 @@ class IORegistry:
         for block_save in load_data["blocks"]:
             block_instance = str_to_block_types[block_save["class"]]()
             block_structure.append(block_instance)
-            block_instance.gui_data = block_save["gui_data"]
+            block_instance.gui_data["save_data"] = block_save["gui_data"]
             for parameter_name, parameter_value in block_save["parameters"].items():
                 block_instance.parameters[parameter_name].value = parameter_value
             for index, input_save in enumerate(block_save["inputs"]):

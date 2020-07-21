@@ -15,6 +15,8 @@ class InputItem(QtWidgets.QGraphicsItem):
         view: Reference of the :class:`.BlockView` instance.
         connection_line: :class:`.ConnectionLine` to the :class:`.OutputItem`
                          it is connected to. None if its not connected.
+        temp_connection_line: Line visible when the user is dragging from the
+                              Input.
         menu: Menu which pops up when the right mouse button is pressed.
         disconnect_action: Action which calls :meth:`.disconnect`.
     """
@@ -45,6 +47,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         self.setAcceptDrops(True)
         self.setAcceptHoverEvents(True)
         self.connection_line = None
+        self.temp_connection_line = None
 
         self.menu = QtWidgets.QMenu(self.view)
         self.disconnect_action = QtWidgets.QAction(_("Disconnect"), self.view)
@@ -71,63 +74,50 @@ class InputItem(QtWidgets.QGraphicsItem):
 
     def mousePressEvent(self, event):
         """Method invoked when the block gets clicked. Creates a
-        :class:`.ConnectionLine` if the input is not yet connected else the
+        temporary line if the input is not yet connected else the
         event is ignored.
         """
         if self.mca_input.connected_output or \
                 event.button() == QtCore.Qt.MouseButton.RightButton:
             event.ignore()
             return
-        self.connection_line = ConnectionLine(event.scenePos().x(),
-                                              event.scenePos().y(),
-                                              self.scenePos().x() + 5,
-                                              self.scenePos().y() + self.height / 2)
-        self.connection_line.input = self
-        self.scene().addItem(self.connection_line)
+        self.temp_connection_line = QtWidgets.QGraphicsLineItem(
+                                                   event.scenePos().x(),
+                                                   event.scenePos().y(),
+                                                   self.scenePos().x() + 5,
+                                                   self.scenePos().y() +
+                                                   self.height / 2)
+        self.scene().addItem(self.temp_connection_line)
 
     def mouseMoveEvent(self, event):
-        """Updates the connection_line when the input is being dragged."""
-        self.connection_line.x1 = event.scenePos().x()
-        self.connection_line.y1 = event.scenePos().y()
+        """Updates the temp_connection_line when the input is being dragged."""
+        self.temp_connection_line.setLine(
+            event.scenePos().x(),
+            event.scenePos().y(),
+            self.temp_connection_line.line().x2(),
+            self.temp_connection_line.line().y2())
 
     def mouseReleaseEvent(self, event):
-        """Attaches the connection line to an :class:`.OutputItem` if the mouse
-        gets released above one. Otherwise the connection line gets removed.
+        """The temporary line gets removed. If the mouse is released over an
+        :class:`.OutputItem`, it will get replaced by a
+        :class:`.ConnectionLine`.
         """
-        for i in self.scene().items(event.scenePos()):
-            if isinstance(i, OutputItem):
+        for item in self.scene().items(event.scenePos()):
+            if isinstance(item, OutputItem):
                 try:
-                    self.connect_to_output_item(i)
-                    return
+                    self.mca_input.connect(item.mca_output)
                 except exceptions.BlockCircleError:
-                    self.scene().removeItem(self.connection_line)
-                    self.connection_line = None
                     QtWidgets.QMessageBox().warning(None, _("Error"), _(
                         "Cyclic structures are not allowed."))
-                    return
-        self.scene().removeItem(self.connection_line)
-        self.connection_line = None
-
-    def connect_to_output_item(self, output_item):
-        """Connects itself to an :class:`.OutputItem`.
-
-        Args:
-            output_item: Item to connect to.
-        """
-        self.mca_input.connect(output_item.mca_output)
-        if self.connection_line:
-            self.connection_line.x1 = output_item.scenePos().x() - 5 + output_item.width
-            self.connection_line.y1 = output_item.scenePos().y() + output_item.height / 2
-        else:
-            self.connection_line = ConnectionLine(
-                output_item.scenePos().x() - 5 + output_item.width,
-                output_item.scenePos().y() + output_item.height / 2,
-                self.scenePos().x() + 5,
-                self.scenePos().y() + self.height / 2)
-            self.connection_line.input = self
-        output_item.connection_lines.append(self.connection_line)
-        self.connection_line.output = output_item
-        self.modified()
+                else:
+                    self.scene().addItem(ConnectionLine(
+                        output_item=item,
+                        input_item=self
+                        )
+                    )
+                    self.modified()
+        self.scene().removeItem(self.temp_connection_line)
+        self.temp_connection_line = None
 
     def update_connection_line(self):
         """Method to update its connection line according to its own
@@ -149,7 +139,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         """
         self.mca_input.disconnect()
         if self.connection_line:
-            self.connection_line.output.connection_lines.remove(
+            self.connection_line.output_item.connection_lines.remove(
                 self.connection_line)
             self.scene().removeItem(self.connection_line)
             self.connection_line = None
@@ -185,6 +175,8 @@ class OutputItem(QtWidgets.QGraphicsItem):
            mca_output: Reference of the :class:`.Output` to display.
            view: Reference of the :class:`.BlockView` instance.
            connection_lines (list): List of :class:`.ConnectionLine` s.
+           temp_connection_line: Line visible when the user is dragging from
+                                 the Input.
            menu: Menu which pops up when the right mouse button is pressed.
            disconnect_action: Action which calls :meth:`.disconnect`.
        """
@@ -216,7 +208,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
         self.setAcceptHoverEvents(True)
         self.setAcceptDrops(True)
         self.connection_lines = []
-        self.new_connection_line = None
+        self.temp_connection_line = None
 
         self.menu = QtWidgets.QMenu(self.view)
         self.disconnect_action = QtWidgets.QAction(_("Disconnect"), self.view)
@@ -231,7 +223,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
         return QtCore.QRectF(0, 0, self.width, self.height)
 
     def paint(self, painter, option, widget):
-        """Method to paint the output. This method gets invoked after
+        """Paints and sets shape of the output. This method gets invoked after
         initialization and every time the output gets updated.
         """
         path = QtGui.QPainterPath()
@@ -243,62 +235,47 @@ class OutputItem(QtWidgets.QGraphicsItem):
 
     def mousePressEvent(self, event):
         """Method invoked when the block gets clicked. Creates a
-        :class:`.ConnectionLine` and adds it to the connection line list.
+        temp_connection_line.
         """
         if event.button() == QtCore.Qt.MouseButton.RightButton:
             event.ignore()
             return
-        self.new_connection_line = ConnectionLine(
+        self.temp_connection_line = QtWidgets.QGraphicsLineItem(
             self.scenePos().x() + 5,
             self.scenePos().y() + self.height / 2,
             event.scenePos().x(),
             event.scenePos().y())
-        self.new_connection_line.output = self
-        self.scene().addItem(self.new_connection_line)
+        self.scene().addItem(self.temp_connection_line)
 
     def mouseMoveEvent(self, event):
-        """Updates all connection lines when the output is being dragged."""
-        self.new_connection_line.x2 = event.scenePos().x()
-        self.new_connection_line.y2 = event.scenePos().y()
+        """Updates the temp_connection_line when the mouse is being dragged."""
+        self.temp_connection_line.setLine(
+            self.temp_connection_line.line().x1(),
+            self.temp_connection_line.line().y1(),
+            event.scenePos().x(),
+            event.scenePos().y())
 
     def mouseReleaseEvent(self, event):
-        """Attaches the last added connection line to an :class:`.InputItem`
-        if the mouse gets released above one. Otherwise the last added
-        connection line gets removed.
+        """Removes the temp_connection_line. If the mouse gets released over
+        an :class:`InputItem` it will get replaced by a
+        :class:`.ConnectionLine`.
         """
-        for i in self.scene().items(event.scenePos()):
-            if isinstance(i, InputItem):
+        for item in self.scene().items(event.scenePos()):
+            if isinstance(item, InputItem):
                 try:
-                    self.connect_to_input_item(i)
-                    return
+                    item.mca_input.connect(self.mca_output)
                 except exceptions.BlockCircleError:
-                    self.scene().removeItem(self.new_connection_line)
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                         "Cyclic structures are not allowed."))
-                    return
-        self.scene().removeItem(self.new_connection_line)
-
-    def connect_to_input_item(self, input_item):
-        """Connects itself to an :class:`.InputItem`.
-
-        Args:
-            input_item: Item to connect to.
-        """
-        input_item.mca_input.connect(self.mca_output)
-        if self.new_connection_line:
-            self.new_connection_line.x2 = input_item.scenePos().x() + 5
-            self.new_connection_line.y2 = input_item.scenePos().y() + input_item.height / 2
-        else:
-            self.new_connection_line = ConnectionLine(
-                self.scenePos().x() + 5,
-                self.scenePos().y() + self.height / 2,
-                input_item.scenePos().x() + 5,
-                input_item.scenePos().y() + input_item.height / 2)
-        input_item.connection_line = self.new_connection_line
-        self.new_connection_line.input = input_item
-        self.connection_lines.append(self.new_connection_line)
-        self.new_connection_line = None
-        self.modified()
+                else:
+                    self.scene().addItem(ConnectionLine(
+                        output_item=self,
+                        input_item=item
+                        )
+                    )
+                    self.modified()
+        self.scene().removeItem(self.temp_connection_line)
+        self.temp_connection_line = None
 
     def update_connection_line(self):
         """Method to update all its connection lines according to its own
@@ -314,7 +291,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
         """
         self.mca_output.disconnect()
         for connection_line in self.connection_lines:
-            connection_line.input.connection_line = None
+            connection_line.input_item.connection_line = None
             self.scene().removeItem(connection_line)
         self.connection_lines = []
         self.modified()
@@ -350,23 +327,29 @@ class ConnectionLine(QtWidgets.QGraphicsLineItem):
     an :class:`.Output`.
 
     Attributes:
-        output: :class:`.OutputItem` which is part of the connection.
-        input: :class:`.InputItem` which is part of the connection.
+        output_item: :class:`.OutputItem` to connect.
+        input_item: :class:`.InputItem` to connect.
     """
 
-    def __init__(self, x1, y1, x2, y2):
+    def __init__(self, output_item, input_item):
         """Initialize ConnectionLine class.
 
         Args:
-            x1 (int): X-Position of the first point of the line.
-            y1 (int): Y-Position of the first point of the line.
-            x2 (int): X-Position of the second point of the line.
-            y2 (int): Y-Position of the second point of the line.
-
+            output_item: :class:`.OutputItem` to connect.
+            input_item::class:`.InputItem` to connect.
         """
-        QtWidgets.QGraphicsLineItem.__init__(self, x1, y1, x2, y2)
-        self.output = None
-        self.input = None
+
+        QtWidgets.QGraphicsLineItem.__init__(
+            self,
+            output_item.scenePos().x() - 5,
+            output_item.scenePos().y() + output_item.height / 2,
+            input_item.scenePos().x() + 5,
+            input_item.scenePos().y() + input_item. height / 2)
+        self.output_item = output_item
+        self.input_item = input_item
+        if self.output_item and self.input_item:
+            self.output_item.connection_lines.append(self)
+            self.input_item.connection_line = self
 
     @property
     def x1(self):

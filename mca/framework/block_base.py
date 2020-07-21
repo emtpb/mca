@@ -24,7 +24,7 @@ class Block:
         self.parameters = {
             "name": parameters.StrParameter(_("Name"), max_length=35,
                                             value=self.name)}
-        self.gui_data = {}
+        self.gui_data = {"save_data": {}, "run_time_data": {}}
 
     def apply_parameter_changes(self):
         """Applies all changes to the parameters and triggers an update."""

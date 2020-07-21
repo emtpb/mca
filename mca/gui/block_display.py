@@ -1,6 +1,6 @@
 from PySide2 import QtWidgets, QtCore
 
-from mca.gui import block_item
+from mca.gui import block_item, io_items
 from mca.language import _
 
 
@@ -81,17 +81,65 @@ class BlockScene(QtWidgets.QGraphicsScene):
             x = event.scenePos().x()
             y = event.scenePos().y()
             block_class = event.source().selectedItems()[0].data(3)
-            self.create_block(x, y, block_class)
+            self.create_block_item(block_class(), x, y)
         else:
             event.ignore()
 
-    def create_block(self, x, y, block_class):
+    def clear(self):
+        """Remove all items from the BlockScene."""
+        for item in self.items():
+            if isinstance(item, block_item.BlockItem):
+                item.delete()
+
+    def create_block_item(self, block, x, y, width=100, height=100):
+        """Creates a new :class:`.BlockItem` to an existing :class:`.Block`.
+
+        Args:
+            x (int): X coordinate of the BlockItem in the scene.
+            y (int): Y coordinate of the BlockItem in the scene.
+            block: :class:`.Block` instance the block item represents.
+            width (int): Width of the BlockItem.
+            height (int): Width of the BlockItem.
+        """
         for i in range(int(y), self.parent().height(), 4):
             for j in range(int(x), self.parent().width(), 4):
                 if not self.items(QtCore.QRect(j, i, 100, 100)):
                     new_block = block_item.BlockItem(self.views()[0], j, i,
-                                                     block_class)
+                                                     block, width, height)
                     self.addItem(new_block)
                     self.parent().parent().modified = True
                     return
             x = 0
+
+    def create_blocks(self, blocks):
+        """Create the graphical :class:`.BlockItem` structure of an existing
+        :class:`.Block` structure.
+
+        Args:
+            blocks (list): Existing block structure to represent.
+        """
+        for block in blocks:
+            if block.gui_data["save_data"].get("pyside2"):
+                x_pos = block.gui_data["save_data"]["pyside2"]["pos"][0]
+                y_pos = block.gui_data["save_data"]["pyside2"]["pos"][1]
+                width = block.gui_data["save_data"]["pyside2"]["size"][0]
+                height = block.gui_data["save_data"]["pyside2"]["size"][1]
+            else:
+                x_pos = 0
+                y_pos = 0
+                width = 100
+                height = 100
+            self.create_block_item(block, x_pos, y_pos, width, height)
+        for block in blocks:
+            for input_index, input_ in enumerate(block.inputs):
+                if input_.connected_output:
+                    output = input_.connected_output
+                    block_item = block.gui_data["run_time_data"]["pyside2"]["block_item"]
+                    input_item = block_item.inputs[input_index]
+                    block_item = output.block.gui_data["run_time_data"]["pyside2"]["block_item"]
+                    output_item = block_item.outputs[output.block.outputs.index(output)]
+                    self.addItem(
+                        io_items.ConnectionLine(
+                            output_item, input_item
+                        )
+                    )

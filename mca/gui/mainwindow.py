@@ -42,6 +42,10 @@ class MainWindow(QtWidgets.QMainWindow):
         clear_action.triggered.connect(self.clear)
         self.file_menu.addAction(clear_action)
 
+        open_action = QtWidgets.QAction(_("Open"), self)
+        open_action.triggered.connect(self.open_file)
+        self.file_menu.addAction(open_action)
+
         save_action = QtWidgets.QAction(_("Save"), self)
         save_action.setShortcut("Ctrl+S")
         save_action.triggered.connect(self.save_file)
@@ -84,6 +88,15 @@ class MainWindow(QtWidgets.QMainWindow):
             event.accept()
         else:
             event.ignore()
+
+    def open_file(self):
+        if self.save_maybe():
+            file_name = QtWidgets.QFileDialog.getOpenFileName(
+                self, _("Select a file to open"), self.conf["load_file_dir"],
+                "json (*json)")
+            self.scene.clear()
+            blocks = block_registry.Registry.load_block_structure(file_name[0])
+            self.scene.create_blocks(blocks)
 
     def save_file_as(self):
         """Open file dialog and save the current state to the given file.
@@ -150,9 +163,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self, _("Warning"),
             _("Are you sure you want to remove all blocks?"))
         if result == QtWidgets.QMessageBox.StandardButton.Yes:
-            for item in self.scene.items():
-                if isinstance(item, block_item.BlockItem):
-                    item.delete()
+            self.scene.clear()
 
     @property
     def modified(self):

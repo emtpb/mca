@@ -26,8 +26,8 @@ class BlockList(QtWidgets.QListWidget):
         self.menu = QtWidgets.QMenu()
         self.new_block_action = QtWidgets.QAction(_("Create new block"))
         self.new_block_action.triggered.connect(
-            lambda: self.scene.create_block(self.width(), 10,
-                                            self.currentItem().data(3))
+            lambda: self.scene.create_block_item(self.width(), 10,
+                                                 self.currentItem().data(3)())
         )
         self.menu.addAction(self.new_block_action)
         for block in blocks:
@@ -56,7 +56,7 @@ class BlockList(QtWidgets.QListWidget):
         """Event triggered when an item in the list gets double clicked.
         The clicked block will get initialized in the :class:`.BlockScene`."""
         selected_block_class = self.currentItem().data(3)
-        self.scene.create_block(0, 0, selected_block_class)
+        self.scene.create_block_item(selected_block_class(), 0, 0)
 
     def contextMenuEvent(self, event):
         """Event triggered when right clicking with the mouse. Opens

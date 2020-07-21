@@ -47,19 +47,20 @@ class BlockItem(QtWidgets.QGraphicsItem):
         delete_action: Action added to the menu to delete the block.
     """
 
-    def __init__(self, view, x, y, block_class):
+    def __init__(self, view, x, y, block, width=100, height=100):
         QtWidgets.QGraphicsItem.__init__(self)
         self.setPos(x, y)
         self.view = view
 
-        self.block = block_class()
+        self.block = block
+        self.block.gui_data["run_time_data"]["pyside2"] = {"block_item": self}
         self.default_color = QtGui.QColor(250, 235, 215)
         self.hover_color = QtGui.QColor(255, 228, 181)
         self.setToolTip(self.block.description)
         self.setAcceptHoverEvents(True)
         self.current_color = self.default_color
-        self.width = 100
-        self.height = 100
+        self.width = width
+        self.height = height
 
         self.min_width = 100
         self.min_height = 100
@@ -189,9 +190,9 @@ class BlockItem(QtWidgets.QGraphicsItem):
             i.disconnect()
         for o in self.outputs:
             o.disconnect()
+        self.modified()
         framework.block_registry.Registry.remove_block(self.block)
         self.scene().removeItem(self)
-        self.modified()
 
     def open_edit_window(self):
         """Opens up the parameter window."""
@@ -320,8 +321,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.update()
 
     def save_gui_data(self):
-        self.block.gui_data["pos"] = [self.scenePos().x(), self.scenePos().y()]
-        self.block.gui_data["size"] = [self.width, self.height]
+        self.block.gui_data["save_data"]["pyside2"] = {"pos": [self.scenePos().x(), self.scenePos().y()],
+                                                       "size": [self.width, self.height]}
 
     def modified(self):
         """Signalizes the :class:`.MainWindow` the scene has been modified."""
