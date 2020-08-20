@@ -1,5 +1,6 @@
 from PySide2 import QtWidgets, QtCore, QtGui
 import os
+import ntpath
 
 import mca.blocks
 from mca.framework import block_registry
@@ -23,8 +24,11 @@ class MainWindow(QtWidgets.QMainWindow):
     """
 
     def __init__(self):
+        """Initialize MainWindow."""
         QtWidgets.QMainWindow.__init__(self)
         self.resize(1000, 800)
+
+        self.conf = config.Config()
 
         self.menu = self.menuBar()
         self.file_menu = self.menu.addMenu(_("File"))
@@ -43,8 +47,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.file_menu.addAction(clear_action)
 
         open_action = QtWidgets.QAction(_("Open"), self)
-        open_action.triggered.connect(self.open_file)
+        open_action.triggered.connect(self.open_file_dialog)
         self.file_menu.addAction(open_action)
+
+        self.open_recent_menu = QtWidgets.QMenu(_("Open Recent"), self)
+        self.update_recent_menu()
+
+        self.file_menu.addMenu(self.open_recent_menu)
 
         save_action = QtWidgets.QAction(_("Save"), self)
         save_action.setShortcut("Ctrl+S")
@@ -63,7 +72,6 @@ class MainWindow(QtWidgets.QMainWindow):
         exit_action.triggered.connect(self.exit_app)
         self.file_menu.addAction(exit_action)
 
-        self.conf = config.Config()
         self.modified = False
 
         self.main_widget = QtWidgets.QWidget(self)
@@ -84,25 +92,63 @@ class MainWindow(QtWidgets.QMainWindow):
         QtWidgets.QApplication.quit()
 
     def closeEvent(self, event):
+        """Called when the application gets closed. Ask the user to save
+        unsaved changes.
+        """
         if self.save_maybe():
             event.accept()
         else:
             event.ignore()
 
-    def open_file(self):
+    def open_file_dialog(self):
+        """Opens file dialog to let the user select a file to open."""
         if self.save_maybe():
             file_name = QtWidgets.QFileDialog.getOpenFileName(
                 self, _("Select a file to open"), self.conf["load_file_dir"],
                 "json (*json)")
-            self.scene.clear()
-            blocks = block_registry.Registry.load_block_structure(file_name[0])
-            self.save_file_path = file_name[0]
-            self.conf["load_file_dir"] = os.path.dirname(file_name[0])
-            self.scene.create_blocks(blocks)
-            self.modified = False
+            self.open_file(file_name[0])
+
+    def open_file_direct(self, file_name):
+        """Returns a function that opens a specific file.
+
+        Args:
+            file_name (str): Path of the file to open.
+        """
+        def tmp():
+            if self.save_maybe():
+                self.open_file(file_name)
+        return tmp
+
+    def open_file(self, file_name):
+        """Basic function to open a file.
+        Args:
+            file_name (str): Path of the file to open.
+        """
+        self.scene.clear()
+        blocks = block_registry.Registry.load_block_structure(file_name)
+        self.save_file_path = file_name
+        self.conf["load_file_dir"] = file_name
+        if file_name in self.conf["recent_files"]:
+            self.conf["recent_files"].remove(file_name)
+        self.conf["recent_files"] = [file_name] + self.conf["recent_files"][:3]
+        self.update_recent_menu()
+        self.scene.create_blocks(blocks)
+        self.modified = False
+
+    def update_recent_menu(self):
+        """Updates the actions in the recent menu based on the last chosen
+        files.
+        """
+        self.open_recent_menu.clear()
+        for file_name in self.conf["recent_files"]:
+            open_file_action = QtWidgets.QAction(
+                ntpath.basename(file_name), self)
+            open_file_action.triggered.connect(
+                self.open_file_direct(file_name))
+            self.open_recent_menu.addAction(open_file_action)
 
     def save_file_as(self):
-        """Open file dialog and save the current state to the given file.
+        """Opens file dialog and save the current state to the given file.
 
         Returns:
             bool: True, if saving has been successful. False, otherwise.
@@ -119,6 +165,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self.save_file_path = file_name[0]
             self.conf["save_file_dir"] = os.path.dirname(self.save_file_path)
             self.save_file()
+
+            self.conf["recent_files"] = [file_name] + self.conf["recent_files"][:3]
+            self.update_recent_menu()
             return True
 
     def save_file(self):

@@ -12,7 +12,8 @@ class Config(dict):
 
     default_config = {"language": "en",
                       "save_file_dir": os.path.expanduser("~"),
-                      "load_file_dir": os.path.expanduser("~")}
+                      "load_file_dir": os.path.expanduser("~"),
+                      "recent_files": []}
 
     def __init__(self):
         """Initialize the Config class."""
