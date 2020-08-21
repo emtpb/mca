@@ -101,7 +101,7 @@ class ConnectionsError(MCAError):
 
 
 class DataTypeError(MCAError):
-    """Exception raised when the data type of the data in the input does
+    """Exception raised when the data type of the data at the input does
     not match with the requirements of the Block."""
 
     def __init__(self, data, data_type):
@@ -113,6 +113,18 @@ class DataTypeError(MCAError):
         """
         super().__init__(
             "Input expected {} but was given {}".format(data_type, data)
+        )
+
+
+class UnitError(MCAError):
+    """Exception raised different units arrive at block which however requires
+    the same units.
+    """
+
+    def __init__(self, first_unit, second_unit):
+        """Initialize UnitError."""
+        super().__init__(
+            "Conflict with unit {} and {}".format(first_unit, second_unit)
         )
 
 
