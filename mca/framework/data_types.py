@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from united import Unit
 import numpy as np
 
 
@@ -55,26 +55,45 @@ class Signal:
         return True
 
 
-@dataclass
 class MetaData:
     """Meta data class for the :class:`.Signal` class.
 
     Attributes:
         name (str): Name of the Signal.
+        unit_a (Unit): Unit for the abscissa.
+        unit_o (Unit): Unit for the ordinate.
         quantity_a (str): Quantity of the abscissa.
-        symbol_a (str): Symbol of the abscissa.
-        unit_a (str): Unit for the abscissa.
         quantity_o (str): Quantity of the ordinate.
+        symbol_a (str): Symbol of the abscissa.
         symbol_o (str): Symbol of the ordinate.
-        unit_o (str): Unit for the ordinate.
+
     """
-    name: str
-    quantity_a: str
-    symbol_a: str
-    unit_a: str
-    quantity_o: str
-    symbol_o: str
-    unit_o: str
+    def __init__(self, name, unit_a, unit_o, quantity_a=None, quantity_o=None,
+                 symbol_a=None, symbol_o=None):
+        self.name = name
+        if isinstance(unit_a, Unit):
+            self.unit_a = unit_a
+        elif isinstance(unit_a, str):
+            self.unit_a = string_to_unit(unit_a)
+        else:
+            raise ValueError("Invalid type {} for a unit".format(type(unit_a)))
+        if isinstance(unit_o, Unit):
+            self.unit_o = unit_o
+        elif isinstance(unit_o, str):
+            self.unit_o = string_to_unit(unit_o)
+        else:
+            raise ValueError("Invalid type {} for a unit".format(type(unit_o)))
+
+        self.quantity_a = quantity_a
+        if not self.quantity_a:
+            self.quantity_a = self.unit_a.quantity
+
+        self.quantity_o = quantity_o
+        if not self.quantity_o:
+            self.quantity_o = self.unit_o.quantity
+
+        self.symbol_a = symbol_a
+        self.symbol_o = symbol_o
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
@@ -94,3 +113,16 @@ class MetaData:
         if self.symbol_o != other.symbol_o:
             return False
         return True
+
+
+def string_to_unit(string):
+    string = string.replace("(", "")
+    string = string.replace(")", "")
+    fraction = string.split("/")
+    numerator = None
+    denominator = None
+    if fraction[0] != 1:
+        numerator = fraction[0].split("*")
+    if len(fraction) > 1:
+        denominator = fraction[1].split("*")
+    return Unit(numerator, denominator)

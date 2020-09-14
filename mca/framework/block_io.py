@@ -84,8 +84,23 @@ class Output:
         self.block = block
         self.up_to_date = True
         self.data = None
+        self._use_own_meta_data = False
         self.meta_data = meta_data
         self.id = uuid.uuid4()
+
+    def get_meta_data(self, external_meta_data=None):
+        if external_meta_data is None or self.use_own_meta_data:
+            return self.meta_data
+        return external_meta_data
+
+    @property
+    def use_own_meta_data(self):
+        return self._use_own_meta_data
+
+    @use_own_meta_data.setter
+    def use_own_meta_data(self, value):
+        self._use_own_meta_data = value
+        self.block.apply_parameter_changes()
 
     def disconnect(self):
         """Disconnects itself from all Inputs."""

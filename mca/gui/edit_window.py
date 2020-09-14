@@ -2,7 +2,7 @@ from PySide2 import QtWidgets, QtCore, QtGui
 import os
 
 import mca
-from mca.framework import parameters
+from mca.framework import parameters, data_types
 from mca.gui import parameter_widgets
 from mca.language import _
 
@@ -129,70 +129,60 @@ class EditWindow(QtWidgets.QDialog):
             else:
                 output_label = QtWidgets.QLabel(_("Output meta data:"))
             output_label.setFont(self.headline_font)
-            self.meta_data_layout.addWidget(output_label, index * 8, 0, 1, 1)
+            self.meta_data_layout.addWidget(output_label, index * 9, 0, 1, 1)
             self.meta_data_layout.addWidget(QtWidgets.QLabel(
                 _("Signal name:")),
-                index * 8 + 1, 0, 1, 1)
+                index * 9 + 1, 0, 1, 1)
             name_edit = QtWidgets.QLineEdit(output.meta_data.name)
-            self.meta_data_layout.addWidget(name_edit, index * 8 + 1, 1, 1, 1)
+            self.meta_data_layout.addWidget(name_edit, index * 9 + 1, 1, 1, 1)
             self.meta_data_layout.addWidget(
                 QtWidgets.QLabel(_("Abscissa quantity:")),
-                index * 8 + 2, 0, 1, 1)
+                index * 9 + 2, 0, 1, 1)
             quantity_a_edit = QtWidgets.QLineEdit(output.meta_data.quantity_a)
             self.meta_data_layout.addWidget(quantity_a_edit,
-                                            index * 8 + 2, 1, 1, 1)
+                                            index * 9 + 2, 1, 1, 1)
             symbol_a_edit = QtWidgets.QLineEdit(output.meta_data.symbol_a)
             self.meta_data_layout.addWidget(
                 QtWidgets.QLabel(_("Abscissa symbol:")),
-                index * 8 + 3, 0, 1, 1)
+                index * 9 + 3, 0, 1, 1)
             self.meta_data_layout.addWidget(symbol_a_edit,
-                                            index * 8 + 3, 1, 1, 1)
+                                            index * 9 + 3, 1, 1, 1)
             self.meta_data_layout.addWidget(
-                QtWidgets.QLabel(_("Abscissa unit:")), index * 8 + 4, 0, 1, 1)
-            unit_a_edit = QtWidgets.QLineEdit(output.meta_data.unit_a)
+                QtWidgets.QLabel(_("Abscissa unit:")), index * 9 + 4, 0, 1, 1)
+            unit_a_edit = QtWidgets.QLineEdit(repr(output.meta_data.unit_a))
             self.meta_data_layout.addWidget(unit_a_edit,
-                                            index * 8 + 4, 1, 1, 1)
+                                            index * 9 + 4, 1, 1, 1)
             self.meta_data_layout.addWidget(
                 QtWidgets.QLabel(_("Ordinate quantity:")),
-                index * 8 + 5, 0, 1, 1)
+                index * 9 + 5, 0, 1, 1)
             quantity_o_edit = QtWidgets.QLineEdit(output.meta_data.quantity_o)
-            self.meta_data_layout.addWidget(quantity_o_edit, index * 8 + 5, 1,
+            self.meta_data_layout.addWidget(quantity_o_edit, index * 9 + 5, 1,
                                             1, 1)
             self.meta_data_layout.addWidget(
                 QtWidgets.QLabel(_("Ordinate symbol:")),
-                index * 8 + 6, 0, 1, 1)
+                index * 9 + 6, 0, 1, 1)
             symbol_o_edit = QtWidgets.QLineEdit(output.meta_data.symbol_o)
             self.meta_data_layout.addWidget(symbol_o_edit, index * 8 + 6, 1, 1,
                                             1)
             self.meta_data_layout.addWidget(
                 QtWidgets.QLabel(_("Ordinate unit:")),
-                index * 8 + 7, 0, 1, 1)
-            unit_o_edit = QtWidgets.QLineEdit(output.meta_data.unit_o)
+                index * 9 + 7, 0, 1, 1)
+            unit_o_edit = QtWidgets.QLineEdit(repr(output.meta_data.unit_o))
             self.meta_data_layout.addWidget(unit_o_edit,
-                                            index * 8 + 7, 1, 1, 1)
+                                            index * 9 + 7, 1, 1, 1)
+            check_box = QtWidgets.QCheckBox("Use own meta data")
+            check_box.setChecked(output.use_own_meta_data)
+            self.meta_data_layout.addWidget(check_box, index * 9 + 8, 1, 1, 1)
 
             def set_meta_data():
-                if output.meta_data.name != name_edit.text():
-                    output.meta_data.name = name_edit.text()
-                    self.parent().modified = True
-                if output.meta_data.quantity_a != quantity_a_edit.text():
-                    output.meta_data.quantity_a = quantity_a_edit.text()
-                    self.parent().modified = True
-                if output.meta_data.symbol_a != symbol_a_edit.text():
-                    output.meta_data.symbol_a = symbol_a_edit.text()
-                    self.parent().modified = True
-                if output.meta_data.unit_a != unit_a_edit.text():
-                    output.meta_data.unit_a = unit_a_edit.text()
-                    self.parent().modified = True
-                if output.meta_data.quantity_o != quantity_o_edit.text():
-                    output.meta_data.quantity_o = quantity_o_edit.text()
-                    self.parent().modified = True
-                if output.meta_data.symbol_o != symbol_o_edit.text():
-                    output.meta_data.symbol_o = symbol_o_edit.text()
-                    self.parent().modified = True
-                if output.meta_data.unit_o != unit_o_edit.text():
-                    output.meta_data.unit_o = unit_o_edit.text()
-                    self.parent().modified = True
-
+                output.meta_data = data_types.MetaData(
+                    name=name_edit.text(),
+                    unit_a=unit_a_edit.text(),
+                    unit_o=unit_o_edit.text(),
+                    quantity_a=quantity_a_edit.text(),
+                    quantity_o=quantity_o_edit.text(),
+                    symbol_a=symbol_a_edit.text(),
+                    symbol_o=symbol_o_edit.text()
+                )
             QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"),
                                    set_meta_data)

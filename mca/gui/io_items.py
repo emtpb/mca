@@ -267,6 +267,9 @@ class OutputItem(QtWidgets.QGraphicsItem):
                 except exceptions.BlockCircleError:
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                         "Cyclic structures are not allowed."))
+                except exceptions.UnitError:
+                    QtWidgets.QMessageBox().warning(None, _("MCA"), _(
+                        "Could not process incompatible datatypes."))
                 else:
                     self.scene().addItem(ConnectionLine(
                         output_item=self,

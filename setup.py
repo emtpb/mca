@@ -30,7 +30,8 @@ setup(
 
     # Runtime dependencies
     install_requires=[
-        'numpy', 'scipy', 'networkx', 'matplotlib', 'appdirs', 'PySide2'],
+        'numpy', 'scipy', 'networkx', 'matplotlib', 'appdirs', 'PySide2',
+        'united'],
 
     # Python version requirement
     python_requires='>=3',

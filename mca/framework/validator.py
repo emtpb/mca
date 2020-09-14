@@ -78,4 +78,4 @@ def check_same_units(units):
     """
     for unit in units:
         if unit != units[0]:
-            raise exceptions.UnitError(unit, unit[0])
+            raise exceptions.UnitError(unit, units[0])
