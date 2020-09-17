@@ -72,17 +72,14 @@ class MetaData:
                  symbol_a=None, symbol_o=None):
         self.name = name
         if isinstance(unit_a, Unit):
-            self.unit_a = unit_a
+            self._unit_a = unit_a
         elif isinstance(unit_a, str):
-            self.unit_a = string_to_unit(unit_a)
-        else:
-            raise ValueError("Invalid type {} for a unit".format(type(unit_a)))
+            self._unit_a = string_to_unit(unit_a)
+
         if isinstance(unit_o, Unit):
-            self.unit_o = unit_o
+            self._unit_o = unit_o
         elif isinstance(unit_o, str):
-            self.unit_o = string_to_unit(unit_o)
-        else:
-            raise ValueError("Invalid type {} for a unit".format(type(unit_o)))
+            self._unit_o = string_to_unit(unit_o)
 
         self.quantity_a = quantity_a
         if not self.quantity_a:
@@ -94,6 +91,28 @@ class MetaData:
 
         self.symbol_a = symbol_a
         self.symbol_o = symbol_o
+
+    @property
+    def unit_a(self):
+        return self._unit_a
+
+    @unit_a.setter
+    def unit_a(self, value):
+        if isinstance(value, Unit):
+            self._unit_a = value
+        elif isinstance(value, str):
+            self._unit_a = string_to_unit(value)
+
+    @property
+    def unit_o(self):
+        return self._unit_o
+
+    @unit_o.setter
+    def unit_o(self, value):
+        if isinstance(value, Unit):
+            self._unit_o = value
+        elif isinstance(value, str):
+            self._unit_a = string_to_unit(value)
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
