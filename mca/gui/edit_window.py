@@ -2,15 +2,16 @@ from PySide2 import QtWidgets, QtCore, QtGui
 import os
 
 import mca
+from mca import exceptions
 from mca.framework import parameters, data_types
-from mca.gui import parameter_widgets
+from mca.gui import edit_widgets
 from mca.language import _
 
-widget_dict = {parameters.BoolParameter: parameter_widgets.BoolWidget,
-               parameters.IntParameter: parameter_widgets.IntWidget,
-               parameters.FloatParameter: parameter_widgets.FloatWidget,
-               parameters.ChoiceParameter: parameter_widgets.ChoiceWidget,
-               parameters.StrParameter: parameter_widgets.StringWidget}
+widget_dict = {parameters.BoolParameter: edit_widgets.BoolParameterWidget,
+               parameters.IntParameter: edit_widgets.IntParameterWidget,
+               parameters.FloatParameter: edit_widgets.FloatParameterWidget,
+               parameters.ChoiceParameter: edit_widgets.ChoiceParameterWidget,
+               parameters.StrParameter: edit_widgets.StringParameterWidget}
 
 
 class EditWindow(QtWidgets.QDialog):
@@ -25,7 +26,6 @@ class EditWindow(QtWidgets.QDialog):
         meta_data_layout: Grid layout which arranges the meta data widgets.
         button_box: "Ok|Cancel" button widgets.
     """
-
     def __init__(self, parent, block):
         """Initialize EditWindow class.
 
@@ -46,6 +46,9 @@ class EditWindow(QtWidgets.QDialog):
 
         self.main_layout = QtWidgets.QVBoxLayout()
         self.setLayout(self.main_layout)
+
+        self.parameter_widgets = []
+        self.meta_data_widgets = []
 
         self.tab_widget = QtWidgets.QTabWidget()
         self.main_layout.addWidget(self.tab_widget)
@@ -87,13 +90,22 @@ class EditWindow(QtWidgets.QDialog):
             icon = QtGui.QIcon(os.path.dirname(
                 mca.__file__) + "/blocks/icons/" + self.block.icon_file)
             self.setWindowIcon(icon)
-        QtCore.QObject.connect(self.button_box, QtCore.SIGNAL("accepted()"),
-                               self.accept)
-        QtCore.QObject.connect(self.button_box, QtCore.SIGNAL("rejected()"),
-                               self.reject)
 
-        QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"),
-                               block.apply_parameter_changes)
+        self.warning_message = QtWidgets.QMessageBox()
+        self.warning_message.setIcon(QtWidgets.QMessageBox.Warning)
+        self.warning_message.setText(
+            _("Could not apply the changed parameters and meta data!"
+              "Continue editing or revert changes?"))
+        self.continue_button = self.warning_message.addButton(
+            _("Continue"),
+            QtWidgets.QMessageBox.YesRole)
+        self.revert_button = self.warning_message.addButton(
+            _("Revert"),
+            QtWidgets.QMessageBox.NoRole)
+        QtCore.QObject.connect(self.button_box, QtCore.SIGNAL("accepted()"),
+                               self.apply_changes)
+        QtCore.QObject.connect(self.button_box, QtCore.SIGNAL("rejected()"),
+                               self.revert_changes)
 
     def display_parameters(self):
         """Arranges parameters of a block in rows in the window underneath each
@@ -112,9 +124,8 @@ class EditWindow(QtWidgets.QDialog):
                 name_label = QtWidgets.QLabel(block_parameter.name)
                 self.parameter_layout.addWidget(name_label, index, 0, 1, 1)
             widget = widget_dict[type(block_parameter)](block_parameter)
+            self.parameter_widgets.append(widget)
             widget.read_parameter()
-            QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"),
-                                   widget.set_parameter)
             self.parameter_layout.addWidget(widget, index, 1, 1, 1)
             if block_parameter.unit:
                 unit_label = QtWidgets.QLabel(block_parameter.unit)
@@ -122,6 +133,10 @@ class EditWindow(QtWidgets.QDialog):
 
     def display_meta_data(self):
         """Arranges the meta data of the outputs of the block in the window."""
+        labels = [_("Signal name:"), _("Abscissa quantity:"),
+                  _("Abscissa symbol:"), _("Abscissa unit:"),
+                  _("Ordinate quantity:"), _("Ordinate symbol:"),
+                  _("Ordinate unit:")]
         for index, output in enumerate(self.block.outputs):
             if output.name:
                 output_label = QtWidgets.QLabel(
@@ -130,59 +145,56 @@ class EditWindow(QtWidgets.QDialog):
                 output_label = QtWidgets.QLabel(_("Output meta data:"))
             output_label.setFont(self.headline_font)
             self.meta_data_layout.addWidget(output_label, index * 9, 0, 1, 1)
-            self.meta_data_layout.addWidget(QtWidgets.QLabel(
-                _("Signal name:")),
-                index * 9 + 1, 0, 1, 1)
-            name_edit = QtWidgets.QLineEdit(output.meta_data.name)
-            self.meta_data_layout.addWidget(name_edit, index * 9 + 1, 1, 1, 1)
-            self.meta_data_layout.addWidget(
-                QtWidgets.QLabel(_("Abscissa quantity:")),
-                index * 9 + 2, 0, 1, 1)
-            quantity_a_edit = QtWidgets.QLineEdit(output.meta_data.quantity_a)
-            self.meta_data_layout.addWidget(quantity_a_edit,
-                                            index * 9 + 2, 1, 1, 1)
-            symbol_a_edit = QtWidgets.QLineEdit(output.meta_data.symbol_a)
-            self.meta_data_layout.addWidget(
-                QtWidgets.QLabel(_("Abscissa symbol:")),
-                index * 9 + 3, 0, 1, 1)
-            self.meta_data_layout.addWidget(symbol_a_edit,
-                                            index * 9 + 3, 1, 1, 1)
-            self.meta_data_layout.addWidget(
-                QtWidgets.QLabel(_("Abscissa unit:")), index * 9 + 4, 0, 1, 1)
-            unit_a_edit = QtWidgets.QLineEdit(repr(output.meta_data.unit_a))
-            self.meta_data_layout.addWidget(unit_a_edit,
-                                            index * 9 + 4, 1, 1, 1)
-            self.meta_data_layout.addWidget(
-                QtWidgets.QLabel(_("Ordinate quantity:")),
-                index * 9 + 5, 0, 1, 1)
-            quantity_o_edit = QtWidgets.QLineEdit(output.meta_data.quantity_o)
-            self.meta_data_layout.addWidget(quantity_o_edit, index * 9 + 5, 1,
-                                            1, 1)
-            self.meta_data_layout.addWidget(
-                QtWidgets.QLabel(_("Ordinate symbol:")),
-                index * 9 + 6, 0, 1, 1)
-            symbol_o_edit = QtWidgets.QLineEdit(output.meta_data.symbol_o)
-            self.meta_data_layout.addWidget(symbol_o_edit, index * 8 + 6, 1, 1,
-                                            1)
-            self.meta_data_layout.addWidget(
-                QtWidgets.QLabel(_("Ordinate unit:")),
-                index * 9 + 7, 0, 1, 1)
-            unit_o_edit = QtWidgets.QLineEdit(repr(output.meta_data.unit_o))
-            self.meta_data_layout.addWidget(unit_o_edit,
-                                            index * 9 + 7, 1, 1, 1)
-            check_box = QtWidgets.QCheckBox("Use own meta data")
+
+            meta_data_attr = ["name",
+                              "quantity_a",
+                              "symbol_a",
+                              "unit_a",
+                              "quantity_o",
+                              "symbol_o",
+                              "unit_o"]
+            i = 1
+            for label, attr in zip(labels, meta_data_attr):
+                self.meta_data_layout.addWidget(QtWidgets.QLabel(label),
+                                                index * 9 + i, 0, 1, 1)
+                entry_edit_line = edit_widgets.MetaDataWidget(
+                    meta_data=output.meta_data, attr=attr
+                )
+                entry_edit_line.read_meta_data_attr()
+                self.meta_data_widgets.append(entry_edit_line)
+                self.meta_data_layout.addWidget(entry_edit_line,
+                                                index * 9 + i, 1, 1, 1)
+                i += 1
+
+            check_box = QtWidgets.QCheckBox(_("Use own meta data"))
             check_box.setChecked(output.use_own_meta_data)
             self.meta_data_layout.addWidget(check_box, index * 9 + 8, 1, 1, 1)
 
-            def set_meta_data():
-                output.meta_data = data_types.MetaData(
-                    name=name_edit.text(),
-                    unit_a=unit_a_edit.text(),
-                    unit_o=unit_o_edit.text(),
-                    quantity_a=quantity_a_edit.text(),
-                    quantity_o=quantity_o_edit.text(),
-                    symbol_a=symbol_a_edit.text(),
-                    symbol_o=symbol_o_edit.text()
-                )
-            QtCore.QObject.connect(self, QtCore.SIGNAL("accepted()"),
-                                   set_meta_data)
+    def apply_changes(self):
+        try:
+            for parameter_widget in self.parameter_widgets:
+                parameter_widget.write_parameter()
+            for entry in self.meta_data_widgets:
+                entry.write_meta_data_attr()
+            self.block.apply_parameter_changes()
+        except Exception:
+            self.warning_message.exec_()
+            if self.warning_message.clickedButton() == self.revert_button:
+                for parameter_widget in self.parameter_widgets:
+                    parameter_widget.revert_changes()
+                for entry in self.meta_data_widgets:
+                    entry.revert_changes()
+        else:
+            for parameter_widget in self.parameter_widgets:
+                parameter_widget.apply_changes()
+            for entry in self.meta_data_widgets:
+                entry.apply_changes()
+            self.accept()
+
+    def revert_changes(self):
+        for parameter_widget in self.parameter_widgets:
+            parameter_widget.revert_changes()
+        for entry in self.meta_data_widgets:
+            entry.revert_changes()
+        self.block.apply_parameter_changes()
+        self.reject()
