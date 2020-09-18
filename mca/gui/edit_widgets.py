@@ -275,7 +275,7 @@ class BoolParameterWidget(BaseParameterWidget, QtWidgets.QCheckBox):
         self.changed = False
 
 
-class MetaDataWidget(QtWidgets.QLineEdit):
+class MetaDataEditWidget(QtWidgets.QLineEdit):
     """Widget to display attributes of meta data objects.
 
     Attributes:
@@ -287,7 +287,7 @@ class MetaDataWidget(QtWidgets.QLineEdit):
                         differs from the previous value.
     """
     def __init__(self, meta_data, attr):
-        """Initializes MetaDataWidget class.
+        """Initializes MetaDataEditWidget class.
 
         Args:
             meta_data: Reference of the :class:`.MetaData` object.
@@ -300,12 +300,12 @@ class MetaDataWidget(QtWidgets.QLineEdit):
         self.prev_value = getattr(self.meta_data, self.attr)
         self.textChanged.connect(self.check_changed)
 
-    def write_meta_data_attr(self):
+    def write_attribute(self):
         """Writes the value from the widget to the attribute."""
         if self.changed:
             setattr(self.meta_data, self.attr, self.text())
 
-    def read_meta_data_attr(self):
+    def read_attribute(self):
         """Reads the value from the attribute and sets the widget text
         to it.
         """
@@ -344,6 +344,77 @@ class MetaDataWidget(QtWidgets.QLineEdit):
             attr = repr(attr)
         self.setText(attr)
         self.setStyleSheet("")
-        self.write_meta_data_attr()
-        self.read_meta_data_attr()
+        self.write_attribute()
+        self.read_attribute()
+        self.changed = False
+
+
+class MetaDataBoolWidget(QtWidgets.QCheckBox):
+    """Widget to confirm whether predefined meta data from the output should
+    be applied to the signal by manipulating bool values from the output.
+
+    Attributes:
+        text: Text to be displayed next to the checkbox.
+        output: Reference of the :class:`.Output` object.
+        attr(str): Attribute name of the :class:`.Output` object.
+        prev_value: Stores the last value of the attribute until changes get
+                    finally applied.
+        changed (bool): Indicates whether the current value in the widget
+                        differs from the previous value.
+    """
+    def __init__(self, text, output, attr):
+        """Initializes MetaDataEditWidget class.
+
+        Args:
+            text: Text to be displayed next to the checkbox.
+            output: Reference of the :class:`.MetaData` object.
+            attr(str): Attribute name of the :class:`.MetaData` object.
+        """
+        QtWidgets.QCheckBox.__init__(self, text)
+        self.output = output
+        self.attr = attr
+        self.changed = False
+        self.prev_value = getattr(self.output, self.attr)
+        self.stateChanged.connect(self.check_changed)
+
+    def write_attribute(self):
+        """Writes the value from the widget to the attribute."""
+        if self.changed:
+            setattr(self.output, self.attr, self.isChecked())
+
+    def read_attribute(self):
+        """Reads the value from the attribute and sets the widget value
+        to it.
+        """
+        attr = getattr(self.output, self.attr)
+        self.setChecked(attr)
+
+    def check_changed(self):
+        """Checks whether the value has been changed compared to the
+        previous value.
+        """
+        attr = getattr(self.output, self.attr)
+        if attr != self.isChecked():
+            self.changed = True
+            self.setStyleSheet("border-radius: 3px;"
+                               "border: 2px solid lightblue;")
+        else:
+            self.changed = False
+            self.setStyleSheet("")
+
+    def apply_changes(self):
+        """Accepts changes to the attribute."""
+        self.changed = False
+        self.prev_value = getattr(self.output, self.attr)
+        self.setStyleSheet("")
+        self.window().parent().modified = True
+
+    def revert_changes(self):
+        """Reverts changes made by the user and applies the
+        previous attribute again."""
+        attr = self.prev_value
+        self.setChecked(attr)
+        self.setStyleSheet("")
+        self.write_attribute()
+        self.read_attribute()
         self.changed = False

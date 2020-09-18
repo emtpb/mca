@@ -55,7 +55,7 @@ class EditWindow(QtWidgets.QDialog):
         # Initialize parameter tab
         self.parameter_tab = QtWidgets.QWidget()
         self.parameter_layout = QtWidgets.QGridLayout(self.parameter_tab)
-        parameters_tab_height = (len(block.parameters) + 1) * 30
+        parameters_tab_height = (len(block.parameters) + 2) * 30
         self.parameter_tab.setFixedHeight(parameters_tab_height)
 
         scroll = QtWidgets.QScrollArea()
@@ -68,7 +68,7 @@ class EditWindow(QtWidgets.QDialog):
         if block.outputs:
             self.meta_data_tab = QtWidgets.QWidget()
             self.meta_data_layout = QtWidgets.QGridLayout(self.meta_data_tab)
-            meta_data_tab_height = len(self.block.outputs)*240
+            meta_data_tab_height = len(self.block.outputs)*300
             self.meta_data_tab.setFixedHeight(meta_data_tab_height)
             self.tab_widget.setCurrentIndex(0)
             scroll = QtWidgets.QScrollArea()
@@ -144,38 +144,96 @@ class EditWindow(QtWidgets.QDialog):
             else:
                 output_label = QtWidgets.QLabel(_("Output meta data:"))
             output_label.setFont(self.headline_font)
-            self.meta_data_layout.addWidget(output_label, index * 9, 0, 1, 1)
+            self.meta_data_layout.addWidget(output_label, index * 10, 0, 1, 1)
 
-            meta_data_attr = ["name",
-                              "quantity_a",
-                              "symbol_a",
-                              "unit_a",
-                              "quantity_o",
-                              "symbol_o",
-                              "unit_o"]
-            i = 1
-            for label, attr in zip(labels, meta_data_attr):
-                self.meta_data_layout.addWidget(QtWidgets.QLabel(label),
-                                                index * 9 + i, 0, 1, 1)
-                entry_edit_line = edit_widgets.MetaDataWidget(
-                    meta_data=output.meta_data, attr=attr
-                )
-                entry_edit_line.read_meta_data_attr()
-                self.meta_data_widgets.append(entry_edit_line)
-                self.meta_data_layout.addWidget(entry_edit_line,
-                                                index * 9 + i, 1, 1, 1)
-                i += 1
+            self.meta_data_layout.addWidget(QtWidgets.QLabel(_("Signal name:")),
+                                            index * 10 + 1, 0, 1, 1)
+            entry_edit_line = edit_widgets.MetaDataEditWidget(
+                meta_data=output.meta_data, attr="name"
+            )
+            entry_edit_line.read_attribute()
+            self.meta_data_widgets.append(entry_edit_line)
+            self.meta_data_layout.addWidget(entry_edit_line,
+                                            index * 10 + 1, 1, 1, 1)
 
-            check_box = QtWidgets.QCheckBox(_("Use own meta data"))
-            check_box.setChecked(output.use_own_meta_data)
-            self.meta_data_layout.addWidget(check_box, index * 9 + 8, 1, 1, 1)
+            self.meta_data_layout.addWidget(QtWidgets.QLabel(_("Abscissa quantity:")),
+                                            index * 10 + 2, 0, 1, 1)
+            entry_edit_line = edit_widgets.MetaDataEditWidget(
+                meta_data=output.meta_data, attr="quantity_a"
+            )
+            entry_edit_line.read_attribute()
+            self.meta_data_widgets.append(entry_edit_line)
+            self.meta_data_layout.addWidget(entry_edit_line,
+                                            index * 10 + 2, 1, 1, 1)
+
+            self.meta_data_layout.addWidget(QtWidgets.QLabel(_("Abscissa symbol:")),
+                                            index * 10 + 3, 0, 1, 1)
+            entry_edit_line = edit_widgets.MetaDataEditWidget(
+                meta_data=output.meta_data, attr="symbol_a"
+            )
+            entry_edit_line.read_attribute()
+            self.meta_data_widgets.append(entry_edit_line)
+            self.meta_data_layout.addWidget(entry_edit_line,
+                                            index * 10 + 3, 1, 1, 1)
+
+            self.meta_data_layout.addWidget(QtWidgets.QLabel(_("Abscissa unit:")),
+                                            index * 10 + 4, 0, 1, 1)
+            entry_edit_line = edit_widgets.MetaDataEditWidget(
+                meta_data=output.meta_data, attr="unit_a"
+            )
+            entry_edit_line.read_attribute()
+            self.meta_data_widgets.append(entry_edit_line)
+            self.meta_data_layout.addWidget(entry_edit_line,
+                                            index * 10 + 4, 1, 1, 1)
+            abscissa_check_box = edit_widgets.MetaDataBoolWidget(
+                _("Use abscissa meta data"), output, "abscissa_meta_data")
+            abscissa_check_box.read_attribute()
+            self.meta_data_widgets.append(abscissa_check_box)
+            self.meta_data_layout.addWidget(abscissa_check_box, index*10+5, 1, 1, 1)
+            self.meta_data_layout.addWidget(
+                QtWidgets.QLabel(_("Ordinate quantity:")),
+                index * 10 + 6, 0, 1, 1)
+            entry_edit_line = edit_widgets.MetaDataEditWidget(
+                meta_data=output.meta_data, attr="quantity_o"
+            )
+            entry_edit_line.read_attribute()
+            self.meta_data_widgets.append(entry_edit_line)
+            self.meta_data_layout.addWidget(entry_edit_line,
+                                            index * 10 + 6, 1, 1, 1)
+            self.meta_data_layout.addWidget(
+                QtWidgets.QLabel(_("Ordinate symbol:")),
+                index * 10 + 7, 0, 1, 1)
+            entry_edit_line = edit_widgets.MetaDataEditWidget(
+                meta_data=output.meta_data, attr="symbol_o"
+            )
+            entry_edit_line.read_attribute()
+            self.meta_data_widgets.append(entry_edit_line)
+            self.meta_data_layout.addWidget(entry_edit_line,
+                                            index * 10 + 7, 1, 1, 1)
+
+            self.meta_data_layout.addWidget(
+                QtWidgets.QLabel(_("Ordinate unit:")),
+                index * 10 + 8, 0, 1, 1)
+            entry_edit_line = edit_widgets.MetaDataEditWidget(
+                meta_data=output.meta_data, attr="unit_o"
+            )
+            entry_edit_line.read_attribute()
+            self.meta_data_widgets.append(entry_edit_line)
+            self.meta_data_layout.addWidget(entry_edit_line,
+                                            index * 10 + 8, 1, 1, 1)
+            ordinate_check_box = edit_widgets.MetaDataBoolWidget(
+                _("Use ordinate meta data"), output, "ordinate_meta_data")
+            ordinate_check_box.read_attribute()
+            self.meta_data_widgets.append(ordinate_check_box)
+            self.meta_data_layout.addWidget(ordinate_check_box, index * 10 + 9,
+                                            1, 1, 1)
 
     def apply_changes(self):
         try:
             for parameter_widget in self.parameter_widgets:
                 parameter_widget.write_parameter()
             for entry in self.meta_data_widgets:
-                entry.write_meta_data_attr()
+                entry.write_attribute()
             self.block.apply_parameter_changes()
         except Exception:
             self.warning_message.exec_()
