@@ -19,8 +19,10 @@ class SignalGeneratorArbitrary(mca.framework.Block):
 
         self._new_output(
             meta_data=mca.framework.data_types.MetaData(
-                "Test", _("Time"), "t", "s", _("Voltage"), "U", "V"
-            )
+                name="",
+                unit_a="s",
+                unit_o="V"
+            ),
         )
         self.read_kwargs(kwargs)
 
@@ -42,7 +44,7 @@ class SignalGeneratorArbitrary(mca.framework.Block):
                 arbitrary_data["symbol_o"],
                 arbitrary_data["unit_o"])
         self.outputs[0].data = mca.framework.data_types.Signal(
-            meta_data=meta_data,
+            meta_data=self.outputs[0].get_meta_data(meta_data),
             abscissa_start=arbitrary_data["abscissa_start"],
             values=arbitrary_data["values"],
             increment=arbitrary_data["increment"],

@@ -1,3 +1,5 @@
+from united import Unit
+
 import mca.framework
 from mca.framework import validator
 from mca.language import _
@@ -22,8 +24,9 @@ class Absolute(mca.framework.Block):
         super().__init__()
         self._new_output(
             meta_data=mca.framework.data_types.MetaData(
-                "Test", _("Time"), "t", "s",
-                _("Voltage"), "U", "V"
+                name="",
+                unit_a=Unit(["s"]),
+                unit_o=Unit(["V"])
             )
         )
         self._new_input()
@@ -36,7 +39,7 @@ class Absolute(mca.framework.Block):
         input_signal = self.inputs[0].data
         ordinate = abs(input_signal.ordinate)
         self.outputs[0].data = mca.framework.data_types.Signal(
-            meta_data=self.outputs[0].meta_data,
+            meta_data=self.outputs[0].get_meta_data(input_signal.meta_data),
             abscissa_start=input_signal.abscissa_start,
             values=input_signal.values,
             increment=input_signal.increment,

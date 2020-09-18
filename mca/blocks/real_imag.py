@@ -21,13 +21,17 @@ class RealImag(mca.framework.Block):
 
         self._new_output(
             meta_data=mca.framework.data_types.MetaData(
-                "Test", _("Time"), "t", "s", _("Voltage"), "U", "V"
+                name="",
+                unit_a="s",
+                unit_o="V"
             ),
             name=_("Real part")
         )
         self._new_output(
             meta_data=mca.framework.data_types.MetaData(
-                "Test", _("Time"), "t", "s", _("Voltage"), "U", "V"
+                name="",
+                unit_a="s",
+                unit_o="V"
             ),
             name=_("Imaginary part")
         )
@@ -43,4 +47,8 @@ class RealImag(mca.framework.Block):
         imag_signal = copy.deepcopy(self.inputs[0].data)
         imag_signal.ordinate = imag_signal.ordinate.imag
         self.outputs[0].data = real_signal
+        self.outputs[0].data.meta_data = self.outputs[0].get_meta_data(
+            real_signal)
         self.outputs[1].data = imag_signal
+        self.outputs[1].data.meta_data = self.outputs[1].get_meta_data(
+            imag_signal)

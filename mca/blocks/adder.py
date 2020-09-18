@@ -1,5 +1,6 @@
 import numpy as np
 import copy
+from united import Unit
 
 import mca.framework
 from mca.framework import validator
@@ -28,7 +29,9 @@ class Adder(mca.framework.DynamicBlock):
         self.dynamic_input = (1, None)
         self._new_output(
             meta_data=mca.framework.data_types.MetaData(
-                "Test", _("Time"), "t", "s", _("Voltage"), "U", "V"
+                name="",
+                unit_a="s",
+                unit_o="V"
             )
         )
         self._new_input()
@@ -40,20 +43,27 @@ class Adder(mca.framework.DynamicBlock):
             return
         for i in self.inputs:
             validator.check_type_signal(i.data)
-        signals = [copy.deepcopy(i.data) for i in self.inputs if i.data]
+        signals = [copy.copy(i.data) for i in self.inputs if i.data]
+        abscissa_units = [signal.meta_data.unit_a for signal in signals]
+        ordinate_units = [signal.meta_data.unit_o for signal in signals]
+        validator.check_same_units(abscissa_units)
+        validator.check_same_units(ordinate_units)
         validator.check_intervals(signals)
 
         modified_signals = fill_zeros(signals)
 
-        y = np.zeros(modified_signals[0].values)
+        ordinate = np.zeros(modified_signals[0].values)
         for sgn in modified_signals:
-            y += sgn.ordinate
+            ordinate += sgn.ordinate
         abscissa_start = modified_signals[0].abscissa_start
         values = modified_signals[0].values
         increment = modified_signals[0].increment
         self.outputs[0].data = mca.framework.data_types.Signal(
-            self.outputs[0].meta_data, abscissa_start, values, increment, y
-        )
+            meta_data=self.outputs[0].get_meta_data(signals[0].meta_data),
+            abscissa_start=abscissa_start,
+            values=values,
+            increment=increment,
+            ordinate=ordinate)
 
 
 def fill_zeros(signals):
