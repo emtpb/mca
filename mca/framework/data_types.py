@@ -145,3 +145,11 @@ def string_to_unit(string):
     if len(fraction) > 1:
         denominator = fraction[1].split("*")
     return Unit(numerator, denominator)
+
+
+def meta_data_to_axis_label(quantity, unit, symbol=None):
+    """Returns a string axis labels given a quantity, unit and (symbol)."""
+    if symbol:
+        return "{} {} / {}".format(quantity, symbol, unit)
+    else:
+        return "{} in {}".format(quantity, unit)
