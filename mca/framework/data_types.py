@@ -70,6 +70,17 @@ class MetaData:
     """
     def __init__(self, name, unit_a, unit_o, quantity_a=None, quantity_o=None,
                  symbol_a=None, symbol_o=None):
+        """Initialize MetaData.
+
+        Args:
+            name (str): Name of the Signal.
+            unit_a (Unit): Unit for the abscissa.
+            unit_o (Unit): Unit for the ordinate.
+            quantity_a (str): Quantity of the abscissa.
+            quantity_o (str): Quantity of the ordinate.
+            symbol_a (str): Symbol of the abscissa.
+            symbol_o (str): Symbol of the ordinate.
+        """
         self.name = name
         if isinstance(unit_a, Unit):
             self._unit_a = unit_a
@@ -94,6 +105,9 @@ class MetaData:
 
     @property
     def unit_a(self):
+        """Gets or sets the abscissa unit. Either a string or a Unit can be
+        handed over.
+        """
         return self._unit_a
 
     @unit_a.setter
@@ -105,6 +119,9 @@ class MetaData:
 
     @property
     def unit_o(self):
+        """Gets or sets the ordinate unit. Either a string or a Unit can be
+        handed over.
+        """
         return self._unit_o
 
     @unit_o.setter
@@ -135,6 +152,21 @@ class MetaData:
 
 
 def string_to_unit(string):
+    """Converts a string fraction to an Unit object. The string has to be
+    in a certain format.
+
+    Example:
+         >>> string_1 = "(V*s)/(A*C)"
+         >>> string_2 = "V*s"
+         >>> string_3 = "1/(A*C)"
+         >>> string_4 = "V"
+
+    Args:
+        string (str): String to be converted.
+
+    Returns:
+        Unit: Converted from the input string.
+    """
     string = string.replace("(", "")
     string = string.replace(")", "")
     fraction = string.split("/")
