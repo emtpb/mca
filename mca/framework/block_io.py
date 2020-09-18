@@ -1,4 +1,4 @@
-from . import block_registry
+from . import block_registry, data_types
 import uuid
 
 
@@ -68,8 +68,15 @@ class Output:
         up_to_date (bool): Flag which indicates if the data of the Output is
             valid or needs to be updated.
         data: Data which the Output may contain.
+        abscissa_meta_data (bool): True, if the abscissa meta data
+                                   should be used when a signal gets assigned
+                                   to this output.
+        ordinate_meta_data (bool): True, if the ordinate meta data
+                                   should be used when a signal gets assigned
+                                   to this output.
         meta_data: Metadata for data.
-        id: To identify input after saving.
+        id: Used to identify the inputs which were connected to the output
+            after saving.
     """
 
     def __init__(self, block=None, meta_data=None, name=None):
@@ -84,23 +91,47 @@ class Output:
         self.block = block
         self.up_to_date = True
         self.data = None
-        self._use_own_meta_data = False
+        self.abscissa_meta_data = False
+        self.ordinate_meta_data = False
         self.meta_data = meta_data
         self.id = uuid.uuid4()
 
-    def get_meta_data(self, external_meta_data=None):
-        if external_meta_data is None or self.use_own_meta_data:
-            return self.meta_data
-        return external_meta_data
+    def get_meta_data(self, external_meta_data):
+        """Returns a meta data object as a mix of given external meta data and
+        internal meta data. Depending on the attributes abscissa_meta_data
+        and ordinate_meta_data. Setting abscissa_meta_data to True forces the
+        use of the internal abscissa meta data. Same goes for
+        ordinate_meta_data. The meta data attribute "name" is always inherited
+        by the internal meta data.
 
-    @property
-    def use_own_meta_data(self):
-        return self._use_own_meta_data
+        Args:
+            external_meta_data: Given external meta_data to mix with internal
+                                meta data.
+        """
+        if self.abscissa_meta_data:
+            unit_a = self.meta_data.unit_a
+            symbol_a = self.meta_data.symbol_a
+            quantity_a = self.meta_data.quantity_a
+        else:
+            unit_a = external_meta_data.unit_a
+            symbol_a = external_meta_data.symbol_a
+            quantity_a = external_meta_data.quantity_a
 
-    @use_own_meta_data.setter
-    def use_own_meta_data(self, value):
-        self._use_own_meta_data = value
-        self.block.apply_parameter_changes()
+        if self.ordinate_meta_data:
+            unit_o = self.meta_data.unit_o
+            symbol_o = self.meta_data.symbol_o
+            quantity_o = self.meta_data.quantity_o
+        else:
+            unit_o = external_meta_data.unit_o
+            symbol_o = external_meta_data.symbol_o
+            quantity_o = external_meta_data.quantity_o
+        return data_types.MetaData(name=self.meta_data.name,
+                                   unit_a=unit_a,
+                                   unit_o=unit_o,
+                                   symbol_a=symbol_a,
+                                   symbol_o=symbol_o,
+                                   quantity_a=quantity_a,
+                                   quantity_o=quantity_o)
 
     def disconnect(self):
         """Disconnects itself from all Inputs."""
