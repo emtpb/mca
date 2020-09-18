@@ -112,7 +112,7 @@ class MetaData:
         if isinstance(value, Unit):
             self._unit_o = value
         elif isinstance(value, str):
-            self._unit_a = string_to_unit(value)
+            self._unit_o = string_to_unit(value)
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
