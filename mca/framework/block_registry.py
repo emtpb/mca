@@ -215,10 +215,10 @@ class IORegistry:
                               "signal_name": output.meta_data.name,
                               "quantity_a": output.meta_data.quantity_a,
                               "symbol_a": output.meta_data.symbol_a,
-                              "unit_a": output.meta_data.unit_a,
+                              "unit_a": repr(output.meta_data.unit_a),
                               "quantity_o": output.meta_data.quantity_o,
                               "symbol_o": output.meta_data.symbol_o,
-                              "unit_o": output.meta_data.unit_o,
+                              "unit_o": repr(output.meta_data.unit_o),
                               }
                               for output in block.outputs],
                           "gui_data": block.gui_data["save_data"]}
@@ -261,12 +261,12 @@ class IORegistry:
             for index, output_save in enumerate(block_save["outputs"]):
                 meta_data = data_types.MetaData(
                     output_save["signal_name"],
+                    output_save["unit_a"],
+                    output_save["unit_o"],
+                    output_save["quantity_o"],
                     output_save["quantity_a"],
                     output_save["symbol_a"],
-                    output_save["unit_a"],
-                    output_save["quantity_o"],
                     output_save["symbol_o"],
-                    output_save["unit_o"],
                 )
                 if index + 1 > len(block_instance.outputs):
                     block_instance.add_output(block_io.Output(block_instance))

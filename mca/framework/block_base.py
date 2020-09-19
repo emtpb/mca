@@ -120,14 +120,14 @@ class Block:
                                  output_index].data.meta_data.quantity_a,
                              "symbol_a": self.outputs[
                                  output_index].data.meta_data.symbol_a,
-                             "unit_a": self.outputs[
-                                 output_index].data.meta_data.unit_a,
+                             "unit_a": repr(self.outputs[
+                                 output_index].data.meta_data.unit_a),
                              "quantity_o": self.outputs[
                                  output_index].data.meta_data.quantity_o,
                              "symbol_o": self.outputs[
                                  output_index].data.meta_data.symbol_o,
-                             "unit_o": self.outputs[
-                                 output_index].data.meta_data.unit_o,
+                             "unit_o": repr(self.outputs[
+                                 output_index].data.meta_data.unit_o),
                              "abscissa_start": self.outputs[
                                  output_index].data.abscissa_start,
                              "values": self.outputs[output_index].data.values,

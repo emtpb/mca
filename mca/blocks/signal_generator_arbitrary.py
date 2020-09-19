@@ -37,12 +37,13 @@ class SignalGeneratorArbitrary(mca.framework.Block):
                     "Loaded data type is not a signal.")
             meta_data = mca.framework.data_types.MetaData(
                 arbitrary_data["name"],
-                arbitrary_data["quantity_a"],
-                arbitrary_data["symbol_a"],
                 arbitrary_data["unit_a"],
+                arbitrary_data["unit_o"],
+                arbitrary_data["quantity_a"],
                 arbitrary_data["quantity_o"],
+                arbitrary_data["symbol_a"],
                 arbitrary_data["symbol_o"],
-                arbitrary_data["unit_o"])
+                )
         self.outputs[0].data = mca.framework.data_types.Signal(
             meta_data=self.outputs[0].get_meta_data(meta_data),
             abscissa_start=arbitrary_data["abscissa_start"],

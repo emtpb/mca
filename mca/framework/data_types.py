@@ -134,8 +134,6 @@ class MetaData:
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
             return False
-        if self.name != other.name:
-            return False
         if self.quantity_a != other.quantity_a:
             return False
         if self.unit_a != other.unit_a:
