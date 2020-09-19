@@ -266,6 +266,11 @@ class TestOutputBlock(mca.framework.block_base.Block):
 
 
 @pytest.fixture(scope="module")
+def default_meta_data():
+    return mca.framework.data_types.MetaData("", "s", "V")
+
+
+@pytest.fixture(scope="module")
 def test_output_block():
     return TestOutputBlock
 
@@ -273,7 +278,7 @@ def test_output_block():
 @pytest.fixture(scope="module")
 def sin_signal():
     return mca.framework.data_types.Signal(mca.framework.data_types.MetaData(
-        "test", "Time", "t", "s", "Voltage", "U", "V"), 0, 628, 0.01,
+        "test", "s", "V", "Time", "Voltage", "t", "U"), 0, 628, 0.01,
         np.sin(2*np.pi*np.linspace(0, 0.01*627, 628)))
 
 

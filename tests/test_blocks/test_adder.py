@@ -3,18 +3,18 @@ from mca.blocks import adder
 from mca.framework import data_types
 import numpy as np
 
-
-test_signal0 = data_types.Signal(None, 0, 5, 0.1, np.full((5,), 1))
-test_signal1 = data_types.Signal(None, -2, 10, 0.1, np.full((10,), 1))
-test_signal2 = data_types.Signal(None, -1, 15, 0.1, np.full((15,), 1))
+test_meta_data = data_types.MetaData("", "s", "V")
+test_signal0 = data_types.Signal(test_meta_data, 0, 5, 0.1, np.full((5,), 1))
+test_signal1 = data_types.Signal(test_meta_data, -2, 10, 0.1, np.full((10,), 1))
+test_signal2 = data_types.Signal(test_meta_data, -1, 15, 0.1, np.full((15,), 1))
 
 expected_ordinate0 = np.full((25,), 1)
 expected_ordinate0[10:20] = np.zeros(10)
-expected_signal0 = data_types.Signal(None, -2, 25, 0.1, expected_ordinate0)
+expected_signal0 = data_types.Signal(test_meta_data, -2, 25, 0.1, expected_ordinate0)
 
 expected_ordinate1 = np.full((15,), 1)
 expected_ordinate1[10:15] = np.full((5,), 2)
-expected_signal1 = data_types.Signal(None, -1, 15, 0.1, expected_ordinate1)
+expected_signal1 = data_types.Signal(test_meta_data, -1, 15, 0.1, expected_ordinate1)
 test_cases = [((test_signal0, test_signal1), expected_signal0),
               ((test_signal0, test_signal2), expected_signal1)]
 
