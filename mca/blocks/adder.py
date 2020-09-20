@@ -1,6 +1,5 @@
 import numpy as np
 import copy
-from united import Unit
 
 import mca.framework
 from mca.framework import validator

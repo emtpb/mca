@@ -25,8 +25,8 @@ class Absolute(mca.framework.Block):
         self._new_output(
             meta_data=mca.framework.data_types.MetaData(
                 name="",
-                unit_a=Unit(["s"]),
-                unit_o=Unit(["V"])
+                unit_a="s",
+                unit_o="V"
             )
         )
         self._new_input()
