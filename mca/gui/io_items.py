@@ -109,6 +109,14 @@ class InputItem(QtWidgets.QGraphicsItem):
                 except exceptions.BlockCircleError:
                     QtWidgets.QMessageBox().warning(None, _("Error"), _(
                         "Cyclic structures are not allowed."))
+                except exceptions.UnitError:
+                    QtWidgets.QMessageBox().warning(None, _("MCA"), _(
+                        "Signals have incompatible meta data."))
+                    self.mca_input.disconnect()
+                except exceptions.IntervalError:
+                    QtWidgets.QMessageBox().warning(None, _("MCA"), _(
+                        "Signals have incompatible abscissas."))
+                    self.mca_input.disconnect()
                 else:
                     self.scene().addItem(ConnectionLine(
                         output_item=item,
@@ -269,7 +277,11 @@ class OutputItem(QtWidgets.QGraphicsItem):
                         "Cyclic structures are not allowed."))
                 except exceptions.UnitError:
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(
-                        "Could not process incompatible data types."))
+                        "Signals have incompatible meta data."))
+                    item.mca_input.disconnect()
+                except exceptions.IntervalError:
+                    QtWidgets.QMessageBox().warning(None, _("MCA"), _(
+                        "Signals have incompatible abscissas."))
                     item.mca_input.disconnect()
                 else:
                     self.scene().addItem(ConnectionLine(
