@@ -29,7 +29,7 @@ class SignalGeneratorPeriodic(mca.framework.Block):
 
         self._new_output(
             meta_data=mca.framework.data_types.MetaData(
-                name="Default",
+                name="",
                 unit_a=Unit(["s"]),
                 unit_o=Unit(["V"])
                 )
