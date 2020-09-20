@@ -18,7 +18,11 @@ class FFT(mca.framework.Block):
 
         self._new_output(
             meta_data=mca.framework.data_types.MetaData(
-                "", "1/s", "V")
+                "",
+                unit_a="1/s",
+                unit_o="V",
+                quantity_a=_("Frequency"),
+                quantity_o=_("Voltage"))
         )
         self._new_input()
         self.read_kwargs(kwargs)

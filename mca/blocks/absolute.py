@@ -26,7 +26,9 @@ class Absolute(mca.framework.Block):
             meta_data=mca.framework.data_types.MetaData(
                 name="",
                 unit_a="s",
-                unit_o="V"
+                unit_o="V",
+                quantity_a=_("Time"),
+                quantity_o=_("Voltage")
             )
         )
         self._new_input()
