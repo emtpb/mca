@@ -477,3 +477,38 @@ def test_save_output_data(sin_block, sin_signal):
     file_list = [f for f in os.listdir(dir_path) if f.endswith(".json")]
     for f in file_list:
         os.remove(os.path.join(dir_path, f))
+
+
+def test_get_meta_data(default_meta_data):
+    output_meta_data = mca.framework.data_types.MetaData(name="test",
+                                                         unit_a="W",
+                                                         symbol_a="P",
+                                                         unit_o="kg",
+                                                         symbol_o="m")
+    output = mca.framework.block_io.Output(meta_data=output_meta_data)
+    result_meta_data = output.get_meta_data(default_meta_data)
+    assert result_meta_data == default_meta_data
+    assert result_meta_data.name == output_meta_data.name
+    output.abscissa_meta_data = True
+    output.ordinate_meta_data = False
+    result_meta_data = output.get_meta_data(default_meta_data)
+    assert result_meta_data.unit_a == output_meta_data.unit_a
+    assert result_meta_data.symbol_a == output_meta_data.symbol_a
+    assert result_meta_data.quantity_a == output_meta_data.quantity_a
+    assert result_meta_data.unit_o == default_meta_data.unit_o
+    assert result_meta_data.symbol_o == default_meta_data.symbol_o
+    assert result_meta_data.quantity_o == default_meta_data.quantity_o
+    output.abscissa_meta_data = False
+    output.ordinate_meta_data = True
+    result_meta_data = output.get_meta_data(default_meta_data)
+    assert result_meta_data.unit_a == default_meta_data.unit_a
+    assert result_meta_data.symbol_a == default_meta_data.symbol_a
+    assert result_meta_data.quantity_a == default_meta_data.quantity_a
+    assert result_meta_data.unit_o == output_meta_data.unit_o
+    assert result_meta_data.symbol_o == output_meta_data.symbol_o
+    assert result_meta_data.quantity_o == output_meta_data.quantity_o
+    output.abscissa_meta_data = True
+    output.ordinate_meta_data = True
+    result_meta_data = output.get_meta_data(default_meta_data)
+    assert result_meta_data == output_meta_data
+
