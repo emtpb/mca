@@ -212,13 +212,15 @@ class IORegistry:
                           "inputs": [],
                           "outputs": [{
                               "id": output.id.int,
-                              "signal_name": output.meta_data.name,
-                              "quantity_a": output.meta_data.quantity_a,
-                              "symbol_a": output.meta_data.symbol_a,
-                              "unit_a": output.meta_data.unit_a,
-                              "quantity_o": output.meta_data.quantity_o,
-                              "symbol_o": output.meta_data.symbol_o,
-                              "unit_o": output.meta_data.unit_o,
+                              "meta_data": {"signal_name": output.meta_data.name,
+                                            "quantity_a": output.meta_data.quantity_a,
+                                            "symbol_a": output.meta_data.symbol_a,
+                                            "unit_a": repr(output.meta_data.unit_a),
+                                            "quantity_o": output.meta_data.quantity_o,
+                                            "symbol_o": output.meta_data.symbol_o,
+                                            "unit_o": repr(output.meta_data.unit_o)},
+                              "abscissa_meta_data": output.abscissa_meta_data,
+                              "ordinate_meta_data": output.ordinate_meta_data
                               }
                               for output in block.outputs],
                           "gui_data": block.gui_data["save_data"]}
@@ -260,17 +262,19 @@ class IORegistry:
                     block_instance.add_input(block_io.Input(block_instance))
             for index, output_save in enumerate(block_save["outputs"]):
                 meta_data = data_types.MetaData(
-                    output_save["signal_name"],
-                    output_save["quantity_a"],
-                    output_save["symbol_a"],
-                    output_save["unit_a"],
-                    output_save["quantity_o"],
-                    output_save["symbol_o"],
-                    output_save["unit_o"],
+                    output_save["meta_data"]["signal_name"],
+                    output_save["meta_data"]["unit_a"],
+                    output_save["meta_data"]["unit_o"],
+                    output_save["meta_data"]["quantity_o"],
+                    output_save["meta_data"]["quantity_a"],
+                    output_save["meta_data"]["symbol_a"],
+                    output_save["meta_data"]["symbol_o"],
                 )
                 if index + 1 > len(block_instance.outputs):
                     block_instance.add_output(block_io.Output(block_instance))
                 block_instance.outputs[index].meta_data = meta_data
+                block_instance.outputs[index].abscissa_meta_data = output_save["abscissa_meta_data"]
+                block_instance.outputs[index].ordinate_meta_data = output_save["ordinate_meta_data"]
         for block_index_outer, block_save_outer in enumerate(
                 load_data["blocks"]):
             for input_index, input_save in enumerate(

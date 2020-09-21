@@ -320,6 +320,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.update()
 
     def save_gui_data(self):
+        """Store position and size into the :class:`.Block`."""
         self.block.gui_data["save_data"]["pyside2"] = {"pos": [self.scenePos().x(), self.scenePos().y()],
                                                        "size": [self.width, self.height]}
 

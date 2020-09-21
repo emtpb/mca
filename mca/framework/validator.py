@@ -5,7 +5,7 @@ from . import data_types
 
 
 def check_intervals(signals):
-    """Checks if the values of the signals are compatible for example
+    """Check if the values of the signals are compatible for example
     for adding or multiplying.
     
     The abscissa of :class:`~mca.framework.data_types.Signal` is described with
@@ -56,7 +56,10 @@ def check_intervals(signals):
 
 
 def check_type_signal(data):
-    """Checks if the given data is a :class:`.Signal`.
+    """Check if the given data is a :class:`.Signal`.
+
+    Args:
+        data: Data object to validate.
 
     Raises:
         :class:`.DataTypeError`: If the given data is not a signal.
@@ -64,3 +67,15 @@ def check_type_signal(data):
     if data:
         if not isinstance(data, data_types.Signal):
             raise exceptions.DataTypeError(data, data_types.Signal)
+
+
+def check_same_units(units):
+    """Check if units are the same.
+
+    Args:
+        units (list): Units which get compared to each other. List cannot be
+                      empty.
+    """
+    for unit in units:
+        if unit != units[0]:
+            raise exceptions.UnitError(unit, units[0])

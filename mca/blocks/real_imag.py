@@ -21,13 +21,21 @@ class RealImag(mca.framework.Block):
 
         self._new_output(
             meta_data=mca.framework.data_types.MetaData(
-                "Test", _("Time"), "t", "s", _("Voltage"), "U", "V"
+                name="",
+                unit_a="s",
+                unit_o="V",
+                quantity_a=_("Time"),
+                quantity_o=_("Voltage")
             ),
             name=_("Real part")
         )
         self._new_output(
             meta_data=mca.framework.data_types.MetaData(
-                "Test", _("Time"), "t", "s", _("Voltage"), "U", "V"
+                name="",
+                unit_a="s",
+                unit_o="V",
+                quantity_a=_("Time"),
+                quantity_o=_("Voltage")
             ),
             name=_("Imaginary part")
         )
@@ -38,9 +46,13 @@ class RealImag(mca.framework.Block):
         if self.check_empty_inputs():
             return
         validator.check_type_signal(self.inputs[0].data)
-        real_signal = copy.deepcopy(self.inputs[0].data)
+        real_signal = copy.copy(self.inputs[0].data)
         real_signal.ordinate = real_signal.ordinate.real
-        imag_signal = copy.deepcopy(self.inputs[0].data)
+        imag_signal = copy.copy(self.inputs[0].data)
         imag_signal.ordinate = imag_signal.ordinate.imag
         self.outputs[0].data = real_signal
+        self.outputs[0].data.meta_data = self.outputs[0].get_meta_data(
+            real_signal.meta_data)
         self.outputs[1].data = imag_signal
+        self.outputs[1].data.meta_data = self.outputs[1].get_meta_data(
+            imag_signal.meta_data)

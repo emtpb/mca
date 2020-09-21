@@ -10,6 +10,9 @@ def test_fft(sin_block):
     expected_ordinate = np.fft.fft(sin.ordinate)
     increment = 1 / (sin.increment * sin.values)
     values = sin.values
-    expected_signal = data_types.Signal(None, 0, values,
+    expected_meta_data = data_types.MetaData(
+        "", "1/s", "V", "Frequency", "Voltage", None, None)
+    expected_signal = data_types.Signal(expected_meta_data, 0, values,
                                         increment, expected_ordinate)
     assert a.outputs[0].data == expected_signal
+    assert a.outputs[0].data.meta_data == expected_signal.meta_data

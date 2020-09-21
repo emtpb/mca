@@ -1,5 +1,6 @@
 import numpy as np
 from scipy import signal as sgn
+from united import Unit
 
 import mca.framework
 from mca.language import _
@@ -28,9 +29,14 @@ class SignalGeneratorPeriodic(mca.framework.Block):
 
         self._new_output(
             meta_data=mca.framework.data_types.MetaData(
-                "Test", _("Time"), "t", "s", _("Voltage"), "U", "V"
+                name="",
+                unit_a="s",
+                unit_o="V",
+                quantity_a=_("Time"),
+                quantity_o=_("Voltage")
+                )
             )
-        )
+
         self.parameters.update({
             "function": mca.framework.parameters.ChoiceParameter(
                 _("Function"),

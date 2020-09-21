@@ -35,6 +35,7 @@ def adder_signal_generator():
     a = blocks.Adder()
     b = blocks.SignalGeneratorPeriodic(name="test", amp=3)
     b.outputs[0].meta_data.name = "test1"
+    a.outputs[0].abscissa_meta_data = True
     a.add_input(block_io.Input(a))
     a.inputs[2].connect(b.outputs[0])
     yield
@@ -53,6 +54,7 @@ def test_save_block_structure(adder_signal_generator):
         if block_save["class"] == str(type(blocks.Adder)):
             assert len(block_save["inputs"]) == 3
             assert block_save["inputs"][2].get("connected_output") is not None
+            assert block_save["outputs"][0].abscissa_meta_data is True
         if block_save["class"] == str(type(blocks.SignalGeneratorPeriodic)):
             assert block_save["class"]["parameters"]["name"] == "test"
             assert block_save["class"]["parameters"]["amp"] == 3
@@ -68,6 +70,7 @@ def test_load_block_structure(adder_signal_generator):
         if isinstance(block, blocks.Adder):
             assert len(block.inputs) == 3
             assert block.inputs[2].connected_output is not None
+            assert block.outputs[0].abscissa_meta_data is True
         if isinstance(block, blocks.SignalGeneratorPeriodic):
             assert block.parameters["name"].value == "test"
             assert block.parameters["amp"].value == 3

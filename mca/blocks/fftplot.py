@@ -82,7 +82,18 @@ class FFTPlot(mca.framework.Block):
             ordinate = np.angle(ordinate)
         self.fig = plt.figure()
         plt.plot(abscissa, ordinate)
-        plt.xlabel("Freq / Hz")
+        plt.xlabel(mca.framework.data_types.meta_data_to_axis_label(
+            quantity=input_signal.meta_data.quantity_a,
+            unit=1/input_signal.meta_data.unit_a,
+            symbol=input_signal.meta_data.symbol_a
+            )
+        )
+        plt.ylabel(mca.framework.data_types.meta_data_to_axis_label(
+            quantity=input_signal.meta_data.quantity_o,
+            unit=input_signal.meta_data.unit_o,
+            symbol=input_signal.meta_data.symbol_o
+            )
+        )
         plt.grid(True)
 
     def show(self):

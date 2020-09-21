@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2020-07-01 23:03+0200\n"
+"POT-Creation-Date: 2020-09-21 00:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -19,24 +19,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
 
-#: blocks/absolute.py:11
+#: blocks/absolute.py:13
 msgid "AbsoluteBlock"
 msgstr "BetragBlock"
 
-#: blocks/absolute.py:12
+#: blocks/absolute.py:14
 msgid "Computes the absolute of the input signal."
 msgstr "Berechnet den Betrag des Eingangssignals."
 
-#: blocks/absolute.py:25 blocks/adder.py:31 blocks/real_imag.py:24
-#: blocks/real_imag.py:30 blocks/signal_generator_arbitrary.py:22
-#: blocks/signal_generator_periodic.py:31
+#: blocks/absolute.py:30 blocks/adder.py:34 blocks/real_imag.py:27
+#: blocks/real_imag.py:37 blocks/signal_generator_arbitrary.py:25
+#: blocks/signal_generator_periodic.py:35
 msgid "Time"
 msgstr "Zeit"
 
-#: blocks/absolute.py:26 blocks/adder.py:31 blocks/fft.py:21
-#: blocks/real_imag.py:24 blocks/real_imag.py:30
-#: blocks/signal_generator_arbitrary.py:22
-#: blocks/signal_generator_periodic.py:31
+#: blocks/absolute.py:31 blocks/adder.py:35 blocks/fft.py:25
+#: blocks/real_imag.py:28 blocks/real_imag.py:38
+#: blocks/signal_generator_arbitrary.py:26
+#: blocks/signal_generator_periodic.py:36
 msgid "Voltage"
 msgstr "Spannung"
 
@@ -52,7 +52,7 @@ msgstr "Addiert mehrere Signale zu einem Signal auf."
 msgid "Computes the FFT of the input signal."
 msgstr "Berechnet die FFT des Eingangssignals."
 
-#: blocks/fft.py:21 blocks/signal_generator_periodic.py:41
+#: blocks/fft.py:24 blocks/signal_generator_periodic.py:47
 msgid "Frequency"
 msgstr "Frequenz"
 
@@ -110,11 +110,11 @@ msgstr ""
 "Teilt Real- und Imaginärteil the Eingangssignals in zwei Ausgangssignale "
 "auf."
 
-#: blocks/real_imag.py:26
+#: blocks/real_imag.py:30
 msgid "Real part"
 msgstr "Realteil"
 
-#: blocks/real_imag.py:32
+#: blocks/real_imag.py:40
 msgid "Imaginary part"
 msgstr "Imaginärteil"
 
@@ -126,33 +126,33 @@ msgstr "SignalGenratorArbiträr"
 msgid "Loads arbitrary data to generate a signal on its output."
 msgstr "Läd arbiträre Daten um ein Signal an seinem Output zu generieren."
 
-#: blocks/signal_generator_periodic.py:23
+#: blocks/signal_generator_periodic.py:24
 msgid "Generates a Sinus, a Rectangle function or a Triangle function."
 msgstr ""
 "Generiert einen Sinus, eine Rechtecksfunktion oder eine Dreiecksfunktion "
 "(periodisch)."
 
-#: blocks/signal_generator_periodic.py:36
+#: blocks/signal_generator_periodic.py:42
 msgid "Function"
 msgstr "Funktion"
 
-#: blocks/signal_generator_periodic.py:37
+#: blocks/signal_generator_periodic.py:43
 msgid "Rectangle"
 msgstr "Rechteck"
 
-#: blocks/signal_generator_periodic.py:37
+#: blocks/signal_generator_periodic.py:43
 msgid "Triangle"
 msgstr "Dreieck"
 
-#: blocks/signal_generator_periodic.py:38
+#: blocks/signal_generator_periodic.py:44
 msgid "Sine"
 msgstr "Sinus"
 
-#: blocks/signal_generator_periodic.py:49
+#: blocks/signal_generator_periodic.py:55
 msgid "Values"
 msgstr "Werte"
 
-#: blocks/signal_generator_periodic.py:52
+#: blocks/signal_generator_periodic.py:58
 msgid "Increment"
 msgstr "Inkrement"
 
@@ -160,7 +160,7 @@ msgstr "Inkrement"
 msgid "Plots all input signals in matplotlib."
 msgstr "Plottet alle Eingangssignale in matplotlib."
 
-#: framework/block_base.py:26
+#: framework/block_base.py:25
 msgid "Name"
 msgstr "Name"
 
@@ -172,23 +172,23 @@ msgstr "Reinzoomen"
 msgid "Zoom out"
 msgstr "Rauszoomen"
 
-#: gui/block_item.py:94 gui/edit_window.py:39
+#: gui/block_item.py:95 gui/edit_window.py:39
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: gui/block_item.py:98
+#: gui/block_item.py:99
 msgid "Add Input"
 msgstr "Input hinzufügen"
 
-#: gui/block_item.py:105
+#: gui/block_item.py:106
 msgid "Delete Input"
 msgstr "Input löschen"
 
-#: gui/block_item.py:113
+#: gui/block_item.py:114
 msgid "Show Plot"
 msgstr "Plot zeigen"
 
-#: gui/block_item.py:117
+#: gui/block_item.py:118
 msgid "Delete Block"
 msgstr "Block löschen"
 
@@ -196,83 +196,168 @@ msgstr "Block löschen"
 msgid "Create new block"
 msgstr "Erstelle neuen Block"
 
-#: gui/edit_window.py:57
+#: gui/edit_window.py:65
 msgid "Parameters"
 msgstr "Parameter"
 
-#: gui/edit_window.py:65
+#: gui/edit_window.py:78
 msgid "Meta data"
 msgstr "Metadaten"
 
-#: gui/edit_window.py:96
+#: gui/edit_window.py:97
+msgid ""
+"Could not apply the changed parameters and meta data!Continue editing or "
+"revert changes?"
+msgstr ""
+"Die veränderten Parameter und Metadaten konnten nicht angewendet! Mit der"
+" Bearbeitung fortfahren oder Änderung rückgängig machen?"
+
+#: gui/edit_window.py:100
+msgid "Continue"
+msgstr "Fortfahren"
+
+#: gui/edit_window.py:103
+msgid "Revert"
+msgstr "Rückgängig"
+
+#: gui/edit_window.py:117
 msgid "Parameters:"
 msgstr "Parameter:"
 
-#: gui/edit_window.py:119
-msgid "Output '{}' meta data:"
-msgstr "Output '{}' Metadaten"
-
-#: gui/edit_window.py:121
-msgid "Output meta data:"
-msgstr "Output Metadaten"
-
-#: gui/edit_window.py:125
+#: gui/edit_window.py:136 gui/edit_window.py:149
 msgid "Signal name:"
-msgstr "Signal name:"
+msgstr "Signalname:"
 
-#: gui/edit_window.py:130
+#: gui/edit_window.py:136 gui/edit_window.py:159
 msgid "Abscissa quantity:"
 msgstr "Abszissengröße:"
 
-#: gui/edit_window.py:137
+#: gui/edit_window.py:137 gui/edit_window.py:169
 msgid "Abscissa symbol:"
 msgstr "Abszissensymbol:"
 
-#: gui/edit_window.py:142
+#: gui/edit_window.py:137 gui/edit_window.py:179
 msgid "Abscissa unit:"
 msgstr "Abszisseneinheit:"
 
-#: gui/edit_window.py:147
+#: gui/edit_window.py:138 gui/edit_window.py:194
 msgid "Ordinate quantity:"
 msgstr "Ordinatengröße:"
 
-#: gui/edit_window.py:153
+#: gui/edit_window.py:138 gui/edit_window.py:204
 msgid "Ordinate symbol:"
 msgstr "Ordinatensymbol:"
 
-#: gui/edit_window.py:159
+#: gui/edit_window.py:139 gui/edit_window.py:215
 msgid "Ordinate unit:"
 msgstr "Ordinateneinheit:"
 
-#: gui/io_items.py:50 gui/io_items.py:199
+#: gui/edit_window.py:143
+msgid "Output '{}' meta data:"
+msgstr "Output '{}' Metadaten"
+
+#: gui/edit_window.py:145
+msgid "Output meta data:"
+msgstr "Output Metadaten"
+
+#: gui/edit_window.py:189
+msgid "Use abscissa meta data"
+msgstr "Abzissen Metadaten benutzen"
+
+#: gui/edit_window.py:225
+msgid "Use ordinate meta data"
+msgstr "Ordinaten Metadaten benutzen"
+
+#: gui/io_items.py:53 gui/io_items.py:222
 msgid "Disconnect"
 msgstr "Verbindung trennen"
 
-#: gui/io_items.py:109 gui/io_items.py:257 gui/mainwindow.py:29
-msgid "MCA"
-msgstr "MKA"
+#: gui/io_items.py:110 gui/mainwindow.py:162
+msgid "Error"
+msgstr "Fehler"
 
-#: gui/io_items.py:109 gui/io_items.py:257
+#: gui/io_items.py:110 gui/io_items.py:276
 msgid "Cyclic structures are not allowed."
 msgstr "Zyklische Strukturen sind nicht erlaubt."
 
-#: gui/mainwindow.py:31
+#: gui/io_items.py:113 gui/io_items.py:117 gui/io_items.py:276
+#: gui/io_items.py:279 gui/io_items.py:283 gui/mainwindow.py:237
+msgid "MCA"
+msgstr "MKA"
+
+#: gui/io_items.py:113 gui/io_items.py:279
+msgid "Signals have incompatible meta data."
+msgstr "Signale haben inkompatible Metadaten."
+
+#: gui/io_items.py:117 gui/io_items.py:283
+msgid "Signals have incompatible abscissas."
+msgstr "Signale haben inkompatible Abszissen."
+
+#: gui/mainwindow.py:34
 msgid "File"
 msgstr "Datei"
 
-#: gui/mainwindow.py:32
+#: gui/mainwindow.py:35
 msgid "Language"
 msgstr "Sprache"
 
-#: gui/mainwindow.py:42
+#: gui/mainwindow.py:45
+msgid "Clear"
+msgstr "Löschen"
+
+#: gui/mainwindow.py:49
+msgid "Open"
+msgstr "Öffnen"
+
+#: gui/mainwindow.py:53
+msgid "Open Recent"
+msgstr "Zuletzt geöffnet"
+
+#: gui/mainwindow.py:58 gui/mainwindow.py:157
+msgid "Save"
+msgstr "Speichern"
+
+#: gui/mainwindow.py:64
+msgid "Save as"
+msgstr "Speichern als"
+
+#: gui/mainwindow.py:69
 msgid "Exit"
 msgstr "Verlassen"
 
-#: gui/mainwindow.py:44
+#: gui/mainwindow.py:71
 msgid "Close Application"
 msgstr "Programm beenden"
 
-#: gui/mainwindow.py:76
+#: gui/mainwindow.py:107
+msgid "Select a file to open"
+msgstr "Auswählen um Datei zu öffnen"
+
+#: gui/mainwindow.py:162
+msgid "File has to be a .json!"
+msgstr "Die Datei muss ein .json sein!"
+
+#: gui/mainwindow.py:200 gui/mainwindow.py:215
+msgid "Warning"
+msgstr "Warnung"
+
+#: gui/mainwindow.py:201
+msgid ""
+"The document has been modified.\n"
+"Do you want to save your changes?"
+msgstr ""
+"Das Dokument wurde verändert.\n"
+"Wollen sie die Änderungen speichern?"
+
+#: gui/mainwindow.py:216
+msgid "Are you sure you want to remove all blocks?"
+msgstr "Sicher Sie sicher, dass sie alle Blöcke entfernen wollen?"
+
+#: gui/mainwindow.py:234
+msgid "untitled.json"
+msgstr "Unbennant.json"
+
+#: gui/mainwindow.py:250
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
 
@@ -281,4 +366,10 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Amount of values transformed"
 #~ msgstr "Anzahl der transformierten Werte"
+
+#~ msgid "Time"
+#~ msgstr "Zeit"
+
+#~ msgid "Voltage"
+#~ msgstr "Spannung"
 

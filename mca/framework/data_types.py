@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from united import Unit
 import numpy as np
 
 
@@ -55,31 +55,84 @@ class Signal:
         return True
 
 
-@dataclass
 class MetaData:
     """Meta data class for the :class:`.Signal` class.
 
     Attributes:
         name (str): Name of the Signal.
+        unit_a (Unit): Unit for the abscissa.
+        unit_o (Unit): Unit for the ordinate.
         quantity_a (str): Quantity of the abscissa.
-        symbol_a (str): Symbol of the abscissa.
-        unit_a (str): Unit for the abscissa.
         quantity_o (str): Quantity of the ordinate.
+        symbol_a (str): Symbol of the abscissa.
         symbol_o (str): Symbol of the ordinate.
-        unit_o (str): Unit for the ordinate.
+
     """
-    name: str
-    quantity_a: str
-    symbol_a: str
-    unit_a: str
-    quantity_o: str
-    symbol_o: str
-    unit_o: str
+    def __init__(self, name, unit_a, unit_o, quantity_a=None, quantity_o=None,
+                 symbol_a=None, symbol_o=None):
+        """Initialize MetaData.
+
+        Args:
+            name (str): Name of the Signal.
+            unit_a (Unit): Unit for the abscissa.
+            unit_o (Unit): Unit for the ordinate.
+            quantity_a (str): Quantity of the abscissa.
+            quantity_o (str): Quantity of the ordinate.
+            symbol_a (str): Symbol of the abscissa.
+            symbol_o (str): Symbol of the ordinate.
+        """
+        self.name = name
+        if isinstance(unit_a, Unit):
+            self._unit_a = unit_a
+        elif isinstance(unit_a, str):
+            self._unit_a = string_to_unit(unit_a)
+
+        if isinstance(unit_o, Unit):
+            self._unit_o = unit_o
+        elif isinstance(unit_o, str):
+            self._unit_o = string_to_unit(unit_o)
+
+        self.quantity_a = quantity_a
+        if not self.quantity_a:
+            self.quantity_a = self.unit_a.quantity
+
+        self.quantity_o = quantity_o
+        if not self.quantity_o:
+            self.quantity_o = self.unit_o.quantity
+
+        self.symbol_a = symbol_a
+        self.symbol_o = symbol_o
+
+    @property
+    def unit_a(self):
+        """Gets or sets the abscissa unit. Either a string or a Unit can be
+        handed over.
+        """
+        return self._unit_a
+
+    @unit_a.setter
+    def unit_a(self, value):
+        if isinstance(value, Unit):
+            self._unit_a = value
+        elif isinstance(value, str):
+            self._unit_a = string_to_unit(value)
+
+    @property
+    def unit_o(self):
+        """Gets or sets the ordinate unit. Either a string or a Unit can be
+        handed over.
+        """
+        return self._unit_o
+
+    @unit_o.setter
+    def unit_o(self, value):
+        if isinstance(value, Unit):
+            self._unit_o = value
+        elif isinstance(value, str):
+            self._unit_o = string_to_unit(value)
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
-            return False
-        if self.name != other.name:
             return False
         if self.quantity_a != other.quantity_a:
             return False
@@ -94,3 +147,39 @@ class MetaData:
         if self.symbol_o != other.symbol_o:
             return False
         return True
+
+
+def string_to_unit(string):
+    """Converts a string fraction to an Unit object. The string has to be
+    in a certain format.
+
+    Example:
+         >>> string_1 = "(V*s)/(A*C)"
+         >>> string_2 = "V*s"
+         >>> string_3 = "1/(A*C)"
+         >>> string_4 = "V"
+
+    Args:
+        string (str): String to be converted.
+
+    Returns:
+        Unit: Converted from the input string.
+    """
+    string = string.replace("(", "")
+    string = string.replace(")", "")
+    fraction = string.split("/")
+    numerator = None
+    denominator = None
+    if fraction[0] != 1:
+        numerator = fraction[0].split("*")
+    if len(fraction) > 1:
+        denominator = fraction[1].split("*")
+    return Unit(numerator, denominator)
+
+
+def meta_data_to_axis_label(quantity, unit, symbol=None):
+    """Returns a string axis labels given a quantity, unit and (symbol)."""
+    if symbol:
+        return "{} {} / {}".format(quantity, symbol, unit)
+    else:
+        return "{} in {}".format(quantity, unit)

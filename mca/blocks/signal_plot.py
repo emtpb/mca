@@ -27,7 +27,11 @@ class SignalPlot(mca.framework.DynamicBlock):
         plt.close(self.fig)
         for i in self.inputs:
             validator.check_type_signal(i.data)
-        signals = [copy.deepcopy(i.data) for i in self.inputs if i.data]
+        signals = [copy.copy(i.data) for i in self.inputs if i.data]
+        abscissa_units = [signal.meta_data.unit_a for signal in signals]
+        ordinate_units = [signal.meta_data.unit_o for signal in signals]
+        validator.check_same_units(abscissa_units)
+        validator.check_same_units(ordinate_units)
         self.fig = plt.figure()
         for signal in signals:
             plt.plot(
@@ -41,18 +45,19 @@ class SignalPlot(mca.framework.DynamicBlock):
                 label=signal.meta_data.name,
             )
         plt.legend()
-
-        if len(signals) == 1:
+        if len(signals) >= 1:
             meta_data = signals[0].meta_data
-            plt.xlabel(
-                "{} {} / {}".format(
-                    meta_data.quantity_a, meta_data.symbol_a, meta_data.unit_a
-                )
+            plt.xlabel(mca.framework.data_types.meta_data_to_axis_label(
+                quantity=meta_data.quantity_a,
+                unit=meta_data.unit_a,
+                symbol=meta_data.symbol_a
             )
-            plt.ylabel(
-                "{} {} / {}".format(
-                    meta_data.quantity_o, meta_data.symbol_o, meta_data.unit_o
-                )
+            )
+            plt.ylabel(mca.framework.data_types.meta_data_to_axis_label(
+                quantity=meta_data.quantity_o,
+                unit=meta_data.unit_o,
+                symbol=meta_data.symbol_o
+            )
             )
         plt.grid(True)
 
