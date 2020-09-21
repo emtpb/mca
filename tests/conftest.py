@@ -3,6 +3,7 @@ import pytest
 
 from mca import blocks
 import mca.framework
+from mca.language import _
 
 
 class TestBlock(mca.framework.block_base.Block):
@@ -267,7 +268,8 @@ class TestOutputBlock(mca.framework.block_base.Block):
 
 @pytest.fixture(scope="module")
 def default_meta_data():
-    return mca.framework.data_types.MetaData("", "s", "V")
+    return mca.framework.data_types.MetaData("", "s", "V", _("Time"),
+                                             _("Voltage"))
 
 
 @pytest.fixture(scope="module")
