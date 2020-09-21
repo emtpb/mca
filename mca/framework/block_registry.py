@@ -275,6 +275,7 @@ class IORegistry:
                 block_instance.outputs[index].meta_data = meta_data
                 block_instance.outputs[index].abscissa_meta_data = output_save["abscissa_meta_data"]
                 block_instance.outputs[index].ordinate_meta_data = output_save["ordinate_meta_data"]
+                block_instance.apply_parameter_changes()
         for block_index_outer, block_save_outer in enumerate(
                 load_data["blocks"]):
             for input_index, input_save in enumerate(
