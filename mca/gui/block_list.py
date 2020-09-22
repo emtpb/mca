@@ -7,9 +7,8 @@ from mca.language import _
 
 class BlockList(QtWidgets.QListWidget):
     """List widget which holds all block classes."""
-    resized = QtCore.Signal()
 
-    def __init__(self, parent, blocks, scene):
+    def __init__(self, parent, blocks, scene, searchbar):
         """Initialize BlockList class.
 
         Args:
@@ -19,9 +18,10 @@ class BlockList(QtWidgets.QListWidget):
         """
         QtWidgets.QListWidget.__init__(self, parent=parent)
         self.scene = scene
+
+        self.search_bar = searchbar
+        self.search_bar.textChanged.connect(self.show_items)
         self.setDragEnabled(True)
-        self.setGeometry(0, 0, self.parent().width() * 0.2,
-                         self.parent().height() * 0.7)
 
         self.menu = QtWidgets.QMenu()
         self.new_block_action = QtWidgets.QAction(_("Create new block"))
@@ -40,7 +40,6 @@ class BlockList(QtWidgets.QListWidget):
 
             i.setBackgroundColor(QtGui.QColor(255, 255, 255))
             self.addItem(i)
-        self.setMaximumSize(QtCore.QSize(200, 16777215))
 
     def mouseMoveEvent(self, event):
         """Event triggered when mouse grabbed an item from the list. Method
@@ -62,4 +61,16 @@ class BlockList(QtWidgets.QListWidget):
         """Event triggered when right clicking with the mouse. Opens
         the menu."""
         self.menu.exec_(event.globalPos())
+
+    def show_items(self):
+        """Show and hide certain list items depending on the
+        search_bar string."""
+        all_items = self.findItems("", QtCore.Qt.MatchStartsWith)
+        for item in all_items:
+            self.setItemHidden(item, True)
+        visible_items = self.findItems(
+            self.search_bar.text(), QtCore.Qt.MatchStartsWith)
+        for item in visible_items:
+            self.setItemHidden(item, False)
+
 

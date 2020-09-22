@@ -19,6 +19,7 @@ class BlockView(QtWidgets.QGraphicsView):
             parent: Parent of this widget.
         """
         QtWidgets.QGraphicsView.__init__(self, scene=scene, parent=parent)
+        self.setMinimumSize(500, 400)
         zoom_in_action = QtWidgets.QAction(_("Zoom in"), self)
         zoom_in_action.setShortcut("Ctrl++")
         zoom_in_action.triggered.connect(self.zoom_in)
