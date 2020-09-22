@@ -42,10 +42,6 @@ class MainWindow(QtWidgets.QMainWindow):
             action.triggered.connect(change_language(i[1]))
             self.language_menu.addAction(action)
 
-        clear_action = QtWidgets.QAction(_("Clear"), self)
-        clear_action.triggered.connect(self.clear)
-        self.file_menu.addAction(clear_action)
-
         open_action = QtWidgets.QAction(_("Open"), self)
         open_action.triggered.connect(self.open_file_dialog)
         self.file_menu.addAction(open_action)
@@ -65,6 +61,10 @@ class MainWindow(QtWidgets.QMainWindow):
         save_as_action.setShortcut("Ctrl+Shift+S")
         save_as_action.triggered.connect(self.save_file_as)
         self.file_menu.addAction(save_as_action)
+
+        clear_action = QtWidgets.QAction(_("Clear all blocks"), self)
+        clear_action.triggered.connect(self.clear_all_blocks)
+        self.file_menu.addAction(clear_action)
 
         exit_action = QtWidgets.QAction(_("Exit"), self)
         exit_action.setShortcut("Ctrl+Q")
@@ -209,7 +209,7 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             return False
 
-    def clear(self):
+    def clear_all_blocks(self):
         """Clears the :class:`.BlockScene` from all blocks."""
         result = QtWidgets.QMessageBox.question(
             self, _("Warning"),
