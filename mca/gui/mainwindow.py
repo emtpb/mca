@@ -42,6 +42,10 @@ class MainWindow(QtWidgets.QMainWindow):
             action.triggered.connect(change_language(i[1]))
             self.language_menu.addAction(action)
 
+        new_action = QtWidgets.QAction(_("New"), self)
+        new_action.triggered.connect(self.new_file)
+        self.file_menu.addAction(new_action)
+
         open_action = QtWidgets.QAction(_("Open"), self)
         open_action.triggered.connect(self.open_file_dialog)
         self.file_menu.addAction(open_action)
@@ -99,6 +103,12 @@ class MainWindow(QtWidgets.QMainWindow):
             event.accept()
         else:
             event.ignore()
+
+    def new_file(self):
+        if self.save_maybe():
+            self.scene.clear()
+            self.save_file_path = None
+            self.modified = False
 
     def open_file_dialog(self):
         """Opens file dialog to let the user select a file to open."""
