@@ -133,10 +133,6 @@ class EditWindow(QtWidgets.QDialog):
 
     def display_meta_data(self):
         """Arranges the meta data of the outputs of the block in the window."""
-        labels = [_("Signal name:"), _("Abscissa quantity:"),
-                  _("Abscissa symbol:"), _("Abscissa unit:"),
-                  _("Ordinate quantity:"), _("Ordinate symbol:"),
-                  _("Ordinate unit:")]
         for index, output in enumerate(self.block.outputs):
             if output.name:
                 output_label = QtWidgets.QLabel(
@@ -188,6 +184,8 @@ class EditWindow(QtWidgets.QDialog):
             abscissa_check_box = edit_widgets.MetaDataBoolWidget(
                 _("Use abscissa meta data"), output, "abscissa_meta_data")
             abscissa_check_box.read_attribute()
+            if not output.meta_data_input_dependent:
+                abscissa_check_box.setEnabled(False)
             self.meta_data_widgets.append(abscissa_check_box)
             self.meta_data_layout.addWidget(abscissa_check_box, index*10+5, 1, 1, 1)
             self.meta_data_layout.addWidget(
@@ -224,6 +222,8 @@ class EditWindow(QtWidgets.QDialog):
             ordinate_check_box = edit_widgets.MetaDataBoolWidget(
                 _("Use ordinate meta data"), output, "ordinate_meta_data")
             ordinate_check_box.read_attribute()
+            if not output.meta_data_input_dependent:
+                ordinate_check_box.setEnabled(False)
             self.meta_data_widgets.append(ordinate_check_box)
             self.meta_data_layout.addWidget(ordinate_check_box, index * 10 + 9,
                                             1, 1, 1)

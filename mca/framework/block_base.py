@@ -60,7 +60,9 @@ class Block:
         for o in self.outputs:
             o.disconnect()
 
-    def _new_output(self, meta_data, name=None):
+    def _new_output(self, meta_data, meta_data_input_dependent=True,
+                    abscissa_meta_data=False, ordinate_meta_data=False,
+                    name=None):
         """Creates and adds an new output to the block. Used to create new
         Outputs in the initialization of a new block.
 
@@ -70,7 +72,13 @@ class Block:
 
         self.outputs.append(
             block_registry.Registry.add_node(
-                block_io.Output(self, meta_data=meta_data, name=name)
+                block_io.Output(
+                    self,
+                    meta_data=meta_data,
+                    meta_data_input_dependent=meta_data_input_dependent,
+                    abscissa_meta_data=abscissa_meta_data,
+                    ordinate_meta_data=ordinate_meta_data,
+                    name=name)
             )
         )
 
