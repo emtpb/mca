@@ -229,6 +229,9 @@ class EditWindow(QtWidgets.QDialog):
                                             1, 1, 1)
 
     def apply_changes(self):
+        """Try to apply changes. In case of an error the user gets a
+        notification and can choose between reverting his last changes or
+        continue editing and potentially fix the error."""
         try:
             for parameter_widget in self.parameter_widgets:
                 parameter_widget.write_parameter()
@@ -250,6 +253,7 @@ class EditWindow(QtWidgets.QDialog):
             self.accept()
 
     def revert_changes(self):
+        """Revert the last changes made."""
         for parameter_widget in self.parameter_widgets:
             parameter_widget.revert_changes()
         for entry in self.meta_data_widgets:
@@ -258,4 +262,5 @@ class EditWindow(QtWidgets.QDialog):
         self.reject()
 
     def closeEvent(self, e):
+        """Event triggered when the close button is pressed."""
         self.apply_changes()

@@ -105,6 +105,7 @@ class MainWindow(QtWidgets.QMainWindow):
             event.ignore()
 
     def new_file(self):
+        """Creates a new file."""
         if self.save_maybe():
             self.scene.clear()
             self.save_file_path = None
