@@ -256,3 +256,6 @@ class EditWindow(QtWidgets.QDialog):
             entry.revert_changes()
         self.block.apply_parameter_changes()
         self.reject()
+
+    def closeEvent(self, e):
+        self.apply_changes()
