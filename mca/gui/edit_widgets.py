@@ -19,6 +19,7 @@ class BaseParameterWidget:
         Args:
             parameter: Given :class:`.Parameter` to display.
         """
+        self.setMaximumHeight(25)
         self.parameter = parameter
         self.prev_value = self.parameter.value
         self.changed = False
@@ -241,7 +242,7 @@ class BoolParameterWidget(BaseParameterWidget, QtWidgets.QCheckBox):
 
     def __init__(self, parameter):
         """Initialize BoolParameterWidget class."""
-        QtWidgets.QCheckBox.__init__(self)
+        QtWidgets.QCheckBox.__init__(self, parameter.name)
         BaseParameterWidget.__init__(self, parameter)
         self.stateChanged.connect(self.check_changed)
 
@@ -273,6 +274,29 @@ class BoolParameterWidget(BaseParameterWidget, QtWidgets.QCheckBox):
         self.write_parameter()
         self.read_parameter()
         self.changed = False
+
+
+class ActionParameterWidget(QtWidgets.QAction):
+    """Widget to display :class:`.ActionParameter`."""
+    def __init__(self, parameter, parent):
+        self.parameter = parameter
+        QtWidgets.QAction.__init__(self, self.parameter.name, parent)
+        self.triggered.connect(self.parameter.function)
+
+    def write_parameter(self):
+        pass
+
+    def read_parameter(self):
+        pass
+
+    def check_changed(self):
+        pass
+
+    def apply_changes(self):
+        pass
+
+    def revert_changes(self):
+        pass
 
 
 class MetaDataEditWidget(QtWidgets.QLineEdit):

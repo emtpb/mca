@@ -11,7 +11,8 @@ widget_dict = {parameters.BoolParameter: edit_widgets.BoolParameterWidget,
                parameters.IntParameter: edit_widgets.IntParameterWidget,
                parameters.FloatParameter: edit_widgets.FloatParameterWidget,
                parameters.ChoiceParameter: edit_widgets.ChoiceParameterWidget,
-               parameters.StrParameter: edit_widgets.StringParameterWidget}
+               parameters.StrParameter: edit_widgets.StringParameterWidget,
+               parameters.ActionParameter: edit_widgets.ActionParameterWidget}
 
 
 class EditWindow(QtWidgets.QDialog):
@@ -55,7 +56,10 @@ class EditWindow(QtWidgets.QDialog):
         # Initialize parameter tab
         self.parameter_tab = QtWidgets.QWidget()
         self.parameter_layout = QtWidgets.QGridLayout(self.parameter_tab)
-        parameters_tab_height = (len(block.parameters) + 2) * 30
+        parameter_count = len(list(filter(
+            lambda x: not isinstance(x, parameters.ActionParameter),
+            block.parameters.values())))
+        parameters_tab_height = (parameter_count + 2) * 30
         self.parameter_tab.setFixedHeight(parameters_tab_height)
 
         scroll = QtWidgets.QScrollArea()
@@ -120,6 +124,8 @@ class EditWindow(QtWidgets.QDialog):
             parameter_label.setFont(self.headline_font)
         for block_parameter, index in zip(block_parameters,
                                           range(1, len(block_parameters) + 1)):
+            if isinstance(block_parameter, parameters.ActionParameter):
+                continue
             if not isinstance(block_parameter, parameters.BoolParameter):
                 name_label = QtWidgets.QLabel(block_parameter.name)
                 self.parameter_layout.addWidget(name_label, index, 0, 1, 1)

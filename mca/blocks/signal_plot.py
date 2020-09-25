@@ -22,6 +22,12 @@ class SignalPlot(mca.framework.DynamicBlock):
         self._new_input()
         self.read_kwargs(kwargs)
         self.fig = plt.figure()
+        self.parameters.update({
+            "show": mca.framework.parameters.ActionParameter("Show",
+                                                             self.show),
+            "auto_show": mca.framework.parameters.BoolParameter("Auto plot",
+                                                                False)
+        })
 
     def _process(self):
         plt.close(self.fig)
@@ -32,7 +38,8 @@ class SignalPlot(mca.framework.DynamicBlock):
         ordinate_units = [signal.meta_data.unit_o for signal in signals]
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
-        self.fig = plt.figure()
+        auto_show = self.parameters["auto_show"].value
+        self.fig = plt.figure(self.parameters["name"].value)
         for signal in signals:
             plt.plot(
                 np.linspace(
@@ -60,6 +67,8 @@ class SignalPlot(mca.framework.DynamicBlock):
             )
             )
         plt.grid(True)
+        if auto_show:
+            self.fig.show()
 
     def show(self):
         self.fig.show()

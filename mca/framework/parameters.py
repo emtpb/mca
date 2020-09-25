@@ -201,7 +201,7 @@ class ChoiceParameter(BaseParameter):
 class BoolParameter(BaseParameter):
     """Parameter class for bools.
     
-    Args:
+    Attributes:
         name (str): Name of the Parameter.
         value (bool): Value of the Parameter.
     """
@@ -229,3 +229,23 @@ class BoolParameter(BaseParameter):
         """
         if not isinstance(value, bool):
             raise exceptions.ParameterTypeError(self.name)
+
+
+class ActionParameter(BaseParameter):
+    """Parameter class for functions.
+
+    Attributes:
+        function: Function this parameter should call.
+    """
+    def __init__(self, name, function):
+        """Initialize ActionParameter.
+
+        Args:
+            name (str): Name of the Parameter.
+            function: Function this parameter should call.
+        """
+        super().__init__(name)
+        self.function = function
+
+    def validate(self, value):
+        pass

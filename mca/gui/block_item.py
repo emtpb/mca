@@ -1,6 +1,7 @@
 from PySide2 import QtWidgets, QtCore, QtGui
 
 from mca.gui.edit_window import EditWindow
+from mca.gui.edit_widgets import ActionParameterWidget
 from mca.gui.io_items import InputItem, OutputItem
 from mca import framework
 from mca.language import _
@@ -95,6 +96,10 @@ class BlockItem(QtWidgets.QGraphicsItem):
             self.edit_action = QtWidgets.QAction(_("Edit"), self.view)
             self.edit_action.triggered.connect(self.open_edit_window)
             self.menu.addAction(self.edit_action)
+            for parameter in self.block.parameters.values():
+                if isinstance(parameter, framework.parameters.ActionParameter):
+                    widget = ActionParameterWidget(parameter, self.view)
+                    self.menu.addAction(widget)
         if isinstance(self.block, framework.DynamicBlock):
             self.add_input_action = QtWidgets.QAction(_("Add Input"),
                                                       self.view)
@@ -110,11 +115,6 @@ class BlockItem(QtWidgets.QGraphicsItem):
                     self.block.dynamic_input[0]:
                 self.delete_input_action.setEnabled(False)
             self.menu.addAction(self.delete_input_action)
-        if callable(getattr(self.block, "show", None)):
-            self.show_plot_action = QtWidgets.QAction(_("Show Plot"),
-                                                      self.view)
-            self.show_plot_action.triggered.connect(self.block.show)
-            self.menu.addAction(self.show_plot_action)
         self.delete_action = QtWidgets.QAction(_("Delete Block"), self.view)
         self.delete_action.triggered.connect(self.delete)
         self.menu.addAction(self.delete_action)
@@ -195,7 +195,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     def open_edit_window(self):
         """Opens up the parameter window."""
-        self.edit_window.exec_()
+        self.edit_window.show()
         self.update()
 
     def add_existing_input(self, input_):
