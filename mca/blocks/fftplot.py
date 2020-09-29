@@ -85,7 +85,7 @@ class FFTPlot(mca.framework.Block):
             ordinate = abs(ordinate)
         elif plot_mode == "phase":
             ordinate = np.angle(ordinate)
-        self.fig = plt.figure(self.parameters["name"].value)
+        self.fig = plt.figure()
         plt.plot(abscissa, ordinate)
         plt.xlabel(mca.framework.data_types.meta_data_to_axis_label(
             quantity=input_signal.meta_data.quantity_a,

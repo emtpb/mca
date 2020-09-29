@@ -39,7 +39,7 @@ class SignalPlot(mca.framework.DynamicBlock):
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
         auto_show = self.parameters["auto_show"].value
-        self.fig = plt.figure(self.parameters["name"].value)
+        self.fig = plt.figure()
         for signal in signals:
             plt.plot(
                 np.linspace(
@@ -51,6 +51,7 @@ class SignalPlot(mca.framework.DynamicBlock):
                 signal.ordinate,
                 label=signal.meta_data.name,
             )
+            print(self.fig.axes[0].lines)
         plt.legend()
         if len(signals) >= 1:
             meta_data = signals[0].meta_data
@@ -66,6 +67,7 @@ class SignalPlot(mca.framework.DynamicBlock):
                 symbol=meta_data.symbol_o
             )
             )
+        print(self.fig.axes[0].lines)
         plt.grid(True)
         if auto_show:
             self.fig.show()
