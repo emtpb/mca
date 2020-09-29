@@ -19,7 +19,6 @@ class BaseParameterWidget:
         Args:
             parameter: Given :class:`.Parameter` to display.
         """
-        self.setMaximumHeight(25)
         self.parameter = parameter
         self.prev_value = self.parameter.value
         self.changed = False
@@ -94,11 +93,12 @@ class FloatParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
         self.modified()
 
     def revert_changes(self):
-        self.setText(str(self.prev_value))
-        self.setStyleSheet("")
-        self.write_parameter()
-        self.read_parameter()
-        self.changed = False
+        if self.changed:
+            self.setText(str(self.prev_value))
+            self.setStyleSheet("")
+            self.write_parameter()
+            self.read_parameter()
+            self.changed = False
 
 
 class IntParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
@@ -140,10 +140,11 @@ class IntParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
         self.modified()
 
     def revert_changes(self):
-        self.setText(str(self.prev_value))
-        self.write_parameter()
-        self.read_parameter()
-        self.changed = False
+        if self.changed:
+            self.setText(str(self.prev_value))
+            self.write_parameter()
+            self.read_parameter()
+            self.changed = False
 
 
 class ChoiceParameterWidget(BaseParameterWidget, QtWidgets.QComboBox):
@@ -161,7 +162,7 @@ class ChoiceParameterWidget(BaseParameterWidget, QtWidgets.QComboBox):
     def write_parameter(self):
         index = self.findText(self.currentText())
         data = self.itemData(index)
-        if self.parameter.value != data:
+        if self.changed:
             self.parameter.value = data
 
     def read_parameter(self):
@@ -189,12 +190,13 @@ class ChoiceParameterWidget(BaseParameterWidget, QtWidgets.QComboBox):
         self.modified()
 
     def revert_changes(self):
-        index = self.findData(self.prev_value)
-        self.setCurrentIndex(index)
-        self.setStyleSheet("")
-        self.write_parameter()
-        self.read_parameter()
-        self.changed = False
+        if self.changed:
+            index = self.findData(self.prev_value)
+            self.setCurrentIndex(index)
+            self.setStyleSheet("")
+            self.write_parameter()
+            self.read_parameter()
+            self.changed = False
 
 
 class StringParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
@@ -207,9 +209,8 @@ class StringParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
         self.textChanged.connect(self.check_changed)
 
     def write_parameter(self):
-        if self.parameter.value != self.text():
+        if self.changed:
             self.parameter.value = self.text()
-            self.modified()
 
     def read_parameter(self):
         self.setText(self.parameter.value)
@@ -230,11 +231,12 @@ class StringParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
         self.modified()
 
     def revert_changes(self):
-        self.setText(self.prev_value)
-        self.setStyleSheet("")
-        self.write_parameter()
-        self.read_parameter()
-        self.changed = False
+        if self.changed:
+            self.setText(self.prev_value)
+            self.setStyleSheet("")
+            self.write_parameter()
+            self.read_parameter()
+            self.changed = False
 
 
 class BoolParameterWidget(BaseParameterWidget, QtWidgets.QCheckBox):
@@ -269,11 +271,12 @@ class BoolParameterWidget(BaseParameterWidget, QtWidgets.QCheckBox):
         self.modified()
 
     def revert_changes(self):
-        self.setChecked(self.prev_value)
-        self.setStyleSheet("")
-        self.write_parameter()
-        self.read_parameter()
-        self.changed = False
+        if self.changed:
+            self.setChecked(self.prev_value)
+            self.setStyleSheet("")
+            self.write_parameter()
+            self.read_parameter()
+            self.changed = False
 
 
 class ActionParameterWidget(QtWidgets.QAction):
@@ -297,6 +300,63 @@ class ActionParameterWidget(QtWidgets.QAction):
 
     def revert_changes(self):
         pass
+
+
+class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
+    """Combination of widgets to display :class:`PathParameter`. The file path
+    can be entered manually with the line edit or can be chosen via a file
+    dialog window.
+    """
+    def __init__(self, parameter):
+        """Initialize FileParameterWidget class."""
+        QtWidgets.QWidget.__init__(self)
+        BaseParameterWidget.__init__(self, parameter)
+        self.setLayout(QtWidgets.QHBoxLayout())
+        self.file_edit = QtWidgets.QLineEdit()
+        self.layout().addWidget(self.file_edit)
+        self.file_edit.setText(self.parameter.value)
+        self.file_edit.textChanged.connect(self.check_changed)
+        self.button = QtWidgets.QPushButton(text="...")
+        self.button.setMaximumWidth(30)
+        self.layout().addWidget(self.button)
+        self.file_dialog = QtWidgets.QFileDialog()
+        self.file_dialog.setFileMode(QtWidgets.QFileDialog.AnyFile)
+        self.button.clicked.connect(self.open_file_dialog)
+
+    def write_parameter(self):
+        self.parameter.value = self.file_edit.text()
+
+    def read_parameter(self):
+        self.file_edit.setText(self.parameter.value)
+
+    def check_changed(self):
+        if self.parameter.value != self.file_edit.text():
+            self.changed = True
+            self.file_edit.setStyleSheet("border-radius: 3px;"
+                                         "border: 2px solid lightblue;")
+        else:
+            self.changed = False
+            self.setStyleSheet("")
+
+    def apply_changes(self):
+        self.prev_value = self.file_edit.text()
+        self.changed = False
+        self.file_edit.setStyleSheet("")
+        self.modified()
+
+    def revert_changes(self):
+        if self.changed:
+            self.file_edit.setText(self.prev_value)
+            self.file_edit.setStyleSheet("")
+            self.write_parameter()
+            self.read_parameter()
+            self.changed = False
+
+    def open_file_dialog(self):
+        """Opens the file dialog window and puts the chosen file into the
+        line edit."""
+        if self.file_dialog.exec_():
+            self.file_edit.setText(self.file_dialog.selectedFiles()[0])
 
 
 class MetaDataEditWidget(QtWidgets.QLineEdit):
@@ -363,14 +423,15 @@ class MetaDataEditWidget(QtWidgets.QLineEdit):
     def revert_changes(self):
         """Reverts changes made by the user and applies the
         previous attribute again."""
-        attr = self.prev_value
-        if isinstance(attr, Unit):
-            attr = repr(attr)
-        self.setText(attr)
-        self.setStyleSheet("")
-        self.write_attribute()
-        self.read_attribute()
-        self.changed = False
+        if self.changed:
+            attr = self.prev_value
+            if isinstance(attr, Unit):
+                attr = repr(attr)
+            self.setText(attr)
+            self.setStyleSheet("")
+            self.write_attribute()
+            self.read_attribute()
+            self.changed = False
 
 
 class MetaDataBoolWidget(QtWidgets.QCheckBox):
@@ -436,9 +497,11 @@ class MetaDataBoolWidget(QtWidgets.QCheckBox):
     def revert_changes(self):
         """Reverts changes made by the user and applies the
         previous attribute again."""
-        attr = self.prev_value
-        self.setChecked(attr)
-        self.setStyleSheet("")
-        self.write_attribute()
-        self.read_attribute()
-        self.changed = False
+        if self.changed:
+            attr = self.prev_value
+            self.setChecked(attr)
+            self.setStyleSheet("")
+            self.write_attribute()
+            self.read_attribute()
+            self.changed = False
+

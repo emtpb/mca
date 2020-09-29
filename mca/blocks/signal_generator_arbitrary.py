@@ -26,13 +26,15 @@ class SignalGeneratorArbitrary(mca.framework.Block):
                 quantity_o=_("Voltage")
             ),
         )
+        self.parameters.update({"file": mca.framework.parameters.PathParameter(
+            _("Arbitrary data path"))})
         self.read_kwargs(kwargs)
 
     def _process(self):
-        pass
-
-    def load_data(self, file_name):
-        with open(file_name, 'r') as arbitrary_file:
+        file_path = self.parameters["file"].value
+        if not file_path:
+            return
+        with open(file_path, 'r') as arbitrary_file:
             arbitrary_data = json.load(arbitrary_file)
             if arbitrary_data.get("data_type") != "Signal":
                 raise mca.exceptions.DataLoadingError(

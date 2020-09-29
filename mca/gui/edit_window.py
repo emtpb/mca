@@ -12,7 +12,8 @@ widget_dict = {parameters.BoolParameter: edit_widgets.BoolParameterWidget,
                parameters.FloatParameter: edit_widgets.FloatParameterWidget,
                parameters.ChoiceParameter: edit_widgets.ChoiceParameterWidget,
                parameters.StrParameter: edit_widgets.StringParameterWidget,
-               parameters.ActionParameter: edit_widgets.ActionParameterWidget}
+               parameters.ActionParameter: edit_widgets.ActionParameterWidget,
+               parameters.PathParameter: edit_widgets.FileParameterWidget}
 
 
 class EditWindow(QtWidgets.QDialog):

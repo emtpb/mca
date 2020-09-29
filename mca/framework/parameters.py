@@ -249,3 +249,32 @@ class ActionParameter(BaseParameter):
 
     def validate(self, value):
         pass
+
+
+class PathParameter(BaseParameter):
+    """Parameter class for file paths.
+
+    Attributes:
+        value: Path of the file.
+    """
+    def __init__(self, name, value=""):
+        """Initialize PathParameter.
+
+        Args:
+           name (str): Name of the Parameter.
+           value (str): Path to the desired file.
+        """
+        super().__init__(name)
+        self.value = value
+
+    def validate(self, value):
+        """Validates a value on type.
+
+        Args:
+            value: Given value to be validated.
+        Raises:
+            :class:`~mca.exceptions.ParameterTypeError`: Type of value is not
+                                                         str.
+        """
+        if not isinstance(value, str):
+            raise exceptions.ParameterTypeError(self.name)
