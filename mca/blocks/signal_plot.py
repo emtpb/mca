@@ -51,7 +51,6 @@ class SignalPlot(mca.framework.DynamicBlock):
                 signal.ordinate,
                 label=signal.meta_data.name,
             )
-            print(self.fig.axes[0].lines)
         plt.legend()
         if len(signals) >= 1:
             meta_data = signals[0].meta_data
