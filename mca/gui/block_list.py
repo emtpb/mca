@@ -8,7 +8,7 @@ from mca.language import _
 class BlockList(QtWidgets.QListWidget):
     """List widget which holds all block classes."""
 
-    def __init__(self, parent, blocks, scene, searchbar):
+    def __init__(self, parent, blocks, scene, search_bar):
         """Initialize BlockList class.
 
         Args:
@@ -19,7 +19,7 @@ class BlockList(QtWidgets.QListWidget):
         QtWidgets.QListWidget.__init__(self, parent=parent)
         self.scene = scene
 
-        self.search_bar = searchbar
+        self.search_bar = search_bar
         self.search_bar.textChanged.connect(self.show_items)
         self.setDragEnabled(True)
 
@@ -37,7 +37,6 @@ class BlockList(QtWidgets.QListWidget):
                     mca.__file__) + "/blocks/icons/" + block.icon_file))
             i.setData(3, block)
             i.setText(block.name)
-
             i.setBackgroundColor(QtGui.QColor(255, 255, 255))
             self.addItem(i)
 
