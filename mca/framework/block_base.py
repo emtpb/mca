@@ -16,6 +16,7 @@ class Block:
         parameters: List that contains all parameters.
     """
     icon_file = None
+    tags = []
 
     def __init__(self):
         """Initializes the main Block class."""

@@ -14,6 +14,7 @@ class SignalPlot(mca.framework.DynamicBlock):
     """
     name = "SignalPlot"
     description = _("Plots all input signals in matplotlib.")
+    tags = ("Plotting", )
 
     def __init__(self, **kwargs):
         super().__init__()

@@ -15,6 +15,7 @@ class RealImag(mca.framework.Block):
     name = "RealImagBlock"
     description = _("Divides the real and imaginary part of "
                     "the input signal into two output signals.")
+    tags = ("Processing",)
 
     def __init__(self, **kwargs):
         super().__init__()

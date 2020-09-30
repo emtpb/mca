@@ -23,6 +23,7 @@ class SignalGeneratorPeriodic(mca.framework.Block):
     name = "SignalGeneratorPeriodic"
     description = _("Generates a Sinus, a Rectangle function or "
                     "a Triangle function.")
+    tags = ("Generating",)
 
     def __init__(self, **kwargs):
         super().__init__()

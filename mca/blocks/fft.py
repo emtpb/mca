@@ -12,6 +12,7 @@ class FFT(mca.framework.Block):
     """
     name = "FFTBlock"
     description = _("Computes the FFT of the input signal.")
+    tags = ("Processing", "Fourier")
 
     def __init__(self, **kwargs):
         super().__init__()

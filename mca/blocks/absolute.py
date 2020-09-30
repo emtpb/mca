@@ -12,6 +12,7 @@ class Absolute(mca.framework.Block):
     """
     name = _("AbsoluteBlock")
     description = _("Computes the absolute of the input signal.")
+    tags = ("Processing",)
 
     def __init__(self, **kwargs):
         """Initialize the adder block.

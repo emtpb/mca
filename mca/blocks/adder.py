@@ -19,6 +19,7 @@ class Adder(mca.framework.DynamicBlock):
     """
     name = _("Adder")
     description = _("Adds multiple signals to one signal.")
+    tags = ("Processing",)
 
     def __init__(self, **kwargs):
         """Initialize Adder Block class."""
