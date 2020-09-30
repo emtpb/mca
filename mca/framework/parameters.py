@@ -246,6 +246,7 @@ class ActionParameter(BaseParameter):
         """
         super().__init__(name)
         self.function = function
+        self.value = None
 
     def validate(self, value):
         pass
