@@ -76,7 +76,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.main_widget = QtWidgets.QWidget(self)
         self.main_layout = QtWidgets.QHBoxLayout(self.main_widget)
-        self.block_classes = mca.blocks.block_classes
         self.scene = block_display.BlockScene(self.main_widget)
 
         self.left_widget = QtWidgets.QWidget(self)
@@ -87,7 +86,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.search_bar = QtWidgets.QLineEdit(self)
         self.search_bar.setPlaceholderText("Search...")
         self.block_list = block_list.BlockList(self.left_widget,
-                                               self.block_classes,
                                                self.scene, self.search_bar)
         self.left_widget.layout().addWidget(self.search_bar)
         self.left_widget.layout().addWidget(self.block_list)

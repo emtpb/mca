@@ -16,3 +16,6 @@ tags = set()
 
 for block_class in block_classes:
     tags.update(block_class.tags)
+
+tag_dict = {tag: [block_class for block_class in block_classes
+                  if tag in block_class.tags] for tag in tags}
