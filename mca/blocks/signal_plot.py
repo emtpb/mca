@@ -66,7 +66,6 @@ class SignalPlot(mca.framework.DynamicBlock):
                 symbol=meta_data.symbol_o
             )
             )
-        print(self.fig.axes[0].lines)
         plt.grid(True)
         if auto_show:
             self.fig.show()
