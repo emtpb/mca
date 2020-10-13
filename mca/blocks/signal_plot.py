@@ -39,7 +39,7 @@ class SignalPlot(mca.framework.DynamicBlock):
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
         auto_show = self.parameters["auto_show"].value
-        self.fig = plt.figure(self.parameters["name"].value)
+        self.fig = plt.figure()
         for signal in signals:
             plt.plot(
                 np.linspace(

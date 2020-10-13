@@ -279,12 +279,12 @@ class BoolParameterWidget(BaseParameterWidget, QtWidgets.QCheckBox):
             self.changed = False
 
 
-class ActionParameterWidget(QtWidgets.QAction):
+class ActionParameterWidget(QtWidgets.QPushButton):
     """Widget to display :class:`.ActionParameter`."""
-    def __init__(self, parameter, parent):
+    def __init__(self, parameter):
         self.parameter = parameter
-        QtWidgets.QAction.__init__(self, self.parameter.name, parent)
-        self.triggered.connect(self.parameter.function)
+        QtWidgets.QPushButton.__init__(self, self.parameter.name)
+        self.pressed.connect(self.parameter.function)
 
     def write_parameter(self):
         pass

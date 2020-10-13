@@ -41,6 +41,10 @@ class FFTPlot(mca.framework.Block):
                  ("absolute", _("Absolute")), ("phase", _("Phase"))],
                 value="absolute",
             ),
+            "show": mca.framework.parameters.ActionParameter("Show",
+                                                             self.show),
+            "auto_show": mca.framework.parameters.BoolParameter("Auto plot",
+                                                                False)
         })
         self.read_kwargs(kwargs)
         self.fig = plt.figure()
@@ -57,6 +61,7 @@ class FFTPlot(mca.framework.Block):
         input_signal = self.inputs[0].data
         plot_mode = self.parameters["plot_mode"].value
         shift = self.parameters["shift"].value
+        auto_show = self.parameters["auto_show"].value
         sample_freq = 1 / self.inputs[0].data.increment
         # Calculate fft
         ordinate = np.fft.fft(input_signal.ordinate)
@@ -95,6 +100,8 @@ class FFTPlot(mca.framework.Block):
             )
         )
         plt.grid(True)
+        if auto_show:
+            self.fig.show()
 
     def show(self):
         self.fig.show()

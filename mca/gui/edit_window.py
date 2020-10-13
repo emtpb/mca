@@ -125,9 +125,8 @@ class EditWindow(QtWidgets.QDialog):
             parameter_label.setFont(self.headline_font)
         for block_parameter, index in zip(block_parameters,
                                           range(1, len(block_parameters) + 1)):
-            if isinstance(block_parameter, parameters.ActionParameter):
-                continue
-            if not isinstance(block_parameter, parameters.BoolParameter):
+            if not isinstance(block_parameter, parameters.BoolParameter) and \
+               not isinstance(block_parameter, parameters.ActionParameter):
                 name_label = QtWidgets.QLabel(block_parameter.name)
                 self.parameter_layout.addWidget(name_label, index, 0, 1, 1)
             widget = widget_dict[type(block_parameter)](block_parameter)
