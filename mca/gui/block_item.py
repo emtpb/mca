@@ -96,10 +96,6 @@ class BlockItem(QtWidgets.QGraphicsItem):
             self.edit_action = QtWidgets.QAction(_("Edit"), self.view)
             self.edit_action.triggered.connect(self.open_edit_window)
             self.menu.addAction(self.edit_action)
-            for parameter in self.block.parameters.values():
-                if isinstance(parameter, framework.parameters.ActionParameter):
-                    widget = ActionParameterWidget(parameter, self.view)
-                    self.menu.addAction(widget)
         if isinstance(self.block, framework.DynamicBlock):
             self.add_input_action = QtWidgets.QAction(_("Add Input"),
                                                       self.view)
