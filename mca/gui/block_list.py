@@ -90,6 +90,13 @@ class BlockList(QtWidgets.QListWidget):
             for item in matching_items:
                 if item.data(4) == "tag":
                     self.set_tag_status(item.data(5), hidden=False)
+        elif input_string and input_string[0] == "@":
+            input_string = input_string.replace("@", "")
+            matching_items = self.findItems(input_string, QtCore.Qt.MatchContains)
+            for item in matching_items:
+                if self.indexFromItem(item).row() >= self.block_amount:
+                    break
+                item.setHidden(False)
         else:
             matching_items = self.findItems(input_string, QtCore.Qt.MatchContains)
             for item in matching_items:
