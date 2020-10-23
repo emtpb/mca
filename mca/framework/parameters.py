@@ -201,7 +201,7 @@ class ChoiceParameter(BaseParameter):
 class BoolParameter(BaseParameter):
     """Parameter class for bools.
     
-    Args:
+    Attributes:
         name (str): Name of the Parameter.
         value (bool): Value of the Parameter.
     """
@@ -228,4 +228,54 @@ class BoolParameter(BaseParameter):
                 Type of value is not bool.
         """
         if not isinstance(value, bool):
+            raise exceptions.ParameterTypeError(self.name)
+
+
+class ActionParameter(BaseParameter):
+    """Parameter class for functions.
+
+    Attributes:
+        function: Function this parameter should call.
+    """
+    def __init__(self, name, function):
+        """Initialize ActionParameter.
+
+        Args:
+            name (str): Name of the Parameter.
+            function: Function this parameter should call.
+        """
+        super().__init__(name)
+        self.function = function
+        self.value = None
+
+    def validate(self, value):
+        pass
+
+
+class PathParameter(BaseParameter):
+    """Parameter class for file paths.
+
+    Attributes:
+        value: Path of the file.
+    """
+    def __init__(self, name, value=""):
+        """Initialize PathParameter.
+
+        Args:
+           name (str): Name of the Parameter.
+           value (str): Path to the desired file.
+        """
+        super().__init__(name)
+        self.value = value
+
+    def validate(self, value):
+        """Validates a value on type.
+
+        Args:
+            value: Given value to be validated.
+        Raises:
+            :class:`~mca.exceptions.ParameterTypeError`: Type of value is not
+                                                         str.
+        """
+        if not isinstance(value, str):
             raise exceptions.ParameterTypeError(self.name)

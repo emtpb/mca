@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2020-09-21 00:06+0200\n"
+"POT-Creation-Date: 2020-09-22 18:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -302,24 +302,24 @@ msgid "Language"
 msgstr "Sprache"
 
 #: gui/mainwindow.py:45
-msgid "Clear"
-msgstr "Löschen"
-
-#: gui/mainwindow.py:49
 msgid "Open"
 msgstr "Öffnen"
 
-#: gui/mainwindow.py:53
+#: gui/mainwindow.py:49
 msgid "Open Recent"
 msgstr "Zuletzt geöffnet"
 
-#: gui/mainwindow.py:58 gui/mainwindow.py:157
+#: gui/mainwindow.py:54 gui/mainwindow.py:157
 msgid "Save"
 msgstr "Speichern"
 
-#: gui/mainwindow.py:64
+#: gui/mainwindow.py:60
 msgid "Save as"
 msgstr "Speichern als"
+
+#: gui/mainwindow.py:65
+msgid "Clear all blocks"
+msgstr "Alle Blöcke löschen"
 
 #: gui/mainwindow.py:69
 msgid "Exit"
@@ -372,4 +372,7 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Voltage"
 #~ msgstr "Spannung"
+
+#~ msgid "Clear"
+#~ msgstr "Löschen"
 

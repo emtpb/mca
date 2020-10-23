@@ -79,7 +79,9 @@ class Output:
             after saving.
     """
 
-    def __init__(self, block=None, meta_data=None, name=None):
+    def __init__(self, block=None, meta_data=None, name=None,
+                 meta_data_input_dependent=True, abscissa_meta_data=False,
+                 ordinate_meta_data=False):
         """Initializes Output class.
 
         Args:
@@ -91,8 +93,9 @@ class Output:
         self.block = block
         self.up_to_date = True
         self.data = None
-        self.abscissa_meta_data = False
-        self.ordinate_meta_data = False
+        self.abscissa_meta_data = abscissa_meta_data
+        self.ordinate_meta_data = ordinate_meta_data
+        self.meta_data_input_dependent = meta_data_input_dependent
         self.meta_data = meta_data
         self.id = uuid.uuid4()
 

@@ -11,7 +11,9 @@ widget_dict = {parameters.BoolParameter: edit_widgets.BoolParameterWidget,
                parameters.IntParameter: edit_widgets.IntParameterWidget,
                parameters.FloatParameter: edit_widgets.FloatParameterWidget,
                parameters.ChoiceParameter: edit_widgets.ChoiceParameterWidget,
-               parameters.StrParameter: edit_widgets.StringParameterWidget}
+               parameters.StrParameter: edit_widgets.StringParameterWidget,
+               parameters.ActionParameter: edit_widgets.ActionParameterWidget,
+               parameters.PathParameter: edit_widgets.FileParameterWidget}
 
 
 class EditWindow(QtWidgets.QDialog):
@@ -55,7 +57,10 @@ class EditWindow(QtWidgets.QDialog):
         # Initialize parameter tab
         self.parameter_tab = QtWidgets.QWidget()
         self.parameter_layout = QtWidgets.QGridLayout(self.parameter_tab)
-        parameters_tab_height = (len(block.parameters) + 2) * 30
+        parameter_count = len(list(filter(
+            lambda x: not isinstance(x, parameters.ActionParameter),
+            block.parameters.values())))
+        parameters_tab_height = (parameter_count + 2) * 30
         self.parameter_tab.setFixedHeight(parameters_tab_height)
 
         scroll = QtWidgets.QScrollArea()
@@ -120,7 +125,8 @@ class EditWindow(QtWidgets.QDialog):
             parameter_label.setFont(self.headline_font)
         for block_parameter, index in zip(block_parameters,
                                           range(1, len(block_parameters) + 1)):
-            if not isinstance(block_parameter, parameters.BoolParameter):
+            if not isinstance(block_parameter, parameters.BoolParameter) and \
+               not isinstance(block_parameter, parameters.ActionParameter):
                 name_label = QtWidgets.QLabel(block_parameter.name)
                 self.parameter_layout.addWidget(name_label, index, 0, 1, 1)
             widget = widget_dict[type(block_parameter)](block_parameter)
@@ -133,10 +139,6 @@ class EditWindow(QtWidgets.QDialog):
 
     def display_meta_data(self):
         """Arranges the meta data of the outputs of the block in the window."""
-        labels = [_("Signal name:"), _("Abscissa quantity:"),
-                  _("Abscissa symbol:"), _("Abscissa unit:"),
-                  _("Ordinate quantity:"), _("Ordinate symbol:"),
-                  _("Ordinate unit:")]
         for index, output in enumerate(self.block.outputs):
             if output.name:
                 output_label = QtWidgets.QLabel(
@@ -188,6 +190,8 @@ class EditWindow(QtWidgets.QDialog):
             abscissa_check_box = edit_widgets.MetaDataBoolWidget(
                 _("Use abscissa meta data"), output, "abscissa_meta_data")
             abscissa_check_box.read_attribute()
+            if not output.meta_data_input_dependent:
+                abscissa_check_box.setEnabled(False)
             self.meta_data_widgets.append(abscissa_check_box)
             self.meta_data_layout.addWidget(abscissa_check_box, index*10+5, 1, 1, 1)
             self.meta_data_layout.addWidget(
@@ -224,11 +228,16 @@ class EditWindow(QtWidgets.QDialog):
             ordinate_check_box = edit_widgets.MetaDataBoolWidget(
                 _("Use ordinate meta data"), output, "ordinate_meta_data")
             ordinate_check_box.read_attribute()
+            if not output.meta_data_input_dependent:
+                ordinate_check_box.setEnabled(False)
             self.meta_data_widgets.append(ordinate_check_box)
             self.meta_data_layout.addWidget(ordinate_check_box, index * 10 + 9,
                                             1, 1, 1)
 
     def apply_changes(self):
+        """Try to apply changes. In case of an error the user gets a
+        notification and can choose between reverting his last changes or
+        continue editing and potentially fix the error."""
         try:
             for parameter_widget in self.parameter_widgets:
                 parameter_widget.write_parameter()
@@ -250,9 +259,14 @@ class EditWindow(QtWidgets.QDialog):
             self.accept()
 
     def revert_changes(self):
+        """Revert the last changes made."""
         for parameter_widget in self.parameter_widgets:
             parameter_widget.revert_changes()
         for entry in self.meta_data_widgets:
             entry.revert_changes()
         self.block.apply_parameter_changes()
         self.reject()
+
+    def closeEvent(self, e):
+        """Event triggered when the close button is pressed."""
+        self.apply_changes()
