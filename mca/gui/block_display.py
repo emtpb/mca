@@ -42,6 +42,9 @@ class BlockView(QtWidgets.QGraphicsView):
 class BlockScene(QtWidgets.QGraphicsScene):
     """Main class for basic operations with graphic items. This class manages
     for example adding items, finding items or removing items from itself.
+
+    Attributes:
+        block_list: Reference of the widget that holds all block classes.
     """
 
     def __init__(self, parent):
@@ -51,12 +54,13 @@ class BlockScene(QtWidgets.QGraphicsScene):
             parent: Parent of this widget.
         """
         QtWidgets.QGraphicsScene.__init__(self, parent=parent)
+        self.block_list = None
 
     def dragEnterEvent(self, event):
         """Reimplements the event when a drag enters this widget. Accepts only
         events that were created from this application.
         """
-        if event.source() in self.parent().children():
+        if event.source() is self.block_list:
             event.accept()
         else:
             event.ignore()
@@ -65,10 +69,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
         """Reimplements the event when a drag moves in this widget.
         Accepts only events that were created from this application.
         """
-        if event.source() in self.parent().children():
-            event.accept()
-        else:
-            event.ignore()
+        event.accept()
 
     def dropEvent(self, event):
         """Reimplements the event when something gets dropped in this widget.
@@ -76,15 +77,12 @@ class BlockScene(QtWidgets.QGraphicsScene):
         Creates a block and adds it to the scene if source of the event was
         from an item of the :class:`.BlockList`.
         """
-        if event.source() in self.parent().children():
-            event.setDropAction(QtCore.Qt.CopyAction)
-            event.accept()
-            x = event.scenePos().x()
-            y = event.scenePos().y()
-            block_class = event.source().selectedItems()[0].data(3)
-            self.create_block_item(block_class(), x, y)
-        else:
-            event.ignore()
+        event.setDropAction(QtCore.Qt.CopyAction)
+        event.accept()
+        x = event.scenePos().x()
+        y = event.scenePos().y()
+        block_class = event.source().selectedItems()[0].data(3)
+        self.create_block_item(block_class(), x, y)
 
     def clear(self):
         """Remove all items from the BlockScene."""
