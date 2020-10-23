@@ -13,6 +13,7 @@ class SignalGeneratorArbitrary(mca.framework.Block):
     """
     name = _("SignalGeneratorArbitrary")
     description = _("Loads arbitrary data to generate a signal on its output.")
+    tags = ("Generating",)
 
     def __init__(self, **kwargs):
         super().__init__()

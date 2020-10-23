@@ -4,7 +4,7 @@ import ntpath
 
 import mca.blocks
 from mca.framework import block_registry
-from mca.gui import block_list, block_display, block_item
+from mca.gui import block_list, block_display
 from mca import config
 from mca.language import _
 
@@ -80,11 +80,21 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.main_widget = QtWidgets.QWidget(self)
         self.main_layout = QtWidgets.QHBoxLayout(self.main_widget)
-        self.block_classes = mca.blocks.block_classes
         self.scene = block_display.BlockScene(self.main_widget)
-        self.block_list = block_list.BlockList(self, self.block_classes,
-                                               self.scene)
-        self.main_layout.addWidget(self.block_list)
+
+        self.left_widget = QtWidgets.QWidget(self)
+        self.left_widget.setMaximumSize(250, 16777215)
+        self.left_widget.setMinimumSize(200, 0)
+        self.left_widget.setLayout(QtWidgets.QVBoxLayout())
+
+        self.search_bar = QtWidgets.QLineEdit(self)
+        self.search_bar.setPlaceholderText("Search...")
+        self.block_list = block_list.BlockList(self.left_widget,
+                                               self.scene, self.search_bar)
+        self.left_widget.layout().addWidget(self.search_bar)
+        self.left_widget.layout().addWidget(self.block_list)
+
+        self.main_layout.addWidget(self.left_widget)
         self.view = block_display.BlockView(scene=self.scene, parent=self)
         self.view.show()
         self.main_layout.addWidget(self.view)

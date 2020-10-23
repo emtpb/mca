@@ -23,6 +23,7 @@ class FFTPlot(mca.framework.Block):
                     "the absolute or the phase of the FFT. "
                     "Shifts the FFT optionally or cuts the input"
                     "signal before the conversion.")
+    tags = ("Processing", "Fourier", "Plotting")
 
     def __init__(self, **kwargs):
         super().__init__()

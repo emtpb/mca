@@ -12,3 +12,10 @@ from .signal_generator_arbitrary import SignalGeneratorArbitrary
 
 block_classes = [i[1] for i in inspect.getmembers(sys.modules[__name__],
                                                   inspect.isclass)]
+tags = set()
+
+for block_class in block_classes:
+    tags.update(block_class.tags)
+
+tag_dict = {tag: [block_class for block_class in block_classes
+                  if tag in block_class.tags] for tag in tags}
