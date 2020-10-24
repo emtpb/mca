@@ -49,10 +49,10 @@ class FFTPlot(mca.framework.Block):
         })
         self.read_kwargs(kwargs)
         self.fig = plt.figure()
+        self.axes = self.fig.add_subplot(111)
 
     def _process(self):
-        # Close old figure
-        plt.close(self.fig)
+        self.axes.cla()
         # Finish when no inputs connected
         if self.check_empty_inputs():
             return
@@ -86,23 +86,23 @@ class FFTPlot(mca.framework.Block):
             ordinate = abs(ordinate)
         elif plot_mode == "phase":
             ordinate = np.angle(ordinate)
-        self.fig = plt.figure()
-        plt.plot(abscissa, ordinate)
-        plt.xlabel(mca.framework.data_types.meta_data_to_axis_label(
+        self.axes.plot(abscissa, ordinate)
+        self.axes.set_xlabel(mca.framework.data_types.meta_data_to_axis_label(
             quantity=input_signal.meta_data.quantity_a,
             unit=1/input_signal.meta_data.unit_a,
             symbol=input_signal.meta_data.symbol_a
             )
         )
-        plt.ylabel(mca.framework.data_types.meta_data_to_axis_label(
+        self.axes.set_ylabel(mca.framework.data_types.meta_data_to_axis_label(
             quantity=input_signal.meta_data.quantity_o,
             unit=input_signal.meta_data.unit_o,
             symbol=input_signal.meta_data.symbol_o
             )
         )
-        plt.grid(True)
+        self.axes.grid(True)
+        self.fig.canvas.draw()
         if auto_show:
-            self.fig.show()
+            self.show()
 
     def show(self):
         self.fig.show()
