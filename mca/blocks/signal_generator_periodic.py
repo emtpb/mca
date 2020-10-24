@@ -84,7 +84,7 @@ class SignalGeneratorPeriodic(mca.framework.Block):
         elif function == "tri":
             ordinate = triangle(abscissa, freq, amp, phase)
         self.outputs[0].data = mca.framework.data_types.Signal(
-            self.outputs[0].meta_data,
+            self.outputs[0].get_meta_data(None),
             abscissa_start,
             values,
             increment,
