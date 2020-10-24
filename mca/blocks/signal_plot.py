@@ -24,6 +24,7 @@ class SignalPlot(mca.framework.DynamicBlock):
         self.plot_widget = plot_widget
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
+        self.legend = self.fig.legend()
         self.parameters.update({
             "show": mca.framework.parameters.ActionParameter("Show",
                                                              self.show),
@@ -33,6 +34,7 @@ class SignalPlot(mca.framework.DynamicBlock):
 
     def _process(self):
         self.axes.cla()
+        self.legend.remove()
         for i in self.inputs:
             validator.check_type_signal(i.data)
 
@@ -49,7 +51,7 @@ class SignalPlot(mca.framework.DynamicBlock):
             ordinate = signal.ordinate
             label = signal.meta_data.name
             self.axes.plot(abscissa, ordinate, label=label)
-        self.fig.legend()
+        self.legend = self.fig.legend()
         if len(signals) >= 1:
             meta_data = signals[0].meta_data
             abscissa_string = mca.framework.data_types.meta_data_to_axis_label(
