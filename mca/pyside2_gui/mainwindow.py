@@ -4,7 +4,7 @@ import ntpath
 
 import mca.blocks
 from mca.framework import block_registry
-from mca.gui import block_list, block_display
+from mca.pyside2_gui import block_list, block_display
 from mca import config
 from mca.language import _
 

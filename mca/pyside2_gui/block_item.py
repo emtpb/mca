@@ -1,8 +1,8 @@
 from PySide2 import QtWidgets, QtCore, QtGui
 
-from mca.gui.edit_window import EditWindow
-from mca.gui.edit_widgets import ActionParameterWidget
-from mca.gui.io_items import InputItem, OutputItem
+from mca.pyside2_gui.edit_window import EditWindow
+from mca.pyside2_gui.edit_widgets import ActionParameterWidget
+from mca.pyside2_gui.io_items import InputItem, OutputItem
 from mca import framework
 from mca.language import _
 

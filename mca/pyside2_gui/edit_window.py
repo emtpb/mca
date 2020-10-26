@@ -4,7 +4,7 @@ import os
 import mca
 from mca import exceptions
 from mca.framework import parameters, data_types
-from mca.gui import edit_widgets
+from mca.pyside2_gui import edit_widgets
 from mca.language import _
 
 widget_dict = {parameters.BoolParameter: edit_widgets.BoolParameterWidget,
