@@ -1,7 +1,6 @@
 from PySide2 import QtWidgets, QtCore, QtGui
 
-from mca.pyside2_gui.edit_window import EditWindow
-from mca.pyside2_gui.io_items import InputItem, OutputItem
+from mca.gui.pyside2 import edit_window, io_items
 import mca.framework
 from mca.language import _
 
@@ -88,8 +87,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.last_point = (None, None)
 
         self.menu = QtWidgets.QMenu(self.view)
-        self.edit_window = EditWindow(self.view.scene().parent().parent(),
-                                      self.block)
+        self.edit_window = edit_window.EditWindow(self.view.scene().parent().parent(),
+                                                  self.block)
 
         if self.block.parameters:
             self.edit_action = QtWidgets.QAction(_("Edit"), self.view)
@@ -197,10 +196,12 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """Adds an existing :class:`.Input` from the block instance to a new
         :class:`.InputItem` and adds it to its input list.
         """
-        new_input = InputItem(-self.input_width, len(self.inputs) * (
-                    self.input_height + self.input_dist) + 5,
-                              self.input_width, self.input_height, input_,
-                              self.view, self)
+        new_input = io_items.InputItem(-self.input_width,
+                                       len(self.inputs) * (self.input_height + self.input_dist) + 5,
+                                       self.input_width,
+                                       self.input_height,
+                                       input_,
+                                       self.view, self)
         self.inputs.append(new_input)
         if len(self.inputs) * (
                 self.input_height + self.input_dist) + 5 > self.height:
@@ -211,7 +212,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """Adds an existing :class:`.Output` from the block instance to a new
         :class:`.OutputItem` and adds it to its output list.
         """
-        new_output = OutputItem(self.width, len(self.outputs) * (
+        new_output = io_items.OutputItem(self.width, len(self.outputs) * (
                     self.output_height + self.output_dist) + 5,
                                 self.output_width, self.output_height, output,
                                 self.view, self)

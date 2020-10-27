@@ -1,6 +1,6 @@
 from PySide2 import QtWidgets, QtCore
 
-from mca.pyside2_gui import block_item, io_items
+from mca.gui.pyside2 import block_item, io_items
 from mca.language import _
 
 

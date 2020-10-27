@@ -3,7 +3,7 @@ import os
 
 import mca
 from mca.framework import parameters
-from mca.pyside2_gui import edit_widgets
+from mca.gui.pyside2 import edit_widgets
 from mca.language import _
 
 widget_dict = {parameters.BoolParameter: edit_widgets.BoolParameterWidget,
