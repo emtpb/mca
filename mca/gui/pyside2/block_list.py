@@ -64,6 +64,8 @@ class BlockList(QtWidgets.QListWidget):
         in the search_bar.
         """
         item = self.currentItem()
+        if item is None:
+            return
         if item.data(4) == "block":
             selected_block_class = item.data(3)
             self.scene.create_block_item(selected_block_class(), 0, 0)
