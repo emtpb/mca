@@ -1,12 +1,11 @@
 import numpy as np
 from scipy import signal as sgn
-from united import Unit
 
-import mca.framework
+from mca.framework import data_types, parameters, Block
 from mca.language import _
 
 
-class SignalGeneratorPeriodic(mca.framework.Block):
+class SignalGeneratorPeriodic(Block):
     """Block class which generates a periodic signal.
 
     This block has one output.
@@ -29,7 +28,7 @@ class SignalGeneratorPeriodic(mca.framework.Block):
         super().__init__()
 
         self._new_output(
-            meta_data=mca.framework.data_types.MetaData(
+            meta_data=data_types.MetaData(
                 name="",
                 unit_a="s",
                 unit_o="V",
@@ -42,24 +41,18 @@ class SignalGeneratorPeriodic(mca.framework.Block):
             )
 
         self.parameters.update({
-            "function": mca.framework.parameters.ChoiceParameter(
+            "function": parameters.ChoiceParameter(
                 _("Function"),
                 choices=[("rect", _("Rectangle")), ("tri", _("Triangle")),
                          ("sin", _("Sine"))],
                 value="sin"
             ),
-            "freq": mca.framework.parameters.FloatParameter(_("Frequency"),
-                                                            unit="Hz",
-                                                            value=1),
-            "amp": mca.framework.parameters.FloatParameter("Amplitude",
-                                                           value=1),
-            "phase": mca.framework.parameters.FloatParameter("Phase", value=0),
-            "start_a": mca.framework.parameters.FloatParameter("Start",
-                                                               value=0),
-            "values": mca.framework.parameters.IntParameter(_("Values"),
-                                                            min_=1, value=628),
-            "increment": mca.framework.parameters.FloatParameter(
-                _("Increment"), min_=0, value=0.01)
+            "freq": parameters.FloatParameter(_("Frequency"), unit="Hz", value=1),
+            "amp": parameters.FloatParameter("Amplitude", value=1),
+            "phase": parameters.FloatParameter("Phase", value=0),
+            "start_a": parameters.FloatParameter("Start", value=0),
+            "values": parameters.IntParameter(_("Values"), min_=1, value=628),
+            "increment": parameters.FloatParameter(_("Increment"), min_=0, value=0.01)
         })
         self.read_kwargs(kwargs)
 
@@ -83,7 +76,7 @@ class SignalGeneratorPeriodic(mca.framework.Block):
             ordinate = rect(abscissa, freq, amp, phase)
         elif function == "tri":
             ordinate = triangle(abscissa, freq, amp, phase)
-        self.outputs[0].data = mca.framework.data_types.Signal(
+        self.outputs[0].data = data_types.Signal(
             self.outputs[0].get_meta_data(None),
             abscissa_start,
             values,

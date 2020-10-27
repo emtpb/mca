@@ -1,7 +1,7 @@
 import json
-from . import block_io, block_registry, data_types
+
+from mca.framework import block_io, block_registry, data_types, parameters
 from mca import exceptions
-from . import parameters
 from mca.language import _
 
 

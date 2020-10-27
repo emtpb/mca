@@ -1,13 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-import mca.framework
-from mca.framework import validator
-from mca import exceptions
+from mca.framework import validator, data_types, Block, parameters
 from mca.language import _
 
 
-class FFTPlot(mca.framework.Block):
+class FFTPlot(Block):
     """Block class which plots the FFT of the input signal.
 
     This block has one input.
@@ -30,22 +28,20 @@ class FFTPlot(mca.framework.Block):
 
         self._new_input()
         self.parameters.update({
-            "shift": mca.framework.parameters.ChoiceParameter(
+            "shift": parameters.ChoiceParameter(
                 _("Shift to ordinate"),
                 [("no_shift", _("No shift")), ("shift", _("Shift")),
                  ("shift_positive", _("Shift and only positive frequencies"))],
                 value="no_shift",
             ),
-            "plot_mode": mca.framework.parameters.ChoiceParameter(
+            "plot_mode": parameters.ChoiceParameter(
                 _("Plot Mode"),
                 [("real", _("Real")), ("imaginary", _("Imaginary")),
                  ("absolute", _("Absolute")), ("phase", _("Phase"))],
                 value="absolute",
             ),
-            "show": mca.framework.parameters.ActionParameter("Show",
-                                                             self.show),
-            "auto_show": mca.framework.parameters.BoolParameter("Auto plot",
-                                                                False)
+            "show": parameters.ActionParameter("Show", self.show),
+            "auto_show": parameters.BoolParameter("Auto plot", False)
         })
         self.read_kwargs(kwargs)
         self.fig = plt.figure()
@@ -87,13 +83,13 @@ class FFTPlot(mca.framework.Block):
         elif plot_mode == "phase":
             ordinate = np.angle(ordinate)
         self.axes.plot(abscissa, ordinate)
-        self.axes.set_xlabel(mca.framework.data_types.meta_data_to_axis_label(
+        self.axes.set_xlabel(data_types.meta_data_to_axis_label(
             quantity=input_signal.meta_data.quantity_a,
             unit=1/input_signal.meta_data.unit_a,
             symbol=input_signal.meta_data.symbol_a
             )
         )
-        self.axes.set_ylabel(mca.framework.data_types.meta_data_to_axis_label(
+        self.axes.set_ylabel(data_types.meta_data_to_axis_label(
             quantity=input_signal.meta_data.quantity_o,
             unit=input_signal.meta_data.unit_o,
             symbol=input_signal.meta_data.symbol_o

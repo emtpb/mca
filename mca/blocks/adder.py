@@ -1,12 +1,11 @@
 import numpy as np
 import copy
 
-import mca.framework
-from mca.framework import validator
+from mca.framework import validator, data_types, DynamicBlock
 from mca.language import _
 
 
-class Adder(mca.framework.DynamicBlock):
+class Adder(DynamicBlock):
     """Block class for adding multiple signals to one new signal.
 
     This Block has at least one and no upper limit for the inputs and
@@ -28,7 +27,7 @@ class Adder(mca.framework.DynamicBlock):
 
         self.dynamic_input = (1, None)
         self._new_output(
-            meta_data=mca.framework.data_types.MetaData(
+            meta_data=data_types.MetaData(
                 name="",
                 unit_a="s",
                 unit_o="V",
@@ -60,7 +59,7 @@ class Adder(mca.framework.DynamicBlock):
         abscissa_start = modified_signals[0].abscissa_start
         values = modified_signals[0].values
         increment = modified_signals[0].increment
-        self.outputs[0].data = mca.framework.data_types.Signal(
+        self.outputs[0].data = data_types.Signal(
             meta_data=self.outputs[0].get_meta_data(signals[0].meta_data),
             abscissa_start=abscissa_start,
             values=values,

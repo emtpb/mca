@@ -1,7 +1,8 @@
-import sys
 from PySide2 import QtWidgets
-from mca.pyside2_gui.mainwindow import MainWindow
+import sys
 import matplotlib
+
+from mca.pyside2_gui.mainwindow import MainWindow
 
 
 def main():

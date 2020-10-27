@@ -1,11 +1,10 @@
 import numpy as np
 
-import mca.framework
-from mca.framework import validator
+from mca.framework import validator, data_types, Block
 from mca.language import _
 
 
-class FFT(mca.framework.Block):
+class FFT(Block):
     """Block class which calculates the FFT of the input signal.
 
     This block has one input and one output.
@@ -18,7 +17,7 @@ class FFT(mca.framework.Block):
         super().__init__()
 
         self._new_output(
-            meta_data=mca.framework.data_types.MetaData(
+            meta_data=data_types.MetaData(
                 "",
                 unit_a="1/s",
                 unit_o="V",
@@ -37,12 +36,12 @@ class FFT(mca.framework.Block):
         increment = 1 / (
                 input_signal.increment * input_signal.values)
         values = input_signal.values
-        meta_data = mca.framework.data_types.MetaData(
+        meta_data = data_types.MetaData(
             name="",
             unit_a=1/input_signal.meta_data.unit_a,
             unit_o=input_signal.meta_data.unit_o
         )
-        self.outputs[0].data = mca.framework.data_types.Signal(
+        self.outputs[0].data = data_types.Signal(
             meta_data=self.outputs[0].get_meta_data(meta_data),
             abscissa_start=0,
             values=values,

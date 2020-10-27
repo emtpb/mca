@@ -2,12 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import copy
 
-import mca.framework
-from mca.framework import validator
+from mca.framework import validator, data_types, parameters, DynamicBlock
 from mca.language import _
 
 
-class SignalPlot(mca.framework.DynamicBlock):
+class SignalPlot(DynamicBlock):
     """This block class plots all input signals.
 
     This block has at least one input and no upper limit for the inputs.
@@ -26,10 +25,8 @@ class SignalPlot(mca.framework.DynamicBlock):
         self.axes = self.fig.add_subplot(111)
         self.legend = self.fig.legend()
         self.parameters.update({
-            "show": mca.framework.parameters.ActionParameter("Show",
-                                                             self.show),
-            "auto_show": mca.framework.parameters.BoolParameter("Auto plot",
-                                                                False)
+            "show": parameters.ActionParameter("Show", self.show),
+            "auto_show": parameters.BoolParameter("Auto plot", False)
         })
 
     def _process(self):
@@ -54,12 +51,12 @@ class SignalPlot(mca.framework.DynamicBlock):
         self.legend = self.fig.legend()
         if len(signals) >= 1:
             meta_data = signals[0].meta_data
-            abscissa_string = mca.framework.data_types.meta_data_to_axis_label(
+            abscissa_string = data_types.meta_data_to_axis_label(
                 quantity=meta_data.quantity_a,
                 unit=meta_data.unit_a,
                 symbol=meta_data.symbol_a
             )
-            ordinate_string = mca.framework.data_types.meta_data_to_axis_label(
+            ordinate_string = data_types.meta_data_to_axis_label(
                 quantity=meta_data.quantity_o,
                 unit=meta_data.unit_o,
                 symbol=meta_data.symbol_o

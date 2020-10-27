@@ -1,9 +1,8 @@
 from PySide2 import QtWidgets, QtCore, QtGui
 
 from mca.pyside2_gui.edit_window import EditWindow
-from mca.pyside2_gui.edit_widgets import ActionParameterWidget
 from mca.pyside2_gui.io_items import InputItem, OutputItem
-from mca import framework
+import mca.framework
 from mca.language import _
 
 
@@ -96,7 +95,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
             self.edit_action = QtWidgets.QAction(_("Edit"), self.view)
             self.edit_action.triggered.connect(self.open_edit_window)
             self.menu.addAction(self.edit_action)
-        if isinstance(self.block, framework.DynamicBlock):
+        if isinstance(self.block, mca.framework.DynamicBlock):
             self.add_input_action = QtWidgets.QAction(_("Add Input"),
                                                       self.view)
             self.add_input_action.triggered.connect(self.create_new_input)
@@ -166,7 +165,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         into a :class:`.InputItem`. This method is connected to
         create_input_action.
         """
-        new_mca_input = framework.block_io.Input(self.block)
+        new_mca_input = mca.framework.block_io.Input(self.block)
         self.block.add_input(new_mca_input)
         self.add_existing_input(new_mca_input)
         self.modified()
@@ -186,7 +185,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         for o in self.outputs:
             o.disconnect()
         self.modified()
-        framework.block_registry.Registry.remove_block(self.block)
+        mca.framework.block_registry.Registry.remove_block(self.block)
         self.scene().removeItem(self)
 
     def open_edit_window(self):

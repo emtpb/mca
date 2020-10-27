@@ -1,4 +1,4 @@
-from .. import exceptions
+from mca import exceptions
 
 
 class BaseParameter:

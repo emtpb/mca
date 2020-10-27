@@ -1,6 +1,7 @@
-from mca import config
 import gettext
 import os
+
+from mca import config
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 try:

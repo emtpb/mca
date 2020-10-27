@@ -1,11 +1,10 @@
 import copy
 
-import mca.framework
-from mca.framework import validator
+from mca.framework import validator, data_types, Block
 from mca.language import _
 
 
-class RealImag(mca.framework.Block):
+class RealImag(Block):
     """Block class which separates the real and imaginary part of the input
     signal in two output signals.
 
@@ -21,7 +20,7 @@ class RealImag(mca.framework.Block):
         super().__init__()
 
         self._new_output(
-            meta_data=mca.framework.data_types.MetaData(
+            meta_data=data_types.MetaData(
                 name="",
                 unit_a="s",
                 unit_o="V",
@@ -31,7 +30,7 @@ class RealImag(mca.framework.Block):
             name=_("Real part")
         )
         self._new_output(
-            meta_data=mca.framework.data_types.MetaData(
+            meta_data=data_types.MetaData(
                 name="",
                 unit_a="s",
                 unit_o="V",

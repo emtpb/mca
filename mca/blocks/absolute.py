@@ -1,11 +1,8 @@
-from united import Unit
-
-import mca.framework
-from mca.framework import validator
+from mca.framework import validator, data_types, Block
 from mca.language import _
 
 
-class Absolute(mca.framework.Block):
+class Absolute(Block):
     """Block class which calculates the absolute of the input signal.
 
     This block has one input and one output.
@@ -24,7 +21,7 @@ class Absolute(mca.framework.Block):
 
         super().__init__()
         self._new_output(
-            meta_data=mca.framework.data_types.MetaData(
+            meta_data=data_types.MetaData(
                 name="",
                 unit_a="s",
                 unit_o="V",
@@ -41,7 +38,7 @@ class Absolute(mca.framework.Block):
         validator.check_type_signal(self.inputs[0].data)
         input_signal = self.inputs[0].data
         ordinate = abs(input_signal.ordinate)
-        self.outputs[0].data = mca.framework.data_types.Signal(
+        self.outputs[0].data = data_types.Signal(
             meta_data=self.outputs[0].get_meta_data(input_signal.meta_data),
             abscissa_start=input_signal.abscissa_start,
             values=input_signal.values,

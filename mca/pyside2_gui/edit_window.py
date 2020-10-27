@@ -2,8 +2,7 @@ from PySide2 import QtWidgets, QtCore, QtGui
 import os
 
 import mca
-from mca import exceptions
-from mca.framework import parameters, data_types
+from mca.framework import parameters
 from mca.pyside2_gui import edit_widgets
 from mca.language import _
 

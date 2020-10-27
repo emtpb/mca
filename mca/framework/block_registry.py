@@ -1,10 +1,9 @@
 import networkx as nx
 import json
 
-from . import block_io
+from mca.framework import block_io, data_types
 from mca import exceptions
 from mca import blocks
-from mca.framework import data_types
 
 
 class IORegistry:

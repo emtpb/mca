@@ -2,10 +2,9 @@ from PySide2 import QtWidgets, QtCore, QtGui
 import os
 import ntpath
 
-import mca.blocks
+from mca import blocks, config
 from mca.framework import block_registry
 from mca.pyside2_gui import block_list, block_display
-from mca import config
 from mca.language import _
 
 
@@ -36,7 +35,7 @@ class MainWindow(QtWidgets.QMainWindow):
         languages = [("Deutsch", "de"), ("English", "en")]
 
         self.setWindowIcon(QtGui.QIcon(
-            os.path.dirname(mca.blocks.__file__) + "/icons/emt_logo.png"))
+            os.path.dirname(blocks.__file__) + "/icons/emt_logo.png"))
         for i in languages:
             action = QtWidgets.QAction(i[0], self)
             action.triggered.connect(change_language(i[1]))

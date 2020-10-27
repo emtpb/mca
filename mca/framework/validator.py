@@ -1,7 +1,7 @@
 """Validation methods used in mca."""
 
 from mca import exceptions
-from . import data_types
+from mca.framework import data_types
 
 
 def check_intervals(signals):

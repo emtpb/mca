@@ -3,7 +3,7 @@ import os
 
 import mca
 from mca.language import _
-import mca.blocks as bl
+from mca import blocks
 
 
 class BlockList(QtWidgets.QListWidget):
@@ -37,14 +37,14 @@ class BlockList(QtWidgets.QListWidget):
         )
         self.menu.addAction(self.new_block_action)
 
-        self.block_amount = len(bl.block_classes)
-        for block_class in bl.block_classes:
+        self.block_amount = len(blocks.block_classes)
+        for block_class in blocks.block_classes:
             self.add_block(block_class)
-        for tag, block_classes in bl.tag_dict.items():
+        for tag, block_classes in blocks.tag_dict.items():
             self.add_tag(tag)
             for block_class in block_classes:
                 self.add_block(block_class)
-        for tag in bl.tags:
+        for tag in blocks.tags:
             self.set_tag_status(tag, hidden=True)
 
     def mouseMoveEvent(self, event):
@@ -104,7 +104,7 @@ class BlockList(QtWidgets.QListWidget):
                     break
                 item.setHidden(False)
             if input_string == "":
-                for tag in bl.tags:
+                for tag in blocks.tags:
                     self.set_tag_status(tag, hidden=True)
             else:
                 for item in matching_items:

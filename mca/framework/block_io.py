@@ -1,5 +1,6 @@
-from . import block_registry, data_types
 import uuid
+
+from mca.framework import block_registry, data_types
 
 
 class Input:

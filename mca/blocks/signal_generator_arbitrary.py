@@ -1,12 +1,12 @@
 import json
 import numpy as np
 
-import mca.framework
-import mca.exceptions
+from mca import exceptions
+from mca.framework import data_types, parameters, Block
 from mca.language import _
 
 
-class SignalGeneratorArbitrary(mca.framework.Block):
+class SignalGeneratorArbitrary(Block):
     """Block class which loads arbitrary data to generate a signal.
 
     This block has one output.
@@ -19,7 +19,7 @@ class SignalGeneratorArbitrary(mca.framework.Block):
         super().__init__()
 
         self._new_output(
-            meta_data=mca.framework.data_types.MetaData(
+            meta_data=data_types.MetaData(
                 name="",
                 unit_a="s",
                 unit_o="V",
@@ -27,8 +27,7 @@ class SignalGeneratorArbitrary(mca.framework.Block):
                 quantity_o=_("Voltage")
             ),
         )
-        self.parameters.update({"file": mca.framework.parameters.PathParameter(
-            _("Arbitrary data path"))})
+        self.parameters.update({"file": parameters.PathParameter(_("Arbitrary data path"))})
         self.read_kwargs(kwargs)
 
     def _process(self):
@@ -38,9 +37,9 @@ class SignalGeneratorArbitrary(mca.framework.Block):
         with open(file_path, 'r') as arbitrary_file:
             arbitrary_data = json.load(arbitrary_file)
             if arbitrary_data.get("data_type") != "Signal":
-                raise mca.exceptions.DataLoadingError(
+                raise exceptions.DataLoadingError(
                     "Loaded data type is not a signal.")
-            meta_data = mca.framework.data_types.MetaData(
+            meta_data = data_types.MetaData(
                 arbitrary_data["name"],
                 arbitrary_data["unit_a"],
                 arbitrary_data["unit_o"],
@@ -49,7 +48,7 @@ class SignalGeneratorArbitrary(mca.framework.Block):
                 arbitrary_data["symbol_a"],
                 arbitrary_data["symbol_o"],
                 )
-        self.outputs[0].data = mca.framework.data_types.Signal(
+        self.outputs[0].data = data_types.Signal(
             meta_data=self.outputs[0].get_meta_data(meta_data),
             abscissa_start=arbitrary_data["abscissa_start"],
             values=arbitrary_data["values"],
