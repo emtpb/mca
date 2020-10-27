@@ -32,14 +32,7 @@ def test_labels(test_output_block):
 
 
 def test_axes(test_output_block):
-    a = test_output_block(sin_signal)
     b = signal_plot.SignalPlot()
-    c = test_output_block(sin_signal)
-    assert len(b.fig.axes) == 0
-    b.inputs[0].connect(a.outputs[0])
-    assert len(b.fig.axes) == 1
-    b.add_input(block_io.Input(b))
-    b.inputs[1].connect(c.outputs[0])
     assert len(b.fig.axes) == 1
 
 
