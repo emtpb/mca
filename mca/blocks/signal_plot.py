@@ -11,7 +11,7 @@ class SignalPlot(DynamicBlock):
 
     This block has at least one input and no upper limit for the inputs.
     """
-    name = "SignalPlot"
+    name = _("SignalPlot")
     description = _("Plots all input signals in matplotlib.")
 
     def __init__(self, plot_widget=None, **kwargs):
@@ -25,8 +25,8 @@ class SignalPlot(DynamicBlock):
         self.axes = self.fig.add_subplot(111)
         self.legend = self.fig.legend()
         self.parameters.update({
-            "show": parameters.ActionParameter("Show", self.show),
-            "auto_show": parameters.BoolParameter("Auto plot", False)
+            "show": parameters.ActionParameter(_("Show plot"), self.show),
+            "auto_show": parameters.BoolParameter(_("Auto plot"), False)
         })
 
     def _process(self):

@@ -1,6 +1,8 @@
 from united import Unit
 import numpy as np
 
+from mca.language import _
+
 
 class Signal:
     """Standard data type of mca.
@@ -94,11 +96,11 @@ class MetaData:
 
         self.quantity_a = quantity_a
         if not self.quantity_a:
-            self.quantity_a = self.unit_a.quantity
+            self.quantity_a = _(self.unit_a.quantity)
 
         self.quantity_o = quantity_o
         if not self.quantity_o:
-            self.quantity_o = self.unit_o.quantity
+            self.quantity_o = _(self.unit_o.quantity)
 
         self.symbol_a = symbol_a
         self.symbol_o = symbol_o

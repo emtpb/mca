@@ -15,13 +15,13 @@ class FFTPlot(Block):
         plot_mode: Real, Imaginary, Absolute, Phase
 
     """
-    name = "FFTPlot"
+    name = _("FFTPlot")
     description = _("Computes the FFT of the input signal and plots "
                     "either the real part, imaginary part, "
                     "the absolute or the phase of the FFT. "
                     "Shifts the FFT optionally or cuts the input"
                     "signal before the conversion.")
-    tags = ("Processing", "Fourier", "Plotting")
+    tags = (_("Processing"), _("Fourier"), _("Plotting"))
 
     def __init__(self, **kwargs):
         super().__init__()

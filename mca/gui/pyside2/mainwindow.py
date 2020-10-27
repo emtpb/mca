@@ -80,25 +80,25 @@ class MainWindow(QtWidgets.QMainWindow):
         self.main_widget = QtWidgets.QWidget(self)
         self.main_layout = QtWidgets.QHBoxLayout(self.main_widget)
 
-        self.left_widget = QtWidgets.QWidget(self.main_widget)
-        self.left_widget.setMaximumSize(250, 16777215)
-        self.left_widget.setMinimumSize(200, 0)
-        self.left_widget.setLayout(QtWidgets.QVBoxLayout())
+        self.search_widget = QtWidgets.QWidget(self.main_widget)
+        self.search_widget.setMaximumSize(250, 16777215)
+        self.search_widget.setMinimumSize(200, 0)
+        self.search_widget.setLayout(QtWidgets.QVBoxLayout())
 
         self.scene = block_display.BlockScene(self.main_widget)
         self.view = block_display.BlockView(scene=self.scene, parent=self)
         self.view.show()
 
-        self.search_bar = QtWidgets.QLineEdit(self.left_widget)
-        self.search_bar.setPlaceholderText("Search...")
-        self.block_list = block_list.BlockList(self.left_widget,
+        self.search_bar = QtWidgets.QLineEdit(self.search_widget)
+        self.search_bar.setPlaceholderText(_("Search..."))
+        self.block_list = block_list.BlockList(self.search_widget,
                                                self.scene, self.search_bar)
-        self.left_widget.layout().addWidget(self.search_bar)
-        self.left_widget.layout().addWidget(self.block_list)
+        self.search_widget.layout().addWidget(self.search_bar)
+        self.search_widget.layout().addWidget(self.block_list)
 
         self.scene.block_list = self.block_list
 
-        self.main_layout.addWidget(self.left_widget)
+        self.main_layout.addWidget(self.search_widget)
         self.main_layout.addWidget(self.view)
         self.setCentralWidget(self.main_widget)
 

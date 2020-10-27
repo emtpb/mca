@@ -13,7 +13,7 @@ class SignalGeneratorArbitrary(Block):
     """
     name = _("SignalGeneratorArbitrary")
     description = _("Loads arbitrary data to generate a signal on its output.")
-    tags = ("Generating",)
+    tags = (_("Generating"),)
 
     def __init__(self, **kwargs):
         super().__init__()

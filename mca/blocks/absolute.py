@@ -9,7 +9,7 @@ class Absolute(Block):
     """
     name = _("AbsoluteBlock")
     description = _("Computes the absolute of the input signal.")
-    tags = ("Processing",)
+    tags = (_("Processing"),)
 
     def __init__(self, **kwargs):
         """Initialize the adder block.

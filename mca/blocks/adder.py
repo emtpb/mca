@@ -18,7 +18,7 @@ class Adder(DynamicBlock):
     """
     name = _("Adder")
     description = _("Adds multiple signals to one signal.")
-    tags = ("Processing",)
+    tags = (_("Processing"),)
 
     def __init__(self, **kwargs):
         """Initialize Adder Block class."""

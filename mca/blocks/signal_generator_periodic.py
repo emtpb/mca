@@ -22,7 +22,7 @@ class SignalGeneratorPeriodic(Block):
     name = "SignalGeneratorPeriodic"
     description = _("Generates a Sinus, a Rectangle function or "
                     "a Triangle function.")
-    tags = ("Generating",)
+    tags = (_("Generating"),)
 
     def __init__(self, **kwargs):
         super().__init__()

@@ -11,10 +11,10 @@ class RealImag(Block):
     This block has one input and two outputs. First output has the real part
     and second output has the imaginary part.
     """
-    name = "RealImagBlock"
+    name = _("RealImagBlock")
     description = _("Divides the real and imaginary part of "
                     "the input signal into two output signals.")
-    tags = ("Processing",)
+    tags = (_("Processing"),)
 
     def __init__(self, **kwargs):
         super().__init__()

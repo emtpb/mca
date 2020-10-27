@@ -9,9 +9,9 @@ class FFT(Block):
 
     This block has one input and one output.
     """
-    name = "FFTBlock"
+    name = _("FFTBlock")
     description = _("Computes the FFT of the input signal.")
-    tags = ("Processing", "Fourier")
+    tags = (_("Processing"), _("Fourier"))
 
     def __init__(self, **kwargs):
         super().__init__()
