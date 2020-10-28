@@ -97,6 +97,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.search_bar = QtWidgets.QLineEdit(self.search_widget)
         self.search_bar.setPlaceholderText(_("Search..."))
+        self.search_bar.setClearButtonEnabled(True)
         self.block_list = block_list.BlockList(self.search_widget,
                                                self.scene, self.search_bar)
         self.search_widget.layout().addWidget(self.search_bar)
