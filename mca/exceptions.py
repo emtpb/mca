@@ -14,7 +14,7 @@ class BlockCircleError(MCAError):
     """Exception raised when a block detects a circle."""
 
     def __init__(self, block_name):
-        """Initialize BlockCircleError.
+        """Initializes BlockCircleError.
         
         Args:
             block_name (str): Name of the Block in which 
@@ -29,7 +29,7 @@ class IntervalError(MCAError):
     """Exception raised when there is incompatibility with intervals."""
 
     def __init__(self, cause):
-        """Initialize IntervalError.
+        """Initializes IntervalError.
         
         Args:
             cause: Reason for the IntervalError."""
@@ -38,12 +38,12 @@ class IntervalError(MCAError):
 
 
 class OutOfBoundError(MCAError):
-    """Exception raised when a given parameter is too small or to big 
-    than excpected.
+    """Exception raised when a value for a parameter is not within its
+    boundaries.
     """
 
     def __init__(self, parameter_name):
-        """Initialize OutOfBoundError.
+        """Initializes OutOfBoundError.
         
         Args:
             parameter_name (str): Name of the parameter 
@@ -61,7 +61,7 @@ class ParameterTypeError(MCAError):
     """Exception raised when the type of a parameter is not matching."""
 
     def __init__(self, parameter_name):
-        """Initialize ParameterTypeError.
+        """Initializes ParameterTypeError.
         
         Args:
             parameter_name (str): Name of the parameter
@@ -76,11 +76,11 @@ class ParameterTypeError(MCAError):
 
 class InputOutputError(MCAError):
     """Exception raised when the adding or removing of an input or output
-    was not successful.
+    was unsuccessful.
     """
 
     def __init__(self, cause):
-        """Initialize InputOutputError.
+        """Initializes InputOutputError.
         
         Args:
             cause (str): Reason why the operation was not successful.
@@ -89,10 +89,12 @@ class InputOutputError(MCAError):
 
 
 class ConnectionsError(MCAError):
-    """Exception raised when connecting or disconnecting fails."""
+    """Exception raised when connecting or disconnecting of in- and outputs
+    failed.
+    """
 
     def __init__(self, cause):
-        """Initialize ConnectionsError.
+        """Initializes ConnectionsError.
         
         Args:
             cause (str): Reason why the connecting or disconnecting failed.
@@ -102,10 +104,11 @@ class ConnectionsError(MCAError):
 
 class DataTypeError(MCAError):
     """Exception raised when the data type of the data at the input does
-    not match with the requirements of the Block."""
+    not match with the requirements of the Block.
+    """
 
     def __init__(self, data, data_type):
-        """Initialize DataTypeError.
+        """Initializes DataTypeError.
 
         Args:
             data: Given data object of the input.
@@ -117,12 +120,12 @@ class DataTypeError(MCAError):
 
 
 class UnitError(MCAError):
-    """Exception raised different units arrive at block which however requires
-    the same units.
+    """Exception raised when different units arrive at block which however
+    requires equal units.
     """
 
     def __init__(self, first_unit, second_unit):
-        """Initialize UnitError."""
+        """Initializes UnitError."""
         super().__init__(
             "Conflict with unit {} and {}".format(first_unit, second_unit)
         )
@@ -132,7 +135,7 @@ class DataSavingError(MCAError):
     """Exception raised when the saving of output data was unsuccessful."""
 
     def __init__(self, cause):
-        """Initialize DataSavingError.
+        """Initializes DataSavingError.
 
         Args:
             cause (str): Reason why saving was unsuccessful.
@@ -144,7 +147,7 @@ class DataLoadingError(MCAError):
     """Exception raised when the loading data was unsuccessful."""
 
     def __init__(self, cause):
-        """Initialize DataLoadingError.
+        """Initializes DataLoadingError.
 
         Args:
             cause (str): Reason why loading was unsuccessful.

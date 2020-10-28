@@ -6,7 +6,8 @@ import os
 class Config(dict):
     """Config class of the mca. This class loads user configs and the default
     config into its own dict. It also automatically creates the config
-    directory and file and stores all new user configs there.
+    directory and file and stores all new user configs there when a new item
+    is created in the dict.
     """
     user_config_path = appdirs.user_config_dir('mca') + '/config.json'
 
@@ -16,7 +17,7 @@ class Config(dict):
                       "recent_files": []}
 
     def __init__(self):
-        """Initialize the Config class."""
+        """Initializes the Config class."""
         super().__init__()
         self.update(Config.default_config)
         try:

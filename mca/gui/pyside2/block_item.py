@@ -6,7 +6,7 @@ from mca.language import _
 
 
 class BlockItem(QtWidgets.QGraphicsItem):
-    """Class to display any kind of :class:`.Block` and supports all its
+    """Class to display any kind of :class:`.Block` and support all its
     functionalities.
 
     Attributes:
@@ -26,7 +26,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         block: Instance of :class:`.Block' this block item is holding.
         resize_mode (bool): Flag to indicate whether user is resizing or
                             moving the block.
-        last_point (tuple): Used when resizing the block to remember the
+        last_pos (tuple): Used when resizing the block to remember the
                             coordinates of the last mouse movement to
                             calculate the current size.
         menu: Menu which pops up when the right mouse button is pressed.
@@ -35,29 +35,30 @@ class BlockItem(QtWidgets.QGraphicsItem):
         edit_action: Action added to the menu which opens the
                      :class:`.EditWindow` of the class.
         add_input_action: Action added to the menu which only exists when the
-                          block instance is a :class:`.DynamicBlock`. A new
-                          :class:`.InputItem` is dynamically added.
+                          block instance is a :class:`.DynamicBlock`. Adds an
+                          :class:`.InputItem` dynamically to the block.
         delete_input_action: Action added to the menu which only exists when
                           the block instance is a :class:`.DynamicBlock`. The
                           last :class:`.InputItem is deleted of the input list.
-        show_plot_action: Action added to the menu when the block has a
-                          function called "show". The action invokes the
-                          function.
         delete_action: Action added to the menu to delete the block.
     """
 
     def __init__(self, view, x, y, block, width=100, height=100):
         QtWidgets.QGraphicsItem.__init__(self)
         self.setPos(x, y)
-        self.view = view
-
-        self.block = block
-        self.block.gui_data["run_time_data"]["pyside2"] = {"block_item": self}
+        # Color settings
         self.default_color = QtGui.QColor(250, 235, 215)
         self.hover_color = QtGui.QColor(255, 228, 181)
+        self.current_color = self.default_color
+
+        self.view = view
+        self.block = block
+        self.block.gui_data["run_time_data"]["pyside2"] = {"block_item": self}
+
         self.setToolTip(self.block.description)
         self.setAcceptHoverEvents(True)
-        self.current_color = self.default_color
+
+        # Define heights and widths
         self.width = width
         self.height = height
 
@@ -78,13 +79,14 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.setFlag(self.ItemIsMovable, True)
         self.setFlag(self.ItemSendsGeometryChanges, True)
 
+        # Create visual inputs and outputs for the existing ones
         for i in self.block.inputs:
-            self.add_existing_input(i)
+            self.add_input(i)
         for o in self.block.outputs:
-            self.add_existing_output(o)
+            self.add_output(o)
 
         self.resize_mode = False
-        self.last_point = (None, None)
+        self.last_pos = (None, None)
 
         self.menu = QtWidgets.QMenu(self.view)
         self.edit_window = edit_window.EditWindow(self.view.scene().parent().parent(),
@@ -166,7 +168,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """
         new_mca_input = mca.framework.block_io.Input(self.block)
         self.block.add_input(new_mca_input)
-        self.add_existing_input(new_mca_input)
+        self.add_input(new_mca_input)
         self.modified()
         if self.block.dynamic_input[1] and len(self.block.inputs) == \
                 self.block.dynamic_input[1]:
@@ -192,12 +194,13 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.edit_window.show()
         self.update()
 
-    def add_existing_input(self, input_):
+    def add_input(self, input_):
         """Adds an existing :class:`.Input` from the block instance to a new
         :class:`.InputItem` and adds it to its input list.
         """
         new_input = io_items.InputItem(-self.input_width,
-                                       len(self.inputs) * (self.input_height + self.input_dist) + 5,
+                                       len(self.inputs) * (self.input_height +
+                                                           self.input_dist) + 5,
                                        self.input_width,
                                        self.input_height,
                                        input_,
@@ -208,7 +211,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
             self.resize(self.width, len(self.inputs) * (
                         self.input_height + self.input_dist) + 5)
 
-    def add_existing_output(self, output):
+    def add_output(self, output):
         """Adds an existing :class:`.Output` from the block instance to a new
         :class:`.OutputItem` and adds it to its output list.
         """
@@ -223,8 +226,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
                         self.output_height + self.output_dist) + 5)
 
     def itemChange(self, change, value):
-        """Reimplements the itemChange method. Updates the connection lines
-        of all its inputs and outputs when the block moves.
+        """Updates the connection lines of all its inputs and outputs when
+        the block moves.
         """
         if change == self.ItemPositionChange:
             for i in self.inputs:
@@ -238,10 +241,10 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.open_edit_window()
 
     def mousePressEvent(self, event):
-        """Method invoked when the block gets clicked. Increases its Z value
-        guarantee to be displayed in front of other colliding blocks. If the
-        bottom right 20x20 pixels of the block is pressed the block switches to
-        resize mode.
+        """Method invoked when the block gets clicked with the left mouse
+        button. Increases its Z value guarantee to be displayed in front of
+        other colliding blocks. If the bottom right 20x20 pixels of the block
+        are clicked the block switches to resize mode.
         """
         if event.button() == QtCore.Qt.MouseButton.RightButton:
             event.ignore()
@@ -257,12 +260,12 @@ class BlockItem(QtWidgets.QGraphicsItem):
         the block gets resized.
         """
         if self.resize_mode:
-            if self.last_point[0] is not None and \
-                    self.last_point[1] is not None:
+            if self.last_pos[0] is not None and \
+                    self.last_pos[1] is not None:
                 self.resize(
-                    self.width + event.screenPos().x() - self.last_point[0],
-                    self.height + event.screenPos().y() - self.last_point[1])
-            self.last_point = (event.screenPos().x(), event.screenPos().y())
+                    self.width + event.screenPos().x() - self.last_pos[0],
+                    self.height + event.screenPos().y() - self.last_pos[1])
+            self.last_pos = (event.screenPos().x(), event.screenPos().y())
         else:
             super().mouseMoveEvent(event)
 
@@ -270,7 +273,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """Method invoked when a mouse button on the block gets released."""
         self.setZValue(0.0)
         self.resize_mode = False
-        self.last_point = (None, None)
+        self.last_pos = (None, None)
         self.save_gui_data()
         self.modified()
         super().mouseReleaseEvent(event)
@@ -284,6 +287,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
             width: Width to which the block should be resized.
             height: Height to which the block should be resized.
         """
+        # Check if width and height are greater than the minimum
         if max(len(self.outputs) * (self.output_height + self.output_dist) + 5,
                len(self.inputs) * (
                        self.input_height + self.input_dist) + 5) > height or \
@@ -291,9 +295,11 @@ class BlockItem(QtWidgets.QGraphicsItem):
             return
         if width < self.min_width:
             return
+        # Reposition outputs and update connection lines
         for o in self.outputs:
             o.setPos(width, o.pos().y())
             o.update_connection_line()
+
         self.scene().update(self.scenePos().x(), self.scenePos().y(),
                             self.width, self.height)
         self.height = height
@@ -301,25 +307,34 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.update()
 
     def hoverEnterEvent(self, event):
-        """Change color of the block to the hover color."""
+        """Method invoked when the mouse enters the area of a block and starts
+        hovering over it. Changes color of the block to the hover color.
+        """
         event.accept()
         self.current_color = self.hover_color
         self.update()
 
     def hoverMoveEvent(self, event):
+        """Method invoked when the mouse moves and keeps hovering over the
+        block.
+        """
         event.accept()
 
     def hoverLeaveEvent(self, event):
-        """Change color of the block back to the default color."""
+        """Method invoked when the mouse leaves the area of a block and
+        stops hovering it. Changes color of the block back to the default
+        color.
+        """
         event.accept()
         self.current_color = self.default_color
         self.update()
 
     def save_gui_data(self):
-        """Store position and size into the :class:`.Block`."""
-        self.block.gui_data["save_data"]["pyside2"] = {"pos": [self.scenePos().x(), self.scenePos().y()],
+        """Stores position and size in the :class:`.Block` gui_data dict."""
+        self.block.gui_data["save_data"]["pyside2"] = {"pos": [self.scenePos().x(),
+                                                               self.scenePos().y()],
                                                        "size": [self.width, self.height]}
 
     def modified(self):
-        """Signalizes the :class:`.MainWindow` the scene has been modified."""
+        """Signalizes the :class:`.MainWindow` that the file is modified."""
         self.scene().parent().parent().modified = True

@@ -20,6 +20,7 @@ class BlockView(QtWidgets.QGraphicsView):
         """
         QtWidgets.QGraphicsView.__init__(self, scene=scene, parent=parent)
         self.setMinimumSize(500, 400)
+
         zoom_in_action = QtWidgets.QAction(_("Zoom in"), self)
         zoom_in_action.setShortcut("Ctrl++")
         zoom_in_action.triggered.connect(self.zoom_in)
@@ -31,11 +32,11 @@ class BlockView(QtWidgets.QGraphicsView):
         self.addAction(zoom_out_action)
 
     def zoom_in(self):
-        """Zooms in by scaling the size of all items."""
+        """Zooms in by scaling the size of all items up."""
         self.scale(1.2, 1.2)
 
     def zoom_out(self):
-        """Zooms out by scaling the size of all items."""
+        """Zooms out by scaling the size of all items down."""
         self.scale(1 / 1.2, 1 / 1.2)
 
 
@@ -48,7 +49,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
     """
 
     def __init__(self, parent):
-        """Initialize BlockScene class.
+        """Initializes BlockScene class.
 
         Args:
             parent: Parent of this widget.
@@ -57,8 +58,8 @@ class BlockScene(QtWidgets.QGraphicsScene):
         self.block_list = None
 
     def dragEnterEvent(self, event):
-        """Reimplements the event when a drag enters this widget. Accepts only
-        events that were created from this application.
+        """Method invoked when a drag enters this widget. Accepts only
+        events that were created from the :class:`.BlockList`.
         """
         if event.source() is self.block_list:
             event.accept()
@@ -66,26 +67,23 @@ class BlockScene(QtWidgets.QGraphicsScene):
             event.ignore()
 
     def dragMoveEvent(self, event):
-        """Reimplements the event when a drag moves in this widget.
-        Accepts only events that were created from this application.
-        """
+        """Method invoked when a drag moves in this widget."""
         event.accept()
 
     def dropEvent(self, event):
-        """Reimplements the event when something gets dropped in this widget.
-        Accepts only events that were created from this application.
+        """Method invoked when a drag gets dropped in this widget.
         Creates a block and adds it to the scene if source of the event was
         from an item of the :class:`.BlockList`.
         """
-        event.setDropAction(QtCore.Qt.CopyAction)
         event.accept()
+        event.setDropAction(QtCore.Qt.CopyAction)
         x = event.scenePos().x()
         y = event.scenePos().y()
         block_class = event.source().selectedItems()[0].data(3)
         self.create_block_item(block_class(), x, y)
 
     def clear(self):
-        """Remove all items from the BlockScene."""
+        """Removes all items from the BlockScene."""
         for item in self.items():
             if isinstance(item, block_item.BlockItem):
                 item.delete()
@@ -93,6 +91,9 @@ class BlockScene(QtWidgets.QGraphicsScene):
     def create_block_item(self, block, x, y, width=100, height=100,
                           open_edit_window=True):
         """Creates a new :class:`.BlockItem` to an existing :class:`.Block`.
+        Tries to find the next free spot of (x,y) to create the block. A free
+        spot means there is enough space to crate 100x100 block without
+        overlapping another block.
 
         Args:
             x (int): X coordinate of the BlockItem in the scene.
@@ -100,7 +101,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
             block: :class:`.Block` instance the block item represents.
             width (int): Width of the BlockItem.
             height (int): Width of the BlockItem.
-            open_edit_window (bool): Check whether the window edit window
+            open_edit_window (bool): True, if the edit window
                                      should be opened immediately after
                                      initializing the block.
 

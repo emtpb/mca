@@ -11,7 +11,7 @@ def check_intervals(signals):
     The abscissa of :class:`~mca.framework.data_types.Signal` is described with
     the starting point, amount of values and the increment. In order to add
     two signals they need to have the same increment 
-    and a 'fitting' starting point.
+    and a 'compatible' starting point.
     
     Example: 
         >>> x1 = np.linspace(0, 100, 1)
@@ -37,7 +37,6 @@ def check_intervals(signals):
         signals: List of Signals to be checked.
     
     Raises:
-        :obj:`ValueError`: If an empty list is given.
         :class:`.IntervalError`: If intervals are incompatible.
     """
     if signals:
@@ -51,8 +50,6 @@ def check_intervals(signals):
             if 0.000001 < diff < 0.9999999:
                 raise exceptions.IntervalError("Two signals are incompatible"
                                                "due signal starts")
-    else:
-        raise ValueError("No signals given")
 
 
 def check_type_signal(data):
@@ -70,11 +67,10 @@ def check_type_signal(data):
 
 
 def check_same_units(units):
-    """Check if units are the same.
+    """Check if units are equal.
 
     Args:
-        units (list): Units which get compared to each other. List cannot be
-                      empty.
+        units (list): Units to compare to each other.
     """
     for unit in units:
         if unit != units[0]:

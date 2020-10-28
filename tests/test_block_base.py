@@ -15,7 +15,7 @@ def basic_scenario(one_input_block, one_output_block):
     a = one_output_block()
     b = one_input_block()
     b.inputs[0].connect(a.outputs[0])
-    a.apply_parameter_changes()
+    a.trigger_update()
     yield a, b
     mca.framework.block_registry.Registry.clear()
 
@@ -26,7 +26,7 @@ def second_scenario(two_output_block, two_input_block):
     b = two_input_block()
     b.inputs[0].connect(a.outputs[0])
     b.inputs[1].connect(a.outputs[1])
-    a.apply_parameter_changes()
+    a.trigger_update()
     yield a, b
     mca.framework.block_registry.Registry.clear()
 
@@ -35,7 +35,7 @@ def second_scenario(two_output_block, two_input_block):
 def third_scenario(one_output_block, two_input_block):
     a = one_output_block()
     b = two_input_block()
-    a.apply_parameter_changes()
+    a.trigger_update()
     b.inputs[0].connect(a.outputs[0])
     b.inputs[1].connect(a.outputs[0])
     yield a, b
@@ -47,7 +47,7 @@ def fourth_scenario(one_output_block, one_input_block):
     a = one_output_block()
     b = one_input_block()
     c = one_input_block()
-    a.apply_parameter_changes()
+    a.trigger_update()
     b.inputs[0].connect(a.outputs[0])
     c.inputs[0].connect(a.outputs[0])
     yield a, b, c
@@ -60,7 +60,7 @@ def fifth_scenario(one_output_block, one_input_one_output_block,
     a = one_output_block()
     b = one_input_one_output_block()
     c = one_input_block()
-    a.apply_parameter_changes()
+    a.trigger_update()
     b.inputs[0].connect(a.outputs[0])
     c.inputs[0].connect(b.outputs[0])
     yield a, b, c
@@ -74,7 +74,7 @@ def sixth_scenario(one_output_block, one_input_one_output_block,
     b = one_input_one_output_block()
     c = one_input_one_output_block()
     d = two_input_block()
-    a.apply_parameter_changes()
+    a.trigger_update()
     b.inputs[0].connect(a.outputs[0])
     c.inputs[0].connect(a.outputs[0])
     d.inputs[0].connect(b.outputs[0])
@@ -90,8 +90,8 @@ def seventh_scenario(one_output_block, two_input_one_output_block,
     b = one_output_block()
     c = two_input_one_output_block()
     d = one_input_block()
-    a.apply_parameter_changes()
-    b.apply_parameter_changes()
+    a.trigger_update()
+    b.trigger_update()
     c.inputs[0].connect(a.outputs[0])
     c.inputs[1].connect(b.outputs[0])
     d.inputs[0].connect(c.outputs[0])
@@ -122,8 +122,8 @@ def dynamic_input_scenario(add_input_scenario, two_output_block,
     b = two_output_block()
     c = one_output_block()
     d = one_input_block()
-    b.apply_parameter_changes()
-    c.apply_parameter_changes()
+    b.trigger_update()
+    c.trigger_update()
     a.inputs[0].connect(b.outputs[0])
     a.inputs[1].connect(b.outputs[1])
     a.inputs[2].connect(c.outputs[0])
@@ -239,7 +239,7 @@ def test_second_scenario_data(second_scenario):
 def test_third_scenario_behaviour(third_scenario):
     a, b = third_scenario
     assert b.process_count == 2
-    a.apply_parameter_changes()
+    a.trigger_update()
     assert b.process_count == 3
 
 
@@ -256,7 +256,7 @@ def test_fourth_scenario_behaviour(fourth_scenario):
     a, b, c = fourth_scenario
     assert b.process_count == 1
     assert c.process_count == 1
-    a.apply_parameter_changes()
+    a.trigger_update()
     assert b.process_count == 2
     assert c.process_count == 2
 
@@ -271,7 +271,7 @@ def test_fifth_scenario_behaviour(fifth_scenario):
     a, b, c = fifth_scenario
     assert b.process_count == 1
     assert c.process_count == 1
-    a.apply_parameter_changes()
+    a.trigger_update()
     assert c.process_count == 2
     b.inputs[0].disconnect()
     assert c.process_count == 3
@@ -291,7 +291,7 @@ def test_sixth_scenario_behaviour(sixth_scenario):
     assert d.process_count == 3
     assert b.process_count == 2
     assert c.process_count == 2
-    a.apply_parameter_changes()
+    a.trigger_update()
     assert d.process_count == 3
 
 
@@ -330,7 +330,7 @@ def test_eighth_scenario_behaviour(one_output_block,
     b.inputs[1].connect(a.outputs[0])
     c.inputs[0].connect(b.outputs[0])
     c.inputs[1].connect(b.outputs[1])
-    a.apply_parameter_changes()
+    a.trigger_update()
     assert c.process_count == 3
 
 
@@ -410,7 +410,7 @@ def test_dynamic_output_data(dynamic_output_block,
     b = one_output_block()
     c = two_input_block()
     d = two_input_block()
-    b.apply_parameter_changes()
+    b.trigger_update()
     a.inputs[0].connect(b.outputs[0])
     a.add_output(mca.framework.block_io.Output(a, None))
     a.add_output(mca.framework.block_io.Output(a, None))

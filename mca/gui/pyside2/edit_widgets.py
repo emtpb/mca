@@ -3,7 +3,7 @@ from united import Unit
 
 
 class BaseParameterWidget:
-    """Basic  parameter widget class for all specific parameter widgets.
+    """Basic parameter widget for all specific parameter widgets.
 
     Attributes:
         parameter: Given :class:`.Parameter` to display.
@@ -37,7 +37,8 @@ class BaseParameterWidget:
 
     def check_changed(self):
         """Identifies if the value differs from the previous value and
-        visually modifies the widget."""
+        visually modifies the widget.
+        """
         raise NotImplementedError
 
     def apply_changes(self):
@@ -55,10 +56,10 @@ class BaseParameterWidget:
 
 
 class FloatParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
-    """Widget to display a FloatParameter."""
+    """Widget to display a :class:`.FloatParameter` ."""
 
     def __init__(self, parameter):
-        """Initialize FloatParameterWidget class."""
+        """Initializes FloatParameterWidget class."""
         QtWidgets.QLineEdit.__init__(self)
         BaseParameterWidget.__init__(self, parameter)
         self.textChanged.connect(self.check_changed)
@@ -102,10 +103,10 @@ class FloatParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
 
 
 class IntParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
-    """Widget to display a IntParameter."""
+    """Widget to display an :class:`.IntParameter` ."""
 
     def __init__(self, parameter):
-        """Initialize IntParameterWidget class."""
+        """Initializes IntParameterWidget class."""
         QtWidgets.QLineEdit.__init__(self)
         BaseParameterWidget.__init__(self, parameter)
         self.textChanged.connect(self.check_changed)
@@ -148,10 +149,10 @@ class IntParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
 
 
 class ChoiceParameterWidget(BaseParameterWidget, QtWidgets.QComboBox):
-    """Widget to display a ChoiceParameter."""
+    """Widget to display a :class:`.ChoiceParameter` ."""
 
     def __init__(self, parameter):
-        """Initialize ChoiceParameterWidget class."""
+        """Initializes ChoiceParameterWidget class."""
         QtWidgets.QComboBox.__init__(self)
         BaseParameterWidget.__init__(self, parameter)
         self.currentIndexChanged.connect(self.check_changed)
@@ -200,10 +201,10 @@ class ChoiceParameterWidget(BaseParameterWidget, QtWidgets.QComboBox):
 
 
 class StringParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
-    """Widget to display a StringParameter."""
+    """Widget to display a :class:`.StringParameter` ."""
 
     def __init__(self, parameter):
-        """Initialize StringParameterWidget class."""
+        """Initializes StringParameterWidget class."""
         QtWidgets.QLineEdit.__init__(self)
         BaseParameterWidget.__init__(self, parameter)
         self.textChanged.connect(self.check_changed)
@@ -240,10 +241,10 @@ class StringParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
 
 
 class BoolParameterWidget(BaseParameterWidget, QtWidgets.QCheckBox):
-    """Widget to display a BoolParameter."""
+    """Widget to display a :class:`.BoolParameter` ."""
 
     def __init__(self, parameter):
-        """Initialize BoolParameterWidget class."""
+        """Initializes BoolParameterWidget class."""
         QtWidgets.QCheckBox.__init__(self, parameter.name)
         BaseParameterWidget.__init__(self, parameter)
         self.stateChanged.connect(self.check_changed)
@@ -308,7 +309,7 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
     dialog window.
     """
     def __init__(self, parameter):
-        """Initialize FileParameterWidget class."""
+        """Initializes FileParameterWidget class."""
         QtWidgets.QWidget.__init__(self)
         BaseParameterWidget.__init__(self, parameter)
         self.setLayout(QtWidgets.QHBoxLayout())
@@ -354,7 +355,8 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
 
     def open_file_dialog(self):
         """Opens the file dialog window and puts the chosen file into the
-        line edit."""
+        line edit.
+        """
         if self.file_dialog.exec_():
             self.file_edit.setText(self.file_dialog.selectedFiles()[0])
 
@@ -422,7 +424,8 @@ class MetaDataEditWidget(QtWidgets.QLineEdit):
 
     def revert_changes(self):
         """Reverts changes made by the user and applies the
-        previous attribute again."""
+        previous attribute again.
+        """
         if self.changed:
             attr = self.prev_value
             if isinstance(attr, Unit):
@@ -496,7 +499,8 @@ class MetaDataBoolWidget(QtWidgets.QCheckBox):
 
     def revert_changes(self):
         """Reverts changes made by the user and applies the
-        previous attribute again."""
+        previous attribute again.
+        """
         if self.changed:
             attr = self.prev_value
             self.setChecked(attr)

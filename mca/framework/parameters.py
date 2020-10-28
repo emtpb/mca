@@ -2,7 +2,7 @@ from mca import exceptions
 
 
 class BaseParameter:
-    """Base class for parameters that a :class:`.Block` may contain.
+    """Base class for parameters in a :class:`.Block`.
     
     Attributes:
         name (str): Name of the parameter.
@@ -50,8 +50,7 @@ class FloatParameter(BaseParameter):
         self.value = value
 
     def validate(self, value):
-        """Validates a value on type and if min max boundaries are 
-        followed.
+        """Validates a value on type and if its within the min-max boundaries.
         
         Args:
             value: Given value to be validated.
@@ -59,7 +58,7 @@ class FloatParameter(BaseParameter):
             :class:`~mca.exceptions.ParameterTypeError`: Type of value is not
                                                          float.
             :obj:`~mca.exceptions.OutOfBoundError`: Value is not within min 
-            or max.
+                                                    or max.
         """
         if not isinstance(value, float) and not isinstance(value, int):
             raise exceptions.ParameterTypeError(self.name)
@@ -72,7 +71,7 @@ class FloatParameter(BaseParameter):
 
 
 class IntParameter(BaseParameter):
-    """Parameter class for integer numbers.
+    """Parameter class for integers.
     
     Attributes:
         min (int): Minimum value of the parameter.
@@ -98,8 +97,7 @@ class IntParameter(BaseParameter):
         self.value = value
 
     def validate(self, value):
-        """Validates a value on type and if min max boundaries are 
-        followed.
+        """Validates a value on type and if the value is within the boundaries.
         
         Args:
             value: Given value to be validated.
@@ -107,7 +105,7 @@ class IntParameter(BaseParameter):
             :class:`~mca.exceptions.ParameterTypeError`: Type of value is not
                                                          int.
             :class:`~mca.exceptions.OutOfBoundError`: Value is not within min 
-            or max.
+                                                      or max.
         """
         if not isinstance(value, int):
             raise exceptions.ParameterTypeError(self.name)
@@ -142,8 +140,8 @@ class StrParameter(BaseParameter):
         self.value = value
 
     def validate(self, value):
-        """Validates a value on type and if maximum of character length is
-        reached.
+        """Validates a value on type and if the value is within the character
+        limit.
         
         Args:
             value: Given value to be validated.            
@@ -184,15 +182,13 @@ class ChoiceParameter(BaseParameter):
         self.value = value
 
     def validate(self, value):
-        """Validates a value on type and if maximum of character length is
-        reached.
+        """Validates whether the value is in choices.
         
         Args:
             value: Given value to be validated.            
         Raises:
-            :class:`~mca.exceptions.ParameterTypeError`: Type of value is
-                                                         not str.
-            :class:`~mca.exceptions.OutOfBoundError`: String is too long.
+            :class:`~mca.exceptions.ParameterTypeError`: value is not in
+                                                         choices.
         """
         if value not in [i[0] for i in self.choices]:
             raise exceptions.ParameterTypeError(self.name)
@@ -235,14 +231,14 @@ class ActionParameter(BaseParameter):
     """Parameter class for functions.
 
     Attributes:
-        function: Function this parameter should call.
+        function: Function this parameter calls.
     """
     def __init__(self, name, function):
         """Initialize ActionParameter.
 
         Args:
             name (str): Name of the Parameter.
-            function: Function this parameter should call.
+            function: Function this parameter calls.
         """
         super().__init__(name)
         self.function = function

@@ -2,7 +2,7 @@
 Framework
 *********
 
-This chapter contains the API documentation for Multi Channel Analyzer.
+This chapter contains the documentation of all modules and classes of the framework.
 
 .. toctree::
     :maxdepth: 1
@@ -12,4 +12,4 @@ This chapter contains the API documentation for Multi Channel Analyzer.
     io_base
     parameters
     validator
-    signal
+    data_types

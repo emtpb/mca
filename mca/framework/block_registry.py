@@ -7,13 +7,13 @@ from mca import blocks
 
 
 class IORegistry:
-    """Class which registers all :class:`.Input` s and :class:`.Output` s 
+    """Class to register all :class:`.Input` s and :class:`.Output` s
     created and also handles connections  between Outputs and Inputs and the 
     consistency of the data through updates.
     
     Attributes:
         _graph: :ref:`Networkx Graph <networkx:DiGraph>` which is base of 
-            IORegistry.
+                IORegistry.
     """
 
     def __init__(self):
@@ -47,21 +47,20 @@ class IORegistry:
                     edge[1], block_io.Input
             ):
                 edge[1].up_to_date = edge[0].up_to_date
-                edge[1].block.update_my_block()
+                edge[1].block.update()
 
     def invalidate_and_update(self, block):
         """Method which is called when a change (connect, disconnect,
-        delete etc.) in the IO structure occurs
-        which may cause data inconsistency. This method flags and updates
-        blocks with an algorithm that ensures every Block updates itself
-        only once in the process.
+        delete etc.) in the IO structure occurs which could cause data
+        inconsistency. This method flags and updates blocks with an algorithm
+        that ensures every Block updates itself only once in the process.
         
         Args:
-            block (:class:`.Block`): Block in which the change occured.
+            block (:class:`.Block`): Block in which the change occurred.
         """
         for output in block.outputs:
             self._invalidate_descendants(output)
-        block.update_my_block()
+        block.update()
         for output in block.outputs:
             self._update_descendants(output)
 
@@ -79,7 +78,7 @@ class IORegistry:
             for input_ in node.block.inputs:
                 self._graph.add_edge(input_, node)
             return node
-        if isinstance(node, block_io.Input):
+        elif isinstance(node, block_io.Input):
             for output in node.block.outputs:
                 self._graph.add_edge(node, output)
             return node
@@ -110,8 +109,8 @@ class IORegistry:
             input_: Input which gets connected to Output.
         
         Raises:
-            exceptions.BlockCircleError: When connecting two nodes leads to
-                a circle in the structure.
+            exceptions.BlockCircleError: Occurs when connecting two nodes leads
+                                         to a circle in the structure.
         """
         if not isinstance(output, block_io.Output) or not isinstance(
                 input_, block_io.Input
@@ -152,7 +151,7 @@ class IORegistry:
             for output in input_.block.outputs:
                 self._invalidate_descendants(output)
         for block in set([x.block for x in inputs]):
-            block.update_my_block()
+            block.update()
         for input_ in inputs:
             for output in input_.block.outputs:
                 self._update_descendants(output)
@@ -181,11 +180,11 @@ class IORegistry:
         return all_blocks
 
     def remove_block(self, block):
-        """Removes inputs and outputs of a block (thus removing the block)
+        """Removes Inputs and Outputs of a block (thus removing the block)
         from the IORegistry.
 
         Removing a block means that all other blocks get disconnected from its
-        inputs and outputs and can not be reconnected.
+        inputs and outputs.
 
         Args:
             block: Block object which inputs and outputs should be removed.
@@ -274,7 +273,7 @@ class IORegistry:
                 block_instance.outputs[index].meta_data = meta_data
                 block_instance.outputs[index].abscissa_meta_data = output_save["abscissa_meta_data"]
                 block_instance.outputs[index].ordinate_meta_data = output_save["ordinate_meta_data"]
-                block_instance.apply_parameter_changes()
+                block_instance.trigger_update()
         for block_index_outer, block_save_outer in enumerate(
                 load_data["blocks"]):
             for input_index, input_save in enumerate(

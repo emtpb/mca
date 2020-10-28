@@ -7,15 +7,24 @@ from mca import blocks
 
 
 class BlockList(QtWidgets.QListWidget):
-    """List widget which holds all block classes.
+    """List widget which holds all block classes and tags. Shows and hides the
+    classes and tag depending on the string in the search bar. Items are listed
+    in groups: Default block group and tag groups. The block group is made of
+    all block items. It is visible when searching normally or with a "@"
+    in front or at least partly visible if an individual block matches with the
+    search string. The tag group is made of the tag item and all block items
+    with the according tag. It is visible when searching normally or with a "#"
+    in front and search string matches with the tag.
 
     Attributes:
         search_bar: Widget for searching tags and blocks in the list.
-        block_amount (int): Number of existing block classes.
+        scene: Reference of the scene where blocks get initialized.
+        block_amount (int): Amount of existing block classes.
+        menu: Menu opened when right clicking an item.
     """
 
     def __init__(self, parent, scene, search_bar):
-        """Initialize BlockList class.
+        """Initializes BlockList class.
 
         Args:
             parent: Parent of this widget.
@@ -23,11 +32,11 @@ class BlockList(QtWidgets.QListWidget):
             search_bar: Widget for searching tags and blocks in the list.
         """
         QtWidgets.QListWidget.__init__(self, parent=parent)
-        self.scene = scene
+        self.setDragEnabled(True)
 
+        self.scene = scene
         self.search_bar = search_bar
         self.search_bar.textChanged.connect(self.show_items)
-        self.setDragEnabled(True)
 
         self.menu = QtWidgets.QMenu()
         self.new_block_action = QtWidgets.QAction(_("Create new block"))
@@ -48,8 +57,8 @@ class BlockList(QtWidgets.QListWidget):
             self.set_tag_status(tag, hidden=True)
 
     def mouseMoveEvent(self, event):
-        """Event triggered when mouse grabbed an item from the list. Method
-        allows dragging the blocks into the :class:`.BlockScene`.
+        """Method invoked when the mouse grabs an item from the list. Allows
+        dragging the blocks into the :class:`.BlockScene`.
         """
         mime_data = QtCore.QMimeData()
         drag = QtGui.QDrag(self)
@@ -58,7 +67,7 @@ class BlockList(QtWidgets.QListWidget):
                    QtCore.Qt.CopyAction)
 
     def mouseDoubleClickEvent(self, event):
-        """Event triggered when an item in the list gets double clicked.
+        """Method invoked when an item in the list gets double clicked.
         If a block gets clicked, it will get initialized in the
         :class:`.BlockScene`. If a tag gets clicked the string will appear in
         in the search_bar.
@@ -73,25 +82,28 @@ class BlockList(QtWidgets.QListWidget):
             self.search_bar.setText("#{}".format(item.data(5)))
 
     def contextMenuEvent(self, event):
-        """Event triggered when right clicking with the mouse. Opens
+        """Method invoked when right clicking with the mouse. Opens
         the menu.
         """
         self.menu.exec_(event.globalPos())
 
     def show_items(self):
-        """Show and hide certain list items depending on the
+        """Shows and hides certain list items depending on the
         search_bar string.
         """
+        # Hide all items
         all_items = self.findItems("", QtCore.Qt.MatchStartsWith)
         for item in all_items:
             self.setItemHidden(item, True)
         input_string = self.search_bar.text()
+        # Show only tags
         if input_string and input_string[0] == "#":
             input_string = input_string.replace("#", "")
             matching_items = self.findItems(input_string, QtCore.Qt.MatchContains)
             for item in matching_items:
                 if item.data(4) == "tag":
                     self.set_tag_status(item.data(5), hidden=False)
+        # Show only blocks
         elif input_string and input_string[0] == "@":
             input_string = input_string.replace("@", "")
             matching_items = self.findItems(input_string, QtCore.Qt.MatchContains)
@@ -99,6 +111,7 @@ class BlockList(QtWidgets.QListWidget):
                 if self.indexFromItem(item).row() >= self.block_amount:
                     break
                 item.setHidden(False)
+        # Show everything that matches
         else:
             matching_items = self.findItems(input_string, QtCore.Qt.MatchContains)
             for item in matching_items:
@@ -114,7 +127,7 @@ class BlockList(QtWidgets.QListWidget):
                         self.set_tag_status(item.data(5), hidden=False)
 
     def add_block(self, block):
-        """Add a block class to the list.
+        """Adds a block class to the list.
 
         Args:
             block: Class of the block to add.
@@ -130,7 +143,7 @@ class BlockList(QtWidgets.QListWidget):
         self.addItem(item)
 
     def add_tag(self, tag_name):
-        """Add a tag to the list.
+        """Adds a tag to the list.
 
         Args:
             tag_name (str): Name of the tag.
@@ -164,10 +177,10 @@ class BlockList(QtWidgets.QListWidget):
             next_item = self.item(index)
 
     def set_block_status(self, hidden):
-        """Set the status of the blocks which are not listed with any tag.
+        """Sets the status of the blocks which are not listed with any tag.
 
         Args:
-            hidden (bool): True to set the blocks all hidden. False to make
+            hidden (bool): True to set the blocks all hidden. False to set
                            them visible.
         """
         for index in range(self.block_amount):

@@ -9,8 +9,8 @@ class Signal:
     
     The class describes a signal with two axes and its meta data. The ordinate
     is stored in a one dimensional numpy array. Since this data type
-    only allows equidistant sampled signals the abscissa
-    can be described with 3 parameters: starting point (abscissa_start),
+    only allows equidistant sampled signals the abscissa is described with
+    three parameters: starting point (abscissa_start),
     amount of values (values) and the sampling rate (increment).
     
     Attributes:
@@ -23,7 +23,7 @@ class Signal:
     """
 
     def __init__(self, meta_data, abscissa_start, values, increment, ordinate):
-        """Initialize Signal.
+        """Initializes Signal.
         
         Args:
             meta_data: Meta data of the signal with quantity, symbol and unit
@@ -40,10 +40,7 @@ class Signal:
         self.ordinate = ordinate
 
     def __eq__(self, other):
-        """Defines equality of two signals.
-
-        Equality is given if abscissa and ordinate are equal.
-        """
+        """Defines equality of two Signal objects."""
         if not isinstance(other, self.__class__):
             return False
         if self.abscissa_start != other.abscissa_start:
@@ -134,6 +131,7 @@ class MetaData:
             self._unit_o = string_to_unit(value)
 
     def __eq__(self, other):
+        """Defines equality of two Metadata objects."""
         if not isinstance(other, self.__class__):
             return False
         if self.quantity_a != other.quantity_a:
@@ -160,6 +158,7 @@ def string_to_unit(string):
          >>> string_2 = "V*s"
          >>> string_3 = "1/(A*C)"
          >>> string_4 = "V"
+         >>> string_5 = "1/s"
 
     Args:
         string (str): String to be converted.

@@ -14,6 +14,9 @@ class Block:
         inputs: List that contains all its :class:`.Input`.
         outputs: List that contains all its :class:`.Output`.
         parameters: List that contains all parameters.
+        gui_data (dict): Holds data from a gui. Data is separated in save_data and run_time_data. Save_data is
+                         dumped into the save file when saving the block structure and run_time_data holds data
+                         is only used when the programme is running.
     """
     icon_file = None
     tags = []
@@ -27,8 +30,8 @@ class Block:
                                             value=self.name)}
         self.gui_data = {"save_data": {}, "run_time_data": {}}
 
-    def apply_parameter_changes(self):
-        """Applies all changes to the parameters and triggers an update."""
+    def trigger_update(self):
+        """Triggers an update from the block."""
         block_registry.Registry.invalidate_and_update(self)
 
     def read_kwargs(self, kwargs):
@@ -43,7 +46,7 @@ class Block:
         """
         raise NotImplementedError
 
-    def update_my_block(self):
+    def update(self):
         """Updates the data and the flags of the Outputs if all
         Inputs have valid data."""
         if (not self.inputs) or all(
@@ -155,7 +158,7 @@ class DynamicBlock(Block):
     this class. Furthermore it can be chosen between only the amount of Inputs
     being dynamic, only the amount of Outputs being dynamic or both. It is
     advised to overwrite the following methods in subclasses, if only specific
-    classes of Inputs or outputs should be added to the block or if further
+    classes of Inputs or Outputs should be added to the block or if further
     validation is needed.
 
     Attributes:

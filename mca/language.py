@@ -1,3 +1,7 @@
+"""Language support for mca. Tries to apply the language stored in the
+:class:`.Config` . Currently supported languages: german and english
+(by default).
+"""
 import gettext
 import os
 

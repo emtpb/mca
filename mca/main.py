@@ -4,6 +4,9 @@ from mca.gui.pyside2 import main as pyside2_main
 
 
 def main():
+    """Main function of mca. Parses command line arguments and chooses a
+    GUI to start.
+    """
     parser = argparse.ArgumentParser(description='Execute the Multi Channel Analyzer')
     parser.add_argument("--pyside2", "-g", type=str, nargs=1, choices=["pyside2"],
                         help='Choose the pyside2 for the mca', default="pyside2")

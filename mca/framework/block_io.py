@@ -28,31 +28,31 @@ class Input:
         self.block = block
 
     def connect(self, output):
-        """Connects the Input to an Output and updates the data.
+        """Connects the Input to an Output and trigger an update.
         
         Args:
-            output (Output): Output to which the Input wants to connect to.
+            output (Output): Output to which the Input gets connected.
         """
         block_registry.Registry.connect(output, self)
 
     def disconnect(self):
-        """Disconnects the Input from its Output, if it is connected 
-        to any Output and updates the data.
+        """Disconnects the Input from its Output if it is connected
+        to any Output. Triggers an update.
         """
         block_registry.Registry.disconnect_input(self)
 
     @property
     def data(self):
-        """Data retrieved from the connected Output."""
+        """Returns data retrieved from the connected Output."""
         if self.connected_output:
             return self.connected_output.data
 
     @property
     def connected_output(self):
-        """Convenience method to get the current Output.
+        """Convenience method to get the current connected Output.
 
         Returns:
-            output (Output): If the Input is connected the output is returned.
+            output (Output): If the Input is connected, the output is returned.
         """
         return block_registry.Registry.get_output(self)
 
@@ -68,12 +68,12 @@ class Output:
         block (:class:`.Block`): Block to which the Output belongs to.
         up_to_date (bool): Flag which indicates if the data of the Output is
             valid or needs to be updated.
-        data: Data which the Output may contain.
+        data: Data which the Output contains.
         abscissa_meta_data (bool): True, if the abscissa meta data
-                                   should be used when a signal gets assigned
+                                   should be used when data gets assigned
                                    to this output.
         ordinate_meta_data (bool): True, if the ordinate meta data
-                                   should be used when a signal gets assigned
+                                   should be used when data gets assigned
                                    to this output.
         meta_data: Metadata for data.
         id: Used to identify the inputs which were connected to the output
@@ -102,15 +102,15 @@ class Output:
 
     def get_meta_data(self, external_meta_data):
         """Returns a meta data object as a mix of given external meta data and
-        internal meta data. Depending on the attributes abscissa_meta_data
+        internal meta data depending on the attributes abscissa_meta_data
         and ordinate_meta_data. Setting abscissa_meta_data to True forces the
         use of the internal abscissa meta data. Same goes for
         ordinate_meta_data. The meta data attribute "name" is always inherited
         by the internal meta data.
 
         Args:
-            external_meta_data: Given external meta_data to mix with internal
-                                meta data.
+            external_meta_data: Given external meta_data from the processing
+                                method.
         """
         if self.abscissa_meta_data:
             unit_a = self.meta_data.unit_a

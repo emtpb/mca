@@ -12,18 +12,24 @@ class MainWindow(QtWidgets.QMainWindow):
     """Main window of the mca. Holds the main widgets of the application.
 
     Attributes:
+        conf: Reference of the user config :class:`.Config`.
         menu: Menu bar of the application.
         file_menu: File menu.
         language_menu: Language menu.
-        main_widget: Splitter widget to split the :class:`.BlockList` and the
-                     :class:`.BlockScene`.
+        main_widget: Main widget with horizontal layout for child widgets.
+        main_layout: Horizontal layout of the main widget
         scene: :class:`.BlockScene` to manage and hold blocks.
         view: :class:`.BlockView` to visualize the items of the
               :class:`.BlockScene`.
+        search_widget: Widget with vertical layout holding the search bar and
+                       the :class:`.BlockList`.
+        search_bar: Reference of the search bar.
+        block_list: Reference of the :class:`.BlockList`.
+        save_file_path:
     """
 
     def __init__(self):
-        """Initialize MainWindow."""
+        """Initializes MainWindow."""
         QtWidgets.QMainWindow.__init__(self)
         self.resize(1000, 800)
 
@@ -72,7 +78,7 @@ class MainWindow(QtWidgets.QMainWindow):
         exit_action = QtWidgets.QAction(_("Exit"), self)
         exit_action.setShortcut("Ctrl+Q")
         exit_action.setStatusTip(_("Close Application"))
-        exit_action.triggered.connect(self.exit_app)
+        exit_action.triggered.connect(self.close)
         self.file_menu.addAction(exit_action)
 
         self.modified = False
@@ -102,14 +108,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.main_layout.addWidget(self.view)
         self.setCentralWidget(self.main_widget)
 
-    @QtCore.Slot()
-    def exit_app(self):
-        """Quit the application."""
-        QtWidgets.QApplication.quit()
-
     def closeEvent(self, event):
-        """Called when the application gets closed. Ask the user to save
-        unsaved changes.
+        """Method invoked when the application gets closed. Asks the user to
+        save unsaved changes.
         """
         if self.save_maybe():
             event.accept()
@@ -142,18 +143,20 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.open_file(file_name)
         return tmp
 
-    def open_file(self, file_name):
-        """Basic function to open a file.
+    def open_file(self, file_path):
+        """Opens given file path. Loads the blocks in the file into the block
+        structure and then tells the :class:`.BlockScene` to visualize them.
+
         Args:
-            file_name (str): Path of the file to open.
+            file_path (str): Path of the file to open.
         """
         self.scene.clear()
-        blocks = block_registry.Registry.load_block_structure(file_name)
-        self.save_file_path = file_name
-        self.conf["load_file_dir"] = file_name
-        if file_name in self.conf["recent_files"]:
-            self.conf["recent_files"].remove(file_name)
-        self.conf["recent_files"] = [file_name] + self.conf["recent_files"][:3]
+        blocks = block_registry.Registry.load_block_structure(file_path)
+        self.save_file_path = file_path
+        self.conf["load_file_dir"] = file_path
+        if file_path in self.conf["recent_files"]:
+            self.conf["recent_files"].remove(file_path)
+        self.conf["recent_files"] = [file_path] + self.conf["recent_files"][:3]
         self.update_recent_menu()
         self.scene.create_blocks(blocks)
         self.modified = False
@@ -196,7 +199,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def save_file(self):
         """Saves the current state.
 
-        Opens up a file dialog if no safe file has been specified yet.
+        Opens up a file dialog if no safe file path has been specified yet.
 
         Returns:
             bool: True, if the file has been saved successfully.
@@ -242,7 +245,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     @property
     def modified(self):
-        """Get or set whether there are any unsaved changes.
+        """Gets or sets whether there are any unsaved changes.
 
         Setting this property causes an update of the window title.
         """
@@ -260,15 +263,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("{} - {}".format(show_file, _("MCA")))
 
 
-def change_language(new_language):
-    """Change the language in the config.
+def change_language(language):
+    """Returns a function which changes the language in the config.
 
     Args:
-        new_language (str): New language which should be applied.
+        language (str): Language the function changes to.
     """
 
     def tmp():
-        config.Config()["language"] = new_language
+        config.Config()["language"] = language
         msg_box = QtWidgets.QMessageBox()
         msg_box.setText(_("Changes will be applied after restart."))
         msg_box.exec()

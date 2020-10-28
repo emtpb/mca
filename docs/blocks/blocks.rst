@@ -23,7 +23,12 @@ SignalGenerator
 
 .. automodule:: mca.blocks.signal_generator_periodic
 
+SignalGeneratorArbitrary
+========================
+
+.. automodule:: mca.blocks.signal_generator_arbitrary
+
 SignalPlot
 ==========
 
-.. automodule:: mca.blocks.signalplot
+.. automodule:: mca.blocks.signal_plot

@@ -22,7 +22,7 @@ class InputItem(QtWidgets.QGraphicsItem):
     """
 
     def __init__(self, x, y, width, height, mca_input, view, parent=None):
-        """Initialize InputItem class.
+        """Initializes InputItem class.
 
         Args:
             x: X-Position of the input.
@@ -54,7 +54,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         self.disconnect_action.triggered.connect(self.disconnect)
         self.menu.addAction(self.disconnect_action)
 
-        if mca_input.name:
+        if self.mca_input.name:
             self.setToolTip(mca_input.name)
 
     def boundingRect(self, *args, **kwargs):
@@ -90,7 +90,9 @@ class InputItem(QtWidgets.QGraphicsItem):
         self.scene().addItem(self.temp_connection_line)
 
     def mouseMoveEvent(self, event):
-        """Updates the temp_connection_line when the input is being dragged."""
+        """Method invoked when the input is being dragged. Updates the
+        temp_connection_line.
+        """
         self.temp_connection_line.setLine(
             event.scenePos().x(),
             event.scenePos().y(),
@@ -98,9 +100,10 @@ class InputItem(QtWidgets.QGraphicsItem):
             self.temp_connection_line.line().y2())
 
     def mouseReleaseEvent(self, event):
-        """The temporary line gets removed. If the mouse is released over an
-        :class:`.OutputItem`, it will get replaced by a
-        :class:`.ConnectionLine`.
+        """Method invoked when the drag of inputs gets released. The temporary
+        line gets removed. If the mouse is released over an
+        :class:`.OutputItem`, it will get replaced by a :class:`.ConnectionLine`
+        and Input and Output get connected.
         """
         for item in self.scene().items(event.scenePos()):
             if isinstance(item, OutputItem):
@@ -136,7 +139,7 @@ class InputItem(QtWidgets.QGraphicsItem):
             self.connection_line.y2 = self.scenePos().y() + self.height / 2
 
     def contextMenuEvent(self, event):
-        """Method that is invoked when the user right-clicks the input.
+        """Method invoked when the user right-clicks the input.
         Opens the context menu of the input.
         """
         self.menu.exec_(event.screenPos())
@@ -154,16 +157,24 @@ class InputItem(QtWidgets.QGraphicsItem):
         self.modified()
 
     def hoverEnterEvent(self, event):
-        """Change color of the output to the hover color."""
+        """Method invoked when the mouse enters the area of the input and starts
+        hovering over it. Changes color of the input to the hover color.
+        """
         event.accept()
         self.current_color = self.hover_color
         self.update()
 
     def hoverMoveEvent(self, event):
+        """Method invoked when the mouse moves and keeps hovering over the
+        input.
+        """
         event.accept()
 
     def hoverLeaveEvent(self, event):
-        """Change color of the input back to the default color."""
+        """Method invoked when the mouse leaves the area of the input and
+        stops hovering it. Changes color of the input back to the default
+        color.
+        """
         event.accept()
         self.current_color = self.default_color
         self.update()
@@ -177,20 +188,20 @@ class OutputItem(QtWidgets.QGraphicsItem):
     """Class to display an :class:`.Output` in the UI. This class supports all
     functionalities of :class:`.Output`.
 
-       Attributes:
-           width (int): Current width of the output.
-           height (int): Current height of the output.
-           mca_output: Reference of the :class:`.Output` to display.
-           view: Reference of the :class:`.BlockView` instance.
-           connection_lines (list): List of :class:`.ConnectionLine` s.
-           temp_connection_line: Line visible when the user is dragging from
-                                 the Input.
-           menu: Menu which pops up when the right mouse button is pressed.
-           disconnect_action: Action which calls :meth:`.disconnect`.
-       """
+   Attributes:
+       width (int): Current width of the output.
+       height (int): Current height of the output.
+       mca_output: Reference of the :class:`.Output` to display.
+       view: Reference of the :class:`.BlockView` instance.
+       connection_lines (list): List of :class:`.ConnectionLine` s.
+       temp_connection_line: Line visible when the user is dragging from
+                             the Input.
+       menu: Menu which pops up when the right mouse button is pressed.
+       disconnect_action: Action which calls :meth:`.disconnect` .
+    """
 
     def __init__(self, x, y, width, height, mca_output, view, parent=None):
-        """Initialize InputItem class.
+        """Initializes InputItem class.
 
                 Args:
                     x: X-Position of the output.
@@ -200,7 +211,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
                     mca_output: Reference of the :class:`Output` to display.
                     view: Reference of the :class:`.BlockView` instance.
                     parent: Parent of this widget.
-                """
+        """
         super(OutputItem, self).__init__(parent=parent)
 
         self.default_color = QtGui.QColor(0, 0, 0)
@@ -242,7 +253,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
         painter.fillPath(path, QtGui.QBrush(self.current_color))
 
     def mousePressEvent(self, event):
-        """Method invoked when the block gets clicked. Creates a
+        """Method invoked when the output gets clicked. Creates a
         temp_connection_line.
         """
         if event.button() == QtCore.Qt.MouseButton.RightButton:
@@ -256,7 +267,9 @@ class OutputItem(QtWidgets.QGraphicsItem):
         self.scene().addItem(self.temp_connection_line)
 
     def mouseMoveEvent(self, event):
-        """Updates the temp_connection_line when the mouse is being dragged."""
+        """Method invoked when the output is being dragged. Updates the
+        temp_connection_line.
+        """
         self.temp_connection_line.setLine(
             self.temp_connection_line.line().x1(),
             self.temp_connection_line.line().y1(),
@@ -264,9 +277,10 @@ class OutputItem(QtWidgets.QGraphicsItem):
             event.scenePos().y())
 
     def mouseReleaseEvent(self, event):
-        """Removes the temp_connection_line. If the mouse gets released over
-        an :class:`InputItem` it will get replaced by a
-        :class:`.ConnectionLine`.
+        """Method invoked when the drag of inputs gets released. The temporary
+        line gets removed. If the mouse is released over an
+        :class:`.InputItem`, it will get replaced by a :class:`.ConnectionLine`
+        and Input and Output get connected.
         """
         for item in self.scene().items(event.scenePos()):
             if isinstance(item, InputItem):
@@ -313,22 +327,30 @@ class OutputItem(QtWidgets.QGraphicsItem):
         self.modified()
 
     def contextMenuEvent(self, event):
-        """Method that is invoked when the user right-clicks the output.
+        """Method invoked when the user right-clicks the output.
         Opens the context menu of the output.
         """
         self.menu.exec_(event.screenPos())
 
     def hoverEnterEvent(self, event):
-        """Change color of the output to the hover color."""
+        """Method invoked when the mouse enters the area of the output and
+        starts hovering over it. Changes color of the output to the hover color.
+        """
         event.accept()
         self.current_color = self.hover_color
         self.update()
 
     def hoverMoveEvent(self, event):
+        """Method invoked when the mouse moves and keeps hovering over the
+        output.
+        """
         event.accept()
 
     def hoverLeaveEvent(self, event):
-        """Change color of the output back to the default color."""
+        """Method invoked when the mouse leaves the area of the output and
+        stops hovering it. Changes color of the output back to the default
+        color.
+        """
         event.accept()
         self.current_color = self.default_color
         self.update()
@@ -339,8 +361,8 @@ class OutputItem(QtWidgets.QGraphicsItem):
 
 
 class ConnectionLine(QtWidgets.QGraphicsLineItem):
-    """Class which represents the connection between an :class:`.Input` and
-    an :class:`.Output`.
+    """Class which represents the visual connection between an :class:`.Input`
+    and an :class:`.Output`.
 
     Attributes:
         output_item: :class:`.OutputItem` to connect.

@@ -94,7 +94,7 @@ class EditWindow(QtWidgets.QDialog):
             icon = QtGui.QIcon(os.path.dirname(
                 mca.__file__) + "/blocks/icons/" + self.block.icon_file)
             self.setWindowIcon(icon)
-
+        # Create warning message
         self.warning_message = QtWidgets.QMessageBox()
         self.warning_message.setIcon(QtWidgets.QMessageBox.Warning)
         self.warning_message.setText(
@@ -114,7 +114,7 @@ class EditWindow(QtWidgets.QDialog):
     def display_parameters(self):
         """Arranges parameters of a block in rows in the window underneath each
         other. One row includes the name of the parameter as a label, the
-        desired widget and the unit optionally.
+        desired widget and the unit if given.
         """
         block_parameters = self.block.parameters.values()
         if block_parameters:
@@ -234,15 +234,16 @@ class EditWindow(QtWidgets.QDialog):
                                             1, 1, 1)
 
     def apply_changes(self):
-        """Try to apply changes. In case of an error the user gets a
+        """Tries to apply changes. In case of an error the user gets a
         notification and can choose between reverting his last changes or
-        continue editing and potentially fix the error."""
+        continue editing and potentially fix the error.
+        """
         try:
             for parameter_widget in self.parameter_widgets:
                 parameter_widget.write_parameter()
             for entry in self.meta_data_widgets:
                 entry.write_attribute()
-            self.block.apply_parameter_changes()
+            self.block.trigger_update()
         except Exception:
             self.warning_message.exec_()
             if self.warning_message.clickedButton() == self.revert_button:
@@ -263,7 +264,7 @@ class EditWindow(QtWidgets.QDialog):
             parameter_widget.revert_changes()
         for entry in self.meta_data_widgets:
             entry.revert_changes()
-        self.block.apply_parameter_changes()
+        self.block.trigger_update()
         self.reject()
 
     def closeEvent(self, e):
