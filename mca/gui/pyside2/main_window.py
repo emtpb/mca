@@ -152,14 +152,14 @@ class MainWindow(QtWidgets.QMainWindow):
             file_path (str): Path of the file to open.
         """
         self.scene.clear()
-        blocks = block_registry.Registry.load_block_structure(file_path)
+        loaded_blocks = block_registry.Registry.load_block_structure(file_path)
         self.save_file_path = file_path
         self.conf["load_file_dir"] = file_path
         if file_path in self.conf["recent_files"]:
             self.conf["recent_files"].remove(file_path)
         self.conf["recent_files"] = [file_path] + self.conf["recent_files"][:3]
         self.update_recent_menu()
-        self.scene.create_blocks(blocks)
+        self.scene.create_blocks(loaded_blocks)
         self.modified = False
 
     def update_recent_menu(self):
