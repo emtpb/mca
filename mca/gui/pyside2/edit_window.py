@@ -2,7 +2,7 @@ from PySide2 import QtWidgets, QtCore, QtGui
 import os
 
 import mca
-from mca.framework import parameters
+from mca.framework import parameters, DynamicBlock
 from mca.gui.pyside2 import edit_widgets
 from mca.language import _
 
@@ -69,17 +69,8 @@ class EditWindow(QtWidgets.QDialog):
         self.tab_widget.addTab(scroll, _("Parameters"))
         self.display_parameters()
         # Initialize meta data tab
-        if block.outputs:
-            self.meta_data_tab = QtWidgets.QWidget()
-            self.meta_data_layout = QtWidgets.QGridLayout(self.meta_data_tab)
-            meta_data_tab_height = len(self.block.outputs)*300
-            self.meta_data_tab.setFixedHeight(meta_data_tab_height)
-            self.tab_widget.setCurrentIndex(0)
-            scroll = QtWidgets.QScrollArea()
-            scroll.setWidget(self.meta_data_tab)
-            scroll.setWidgetResizable(True)
-            scroll.setFixedHeight(400)
-            self.tab_widget.addTab(scroll, _("Meta data"))
+        self.meta_data_tab = None
+        self.meta_data_layout = None
         self.display_meta_data()
         # Set buttons
         self.button_box = QtWidgets.QDialogButtonBox()
@@ -138,12 +129,28 @@ class EditWindow(QtWidgets.QDialog):
 
     def display_meta_data(self):
         """Arranges the meta data of the outputs of the block in the window."""
+        if self.tab_widget.count() == 2:
+            self.tab_widget.removeTab(1)
+            self.meta_data_widgets = []
+        if self.block.outputs:
+            self.meta_data_tab = QtWidgets.QWidget()
+            self.meta_data_layout = QtWidgets.QGridLayout(self.meta_data_tab)
+            meta_data_tab_height = len(self.block.outputs)*300
+            self.meta_data_tab.setFixedHeight(meta_data_tab_height)
+            self.tab_widget.setCurrentIndex(0)
+            scroll = QtWidgets.QScrollArea()
+            scroll.setWidget(self.meta_data_tab)
+            scroll.setWidgetResizable(True)
+            scroll.setFixedHeight(400)
+            self.tab_widget.addTab(scroll, _("Meta data"))
+
         for index, output in enumerate(self.block.outputs):
             if output.name:
                 output_label = QtWidgets.QLabel(
                     _("Output '{}' meta data:").format(output.name))
             else:
-                output_label = QtWidgets.QLabel(_("Output meta data:"))
+                output_label = QtWidgets.QLabel(
+                    _("Output {} meta data:").format(index))
             output_label.setFont(self.headline_font)
             self.meta_data_layout.addWidget(output_label, index * 10, 0, 1, 1)
 
@@ -270,3 +277,8 @@ class EditWindow(QtWidgets.QDialog):
     def closeEvent(self, e):
         """Event triggered when the close button is pressed."""
         self.apply_changes()
+
+    def show(self):
+        if isinstance(self.block, DynamicBlock) and self.block.dynamic_output:
+            self.display_meta_data()
+        super(EditWindow, self).show()

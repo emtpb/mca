@@ -1,7 +1,7 @@
 from PySide2 import QtWidgets, QtCore, QtGui
 
 from mca.gui.pyside2 import edit_window, io_items
-import mca.framework
+from mca.framework import data_types, DynamicBlock, block_io, block_registry
 from mca.language import _
 
 
@@ -96,21 +96,37 @@ class BlockItem(QtWidgets.QGraphicsItem):
             self.edit_action = QtWidgets.QAction(_("Edit"), self.view)
             self.edit_action.triggered.connect(self.open_edit_window)
             self.menu.addAction(self.edit_action)
-        if isinstance(self.block, mca.framework.DynamicBlock):
-            self.add_input_action = QtWidgets.QAction(_("Add Input"),
-                                                      self.view)
-            self.add_input_action.triggered.connect(self.create_new_input)
-            if self.block.dynamic_input[1] and len(self.block.inputs) == \
-                    self.block.dynamic_input[1]:
-                self.add_input_action.setEnabled(False)
-            self.menu.addAction(self.add_input_action)
-            self.delete_input_action = QtWidgets.QAction(_("Delete Input"),
-                                                         self.view)
-            self.delete_input_action.triggered.connect(self.delete_input)
-            if self.block.dynamic_input[0] and len(self.block.inputs) == \
-                    self.block.dynamic_input[0]:
-                self.delete_input_action.setEnabled(False)
-            self.menu.addAction(self.delete_input_action)
+        if isinstance(self.block, DynamicBlock):
+            if self.block.dynamic_input:
+                self.add_input_action = QtWidgets.QAction(_("Add Input"),
+                                                          self.view)
+                self.add_input_action.triggered.connect(self.create_new_input)
+                if self.block.dynamic_input[1] is not None and \
+                        len(self.block.inputs) == self.block.dynamic_input[1]:
+                    self.add_input_action.setEnabled(False)
+                self.menu.addAction(self.add_input_action)
+                self.delete_input_action = QtWidgets.QAction(_("Delete Input"),
+                                                             self.view)
+                self.delete_input_action.triggered.connect(self.delete_input)
+                if self.block.dynamic_input[0] is not None and \
+                        len(self.block.inputs) == self.block.dynamic_input[0]:
+                    self.delete_input_action.setEnabled(False)
+                self.menu.addAction(self.delete_input_action)
+            if self.block.dynamic_output:
+                self.add_output_action = QtWidgets.QAction(_("Add Output"),
+                                                           self.view)
+                self.add_output_action.triggered.connect(self.create_new_output)
+                if self.block.dynamic_output[1] is not None and \
+                        len(self.block.outputs) == self.block.dynamic_output[1]:
+                    self.add_output_action.setEnabled(False)
+                self.menu.addAction(self.add_output_action)
+                self.delete_output_action = QtWidgets.QAction(_("Delete Output"),
+                                                              self.view)
+                self.delete_output_action.triggered.connect(self.delete_output)
+                if self.block.dynamic_output[0] is not None and \
+                        len(self.block.outputs) == self.block.dynamic_output[0]:
+                    self.delete_output_action.setEnabled(False)
+                self.menu.addAction(self.delete_output_action)
         self.delete_action = QtWidgets.QAction(_("Delete Block"), self.view)
         self.delete_action.triggered.connect(self.delete)
         self.menu.addAction(self.delete_action)
@@ -154,11 +170,11 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.block.delete_input(-1)
         self.scene().removeItem(self.inputs.pop(-1))
         self.modified()
-        if self.block.dynamic_input[0] and len(self.block.inputs) == \
-                self.block.dynamic_input[0]:
+        if self.block.dynamic_input[0] is not None and \
+                len(self.block.inputs) == self.block.dynamic_input[0]:
             self.delete_input_action.setEnabled(False)
-        if self.block.dynamic_input[1] and len(self.block.inputs) < \
-                self.block.dynamic_input[1]:
+        if self.block.dynamic_input[1] is not None and \
+                len(self.block.inputs) < self.block.dynamic_input[1]:
             self.add_input_action.setEnabled(True)
 
     def create_new_input(self):
@@ -166,16 +182,63 @@ class BlockItem(QtWidgets.QGraphicsItem):
         into a :class:`.InputItem`. This method is connected to
         create_input_action.
         """
-        new_mca_input = mca.framework.block_io.Input(self.block)
+        name_window = NameWindow(parent=self.view.scene().parent().parent(),
+                                 connection_type="Input")
+        exit_code = name_window.exec_()
+        if exit_code == 0:
+            return
+        else:
+            name = name_window.name_edit.text()
+        new_mca_input = block_io.Input(block=self.block, name=name)
         self.block.add_input(new_mca_input)
         self.add_input(new_mca_input)
         self.modified()
-        if self.block.dynamic_input[1] and len(self.block.inputs) == \
-                self.block.dynamic_input[1]:
+        if self.block.dynamic_input[1] is not None and \
+                len(self.block.inputs) == self.block.dynamic_input[1]:
             self.add_input_action.setEnabled(False)
-        if self.block.dynamic_input[0] and len(self.block.inputs) > \
-                self.block.dynamic_input[0]:
+        if self.block.dynamic_input[0] is not None and \
+                len(self.block.inputs) > self.block.dynamic_input[0]:
             self.delete_input_action.setEnabled(True)
+
+    def create_new_output(self):
+        """Creates a new :class:`.Output` adds it to the block instance and puts
+        into a :class:`.OutputItem`. This method is connected to
+        create_output_action.
+        """
+        name_window = NameWindow(parent=self.view.scene().parent().parent(),
+                                 connection_type="Output")
+        exit_code = name_window.exec_()
+        if exit_code == 0:
+            return
+        else:
+            name = name_window.name_edit.text()
+        meta_data = data_types.MetaData("", "s", "V")
+        new_mca_output = block_io.Output(block=self.block, name=name,
+                                         meta_data=meta_data)
+        self.block.add_output(new_mca_output)
+        self.add_output(new_mca_output)
+        self.modified()
+        if self.block.dynamic_output[1] is not None and \
+                len(self.block.outputs) == self.block.dynamic_output[1]:
+            self.add_output_action.setEnabled(False)
+        if self.block.dynamic_output[0] is not None and \
+                len(self.block.outputs) > self.block.dynamic_output[0]:
+            self.delete_output_action.setEnabled(True)
+
+    def delete_output(self):
+        """Deletes the last output in the output list and deletes it also from
+        the block instance. This method is connected to delete_output_action.
+        """
+        self.outputs[-1].disconnect()
+        self.block.delete_output(-1)
+        self.scene().removeItem(self.outputs.pop(-1))
+        self.modified()
+        if self.block.dynamic_output[0] is not None and \
+                len(self.block.outputs) == self.block.dynamic_output[0]:
+            self.delete_output_action.setEnabled(False)
+        if self.block.dynamic_output[1] is not None and \
+                len(self.block.outputs) < self.block.dynamic_output[1]:
+            self.add_output_action.setEnabled(True)
 
     def delete(self):
         """Disconnects all its inputs and outputs and removes itself
@@ -186,7 +249,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         for o in self.outputs:
             o.disconnect()
         self.modified()
-        mca.framework.block_registry.Registry.remove_block(self.block)
+        block_registry.Registry.remove_block(self.block)
         self.scene().removeItem(self)
 
     def open_edit_window(self):
@@ -338,3 +401,42 @@ class BlockItem(QtWidgets.QGraphicsItem):
     def modified(self):
         """Signalizes the :class:`.MainWindow` that the file is modified."""
         self.scene().parent().parent().modified = True
+
+
+class NameWindow(QtWidgets.QDialog):
+
+    def __init__(self, parent, connection_type):
+        QtWidgets.QDialog.__init__(self, parent=parent)
+
+        self.resize(300, 120)
+        self.setMaximumSize(QtCore.QSize(300, 120))
+
+        self.main_layout = QtWidgets.QVBoxLayout()
+        self.setLayout(self.main_layout)
+
+        self.name_widget = QtWidgets.QWidget(parent=self)
+        self.name_layout = QtWidgets.QHBoxLayout()
+        self.name_widget.setLayout(self.name_layout)
+        self.name_label = QtWidgets.QLabel(
+            parent=self.name_widget,
+            text="Name of the {}:".format(connection_type))
+        self.name_edit = QtWidgets.QLineEdit(parent=self.name_widget)
+        self.name_layout.addWidget(self.name_label)
+        self.name_layout.addWidget(self.name_edit)
+
+        self.button_box = QtWidgets.QDialogButtonBox()
+        self.button_box.setContentsMargins(0, 0, 10, 10)
+        self.button_box.setOrientation(QtCore.Qt.Horizontal)
+        self.button_box.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
+
+        self.main_layout.addWidget(self.name_widget)
+        self.main_layout.addWidget(self.button_box)
+
+        QtCore.QObject.connect(self.button_box, QtCore.SIGNAL("accepted()"),
+                               self.accept)
+        QtCore.QObject.connect(self.button_box, QtCore.SIGNAL("rejected()"),
+                               self.reject)
+
+
+
