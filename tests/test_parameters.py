@@ -80,3 +80,13 @@ def test_type_bool():
     with pytest.raises(exceptions.ParameterTypeError):
         a.validate("test")
     a.validate(True)
+
+
+"""Test for PathParameter validation method."""
+
+
+def test_type_path():
+    a = pm.PathParameter("Test", value="test")
+    with pytest.raises(exceptions.ParameterTypeError):
+        a.validate(5)
+    a.validate("test")
