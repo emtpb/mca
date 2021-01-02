@@ -69,6 +69,8 @@ class Output:
         up_to_date (bool): Flag which indicates if the data of the Output is
             valid or needs to be updated.
         data: Data which the Output contains.
+        meta_data_input_dependent (bool): True, if the output meta_data can be
+                                          dependent on the input meta_data.
         abscissa_meta_data (bool): True, if the abscissa meta data
                                    should be used when data gets assigned
                                    to this output.
@@ -86,17 +88,26 @@ class Output:
         """Initializes Output class.
 
         Args:
-            name (str): Name of the Output.
             block: Block to which the Output belongs to.
+            name (str): Name of the Output.
             meta_data: Metadata for data.
+            meta_data_input_dependent (bool): True, if the output meta_data can
+                                              be dependent on the input
+                                              meta_data.
+            abscissa_meta_data (bool): True, if the abscissa meta data
+                                       should be used when data gets assigned
+                                       to this output.
+            ordinate_meta_data (bool): True, if the ordinate meta data
+                                       should be used when data gets assigned
+                                       to this output.
         """
         self.name = name
         self.block = block
         self.up_to_date = True
         self.data = None
+        self.meta_data_input_dependent = meta_data_input_dependent
         self.abscissa_meta_data = abscissa_meta_data
         self.ordinate_meta_data = ordinate_meta_data
-        self.meta_data_input_dependent = meta_data_input_dependent
         self.meta_data = meta_data
         self.id = uuid.uuid4()
 
