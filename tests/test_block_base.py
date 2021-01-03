@@ -131,6 +131,37 @@ def dynamic_input_scenario(add_input_scenario, two_output_block,
     yield a, b, c, d
 
 
+@pytest.fixture
+def add_output_scenario(dynamic_output_block):
+    a = dynamic_output_block()
+    a.add_output(mca.framework.block_io.Output(block=a))
+    a.add_output(mca.framework.block_io.Output(block=a))
+    yield a
+    mca.framework.block_registry.Registry.clear()
+
+
+@pytest.fixture
+def delete_output_scenario(add_output_scenario):
+    a = add_output_scenario
+    a.delete_output(1)
+    yield a
+
+
+@pytest.fixture
+def dynamic_output_scenario(add_output_scenario, two_input_one_output_block,
+                            one_output_block, one_input_block):
+    a = add_output_scenario
+    b = two_input_one_output_block()
+    c = one_output_block()
+    d = one_input_block()
+    c.trigger_update()
+    a.inputs[0].connect(c.outputs[0])
+    b.inputs[0].connect(a.outputs[0])
+    b.inputs[1].connect(a.outputs[1])
+    d.inputs[0].connect(b.outputs[0])
+    yield a, b, c, d
+
+
 """Block connecting, disconnecting, data availability tests."""
 
 
@@ -404,24 +435,36 @@ def test_dynamic_input_data(dynamic_input_scenario):
     assert d.inputs[0].data == 3
 
 
-def test_dynamic_output_data(dynamic_output_block,
-                             one_output_block, two_input_block):
-    a = dynamic_output_block()
-    b = one_output_block()
-    c = two_input_block()
-    d = two_input_block()
-    b.trigger_update()
-    a.inputs[0].connect(b.outputs[0])
-    a.add_output(mca.framework.block_io.Output(a, None))
-    a.add_output(mca.framework.block_io.Output(a, None))
-    c.inputs[0].connect(a.outputs[0])
-    c.inputs[1].connect(a.outputs[1])
-    assert c.inputs[0].data == 1 and c.inputs[1].data == 1
-    d.inputs[0].connect(a.outputs[2])
-    d.inputs[1].connect(a.outputs[1])
+def test_add_output(add_output_scenario):
+    a = add_output_scenario
+    assert len(a.outputs) == 3
+    assert [a.inputs[0], a.outputs[2]] in mca.framework.block_registry.Registry._graph.edges
+    with pytest.raises(exceptions.InputOutputError):
+        a.add_output(mca.framework.block_io.Output(a))
+        a.add_output(mca.framework.block_io.Output(a))
+
+
+def test_delete_output(delete_output_scenario):
+    a = delete_output_scenario
+    assert len(a.outputs) == 2
+    assert all([x in mca.framework.block_registry.Registry._graph.nodes()
+                for x in a.outputs])
     a.delete_output(1)
-    assert d.inputs[1].data is None and d.inputs[0].data == 1
-    mca.framework.block_registry.Registry.clear()
+    with pytest.raises(exceptions.InputOutputError):
+        a.delete_output(0)
+
+
+def test_dynamic_output_behaviour(dynamic_output_scenario):
+    a, b, c, d = dynamic_output_scenario
+    assert a.process_count == 1
+    a.delete_output(2)
+    assert a.process_count == 1
+
+
+def test_dynamic_output_data(dynamic_output_scenario):
+    a, b, c, d = dynamic_output_scenario
+    assert a.outputs[0].data == 1
+    assert a.outputs[2].data == 3
 
 
 """Tests for block convenience methods."""

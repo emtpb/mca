@@ -10,15 +10,9 @@ class TestBlock(mca.framework.block_base.Block):
     def __init__(self, inputs, outputs):
         super().__init__()
         for i in range(inputs):
-            self.inputs.append(
-                mca.framework.block_registry.Registry.add_node(
-                    mca.framework.block_io.Input(self))
-            )
+            self._new_input("Test")
         for o in range(outputs):
-            self.outputs.append(
-                mca.framework.block_registry.Registry.add_node(
-                    mca.framework.block_io.Output(self, None))
-            )
+            self._new_output(None)
         self.process_count = 0
 
     def _process(self):
@@ -39,14 +33,8 @@ class DynamicInputBlock(mca.framework.DynamicBlock):
     def __init__(self):
         super().__init__()
         self.dynamic_input = [1, 3]
-        self.outputs.append(
-            mca.framework.block_registry.Registry.add_node(
-                mca.framework.block_io.Output(self, None))
-        )
-        self.inputs.append(
-            mca.framework.block_registry.Registry.add_node(
-                mca.framework.block_io.Input(self))
-        )
+        self._new_output(None)
+        self._new_input()
         self.process_count = 0
 
     def _process(self):
@@ -67,23 +55,17 @@ class DynamicOutputBlock(mca.framework.DynamicBlock):
 
     def __init__(self):
         super().__init__()
-        self.dynamic_output = [1, None]
-        self.outputs.append(
-            mca.framework.block_registry.Registry.add_node(
-                mca.framework.block_io.Output(self, None))
-        )
-        self.inputs.append(
-            mca.framework.block_registry.Registry.add_node(
-                mca.framework.block_io.Input(self))
-        )
+        self.dynamic_output = [1, 4]
+        self._new_output(None)
+        self._new_input()
         self.process_count = 0
 
     def _process(self):
-        for o in self.outputs:
-            if self.inputs[0].data:
-                o.data = self.inputs[0].data
-            else:
-                o.data = None
+        if self.check_empty_inputs():
+            return
+        data = self.inputs[0].data
+        for index, output in enumerate(self.outputs):
+            output.data = data + index
         self.process_count += 1
 
 
