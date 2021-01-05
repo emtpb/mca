@@ -3,7 +3,7 @@ import os
 import json
 
 from mca.framework import block_registry, block_io
-from mca import blocks
+from mca import blocks, exceptions
 
 
 file_path = os.path.dirname(os.path.realpath(__file__)) + "/test.json"
@@ -75,6 +75,8 @@ def test_load_block_structure(adder_signal_generator):
             assert block.parameters["name"].value == "test"
             assert block.parameters["amp"].value == 3
             assert block.outputs[0].meta_data.name == "test1"
+    with pytest.raises(exceptions.DataLoadingError):
+        block_registry.Registry.load_block_structure(file_path)
 
 
 def test_remove_block(one_input_block, one_input_one_output_block):
