@@ -315,7 +315,9 @@ class BlockItem(QtWidgets.QGraphicsItem):
         if event.pos().x() > self.width - 20 and \
                 event.pos().y() > self.height - 20:
             self.resize_mode = True
-        super().mousePressEvent(event)
+        else:
+            self.setCursor(QtCore.Qt.OpenHandCursor)
+            super().mousePressEvent(event)
 
     def mouseMoveEvent(self, event):
         """Method invoked when a mouse button was pressed whilst moving the
@@ -339,6 +341,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.last_pos = (None, None)
         self.save_gui_data()
         self.modified()
+        self.setCursor(QtCore.Qt.ArrowCursor)
         super().mouseReleaseEvent(event)
 
     def resize(self, width, height):

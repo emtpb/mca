@@ -88,6 +88,7 @@ class InputItem(QtWidgets.QGraphicsItem):
                                                    self.scenePos().y() +
                                                    self.height / 2)
         self.scene().addItem(self.temp_connection_line)
+        self.setCursor(QtCore.Qt.BlankCursor)
 
     def mouseMoveEvent(self, event):
         """Method invoked when the input is being dragged. Updates the
@@ -105,6 +106,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         :class:`.OutputItem`, it will get replaced by a :class:`.ConnectionLine`
         and Input and Output get connected.
         """
+        self.setCursor(QtCore.Qt.ArrowCursor)
         for item in self.scene().items(event.scenePos()):
             if isinstance(item, OutputItem):
                 try:
@@ -265,6 +267,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
             event.scenePos().x(),
             event.scenePos().y())
         self.scene().addItem(self.temp_connection_line)
+        self.setCursor(QtCore.Qt.BlankCursor)
 
     def mouseMoveEvent(self, event):
         """Method invoked when the output is being dragged. Updates the
@@ -282,6 +285,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
         :class:`.InputItem`, it will get replaced by a :class:`.ConnectionLine`
         and Input and Output get connected.
         """
+        self.setCursor(QtCore.Qt.ArrowCursor)
         for item in self.scene().items(event.scenePos()):
             if isinstance(item, InputItem):
                 try:
