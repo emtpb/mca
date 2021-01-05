@@ -1,4 +1,5 @@
 import pytest
+from united import Unit
 
 from mca import exceptions
 from mca.framework import validator
@@ -22,3 +23,14 @@ def test_check_intervals():
         validator.check_intervals([a, c])
     with pytest.raises(exceptions.IntervalError):
         validator.check_intervals([a, d])
+
+
+def test_check_units():
+    a = Unit(["V"])
+    b = Unit(["I"])
+    c = Unit(["kg", "m", "m"], ["A", "s", "s", "s"])
+    with pytest.raises(exceptions.UnitError):
+        validator.check_same_units([a, b])
+    with pytest.raises(exceptions.UnitError):
+        validator.check_same_units([a, b, c])
+    validator.check_same_units([a, c])
