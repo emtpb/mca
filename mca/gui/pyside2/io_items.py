@@ -35,8 +35,8 @@ class InputItem(QtWidgets.QGraphicsItem):
         """
         super(InputItem, self).__init__(parent=parent)
 
-        self.default_color = QtGui.QColor(0, 0, 0)
-        self.hover_color = QtGui.QColor(84, 84, 84)
+        self.default_color = QtGui.QColor(0, 0, 204)
+        self.hover_color = QtGui.QColor(51, 51, 255)
         self.current_color = self.default_color
         self.width = width
         self.height = height
@@ -137,7 +137,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         position.
         """
         if self.connection_line:
-            self.connection_line.x2 = self.scenePos().x() + 5
+            self.connection_line.x2 = self.scenePos().x()
             self.connection_line.y2 = self.scenePos().y() + self.height / 2
 
     def contextMenuEvent(self, event):
@@ -216,8 +216,8 @@ class OutputItem(QtWidgets.QGraphicsItem):
         """
         super(OutputItem, self).__init__(parent=parent)
 
-        self.default_color = QtGui.QColor(0, 0, 0)
-        self.hover_color = QtGui.QColor(84, 84, 84)
+        self.default_color = QtGui.QColor(204, 0, 0)
+        self.hover_color = QtGui.QColor(255, 51, 51)
         self.current_color = self.default_color
         self.width = width
         self.height = height
@@ -262,7 +262,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
             event.ignore()
             return
         self.temp_connection_line = QtWidgets.QGraphicsLineItem(
-            self.scenePos().x() + 5,
+            self.scenePos().x() + self.width,
             self.scenePos().y() + self.height / 2,
             event.scenePos().x(),
             event.scenePos().y())
@@ -316,7 +316,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
         position.
         """
         for connection_line in self.connection_lines:
-            connection_line.x1 = self.scenePos().x() + 5
+            connection_line.x1 = self.scenePos().x() + self.width
             connection_line.y1 = self.scenePos().y() + self.height / 2
 
     def disconnect(self):
@@ -383,9 +383,9 @@ class ConnectionLine(QtWidgets.QGraphicsLineItem):
 
         QtWidgets.QGraphicsLineItem.__init__(
             self,
-            output_item.scenePos().x() - 5,
+            output_item.scenePos().x() + output_item.width,
             output_item.scenePos().y() + output_item.height / 2,
-            input_item.scenePos().x() + 5,
+            input_item.scenePos().x(),
             input_item.scenePos().y() + input_item. height / 2)
         self.output_item = output_item
         self.input_item = input_item
