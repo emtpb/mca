@@ -37,7 +37,7 @@ class EditWindow(QtWidgets.QDialog):
         self.block = block
         self.resize(500, 400)
         self.setMaximumSize(QtCore.QSize(500, 400))
-        self.setWindowTitle(_("Edit"))
+        self.setWindowTitle(_("Edit {}").format(self.block.parameters["name"].value))
         # Define font for headline labels in the edit window
         self.headline_font = QtGui.QFont()
         self.headline_font.setFamily("TeXGyreHeros")
@@ -281,4 +281,5 @@ class EditWindow(QtWidgets.QDialog):
     def show(self):
         if isinstance(self.block, DynamicBlock) and self.block.dynamic_output:
             self.display_meta_data()
+        self.setWindowTitle(_("Edit {}").format(self.block.parameters["name"].value))
         super(EditWindow, self).show()
