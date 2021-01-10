@@ -24,7 +24,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         inputs (list): List of all its inputs.
         outputs (list): List of all its outputs.
         block: Instance of :class:`.Block' this block item is holding.
-        resize_mode (bool): Flag to indicate whether user is resizing or
+        resize_all (bool): Flag to indicate whether user is resizing or
                             moving the block.
         last_pos (tuple): Used when resizing the block to remember the
                             coordinates of the last mouse movement to
@@ -85,8 +85,12 @@ class BlockItem(QtWidgets.QGraphicsItem):
         for o in self.block.outputs:
             self.add_output(o)
 
-        self.resize_mode = False
-        self.last_pos = (None, None)
+        self.resize_all = False
+        self.resize_width = False
+        self.resize_height = False
+        self.start_pos = None
+        self.original_width = None
+        self.original_height = None
 
         self.menu = QtWidgets.QMenu(self.view)
         self.edit_window = edit_window.EditWindow(self.view.scene().parent().parent(),
@@ -147,14 +151,6 @@ class BlockItem(QtWidgets.QGraphicsItem):
                          self.block.parameters["name"].value)
         if self.block.parameters["name"].value != self.block.name:
             painter.drawText(5, 22, self.width - 5, 20, 0, self.block.name)
-        painter.setBrush(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
-        painter.drawRoundedRect(self.width - 20, self.height - 20, 20, 20, 5,
-                                5)
-        painter.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0)))
-        painter.drawLine(self.width - 10, self.height - 20, self.width - 10,
-                         self.height)
-        painter.drawLine(self.width - 20, self.height - 10, self.width,
-                         self.height - 10)
 
     def contextMenuEvent(self, event):
         """Method that is invoked when the user right-clicks the block.
@@ -312,9 +308,18 @@ class BlockItem(QtWidgets.QGraphicsItem):
         if event.button() == QtCore.Qt.MouseButton.RightButton:
             event.ignore()
         self.setZValue(1.0)
-        if event.pos().x() > self.width - 20 and \
-                event.pos().y() > self.height - 20:
-            self.resize_mode = True
+        self.start_pos = (event.screenPos().x(), event.screenPos().y())
+        self.original_width = self.width
+        self.original_height = self.height
+        if event.pos().x() > self.width - 10 and \
+                event.pos().y() > self.height - 10:
+            self.resize_all = True
+        elif 0 <= event.pos().x() < self.width - 10 and \
+                event.pos().y() >= self.height - 10:
+            self.resize_height = True
+        elif 0 <= event.pos().y() < self.height - 10 and \
+                event.pos().x() >= self.width - 10:
+            self.resize_width = True
         else:
             self.setCursor(QtCore.Qt.OpenHandCursor)
             super().mousePressEvent(event)
@@ -324,51 +329,64 @@ class BlockItem(QtWidgets.QGraphicsItem):
         mouse. If resize_mode is False then the block gets moved otherwise
         the block gets resized.
         """
-        if self.resize_mode:
-            if self.last_pos[0] is not None and \
-                    self.last_pos[1] is not None:
-                self.resize(
-                    self.width + event.screenPos().x() - self.last_pos[0],
-                    self.height + event.screenPos().y() - self.last_pos[1])
-            self.last_pos = (event.screenPos().x(), event.screenPos().y())
+        if self.resize_all:
+            self.adjust_width(
+                self.original_width + event.screenPos().x() - self.start_pos[0])
+            self.adjust_height(
+                self.original_height + event.screenPos().y() - self.start_pos[1])
+        elif self.resize_width:
+            self.adjust_width(
+                self.original_width + event.screenPos().x() - self.start_pos[0])
+        elif self.resize_height:
+            self.adjust_height(
+                self.original_height + event.screenPos().y() - self.start_pos[1])
         else:
             super().mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event):
         """Method invoked when a mouse button on the block gets released."""
         self.setZValue(0.0)
-        self.resize_mode = False
-        self.last_pos = (None, None)
+        self.resize_all = False
+        self.resize_width = False
+        self.resize_height = False
         self.save_gui_data()
         self.modified()
         self.setCursor(QtCore.Qt.ArrowCursor)
         super().mouseReleaseEvent(event)
 
-    def resize(self, width, height):
-        """Resizes the block to the given width and height if they are bigger
-        than the min_height and the min_width and also bigger than the space
-        the inputs or outputs are requiring.
+    def adjust_height(self, height):
+        """Adjust the height of the block. Check if height is greater than the
+        minimum height and the needed height for inputs and outputs.
 
         Args:
-            width: Width to which the block should be resized.
-            height: Height to which the block should be resized.
+            height (int): Height to adjust the block to.
         """
-        # Check if width and height are greater than the minimum
-        if max(len(self.outputs) * (self.output_height + self.output_dist) + 5,
-               len(self.inputs) * (
-                       self.input_height + self.input_dist) + 5) > height or \
-                height < self.min_height:
-            return
-        if width < self.min_width:
-            return
-        # Reposition outputs and update connection lines
-        for o in self.outputs:
-            o.setPos(width, o.pos().y())
-            o.update_connection_line()
-
+        io_height = max(len(self.outputs) * (self.output_height + self.output_dist) + 5,
+                        len(self.inputs) * (self.input_height + self.input_dist) + 5)
+        if io_height > height:
+            height = io_height
+        if self.min_height > height:
+            height = self.min_height
         self.scene().update(self.scenePos().x(), self.scenePos().y(),
                             self.width, self.height)
         self.height = height
+        self.update()
+
+    def adjust_width(self, width):
+        """Adjust the width of the block. Check if the given width is greater
+        than the minimum width.
+
+        Args:
+            width (int): Width to adjust the block to.
+        """
+        if width < self.min_width:
+            width = self.min_width
+            # Reposition outputs and update connection lines
+        for o in self.outputs:
+            o.setPos(width, o.pos().y())
+            o.update_connection_line()
+        self.scene().update(self.scenePos().x(), self.scenePos().y(),
+                            self.width, self.height)
         self.width = width
         self.update()
 
@@ -385,6 +403,17 @@ class BlockItem(QtWidgets.QGraphicsItem):
         block.
         """
         event.accept()
+        if event.pos().x() >= self.width - 10 and \
+                event.pos().y() >= self.height - 10:
+            self.setCursor(QtCore.Qt.SizeFDiagCursor)
+        elif 0 <= event.pos().x() < self.width - 10 and \
+                event.pos().y() >= self.height - 10:
+            self.setCursor(QtCore.Qt.SizeVerCursor)
+        elif 0 <= event.pos().y() < self.height - 10 and \
+                event.pos().x() >= self.width - 10:
+            self.setCursor(QtCore.Qt.SizeHorCursor)
+        else:
+            self.setCursor(QtCore.Qt.ArrowCursor)
 
     def hoverLeaveEvent(self, event):
         """Method invoked when the mouse leaves the area of a block and
