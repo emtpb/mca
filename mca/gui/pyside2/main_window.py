@@ -131,7 +131,8 @@ class MainWindow(QtWidgets.QMainWindow):
             file_name = QtWidgets.QFileDialog.getOpenFileName(
                 self, _("Select a file to open"), self.conf["load_file_dir"],
                 "json (*json)")
-            self.open_file(file_name[0])
+            if file_name[0]:
+                self.open_file(file_name[0])
 
     def open_file_direct(self, file_name):
         """Returns a function that opens a specific file.
@@ -185,17 +186,14 @@ class MainWindow(QtWidgets.QMainWindow):
         if not file_name[0]:
             return False
         if not file_name[0].endswith(".json"):
-            QtWidgets.QMessageBox.warning(
-                self, _("Error"), _("File has to be a .json!"))
-            return False
-        else:
-            self.save_file_path = file_name[0]
-            self.conf["save_file_dir"] = os.path.dirname(self.save_file_path)
-            self.save_file()
+            file_name[0] + ".json"
+        self.save_file_path = file_name[0]
+        self.conf["save_file_dir"] = os.path.dirname(self.save_file_path)
+        self.save_file()
 
-            self.conf["recent_files"] = [file_name[0]] + self.conf["recent_files"][:3]
-            self.update_recent_menu()
-            return True
+        self.conf["recent_files"] = [file_name[0]] + self.conf["recent_files"][:3]
+        self.update_recent_menu()
+        return True
 
     def save_file(self):
         """Saves the current state.
