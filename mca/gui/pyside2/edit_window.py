@@ -56,9 +56,7 @@ class EditWindow(QtWidgets.QDialog):
         # Initialize parameter tab
         self.parameter_tab = QtWidgets.QWidget()
         self.parameter_layout = QtWidgets.QGridLayout(self.parameter_tab)
-        parameter_count = len(list(filter(
-            lambda x: not isinstance(x, parameters.ActionParameter),
-            block.parameters.values())))
+        parameter_count = len(block.parameters.values())
         parameters_tab_height = (parameter_count + 2) * 30
         self.parameter_tab.setFixedHeight(parameters_tab_height)
 
