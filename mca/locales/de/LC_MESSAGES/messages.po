@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-01-10 15:25-0800\n"
+"POT-Creation-Date: 2021-01-19 07:47-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -204,6 +204,27 @@ msgstr "Plot anzeigen"
 msgid "Auto plot"
 msgstr "Automatisch neu plotten"
 
+#: blocks/signal_saver.py:13
+msgid "SignalSaver"
+msgstr "SignalSpeicherer"
+
+#: blocks/signal_saver.py:14
+msgid "Saves the input signal in .json file."
+msgstr "Speichert das Eingangssignal in einer.json Datei."
+
+#: blocks/signal_saver.py:15
+msgid "Saving"
+msgstr "Speichern"
+
+#: blocks/signal_saver.py:21
+msgid "Filename"
+msgstr "Dateiname"
+
+#: blocks/signal_saver.py:22 gui/pyside2/main_window.py:63
+#: gui/pyside2/main_window.py:185
+msgid "Save"
+msgstr "Speichern"
+
 #: framework/block_base.py:29
 msgid "Name"
 msgstr "Name"
@@ -244,15 +265,15 @@ msgstr "Block löschen"
 msgid "Create new block"
 msgstr "Erstelle neuen Block"
 
-#: gui/pyside2/edit_window.py:40
+#: gui/pyside2/edit_window.py:40 gui/pyside2/edit_window.py:282
 msgid "Edit {}"
 msgstr "{} bearbeiten"
 
-#: gui/pyside2/edit_window.py:69
+#: gui/pyside2/edit_window.py:67
 msgid "Parameters"
 msgstr "Parameter"
 
-#: gui/pyside2/edit_window.py:92
+#: gui/pyside2/edit_window.py:90
 msgid ""
 "Could not apply the changed parameters and meta data!Continue editing or "
 "revert changes?"
@@ -260,63 +281,63 @@ msgstr ""
 "Die veränderten Parameter und Metadaten konnten nicht angewendet! Mit der"
 " Bearbeitung fortfahren oder Änderung rückgängig machen?"
 
-#: gui/pyside2/edit_window.py:95
+#: gui/pyside2/edit_window.py:93
 msgid "Continue"
 msgstr "Fortfahren"
 
-#: gui/pyside2/edit_window.py:98
+#: gui/pyside2/edit_window.py:96
 msgid "Revert"
 msgstr "Rückgängig"
 
-#: gui/pyside2/edit_window.py:112
+#: gui/pyside2/edit_window.py:110
 msgid "Parameters:"
 msgstr "Parameter:"
 
-#: gui/pyside2/edit_window.py:145
+#: gui/pyside2/edit_window.py:143
 msgid "Meta data"
 msgstr "Metadaten"
 
-#: gui/pyside2/edit_window.py:150
+#: gui/pyside2/edit_window.py:148
 msgid "Output '{}' meta data:"
 msgstr "Output '{}' Metadaten"
 
-#: gui/pyside2/edit_window.py:153
+#: gui/pyside2/edit_window.py:151
 msgid "Output {} meta data:"
 msgstr ""
 
-#: gui/pyside2/edit_window.py:157
+#: gui/pyside2/edit_window.py:155
 msgid "Signal name:"
 msgstr "Signalname:"
 
-#: gui/pyside2/edit_window.py:167
+#: gui/pyside2/edit_window.py:165
 msgid "Abscissa quantity:"
 msgstr "Abszissengröße:"
 
-#: gui/pyside2/edit_window.py:177
+#: gui/pyside2/edit_window.py:175
 msgid "Abscissa symbol:"
 msgstr "Abszissensymbol:"
 
-#: gui/pyside2/edit_window.py:187
+#: gui/pyside2/edit_window.py:185
 msgid "Abscissa unit:"
 msgstr "Abszisseneinheit:"
 
-#: gui/pyside2/edit_window.py:197
+#: gui/pyside2/edit_window.py:195
 msgid "Use abscissa meta data"
 msgstr "Abzissen Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:204
+#: gui/pyside2/edit_window.py:202
 msgid "Ordinate quantity:"
 msgstr "Ordinatengröße:"
 
-#: gui/pyside2/edit_window.py:214
+#: gui/pyside2/edit_window.py:212
 msgid "Ordinate symbol:"
 msgstr "Ordinatensymbol:"
 
-#: gui/pyside2/edit_window.py:225
+#: gui/pyside2/edit_window.py:223
 msgid "Ordinate unit:"
 msgstr "Ordinateneinheit:"
 
-#: gui/pyside2/edit_window.py:235
+#: gui/pyside2/edit_window.py:233
 msgid "Use ordinate meta data"
 msgstr "Ordinaten Metadaten benutzen"
 
@@ -324,7 +345,7 @@ msgstr "Ordinaten Metadaten benutzen"
 msgid "Disconnect"
 msgstr "Verbindung trennen"
 
-#: gui/pyside2/io_items.py:115 gui/pyside2/main_window.py:189
+#: gui/pyside2/io_items.py:115
 msgid "Error"
 msgstr "Fehler"
 
@@ -334,7 +355,7 @@ msgstr "Zyklische Strukturen sind nicht erlaubt."
 
 #: gui/pyside2/io_items.py:118 gui/pyside2/io_items.py:122
 #: gui/pyside2/io_items.py:294 gui/pyside2/io_items.py:297
-#: gui/pyside2/io_items.py:301 gui/pyside2/main_window.py:264
+#: gui/pyside2/io_items.py:301 gui/pyside2/main_window.py:262
 msgid "MCA"
 msgstr "MKA"
 
@@ -366,10 +387,6 @@ msgstr "Öffnen"
 msgid "Open Recent"
 msgstr "Zuletzt geöffnet"
 
-#: gui/pyside2/main_window.py:63 gui/pyside2/main_window.py:184
-msgid "Save"
-msgstr "Speichern"
-
 #: gui/pyside2/main_window.py:69
 msgid "Save as"
 msgstr "Speichern als"
@@ -394,15 +411,11 @@ msgstr "Suchen..."
 msgid "Select a file to open"
 msgstr "Auswählen um Datei zu öffnen"
 
-#: gui/pyside2/main_window.py:189
-msgid "File has to be a .json!"
-msgstr "Die Datei muss ein .json sein!"
-
-#: gui/pyside2/main_window.py:227 gui/pyside2/main_window.py:242
+#: gui/pyside2/main_window.py:225 gui/pyside2/main_window.py:240
 msgid "Warning"
 msgstr "Warnung"
 
-#: gui/pyside2/main_window.py:228
+#: gui/pyside2/main_window.py:226
 msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
@@ -410,15 +423,15 @@ msgstr ""
 "Das Dokument wurde verändert.\n"
 "Wollen sie die Änderungen speichern?"
 
-#: gui/pyside2/main_window.py:243
+#: gui/pyside2/main_window.py:241
 msgid "Are you sure you want to remove all blocks?"
 msgstr "Sicher Sie sicher, dass sie alle Blöcke entfernen wollen?"
 
-#: gui/pyside2/main_window.py:261
+#: gui/pyside2/main_window.py:259
 msgid "untitled.json"
 msgstr "Unbennant.json"
 
-#: gui/pyside2/main_window.py:277
+#: gui/pyside2/main_window.py:275
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
 
@@ -493,4 +506,13 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Pressure"
 #~ msgstr "Druck"
+
+#~ msgid "File has to be a .json!"
+#~ msgstr "Die Datei muss ein .json sein!"
+
+#~ msgid "SaveSignal"
+#~ msgstr ""
+
+#~ msgid "Save input data"
+#~ msgstr "Speicher Daten des Eingangs"
 
