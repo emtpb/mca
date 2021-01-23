@@ -18,7 +18,8 @@ class SignalSaver(Block):
         super().__init__()
         self._new_input()
         self.parameters.update({
-            "filename": parameters.PathParameter(_("Filename")),
+            "filename": parameters.PathParameter(_("Filename"),
+                                                 file_formats=[".json"]),
             "save": parameters.ActionParameter(_("Save"),
                                                self.save_data)})
         self.read_kwargs(kwargs)

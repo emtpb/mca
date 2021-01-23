@@ -1,5 +1,10 @@
 from PySide2 import QtWidgets
 from united import Unit
+import os
+
+from mca.config import Config
+from mca import language
+config = Config()
 
 
 class BaseParameterWidget:
@@ -320,8 +325,20 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
         self.button = QtWidgets.QPushButton(text="...")
         self.button.setMaximumWidth(30)
         self.layout().addWidget(self.button)
+        dir_path = ""
+
+        if self.parameter.value:
+            dir_path = os.path.dirname(os.path.realpath(self.parameter.file))
         self.file_dialog = QtWidgets.QFileDialog()
-        self.file_dialog.setFileMode(QtWidgets.QFileDialog.AnyFile)
+        if self.parameter.file_formats:
+            file_formats = "(*" + " *".join(self.parameter.file_formats) + ")"
+            self.file_dialog.setNameFilter(file_formats)
+        if self.parameter.loading:
+            self.file_dialog.setAcceptMode(QtWidgets.QFileDialog.AcceptOpen)
+        else:
+            self.file_dialog.setAcceptMode(QtWidgets.QFileDialog.AcceptSave)
+        if dir_path:
+            self.file_dialog.setDirectory(dir_path)
         self.button.clicked.connect(self.open_file_dialog)
 
     def write_parameter(self):

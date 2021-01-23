@@ -254,24 +254,32 @@ class PathParameter(BaseParameter):
     Attributes:
         value: Path of the file.
     """
-    def __init__(self, name, value=""):
+    def __init__(self, name, file_formats=None, loading=False, value=""):
         """Initialize PathParameter.
 
         Args:
            name (str): Name of the Parameter.
            value (str): Path to the desired file.
+           file_formats (list): List of allowed file formats
         """
         super().__init__(name)
         self.value = value
+        if not file_formats:
+            file_formats = []
+        self.file_formats = file_formats
+        self.loading = loading
 
     def validate(self, value):
-        """Validates a value on type.
+        """Validates a value on type and file format.
 
         Args:
             value: Given value to be validated.
         Raises:
             :class:`~mca.exceptions.ParameterTypeError`: Type of value is not
-                                                         str.
+                                                         str or does not end
+                                                         with correct postfix.
         """
         if not isinstance(value, str):
+            raise exceptions.ParameterTypeError(self.name)
+        if not any(map(value.endswith, self.file_formats)):
             raise exceptions.ParameterTypeError(self.name)

@@ -27,7 +27,11 @@ class SignalGeneratorArbitrary(Block):
                 quantity_o=_("Voltage")
             ),
         )
-        self.parameters.update({"file": parameters.PathParameter(_("Arbitrary data path"))})
+        self.parameters.update({"file": parameters.PathParameter(
+            _("Arbitrary data path"),
+            loading=True,
+            file_formats=[".json"])
+        })
         self.read_kwargs(kwargs)
 
     def _process(self):
