@@ -281,5 +281,6 @@ class PathParameter(BaseParameter):
         """
         if not isinstance(value, str):
             raise exceptions.ParameterTypeError(self.name)
-        if not any(map(value.endswith, self.file_formats)):
-            raise exceptions.ParameterTypeError(self.name)
+        if self.file_formats:
+            if not any(map(value.endswith, self.file_formats)):
+                raise exceptions.ParameterTypeError(self.name)
