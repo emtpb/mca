@@ -1,5 +1,7 @@
 from mca.blocks import fft
 from mca.framework import data_types
+from mca.language import _
+
 import numpy as np
 
 
@@ -11,7 +13,7 @@ def test_fft(sin_block):
     increment = 1 / (sin.increment * sin.values)
     values = sin.values
     expected_meta_data = data_types.MetaData(
-        "", "1/s", "V", "Frequency", "Voltage", None, None)
+        "", "1/s", "V", _("Frequency"), _("Voltage"), None, None)
     expected_signal = data_types.Signal(expected_meta_data, 0, values,
                                         increment, expected_ordinate)
     assert a.outputs[0].data == expected_signal

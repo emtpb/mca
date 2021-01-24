@@ -90,3 +90,10 @@ def test_type_path():
     with pytest.raises(exceptions.ParameterTypeError):
         a.validate(5)
     a.validate("test")
+
+
+def test_file_format():
+    a = pm.PathParameter("Test", value="test.json", file_formats=[".json", ".txt"])
+    with pytest.raises(exceptions.ParameterTypeError):
+        a.validate("test.png")
+    a.validate("test.json")
