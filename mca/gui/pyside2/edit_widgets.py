@@ -3,7 +3,7 @@ from united import Unit
 import os
 
 from mca.config import Config
-from mca import language
+from mca import exceptions
 config = Config()
 
 
@@ -322,6 +322,9 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
         self.layout().addWidget(self.file_edit)
         self.file_edit.setText(self.parameter.value)
         self.file_edit.textChanged.connect(self.check_changed)
+        if self.parameter.file_formats:
+            self.file_edit.setToolTip("File has to be " +
+                                      " or ".join(self.parameter.file_formats))
         self.button = QtWidgets.QPushButton(text="...")
         self.button.setMaximumWidth(30)
         self.layout().addWidget(self.button)
@@ -348,13 +351,20 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
         self.file_edit.setText(self.parameter.value)
 
     def check_changed(self):
+        try:
+            self.parameter.validate(self.file_edit.text())
+        except exceptions.ParameterTypeError:
+            self.file_edit.setStyleSheet("border-radius: 3px;"
+                                         "border: 2px solid red;")
+            self.changed = True
+            return
         if self.parameter.value != self.file_edit.text():
             self.changed = True
             self.file_edit.setStyleSheet("border-radius: 3px;"
                                          "border: 2px solid lightblue;")
         else:
             self.changed = False
-            self.setStyleSheet("")
+            self.file_edit.setStyleSheet("")
 
     def apply_changes(self):
         self.prev_value = self.file_edit.text()
