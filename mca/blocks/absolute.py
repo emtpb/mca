@@ -3,7 +3,7 @@ from mca.language import _
 
 
 class Absolute(Block):
-    """Block class which calculates the absolute of the input signal.
+    """Calculates the absolute of the input signal.
 
     This block has one input and one output.
     """

@@ -5,7 +5,7 @@ from mca.language import _
 
 
 class FFT(Block):
-    """Block class which calculates the FFT of the input signal.
+    """Calculates the FFT of the input signal.
 
     This block has one input and one output.
     """

@@ -7,7 +7,7 @@ from mca.language import _
 
 
 class SignalPlot(DynamicBlock):
-    """This block class plots all input signals.
+    """Plots all input signals.
 
     This block has at least one input and no upper limit for the inputs.
     """

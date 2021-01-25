@@ -7,7 +7,7 @@ from mca.language import _
 
 
 class SignalGeneratorArbitrary(Block):
-    """Block class which loads arbitrary data to generate a signal.
+    """Loads arbitrary data to generate a signal.
 
     This block has one output.
     """

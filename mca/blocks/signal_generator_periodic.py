@@ -6,7 +6,7 @@ from mca.language import _
 
 
 class SignalGeneratorPeriodic(Block):
-    """Block class which generates a periodic signal.
+    """Generates a periodic signal.
 
     This block has one output.
 

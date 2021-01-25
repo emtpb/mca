@@ -6,7 +6,7 @@ from mca.language import _
 
 
 class FFTPlot(Block):
-    """Block class which plots the FFT of the input signal.
+    """Plots the FFT of the input signal.
 
     This block has one input.
 

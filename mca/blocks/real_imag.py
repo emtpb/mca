@@ -5,7 +5,7 @@ from mca.language import _
 
 
 class RealImag(Block):
-    """Block class which separates the real and imaginary part of the input
+    """Separates the real and imaginary part of the input
     signal in two output signals.
 
     This block has one input and two outputs. First output has the real part

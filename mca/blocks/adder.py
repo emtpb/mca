@@ -6,9 +6,9 @@ from mca.language import _
 
 
 class Adder(DynamicBlock):
-    """Block class for adding multiple signals to one new signal.
+    """Adds multiple signals to one new signal.
 
-    This Block has at least one and no upper limit for the inputs and
+    This block has at least one and no upper limit for the inputs and
     one output.
 
     Note:
