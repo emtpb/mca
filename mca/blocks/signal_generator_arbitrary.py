@@ -13,7 +13,7 @@ class SignalGeneratorArbitrary(Block):
     """
     name = _("SignalGeneratorArbitrary")
     description = _("Loads arbitrary data to generate a signal on its output.")
-    tags = (_("Generating"),)
+    tags = (_("Generating"), _("Loading"))
 
     def __init__(self, **kwargs):
         super().__init__()
@@ -27,7 +27,7 @@ class SignalGeneratorArbitrary(Block):
                 quantity_o=_("Voltage")
             ),
         )
-        self.parameters.update({"file": parameters.PathParameter(
+        self.parameters.update({"file_name": parameters.PathParameter(
             _("Arbitrary data path"),
             loading=True,
             file_formats=[".json"])
