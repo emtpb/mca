@@ -178,9 +178,13 @@ def string_to_unit(string):
     return Unit(numerator, denominator)
 
 
-def meta_data_to_axis_label(quantity, unit, symbol=None):
+def meta_data_to_axis_label(unit, quantity=None, symbol=None):
     """Returns a string axis labels given a quantity, unit and (symbol)."""
-    if symbol:
+    if symbol and quantity:
         return "{} {} / {}".format(quantity, symbol, unit)
-    else:
+    elif symbol:
+        return "{} / {}".format(symbol, unit)
+    elif quantity:
         return "{} in {}".format(quantity, unit)
+    else:
+        return repr(unit)

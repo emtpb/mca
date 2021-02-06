@@ -82,17 +82,20 @@ class FFTPlot(Block):
             ordinate = abs(ordinate)
         elif plot_mode == "phase":
             ordinate = np.angle(ordinate)
+        meta_data = data_types.MetaData(input_signal.meta_data.name,
+                                        unit_a=1/input_signal.meta_data.unit_a,
+                                        unit_o=input_signal.meta_data.unit_o)
         self.axes.plot(abscissa, ordinate)
         self.axes.set_xlabel(data_types.meta_data_to_axis_label(
-            quantity=input_signal.meta_data.quantity_a,
-            unit=1/input_signal.meta_data.unit_a,
-            symbol=input_signal.meta_data.symbol_a
+            quantity=meta_data.quantity_a,
+            unit=meta_data.unit_a,
+            symbol=meta_data.symbol_a
             )
         )
         self.axes.set_ylabel(data_types.meta_data_to_axis_label(
-            quantity=input_signal.meta_data.quantity_o,
-            unit=input_signal.meta_data.unit_o,
-            symbol=input_signal.meta_data.symbol_o
+            quantity=meta_data.quantity_o,
+            unit=meta_data.unit_o,
+            symbol=meta_data.symbol_o
             )
         )
         self.axes.grid(True)
