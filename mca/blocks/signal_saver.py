@@ -30,13 +30,14 @@ class SignalSaver(Block):
         validator.check_type_signal(self.inputs[0].data)
 
     def save_data(self):
+        """Save the the input data in .json file."""
         if not self.inputs[0].data:
             raise exceptions.DataSavingError("No data to save.")
         signal = self.inputs[0].data
-        file_name = self.parameters["filename"].value
-        if not file_name.endswith("json"):
-            raise exceptions.DataSavingError("File has to be a json.")
-        with open(file_name, 'w') as save_file:
+        filename = self.parameters["filename"].value
+        if not filename.endswith(".json"):
+            raise exceptions.DataSavingError("File has to be a .json.")
+        with open(filename, 'w') as save_file:
             save_data = {"data_type": "Signal",
                          "name": signal.meta_data.name,
                          "quantity_a": signal.meta_data.quantity_a,
