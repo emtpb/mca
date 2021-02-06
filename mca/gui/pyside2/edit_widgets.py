@@ -4,6 +4,7 @@ import os
 
 from mca.config import Config
 from mca import exceptions
+from mca.language import _
 config = Config()
 
 
@@ -290,7 +291,7 @@ class ActionParameterWidget(QtWidgets.QPushButton):
     def __init__(self, parameter):
         self.parameter = parameter
         QtWidgets.QPushButton.__init__(self, self.parameter.name)
-        self.pressed.connect(self.parameter.function)
+        self.pressed.connect(self.execute_function)
 
     def write_parameter(self):
         pass
@@ -306,6 +307,14 @@ class ActionParameterWidget(QtWidgets.QPushButton):
 
     def revert_changes(self):
         pass
+
+    def execute_function(self):
+        try:
+            self.parameter.function()
+        except exceptions.MCAError:
+            QtWidgets.QMessageBox.warning(
+                self, _("MCA"), _("Something went wrong."),
+                QtWidgets.QMessageBox.Ok)
 
 
 class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
