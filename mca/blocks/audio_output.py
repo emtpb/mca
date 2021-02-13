@@ -1,4 +1,3 @@
-import numpy as np
 import sounddevice as sd
 from united import Unit
 import scipy.io.wavfile
@@ -9,7 +8,7 @@ from mca import exceptions
 
 
 class AudioOutput(Block):
-    """Saves the input signal as a sound file or plays the input signal as
+    """Saves the input signal as a .wav file or plays the input signal as
     a sound.
 
     This block has one input.
@@ -20,9 +19,9 @@ class AudioOutput(Block):
     tags = (_("Saving"), _("Audio"))
 
     def __init__(self, **kwargs):
+        """Initializes the AudioOutput class"""
         super().__init__()
         self._new_input()
-        self.read_kwargs(kwargs)
         self.parameters.update(
             {"sampling_freq": parameters.IntParameter(_("Sampling frequency"),
                                                       0, None, "Hz", 44100),
@@ -32,6 +31,7 @@ class AudioOutput(Block):
              "play_sound": parameters.ActionParameter(_("Play sound"),
                                                       self.play_sound),
              "auto_play": parameters.BoolParameter(_("Auto play"), False)})
+        self.read_kwargs(kwargs)
 
     def _process(self):
         if self.parameters["auto_play"].value is True:
@@ -48,6 +48,7 @@ class AudioOutput(Block):
         sd.play(input_signal.ordinate, sampling_frequency)
 
     def save_as_wav(self):
+        """Saves the input signal as a .wav file."""
         if self.check_empty_inputs():
             raise exceptions.DataSavingError("No data to save.")
         input_signal = self.inputs[0].data

@@ -20,6 +20,7 @@ class AudioInput(Block):
     tags = (_("Loading"), _("Audio"))
 
     def __init__(self, **kwargs):
+        """Initializes the AudioInput class."""
         super().__init__()
         self._new_output(
             name=_("Audio file"),

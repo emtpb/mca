@@ -25,6 +25,7 @@ class SignalGeneratorPeriodic(Block):
     tags = (_("Generating"),)
 
     def __init__(self, **kwargs):
+        """Initializes SignalGeneratorPeriodic class."""
         super().__init__()
 
         self._new_output(

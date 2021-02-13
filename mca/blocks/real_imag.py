@@ -17,6 +17,7 @@ class RealImag(Block):
     tags = (_("Processing"),)
 
     def __init__(self, **kwargs):
+        """Initializes RealImag class."""
         super().__init__()
 
         self._new_output(

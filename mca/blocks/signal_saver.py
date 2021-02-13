@@ -15,6 +15,7 @@ class SignalSaver(Block):
     tags = (_("Saving"),)
 
     def __init__(self, **kwargs):
+        """Initializes SignalSaver class."""
         super().__init__()
         self._new_input()
         self.parameters.update({
@@ -30,7 +31,7 @@ class SignalSaver(Block):
         validator.check_type_signal(self.inputs[0].data)
 
     def save_data(self):
-        """Save the the input data in .json file."""
+        """Saves the the input data in .json file."""
         if not self.inputs[0].data:
             raise exceptions.DataSavingError("No data to save.")
         signal = self.inputs[0].data

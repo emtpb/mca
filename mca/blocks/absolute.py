@@ -12,12 +12,7 @@ class Absolute(Block):
     tags = (_("Processing"),)
 
     def __init__(self, **kwargs):
-        """Initialize the adder block.
-
-        Args:
-            **kwargs: Arbitrary keyword arguments which are used set parameters
-                of the block if there are any.
-        """
+        """Initializes the adder block."""
 
         super().__init__()
         self._new_output(

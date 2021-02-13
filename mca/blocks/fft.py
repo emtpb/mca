@@ -14,6 +14,7 @@ class FFT(Block):
     tags = (_("Processing"), _("Fourier"))
 
     def __init__(self, **kwargs):
+        """Initializes the FFT class."""
         super().__init__()
 
         self._new_output(

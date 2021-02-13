@@ -16,6 +16,7 @@ class SignalGeneratorArbitrary(Block):
     tags = (_("Generating"), _("Loading"))
 
     def __init__(self, **kwargs):
+        """Initializes SignalGeneratorArbitrary class."""
         super().__init__()
 
         self._new_output(
@@ -27,17 +28,25 @@ class SignalGeneratorArbitrary(Block):
                 quantity_o=_("Voltage")
             ),
         )
-        self.parameters.update({"file_name": parameters.PathParameter(
-            _("Arbitrary data path"),
-            loading=True,
-            file_formats=[".json"])
+        self.parameters.update({
+            "file_name": parameters.PathParameter(
+                _("Arbitrary data path"),
+                loading=True,
+                file_formats=[".json"]),
+            "load_file": parameters.ActionParameter(
+                _("Load file"),
+                self.load_file)
         })
         self.read_kwargs(kwargs)
 
     def _process(self):
+        pass
+
+    def load_file(self):
+        """Loads the arbitrary data from the given file_name to the output."""
         file_path = self.parameters["file"].value
         if not file_path:
-            return
+            raise exceptions.DataLoadingError("No file given to load.")
         with open(file_path, 'r') as arbitrary_file:
             arbitrary_data = json.load(arbitrary_file)
             if arbitrary_data.get("data_type") != "Signal":
@@ -60,3 +69,4 @@ class SignalGeneratorArbitrary(Block):
             ordinate=np.fromstring(arbitrary_data["ordinate"][1:-1],
                                    sep=" ", dtype=float)
             )
+        self.update()

@@ -24,6 +24,7 @@ class FFTPlot(Block):
     tags = (_("Processing"), _("Fourier"), _("Plotting"))
 
     def __init__(self, **kwargs):
+        """Initializes FFTPlot class."""
         super().__init__()
 
         self._new_input()
@@ -104,4 +105,5 @@ class FFTPlot(Block):
             self.show()
 
     def show(self):
+        """Shows the plot."""
         self.fig.show()
