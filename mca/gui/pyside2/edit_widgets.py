@@ -311,9 +311,10 @@ class ActionParameterWidget(QtWidgets.QPushButton):
     def execute_function(self):
         try:
             self.parameter.function()
-        except exceptions.MCAError:
+        except exceptions.MCAError as error:
+            message = error.args[0]
             QtWidgets.QMessageBox.warning(
-                self, _("MCA"), _("Something went wrong."),
+                self, _("MCA"), _("Something went wrong." + "\n" + message),
                 QtWidgets.QMessageBox.Ok)
 
 

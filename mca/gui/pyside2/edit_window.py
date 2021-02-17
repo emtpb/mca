@@ -249,7 +249,16 @@ class EditWindow(QtWidgets.QDialog):
             for entry in self.meta_data_widgets:
                 entry.write_attribute()
             self.block.trigger_update()
-        except Exception:
+        except Exception as error:
+            if error.args:
+                self.warning_message.setText(
+                    _("Could not apply the changed parameters and meta data!"
+                      "Continue editing or revert changes?") +
+                    "\nError message:" + error.args[0])
+            else:
+                self.warning_message.setText(
+                    _("Could not apply the changed parameters and meta data!"
+                      "Continue editing or revert changes?"))
             self.warning_message.exec_()
             if self.warning_message.clickedButton() == self.revert_button:
                 for parameter_widget in self.parameter_widgets:
