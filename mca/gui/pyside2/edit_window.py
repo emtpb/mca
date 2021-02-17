@@ -117,7 +117,7 @@ class EditWindow(QtWidgets.QDialog):
                not isinstance(block_parameter, parameters.ActionParameter):
                 name_label = QtWidgets.QLabel(block_parameter.name)
                 self.parameter_layout.addWidget(name_label, index, 0, 1, 1)
-            widget = widget_dict[type(block_parameter)](block_parameter)
+            widget = widget_dict[type(block_parameter)](block_parameter, self)
             self.parameter_widgets.append(widget)
             widget.read_parameter()
             self.parameter_layout.addWidget(widget, index, 1, 1, 1)

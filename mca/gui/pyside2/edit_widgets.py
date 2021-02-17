@@ -19,14 +19,17 @@ class BaseParameterWidget:
                         differs from the previous value.
     """
 
-    def __init__(self, parameter):
-        """Initialize BaseParameterWidget class.
+    def __init__(self, parameter, edit_window):
+        """Initializes BaseParameterWidget class.
 
         Args:
             parameter: Given :class:`.Parameter` to display.
+            edit_window: Reference of the :class:`.EditWindow` the widget
+                         belongs to.
         """
         self.parameter = parameter
         self.prev_value = self.parameter.value
+        self.edit_window = edit_window
         self.changed = False
 
     def write_parameter(self):
@@ -64,10 +67,10 @@ class BaseParameterWidget:
 class FloatParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
     """Widget to display a :class:`.FloatParameter` ."""
 
-    def __init__(self, parameter):
+    def __init__(self, parameter, edit_window):
         """Initializes FloatParameterWidget class."""
         QtWidgets.QLineEdit.__init__(self)
-        BaseParameterWidget.__init__(self, parameter)
+        BaseParameterWidget.__init__(self, parameter, edit_window)
         self.textChanged.connect(self.check_changed)
 
     def write_parameter(self):
@@ -111,10 +114,10 @@ class FloatParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
 class IntParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
     """Widget to display an :class:`.IntParameter` ."""
 
-    def __init__(self, parameter):
+    def __init__(self, parameter, edit_window):
         """Initializes IntParameterWidget class."""
         QtWidgets.QLineEdit.__init__(self)
-        BaseParameterWidget.__init__(self, parameter)
+        BaseParameterWidget.__init__(self, parameter, edit_window)
         self.textChanged.connect(self.check_changed)
 
     def write_parameter(self):
@@ -157,10 +160,10 @@ class IntParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
 class ChoiceParameterWidget(BaseParameterWidget, QtWidgets.QComboBox):
     """Widget to display a :class:`.ChoiceParameter` ."""
 
-    def __init__(self, parameter):
+    def __init__(self, parameter, edit_window):
         """Initializes ChoiceParameterWidget class."""
         QtWidgets.QComboBox.__init__(self)
-        BaseParameterWidget.__init__(self, parameter)
+        BaseParameterWidget.__init__(self, parameter, edit_window)
         self.currentIndexChanged.connect(self.check_changed)
         for i in range(len(self.parameter.choices)):
             self.addItem(self.parameter.choices[i][1],
@@ -209,10 +212,10 @@ class ChoiceParameterWidget(BaseParameterWidget, QtWidgets.QComboBox):
 class StringParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
     """Widget to display a :class:`.StringParameter` ."""
 
-    def __init__(self, parameter):
+    def __init__(self, parameter, edit_window):
         """Initializes StringParameterWidget class."""
         QtWidgets.QLineEdit.__init__(self)
-        BaseParameterWidget.__init__(self, parameter)
+        BaseParameterWidget.__init__(self, parameter, edit_window)
         self.textChanged.connect(self.check_changed)
 
     def write_parameter(self):
@@ -249,10 +252,10 @@ class StringParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
 class BoolParameterWidget(BaseParameterWidget, QtWidgets.QCheckBox):
     """Widget to display a :class:`.BoolParameter` ."""
 
-    def __init__(self, parameter):
+    def __init__(self, parameter, edit_window):
         """Initializes BoolParameterWidget class."""
         QtWidgets.QCheckBox.__init__(self, parameter.name)
-        BaseParameterWidget.__init__(self, parameter)
+        BaseParameterWidget.__init__(self, parameter, edit_window)
         self.stateChanged.connect(self.check_changed)
 
     def write_parameter(self):
@@ -286,11 +289,12 @@ class BoolParameterWidget(BaseParameterWidget, QtWidgets.QCheckBox):
             self.changed = False
 
 
-class ActionParameterWidget(QtWidgets.QPushButton):
+class ActionParameterWidget(BaseParameterWidget, QtWidgets.QPushButton):
     """Widget to display :class:`.ActionParameter`."""
-    def __init__(self, parameter):
+    def __init__(self, parameter, edit_window):
         self.parameter = parameter
         QtWidgets.QPushButton.__init__(self, self.parameter.name)
+        BaseParameterWidget.__init__(self, parameter, edit_window)
         self.pressed.connect(self.execute_function)
 
     def write_parameter(self):
@@ -310,6 +314,7 @@ class ActionParameterWidget(QtWidgets.QPushButton):
 
     def execute_function(self):
         try:
+            self.edit_window.apply_changes()
             self.parameter.function()
         except exceptions.MCAError as error:
             message = error.args[0]
@@ -323,10 +328,10 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
     can be entered manually with the line edit or can be chosen via a file
     dialog window.
     """
-    def __init__(self, parameter):
+    def __init__(self, parameter, edit_window):
         """Initializes FileParameterWidget class."""
         QtWidgets.QWidget.__init__(self)
-        BaseParameterWidget.__init__(self, parameter)
+        BaseParameterWidget.__init__(self, parameter, edit_window)
         self.setLayout(QtWidgets.QHBoxLayout())
         self.file_edit = QtWidgets.QLineEdit()
         self.layout().addWidget(self.file_edit)
