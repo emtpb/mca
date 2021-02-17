@@ -21,7 +21,7 @@ class Adder(DynamicBlock):
     tags = (_("Processing"),)
 
     def __init__(self, **kwargs):
-        """Initialize Adder Block class."""
+        """Initialize Adder class."""
 
         super().__init__()
 

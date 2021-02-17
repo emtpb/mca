@@ -12,7 +12,7 @@ class Absolute(Block):
     tags = (_("Processing"),)
 
     def __init__(self, **kwargs):
-        """Initializes the adder block."""
+        """Initializes the Absolute class."""
 
         super().__init__()
         self._new_output(

@@ -13,6 +13,7 @@ class SignalPlot(DynamicBlock):
     """
     name = _("SignalPlot")
     description = _("Plots all input signals in matplotlib.")
+    tags = (_("Plotting"),)
 
     def __init__(self, plot_widget=None, **kwargs):
         """Initializes SignalPlot class."""
