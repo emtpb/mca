@@ -96,9 +96,9 @@ class EditWindow(QtWidgets.QDialog):
             _("Revert"),
             QtWidgets.QMessageBox.NoRole)
         QtCore.QObject.connect(self.button_box, QtCore.SIGNAL("accepted()"),
-                               self.apply_changes)
+                               self.accept)
         QtCore.QObject.connect(self.button_box, QtCore.SIGNAL("rejected()"),
-                               self.revert_changes)
+                               self.reject)
 
     def display_parameters(self):
         """Arranges parameters of a block in rows in the window underneath each
@@ -238,39 +238,42 @@ class EditWindow(QtWidgets.QDialog):
             self.meta_data_layout.addWidget(ordinate_check_box, index * 10 + 9,
                                             1, 1, 1)
 
-    def apply_changes(self):
+    def accept(self):
+        self.apply_changes()
+        super(EditWindow, self).accept()
+
+    def apply_changes(self, parameter_changes=True, meta_data_changes=True):
         """Tries to apply changes. In case of an error the user gets a
         notification and can choose between reverting his last changes or
         continue editing and potentially fix the error.
         """
         try:
-            for parameter_widget in self.parameter_widgets:
-                parameter_widget.write_parameter()
-            for entry in self.meta_data_widgets:
-                entry.write_attribute()
+            if parameter_changes:
+                for parameter_widget in self.parameter_widgets:
+                    parameter_widget.write_parameter()
+            if meta_data_changes:
+                for entry in self.meta_data_widgets:
+                    entry.write_attribute()
             self.block.trigger_update()
         except Exception as error:
             if error.args:
                 self.warning_message.setText(
                     _("Could not apply the changed parameters and meta data!"
                       "Continue editing or revert changes?") +
-                    "\nError message:" + error.args[0])
+                    "\n" + _("Error message:") + error.args[0])
             else:
                 self.warning_message.setText(
                     _("Could not apply the changed parameters and meta data!"
                       "Continue editing or revert changes?"))
             self.warning_message.exec_()
             if self.warning_message.clickedButton() == self.revert_button:
-                for parameter_widget in self.parameter_widgets:
-                    parameter_widget.revert_changes()
-                for entry in self.meta_data_widgets:
-                    entry.revert_changes()
+                self.revert_changes()
         else:
-            for parameter_widget in self.parameter_widgets:
-                parameter_widget.apply_changes()
+            if parameter_changes:
+                for parameter_widget in self.parameter_widgets:
+                    parameter_widget.apply_changes()
             for entry in self.meta_data_widgets:
                 entry.apply_changes()
-            self.accept()
 
     def revert_changes(self):
         """Revert the last changes made."""
@@ -279,11 +282,15 @@ class EditWindow(QtWidgets.QDialog):
         for entry in self.meta_data_widgets:
             entry.revert_changes()
         self.block.trigger_update()
-        self.reject()
+
+    def reject(self):
+        self.revert_changes()
+        super(EditWindow, self).reject()
 
     def closeEvent(self, e):
         """Event triggered when the close button is pressed."""
         self.apply_changes()
+        super(EditWindow, self).closeEvent(e)
 
     def show(self):
         if isinstance(self.block, DynamicBlock) and self.block.dynamic_output:
