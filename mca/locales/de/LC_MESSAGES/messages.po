@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-01-19 07:47-0800\n"
+"POT-Creation-Date: 2021-02-17 13:17-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -27,21 +27,23 @@ msgstr "BetragBlock"
 msgid "Computes the absolute of the input signal."
 msgstr "Berechnet den Betrag des Eingangssignals."
 
-#: blocks/absolute.py:12 blocks/adder.py:21 blocks/fft.py:14
-#: blocks/fftplot.py:24 blocks/real_imag.py:17
+#: blocks/absolute.py:12 blocks/adder.py:21 blocks/amplifier.py:12
+#: blocks/fft.py:14 blocks/fftplot.py:24 blocks/real_imag.py:17
 msgid "Processing"
 msgstr "Verarbeitende"
 
-#: blocks/absolute.py:28 blocks/adder.py:34 blocks/real_imag.py:27
-#: blocks/real_imag.py:37 blocks/signal_generator_arbitrary.py:26
-#: blocks/signal_generator_periodic.py:35
+#: blocks/absolute.py:23 blocks/adder.py:34 blocks/amplifier.py:23
+#: blocks/audio_loader.py:25 blocks/audio_recorder.py:26 blocks/real_imag.py:28
+#: blocks/real_imag.py:38 blocks/signal_generator_arbitrary.py:27
+#: blocks/signal_generator_periodic.py:36
 msgid "Time"
 msgstr "Zeit"
 
-#: blocks/absolute.py:29 blocks/adder.py:35 blocks/fft.py:25
-#: blocks/real_imag.py:28 blocks/real_imag.py:38
-#: blocks/signal_generator_arbitrary.py:27
-#: blocks/signal_generator_periodic.py:36
+#: blocks/absolute.py:24 blocks/adder.py:35 blocks/amplifier.py:24
+#: blocks/audio_loader.py:26 blocks/audio_recorder.py:27 blocks/fft.py:26
+#: blocks/real_imag.py:29 blocks/real_imag.py:39
+#: blocks/signal_generator_arbitrary.py:28
+#: blocks/signal_generator_periodic.py:37
 msgid "Voltage"
 msgstr "Spannung"
 
@@ -52,6 +54,95 @@ msgstr "Addierer"
 #: blocks/adder.py:20
 msgid "Adds multiple signals to one signal."
 msgstr "Addiert mehrere Signale zu einem Signal auf."
+
+#: blocks/amplifier.py:10
+msgid "Amplifier"
+msgstr "Verstärker"
+
+#: blocks/amplifier.py:11
+msgid "Amplifies the input signal by the desired factor"
+msgstr "Verstärkt das Eingangssignal um den gewollten Faktor"
+
+#: blocks/amplifier.py:29
+msgid "Factor"
+msgstr "Faktor"
+
+#: blocks/audio_loader.py:13
+msgid "AudioLoader"
+msgstr "AudioLader"
+
+#: blocks/audio_loader.py:14
+msgid "Reads a .wav to create an output signal."
+msgstr "Liest eine .wav ein und erzeugt daraus ein Ausgangssignal"
+
+#: blocks/audio_loader.py:15 blocks/signal_generator_arbitrary.py:16
+msgid "Loading"
+msgstr "Ladend"
+
+#: blocks/audio_loader.py:15 blocks/audio_player.py:15
+#: blocks/audio_recorder.py:16 blocks/audio_saver.py:16
+msgid "Audio"
+msgstr "Audio"
+
+#: blocks/audio_loader.py:33 blocks/audio_saver.py:23
+msgid "Sampling frequency"
+msgstr "Abtastfrequenz"
+
+#: blocks/audio_loader.py:35 blocks/audio_saver.py:25 blocks/signal_saver.py:22
+msgid "Filename"
+msgstr "Dateiname"
+
+#: blocks/audio_loader.py:37 blocks/signal_generator_arbitrary.py:39
+msgid "Load file"
+msgstr "Lade Datei"
+
+#: blocks/audio_player.py:13
+msgid "AudioPlayer"
+msgstr "AudioPlayer"
+
+#: blocks/audio_player.py:14
+msgid "Plays the input signal as a sound."
+msgstr "Spielt das Eingangssignal als Ton ab"
+
+#: blocks/audio_player.py:22
+msgid "Play sound"
+msgstr "Ton abspielen"
+
+#: blocks/audio_player.py:24
+msgid "Auto play"
+msgstr "Automatisch Ton abspielen"
+
+#: blocks/audio_recorder.py:14
+msgid "AudioRecorder"
+msgstr "AudioRecorder"
+
+#: blocks/audio_recorder.py:15
+msgid "Records the default audio input device."
+msgstr "Nimmt Ton von dem Standard Audio Input Gerät auf."
+
+#: blocks/audio_recorder.py:34
+msgid "Record time"
+msgstr "Aufnahmezeit"
+
+#: blocks/audio_recorder.py:36
+msgid "Record sound"
+msgstr "Ton aufnehmen"
+
+#: blocks/audio_saver.py:14
+msgid "AudioSaver"
+msgstr "AudioSpeicherer"
+
+#: blocks/audio_saver.py:15
+msgid "Saves the input signal as a sound file"
+msgstr "Speichert das Eingangssignal als Tondatei"
+
+#: blocks/audio_saver.py:16 blocks/signal_saver.py:15
+msgid "Saving"
+msgstr "Speichern"
+
+#: blocks/audio_saver.py:26
+msgid "Save as .wav"
+msgstr "Als .wav speichern"
 
 #: blocks/fft.py:12
 msgid "FFTBlock"
@@ -65,7 +156,7 @@ msgstr "Berechnet die FFT des Eingangssignals."
 msgid "Fourier"
 msgstr "Fourier"
 
-#: blocks/fft.py:24 blocks/signal_generator_periodic.py:50
+#: blocks/fft.py:25 blocks/signal_generator_periodic.py:51
 msgid "Frequency"
 msgstr "Frequenz"
 
@@ -83,43 +174,43 @@ msgstr ""
 "den Imaginärteil, den Betrag oder die Phase der FFT. Kann auch die FFT "
 "verschieben oder das Eingangsignal abscheiden vor der Transformation."
 
-#: blocks/fftplot.py:24
+#: blocks/fftplot.py:24 blocks/signal_plot.py:16
 msgid "Plotting"
 msgstr "Plottende"
 
-#: blocks/fftplot.py:32
+#: blocks/fftplot.py:33
 msgid "Shift to ordinate"
 msgstr "Zur Ordinate verschieben"
 
-#: blocks/fftplot.py:33
+#: blocks/fftplot.py:34
 msgid "No shift"
 msgstr "Kein Verschieben"
 
-#: blocks/fftplot.py:33
+#: blocks/fftplot.py:34
 msgid "Shift"
 msgstr "Verschieben"
 
-#: blocks/fftplot.py:34
+#: blocks/fftplot.py:35
 msgid "Shift and only positive frequencies"
 msgstr "Verschieben und nur positive Frequenzen"
 
-#: blocks/fftplot.py:38
+#: blocks/fftplot.py:39
 msgid "Plot Mode"
 msgstr "Plot Modus"
 
-#: blocks/fftplot.py:39
+#: blocks/fftplot.py:40
 msgid "Real"
 msgstr "Real"
 
-#: blocks/fftplot.py:39
+#: blocks/fftplot.py:40
 msgid "Imaginary"
 msgstr "Imaginär"
 
-#: blocks/fftplot.py:40
+#: blocks/fftplot.py:41
 msgid "Absolute"
 msgstr "Betrag"
 
-#: blocks/fftplot.py:40
+#: blocks/fftplot.py:41
 msgid "Phase"
 msgstr "Phase"
 
@@ -135,11 +226,11 @@ msgstr ""
 "Teilt Real- und Imaginärteil the Eingangssignals in zwei Ausgangssignale "
 "auf."
 
-#: blocks/real_imag.py:30
+#: blocks/real_imag.py:31
 msgid "Real part"
 msgstr "Realteil"
 
-#: blocks/real_imag.py:40
+#: blocks/real_imag.py:41
 msgid "Imaginary part"
 msgstr "Imaginärteil"
 
@@ -156,7 +247,7 @@ msgstr "Läd arbiträre Daten um ein Signal an seinem Output zu generieren."
 msgid "Generating"
 msgstr "Generierende"
 
-#: blocks/signal_generator_arbitrary.py:30
+#: blocks/signal_generator_arbitrary.py:35
 msgid "Arbitrary data path"
 msgstr "Pfad der Arbiträrdaten"
 
@@ -164,27 +255,27 @@ msgstr "Pfad der Arbiträrdaten"
 msgid "Generates a Sinus, a Rectangle function or a Triangle function."
 msgstr "Generiert einen Sinus, eine Rechtecksfunktion oder eine Dreiecksfunktion "
 
-#: blocks/signal_generator_periodic.py:45
+#: blocks/signal_generator_periodic.py:46
 msgid "Function"
 msgstr "Funktion"
 
-#: blocks/signal_generator_periodic.py:46
+#: blocks/signal_generator_periodic.py:47
 msgid "Rectangle"
 msgstr "Rechteck"
 
-#: blocks/signal_generator_periodic.py:46
+#: blocks/signal_generator_periodic.py:47
 msgid "Triangle"
 msgstr "Dreieck"
 
-#: blocks/signal_generator_periodic.py:47
+#: blocks/signal_generator_periodic.py:48
 msgid "Sine"
 msgstr "Sinus"
 
-#: blocks/signal_generator_periodic.py:54
+#: blocks/signal_generator_periodic.py:55
 msgid "Values"
 msgstr "Werte"
 
-#: blocks/signal_generator_periodic.py:55
+#: blocks/signal_generator_periodic.py:56
 msgid "Increment"
 msgstr "Inkrement"
 
@@ -196,11 +287,11 @@ msgstr "SignalPlot"
 msgid "Plots all input signals in matplotlib."
 msgstr "Plottet alle Eingangssignale in matplotlib."
 
-#: blocks/signal_plot.py:28
+#: blocks/signal_plot.py:30
 msgid "Show plot"
 msgstr "Plot anzeigen"
 
-#: blocks/signal_plot.py:29
+#: blocks/signal_plot.py:31
 msgid "Auto plot"
 msgstr "Automatisch neu plotten"
 
@@ -212,15 +303,7 @@ msgstr "SignalSpeicherer"
 msgid "Saves the input signal in .json file."
 msgstr "Speichert das Eingangssignal in einer.json Datei."
 
-#: blocks/signal_saver.py:15
-msgid "Saving"
-msgstr "Speichern"
-
-#: blocks/signal_saver.py:21
-msgid "Filename"
-msgstr "Dateiname"
-
-#: blocks/signal_saver.py:22 gui/pyside2/main_window.py:63
+#: blocks/signal_saver.py:24 gui/pyside2/main_window.py:63
 #: gui/pyside2/main_window.py:185
 msgid "Save"
 msgstr "Speichern"
@@ -265,7 +348,19 @@ msgstr "Block löschen"
 msgid "Create new block"
 msgstr "Erstelle neuen Block"
 
-#: gui/pyside2/edit_window.py:40 gui/pyside2/edit_window.py:282
+#: gui/pyside2/edit_widgets.py:323 gui/pyside2/io_items.py:118
+#: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:294
+#: gui/pyside2/io_items.py:297 gui/pyside2/io_items.py:301
+#: gui/pyside2/main_window.py:190 gui/pyside2/main_window.py:230
+#: gui/pyside2/main_window.py:245 gui/pyside2/main_window.py:267
+msgid "MCA"
+msgstr "MKA"
+
+#: gui/pyside2/edit_widgets.py:323
+msgid "Something went wrong.\n"
+msgstr "Etwas ist schiefgelaufen.\n"
+
+#: gui/pyside2/edit_window.py:40 gui/pyside2/edit_window.py:310
 msgid "Edit {}"
 msgstr "{} bearbeiten"
 
@@ -273,7 +368,8 @@ msgstr "{} bearbeiten"
 msgid "Parameters"
 msgstr "Parameter"
 
-#: gui/pyside2/edit_window.py:90
+#: gui/pyside2/edit_window.py:90 gui/pyside2/edit_window.py:268
+#: gui/pyside2/edit_window.py:273
 msgid ""
 "Could not apply the changed parameters and meta data!Continue editing or "
 "revert changes?"
@@ -303,7 +399,7 @@ msgstr "Output '{}' Metadaten"
 
 #: gui/pyside2/edit_window.py:151
 msgid "Output {} meta data:"
-msgstr ""
+msgstr "Output {} MetaDaten:"
 
 #: gui/pyside2/edit_window.py:155
 msgid "Signal name:"
@@ -341,6 +437,10 @@ msgstr "Ordinateneinheit:"
 msgid "Use ordinate meta data"
 msgstr "Ordinaten Metadaten benutzen"
 
+#: gui/pyside2/edit_window.py:270
+msgid "Error message:"
+msgstr "Fehlermeldung:"
+
 #: gui/pyside2/io_items.py:53 gui/pyside2/io_items.py:235
 msgid "Disconnect"
 msgstr "Verbindung trennen"
@@ -352,12 +452,6 @@ msgstr "Fehler"
 #: gui/pyside2/io_items.py:115 gui/pyside2/io_items.py:294
 msgid "Cyclic structures are not allowed."
 msgstr "Zyklische Strukturen sind nicht erlaubt."
-
-#: gui/pyside2/io_items.py:118 gui/pyside2/io_items.py:122
-#: gui/pyside2/io_items.py:294 gui/pyside2/io_items.py:297
-#: gui/pyside2/io_items.py:301 gui/pyside2/main_window.py:262
-msgid "MCA"
-msgstr "MKA"
 
 #: gui/pyside2/io_items.py:118 gui/pyside2/io_items.py:297
 msgid "Signals have incompatible meta data."
@@ -411,11 +505,11 @@ msgstr "Suchen..."
 msgid "Select a file to open"
 msgstr "Auswählen um Datei zu öffnen"
 
-#: gui/pyside2/main_window.py:225 gui/pyside2/main_window.py:240
-msgid "Warning"
-msgstr "Warnung"
+#: gui/pyside2/main_window.py:191
+msgid "File has to be a .json"
+msgstr "Datei muss eine .json sein"
 
-#: gui/pyside2/main_window.py:226
+#: gui/pyside2/main_window.py:231
 msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
@@ -423,15 +517,15 @@ msgstr ""
 "Das Dokument wurde verändert.\n"
 "Wollen sie die Änderungen speichern?"
 
-#: gui/pyside2/main_window.py:241
+#: gui/pyside2/main_window.py:246
 msgid "Are you sure you want to remove all blocks?"
 msgstr "Sicher Sie sicher, dass sie alle Blöcke entfernen wollen?"
 
-#: gui/pyside2/main_window.py:259
+#: gui/pyside2/main_window.py:264
 msgid "untitled.json"
 msgstr "Unbennant.json"
 
-#: gui/pyside2/main_window.py:275
+#: gui/pyside2/main_window.py:280
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
 
@@ -515,4 +609,7 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Save input data"
 #~ msgstr "Speicher Daten des Eingangs"
+
+#~ msgid "Warning"
+#~ msgstr "Warnung"
 
