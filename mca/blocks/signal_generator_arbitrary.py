@@ -44,10 +44,10 @@ class SignalGeneratorArbitrary(Block):
 
     def load_file(self):
         """Loads the arbitrary data from the given file_name to the output."""
-        file_path = self.parameters["file"].value
-        if not file_path:
+        file_name = self.parameters["file_name"].value
+        if not file_name:
             raise exceptions.DataLoadingError("No file given to load.")
-        with open(file_path, 'r') as arbitrary_file:
+        with open(file_name, 'r') as arbitrary_file:
             arbitrary_data = json.load(arbitrary_file)
             if arbitrary_data.get("data_type") != "Signal":
                 raise exceptions.DataLoadingError(
