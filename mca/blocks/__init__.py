@@ -14,6 +14,7 @@ from .audio_loader import AudioLoader
 from .audio_saver import AudioSaver
 from .audio_recorder import AudioRecorder
 from .audio_player import AudioPlayer
+from .amplifier import Amplifier
 
 block_classes = [i[1] for i in inspect.getmembers(sys.modules[__name__],
                                                   inspect.isclass)]
