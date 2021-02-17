@@ -313,8 +313,9 @@ class ActionParameterWidget(BaseParameterWidget, QtWidgets.QPushButton):
         pass
 
     def execute_function(self):
+        """Executes the function of the parameter."""
         try:
-            self.edit_window.apply_changes()
+            self.edit_window.apply_changes(meta_data_changes=False)
             self.parameter.function()
         except exceptions.MCAError as error:
             message = error.args[0]

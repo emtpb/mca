@@ -239,6 +239,7 @@ class EditWindow(QtWidgets.QDialog):
                                             1, 1, 1)
 
     def accept(self):
+        """Applies changes to all parameters and closes the window."""
         self.apply_changes()
         super(EditWindow, self).accept()
 
@@ -246,6 +247,12 @@ class EditWindow(QtWidgets.QDialog):
         """Tries to apply changes. In case of an error the user gets a
         notification and can choose between reverting his last changes or
         continue editing and potentially fix the error.
+
+        Args:
+            parameter_changes (bool): True, if changes to the parameter
+                                      should be applied.
+            meta_data_changes (bool): True, if changes to the meta_data should
+                                      be applied
         """
         try:
             if parameter_changes:
@@ -272,8 +279,9 @@ class EditWindow(QtWidgets.QDialog):
             if parameter_changes:
                 for parameter_widget in self.parameter_widgets:
                     parameter_widget.apply_changes()
-            for entry in self.meta_data_widgets:
-                entry.apply_changes()
+            if meta_data_changes:
+                for entry in self.meta_data_widgets:
+                    entry.apply_changes()
 
     def revert_changes(self):
         """Revert the last changes made."""
@@ -284,16 +292,22 @@ class EditWindow(QtWidgets.QDialog):
         self.block.trigger_update()
 
     def reject(self):
+        """Reverts all not applied changes and closes the the window."""
         self.revert_changes()
         super(EditWindow, self).reject()
 
     def closeEvent(self, e):
-        """Event triggered when the close button is pressed."""
+        """Event triggered when the window get closed."""
         self.apply_changes()
         super(EditWindow, self).closeEvent(e)
 
     def show(self):
+        """Opens the window and reloads the meta data tab if the block is a
+        dynamic block.
+        """
         if isinstance(self.block, DynamicBlock) and self.block.dynamic_output:
             self.display_meta_data()
-        self.setWindowTitle(_("Edit {}").format(self.block.parameters["name"].value))
+        self.setWindowTitle(_("Edit {}").format(
+            self.block.parameters["name"].value)
+        )
         super(EditWindow, self).show()
