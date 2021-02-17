@@ -182,16 +182,21 @@ class MainWindow(QtWidgets.QMainWindow):
             bool: True, if saving has been successful. False, otherwise.
         """
         file_name = QtWidgets.QFileDialog.getSaveFileName(
-            self, _("Save"), self.conf["save_file_dir"], "json (*.json)")
-        if not file_name[0]:
+            self, _("Save"), self.conf["save_file_dir"], "json (*.json)")[0]
+        if not file_name:
             return False
-        if not file_name[0].endswith(".json"):
-            file_name[0] + ".json"
-        self.save_file_path = file_name[0]
+        elif "." in file_name and not file_name.endswith(".json"):
+            QtWidgets.QMessageBox.warning(
+                self, _("MCA"),
+                _("File has to be a .json"), QtWidgets.QMessageBox.Ok)
+            return False
+        if not file_name.endswith(".json"):
+            file_name += ".json"
+        self.save_file_path = file_name
         self.conf["save_file_dir"] = os.path.dirname(self.save_file_path)
         self.save_file()
 
-        self.conf["recent_files"] = [file_name[0]] + self.conf["recent_files"][:3]
+        self.conf["recent_files"] = [file_name] + self.conf["recent_files"][:3]
         self.update_recent_menu()
         return True
 
@@ -222,7 +227,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         if self.modified:
             result = QtWidgets.QMessageBox.warning(
-                self, _("Warning"),
+                self, _("MCA"),
                 _("The document has been modified.\nDo you want to save your changes?"),
                 QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.No)
         else:
@@ -237,7 +242,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def clear_all_blocks(self):
         """Clears the :class:`.BlockScene` from all blocks."""
         result = QtWidgets.QMessageBox.question(
-            self, _("Warning"),
+            self, _("MCA"),
             _("Are you sure you want to remove all blocks?"))
         if result == QtWidgets.QMessageBox.StandardButton.Yes:
             self.scene.clear()
