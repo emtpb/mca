@@ -25,7 +25,7 @@ class MainWindow(QtWidgets.QMainWindow):
                        the :class:`.BlockList`.
         search_bar: Reference of the search bar.
         block_list: Reference of the :class:`.BlockList`.
-        save_file_path:
+        save_file_path: Path of the file to save the block structure to.
     """
 
     def __init__(self):
