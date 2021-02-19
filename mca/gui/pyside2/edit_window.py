@@ -21,8 +21,8 @@ class EditWindow(QtWidgets.QDialog):
     Attributes:
         block: Reference of the :class:`.Block` instance.
         main_layout: Arranges the tab widget und the buttons.
-        parameter_tab: Tab for holding the parameter widgets.
-        parameter_layout: Grid layout which arranges the parameter widgets.
+        general_tab: Tab for holding the parameter widgets.
+        parameter_box_layout: Grid layout which arranges the parameter widgets.
         meta_data_tab: Tab for holding the meta data widgets.
         meta_data_layout: Grid layout which arranges the meta data widgets.
         button_box: "Ok|Cancel" button widgets.
@@ -45,31 +45,50 @@ class EditWindow(QtWidgets.QDialog):
         self.headline_font.setWeight(75)
         self.headline_font.setBold(True)
 
-        self.main_layout = QtWidgets.QVBoxLayout()
-        self.setLayout(self.main_layout)
+        self.main_layout = QtWidgets.QVBoxLayout(self)
 
         self.parameter_widgets = []
         self.meta_data_widgets = []
 
         self.tab_widget = QtWidgets.QTabWidget()
         self.main_layout.addWidget(self.tab_widget)
-        # Initialize parameter tab
-        self.parameter_tab = QtWidgets.QWidget()
-        self.parameter_layout = QtWidgets.QGridLayout(self.parameter_tab)
-        parameter_count = len(block.parameters.values())
-        parameters_tab_height = (parameter_count + 2) * 30
-        self.parameter_tab.setFixedHeight(parameters_tab_height)
+        # Initialize general tab
+        self.general_tab_layout = QtWidgets.QVBoxLayout()
+
+        description_box = QtWidgets.QGroupBox(_("Description"))
+        description_box_layout = QtWidgets.QVBoxLayout(description_box)
+        description_label = QtWidgets.QLabel(self.block.description)
+        description_label.setMaximumHeight(60)
+        description_label.setWordWrap(True)
+        description_box_layout.addWidget(description_label)
+        self.general_tab_layout.addWidget(description_box)
+
+        self.parameter_box = QtWidgets.QGroupBox(_("Parameters"))
+        self.parameter_box_layout = QtWidgets.QGridLayout(self.parameter_box)
+        self.general_tab_layout.addWidget(self.parameter_box)
+        self.general_tab_layout.addItem(QtWidgets.QSpacerItem(
+            0, 0,
+            QtWidgets.QSizePolicy.Minimum,
+            QtWidgets.QSizePolicy.Expanding))
 
         scroll = QtWidgets.QScrollArea()
-        scroll.setWidget(self.parameter_tab)
+        scroll.setLayout(self.general_tab_layout)
         scroll.setWidgetResizable(True)
-        scroll.setFixedHeight(400)
-        self.tab_widget.addTab(scroll, _("Parameters"))
-        self.display_parameters()
+        scroll.setFixedHeight(self.height())
+        self.tab_widget.addTab(scroll, _("General"))
+        self.add_parameters()
         # Initialize meta data tab
         self.meta_data_tab = None
         self.meta_data_layout = None
-        self.display_meta_data()
+        if self.block.outputs or (isinstance(self.block, DynamicBlock) and
+                                  self.block.dynamic_output):
+            self.meta_data_layout = QtWidgets.QVBoxLayout()
+            scroll = QtWidgets.QScrollArea()
+            scroll.setLayout(self.meta_data_layout)
+            scroll.setWidgetResizable(True)
+            scroll.setFixedHeight(self.height())
+            self.tab_widget.addTab(scroll, _("Meta data"))
+            self.add_meta_data()
         # Set buttons
         self.button_box = QtWidgets.QDialogButtonBox()
         self.button_box.setGeometry(QtCore.QRect(140, 360, 329, 23))
@@ -100,143 +119,74 @@ class EditWindow(QtWidgets.QDialog):
         QtCore.QObject.connect(self.button_box, QtCore.SIGNAL("rejected()"),
                                self.reject)
 
-    def display_parameters(self):
+    def add_parameters(self):
         """Arranges parameters of a block in rows in the window underneath each
         other. One row includes the name of the parameter as a label, the
         desired widget and the unit if given.
         """
         block_parameters = self.block.parameters.values()
-        if block_parameters:
-            parameter_label = QtWidgets.QLabel(_("Parameters:"),
-                                               self.parameter_tab)
-            self.parameter_layout.addWidget(parameter_label, 0, 0, 1, 1)
-            parameter_label.setFont(self.headline_font)
+
         for block_parameter, index in zip(block_parameters,
-                                          range(1, len(block_parameters) + 1)):
+                                          range(0, len(block_parameters))):
             if not isinstance(block_parameter, parameters.BoolParameter) and \
                not isinstance(block_parameter, parameters.ActionParameter):
-                name_label = QtWidgets.QLabel(block_parameter.name)
-                self.parameter_layout.addWidget(name_label, index, 0, 1, 1)
+                name_label = QtWidgets.QLabel(block_parameter.name + ":")
+                name_label.setFixedHeight(25)
+                self.parameter_box_layout.addWidget(name_label, index, 0, 1, 1)
             widget = widget_dict[type(block_parameter)](block_parameter, self)
+            widget.setFixedHeight(25)
             self.parameter_widgets.append(widget)
             widget.read_parameter()
-            self.parameter_layout.addWidget(widget, index, 1, 1, 1)
+            self.parameter_box_layout.addWidget(widget, index, 1, 1, 1)
             if block_parameter.unit:
                 unit_label = QtWidgets.QLabel(block_parameter.unit)
-                self.parameter_layout.addWidget(unit_label, index, 2, 1, 1)
+                self.parameter_box_layout.addWidget(unit_label, index, 2, 1, 1)
 
-    def display_meta_data(self):
+    def add_meta_data(self):
         """Arranges the meta data of the outputs of the block in the window."""
-        if self.tab_widget.count() == 2:
-            self.tab_widget.removeTab(1)
-            self.meta_data_widgets = []
-        if self.block.outputs:
-            self.meta_data_tab = QtWidgets.QWidget()
-            self.meta_data_layout = QtWidgets.QGridLayout(self.meta_data_tab)
-            meta_data_tab_height = len(self.block.outputs)*300
-            self.meta_data_tab.setFixedHeight(meta_data_tab_height)
-            self.tab_widget.setCurrentIndex(0)
-            scroll = QtWidgets.QScrollArea()
-            scroll.setWidget(self.meta_data_tab)
-            scroll.setWidgetResizable(True)
-            scroll.setFixedHeight(400)
-            self.tab_widget.addTab(scroll, _("Meta data"))
-
-        for index, output in enumerate(self.block.outputs):
+        for i in reversed(range(self.meta_data_layout.count())):
+            self.meta_data_layout.itemAt(i).widget().setParent(None)
+        self.meta_data_widgets = []
+        for output_index, output in enumerate(self.block.outputs):
             if output.name:
-                output_label = QtWidgets.QLabel(
+                meta_data_box = QtWidgets.QGroupBox(
                     _("Output '{}' meta data:").format(output.name))
             else:
-                output_label = QtWidgets.QLabel(
-                    _("Output {} meta data:").format(index))
-            output_label.setFont(self.headline_font)
-            self.meta_data_layout.addWidget(output_label, index * 10, 0, 1, 1)
+                meta_data_box = QtWidgets.QGroupBox(
+                    _("Output {} meta data:").format(output_index))
+            meta_data_box_layout = QtWidgets.QFormLayout(meta_data_box)
+            label_attributes = ((_("Signal name:"), "name"),
+                                (_("Abscissa quantity:"), "quantity_a"),
+                                (_("Abscissa symbol:"), "symbol_a"),
+                                (_("Abscissa unit:"), "unit_a"),
+                                (_("Ordinate quantity:"), "quantity_o"),
+                                (_("Ordinate symbol:"), "symbol_o"),
+                                (_("Ordinate unit:"), "unit_o"))
+            for label, attribute in label_attributes:
+                entry_edit_line = edit_widgets.MetaDataEditWidget(
+                    meta_data=output.meta_data, attr=attribute
+                )
+                entry_edit_line.read_attribute()
+                entry_edit_line.setMaximumHeight(25)
+                self.meta_data_widgets.append(entry_edit_line)
+                meta_data_box_layout.addRow(label, entry_edit_line)
 
-            self.meta_data_layout.addWidget(QtWidgets.QLabel(_("Signal name:")),
-                                            index * 10 + 1, 0, 1, 1)
-            entry_edit_line = edit_widgets.MetaDataEditWidget(
-                meta_data=output.meta_data, attr="name"
-            )
-            entry_edit_line.read_attribute()
-            self.meta_data_widgets.append(entry_edit_line)
-            self.meta_data_layout.addWidget(entry_edit_line,
-                                            index * 10 + 1, 1, 1, 1)
-
-            self.meta_data_layout.addWidget(QtWidgets.QLabel(_("Abscissa quantity:")),
-                                            index * 10 + 2, 0, 1, 1)
-            entry_edit_line = edit_widgets.MetaDataEditWidget(
-                meta_data=output.meta_data, attr="quantity_a"
-            )
-            entry_edit_line.read_attribute()
-            self.meta_data_widgets.append(entry_edit_line)
-            self.meta_data_layout.addWidget(entry_edit_line,
-                                            index * 10 + 2, 1, 1, 1)
-
-            self.meta_data_layout.addWidget(QtWidgets.QLabel(_("Abscissa symbol:")),
-                                            index * 10 + 3, 0, 1, 1)
-            entry_edit_line = edit_widgets.MetaDataEditWidget(
-                meta_data=output.meta_data, attr="symbol_a"
-            )
-            entry_edit_line.read_attribute()
-            self.meta_data_widgets.append(entry_edit_line)
-            self.meta_data_layout.addWidget(entry_edit_line,
-                                            index * 10 + 3, 1, 1, 1)
-
-            self.meta_data_layout.addWidget(QtWidgets.QLabel(_("Abscissa unit:")),
-                                            index * 10 + 4, 0, 1, 1)
-            entry_edit_line = edit_widgets.MetaDataEditWidget(
-                meta_data=output.meta_data, attr="unit_a"
-            )
-            entry_edit_line.read_attribute()
-            self.meta_data_widgets.append(entry_edit_line)
-            self.meta_data_layout.addWidget(entry_edit_line,
-                                            index * 10 + 4, 1, 1, 1)
             abscissa_check_box = edit_widgets.MetaDataBoolWidget(
                 _("Use abscissa meta data"), output, "abscissa_meta_data")
             abscissa_check_box.read_attribute()
             if not output.meta_data_input_dependent:
                 abscissa_check_box.setEnabled(False)
             self.meta_data_widgets.append(abscissa_check_box)
-            self.meta_data_layout.addWidget(abscissa_check_box, index*10+5, 1, 1, 1)
-            self.meta_data_layout.addWidget(
-                QtWidgets.QLabel(_("Ordinate quantity:")),
-                index * 10 + 6, 0, 1, 1)
-            entry_edit_line = edit_widgets.MetaDataEditWidget(
-                meta_data=output.meta_data, attr="quantity_o"
-            )
-            entry_edit_line.read_attribute()
-            self.meta_data_widgets.append(entry_edit_line)
-            self.meta_data_layout.addWidget(entry_edit_line,
-                                            index * 10 + 6, 1, 1, 1)
-            self.meta_data_layout.addWidget(
-                QtWidgets.QLabel(_("Ordinate symbol:")),
-                index * 10 + 7, 0, 1, 1)
-            entry_edit_line = edit_widgets.MetaDataEditWidget(
-                meta_data=output.meta_data, attr="symbol_o"
-            )
-            entry_edit_line.read_attribute()
-            self.meta_data_widgets.append(entry_edit_line)
-            self.meta_data_layout.addWidget(entry_edit_line,
-                                            index * 10 + 7, 1, 1, 1)
-
-            self.meta_data_layout.addWidget(
-                QtWidgets.QLabel(_("Ordinate unit:")),
-                index * 10 + 8, 0, 1, 1)
-            entry_edit_line = edit_widgets.MetaDataEditWidget(
-                meta_data=output.meta_data, attr="unit_o"
-            )
-            entry_edit_line.read_attribute()
-            self.meta_data_widgets.append(entry_edit_line)
-            self.meta_data_layout.addWidget(entry_edit_line,
-                                            index * 10 + 8, 1, 1, 1)
+            meta_data_box_layout.insertRow(4, "", abscissa_check_box)
+            
             ordinate_check_box = edit_widgets.MetaDataBoolWidget(
                 _("Use ordinate meta data"), output, "ordinate_meta_data")
             ordinate_check_box.read_attribute()
             if not output.meta_data_input_dependent:
                 ordinate_check_box.setEnabled(False)
             self.meta_data_widgets.append(ordinate_check_box)
-            self.meta_data_layout.addWidget(ordinate_check_box, index * 10 + 9,
-                                            1, 1, 1)
+            meta_data_box_layout.insertRow(8, "", ordinate_check_box)
+            self.meta_data_layout.addWidget(meta_data_box)
 
     def accept(self):
         """Applies changes to all parameters and closes the window."""
@@ -306,7 +256,7 @@ class EditWindow(QtWidgets.QDialog):
         dynamic block.
         """
         if isinstance(self.block, DynamicBlock) and self.block.dynamic_output:
-            self.display_meta_data()
+            self.add_meta_data()
         self.setWindowTitle(_("Edit {}").format(
             self.block.parameters["name"].value)
         )

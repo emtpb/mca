@@ -396,6 +396,11 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
             self.read_parameter()
             self.changed = False
 
+    def setFixedHeight(self, h):
+        """Sets the button and the line edit at a fixed height."""
+        self.button.setFixedHeight(h)
+        self.file_edit.setFixedHeight(h)
+
     def open_file_dialog(self):
         """Opens the file dialog window and puts the chosen file into the
         line edit.
@@ -551,4 +556,3 @@ class MetaDataBoolWidget(QtWidgets.QCheckBox):
             self.write_attribute()
             self.read_attribute()
             self.changed = False
-
