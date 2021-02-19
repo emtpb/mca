@@ -21,11 +21,16 @@ class EditWindow(QtWidgets.QDialog):
     Attributes:
         block: Reference of the :class:`.Block` instance.
         main_layout: Arranges the tab widget und the buttons.
-        general_tab: Tab for holding the parameter widgets.
         parameter_box_layout: Grid layout which arranges the parameter widgets.
-        meta_data_tab: Tab for holding the meta data widgets.
-        meta_data_layout: Grid layout which arranges the meta data widgets.
+        parameter_widgets (list): Contains references to all parameter widgets.
+        meta_data_layout: Vertical layout which arranges the meta data group
+                          boxes.
+        meta_data_widgets (list): Contains references to all meta data widgets.
+        tab_widget: Widget containing the tabs 'general' and 'meta data'.
+        warning_message: Dialogue window which pops up when errors occur during
+                         editing.
         button_box: "Ok|Cancel" button widgets.
+
     """
     def __init__(self, parent, block):
         """Initialize EditWindow class.
@@ -38,12 +43,6 @@ class EditWindow(QtWidgets.QDialog):
         self.resize(500, 400)
         self.setMaximumSize(QtCore.QSize(500, 400))
         self.setWindowTitle(_("Edit {}").format(self.block.parameters["name"].value))
-        # Define font for headline labels in the edit window
-        self.headline_font = QtGui.QFont()
-        self.headline_font.setFamily("TeXGyreHeros")
-        self.headline_font.setPointSize(11)
-        self.headline_font.setWeight(75)
-        self.headline_font.setBold(True)
 
         self.main_layout = QtWidgets.QVBoxLayout(self)
 
@@ -53,7 +52,7 @@ class EditWindow(QtWidgets.QDialog):
         self.tab_widget = QtWidgets.QTabWidget()
         self.main_layout.addWidget(self.tab_widget)
         # Initialize general tab
-        self.general_tab_layout = QtWidgets.QVBoxLayout()
+        general_tab_layout = QtWidgets.QVBoxLayout()
 
         description_box = QtWidgets.QGroupBox(_("Description"))
         description_box_layout = QtWidgets.QVBoxLayout(description_box)
@@ -61,24 +60,23 @@ class EditWindow(QtWidgets.QDialog):
         description_label.setMaximumHeight(60)
         description_label.setWordWrap(True)
         description_box_layout.addWidget(description_label)
-        self.general_tab_layout.addWidget(description_box)
+        general_tab_layout.addWidget(description_box)
 
         self.parameter_box = QtWidgets.QGroupBox(_("Parameters"))
         self.parameter_box_layout = QtWidgets.QGridLayout(self.parameter_box)
-        self.general_tab_layout.addWidget(self.parameter_box)
-        self.general_tab_layout.addItem(QtWidgets.QSpacerItem(
+        general_tab_layout.addWidget(self.parameter_box)
+        general_tab_layout.addItem(QtWidgets.QSpacerItem(
             0, 0,
             QtWidgets.QSizePolicy.Minimum,
             QtWidgets.QSizePolicy.Expanding))
 
         scroll = QtWidgets.QScrollArea()
-        scroll.setLayout(self.general_tab_layout)
+        scroll.setLayout(general_tab_layout)
         scroll.setWidgetResizable(True)
         scroll.setFixedHeight(self.height())
         self.tab_widget.addTab(scroll, _("General"))
         self.add_parameters()
         # Initialize meta data tab
-        self.meta_data_tab = None
         self.meta_data_layout = None
         if self.block.outputs or (isinstance(self.block, DynamicBlock) and
                                   self.block.dynamic_output):
@@ -108,10 +106,10 @@ class EditWindow(QtWidgets.QDialog):
         self.warning_message.setText(
             _("Could not apply the changed parameters and meta data!"
               "Continue editing or revert changes?"))
-        self.continue_button = self.warning_message.addButton(
+        self.warning_message.continue_button = self.warning_message.addButton(
             _("Continue"),
             QtWidgets.QMessageBox.YesRole)
-        self.revert_button = self.warning_message.addButton(
+        self.warning_message.revert_button = self.warning_message.addButton(
             _("Revert"),
             QtWidgets.QMessageBox.NoRole)
         QtCore.QObject.connect(self.button_box, QtCore.SIGNAL("accepted()"),
@@ -223,7 +221,7 @@ class EditWindow(QtWidgets.QDialog):
                     _("Could not apply the changed parameters and meta data!"
                       "Continue editing or revert changes?"))
             self.warning_message.exec_()
-            if self.warning_message.clickedButton() == self.revert_button:
+            if self.warning_message.clickedButton() == self.warning_message.revert_button:
                 self.revert_changes()
         else:
             if parameter_changes:
