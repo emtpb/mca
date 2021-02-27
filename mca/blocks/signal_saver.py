@@ -50,5 +50,5 @@ class SignalSaver(Block):
                          "abscissa_start": signal.abscissa_start,
                          "values": signal.values,
                          "increment": signal.increment,
-                         "ordinate": str(signal.ordinate)}
+                         "ordinate": signal.ordinate.tolist()}
             json.dump(save_data, save_file)

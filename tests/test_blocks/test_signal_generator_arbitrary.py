@@ -20,7 +20,7 @@ def test_load_json(sin_signal):
                  "abscissa_start": sin_signal.abscissa_start,
                  "values": sin_signal.values,
                  "increment": sin_signal.increment,
-                 "ordinate": str(sin_signal.ordinate)}
+                 "ordinate": sin_signal.ordinate.tolist()}
     file_name = dir_path+"/sin.json"
     with open(file_name, "w") as save_file:
         json.dump(test_dict, save_file)

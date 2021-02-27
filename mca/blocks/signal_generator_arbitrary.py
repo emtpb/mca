@@ -68,7 +68,6 @@ class SignalGeneratorArbitrary(Block):
             abscissa_start=arbitrary_data["abscissa_start"],
             values=arbitrary_data["values"],
             increment=arbitrary_data["increment"],
-            ordinate=np.fromstring(arbitrary_data["ordinate"][1:-1],
-                                   sep=" ", dtype=float)
+            ordinate=np.array(arbitrary_data["ordinate"])
             )
         self.update()

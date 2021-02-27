@@ -21,7 +21,7 @@ def test_save_data(sin_block, sin_signal):
                  "abscissa_start": sin_signal.abscissa_start,
                  "values": sin_signal.values,
                  "increment": sin_signal.increment,
-                 "ordinate": str(sin_signal.ordinate)}
+                 "ordinate": sin_signal.ordinate.tolist()}
     with open(dir_path + "/sin.json", "r") as save_file:
         test_dict_saved = json.load(save_file)
     assert test_dict == test_dict_saved
