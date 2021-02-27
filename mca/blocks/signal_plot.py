@@ -25,7 +25,7 @@ class SignalPlot(DynamicBlock):
         self.plot_widget = plot_widget
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
-        self.legend = self.fig.legend()
+        self.legend = None
         self.parameters.update({
             "show": parameters.ActionParameter(_("Show plot"), self.show),
             "auto_show": parameters.BoolParameter(_("Auto plot"), False)
@@ -33,7 +33,8 @@ class SignalPlot(DynamicBlock):
 
     def _process(self):
         self.axes.cla()
-        self.legend.remove()
+        if self.legend:
+            self.legend.remove()
         for i in self.inputs:
             validator.check_type_signal(i.data)
 
@@ -43,15 +44,21 @@ class SignalPlot(DynamicBlock):
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
         auto_show = self.parameters["auto_show"].value
+        labels = False
         for signal in signals:
             abscissa = np.linspace(signal.abscissa_start,
                                    signal.abscissa_start + signal.increment * (signal.values - 1),
                                    signal.values)
             ordinate = signal.ordinate
             label = signal.meta_data.name
+            if label:
+                labels = True
             self.axes.plot(abscissa, ordinate, label=label)
-        self.legend = self.fig.legend()
-        if len(signals) >= 1:
+        if labels:
+            self.legend = self.fig.legend()
+        else:
+            self.legend = None
+        if signals:
             meta_data = signals[0].meta_data
             abscissa_string = data_types.meta_data_to_axis_label(
                 quantity=meta_data.quantity_a,
@@ -66,7 +73,9 @@ class SignalPlot(DynamicBlock):
             self.axes.set_xlabel(abscissa_string)
             self.axes.set_ylabel(ordinate_string)
         self.axes.grid(True)
+        self.fig.tight_layout()
         self.fig.canvas.draw()
+
         if auto_show:
             self.show()
 
