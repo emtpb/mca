@@ -15,6 +15,7 @@ from .audio_saver import AudioSaver
 from .audio_recorder import AudioRecorder
 from .audio_player import AudioPlayer
 from .amplifier import Amplifier
+from .signal_generator_stochastic import SignalGeneratorStochastic
 
 block_classes = [i[1] for i in inspect.getmembers(sys.modules[__name__],
                                                   inspect.isclass)]

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-02-17 13:17-0800\n"
+"POT-Creation-Date: 2021-02-27 06:52-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -33,17 +33,19 @@ msgid "Processing"
 msgstr "Verarbeitende"
 
 #: blocks/absolute.py:23 blocks/adder.py:34 blocks/amplifier.py:23
-#: blocks/audio_loader.py:25 blocks/audio_recorder.py:26 blocks/real_imag.py:28
+#: blocks/audio_loader.py:25 blocks/audio_recorder.py:24 blocks/real_imag.py:28
 #: blocks/real_imag.py:38 blocks/signal_generator_arbitrary.py:27
 #: blocks/signal_generator_periodic.py:36
+#: blocks/signal_generator_stochastic.py:26
 msgid "Time"
 msgstr "Zeit"
 
 #: blocks/absolute.py:24 blocks/adder.py:35 blocks/amplifier.py:24
-#: blocks/audio_loader.py:26 blocks/audio_recorder.py:27 blocks/fft.py:26
+#: blocks/audio_loader.py:26 blocks/audio_recorder.py:25 blocks/fft.py:26
 #: blocks/real_imag.py:29 blocks/real_imag.py:39
 #: blocks/signal_generator_arbitrary.py:28
 #: blocks/signal_generator_periodic.py:37
+#: blocks/signal_generator_stochastic.py:27
 msgid "Voltage"
 msgstr "Spannung"
 
@@ -80,7 +82,7 @@ msgid "Loading"
 msgstr "Ladend"
 
 #: blocks/audio_loader.py:15 blocks/audio_player.py:15
-#: blocks/audio_recorder.py:16 blocks/audio_saver.py:16
+#: blocks/audio_recorder.py:14 blocks/audio_saver.py:16
 msgid "Audio"
 msgstr "Audio"
 
@@ -112,19 +114,19 @@ msgstr "Ton abspielen"
 msgid "Auto play"
 msgstr "Automatisch Ton abspielen"
 
-#: blocks/audio_recorder.py:14
+#: blocks/audio_recorder.py:12
 msgid "AudioRecorder"
 msgstr "AudioRecorder"
 
-#: blocks/audio_recorder.py:15
+#: blocks/audio_recorder.py:13
 msgid "Records the default audio input device."
 msgstr "Nimmt Ton von dem Standard Audio Input Gerät auf."
 
-#: blocks/audio_recorder.py:34
+#: blocks/audio_recorder.py:32
 msgid "Record time"
 msgstr "Aufnahmezeit"
 
-#: blocks/audio_recorder.py:36
+#: blocks/audio_recorder.py:34
 msgid "Record sound"
 msgstr "Ton aufnehmen"
 
@@ -244,6 +246,7 @@ msgstr "Läd arbiträre Daten um ein Signal an seinem Output zu generieren."
 
 #: blocks/signal_generator_arbitrary.py:16
 #: blocks/signal_generator_periodic.py:25
+#: blocks/signal_generator_stochastic.py:15
 msgid "Generating"
 msgstr "Generierende"
 
@@ -272,12 +275,42 @@ msgid "Sine"
 msgstr "Sinus"
 
 #: blocks/signal_generator_periodic.py:55
+#: blocks/signal_generator_stochastic.py:45
 msgid "Values"
 msgstr "Werte"
 
 #: blocks/signal_generator_periodic.py:56
+#: blocks/signal_generator_stochastic.py:46
 msgid "Increment"
 msgstr "Inkrement"
+
+#: blocks/signal_generator_stochastic.py:13
+msgid "Generates a stochastic signal with either normal or equal distribution."
+msgstr ""
+
+#: blocks/signal_generator_stochastic.py:15
+msgid "Stochastic"
+msgstr "Stochastisch"
+
+#: blocks/signal_generator_stochastic.py:36
+msgid "Distribution"
+msgstr "Verteilung"
+
+#: blocks/signal_generator_stochastic.py:37
+msgid "Normal distribution"
+msgstr "Normalverteilt"
+
+#: blocks/signal_generator_stochastic.py:38
+msgid "Equal distribution"
+msgstr "Gleichverteilt"
+
+#: blocks/signal_generator_stochastic.py:41
+msgid "Mean µ"
+msgstr "Mittelwert µ"
+
+#: blocks/signal_generator_stochastic.py:42
+msgid "Standard deviation σ"
+msgstr "Standardabweichung σ"
 
 #: blocks/signal_plot.py:14
 msgid "SignalPlot"
@@ -360,16 +393,28 @@ msgstr "MKA"
 msgid "Something went wrong.\n"
 msgstr "Etwas ist schiefgelaufen.\n"
 
-#: gui/pyside2/edit_window.py:40 gui/pyside2/edit_window.py:310
+#: gui/pyside2/edit_window.py:45 gui/pyside2/edit_window.py:258
 msgid "Edit {}"
 msgstr "{} bearbeiten"
 
-#: gui/pyside2/edit_window.py:67
+#: gui/pyside2/edit_window.py:57
+msgid "Description"
+msgstr ""
+
+#: gui/pyside2/edit_window.py:65
 msgid "Parameters"
 msgstr "Parameter"
 
-#: gui/pyside2/edit_window.py:90 gui/pyside2/edit_window.py:268
-#: gui/pyside2/edit_window.py:273
+#: gui/pyside2/edit_window.py:77
+msgid "General"
+msgstr ""
+
+#: gui/pyside2/edit_window.py:88
+msgid "Meta data"
+msgstr "Metadaten"
+
+#: gui/pyside2/edit_window.py:107 gui/pyside2/edit_window.py:216
+#: gui/pyside2/edit_window.py:221
 msgid ""
 "Could not apply the changed parameters and meta data!Continue editing or "
 "revert changes?"
@@ -377,67 +422,59 @@ msgstr ""
 "Die veränderten Parameter und Metadaten konnten nicht angewendet! Mit der"
 " Bearbeitung fortfahren oder Änderung rückgängig machen?"
 
-#: gui/pyside2/edit_window.py:93
+#: gui/pyside2/edit_window.py:110
 msgid "Continue"
 msgstr "Fortfahren"
 
-#: gui/pyside2/edit_window.py:96
+#: gui/pyside2/edit_window.py:113
 msgid "Revert"
 msgstr "Rückgängig"
 
-#: gui/pyside2/edit_window.py:110
-msgid "Parameters:"
-msgstr "Parameter:"
-
-#: gui/pyside2/edit_window.py:143
-msgid "Meta data"
-msgstr "Metadaten"
-
-#: gui/pyside2/edit_window.py:148
+#: gui/pyside2/edit_window.py:151
 msgid "Output '{}' meta data:"
 msgstr "Output '{}' Metadaten"
 
-#: gui/pyside2/edit_window.py:151
+#: gui/pyside2/edit_window.py:154
 msgid "Output {} meta data:"
 msgstr "Output {} MetaDaten:"
 
-#: gui/pyside2/edit_window.py:155
+#: gui/pyside2/edit_window.py:156
 msgid "Signal name:"
 msgstr "Signalname:"
 
-#: gui/pyside2/edit_window.py:165
+#: gui/pyside2/edit_window.py:157
 msgid "Abscissa quantity:"
 msgstr "Abszissengröße:"
 
-#: gui/pyside2/edit_window.py:175
+#: gui/pyside2/edit_window.py:158
 msgid "Abscissa symbol:"
 msgstr "Abszissensymbol:"
 
-#: gui/pyside2/edit_window.py:185
+#: gui/pyside2/edit_window.py:159
 msgid "Abscissa unit:"
 msgstr "Abszisseneinheit:"
 
-#: gui/pyside2/edit_window.py:195
-msgid "Use abscissa meta data"
-msgstr "Abzissen Metadaten benutzen"
-
-#: gui/pyside2/edit_window.py:202
+#: gui/pyside2/edit_window.py:160
 msgid "Ordinate quantity:"
 msgstr "Ordinatengröße:"
 
-#: gui/pyside2/edit_window.py:212
+#: gui/pyside2/edit_window.py:161
 msgid "Ordinate symbol:"
 msgstr "Ordinatensymbol:"
 
-#: gui/pyside2/edit_window.py:223
+#: gui/pyside2/edit_window.py:162
 msgid "Ordinate unit:"
 msgstr "Ordinateneinheit:"
 
-#: gui/pyside2/edit_window.py:233
+#: gui/pyside2/edit_window.py:173
+msgid "Use abscissa meta data"
+msgstr "Abzissen Metadaten benutzen"
+
+#: gui/pyside2/edit_window.py:181
 msgid "Use ordinate meta data"
 msgstr "Ordinaten Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:270
+#: gui/pyside2/edit_window.py:218
 msgid "Error message:"
 msgstr "Fehlermeldung:"
 
@@ -612,4 +649,7 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Warning"
 #~ msgstr "Warnung"
+
+#~ msgid "Parameters:"
+#~ msgstr "Parameter:"
 
