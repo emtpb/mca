@@ -1,9 +1,7 @@
 import sounddevice as sd
-import scipy.io.wavfile
 
 from mca.framework import parameters, Block, data_types
 from mca.language import _
-from mca import exceptions
 
 
 class AudioRecorder(Block):
@@ -48,7 +46,7 @@ class AudioRecorder(Block):
         sampling_frequency = 44100
         record_time = self.parameters["record_time"].value
         frames = int(sampling_frequency*record_time)
-        recording = sd.rec(frames=frames, samplerate=44100, channels=1)
+        recording = sd.rec(frames=frames, samplerate=44100, channels=1).reshape(frames)
         self.outputs[0].data = data_types.Signal(
             meta_data=self.outputs[0].meta_data,
             abscissa_start=0,
