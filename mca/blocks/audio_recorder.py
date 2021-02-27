@@ -29,10 +29,13 @@ class AudioRecorder(Block):
             abscissa_meta_data=True,
         )
         self.parameters.update(
-            {"record_time": parameters.FloatParameter(_("Record time"), 0,
+            {"sampling_freq": parameters.IntParameter(_("Sampling Frequency"),
+                                                      1, None, "Hz", 44100),
+             "record_time": parameters.FloatParameter(_("Record time"), 0,
                                                       None, "s", 5),
              "record_sound": parameters.ActionParameter(_("Record sound"),
                                                         self.record_sound),
+
              })
         self.read_kwargs(kwargs)
 
@@ -43,10 +46,11 @@ class AudioRecorder(Block):
         """Record the default audio device and puts the data on the second
         output.
         """
-        sampling_frequency = 44100
+        sampling_frequency = self.parameters["sampling_freq"].value
         record_time = self.parameters["record_time"].value
         frames = int(sampling_frequency*record_time)
-        recording = sd.rec(frames=frames, samplerate=44100, channels=1).reshape(frames)
+        recording = sd.rec(frames=frames, samplerate=sampling_frequency,
+                           channels=1).reshape(frames)
         self.outputs[0].data = data_types.Signal(
             meta_data=self.outputs[0].meta_data,
             abscissa_start=0,

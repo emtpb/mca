@@ -21,7 +21,7 @@ class AudioSaver(Block):
         self._new_input()
         self.parameters.update(
             {"sampling_freq": parameters.IntParameter(_("Sampling frequency"),
-                                                      0, None, "Hz", 44100),
+                                                      1, None, "Hz", 44100),
              "filename": parameters.PathParameter(_("Filename"), [".wav"]),
              "save_file": parameters.ActionParameter(_("Save as .wav"),
                                                      self.save_as_wav)})
