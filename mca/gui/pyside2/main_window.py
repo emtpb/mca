@@ -1,4 +1,4 @@
-from PySide2 import QtWidgets, QtCore, QtGui
+from PySide2 import QtWidgets, QtGui
 import os
 import ntpath
 
@@ -41,7 +41,7 @@ class MainWindow(QtWidgets.QMainWindow):
         languages = [("Deutsch", "de"), ("English", "en")]
 
         self.setWindowIcon(QtGui.QIcon(
-            os.path.dirname(blocks.__file__) + "/icons/emt_logo.png"))
+            os.path.dirname(__file__) + "/../../images/emt_logo.png"))
         for i in languages:
             action = QtWidgets.QAction(i[0], self)
             action.triggered.connect(change_language(i[1]))
