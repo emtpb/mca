@@ -27,8 +27,8 @@ class SignalGeneratorArbitrary(Block):
                 quantity_a=_("Time"),
                 quantity_o=_("Voltage")),
             meta_data_input_dependent=False,
-            ordinate_meta_data=True,
-            abscissa_meta_data=True,
+            ordinate_meta_data=False,
+            abscissa_meta_data=False,
         )
         self.parameters.update({
             "file_name": parameters.PathParameter(
