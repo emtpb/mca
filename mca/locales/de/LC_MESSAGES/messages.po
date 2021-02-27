@@ -108,11 +108,11 @@ msgstr "Spielt das Eingangssignal als Ton ab"
 
 #: blocks/audio_player.py:22
 msgid "Play sound"
-msgstr "Ton abspielen"
+msgstr "Geräusch abspielen"
 
 #: blocks/audio_player.py:24
 msgid "Auto play"
-msgstr "Automatisch Ton abspielen"
+msgstr "Automatisch Geräusch abspielen"
 
 #: blocks/audio_recorder.py:12
 msgid "AudioRecorder"
@@ -120,7 +120,7 @@ msgstr "AudioRecorder"
 
 #: blocks/audio_recorder.py:13
 msgid "Records the default audio input device."
-msgstr "Nimmt Ton von dem Standard Audio Input Gerät auf."
+msgstr "Nimmt Geräusch von dem Standard Audio Input Gerät auf."
 
 #: blocks/audio_recorder.py:32
 msgid "Record time"
@@ -128,15 +128,15 @@ msgstr "Aufnahmezeit"
 
 #: blocks/audio_recorder.py:34
 msgid "Record sound"
-msgstr "Ton aufnehmen"
+msgstr "Geräusch aufnehmen"
 
 #: blocks/audio_saver.py:14
 msgid "AudioSaver"
-msgstr "AudioSpeicherer"
+msgstr "AudioSpeicherung"
 
 #: blocks/audio_saver.py:15
 msgid "Saves the input signal as a sound file"
-msgstr "Speichert das Eingangssignal als Tondatei"
+msgstr "Speichert das Eingangssignal als Audiodatei"
 
 #: blocks/audio_saver.py:16 blocks/signal_saver.py:15
 msgid "Saving"
@@ -330,7 +330,7 @@ msgstr "Automatisch neu plotten"
 
 #: blocks/signal_saver.py:13
 msgid "SignalSaver"
-msgstr "SignalSpeicherer"
+msgstr "SignalSpeicherung"
 
 #: blocks/signal_saver.py:14
 msgid "Saves the input signal in .json file."
