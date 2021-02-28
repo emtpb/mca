@@ -59,22 +59,31 @@ class FFTPlot(Block):
         input_signal = self.inputs[0].data
         plot_mode = self.parameters["plot_mode"].value
         shift = self.parameters["shift"].value
-        auto_show = self.parameters["auto_show"].value
-        sample_freq = 1 / self.inputs[0].data.increment
+        auto_show = self.parameters["auto_show"].value#
+        values = input_signal.values
+        delta_f = 1 / (self.inputs[0].data.increment * values)
         # Calculate fft
         ordinate = np.fft.fft(input_signal.ordinate)
-        values = input_signal.values
-        abscissa = np.linspace(0, sample_freq, values)
+
+        abscissa = np.linspace(0, delta_f*(values-1), values)
         # Apply parameters
         if shift == "shift" or \
                 shift == "shift_positive":
             ordinate = np.fft.fftshift(ordinate)
         if shift == "shift" or shift == "shift_positive":
-            abscissa = np.linspace(-sample_freq / 2,
-                                   sample_freq / 2, values)
+            if values % 2:
+                abscissa = np.linspace(-values / 2 * delta_f,
+                                       values / 2 * delta_f, values)
+            else:
+                abscissa = np.linspace(-values / 2 * delta_f,
+                                       (values / 2 - 1)*delta_f, values)
         if shift == "shift_positive":
-            ordinate = ordinate[len(ordinate) // 2:]
-            abscissa = abscissa[len(abscissa) // 2:]
+            if values % 2:
+                ordinate = ordinate[len(ordinate) // 2:]
+                abscissa = abscissa[len(abscissa) // 2:]
+            else:
+                ordinate = ordinate[len(ordinate) // 2 + 1:]
+                abscissa = abscissa[len(abscissa) // 2 + 1:]
         if plot_mode == "real":
             ordinate = ordinate.real
         elif plot_mode == "imaginary":
