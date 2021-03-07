@@ -17,19 +17,21 @@ class SignalPlot(DynamicBlock):
 
     def __init__(self, plot_widget=None, **kwargs):
         """Initializes SignalPlot class."""
-        super().__init__()
-
-        self.dynamic_input = [1, None]
-        self._new_input()
-        self.read_kwargs(kwargs)
+        super().__init__(kwargs)
         self.plot_widget = plot_widget
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
         self.legend = None
+
+    def setup_parameters(self):
         self.parameters.update({
             "show": parameters.ActionParameter(_("Show plot"), self.show),
             "auto_show": parameters.BoolParameter(_("Auto plot"), False)
         })
+
+    def setup_io(self):
+        self.dynamic_input = [1, None]
+        self._new_input()
 
     def _process(self):
         self.axes.cla()

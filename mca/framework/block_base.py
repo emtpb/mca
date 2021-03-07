@@ -21,7 +21,7 @@ class Block:
     icon_file = None
     tags = []
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         """Initializes the main Block class."""
         self.inputs = []
         self.outputs = []
@@ -29,6 +29,9 @@ class Block:
             "name": parameters.StrParameter(_("Name"), max_length=35,
                                             value=self.name)}
         self.gui_data = {"save_data": {}, "run_time_data": {}}
+        self.setup_io()
+        self.setup_parameters()
+        self.read_kwargs(kwargs)
 
     def trigger_update(self):
         """Triggers an update from the block."""
@@ -45,6 +48,16 @@ class Block:
         data to the outputs.
         """
         raise NotImplementedError
+
+    def setup_parameters(self):
+        """Sets up the parameters for a block."""
+        pass
+        #raise NotImplementedError
+
+    def setup_io(self):
+        """Sets up the inputs and outputs of the block."""
+        #raise NotImplementedError
+        pass
 
     def update(self):
         """Updates the data and the flags of the Outputs if all

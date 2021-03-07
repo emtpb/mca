@@ -14,28 +14,20 @@ class SignalGeneratorStochastic(Block):
                     "with either normal or equal distribution.")
     tags = (_("Generating"), _("Stochastic"))
 
-    def __init__(self, **kwargs):
-        """Initializes SignalGeneratorPeriodic class."""
-        super().__init__()
-
+    def setup_io(self):
         self._new_output(
-            meta_data=data_types.MetaData(
-                name="",
-                unit_a="s",
-                unit_o="V",
-                quantity_a=_("Time"),
-                quantity_o=_("Voltage")
-                ),
+            meta_data=data_types.default_meta_data(),
             meta_data_input_dependent=False,
             ordinate_meta_data=True,
             abscissa_meta_data=True,
-            )
+        )
 
+    def setup_parameters(self):
         self.parameters.update({
             "dist": parameters.ChoiceParameter(
                 _("Distribution"),
                 choices=[("normal", _("Normal distribution")),
-                         ("equal",  _("Equal distribution"))],
+                         ("equal", _("Equal distribution"))],
                 value="normal"
             ),
             "mean": parameters.FloatParameter(_("Mean µ"), value=0),
@@ -46,7 +38,6 @@ class SignalGeneratorStochastic(Block):
             "increment": parameters.FloatParameter(_("Increment"), min_=0,
                                                    value=0.01)
         })
-        self.read_kwargs(kwargs)
 
     def _process(self):
         mean = self.parameters["mean"].value

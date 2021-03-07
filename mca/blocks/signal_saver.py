@@ -14,16 +14,15 @@ class SignalSaver(Block):
     description = _("Saves the input signal in .json file.")
     tags = (_("Saving"),)
 
-    def __init__(self, **kwargs):
-        """Initializes SignalSaver class."""
-        super().__init__()
+    def setup_io(self):
         self._new_input()
+
+    def setup_parameters(self):
         self.parameters.update({
             "filename": parameters.PathParameter(_("Filename"),
                                                  file_formats=[".json"]),
             "save": parameters.ActionParameter(_("Save"),
                                                self.save_data)})
-        self.read_kwargs(kwargs)
 
     def _process(self):
         if self.check_empty_inputs():

@@ -20,11 +20,7 @@ class Adder(DynamicBlock):
     description = _("Adds multiple signals to one signal.")
     tags = (_("Processing"),)
 
-    def __init__(self, **kwargs):
-        """Initialize Adder class."""
-
-        super().__init__()
-
+    def setup_io(self):
         self.dynamic_input = (1, None)
         self._new_output(
             meta_data=data_types.MetaData(
@@ -37,7 +33,9 @@ class Adder(DynamicBlock):
         )
         self._new_input()
         self._new_input()
-        self.read_kwargs(kwargs)
+
+    def setup_parameters(self):
+        pass
 
     def _process(self):
         if self.check_empty_inputs():

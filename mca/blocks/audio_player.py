@@ -14,17 +14,16 @@ class AudioPlayer(Block):
     description = _("Plays the input signal as a sound.")
     tags = (_("Audio"),)
 
-    def __init__(self, **kwargs):
-        """Initializes the AudioPlayer class."""
-        super().__init__()
-        self._new_input()
+    def setup_parameters(self):
         self.parameters.update(
             {"sampling_freq": parameters.IntParameter(_("Sampling frequency"),
                                                       1, None, "Hz", 44100),
              "play_sound": parameters.ActionParameter(_("Play sound"),
                                                       self.play_sound),
              "auto_play": parameters.BoolParameter(_("Auto play"), False)})
-        self.read_kwargs(kwargs)
+
+    def setup_io(self):
+        self._new_input()
 
     def _process(self):
         if self.parameters["auto_play"].value is True:

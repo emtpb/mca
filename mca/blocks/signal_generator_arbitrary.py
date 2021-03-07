@@ -15,21 +15,15 @@ class SignalGeneratorArbitrary(Block):
     description = _("Loads arbitrary data to generate a signal on its output.")
     tags = (_("Generating"), _("Loading"))
 
-    def __init__(self, **kwargs):
-        """Initializes SignalGeneratorArbitrary class."""
-        super().__init__()
-
+    def setup_io(self):
         self._new_output(
-            meta_data=data_types.MetaData(
-                name="",
-                unit_a="s",
-                unit_o="V",
-                quantity_a=_("Time"),
-                quantity_o=_("Voltage")),
+            meta_data=data_types.default_meta_data(),
             meta_data_input_dependent=False,
             ordinate_meta_data=False,
             abscissa_meta_data=False,
         )
+
+    def setup_parameters(self):
         self.parameters.update({
             "file_name": parameters.PathParameter(
                 _("Arbitrary data path"),
@@ -39,7 +33,6 @@ class SignalGeneratorArbitrary(Block):
                 _("Load file"),
                 self.load_file)
         })
-        self.read_kwargs(kwargs)
 
     def _process(self):
         pass

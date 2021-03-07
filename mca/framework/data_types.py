@@ -188,3 +188,13 @@ def meta_data_to_axis_label(unit, quantity=None, symbol=None):
         return "{} in {}".format(quantity, unit)
     else:
         return repr(unit)
+
+
+def default_meta_data():
+    return MetaData(
+        name="",
+        unit_a="s",
+        unit_o="V",
+        quantity_a=_("Time"),
+        quantity_o=_("Voltage")
+    )

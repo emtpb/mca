@@ -16,32 +16,15 @@ class RealImag(Block):
                     "the input signal into two output signals.")
     tags = (_("Processing"),)
 
-    def __init__(self, **kwargs):
-        """Initializes RealImag class."""
-        super().__init__()
-
+    def setup_io(self):
         self._new_output(
-            meta_data=data_types.MetaData(
-                name="",
-                unit_a="s",
-                unit_o="V",
-                quantity_a=_("Time"),
-                quantity_o=_("Voltage")
-            ),
-            name=_("Real part")
-        )
+            meta_data=data_types.default_meta_data(), name=_("Real part"))
         self._new_output(
-            meta_data=data_types.MetaData(
-                name="",
-                unit_a="s",
-                unit_o="V",
-                quantity_a=_("Time"),
-                quantity_o=_("Voltage")
-            ),
-            name=_("Imaginary part")
-        )
+            meta_data=data_types.default_meta_data(), name=_("Imaginary part"))
         self._new_input()
-        self.read_kwargs(kwargs)
+
+    def setup_parameters(self):
+        pass
 
     def _process(self):
         if self.check_empty_inputs():

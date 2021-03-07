@@ -25,9 +25,14 @@ class FFTPlot(Block):
 
     def __init__(self, **kwargs):
         """Initializes FFTPlot class."""
-        super().__init__()
+        super().__init__(kwargs)
+        self.fig = plt.figure()
+        self.axes = self.fig.add_subplot(111)
 
+    def setup_io(self):
         self._new_input()
+
+    def setup_parameters(self):
         self.parameters.update({
             "shift": parameters.ChoiceParameter(
                 _("Shift to ordinate"),
@@ -44,9 +49,6 @@ class FFTPlot(Block):
             "show": parameters.ActionParameter("Show", self.show),
             "auto_show": parameters.BoolParameter("Auto plot", False)
         })
-        self.read_kwargs(kwargs)
-        self.fig = plt.figure()
-        self.axes = self.fig.add_subplot(111)
 
     def _process(self):
         self.axes.cla()

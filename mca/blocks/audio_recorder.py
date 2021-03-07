@@ -13,21 +13,7 @@ class AudioRecorder(Block):
     description = _("Records the default audio input device.")
     tags = (_("Audio"),)
 
-    def __init__(self, **kwargs):
-        """Initializes the AudioRecorder class."""
-        super().__init__()
-        self._new_output(
-            meta_data=data_types.MetaData(
-                name="",
-                unit_a="s",
-                unit_o="V",
-                quantity_a=_("Time"),
-                quantity_o=_("Voltage")
-            ),
-            meta_data_input_dependent=False,
-            ordinate_meta_data=True,
-            abscissa_meta_data=True,
-        )
+    def setup_parameters(self):
         self.parameters.update(
             {"sampling_freq": parameters.IntParameter(_("Sampling Frequency"),
                                                       1, None, "Hz", 44100),
@@ -37,7 +23,14 @@ class AudioRecorder(Block):
                                                         self.record_sound),
 
              })
-        self.read_kwargs(kwargs)
+
+    def setup_io(self):
+        self._new_output(
+            meta_data=data_types.default_meta_data(),
+            meta_data_input_dependent=False,
+            ordinate_meta_data=True,
+            abscissa_meta_data=True,
+        )
 
     def _process(self):
         pass

@@ -14,21 +14,7 @@ class AudioLoader(Block):
     description = _("Reads a .wav to create an output signal.")
     tags = (_("Loading"), _("Audio"))
 
-    def __init__(self, **kwargs):
-        """Initializes the AudioInput class."""
-        super().__init__()
-        self._new_output(
-            meta_data=data_types.MetaData(
-                name="",
-                unit_a="s",
-                unit_o="V",
-                quantity_a=_("Time"),
-                quantity_o=_("Voltage")
-            ),
-            meta_data_input_dependent=False,
-            ordinate_meta_data=True,
-            abscissa_meta_data=True,
-        )
+    def setup_parameters(self):
         self.parameters.update(
             {"sampling_freq": parameters.IntParameter(_("Sampling frequency"),
                                                       0, None, "Hz", 44100),
@@ -37,7 +23,14 @@ class AudioLoader(Block):
              "load_file": parameters.ActionParameter(_("Load file"),
                                                      self.load_wav),
              })
-        self.read_kwargs(kwargs)
+
+    def setup_io(self):
+        self._new_output(
+            meta_data=data_types.default_meta_data(),
+            meta_data_input_dependent=False,
+            ordinate_meta_data=True,
+            abscissa_meta_data=True,
+        )
 
     def _process(self):
         pass

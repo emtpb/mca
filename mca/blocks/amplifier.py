@@ -11,23 +11,14 @@ class Amplifier(Block):
     description = _("Amplifies the input signal by the desired factor")
     tags = (_("Processing"),)
 
-    def __init__(self, **kwargs):
-        """Initializes the Amplifier class."""
-
-        super().__init__()
+    def setup_io(self):
         self._new_output(
-            meta_data=data_types.MetaData(
-                name="",
-                unit_a="s",
-                unit_o="V",
-                quantity_a=_("Time"),
-                quantity_o=_("Voltage")
-            )
-        )
+            meta_data=data_types.default_meta_data())
         self._new_input()
+
+    def setup_parameters(self):
         self.parameters.update({"factor": parameters.FloatParameter(
             name=_("Factor"), value=1)})
-        self.read_kwargs(kwargs)
 
     def _process(self):
         if self.check_empty_inputs():

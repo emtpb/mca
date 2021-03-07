@@ -15,17 +15,16 @@ class AudioSaver(Block):
     description = _("Saves the input signal as a sound file")
     tags = (_("Saving"), _("Audio"))
 
-    def __init__(self, **kwargs):
-        """Initializes the AudioSaver class."""
-        super().__init__()
-        self._new_input()
+    def setup_parameters(self):
         self.parameters.update(
             {"sampling_freq": parameters.IntParameter(_("Sampling frequency"),
                                                       1, None, "Hz", 44100),
              "filename": parameters.PathParameter(_("Filename"), [".wav"]),
              "save_file": parameters.ActionParameter(_("Save as .wav"),
                                                      self.save_as_wav)})
-        self.read_kwargs(kwargs)
+
+    def setup_io(self):
+        self._new_input()
 
     def _process(self):
         pass

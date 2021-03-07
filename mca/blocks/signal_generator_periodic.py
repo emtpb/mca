@@ -24,23 +24,15 @@ class SignalGeneratorPeriodic(Block):
                     "a Triangle function.")
     tags = (_("Generating"),)
 
-    def __init__(self, **kwargs):
-        """Initializes SignalGeneratorPeriodic class."""
-        super().__init__()
-
+    def setup_io(self):
         self._new_output(
-            meta_data=data_types.MetaData(
-                name="",
-                unit_a="s",
-                unit_o="V",
-                quantity_a=_("Time"),
-                quantity_o=_("Voltage")
-                ),
+            meta_data=data_types.default_meta_data(),
             meta_data_input_dependent=False,
             ordinate_meta_data=True,
             abscissa_meta_data=True,
-            )
+        )
 
+    def setup_parameters(self):
         self.parameters.update({
             "function": parameters.ChoiceParameter(
                 _("Function"),
@@ -48,14 +40,15 @@ class SignalGeneratorPeriodic(Block):
                          ("sin", _("Sine"))],
                 value="sin"
             ),
-            "freq": parameters.FloatParameter(_("Frequency"), unit="Hz", value=1),
+            "freq": parameters.FloatParameter(_("Frequency"), unit="Hz",
+                                              value=1),
             "amp": parameters.FloatParameter("Amplitude", value=1),
             "phase": parameters.FloatParameter("Phase", value=0),
             "start_a": parameters.FloatParameter("Start", value=0),
             "values": parameters.IntParameter(_("Values"), min_=1, value=628),
-            "increment": parameters.FloatParameter(_("Increment"), min_=0, value=0.01)
+            "increment": parameters.FloatParameter(_("Increment"), min_=0,
+                                                   value=0.01)
         })
-        self.read_kwargs(kwargs)
 
     def _process(self):
         amp = self.parameters["amp"].value
