@@ -25,7 +25,7 @@ class FFTPlot(Block):
 
     def __init__(self, **kwargs):
         """Initializes FFTPlot class."""
-        super().__init__(kwargs)
+        super().__init__(**kwargs)
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
 

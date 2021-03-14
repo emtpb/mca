@@ -17,7 +17,7 @@ class SignalPlot(DynamicBlock):
 
     def __init__(self, plot_widget=None, **kwargs):
         """Initializes SignalPlot class."""
-        super().__init__(kwargs)
+        super().__init__(**kwargs)
         self.plot_widget = plot_widget
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
