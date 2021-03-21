@@ -15,6 +15,9 @@ class Absolute(Block):
         self._new_output(meta_data=data_types.default_meta_data())
         self._new_input()
 
+    def setup_parameters(self):
+        pass
+
     def _process(self):
         if self.check_empty_inputs():
             return

@@ -7,13 +7,21 @@ from mca.language import _
 
 
 class TestBlock(mca.framework.block_base.Block):
-    def __init__(self, inputs, outputs):
-        super().__init__()
+    name = "Testblock"
+
+    def __init__(self, inputs, outputs, **kwargs):
+        super().__init__(**kwargs)
         for i in range(inputs):
             self._new_input("Test")
         for o in range(outputs):
             self._new_output(None)
         self.process_count = 0
+
+    def setup_io(self):
+        pass
+
+    def setup_parameters(self):
+        pass
 
     def _process(self):
         pass
@@ -32,10 +40,15 @@ class DynamicInputBlock(mca.framework.DynamicBlock):
 
     def __init__(self):
         super().__init__()
+        self.process_count = 0
+
+    def setup_io(self):
         self.dynamic_input = [1, 3]
         self._new_output(None)
         self._new_input()
-        self.process_count = 0
+
+    def setup_parameters(self):
+        pass
 
     def _process(self):
         self.outputs[0].data = 0
@@ -55,10 +68,15 @@ class DynamicOutputBlock(mca.framework.DynamicBlock):
 
     def __init__(self):
         super().__init__()
+        self.process_count = 0
+
+    def setup_io(self):
         self.dynamic_output = [1, 4]
         self._new_output(None)
         self._new_input()
-        self.process_count = 0
+
+    def setup_parameters(self):
+        pass
 
     def _process(self):
         if self.check_empty_inputs():
@@ -197,7 +215,6 @@ def one_input_two_output_block():
 
 
 class TwoInputTwoOutputBlock(TestBlock):
-    name = "TwoInputTwoOutputBlock"
 
     def __init__(self, **kwargs):
         super().__init__(2, 2)
@@ -214,18 +231,20 @@ def two_input_two_output_block():
     return TwoInputTwoOutputBlock
 
 
-class ParameterBlock(TestBlock):
-    name = "TwoInputTwoOutputBlock"
+class ParameterBlock(mca.framework.block_base.Block):
+    name = "ParameterBlock"
 
-    def __init__(self, **kwargs):
-        self.parameters = {
+    def setup_io(self):
+        pass
+
+    def setup_parameters(self):
+        self.parameters.update({
             "test_parameter": mca.framework.parameters.FloatParameter(
-                "Test", value=0
+                name="Test", value=0
             ),
             "test_parameter1": mca.framework.parameters.IntParameter(
-                "Test", value=100, min_=1
-            )}
-        self.read_kwargs(kwargs)
+                name="Test", value=100, min_=1
+            )})
 
     def _process(self):
         pass
@@ -241,8 +260,13 @@ class TestOutputBlock(mca.framework.block_base.Block):
 
     def __init__(self, sig):
         super().__init__()
-        self._new_output(meta_data=None)
         self.outputs[0].data = sig
+
+    def setup_io(self):
+        self._new_output(meta_data=None)
+
+    def setup_parameters(self):
+        pass
 
     def _process(self):
         pass

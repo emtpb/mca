@@ -14,9 +14,10 @@ class Block:
         inputs: List that contains all its :class:`.Input`.
         outputs: List that contains all its :class:`.Output`.
         parameters: List that contains all parameters.
-        gui_data (dict): Holds data from a gui. Data is separated in save_data and run_time_data. Save_data is
-                         dumped into the save file when saving the block structure and run_time_data holds data
-                         is only used when the programme is running.
+        gui_data (dict): Holds data from a gui. Data is separated in save_data
+                         and run_time_data. Save_data is dumped into the save
+                         file when saving the block structure and run_time_data
+                         holds data is only used when the programme is running.
     """
     icon_file = None
     tags = []
@@ -26,7 +27,7 @@ class Block:
         self.inputs = []
         self.outputs = []
         self.parameters = {
-            "name": parameters.StrParameter(_("Name"), max_length=35,
+            "name": parameters.StrParameter(name=_("Name"), max_length=35,
                                             value=self.name)}
         self.gui_data = {"save_data": {}, "run_time_data": {}}
         self.setup_io()
@@ -51,13 +52,11 @@ class Block:
 
     def setup_parameters(self):
         """Sets up the parameters for a block."""
-        pass
-        #raise NotImplementedError
+        raise NotImplementedError
 
     def setup_io(self):
         """Sets up the inputs and outputs of the block."""
-        #raise NotImplementedError
-        pass
+        raise NotImplementedError
 
     def update(self):
         """Updates the data and the flags of the Outputs if all
@@ -207,9 +206,10 @@ class DynamicBlock(Block):
 
     def __init__(self):
         """Initialize DynamicBlock class."""
-        super().__init__()
         self.dynamic_output = None
         self.dynamic_input = None
+        super().__init__()
+
 
     def add_input(self, input_):
         """Adds an Input to the Block.
