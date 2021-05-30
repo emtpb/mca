@@ -30,7 +30,7 @@ def test_load_json(sin_signal):
     assert b.outputs[0].data == sin_signal
     assert b.outputs[0].data.meta_data == sin_signal.meta_data
     with pytest.raises(FileNotFoundError):
-        b.parameters["file_name"].value = "test"
+        b.parameters["file_name"].value = "test.json"
         b.load_file()
     test_dict["data_type"] = "test"
     with open(file_name, "w") as save_file:

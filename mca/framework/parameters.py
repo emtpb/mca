@@ -9,7 +9,7 @@ class BaseParameter:
         unit (str): Unit of the parameter.
     """
 
-    def __init__(self, name, unit=None):
+    def __init__(self, name, unit=None, value=None):
         """Initialize BaseParameter class.
         
         Args:
@@ -18,9 +18,31 @@ class BaseParameter:
         """
         self.name = name
         self.unit = unit
+        self._value = value
+        self.parameter_block = None
 
     def validate(self, value):
         raise NotImplementedError
+
+    @property
+    def value(self):
+        """Sets or gets the value of the parameter. When setting a value the
+        parameter gets validated.
+
+        Args:
+            val: Value of the parameter.
+        """
+        return self._value
+
+    @value.setter
+    def value(self, val):
+        if val is not None:
+            self.validate(val)
+        else:
+            raise exceptions.ParameterValueError
+        self._value = val
+        if self.parameter_block:
+            self.parameter_block.update(source=self)
 
 
 class FloatParameter(BaseParameter):
@@ -42,12 +64,9 @@ class FloatParameter(BaseParameter):
             unit (str): Unit of the parameter.
             value (float): Value of the parameter.
         """
-        super().__init__(name, unit)
+        super().__init__(name=name, unit=unit, value=value)
         self.min = min_
         self.max = max_
-        if value:
-            self.validate(value)
-        self.value = value
 
     def validate(self, value):
         """Validates a value on type and if its within the min-max boundaries.
@@ -61,7 +80,7 @@ class FloatParameter(BaseParameter):
                                                     or max.
         """
         if not isinstance(value, float) and not isinstance(value, int):
-            raise exceptions.ParameterTypeError(self.name)
+            raise exceptions.ParameterTypeError(self.name, float, type(value))
         if self.max:
             if value > self.max:
                 raise exceptions.OutOfBoundError(self.name)
@@ -89,12 +108,9 @@ class IntParameter(BaseParameter):
             unit (str): Unit of the parameter.
             value (int): Value of the parameter.
         """
-        super().__init__(name, unit)
+        super().__init__(name=name, unit=unit, value=value)
         self.min = min_
         self.max = max_
-        if value:
-            self.validate(value)
-        self.value = value
 
     def validate(self, value):
         """Validates a value on type and if the value is within the boundaries.
@@ -108,7 +124,10 @@ class IntParameter(BaseParameter):
                                                       or max.
         """
         if not isinstance(value, int):
-            raise exceptions.ParameterTypeError(self.name)
+            if isinstance(value, float) and value.is_integer():
+                value = int(value)
+            else:
+                raise exceptions.ParameterTypeError(self.name, int, type(value))
         if self.max:
             if value > self.max:
                 raise exceptions.OutOfBoundError(self.name)
@@ -133,11 +152,8 @@ class StrParameter(BaseParameter):
             max_length (int): Maximum length of the string.
             value (str): Value of the parameter.
         """
-        super().__init__(name)
+        super().__init__(name=name, value=value)
         self.max_length = max_length
-        if value:
-            self.validate(value)
-        self.value = value
 
     def validate(self, value):
         """Validates a value on type and if the value is within the character
@@ -151,7 +167,7 @@ class StrParameter(BaseParameter):
             :class:`~mca.exceptions.OutOfBoundError`: String is too long.
         """
         if not isinstance(value, str):
-            raise exceptions.ParameterTypeError(self.name)
+            raise exceptions.ParameterTypeError(self.name, str, type(value))
         if self.max_length < len(value):
             raise exceptions.OutOfBoundError(self.name)
 
@@ -175,11 +191,8 @@ class ChoiceParameter(BaseParameter):
             unit (str): Unit of the parameter.
             value: Value of the parameter of one of the choices.
         """
-        super().__init__(name, unit)
+        super().__init__(name=name, unit=unit, value=value)
         self.choices = choices
-        if value:
-            self.validate(value)
-        self.value = value
 
     def validate(self, value):
         """Validates whether the value is in choices.
@@ -191,7 +204,9 @@ class ChoiceParameter(BaseParameter):
                                                          choices.
         """
         if value not in [i[0] for i in self.choices]:
-            raise exceptions.ParameterTypeError(self.name)
+            raise exceptions.ParameterValueError(
+                "The given value {} is not listed in the choices".format(value)
+            )
 
 
 class BoolParameter(BaseParameter):
@@ -202,17 +217,14 @@ class BoolParameter(BaseParameter):
         value (bool): Value of the Parameter.
     """
 
-    def __init__(self, name, value=None):
+    def __init__(self, name, value=None, parameter_block=None):
         """Initialize BoolParameter class.
         
         Args:
             name (str): Name of the Parameter.
             value (bool): Value of the Parameter.
         """
-        super().__init__(name)
-        if value:
-            self.validate(value)
-        self.value = value
+        super().__init__(name=name, value=value)
 
     def validate(self, value):
         """Validates a value on bool type.
@@ -224,7 +236,7 @@ class BoolParameter(BaseParameter):
                 Type of value is not bool.
         """
         if not isinstance(value, bool):
-            raise exceptions.ParameterTypeError(self.name)
+            raise exceptions.ParameterTypeError(self.name, bool, type(value))
 
 
 class ActionParameter(BaseParameter):
@@ -242,7 +254,6 @@ class ActionParameter(BaseParameter):
         """
         super().__init__(name)
         self.function = function
-        self.value = None
 
     def validate(self, value):
         pass
@@ -262,8 +273,7 @@ class PathParameter(BaseParameter):
            value (str): Path to the desired file.
            file_formats (list): List of allowed file formats
         """
-        super().__init__(name)
-        self.value = value
+        super().__init__(name, value)
         if not file_formats:
             file_formats = []
         self.file_formats = file_formats
@@ -280,7 +290,39 @@ class PathParameter(BaseParameter):
                                                          with correct postfix.
         """
         if not isinstance(value, str):
-            raise exceptions.ParameterTypeError(self.name)
+            raise exceptions.ParameterTypeError(self.name, str, type(value))
         if self.file_formats:
             if not any(map(value.endswith, self.file_formats)):
-                raise exceptions.ParameterTypeError(self.name)
+                raise exceptions.ParameterValueError(
+                    "File has to end with one of these following file "
+                    "formats".format(self.file_formats))
+
+
+class ParameterConversion:
+    def __init__(self, main_parameters, sub_parameters, conversion_func):
+        self.main_parameters = main_parameters
+        self.sub_parameters = sub_parameters
+        self.conversion_func = conversion_func
+
+
+class ParameterBlock:
+    def __init__(self, parameters, param_conversions, default_conversion):
+        self._parameters = parameters
+        for parameter in self._parameters:
+            parameter.parameter_block = self
+        self.param_conversions = param_conversions
+        self.conversion_index = default_conversion
+
+    def update(self, source):
+        conversion = self.param_conversions[self.conversion_index]
+        if source in conversion.main_parameters:
+            conversion.conversion_func()
+
+    @property
+    def parameters(self):
+        current_conversion = self.param_conversions[self.conversion_index]
+        return current_conversion.main_parameters
+
+    @property
+    def all_parameters(self):
+        return self._parameters

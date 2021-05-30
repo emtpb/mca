@@ -60,22 +60,35 @@ class OutOfBoundError(MCAError):
 class ParameterTypeError(MCAError):
     """Exception raised when the type of a parameter is not matching."""
 
-    def __init__(self, parameter_name):
+    def __init__(self, parameter_name, expected_type, given_type):
         """Initializes ParameterTypeError.
         
         Args:
             parameter_name (str): Name of the parameter
                 where the error occurred.
+            expected_type: Expected type of the parameter.
+            given_type: Given type to the parameter.
         """
         super().__init__(
-            "The value given to the parameter '{}' is not the correct type".format(
-                parameter_name
-            )
+            "The value given to the parameter '{}' has to be type '{}' not "
+            "'{}'".format(parameter_name, expected_type, given_type)
         )
 
 
+class ParameterValueError(MCAError):
+    """Exception raised when a parameter has been handed an invalid value."""
+
+    def __init__(self, cause):
+        """Initializes ParameterValueError.
+
+        Args:
+            cause (str): Reason why value was invalid.
+        """
+        super().__init__(cause)
+
+
 class InputOutputError(MCAError):
-    """Exception raised when the adding or removing of an input or output
+    """Exception raised when adding or removing of an input or output
     was unsuccessful.
     """
 
@@ -103,7 +116,7 @@ class ConnectionsError(MCAError):
 
 
 class DataTypeError(MCAError):
-    """Exception raised when the data type of the data at the input does
+    """Exception raised when the data type of data at the input does
     not match with the requirements of the Block.
     """
 
@@ -132,7 +145,7 @@ class UnitError(MCAError):
 
 
 class DataSavingError(MCAError):
-    """Exception raised when the saving of output data was unsuccessful."""
+    """Exception raised when saving of output data was unsuccessful."""
 
     def __init__(self, cause):
         """Initializes DataSavingError.
@@ -144,7 +157,7 @@ class DataSavingError(MCAError):
 
 
 class DataLoadingError(MCAError):
-    """Exception raised when the loading data was unsuccessful."""
+    """Exception raised when loading data was unsuccessful."""
 
     def __init__(self, cause):
         """Initializes DataLoadingError.
