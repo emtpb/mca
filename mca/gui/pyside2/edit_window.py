@@ -40,7 +40,7 @@ class EditWindow(QtWidgets.QDialog):
         """
         QtWidgets.QDialog.__init__(self, parent=parent)
         self.block = block
-        self.resize(500, 400)
+        self.resize(500, 550)
         self.setMinimumSize((QtCore.QSize(500, 400)))
         self.setWindowTitle(_("Edit {}").format(self.block.parameters["name"].value))
 
@@ -93,8 +93,15 @@ class EditWindow(QtWidgets.QDialog):
         self.button_box.setGeometry(QtCore.QRect(140, 360, 329, 23))
         self.button_box.setContentsMargins(0, 0, 10, 10)
         self.button_box.setOrientation(QtCore.Qt.Horizontal)
-        self.button_box.setStandardButtons(
-            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
+        self.button_box.setStandardButtons(QtWidgets.QDialogButtonBox.Ok
+                                           | QtWidgets.QDialogButtonBox.Cancel
+                                           | QtWidgets.QDialogButtonBox.Apply)
+        self.button_box.button(QtWidgets.QDialogButtonBox.Ok).setText(_("Ok"))
+        self.button_box.button(QtWidgets.QDialogButtonBox.Cancel).setText(_("Cancel"))
+        self.button_box.button(QtWidgets.QDialogButtonBox.Apply).setText(_("Apply"))
+        self.button_box.accepted.connect(self.accept)
+        self.button_box.rejected.connect(self.reject)
+        self.button_box.clicked.connect(self.test)
         self.main_layout.addWidget(self.button_box)
         # Set custom window icon
         if self.block.icon_file:
@@ -113,10 +120,6 @@ class EditWindow(QtWidgets.QDialog):
         self.warning_message.revert_button = self.warning_message.addButton(
             _("Revert"),
             QtWidgets.QMessageBox.NoRole)
-        QtCore.QObject.connect(self.button_box, QtCore.SIGNAL("accepted()"),
-                               self.accept)
-        QtCore.QObject.connect(self.button_box, QtCore.SIGNAL("rejected()"),
-                               self.reject)
 
     def add_parameters(self):
         """Arranges parameters of a block in rows in the window underneath each
@@ -260,3 +263,7 @@ class EditWindow(QtWidgets.QDialog):
             self.block.parameters["name"].value)
         )
         super(EditWindow, self).show()
+
+    def test(self, button):
+        if self.button_box.buttonRole(button) == QtWidgets.QDialogButtonBox.ApplyRole:
+            self.apply_changes()

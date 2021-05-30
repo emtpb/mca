@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-02-27 06:52-0800\n"
+"POT-Creation-Date: 2021-05-30 13:04-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -32,23 +32,6 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 msgid "Processing"
 msgstr "Verarbeitende"
 
-#: blocks/absolute.py:23 blocks/adder.py:34 blocks/amplifier.py:23
-#: blocks/audio_loader.py:25 blocks/audio_recorder.py:24 blocks/real_imag.py:28
-#: blocks/real_imag.py:38 blocks/signal_generator_arbitrary.py:27
-#: blocks/signal_generator_periodic.py:36
-#: blocks/signal_generator_stochastic.py:26
-msgid "Time"
-msgstr "Zeit"
-
-#: blocks/absolute.py:24 blocks/adder.py:35 blocks/amplifier.py:24
-#: blocks/audio_loader.py:26 blocks/audio_recorder.py:25 blocks/fft.py:26
-#: blocks/real_imag.py:29 blocks/real_imag.py:39
-#: blocks/signal_generator_arbitrary.py:28
-#: blocks/signal_generator_periodic.py:37
-#: blocks/signal_generator_stochastic.py:27
-msgid "Voltage"
-msgstr "Spannung"
-
 #: blocks/adder.py:19
 msgid "Adder"
 msgstr "Addierer"
@@ -56,6 +39,14 @@ msgstr "Addierer"
 #: blocks/adder.py:20
 msgid "Adds multiple signals to one signal."
 msgstr "Addiert mehrere Signale zu einem Signal auf."
+
+#: blocks/adder.py:30 framework/data_types.py:198
+msgid "Time"
+msgstr "Zeit"
+
+#: blocks/adder.py:31 blocks/fft.py:23 framework/data_types.py:199
+msgid "Voltage"
+msgstr "Spannung"
 
 #: blocks/amplifier.py:10
 msgid "Amplifier"
@@ -65,7 +56,7 @@ msgstr "Verstärker"
 msgid "Amplifies the input signal by the desired factor"
 msgstr "Verstärkt das Eingangssignal um den gewollten Faktor"
 
-#: blocks/amplifier.py:29
+#: blocks/amplifier.py:21
 msgid "Factor"
 msgstr "Faktor"
 
@@ -86,15 +77,15 @@ msgstr "Ladend"
 msgid "Audio"
 msgstr "Audio"
 
-#: blocks/audio_loader.py:33 blocks/audio_saver.py:23
+#: blocks/audio_loader.py:19 blocks/audio_player.py:19 blocks/audio_saver.py:20
 msgid "Sampling frequency"
 msgstr "Abtastfrequenz"
 
-#: blocks/audio_loader.py:35 blocks/audio_saver.py:25 blocks/signal_saver.py:22
+#: blocks/audio_loader.py:21 blocks/audio_saver.py:22 blocks/signal_saver.py:22
 msgid "Filename"
 msgstr "Dateiname"
 
-#: blocks/audio_loader.py:37 blocks/signal_generator_arbitrary.py:39
+#: blocks/audio_loader.py:23 blocks/signal_generator_arbitrary.py:33
 msgid "Load file"
 msgstr "Lade Datei"
 
@@ -106,11 +97,11 @@ msgstr "AudioPlayer"
 msgid "Plays the input signal as a sound."
 msgstr "Spielt das Eingangssignal als Ton ab"
 
-#: blocks/audio_player.py:22
+#: blocks/audio_player.py:21
 msgid "Play sound"
 msgstr "Geräusch abspielen"
 
-#: blocks/audio_player.py:24
+#: blocks/audio_player.py:23
 msgid "Auto play"
 msgstr "Automatisch Geräusch abspielen"
 
@@ -122,11 +113,15 @@ msgstr "AudioRecorder"
 msgid "Records the default audio input device."
 msgstr "Nimmt Geräusch von dem Standard Audio Input Gerät auf."
 
-#: blocks/audio_recorder.py:32
+#: blocks/audio_recorder.py:18
+msgid "Sampling Frequency"
+msgstr ""
+
+#: blocks/audio_recorder.py:20
 msgid "Record time"
 msgstr "Aufnahmezeit"
 
-#: blocks/audio_recorder.py:34
+#: blocks/audio_recorder.py:22
 msgid "Record sound"
 msgstr "Geräusch aufnehmen"
 
@@ -142,7 +137,7 @@ msgstr "Speichert das Eingangssignal als Audiodatei"
 msgid "Saving"
 msgstr "Speichern"
 
-#: blocks/audio_saver.py:26
+#: blocks/audio_saver.py:23
 msgid "Save as .wav"
 msgstr "Als .wav speichern"
 
@@ -158,7 +153,7 @@ msgstr "Berechnet die FFT des Eingangssignals."
 msgid "Fourier"
 msgstr "Fourier"
 
-#: blocks/fft.py:25 blocks/signal_generator_periodic.py:51
+#: blocks/fft.py:22 blocks/signal_generator_periodic.py:34
 msgid "Frequency"
 msgstr "Frequenz"
 
@@ -180,39 +175,39 @@ msgstr ""
 msgid "Plotting"
 msgstr "Plottende"
 
-#: blocks/fftplot.py:33
+#: blocks/fftplot.py:38
 msgid "Shift to ordinate"
 msgstr "Zur Ordinate verschieben"
 
-#: blocks/fftplot.py:34
+#: blocks/fftplot.py:39
 msgid "No shift"
 msgstr "Kein Verschieben"
 
-#: blocks/fftplot.py:34
+#: blocks/fftplot.py:39
 msgid "Shift"
 msgstr "Verschieben"
 
-#: blocks/fftplot.py:35
+#: blocks/fftplot.py:40
 msgid "Shift and only positive frequencies"
 msgstr "Verschieben und nur positive Frequenzen"
 
-#: blocks/fftplot.py:39
+#: blocks/fftplot.py:44
 msgid "Plot Mode"
 msgstr "Plot Modus"
 
-#: blocks/fftplot.py:40
+#: blocks/fftplot.py:45
 msgid "Real"
 msgstr "Real"
 
-#: blocks/fftplot.py:40
+#: blocks/fftplot.py:45
 msgid "Imaginary"
 msgstr "Imaginär"
 
-#: blocks/fftplot.py:41
+#: blocks/fftplot.py:46
 msgid "Absolute"
 msgstr "Betrag"
 
-#: blocks/fftplot.py:41
+#: blocks/fftplot.py:46
 msgid "Phase"
 msgstr "Phase"
 
@@ -228,11 +223,11 @@ msgstr ""
 "Teilt Real- und Imaginärteil the Eingangssignals in zwei Ausgangssignale "
 "auf."
 
-#: blocks/real_imag.py:31
+#: blocks/real_imag.py:21
 msgid "Real part"
 msgstr "Realteil"
 
-#: blocks/real_imag.py:41
+#: blocks/real_imag.py:23
 msgid "Imaginary part"
 msgstr "Imaginärteil"
 
@@ -245,42 +240,42 @@ msgid "Loads arbitrary data to generate a signal on its output."
 msgstr "Läd arbiträre Daten um ein Signal an seinem Output zu generieren."
 
 #: blocks/signal_generator_arbitrary.py:16
-#: blocks/signal_generator_periodic.py:25
+#: blocks/signal_generator_periodic.py:16
 #: blocks/signal_generator_stochastic.py:15
 msgid "Generating"
 msgstr "Generierende"
 
-#: blocks/signal_generator_arbitrary.py:35
+#: blocks/signal_generator_arbitrary.py:29
 msgid "Arbitrary data path"
 msgstr "Pfad der Arbiträrdaten"
 
-#: blocks/signal_generator_periodic.py:23
+#: blocks/signal_generator_periodic.py:14
 msgid "Generates a Sinus, a Rectangle function or a Triangle function."
 msgstr "Generiert einen Sinus, eine Rechtecksfunktion oder eine Dreiecksfunktion "
 
-#: blocks/signal_generator_periodic.py:46
+#: blocks/signal_generator_periodic.py:29
 msgid "Function"
 msgstr "Funktion"
 
-#: blocks/signal_generator_periodic.py:47
+#: blocks/signal_generator_periodic.py:30
 msgid "Rectangle"
 msgstr "Rechteck"
 
-#: blocks/signal_generator_periodic.py:47
+#: blocks/signal_generator_periodic.py:30
 msgid "Triangle"
 msgstr "Dreieck"
 
-#: blocks/signal_generator_periodic.py:48
+#: blocks/signal_generator_periodic.py:31
 msgid "Sine"
 msgstr "Sinus"
 
-#: blocks/signal_generator_periodic.py:55
-#: blocks/signal_generator_stochastic.py:45
+#: blocks/signal_generator_periodic.py:39
+#: blocks/signal_generator_stochastic.py:37
 msgid "Values"
 msgstr "Werte"
 
-#: blocks/signal_generator_periodic.py:56
-#: blocks/signal_generator_stochastic.py:46
+#: blocks/signal_generator_periodic.py:40
+#: blocks/signal_generator_stochastic.py:38
 msgid "Increment"
 msgstr "Inkrement"
 
@@ -292,23 +287,23 @@ msgstr ""
 msgid "Stochastic"
 msgstr "Stochastisch"
 
-#: blocks/signal_generator_stochastic.py:36
+#: blocks/signal_generator_stochastic.py:28
 msgid "Distribution"
 msgstr "Verteilung"
 
-#: blocks/signal_generator_stochastic.py:37
+#: blocks/signal_generator_stochastic.py:29
 msgid "Normal distribution"
 msgstr "Normalverteilt"
 
-#: blocks/signal_generator_stochastic.py:38
+#: blocks/signal_generator_stochastic.py:30
 msgid "Equal distribution"
 msgstr "Gleichverteilt"
 
-#: blocks/signal_generator_stochastic.py:41
+#: blocks/signal_generator_stochastic.py:33
 msgid "Mean µ"
 msgstr "Mittelwert µ"
 
-#: blocks/signal_generator_stochastic.py:42
+#: blocks/signal_generator_stochastic.py:34
 msgid "Standard deviation σ"
 msgstr "Standardabweichung σ"
 
@@ -320,11 +315,11 @@ msgstr "SignalPlot"
 msgid "Plots all input signals in matplotlib."
 msgstr "Plottet alle Eingangssignale in matplotlib."
 
-#: blocks/signal_plot.py:30
+#: blocks/signal_plot.py:28
 msgid "Show plot"
 msgstr "Plot anzeigen"
 
-#: blocks/signal_plot.py:31
+#: blocks/signal_plot.py:29
 msgid "Auto plot"
 msgstr "Automatisch neu plotten"
 
@@ -341,7 +336,7 @@ msgstr "Speichert das Eingangssignal in einer.json Datei."
 msgid "Save"
 msgstr "Speichern"
 
-#: framework/block_base.py:29
+#: framework/block_base.py:30
 msgid "Name"
 msgstr "Name"
 
@@ -393,28 +388,40 @@ msgstr "MKA"
 msgid "Something went wrong.\n"
 msgstr "Etwas ist schiefgelaufen.\n"
 
-#: gui/pyside2/edit_window.py:45 gui/pyside2/edit_window.py:258
+#: gui/pyside2/edit_window.py:45 gui/pyside2/edit_window.py:262
 msgid "Edit {}"
 msgstr "{} bearbeiten"
 
-#: gui/pyside2/edit_window.py:57
+#: gui/pyside2/edit_window.py:59
 msgid "Description"
 msgstr ""
 
-#: gui/pyside2/edit_window.py:65
+#: gui/pyside2/edit_window.py:67
 msgid "Parameters"
 msgstr "Parameter"
 
-#: gui/pyside2/edit_window.py:77
+#: gui/pyside2/edit_window.py:79
 msgid "General"
 msgstr ""
 
-#: gui/pyside2/edit_window.py:88
+#: gui/pyside2/edit_window.py:89
 msgid "Meta data"
 msgstr "Metadaten"
 
-#: gui/pyside2/edit_window.py:107 gui/pyside2/edit_window.py:216
-#: gui/pyside2/edit_window.py:221
+#: gui/pyside2/edit_window.py:99
+msgid "Ok"
+msgstr "Ok"
+
+#: gui/pyside2/edit_window.py:100
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: gui/pyside2/edit_window.py:101
+msgid "Apply"
+msgstr "Übernehmen"
+
+#: gui/pyside2/edit_window.py:115 gui/pyside2/edit_window.py:220
+#: gui/pyside2/edit_window.py:225
 msgid ""
 "Could not apply the changed parameters and meta data!Continue editing or "
 "revert changes?"
@@ -422,59 +429,59 @@ msgstr ""
 "Die veränderten Parameter und Metadaten konnten nicht angewendet! Mit der"
 " Bearbeitung fortfahren oder Änderung rückgängig machen?"
 
-#: gui/pyside2/edit_window.py:110
+#: gui/pyside2/edit_window.py:118
 msgid "Continue"
 msgstr "Fortfahren"
 
-#: gui/pyside2/edit_window.py:113
+#: gui/pyside2/edit_window.py:121
 msgid "Revert"
 msgstr "Rückgängig"
 
-#: gui/pyside2/edit_window.py:151
+#: gui/pyside2/edit_window.py:155
 msgid "Output '{}' meta data:"
 msgstr "Output '{}' Metadaten"
 
-#: gui/pyside2/edit_window.py:154
+#: gui/pyside2/edit_window.py:158
 msgid "Output {} meta data:"
 msgstr "Output {} MetaDaten:"
 
-#: gui/pyside2/edit_window.py:156
+#: gui/pyside2/edit_window.py:160
 msgid "Signal name:"
 msgstr "Signalname:"
 
-#: gui/pyside2/edit_window.py:157
+#: gui/pyside2/edit_window.py:161
 msgid "Abscissa quantity:"
 msgstr "Abszissengröße:"
 
-#: gui/pyside2/edit_window.py:158
+#: gui/pyside2/edit_window.py:162
 msgid "Abscissa symbol:"
 msgstr "Abszissensymbol:"
 
-#: gui/pyside2/edit_window.py:159
+#: gui/pyside2/edit_window.py:163
 msgid "Abscissa unit:"
 msgstr "Abszisseneinheit:"
 
-#: gui/pyside2/edit_window.py:160
+#: gui/pyside2/edit_window.py:164
 msgid "Ordinate quantity:"
 msgstr "Ordinatengröße:"
 
-#: gui/pyside2/edit_window.py:161
+#: gui/pyside2/edit_window.py:165
 msgid "Ordinate symbol:"
 msgstr "Ordinatensymbol:"
 
-#: gui/pyside2/edit_window.py:162
+#: gui/pyside2/edit_window.py:166
 msgid "Ordinate unit:"
 msgstr "Ordinateneinheit:"
 
-#: gui/pyside2/edit_window.py:173
+#: gui/pyside2/edit_window.py:177
 msgid "Use abscissa meta data"
 msgstr "Abzissen Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:181
+#: gui/pyside2/edit_window.py:185
 msgid "Use ordinate meta data"
 msgstr "Ordinaten Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:218
+#: gui/pyside2/edit_window.py:222
 msgid "Error message:"
 msgstr "Fehlermeldung:"
 
