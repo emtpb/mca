@@ -41,7 +41,7 @@ class EditWindow(QtWidgets.QDialog):
         QtWidgets.QDialog.__init__(self, parent=parent)
         self.block = block
         self.resize(500, 400)
-        self.setMaximumSize(QtCore.QSize(500, 400))
+        self.setMinimumSize((QtCore.QSize(500, 400)))
         self.setWindowTitle(_("Edit {}").format(self.block.parameters["name"].value))
 
         self.main_layout = QtWidgets.QVBoxLayout(self)
@@ -52,29 +52,31 @@ class EditWindow(QtWidgets.QDialog):
         self.tab_widget = QtWidgets.QTabWidget()
         self.main_layout.addWidget(self.tab_widget)
         # Initialize general tab
-        general_tab_layout = QtWidgets.QVBoxLayout()
-
+        general_tab = QtWidgets.QWidget()
+        general_tab_layout = QtWidgets.QGridLayout(general_tab)
+        general_tab_contents = QtWidgets.QWidget()
+        general_tab_contents_layout = QtWidgets.QVBoxLayout(general_tab_contents)
         description_box = QtWidgets.QGroupBox(_("Description"))
         description_box_layout = QtWidgets.QVBoxLayout(description_box)
         description_label = QtWidgets.QLabel(self.block.description)
         description_label.setMaximumHeight(60)
         description_label.setWordWrap(True)
         description_box_layout.addWidget(description_label)
-        general_tab_layout.addWidget(description_box)
+        general_tab_contents_layout.addWidget(description_box)
 
         self.parameter_box = QtWidgets.QGroupBox(_("Parameters"))
         self.parameter_box_layout = QtWidgets.QGridLayout(self.parameter_box)
-        general_tab_layout.addWidget(self.parameter_box)
-        general_tab_layout.addItem(QtWidgets.QSpacerItem(
+        general_tab_contents_layout.addWidget(self.parameter_box)
+        general_tab_contents_layout.addItem(QtWidgets.QSpacerItem(
             0, 0,
             QtWidgets.QSizePolicy.Minimum,
             QtWidgets.QSizePolicy.Expanding))
 
         scroll = QtWidgets.QScrollArea()
-        scroll.setLayout(general_tab_layout)
+        scroll.setWidget(general_tab_contents)
         scroll.setWidgetResizable(True)
-        scroll.setFixedHeight(self.height())
-        self.tab_widget.addTab(scroll, _("General"))
+        general_tab_layout.addWidget(scroll, 0, 0, 1, 1)
+        self.tab_widget.addTab(general_tab, _("General"))
         self.add_parameters()
         # Initialize meta data tab
         self.meta_data_layout = None
@@ -84,7 +86,6 @@ class EditWindow(QtWidgets.QDialog):
             scroll = QtWidgets.QScrollArea()
             scroll.setLayout(self.meta_data_layout)
             scroll.setWidgetResizable(True)
-            scroll.setFixedHeight(self.height())
             self.tab_widget.addTab(scroll, _("Meta data"))
             self.add_meta_data()
         # Set buttons
