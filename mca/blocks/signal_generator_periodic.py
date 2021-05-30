@@ -9,15 +9,6 @@ class SignalGeneratorPeriodic(Block):
     """Generates a periodic signal.
 
     This block has one output.
-
-    Parameters:
-        function: Rect, Triangle or Sin.
-        freq: Frequency of the signal (float).
-        amp: Amplitude of the signal (float).
-        phase: Phase shift (float).
-        start_a: Start of the of the signal (float).
-        values: Amount of values taken (int).
-        increment: Sampling frequency (float).
     """
     name = "SignalGeneratorPeriodic"
     description = _("Generates a Sinus, a Rectangle function or "
