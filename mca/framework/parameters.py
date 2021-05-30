@@ -36,10 +36,7 @@ class BaseParameter:
 
     @value.setter
     def value(self, val):
-        if val is not None:
-            self.validate(val)
-        else:
-            raise exceptions.ParameterValueError
+        self.validate(val)
         self._value = val
         if self.parameter_block:
             self.parameter_block.update(source=self)
