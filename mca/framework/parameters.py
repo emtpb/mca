@@ -268,7 +268,7 @@ class PathParameter(BaseParameter):
         Args:
            name (str): Name of the Parameter.
            value (str): Path to the desired file.
-           file_formats (list): List of allowed file formats
+           file_formats (list): List of allowed file formats.
         """
         super().__init__(name, value)
         if not file_formats:
@@ -288,11 +288,6 @@ class PathParameter(BaseParameter):
         """
         if not isinstance(value, str):
             raise exceptions.ParameterTypeError(self.name, str, type(value))
-        if self.file_formats:
-            if not any(map(value.endswith, self.file_formats)):
-                raise exceptions.ParameterValueError(
-                    "File has to end with one of these following file "
-                    "formats".format(self.file_formats))
 
 
 class ParameterConversion:

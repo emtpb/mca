@@ -40,22 +40,25 @@ class SignalGeneratorArbitrary(Block):
     def load_file(self):
         """Loads the arbitrary data from the given file_name to the output."""
         file_name = self.parameters["file_name"].value
-        if not file_name:
-            raise exceptions.DataLoadingError("No file given to load.")
-        with open(file_name, 'r') as arbitrary_file:
-            arbitrary_data = json.load(arbitrary_file)
-            if arbitrary_data.get("data_type") != "Signal":
-                raise exceptions.DataLoadingError(
-                    "Loaded data type is not a signal.")
-            meta_data = data_types.MetaData(
-                arbitrary_data["name"],
-                arbitrary_data["unit_a"],
-                arbitrary_data["unit_o"],
-                arbitrary_data["quantity_a"],
-                arbitrary_data["quantity_o"],
-                arbitrary_data["symbol_a"],
-                arbitrary_data["symbol_o"],
-                )
+        if file_name and not file_name.endswith(".json"):
+            raise exceptions.DataLoadingError("File has to end with .json")
+        try:
+            with open(file_name, 'r') as arbitrary_file:
+                arbitrary_data = json.load(arbitrary_file)
+                if arbitrary_data.get("data_type") != "Signal":
+                    raise exceptions.DataLoadingError(
+                        "Loaded data type is not a signal.")
+                meta_data = data_types.MetaData(
+                    arbitrary_data["name"],
+                    arbitrary_data["unit_a"],
+                    arbitrary_data["unit_o"],
+                    arbitrary_data["quantity_a"],
+                    arbitrary_data["quantity_o"],
+                    arbitrary_data["symbol_a"],
+                    arbitrary_data["symbol_o"],
+                    )
+        except FileNotFoundError:
+            raise exceptions.DataLoadingError("File not found")
         self.outputs[0].data = data_types.Signal(
             meta_data=self.outputs[0].get_meta_data(meta_data),
             abscissa_start=arbitrary_data["abscissa_start"],

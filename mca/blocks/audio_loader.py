@@ -39,8 +39,11 @@ class AudioLoader(Block):
         """Reads a .wav and puts the data on the first output."""
         filename = self.parameters["filename"].value
         if not filename.endswith(".wav"):
-            raise exceptions.DataLoadingError("File has to be a .wav.")
-        rate, data = scipy.io.wavfile.read(filename)
+            raise exceptions.DataLoadingError("File has to be a .wav")
+        try:
+            rate, data = scipy.io.wavfile.read(filename)
+        except FileNotFoundError:
+            raise exceptions.DataLoadingError("File not found")
         self.outputs[0].data = data_types.Signal(
             meta_data=self.outputs[0].meta_data,
             abscissa_start=0,
