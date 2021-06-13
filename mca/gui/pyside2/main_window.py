@@ -108,6 +108,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.main_layout.addWidget(self.search_widget)
         self.main_layout.addWidget(self.view)
         self.setCentralWidget(self.main_widget)
+        # Save warning message
+        self.save_warning_message = QtWidgets.QMessageBox(
+            parent=self,
+            icon=QtWidgets.QMessageBox.Warning,
+            text=_("The document has been modified.\nDo you want to save your changes?"),
+        )
+        self.save_warning_message.setStandardButtons(QtWidgets.QMessageBox.Yes
+                                                     | QtWidgets.QMessageBox.Cancel
+                                                     | QtWidgets.QMessageBox.No)
+        self.save_warning_message.button(QtWidgets.QMessageBox.Yes).setText(_("Ok"))
+        self.save_warning_message.button(QtWidgets.QMessageBox.Cancel).setText(
+            _("Cancel"))
+        self.save_warning_message.button(QtWidgets.QMessageBox.No).setText(
+            _("No"))
 
     def closeEvent(self, event):
         """Method invoked when the application gets closed. Asks the user to
@@ -226,10 +240,7 @@ class MainWindow(QtWidgets.QMainWindow):
                   cancelled.
         """
         if self.modified:
-            result = QtWidgets.QMessageBox.warning(
-                self, _("MCA"),
-                _("The document has been modified.\nDo you want to save your changes?"),
-                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.No)
+            result = self.save_warning_message.exec_()
         else:
             return True
         if result == QtWidgets.QMessageBox.Yes:
