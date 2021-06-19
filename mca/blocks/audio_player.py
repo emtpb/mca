@@ -16,17 +16,17 @@ class AudioPlayer(Block):
 
     def setup_parameters(self):
         self.parameters.update(
-            {"sampling_freq": parameters.IntParameter(_("Sampling frequency"),
+            {"samplingfreq": parameters.IntParameter(_("Sampling frequency"),
                                                       1, None, "Hz", 44100),
-             "play_sound": parameters.ActionParameter(_("Play sound"),
+             "playsound": parameters.ActionParameter(_("Play sound"),
                                                       self.play_sound),
-             "auto_play": parameters.BoolParameter(_("Auto play"), False)})
+             "autoplay": parameters.BoolParameter(_("Auto play"), False)})
 
     def setup_io(self):
         self._new_input()
 
     def _process(self):
-        if self.parameters["auto_play"].value is True:
+        if self.parameters["autoplay"].value is True:
             self.play_sound()
 
     def play_sound(self):
@@ -34,7 +34,7 @@ class AudioPlayer(Block):
         if self.check_empty_inputs():
             return
         input_signal = self.inputs[0].data
-        sampling_frequency = self.parameters["sampling_freq"].value
+        sampling_frequency = self.parameters["samplingfreq"].value
         validator.check_type_signal(input_signal)
         validator.check_same_units([input_signal.meta_data.unit_a, Unit(["s"])])
         sd.play(input_signal.ordinate, sampling_frequency)

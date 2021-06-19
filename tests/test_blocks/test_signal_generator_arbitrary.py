@@ -25,17 +25,17 @@ def test_load_json(sin_signal):
     with open(file_name, "w") as save_file:
         json.dump(test_dict, save_file)
     b = signal_generator_arbitrary.SignalGeneratorArbitrary()
-    b.parameters["file_name"].value = file_name
+    b.parameters["filename"].value = file_name
     b.load_file()
     assert b.outputs[0].data == sin_signal
     assert b.outputs[0].data.meta_data == sin_signal.meta_data
-    with pytest.raises(FileNotFoundError):
-        b.parameters["file_name"].value = "test.json"
+    with pytest.raises(exceptions.DataLoadingError):
+        b.parameters["filename"].value = "test.json"
         b.load_file()
     test_dict["data_type"] = "test"
     with open(file_name, "w") as save_file:
         json.dump(test_dict, save_file)
     with pytest.raises(exceptions.DataLoadingError):
-        b.parameters["file_name"].value = file_name
+        b.parameters["filename"].value = file_name
         b.load_file()
     os.remove(file_name)

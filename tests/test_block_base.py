@@ -482,9 +482,11 @@ def test_check_empty_inputs(two_input_one_output_block, two_output_block):
 
 
 def test_read_kwargs(parameter_block):
-    a = parameter_block(test_parameter=0.1, test_parameter1=1)
-    assert a.parameters["test_parameter"].value == 0.1
-    assert a.parameters["test_parameter1"].value == 1
+    a = parameter_block(testparameter=0.1, testparameter1=1, multiplier_factor=10)
+    assert a.parameters["testparameter"].value == 0.1
+    assert a.parameters["testparameter1"].value == 1
+    assert a.parameters["multiplier"].parameters["factor"].value == 10
+    assert a.parameters["multiplier"].parameters["decibel"].value == 10
 
 
 def test_disconnect_all(seventh_scenario):

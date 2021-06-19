@@ -121,16 +121,26 @@ class IntParameter(BaseParameter):
                                                       or max.
         """
         if not isinstance(value, int):
-            if isinstance(value, float) and value.is_integer():
-                value = int(value)
-            else:
-                raise exceptions.ParameterTypeError(self.name, int, type(value))
+            raise exceptions.ParameterTypeError(self.name, int, type(value))
         if self.max:
             if value > self.max:
                 raise exceptions.OutOfBoundError(self.name)
         if self.min:
             if value < self.min:
                 raise exceptions.OutOfBoundError(self.name)
+
+    @property
+    def value(self):
+        return super().value
+
+    @BaseParameter.value.setter
+    def value(self, val):
+        if isinstance(val, float) and val.is_integer():
+            val = int(val)
+        self.validate(val)
+        self._value = val
+        if self.parameter_block:
+            self.parameter_block.update(source=self)
 
 
 class StrParameter(BaseParameter):
@@ -291,30 +301,68 @@ class PathParameter(BaseParameter):
 
 
 class ParameterConversion:
+    """Conversion class for holding necessary data for a
+    parameter conversion.
+
+    Attributes:
+        main_parameters (list): Parameter which can be manipulated by the user.
+        sub_parameters (list): Parameter which get updated when one of the
+                               main_parameters gets updated.
+        conversion_func: Function executing the conversion.
+    """
     def __init__(self, main_parameters, sub_parameters, conversion_func):
+        """Initializes ParameterConversion.
+
+        Args:
+            main_parameters (list): Parameter which can be manipulated by the
+                                    user.
+            sub_parameters (list): Parameter which get updated when one of the
+                                   main_parameters gets updated.
+            conversion_func: Function executing the conversion.
+        """
         self.main_parameters = main_parameters
         self.sub_parameters = sub_parameters
         self.conversion_func = conversion_func
 
 
 class ParameterBlock:
-    def __init__(self, parameters, param_conversions, default_conversion):
-        self._parameters = parameters
-        for parameter in self._parameters:
+    """ParameterBlock class used for managing a group of parameters which
+    are dependent on each other or are in someway connected to other
+    parameters. Multiple conversions can be specified to model the behaviour of
+    those parameters. Those conversions get invoked when one of the
+    main_parameters gets modified.
+
+    Attributes:
+        name (str): Name of the ParameterBlock.
+        parameters (list): List of the included parameters.
+        param_conversions (list): List of specified ParameterConversions.
+        conversion_index (int): Current active conversion of the
+                                param_conversions.
+    """
+    def __init__(self, parameters, param_conversions, default_conversion,
+                 name=""):
+        """Initialize ParameterBlock.
+
+        Args:
+            name (str): Name of the ParameterBlock.
+            parameters (dict): Mapping of all included parameters.
+            param_conversions (list): List of specified ParameterConversions.
+            default_conversion (int): Current active conversion of the
+                                      param_conversions.
+        """
+        self.name = name
+        self.parameters = parameters
+        for parameter in self.parameters.values():
             parameter.parameter_block = self
         self.param_conversions = param_conversions
         self.conversion_index = default_conversion
 
     def update(self, source):
+        """Executes the current active parameter conversion.
+
+        Args:
+            source: Parameter which triggered the update.
+        """
         conversion = self.param_conversions[self.conversion_index]
         if source in conversion.main_parameters:
             conversion.conversion_func()
-
-    @property
-    def parameters(self):
-        current_conversion = self.param_conversions[self.conversion_index]
-        return current_conversion.main_parameters
-
-    @property
-    def all_parameters(self):
-        return self._parameters

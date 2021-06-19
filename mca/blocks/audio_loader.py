@@ -16,11 +16,11 @@ class AudioLoader(Block):
 
     def setup_parameters(self):
         self.parameters.update(
-            {"sampling_freq": parameters.IntParameter(_("Sampling frequency"),
+            {"samplingfreq": parameters.IntParameter(_("Sampling frequency"),
                                                       0, None, "Hz", 44100),
              "filename": parameters.PathParameter(_("Filename"), [".wav"],
                                                   loading=True),
-             "load_file": parameters.ActionParameter(_("Load file"),
+             "loadfile": parameters.ActionParameter(_("Load file"),
                                                      self.load_wav),
              })
 

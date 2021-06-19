@@ -41,7 +41,11 @@ class Block:
     def read_kwargs(self, kwargs):
         """Writes keyword arguments into the parameters."""
         for key in kwargs:
-            self.parameters[key].value = kwargs[key]
+            if "_" in key:
+                parameter_block, parameter_name = key.split("_")
+                self.parameters[parameter_block].parameters[parameter_name].value = kwargs[key]
+            else:
+                self.parameters[key].value = kwargs[key]
 
     def _process(self):
         """Processes data from the Inputs and the parameters and puts new

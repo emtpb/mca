@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-05-30 13:04-0700\n"
+"POT-Creation-Date: 2021-06-16 04:19-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -27,7 +27,7 @@ msgstr "BetragBlock"
 msgid "Computes the absolute of the input signal."
 msgstr "Berechnet den Betrag des Eingangssignals."
 
-#: blocks/absolute.py:12 blocks/adder.py:21 blocks/amplifier.py:12
+#: blocks/absolute.py:12 blocks/adder.py:21 blocks/amplifier.py:14
 #: blocks/fft.py:14 blocks/fftplot.py:24 blocks/real_imag.py:17
 msgid "Processing"
 msgstr "Verarbeitende"
@@ -48,17 +48,25 @@ msgstr "Zeit"
 msgid "Voltage"
 msgstr "Spannung"
 
-#: blocks/amplifier.py:10
+#: blocks/amplifier.py:12
 msgid "Amplifier"
 msgstr "Verstärker"
 
-#: blocks/amplifier.py:11
+#: blocks/amplifier.py:13
 msgid "Amplifies the input signal by the desired factor"
 msgstr "Verstärkt das Eingangssignal um den gewollten Faktor"
 
-#: blocks/amplifier.py:21
+#: blocks/amplifier.py:22
 msgid "Factor"
 msgstr "Faktor"
+
+#: blocks/amplifier.py:23
+msgid "Decibel"
+msgstr "Dezibel"
+
+#: blocks/amplifier.py:36
+msgid "Multiplier"
+msgstr "Multiplaktor"
 
 #: blocks/audio_loader.py:13
 msgid "AudioLoader"
@@ -78,6 +86,7 @@ msgid "Audio"
 msgstr "Audio"
 
 #: blocks/audio_loader.py:19 blocks/audio_player.py:19 blocks/audio_saver.py:20
+#: framework/helpers.py:8
 msgid "Sampling frequency"
 msgstr "Abtastfrequenz"
 
@@ -95,7 +104,7 @@ msgstr "AudioPlayer"
 
 #: blocks/audio_player.py:14
 msgid "Plays the input signal as a sound."
-msgstr "Spielt das Eingangssignal als Ton ab"
+msgstr "Spielt das Eingangssignal als Ton ab."
 
 #: blocks/audio_player.py:21
 msgid "Play sound"
@@ -115,7 +124,7 @@ msgstr "Nimmt Geräusch von dem Standard Audio Input Gerät auf."
 
 #: blocks/audio_recorder.py:18
 msgid "Sampling Frequency"
-msgstr ""
+msgstr "Samplingfrequenz"
 
 #: blocks/audio_recorder.py:20
 msgid "Record time"
@@ -153,7 +162,7 @@ msgstr "Berechnet die FFT des Eingangssignals."
 msgid "Fourier"
 msgstr "Fourier"
 
-#: blocks/fft.py:22 blocks/signal_generator_periodic.py:34
+#: blocks/fft.py:22 blocks/signal_generator_periodic.py:35
 msgid "Frequency"
 msgstr "Frequenz"
 
@@ -251,59 +260,51 @@ msgstr "Pfad der Arbiträrdaten"
 
 #: blocks/signal_generator_periodic.py:14
 msgid "Generates a Sinus, a Rectangle function or a Triangle function."
-msgstr "Generiert einen Sinus, eine Rechtecksfunktion oder eine Dreiecksfunktion "
+msgstr "Generiert einen Sinus, eine Rechteckfunktion oder eine Dreiecksfunktion."
 
-#: blocks/signal_generator_periodic.py:29
+#: blocks/signal_generator_periodic.py:30
 msgid "Function"
 msgstr "Funktion"
 
-#: blocks/signal_generator_periodic.py:30
+#: blocks/signal_generator_periodic.py:31
 msgid "Rectangle"
 msgstr "Rechteck"
 
-#: blocks/signal_generator_periodic.py:30
+#: blocks/signal_generator_periodic.py:31
 msgid "Triangle"
 msgstr "Dreieck"
 
-#: blocks/signal_generator_periodic.py:31
+#: blocks/signal_generator_periodic.py:32
 msgid "Sine"
 msgstr "Sinus"
-
-#: blocks/signal_generator_periodic.py:39
-#: blocks/signal_generator_stochastic.py:37
-msgid "Values"
-msgstr "Werte"
-
-#: blocks/signal_generator_periodic.py:40
-#: blocks/signal_generator_stochastic.py:38
-msgid "Increment"
-msgstr "Inkrement"
 
 #: blocks/signal_generator_stochastic.py:13
 msgid "Generates a stochastic signal with either normal or equal distribution."
 msgstr ""
+"Generiert ein stochastisches Signal mit einer Normal- oder "
+"Gleichverteilung."
 
 #: blocks/signal_generator_stochastic.py:15
 msgid "Stochastic"
 msgstr "Stochastisch"
 
-#: blocks/signal_generator_stochastic.py:28
+#: blocks/signal_generator_stochastic.py:29
 msgid "Distribution"
 msgstr "Verteilung"
 
-#: blocks/signal_generator_stochastic.py:29
+#: blocks/signal_generator_stochastic.py:30
 msgid "Normal distribution"
 msgstr "Normalverteilt"
 
-#: blocks/signal_generator_stochastic.py:30
+#: blocks/signal_generator_stochastic.py:31
 msgid "Equal distribution"
 msgstr "Gleichverteilt"
 
-#: blocks/signal_generator_stochastic.py:33
+#: blocks/signal_generator_stochastic.py:34
 msgid "Mean µ"
 msgstr "Mittelwert µ"
 
-#: blocks/signal_generator_stochastic.py:34
+#: blocks/signal_generator_stochastic.py:35
 msgid "Standard deviation σ"
 msgstr "Standardabweichung σ"
 
@@ -332,13 +333,29 @@ msgid "Saves the input signal in .json file."
 msgstr "Speichert das Eingangssignal in einer.json Datei."
 
 #: blocks/signal_saver.py:24 gui/pyside2/main_window.py:63
-#: gui/pyside2/main_window.py:185
+#: gui/pyside2/main_window.py:199
 msgid "Save"
 msgstr "Speichern"
 
 #: framework/block_base.py:30
 msgid "Name"
 msgstr "Name"
+
+#: framework/helpers.py:5
+msgid "Values"
+msgstr "Werte"
+
+#: framework/helpers.py:6
+msgid "Increment"
+msgstr "Inkrement"
+
+#: framework/helpers.py:9
+msgid "Measure time"
+msgstr "Messzeit"
+
+#: framework/helpers.py:48
+msgid "Abscissa"
+msgstr "Abszisse"
 
 #: gui/pyside2/block_display.py:24
 msgid "Zoom in"
@@ -376,52 +393,52 @@ msgstr "Block löschen"
 msgid "Create new block"
 msgstr "Erstelle neuen Block"
 
-#: gui/pyside2/edit_widgets.py:323 gui/pyside2/io_items.py:118
+#: gui/pyside2/edit_widgets.py:325 gui/pyside2/io_items.py:118
 #: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:294
 #: gui/pyside2/io_items.py:297 gui/pyside2/io_items.py:301
-#: gui/pyside2/main_window.py:190 gui/pyside2/main_window.py:230
-#: gui/pyside2/main_window.py:245 gui/pyside2/main_window.py:267
+#: gui/pyside2/main_window.py:204 gui/pyside2/main_window.py:256
+#: gui/pyside2/main_window.py:278
 msgid "MCA"
 msgstr "MKA"
 
-#: gui/pyside2/edit_widgets.py:323
+#: gui/pyside2/edit_widgets.py:325
 msgid "Something went wrong.\n"
 msgstr "Etwas ist schiefgelaufen.\n"
 
-#: gui/pyside2/edit_window.py:45 gui/pyside2/edit_window.py:262
+#: gui/pyside2/edit_window.py:37 gui/pyside2/edit_window.py:256
 msgid "Edit {}"
 msgstr "{} bearbeiten"
 
-#: gui/pyside2/edit_window.py:59
+#: gui/pyside2/edit_window.py:51
 msgid "Description"
-msgstr ""
+msgstr "Beschreibung"
 
-#: gui/pyside2/edit_window.py:67
+#: gui/pyside2/edit_window.py:59
 msgid "Parameters"
 msgstr "Parameter"
 
-#: gui/pyside2/edit_window.py:79
+#: gui/pyside2/edit_window.py:71
 msgid "General"
-msgstr ""
+msgstr "Allgemein"
 
-#: gui/pyside2/edit_window.py:89
+#: gui/pyside2/edit_window.py:81
 msgid "Meta data"
 msgstr "Metadaten"
 
-#: gui/pyside2/edit_window.py:99
+#: gui/pyside2/edit_window.py:91 gui/pyside2/main_window.py:120
 msgid "Ok"
 msgstr "Ok"
 
-#: gui/pyside2/edit_window.py:100
+#: gui/pyside2/edit_window.py:92 gui/pyside2/main_window.py:122
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: gui/pyside2/edit_window.py:101
+#: gui/pyside2/edit_window.py:93
 msgid "Apply"
 msgstr "Übernehmen"
 
-#: gui/pyside2/edit_window.py:115 gui/pyside2/edit_window.py:220
-#: gui/pyside2/edit_window.py:225
+#: gui/pyside2/edit_window.py:107 gui/pyside2/edit_window.py:214
+#: gui/pyside2/edit_window.py:219
 msgid ""
 "Could not apply the changed parameters and meta data!Continue editing or "
 "revert changes?"
@@ -429,59 +446,59 @@ msgstr ""
 "Die veränderten Parameter und Metadaten konnten nicht angewendet! Mit der"
 " Bearbeitung fortfahren oder Änderung rückgängig machen?"
 
-#: gui/pyside2/edit_window.py:118
+#: gui/pyside2/edit_window.py:110
 msgid "Continue"
 msgstr "Fortfahren"
 
-#: gui/pyside2/edit_window.py:121
+#: gui/pyside2/edit_window.py:113
 msgid "Revert"
 msgstr "Rückgängig"
 
-#: gui/pyside2/edit_window.py:155
+#: gui/pyside2/edit_window.py:149
 msgid "Output '{}' meta data:"
 msgstr "Output '{}' Metadaten"
 
-#: gui/pyside2/edit_window.py:158
+#: gui/pyside2/edit_window.py:152
 msgid "Output {} meta data:"
 msgstr "Output {} MetaDaten:"
 
-#: gui/pyside2/edit_window.py:160
+#: gui/pyside2/edit_window.py:154
 msgid "Signal name:"
 msgstr "Signalname:"
 
-#: gui/pyside2/edit_window.py:161
+#: gui/pyside2/edit_window.py:155
 msgid "Abscissa quantity:"
 msgstr "Abszissengröße:"
 
-#: gui/pyside2/edit_window.py:162
+#: gui/pyside2/edit_window.py:156
 msgid "Abscissa symbol:"
 msgstr "Abszissensymbol:"
 
-#: gui/pyside2/edit_window.py:163
+#: gui/pyside2/edit_window.py:157
 msgid "Abscissa unit:"
 msgstr "Abszisseneinheit:"
 
-#: gui/pyside2/edit_window.py:164
+#: gui/pyside2/edit_window.py:158
 msgid "Ordinate quantity:"
 msgstr "Ordinatengröße:"
 
-#: gui/pyside2/edit_window.py:165
+#: gui/pyside2/edit_window.py:159
 msgid "Ordinate symbol:"
 msgstr "Ordinatensymbol:"
 
-#: gui/pyside2/edit_window.py:166
+#: gui/pyside2/edit_window.py:160
 msgid "Ordinate unit:"
 msgstr "Ordinateneinheit:"
 
-#: gui/pyside2/edit_window.py:177
+#: gui/pyside2/edit_window.py:171
 msgid "Use abscissa meta data"
 msgstr "Abzissen Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:185
+#: gui/pyside2/edit_window.py:179
 msgid "Use ordinate meta data"
 msgstr "Ordinaten Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:222
+#: gui/pyside2/edit_window.py:216
 msgid "Error message:"
 msgstr "Fehlermeldung:"
 
@@ -545,15 +562,7 @@ msgstr "Programm beenden"
 msgid "Search..."
 msgstr "Suchen..."
 
-#: gui/pyside2/main_window.py:132
-msgid "Select a file to open"
-msgstr "Auswählen um Datei zu öffnen"
-
-#: gui/pyside2/main_window.py:191
-msgid "File has to be a .json"
-msgstr "Datei muss eine .json sein"
-
-#: gui/pyside2/main_window.py:231
+#: gui/pyside2/main_window.py:115
 msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
@@ -561,15 +570,27 @@ msgstr ""
 "Das Dokument wurde verändert.\n"
 "Wollen sie die Änderungen speichern?"
 
-#: gui/pyside2/main_window.py:246
+#: gui/pyside2/main_window.py:124
+msgid "No"
+msgstr "Nein"
+
+#: gui/pyside2/main_window.py:146
+msgid "Select a file to open"
+msgstr "Auswählen um Datei zu öffnen"
+
+#: gui/pyside2/main_window.py:205
+msgid "File has to be a .json"
+msgstr "Datei muss eine .json sein"
+
+#: gui/pyside2/main_window.py:257
 msgid "Are you sure you want to remove all blocks?"
 msgstr "Sicher Sie sicher, dass sie alle Blöcke entfernen wollen?"
 
-#: gui/pyside2/main_window.py:264
+#: gui/pyside2/main_window.py:275
 msgid "untitled.json"
 msgstr "Unbennant.json"
 
-#: gui/pyside2/main_window.py:280
+#: gui/pyside2/main_window.py:291
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
 
@@ -659,4 +680,17 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Parameters:"
 #~ msgstr "Parameter:"
+
+#~ msgid "Generates a Sinus, a Rectangle function or a Triangle function."
+#~ msgstr ""
+#~ "Generiert einen Sinus, eine Rechtecksfunktion"
+#~ " oder eine Dreiecksfunktion "
+
+#~ msgid ""
+#~ "Generates increment Sinus, increment Rectangle"
+#~ " function or increment Triangle function."
+#~ msgstr ""
+
+#~ msgid "Measure Time"
+#~ msgstr "Messzeit"
 

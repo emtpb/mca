@@ -1,18 +1,18 @@
 import numpy as np
 from scipy import signal as sgn
 
-from mca.framework import data_types, parameters, Block
+from mca.framework import data_types, parameters, helpers,  Block
 from mca.language import _
 
 
 class SignalGeneratorPeriodic(Block):
-    """Generates a periodic signal.
+    """Generates increment periodic signal.
 
     This block has one output.
     """
     name = "SignalGeneratorPeriodic"
-    description = _("Generates a Sinus, a Rectangle function or "
-                    "a Triangle function.")
+    description = _("Generates a Sinus, a Rectangle function or a Triangle "
+                    "function.")
     tags = (_("Generating"),)
 
     def setup_io(self):
@@ -24,6 +24,7 @@ class SignalGeneratorPeriodic(Block):
         )
 
     def setup_parameters(self):
+        abscissa = helpers.create_abscissa_parameter_block()
         self.parameters.update({
             "function": parameters.ChoiceParameter(
                 _("Function"),
@@ -34,19 +35,16 @@ class SignalGeneratorPeriodic(Block):
             "freq": parameters.FloatParameter(_("Frequency"), unit="Hz",
                                               value=1),
             "amp": parameters.FloatParameter("Amplitude", value=1),
-            "phase": parameters.FloatParameter("Phase", value=0),
-            "start_a": parameters.FloatParameter("Start", value=0),
-            "values": parameters.IntParameter(_("Values"), min_=1, value=628),
-            "increment": parameters.FloatParameter(_("Increment"), min_=0,
-                                                   value=0.01)
+            "phase": parameters.FloatParameter("Phase", value=0, unit="rad"),
+            "abscissa": abscissa,
         })
 
     def _process(self):
         amp = self.parameters["amp"].value
         freq = self.parameters["freq"].value
-        abscissa_start = self.parameters["start_a"].value
-        values = self.parameters["values"].value
-        increment = self.parameters["increment"].value
+        abscissa_start = self.parameters["abscissa"].parameters["start"].value
+        values = self.parameters["abscissa"].parameters["values"].value
+        increment = self.parameters["abscissa"].parameters["increment"].value
         phase = self.parameters["phase"].value
         function = self.parameters["function"].value
         abscissa = (

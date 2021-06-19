@@ -5,6 +5,7 @@ import os
 from mca.config import Config
 from mca import exceptions
 from mca.language import _
+from mca.framework import parameters
 config = Config()
 
 
@@ -31,6 +32,7 @@ class BaseParameterWidget:
         self.prev_value = self.parameter.value
         self.edit_window = edit_window
         self.changed = False
+        self.setFixedHeight(25)
 
     def write_parameter(self):
         """Takes the current value in the widget and sets
@@ -556,3 +558,128 @@ class MetaDataBoolWidget(QtWidgets.QCheckBox):
             self.write_attribute()
             self.read_attribute()
             self.changed = False
+
+
+class ParameterBlockChoiceWidget(QtWidgets.QComboBox):
+    """Widget to display the choices for the parameter conversions and
+    applying them.
+
+    Attributes:
+        parameter_block: Reference of the ParameterBlock.
+        parameters_to_widgets (dict): Mapping of the parameter to the
+                                     corresponding widgets.
+    """
+
+    def __init__(self, parameter_block, parameters_to_widgets):
+        """Initializes ParameterBlockChoiceWidget.
+
+        Args:
+            parameter_block: Reference of the ParameterBlock.
+            parameters_to_widgets (dict): Mapping of the parameter to the
+                                         corresponding widgets.
+        """
+        QtWidgets.QComboBox.__init__(self)
+        self.parameter_block = parameter_block
+        self.parameters_to_widgets = parameters_to_widgets
+        # Add the conversions to the ComboBox
+        for index, conversion in enumerate(self.parameter_block.param_conversions):
+            names = [parameter.name for parameter in conversion.main_parameters]
+            self.addItem("/".join(names), userData=index)
+        self.enable_parameter_widgets()
+        self.currentIndexChanged.connect(self.change_conversion)
+
+    def enable_parameter_widgets(self):
+        """Enables and disables the parameter widgets depending on the
+        current activated conversion.
+        """
+        current_conversion = self.parameter_block.param_conversions[self.parameter_block.conversion_index]
+        for parameter in current_conversion.main_parameters:
+            widget = self.parameters_to_widgets[parameter]
+            widget.setEnabled(True)
+        for parameter in current_conversion.sub_parameters:
+            widget = self.parameters_to_widgets[parameter]
+            widget.setEnabled(False)
+
+    def change_conversion(self):
+        """Change the conversion of the parameter block to the current selected
+        conversion in the widget.
+        """
+        conversion_index = self.currentData()
+        self.parameter_block.conversion_index = conversion_index
+        self.enable_parameter_widgets()
+
+
+class ParameterBlockWidget(QtWidgets.QGroupBox):
+    """Widget to display :class:`.ParameterBlock`. Creates and arranges the
+    widgets of its parameters similar to EditWindow.
+
+    Attributes:
+        parameter_block: Reference of the ParameterBlock.
+        main_layout: Layout for this widget.
+        parameters_to_widgets (dict): Mapping of the parameter to the
+                                      corresponding widgets.
+    """
+    def __init__(self, parameter_block, edit_window):
+        """Initializes the ParameterBlockWidget.
+
+        Args:
+            parameter_block: Reference of the ParameterBlock.
+            edit_window: Reference of the :class:`.EditWindow` the widget
+                         belongs to.
+        """
+        self.parameter_block = parameter_block
+        QtWidgets.QGroupBox.__init__(self, title=parameter_block.name)
+        self.main_layout = QtWidgets.QGridLayout(self)
+        self.parameters_to_widgets = {}
+        # Create and arrange the parameter widgets
+        for index, parameter in enumerate(self.parameter_block.parameters.values(), 1):
+            if not isinstance(parameter, parameters.BoolParameter) and \
+               not isinstance(parameter, parameters.ActionParameter):
+                name_label = QtWidgets.QLabel(parameter.name + ":")
+                name_label.setFixedHeight(25)
+                self.main_layout.addWidget(name_label, index, 0, 1, 1)
+            widget = widget_dict[type(parameter)](parameter, edit_window)
+            self.parameters_to_widgets[parameter] = widget
+            widget.read_parameter()
+            self.main_layout.addWidget(widget, index, 1, 1, 1)
+            if parameter.unit:
+                unit_label = QtWidgets.QLabel(parameter.unit)
+                self.main_layout.addWidget(unit_label, index, 2, 1, 1)
+        # Add the choice widget
+        conversion_choice = ParameterBlockChoiceWidget(self.parameter_block,
+                                                       self.parameters_to_widgets)
+        self.main_layout.addWidget(conversion_choice, 0, 0, 1, 1)
+
+    def write_parameter(self):
+        for parameter in self.parameters_to_widgets.values():
+            if parameter.isEnabled():
+                parameter.write_parameter()
+        self.read_parameter()
+
+    def read_parameter(self):
+        for parameter in self.parameters_to_widgets.values():
+            parameter.read_parameter()
+
+    def check_changed(self):
+        for parameter in self.parameters_to_widgets.values():
+            if parameter.isEnabled():
+                parameter.check_changed()
+
+    def apply_changes(self):
+        for parameter in self.parameters_to_widgets.values():
+            parameter.apply_changes()
+        self.window().parent().modified = True
+
+    def revert_changes(self):
+        for parameter in self.parameters_to_widgets.values():
+            parameter.revert_changes()
+
+
+widget_dict = {parameters.BoolParameter: BoolParameterWidget,
+               parameters.IntParameter: IntParameterWidget,
+               parameters.FloatParameter: FloatParameterWidget,
+               parameters.ChoiceParameter: ChoiceParameterWidget,
+               parameters.StrParameter: StringParameterWidget,
+               parameters.ActionParameter: ActionParameterWidget,
+               parameters.PathParameter: FileParameterWidget,
+               parameters.ParameterBlock: ParameterBlockWidget}

@@ -92,13 +92,6 @@ def test_type_path():
     a.validate("test")
 
 
-def test_file_format():
-    a = pm.PathParameter("Test", value="test.json", file_formats=[".json", ".txt"])
-    with pytest.raises(exceptions.ParameterValueError):
-        a.validate("test.png")
-    a.validate("test.json")
-
-
 def test_parameter_conversion_1():
     a = pm.FloatParameter("dt", value=0.01, min_=0)
     b = pm.FloatParameter("fabt", value=100, min_=0)
@@ -139,10 +132,7 @@ def test_parameter_block_1():
 
     conversion = pm.ParameterConversion([a], [b], dt_to_fabt)
     conversion_1 = pm.ParameterConversion([b], [a], fabt_to_dt)
-    c = pm.ParameterBlock([a, b], [conversion, conversion_1], 0)
-    assert c.parameters == [a]
-    c.conversion_index = 1
-    assert c.parameters == [b]
+    c = pm.ParameterBlock({"a": a,"b": b}, [conversion, conversion_1], 0)
     c.conversion_index = 0
     a.value = 0.1
     assert b.value == 10
@@ -192,15 +182,13 @@ def test_parameter_block_2():
     conversion_2 = pm.ParameterConversion([c, d], [a, c], tmess_values_to_dt)
     conversion_3 = pm.ParameterConversion([a, d], [b, c], tmess_dt_to_values)
     conversion_4 = pm.ParameterConversion([b, d], [a, c], tmess_fabt_to_values)
-    e = pm.ParameterBlock([a, b, c, d], [conversion, conversion_1,
+    e = pm.ParameterBlock({"a": a, "b": b, "c": c, "d": d}, [conversion, conversion_1,
                                          conversion_2, conversion_3,
                                          conversion_4], 0)
-    assert e.parameters == [a, c]
     a.value = 0.1
     assert b.value == 10
     assert d.value == 20
     e.conversion_index = 4
-    assert e.parameters == [b, d]
     b.value = 1000
     assert a.value == 0.001
     assert c.value == 20000

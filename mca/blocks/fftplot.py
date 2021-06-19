@@ -47,7 +47,7 @@ class FFTPlot(Block):
                 value="absolute",
             ),
             "show": parameters.ActionParameter("Show", self.show),
-            "auto_show": parameters.BoolParameter("Auto plot", False)
+            "autoshow": parameters.BoolParameter("Auto plot", False)
         })
 
     def _process(self):
@@ -61,7 +61,7 @@ class FFTPlot(Block):
         input_signal = self.inputs[0].data
         plot_mode = self.parameters["plot_mode"].value
         shift = self.parameters["shift"].value
-        auto_show = self.parameters["auto_show"].value#
+        auto_show = self.parameters["autoshow"].value#
         values = input_signal.values
         delta_f = 1 / (self.inputs[0].data.increment * values)
         # Calculate fft

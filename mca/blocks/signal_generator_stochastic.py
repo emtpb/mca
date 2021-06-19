@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import data_types, parameters, Block
+from mca.framework import data_types, parameters, helpers, Block
 from mca.language import _
 
 
@@ -23,6 +23,7 @@ class SignalGeneratorStochastic(Block):
         )
 
     def setup_parameters(self):
+        abscissa = helpers.create_abscissa_parameter_block()
         self.parameters.update({
             "dist": parameters.ChoiceParameter(
                 _("Distribution"),
@@ -33,18 +34,15 @@ class SignalGeneratorStochastic(Block):
             "mean": parameters.FloatParameter(_("Mean µ"), value=0),
             "std_dev": parameters.FloatParameter(_("Standard deviation σ"),
                                                  value=1),
-            "start_a": parameters.FloatParameter("Start", value=0),
-            "values": parameters.IntParameter(_("Values"), min_=1, value=1000),
-            "increment": parameters.FloatParameter(_("Increment"), min_=0,
-                                                   value=0.01)
+            "abscissa": abscissa
         })
 
     def _process(self):
         mean = self.parameters["mean"].value
         std_dev = self.parameters["std_dev"].value
-        abscissa_start = self.parameters["start_a"].value
-        values = self.parameters["values"].value
-        increment = self.parameters["increment"].value
+        abscissa_start = self.parameters["abscissa"].parameters["start"].value
+        values = self.parameters["abscissa"].parameters["values"].value
+        increment = self.parameters["abscissa"].parameters["increment"].value
         dist = self.parameters["dist"].value
         if dist == "normal":
             ordinate = mean + std_dev*np.random.randn(values)

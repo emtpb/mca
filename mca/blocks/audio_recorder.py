@@ -15,11 +15,11 @@ class AudioRecorder(Block):
 
     def setup_parameters(self):
         self.parameters.update(
-            {"sampling_freq": parameters.IntParameter(_("Sampling Frequency"),
+            {"samplingfreq": parameters.IntParameter(_("Sampling Frequency"),
                                                       1, None, "Hz", 44100),
-             "record_time": parameters.FloatParameter(_("Record time"), 0,
+             "recordtime": parameters.FloatParameter(_("Record time"), 0,
                                                       None, "s", 5),
-             "record_sound": parameters.ActionParameter(_("Record sound"),
+             "recordsound": parameters.ActionParameter(_("Record sound"),
                                                         self.record_sound),
 
              })
@@ -39,8 +39,8 @@ class AudioRecorder(Block):
         """Record the default audio device and puts the data on the second
         output.
         """
-        sampling_frequency = self.parameters["sampling_freq"].value
-        record_time = self.parameters["record_time"].value
+        sampling_frequency = self.parameters["samplingfreq"].value
+        record_time = self.parameters["recordtime"].value
         frames = int(sampling_frequency*record_time)
         recording = sd.rec(frames=frames, samplerate=sampling_frequency,
                            channels=1).reshape(frames)

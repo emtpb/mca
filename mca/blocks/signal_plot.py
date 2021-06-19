@@ -26,7 +26,7 @@ class SignalPlot(DynamicBlock):
     def setup_parameters(self):
         self.parameters.update({
             "show": parameters.ActionParameter(_("Show plot"), self.show),
-            "auto_show": parameters.BoolParameter(_("Auto plot"), False)
+            "autoshow": parameters.BoolParameter(_("Auto plot"), False)
         })
 
     def setup_io(self):
@@ -45,7 +45,7 @@ class SignalPlot(DynamicBlock):
         ordinate_units = [signal.meta_data.unit_o for signal in signals]
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
-        auto_show = self.parameters["auto_show"].value
+        auto_show = self.parameters["autoshow"].value
         labels = False
         for signal in signals:
             abscissa = np.linspace(signal.abscissa_start,

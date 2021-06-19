@@ -1,7 +1,7 @@
 import networkx as nx
 import json
 
-from mca.framework import block_io, data_types
+from mca.framework import block_io, data_types, parameters
 from mca import exceptions
 from mca import blocks
 
@@ -203,10 +203,17 @@ class IORegistry:
         """
         save_data = {"blocks": []}
         for block in self.get_all_blocks():
+            parameter_dict = {}
+            for parameter_name, parameter in block.parameters.items():
+                if isinstance(parameter, parameters.ParameterBlock):
+                    sub_parameter_dict = {}
+                    for sub_parameter_name, sub_parameter in parameter.parameters.items():
+                        sub_parameter_dict[sub_parameter_name] = sub_parameter.value
+                    parameter_dict[parameter_name] = sub_parameter_dict
+                else:
+                    parameter_dict[parameter_name] = parameter.value
             save_block = {"class": str(type(block)),
-                          "parameters": {parameter_name: parameter.value for
-                                         parameter_name, parameter in
-                                         block.parameters.items()},
+                          "parameters": parameter_dict,
                           "inputs": [],
                           "outputs": [{
                               "id": output.id.int,
@@ -253,8 +260,12 @@ class IORegistry:
             block_instance = str_to_block_types[block_save["class"]]()
             block_structure.append(block_instance)
             block_instance.gui_data["save_data"] = block_save["gui_data"]
-            for parameter_name, parameter_value in block_save["parameters"].items():
-                block_instance.parameters[parameter_name].value = parameter_value
+            for parameter_name, parameter in block_save["parameters"].items():
+                if isinstance(parameter, dict):
+                    for sub_parameter_name, sub_parameter in parameter.items():
+                        block_instance.parameters[parameter_name].parameters[sub_parameter_name].value = sub_parameter
+                else:
+                    block_instance.parameters[parameter_name].value = parameter
             for index, input_save in enumerate(block_save["inputs"]):
                 if index + 1 > len(block_instance.inputs):
                     block_instance.add_input(block_io.Input(block_instance))

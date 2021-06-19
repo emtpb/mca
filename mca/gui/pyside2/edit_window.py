@@ -6,14 +6,6 @@ from mca.framework import parameters, DynamicBlock
 from mca.gui.pyside2 import edit_widgets
 from mca.language import _
 
-widget_dict = {parameters.BoolParameter: edit_widgets.BoolParameterWidget,
-               parameters.IntParameter: edit_widgets.IntParameterWidget,
-               parameters.FloatParameter: edit_widgets.FloatParameterWidget,
-               parameters.ChoiceParameter: edit_widgets.ChoiceParameterWidget,
-               parameters.StrParameter: edit_widgets.StringParameterWidget,
-               parameters.ActionParameter: edit_widgets.ActionParameterWidget,
-               parameters.PathParameter: edit_widgets.FileParameterWidget}
-
 
 class EditWindow(QtWidgets.QDialog):
     """Window to display the parameter and meta data of a :class:`.Block`.
@@ -128,19 +120,21 @@ class EditWindow(QtWidgets.QDialog):
         """
         block_parameters = self.block.parameters.values()
 
-        for block_parameter, index in zip(block_parameters,
-                                          range(0, len(block_parameters))):
+        for index, block_parameter in enumerate(block_parameters):
             if not isinstance(block_parameter, parameters.BoolParameter) and \
-               not isinstance(block_parameter, parameters.ActionParameter):
+               not isinstance(block_parameter, parameters.ActionParameter) and \
+               not isinstance(block_parameter, parameters.ParameterBlock):
                 name_label = QtWidgets.QLabel(block_parameter.name + ":")
                 name_label.setFixedHeight(25)
                 self.parameter_box_layout.addWidget(name_label, index, 0, 1, 1)
-            widget = widget_dict[type(block_parameter)](block_parameter, self)
-            widget.setFixedHeight(25)
+            widget = edit_widgets.widget_dict[type(block_parameter)](block_parameter, self)
             self.parameter_widgets.append(widget)
             widget.read_parameter()
-            self.parameter_box_layout.addWidget(widget, index, 1, 1, 1)
-            if block_parameter.unit:
+            if isinstance(block_parameter, parameters.ParameterBlock):
+                self.parameter_box_layout.addWidget(widget, index, 0, 1, 2)
+            else:
+                self.parameter_box_layout.addWidget(widget, index, 1, 1, 1)
+            if getattr(block_parameter, "unit", None):
                 unit_label = QtWidgets.QLabel(block_parameter.unit)
                 self.parameter_box_layout.addWidget(unit_label, index, 2, 1, 1)
 
