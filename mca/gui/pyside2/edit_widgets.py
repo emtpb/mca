@@ -334,16 +334,17 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
     def __init__(self, parameter, edit_window):
         """Initializes FileParameterWidget class."""
         QtWidgets.QWidget.__init__(self)
+        self.button = QtWidgets.QPushButton(text="...")
+        self.file_edit = QtWidgets.QLineEdit()
+
         BaseParameterWidget.__init__(self, parameter, edit_window)
         self.setLayout(QtWidgets.QHBoxLayout())
-        self.file_edit = QtWidgets.QLineEdit()
         self.layout().addWidget(self.file_edit)
         self.file_edit.setText(self.parameter.value)
         self.file_edit.textChanged.connect(self.check_changed)
         if self.parameter.file_formats:
             self.file_edit.setToolTip("File has to be " +
                                       " or ".join(self.parameter.file_formats))
-        self.button = QtWidgets.QPushButton(text="...")
         self.button.setMaximumWidth(30)
         self.layout().addWidget(self.button)
         dir_path = ""
