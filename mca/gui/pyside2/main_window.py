@@ -4,7 +4,7 @@ import ntpath
 
 from mca import blocks, config
 from mca.framework import block_registry
-from mca.gui.pyside2 import block_list, block_display
+from mca.gui.pyside2 import block_list, block_display, about_window
 from mca.language import _
 
 
@@ -35,9 +35,16 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.conf = config.Config()
 
+        self.about_window = about_window.AboutWindow(self)
+
         self.menu = self.menuBar()
         self.file_menu = self.menu.addMenu(_("File"))
         self.language_menu = self.menu.addMenu(_("Language"))
+
+        open_about_window = QtWidgets.QAction(_("About"), self)
+        open_about_window.triggered.connect(self.about_window.show)
+
+        self.menu.addAction(open_about_window)
         languages = [("Deutsch", "de"), ("English", "en")]
 
         self.setWindowIcon(QtGui.QIcon(
