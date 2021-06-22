@@ -259,9 +259,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def clear_all_blocks(self):
         """Clears the :class:`.BlockScene` from all blocks."""
-        result = QtWidgets.QMessageBox.question(
-            self, _("MCA"),
-            _("Are you sure you want to remove all blocks?"))
+        message_box = QtWidgets.QMessageBox(parent=self,
+                                            icon=QtWidgets.QMessageBox.Question,
+                                            text=_("Are you sure you want to remove all blocks?"))
+        message_box.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Cancel)
+        message_box.button(QtWidgets.QMessageBox.Cancel).setText(_("Cancel"))
+        message_box.button(QtWidgets.QMessageBox.Yes).setText(
+            _("Yes"))
+        result = message_box.exec_()
         if result == QtWidgets.QMessageBox.StandardButton.Yes:
             self.scene.clear()
 

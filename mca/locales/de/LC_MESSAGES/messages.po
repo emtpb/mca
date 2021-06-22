@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-06-22 16:08-0700\n"
+"POT-Creation-Date: 2021-06-22 16:19-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -418,8 +418,7 @@ msgstr "Erstelle neuen Block"
 #: gui/pyside2/edit_widgets.py:325 gui/pyside2/io_items.py:118
 #: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:294
 #: gui/pyside2/io_items.py:297 gui/pyside2/io_items.py:301
-#: gui/pyside2/main_window.py:211 gui/pyside2/main_window.py:263
-#: gui/pyside2/main_window.py:285
+#: gui/pyside2/main_window.py:211 gui/pyside2/main_window.py:290
 msgid "MCA"
 msgstr "MKA"
 
@@ -452,6 +451,7 @@ msgid "Ok"
 msgstr "Ok"
 
 #: gui/pyside2/edit_window.py:93 gui/pyside2/main_window.py:129
+#: gui/pyside2/main_window.py:266
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -612,11 +612,15 @@ msgstr "Datei muss eine .json sein"
 msgid "Are you sure you want to remove all blocks?"
 msgstr "Sicher Sie sicher, dass sie alle Blöcke entfernen wollen?"
 
-#: gui/pyside2/main_window.py:282
+#: gui/pyside2/main_window.py:268
+msgid "Yes"
+msgstr "Ja"
+
+#: gui/pyside2/main_window.py:287
 msgid "untitled.json"
 msgstr "Unbennant.json"
 
-#: gui/pyside2/main_window.py:298
+#: gui/pyside2/main_window.py:303
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
 
