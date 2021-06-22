@@ -21,10 +21,10 @@ class EditWindow(QtWidgets.QDialog):
         tab_widget: Widget containing the tabs 'general' and 'meta data'.
         warning_message: Dialogue window which pops up when errors occur during
                          editing.
-        button_box: "Ok|Cancel" button widgets.
+        button_box: "Apply|Cancel|Ok" button widgets.
 
     """
-    def __init__(self, parent, block):
+    def __init__(self, parent, block_item, block):
         """Initialize EditWindow class.
 
         Args:
@@ -32,6 +32,7 @@ class EditWindow(QtWidgets.QDialog):
         """
         QtWidgets.QDialog.__init__(self, parent=parent)
         self.block = block
+        self.block_item = block_item
         self.resize(500, 550)
         self.setMinimumSize((QtCore.QSize(500, 400)))
         self.setWindowTitle(_("Edit {}").format(self.block.parameters["name"].value))
@@ -208,6 +209,8 @@ class EditWindow(QtWidgets.QDialog):
                 for entry in self.meta_data_widgets:
                     entry.write_attribute()
             self.block.trigger_update()
+            self.block_item.adjust_width(self.block_item.width)
+            self.block_item.update()
         except Exception as error:
             if error.args:
                 self.warning_message.setText(

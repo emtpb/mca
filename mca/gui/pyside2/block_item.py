@@ -57,9 +57,18 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
         self.setToolTip(self.block.description)
         self.setAcceptHoverEvents(True)
+        # Define fonts
+        self.name_font = QtGui.QFont("Times", 12, QtGui.QFont.Bold)
+        self.custom_name_font = QtGui.QFont("Times", 14)
+        self.custom_name_font.setItalic(True)
 
         # Define heights and widths
-        self.width = width
+        fm = QtGui.QFontMetrics(self.name_font)
+        name_width = fm.width(self.block.name) + 10
+        if name_width > width:
+            self.width = name_width
+        else:
+            self.width = width
         self.height = height
 
         self.min_width = 100
@@ -94,7 +103,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
         self.menu = QtWidgets.QMenu(self.view)
         self.edit_window = edit_window.EditWindow(self.view.scene().parent().parent(),
-                                                  self.block)
+                                                  self, self.block)
 
         if self.block.parameters:
             self.edit_action = QtWidgets.QAction(_("Edit"), self.view)
@@ -147,10 +156,17 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """
         painter.setBrush(QtGui.QBrush(self.current_color))
         painter.drawRoundedRect(0, 0, self.width, self.height, 5, 5)
-        painter.drawText(5, 2, self.width - 5, 20, 0,
-                         self.block.parameters["name"].value)
-        if self.block.parameters["name"].value != self.block.name:
-            painter.drawText(5, 22, self.width - 5, 20, 0, self.block.name)
+        painter.setFont(self.name_font)
+        painter.drawText(5, 2, self.width - 5, 25, 0,
+                         self.block.name)
+        custom_name = self.block.parameters["name"].value
+        if custom_name != self.block.name:
+            painter.setFont(self.custom_name_font)
+            fm = QtGui.QFontMetrics(self.custom_name_font)
+            custom_name_width = fm.width(custom_name)
+            painter.drawText(self.width/2-custom_name_width/2,
+                             self.height/2-12, self.width - 5, 25, 0,
+                             custom_name)
 
     def contextMenuEvent(self, event):
         """Method that is invoked when the user right-clicks the block.
@@ -379,9 +395,17 @@ class BlockItem(QtWidgets.QGraphicsItem):
         Args:
             width (int): Width to adjust the block to.
         """
-        if width < self.min_width:
+        name_width = QtGui.QFontMetrics(self.name_font).width(self.block.name)
+        custom_name_width = QtGui.QFontMetrics(self.custom_name_font).width(self.block.parameters["name"].value)
+        if self.block.parameters["name"].value != self.block.name:
+            min_name_length = max(name_width, custom_name_width) + 10
+        else:
+            min_name_length = name_width + 10
+        if width < min_name_length:
+            width = min_name_length
+        elif width < self.min_width:
             width = self.min_width
-            # Reposition outputs and update connection lines
+        # Reposition outputs and update connection lines
         for o in self.outputs:
             o.setPos(width, o.pos().y())
             o.update_connection_line()
