@@ -5,7 +5,20 @@ from mca.language import _
 
 
 class AboutWindow(QtWidgets.QDialog):
+    """Window to display the about window information.
+
+    Attributes:
+        emt_logo: Logo of the window.
+        about_info: Widget to display the information.
+        about_info_layout: Arranges the labels.
+        button_box: Button to close the window.
+    """
     def __init__(self, parent):
+        """Initializes the AboutWindow class.
+
+        Args:
+            parent: Parent of this window.
+        """
         QtWidgets.QDialog.__init__(self, parent=parent)
         self.setFixedSize(510, 380)
         # Create button box
