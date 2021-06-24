@@ -339,7 +339,7 @@ class ParameterBlock:
         conversion_index (int): Current active conversion of the
                                 param_conversions.
     """
-    def __init__(self, parameters, param_conversions, default_conversion,
+    def __init__(self, parameters, param_conversions=None, default_conversion=None,
                  name=""):
         """Initialize ParameterBlock.
 
@@ -354,7 +354,10 @@ class ParameterBlock:
         self.parameters = parameters
         for parameter in self.parameters.values():
             parameter.parameter_block = self
-        self.param_conversions = param_conversions
+        if param_conversions:
+            self.param_conversions = param_conversions
+        else:
+            self.param_conversions = []
         self.conversion_index = default_conversion
 
     def update(self, source):
@@ -363,6 +366,7 @@ class ParameterBlock:
         Args:
             source: Parameter which triggered the update.
         """
-        conversion = self.param_conversions[self.conversion_index]
-        if source in conversion.main_parameters:
-            conversion.conversion_func()
+        if self.param_conversions:
+            conversion = self.param_conversions[self.conversion_index]
+            if source in conversion.main_parameters:
+                conversion.conversion_func()

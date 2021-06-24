@@ -649,9 +649,10 @@ class ParameterBlockWidget(QtWidgets.QGroupBox):
                 unit_label = QtWidgets.QLabel(parameter.unit)
                 self.main_layout.addWidget(unit_label, index, 2, 1, 1)
         # Add the choice widget
-        conversion_choice = ParameterBlockChoiceWidget(self.parameter_block,
-                                                       self.parameters_to_widgets)
-        self.main_layout.addWidget(conversion_choice, 0, 0, 1, 1)
+        if self.parameter_block.param_conversions:
+            conversion_choice = ParameterBlockChoiceWidget(self.parameter_block,
+                                                           self.parameters_to_widgets)
+            self.main_layout.addWidget(conversion_choice, 0, 0, 1, 1)
 
     def write_parameter(self):
         for parameter in self.parameters_to_widgets.values():
