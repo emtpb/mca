@@ -224,14 +224,14 @@ class BoolParameter(BaseParameter):
         value (bool): Value of the Parameter.
     """
 
-    def __init__(self, name, value=None, parameter_block=None):
+    def __init__(self, name, value=None):
         """Initialize BoolParameter class.
         
         Args:
             name (str): Name of the Parameter.
             value (bool): Value of the Parameter.
         """
-        super().__init__(name=name, value=value)
+        super().__init__(name=name, value=value, )
 
     def validate(self, value):
         """Validates a value on bool type.
