@@ -73,14 +73,25 @@ class EditWindow(QtWidgets.QDialog):
         self.add_parameters()
         # Initialize meta data tab
         self.meta_data_layout = None
+        self.meta_data_tab = None
+        self.meta_data_contents = None
+        self.meta_data_contents_layout = None
         if self.block.outputs or (isinstance(self.block, DynamicBlock) and
                                   self.block.dynamic_output):
-            self.meta_data_layout = QtWidgets.QVBoxLayout()
+            self.meta_data_contents = QtWidgets.QWidget()
+            self.meta_data_contents_layout = QtWidgets.QVBoxLayout(self.meta_data_contents)
+            self.meta_data_tab = QtWidgets.QWidget()
+            self.meta_data_layout = QtWidgets.QVBoxLayout(self.meta_data_tab)
             scroll = QtWidgets.QScrollArea()
-            scroll.setLayout(self.meta_data_layout)
+            scroll.setWidget(self.meta_data_contents)
             scroll.setWidgetResizable(True)
-            self.tab_widget.addTab(scroll, _("Meta data"))
+            self.meta_data_layout.addWidget(scroll)
+            self.tab_widget.addTab(self.meta_data_tab, _("Meta data"))
             self.add_meta_data()
+            self.meta_data_contents_layout.addItem(QtWidgets.QSpacerItem(
+                0, 0,
+                QtWidgets.QSizePolicy.Minimum,
+                QtWidgets.QSizePolicy.Expanding))
         # Set buttons
         self.button_box = QtWidgets.QDialogButtonBox()
         self.button_box.setGeometry(QtCore.QRect(140, 360, 329, 23))
@@ -141,7 +152,7 @@ class EditWindow(QtWidgets.QDialog):
 
     def add_meta_data(self):
         """Arranges the meta data of the outputs of the block in the window."""
-        for i in reversed(range(self.meta_data_layout.count())):
+        for i in reversed(range(self.meta_data_contents_layout.count())):
             self.meta_data_layout.itemAt(i).widget().setParent(None)
         self.meta_data_widgets = []
         for output_index, output in enumerate(self.block.outputs):
@@ -183,7 +194,7 @@ class EditWindow(QtWidgets.QDialog):
                 ordinate_check_box.setEnabled(False)
             self.meta_data_widgets.append(ordinate_check_box)
             meta_data_box_layout.insertRow(8, "", ordinate_check_box)
-            self.meta_data_layout.addWidget(meta_data_box)
+            self.meta_data_contents_layout.addWidget(meta_data_box)
 
     def accept(self):
         """Applies changes to all parameters and closes the window."""

@@ -436,6 +436,7 @@ class MetaDataEditWidget(QtWidgets.QLineEdit):
         self.changed = False
         self.prev_value = getattr(self.meta_data, self.attr)
         self.textChanged.connect(self.check_changed)
+        self.setFixedHeight(25)
 
     def write_attribute(self):
         """Writes the value from the widget to the attribute."""
@@ -515,6 +516,7 @@ class MetaDataBoolWidget(QtWidgets.QCheckBox):
         self.changed = False
         self.prev_value = getattr(self.output, self.attr)
         self.stateChanged.connect(self.check_changed)
+        self.setFixedHeight(25)
 
     def write_attribute(self):
         """Writes the value from the widget to the attribute."""
