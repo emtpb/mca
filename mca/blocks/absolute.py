@@ -7,7 +7,7 @@ class Absolute(Block):
 
     This block has one input and one output.
     """
-    name = _("AbsoluteBlock")
+    name = _("Absolute")
     description = _("Computes the absolute of the input signal.")
     tags = (_("Processing"),)
 

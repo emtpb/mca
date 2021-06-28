@@ -11,7 +11,7 @@ class RealImag(Block):
     This block has one input and two outputs. First output has the real part
     and second output has the imaginary part.
     """
-    name = _("RealImagBlock")
+    name = _("RealImag")
     description = _("Divides the real and imaginary part of "
                     "the input signal into two output signals.")
     tags = (_("Processing"),)

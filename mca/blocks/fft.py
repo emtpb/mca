@@ -9,7 +9,7 @@ class FFT(Block):
 
     This block has one input and one output.
     """
-    name = _("FFTBlock")
+    name = _("FFT")
     description = _("Computes the FFT of the input signal.")
     tags = (_("Processing"), _("Fourier"))
 
