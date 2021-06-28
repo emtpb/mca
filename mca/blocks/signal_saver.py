@@ -19,7 +19,7 @@ class SignalSaver(Block):
 
     def setup_parameters(self):
         self.parameters.update({
-            "filename": parameters.PathParameter(_("Filename"),
+            "file_name": parameters.PathParameter(_("Filename"),
                                                  file_formats=[".json"]),
             "save": parameters.ActionParameter(_("Save"),
                                                self.save_data)})
@@ -34,7 +34,7 @@ class SignalSaver(Block):
         if not self.inputs[0].data:
             raise exceptions.DataSavingError("No data to save.")
         signal = self.inputs[0].data
-        filename = self.parameters["filename"].value
+        filename = self.parameters["file_name"].value
         if not filename.endswith(".json"):
             raise exceptions.DataSavingError("File has to be a .json.")
         with open(filename, 'w') as save_file:

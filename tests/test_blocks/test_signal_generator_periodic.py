@@ -77,7 +77,7 @@ def test_phase(test_input):
 
 @pytest.mark.parametrize("test_input", [-0.5, 2, 4.23])
 def test_start(test_input):
-    a = signal_generator_periodic.SignalGeneratorPeriodic(abscissa_start=test_input)
+    a = signal_generator_periodic.SignalGeneratorPeriodic(abscissa={"start":test_input})
     a.trigger_update()
     start = a.parameters["abscissa"].parameters["start"].value
     values = a.parameters["abscissa"].parameters["values"].value
@@ -92,7 +92,7 @@ def test_start(test_input):
 
 @pytest.mark.parametrize("test_input", [30, 90, 1746])
 def test_values(test_input):
-    a = signal_generator_periodic.SignalGeneratorPeriodic(abscissa_values=test_input)
+    a = signal_generator_periodic.SignalGeneratorPeriodic(abscissa={"values":test_input})
     a.trigger_update()
     start = a.parameters["abscissa"].parameters["start"].value
     values = a.parameters["abscissa"].parameters["values"].value
@@ -106,7 +106,7 @@ def test_values(test_input):
 
 @pytest.mark.parametrize("test_input", [1, 0.03, 0.05])
 def test_increment(test_input):
-    a = signal_generator_periodic.SignalGeneratorPeriodic(abscissa_increment=test_input)
+    a = signal_generator_periodic.SignalGeneratorPeriodic(abscissa={"increment":test_input})
     a.trigger_update()
     start = a.parameters["abscissa"].parameters["start"].value
     values = a.parameters["abscissa"].parameters["values"].value

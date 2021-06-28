@@ -6,7 +6,7 @@ from mca.blocks import SignalSaver
 
 def test_save_data(sin_block, sin_signal):
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    a = SignalSaver(filename=dir_path + "/sin.json")
+    a = SignalSaver(file_name=dir_path + "/sin.json")
     b = sin_block
     a.inputs[0].connect(b.outputs[0])
     a.save_data()

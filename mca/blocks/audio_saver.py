@@ -17,10 +17,10 @@ class AudioSaver(Block):
 
     def setup_parameters(self):
         self.parameters.update(
-            {"samplingfreq": parameters.IntParameter(_("Sampling frequency"),
+            {"sampling_freq": parameters.IntParameter(_("Sampling frequency"),
                                                       1, None, "Hz", 44100),
-             "filename": parameters.PathParameter(_("Filename"), [".wav"]),
-             "savefile": parameters.ActionParameter(_("Save as .wav"),
+             "file_name": parameters.PathParameter(_("Filename"), [".wav"]),
+             "save_file": parameters.ActionParameter(_("Save as .wav"),
                                                      self.save_as_wav)})
 
     def setup_io(self):
@@ -36,8 +36,8 @@ class AudioSaver(Block):
         input_signal = self.inputs[0].data
         validator.check_type_signal(input_signal)
         validator.check_same_units([input_signal.meta_data.unit_a, Unit(["s"])])
-        sampling_frequency = self.parameters["samplingfreq"].value
-        filename = self.parameters["filename"].value
+        sampling_frequency = self.parameters["sampling_freq"].value
+        filename = self.parameters["file_name"].value
         if not filename.endswith(".wav"):
             raise exceptions.DataSavingError("File has to be a .wav.")
         scipy.io.wavfile.write(filename, sampling_frequency,

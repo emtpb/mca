@@ -16,11 +16,11 @@ class AudioLoader(Block):
 
     def setup_parameters(self):
         self.parameters.update(
-            {"samplingfreq": parameters.IntParameter(_("Sampling frequency"),
+            {"sampling_freq": parameters.IntParameter(_("Sampling frequency"),
                                                       0, None, "Hz", 44100),
-             "filename": parameters.PathParameter(_("Filename"), [".wav"],
+             "file_name": parameters.PathParameter(_("Filename"), [".wav"],
                                                   loading=True),
-             "loadfile": parameters.ActionParameter(_("Load file"),
+             "load_file": parameters.ActionParameter(_("Load file"),
                                                      self.load_wav),
              })
 
@@ -37,7 +37,7 @@ class AudioLoader(Block):
 
     def load_wav(self):
         """Reads a .wav and puts the data on the first output."""
-        filename = self.parameters["filename"].value
+        filename = self.parameters["file_name"].value
         if not filename.endswith(".wav"):
             raise exceptions.DataLoadingError("File has to be a .wav")
         try:

@@ -25,7 +25,7 @@ class SignalGeneratorArbitrary(Block):
 
     def setup_parameters(self):
         self.parameters.update({
-            "filename": parameters.PathParameter(
+            "file_name": parameters.PathParameter(
                 _("Arbitrary data path"),
                 loading=True,
                 file_formats=[".json"]),
@@ -39,7 +39,7 @@ class SignalGeneratorArbitrary(Block):
 
     def load_file(self):
         """Loads the arbitrary data from the given file_name to the output."""
-        file_name = self.parameters["filename"].value
+        file_name = self.parameters["file_name"].value
         if file_name and not file_name.endswith(".json"):
             raise exceptions.DataLoadingError("Filename has to end with .json")
         try:

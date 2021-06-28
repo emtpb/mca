@@ -257,10 +257,10 @@ class ParameterBlock(mca.framework.block_base.Block):
                                                param_conversions=[conversion, conversion_1],
                                                default_conversion=0)
         self.parameters.update({
-            "testparameter": mca.framework.parameters.FloatParameter(
+            "test_parameter": mca.framework.parameters.FloatParameter(
                 name="Test", value=0
             ),
-            "testparameter1": mca.framework.parameters.IntParameter(
+            "test_parameter1": mca.framework.parameters.IntParameter(
                 name="Test", value=100, min_=1
             ),
             "multiplier": multiplier

@@ -33,8 +33,7 @@ def test_get_all_blocks(one_input_block, one_output_block):
 def adder_signal_generator():
     block_registry.Registry.clear()
     a = blocks.Adder()
-    b = blocks.SignalGeneratorPeriodic(name="test", amp=3, abscissa_start=1,
-                                       abscissa_values=100)
+    b = blocks.SignalGeneratorPeriodic(name="test", amp=3, abscissa={"values": 100, "start": 1})
     b.outputs[0].meta_data.name = "test1"
     a.outputs[0].abscissa_meta_data = True
     a.add_input(block_io.Input(a))

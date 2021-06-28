@@ -41,9 +41,9 @@ class Block:
     def read_kwargs(self, kwargs):
         """Writes keyword arguments into the parameters."""
         for key in kwargs:
-            if "_" in key:
-                parameter_block, parameter_name = key.split("_")
-                self.parameters[parameter_block].parameters[parameter_name].value = kwargs[key]
+            if isinstance(kwargs[key], dict):
+                for sub_key in kwargs[key]:
+                    self.parameters[key].parameters[sub_key].value = kwargs[key][sub_key]
             else:
                 self.parameters[key].value = kwargs[key]
 
