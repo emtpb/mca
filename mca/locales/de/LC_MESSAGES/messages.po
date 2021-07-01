@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-06-22 16:19-0700\n"
+"POT-Creation-Date: 2021-07-01 06:13-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -19,18 +19,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: blocks/absolute.py:10
-msgid "AbsoluteBlock"
-msgstr "BetragBlock"
+#: blocks/absolute.py:10 blocks/fftplot.py:46
+msgid "Absolute"
+msgstr "Betrag"
 
 #: blocks/absolute.py:11
 msgid "Computes the absolute of the input signal."
 msgstr "Berechnet den Betrag des Eingangssignals."
 
-#: blocks/absolute.py:12 blocks/adder.py:21 blocks/amplifier.py:14
-#: blocks/fft.py:14 blocks/fftplot.py:24 blocks/real_imag.py:17
+#: blocks/absolute.py:12 blocks/acf.py:11 blocks/adder.py:21
+#: blocks/amplifier.py:14 blocks/fft.py:14 blocks/fftplot.py:24
+#: blocks/real_imag.py:17
 msgid "Processing"
 msgstr "Verarbeitende"
+
+#: blocks/acf.py:9
+msgid "Autocorrelation"
+msgstr "Autokorrelation"
+
+#: blocks/acf.py:10
+msgid "Computes the autocorrelation of the input signal."
+msgstr "Berechnet die Autokorrelationsfunktion des Eingangssignals."
 
 #: blocks/adder.py:19
 msgid "Adder"
@@ -53,8 +62,8 @@ msgid "Amplifier"
 msgstr "Verstärker"
 
 #: blocks/amplifier.py:13
-msgid "Amplifies the input signal by the desired factor"
-msgstr "Verstärkt das Eingangssignal um den gewollten Faktor"
+msgid "Amplifies the input signal by the desired factor."
+msgstr "Verstärkt das Eingangssignal um den gewünschten Faktor."
 
 #: blocks/amplifier.py:22
 msgid "Factor"
@@ -74,7 +83,7 @@ msgstr "AudioLader"
 
 #: blocks/audio_loader.py:14
 msgid "Reads a .wav to create an output signal."
-msgstr "Liest eine .wav ein und erzeugt daraus ein Ausgangssignal"
+msgstr "Liest eine .wav ein und erzeugt daraus ein Ausgangssignal."
 
 #: blocks/audio_loader.py:15 blocks/signal_generator_arbitrary.py:16
 msgid "Loading"
@@ -139,8 +148,8 @@ msgid "AudioSaver"
 msgstr "AudioSpeicherung"
 
 #: blocks/audio_saver.py:15
-msgid "Saves the input signal as a sound file"
-msgstr "Speichert das Eingangssignal als Audiodatei"
+msgid "Saves the input signal as a sound file."
+msgstr "Speichert das Eingangssignal als Audiodatei."
 
 #: blocks/audio_saver.py:16 blocks/signal_saver.py:15
 msgid "Saving"
@@ -151,8 +160,8 @@ msgid "Save as .wav"
 msgstr "Als .wav speichern"
 
 #: blocks/fft.py:12
-msgid "FFTBlock"
-msgstr "FFTBlock"
+msgid "FFT"
+msgstr "FFT"
 
 #: blocks/fft.py:13
 msgid "Computes the FFT of the input signal."
@@ -213,16 +222,75 @@ msgid "Imaginary"
 msgstr "Imaginär"
 
 #: blocks/fftplot.py:46
-msgid "Absolute"
-msgstr "Betrag"
-
-#: blocks/fftplot.py:46
 msgid "Phase"
 msgstr "Phase"
 
+#: blocks/hs_oscilloscope.py:9
+msgid "HSOscilloscope"
+msgstr ""
+
+#: blocks/hs_oscilloscope.py:10
+msgid "Extract data from Handyscope oscilloscope"
+msgstr ""
+
+#: blocks/hs_oscilloscope.py:11 blocks/signal_generator_arbitrary.py:16
+#: blocks/signal_generator_periodic.py:16
+#: blocks/signal_generator_stochastic.py:15
+msgid "Generating"
+msgstr "Generierende"
+
+#: blocks/hs_oscilloscope.py:19 blocks/hs_oscilloscope.py:54
+#: blocks/hs_oscilloscope.py:61
+msgid "Channel 1"
+msgstr "Kanal 1"
+
+#: blocks/hs_oscilloscope.py:26
+msgid "Channel 2"
+msgstr "Kanal 2"
+
+#: blocks/hs_oscilloscope.py:34
+msgid "Range"
+msgstr ""
+
+#: blocks/hs_oscilloscope.py:45
+msgid "Trigger Level"
+msgstr ""
+
+#: blocks/hs_oscilloscope.py:47
+msgid "Trigger Kind"
+msgstr ""
+
+#: blocks/hs_oscilloscope.py:53 blocks/hs_oscilloscope.py:59
+msgid "Enable Trigger"
+msgstr ""
+
+#: blocks/hs_oscilloscope.py:68
+msgid "Device"
+msgstr ""
+
+#: blocks/hs_oscilloscope.py:72
+msgid "Connect"
+msgstr ""
+
+#: blocks/hs_oscilloscope.py:74
+msgid "ADC Resolution"
+msgstr ""
+
+#: blocks/hs_oscilloscope.py:77
+msgid "Sample Frequency"
+msgstr ""
+
+#: blocks/hs_oscilloscope.py:78
+msgid "Record Length"
+msgstr ""
+
+#: blocks/hs_oscilloscope.py:79
+msgid "Measure"
+msgstr ""
+
 #: blocks/real_imag.py:14
-msgid "RealImagBlock"
-msgstr "RealImagBlock"
+msgid "RealImag"
+msgstr "RealImag"
 
 #: blocks/real_imag.py:15
 msgid ""
@@ -247,12 +315,6 @@ msgstr "SignalGenratorArbiträr"
 #: blocks/signal_generator_arbitrary.py:15
 msgid "Loads arbitrary data to generate a signal on its output."
 msgstr "Läd arbiträre Daten um ein Signal an seinem Output zu generieren."
-
-#: blocks/signal_generator_arbitrary.py:16
-#: blocks/signal_generator_periodic.py:16
-#: blocks/signal_generator_stochastic.py:15
-msgid "Generating"
-msgstr "Generierende"
 
 #: blocks/signal_generator_arbitrary.py:29
 msgid "Arbitrary data path"
@@ -357,23 +419,23 @@ msgstr "Messzeit"
 msgid "Abscissa"
 msgstr "Abszisse"
 
-#: gui/pyside2/about_window.py:16
+#: gui/pyside2/about_window.py:29
 msgid "Close"
 msgstr "Schließen"
 
-#: gui/pyside2/about_window.py:31
+#: gui/pyside2/about_window.py:44
 msgid "Developed by:"
 msgstr "Entwickelt von:"
 
-#: gui/pyside2/about_window.py:34
+#: gui/pyside2/about_window.py:47
 msgid "Measurement Engineering Group"
 msgstr "Fachgebiet Elektrische Messtechnik"
 
-#: gui/pyside2/about_window.py:37
+#: gui/pyside2/about_window.py:50
 msgid "Homepage:"
 msgstr "Startseite:"
 
-#: gui/pyside2/about_window.py:40
+#: gui/pyside2/about_window.py:53
 msgid ""
 "<a href=\"https://ei.uni-paderborn.de/en/electrical-engineering/emt"
 "/electrical-engineering/home\">EMT</a>"
@@ -426,7 +488,7 @@ msgstr "MKA"
 msgid "Something went wrong.\n"
 msgstr "Etwas ist schiefgelaufen.\n"
 
-#: gui/pyside2/edit_window.py:38 gui/pyside2/edit_window.py:259
+#: gui/pyside2/edit_window.py:38 gui/pyside2/edit_window.py:270
 msgid "Edit {}"
 msgstr "{} bearbeiten"
 
@@ -442,25 +504,25 @@ msgstr "Parameter"
 msgid "General"
 msgstr "Allgemein"
 
-#: gui/pyside2/edit_window.py:82
+#: gui/pyside2/edit_window.py:89
 msgid "Meta data"
 msgstr "Metadaten"
 
-#: gui/pyside2/edit_window.py:92 gui/pyside2/main_window.py:127
+#: gui/pyside2/edit_window.py:103 gui/pyside2/main_window.py:127
 msgid "Ok"
 msgstr "Ok"
 
-#: gui/pyside2/edit_window.py:93 gui/pyside2/main_window.py:129
+#: gui/pyside2/edit_window.py:104 gui/pyside2/main_window.py:129
 #: gui/pyside2/main_window.py:266
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: gui/pyside2/edit_window.py:94
+#: gui/pyside2/edit_window.py:105
 msgid "Apply"
 msgstr "Übernehmen"
 
-#: gui/pyside2/edit_window.py:108 gui/pyside2/edit_window.py:217
-#: gui/pyside2/edit_window.py:222
+#: gui/pyside2/edit_window.py:119 gui/pyside2/edit_window.py:228
+#: gui/pyside2/edit_window.py:233
 msgid ""
 "Could not apply the changed parameters and meta data!Continue editing or "
 "revert changes?"
@@ -468,59 +530,59 @@ msgstr ""
 "Die veränderten Parameter und Metadaten konnten nicht angewendet! Mit der"
 " Bearbeitung fortfahren oder Änderung rückgängig machen?"
 
-#: gui/pyside2/edit_window.py:111
+#: gui/pyside2/edit_window.py:122
 msgid "Continue"
 msgstr "Fortfahren"
 
-#: gui/pyside2/edit_window.py:114
+#: gui/pyside2/edit_window.py:125
 msgid "Revert"
 msgstr "Rückgängig"
 
-#: gui/pyside2/edit_window.py:150
+#: gui/pyside2/edit_window.py:161
 msgid "Output '{}' meta data:"
 msgstr "Output '{}' Metadaten"
 
-#: gui/pyside2/edit_window.py:153
+#: gui/pyside2/edit_window.py:164
 msgid "Output {} meta data:"
 msgstr "Output {} MetaDaten:"
 
-#: gui/pyside2/edit_window.py:155
+#: gui/pyside2/edit_window.py:166
 msgid "Signal name:"
 msgstr "Signalname:"
 
-#: gui/pyside2/edit_window.py:156
+#: gui/pyside2/edit_window.py:167
 msgid "Abscissa quantity:"
 msgstr "Abszissengröße:"
 
-#: gui/pyside2/edit_window.py:157
+#: gui/pyside2/edit_window.py:168
 msgid "Abscissa symbol:"
 msgstr "Abszissensymbol:"
 
-#: gui/pyside2/edit_window.py:158
+#: gui/pyside2/edit_window.py:169
 msgid "Abscissa unit:"
 msgstr "Abszisseneinheit:"
 
-#: gui/pyside2/edit_window.py:159
+#: gui/pyside2/edit_window.py:170
 msgid "Ordinate quantity:"
 msgstr "Ordinatengröße:"
 
-#: gui/pyside2/edit_window.py:160
+#: gui/pyside2/edit_window.py:171
 msgid "Ordinate symbol:"
 msgstr "Ordinatensymbol:"
 
-#: gui/pyside2/edit_window.py:161
+#: gui/pyside2/edit_window.py:172
 msgid "Ordinate unit:"
 msgstr "Ordinateneinheit:"
 
-#: gui/pyside2/edit_window.py:172
+#: gui/pyside2/edit_window.py:183
 msgid "Use abscissa meta data"
 msgstr "Abzissen Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:180
+#: gui/pyside2/edit_window.py:191
 msgid "Use ordinate meta data"
 msgstr "Ordinaten Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:219
+#: gui/pyside2/edit_window.py:230
 msgid "Error message:"
 msgstr "Fehlermeldung:"
 
@@ -723,4 +785,19 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Measure Time"
 #~ msgstr "Messzeit"
+
+#~ msgid "AbsoluteBlock"
+#~ msgstr "BetragBlock"
+
+#~ msgid "FFTBlock"
+#~ msgstr "FFTBlock"
+
+#~ msgid "RealImagBlock"
+#~ msgstr "RealImagBlock"
+
+#~ msgid "Amplifies the input signal by the desired factor"
+#~ msgstr "Verstärkt das Eingangssignal um den gewollten Faktor"
+
+#~ msgid "Saves the input signal as a sound file"
+#~ msgstr "Speichert das Eingangssignal als Audiodatei"
 

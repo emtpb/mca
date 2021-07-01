@@ -12,7 +12,7 @@ class AudioSaver(Block):
     This block has one input.
     """
     name = _("AudioSaver")
-    description = _("Saves the input signal as a sound file")
+    description = _("Saves the input signal as a sound file.")
     tags = (_("Saving"), _("Audio"))
 
     def setup_parameters(self):

@@ -10,7 +10,7 @@ class Amplifier(Block):
     This block has one input and one output.
     """
     name = _("Amplifier")
-    description = _("Amplifies the input signal by the desired factor")
+    description = _("Amplifies the input signal by the desired factor.")
     tags = (_("Processing"),)
 
     def setup_io(self):
