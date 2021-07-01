@@ -26,9 +26,11 @@ class BlockItem(QtWidgets.QGraphicsItem):
         block: Instance of :class:`.Block' this block item is holding.
         resize_all (bool): Flag to indicate whether user is resizing or
                             moving the block.
-        last_pos (tuple): Used when resizing the block to remember the
-                            coordinates of the last mouse movement to
-                            calculate the current size.
+        start_pos (tuple): Starting position of an resize event.
+        original_width (int): Original width of the block.
+        original_height (int): Original height of the block.
+        resize_width (bool): Indicates whether the width should be resized.
+        resize_height (bool): Indicates whether the height should be resized.
         menu: Menu which pops up when the right mouse button is pressed.
         edit_window: Window which carries all parameters and meta data
                      of the block.
@@ -460,8 +462,24 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
 
 class NameWindow(QtWidgets.QDialog):
+    """Window for naming inputs or outputs.
 
+    Attributes:
+        main_layout: Main widget of the dialog window.
+        name_widget: Widget holding all relevant widgets.
+        name_layout: Layout arranging all relevant widgets.
+        name_label: Label above the line editing.
+        name_edit: Line edit to enter the name of the input or output.
+        button_box: Button box for confirming the name.
+    """
     def __init__(self, parent, connection_type):
+        """Initialize NameWindow.
+
+        Args:
+            parent: Parent of this widget.
+            connection_type: Connection type that can be either input or
+                             output object.
+        """
         QtWidgets.QDialog.__init__(self, parent=parent)
 
         self.resize(300, 120)
@@ -493,6 +511,3 @@ class NameWindow(QtWidgets.QDialog):
                                self.accept)
         QtCore.QObject.connect(self.button_box, QtCore.SIGNAL("rejected()"),
                                self.reject)
-
-
-
