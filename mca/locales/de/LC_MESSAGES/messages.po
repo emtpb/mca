@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-07-02 07:16-0700\n"
+"POT-Creation-Date: 2021-07-02 07:41-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -28,17 +28,17 @@ msgid "Computes the absolute of the input signal."
 msgstr "Berechnet den Betrag des Eingangssignals."
 
 #: blocks/absolute.py:12 blocks/acf.py:11 blocks/adder.py:21
-#: blocks/amplifier.py:14 blocks/fft.py:14 blocks/fftplot.py:24
-#: blocks/real_imag.py:17
+#: blocks/amplifier.py:14 blocks/ccf.py:11 blocks/fft.py:14
+#: blocks/fftplot.py:24 blocks/real_imag.py:17
 msgid "Processing"
 msgstr "Verarbeitende"
 
 #: blocks/acf.py:9
-msgid "Autocorrelation"
+msgid "AutoCorrelation"
 msgstr "Autokorrelation"
 
 #: blocks/acf.py:10
-msgid "Computes the autocorrelation of the input signal."
+msgid "Computes the auto correlation of the input signal."
 msgstr "Berechnet die Autokorrelationsfunktion des Eingangssignals."
 
 #: blocks/adder.py:19
@@ -159,6 +159,14 @@ msgstr "Speichern"
 msgid "Save as .wav"
 msgstr "Als .wav speichern"
 
+#: blocks/ccf.py:9
+msgid "CrossCorrelation"
+msgstr "Kreuzkorreltaion"
+
+#: blocks/ccf.py:10
+msgid "Computes the cross correlation of the input signal."
+msgstr "Berechnet die Kreuzkorrelationsfunktion des Eingangssignals"
+
 #: blocks/fft.py:12
 msgid "FFT"
 msgstr "FFT"
@@ -225,68 +233,68 @@ msgstr "Imaginär"
 msgid "Phase"
 msgstr "Phase"
 
-#: blocks/hs_oscilloscope.py:9
+#: blocks/hs_oscilloscope.py:15
 msgid "HSOscilloscope"
 msgstr ""
 
-#: blocks/hs_oscilloscope.py:10
-msgid "Extract data from Handyscope oscilloscope"
+#: blocks/hs_oscilloscope.py:16
+msgid "Extract data from a Handyscope oscilloscope"
 msgstr ""
 
-#: blocks/hs_oscilloscope.py:11 blocks/signal_generator_arbitrary.py:16
+#: blocks/hs_oscilloscope.py:17 blocks/signal_generator_arbitrary.py:16
 #: blocks/signal_generator_periodic.py:16
 #: blocks/signal_generator_stochastic.py:15
 msgid "Generating"
 msgstr "Generierende"
 
-#: blocks/hs_oscilloscope.py:19 blocks/hs_oscilloscope.py:54
-#: blocks/hs_oscilloscope.py:61
+#: blocks/hs_oscilloscope.py:26 blocks/hs_oscilloscope.py:61
+#: blocks/hs_oscilloscope.py:68
 msgid "Channel 1"
 msgstr "Kanal 1"
 
-#: blocks/hs_oscilloscope.py:26
+#: blocks/hs_oscilloscope.py:33
 msgid "Channel 2"
 msgstr "Kanal 2"
 
-#: blocks/hs_oscilloscope.py:34
+#: blocks/hs_oscilloscope.py:41
 msgid "Range"
 msgstr ""
 
-#: blocks/hs_oscilloscope.py:45
+#: blocks/hs_oscilloscope.py:52
 msgid "Trigger Level"
-msgstr ""
+msgstr "Trigger level"
 
-#: blocks/hs_oscilloscope.py:47
+#: blocks/hs_oscilloscope.py:54
 msgid "Trigger Kind"
-msgstr ""
+msgstr "Trigger Art"
 
-#: blocks/hs_oscilloscope.py:53 blocks/hs_oscilloscope.py:59
+#: blocks/hs_oscilloscope.py:60 blocks/hs_oscilloscope.py:66
 msgid "Enable Trigger"
-msgstr ""
+msgstr "Trigger aktivieren"
 
-#: blocks/hs_oscilloscope.py:68
+#: blocks/hs_oscilloscope.py:75
 msgid "Device"
-msgstr ""
-
-#: blocks/hs_oscilloscope.py:72
-msgid "Connect"
-msgstr ""
-
-#: blocks/hs_oscilloscope.py:74
-msgid "ADC Resolution"
-msgstr ""
-
-#: blocks/hs_oscilloscope.py:77
-msgid "Sample Frequency"
-msgstr ""
-
-#: blocks/hs_oscilloscope.py:78
-msgid "Record Length"
-msgstr ""
+msgstr "Gerät"
 
 #: blocks/hs_oscilloscope.py:79
+msgid "Connect"
+msgstr "Verbinden"
+
+#: blocks/hs_oscilloscope.py:81
+msgid "ADC Resolution"
+msgstr "ADU Auflösung"
+
+#: blocks/hs_oscilloscope.py:84
+msgid "Sample Frequency"
+msgstr "Samplingfrequenz"
+
+#: blocks/hs_oscilloscope.py:85
+msgid "Record Length"
+msgstr "Aufnahmelänge"
+
+#: blocks/hs_oscilloscope.py:86
 msgid "Measure"
-msgstr ""
+msgstr "Messen"
 
 #: blocks/real_imag.py:14
 msgid "RealImag"
@@ -667,8 +675,8 @@ msgstr ""
 "Wollen sie die Änderungen speichern?"
 
 #: gui/pyside2/main_window.py:127
-msgid "Ja"
-msgstr ""
+msgid "Yes"
+msgstr "Ja"
 
 #: gui/pyside2/main_window.py:131
 msgid "No"
@@ -698,121 +706,4 @@ msgstr "Unbennant.json"
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
 
-#~ msgid "Starting point of the FFT"
-#~ msgstr "Startpunkt der FFT"
-
-#~ msgid "Amount of values transformed"
-#~ msgstr "Anzahl der transformierten Werte"
-
-#~ msgid "Time"
-#~ msgstr "Zeit"
-
-#~ msgid "Voltage"
-#~ msgstr "Spannung"
-
-#~ msgid "Clear"
-#~ msgstr "Löschen"
-
-#~ msgid "Show Plot"
-#~ msgstr "Plot zeigen"
-
-#~ msgid "Output meta data:"
-#~ msgstr "Output Metadaten"
-
-#~ msgid "Mass"
-#~ msgstr "Masse"
-
-#~ msgid "Current"
-#~ msgstr "Strom"
-
-#~ msgid "Length"
-#~ msgstr "Länge"
-
-#~ msgid "Temperature"
-#~ msgstr "Temparatur"
-
-#~ msgid "Amount of substance"
-#~ msgstr "Stoffmenge"
-
-#~ msgid "Luminous intensity"
-#~ msgstr "Lichtstärke"
-
-#~ msgid "Resistance"
-#~ msgstr "Widerstand"
-
-#~ msgid "Capacitance"
-#~ msgstr "Kapazität"
-
-#~ msgid "Conductance"
-#~ msgstr "Leitwert"
-
-#~ msgid "Power"
-#~ msgstr "Leistung"
-
-#~ msgid "Electric charge"
-#~ msgstr "Elektrische Ladung"
-
-#~ msgid "Inductance"
-#~ msgstr "Induktivität"
-
-#~ msgid "Magnetic flux"
-#~ msgstr "Magnetischer Fluss"
-
-#~ msgid "Energy"
-#~ msgstr "Energie"
-
-#~ msgid "Force"
-#~ msgstr "Kraft"
-
-#~ msgid "Magnetic Induction"
-#~ msgstr "Magnetische Flussdichte"
-
-#~ msgid "Pressure"
-#~ msgstr "Druck"
-
-#~ msgid "File has to be a .json!"
-#~ msgstr "Die Datei muss ein .json sein!"
-
-#~ msgid "SaveSignal"
-#~ msgstr ""
-
-#~ msgid "Save input data"
-#~ msgstr "Speicher Daten des Eingangs"
-
-#~ msgid "Warning"
-#~ msgstr "Warnung"
-
-#~ msgid "Parameters:"
-#~ msgstr "Parameter:"
-
-#~ msgid "Generates a Sinus, a Rectangle function or a Triangle function."
-#~ msgstr ""
-#~ "Generiert einen Sinus, eine Rechtecksfunktion"
-#~ " oder eine Dreiecksfunktion "
-
-#~ msgid ""
-#~ "Generates increment Sinus, increment Rectangle"
-#~ " function or increment Triangle function."
-#~ msgstr ""
-
-#~ msgid "Measure Time"
-#~ msgstr "Messzeit"
-
-#~ msgid "AbsoluteBlock"
-#~ msgstr "BetragBlock"
-
-#~ msgid "FFTBlock"
-#~ msgstr "FFTBlock"
-
-#~ msgid "RealImagBlock"
-#~ msgstr "RealImagBlock"
-
-#~ msgid "Amplifies the input signal by the desired factor"
-#~ msgstr "Verstärkt das Eingangssignal um den gewollten Faktor"
-
-#~ msgid "Saves the input signal as a sound file"
-#~ msgstr "Speichert das Eingangssignal als Audiodatei"
-
-#~ msgid "Name of the {}:"
-#~ msgstr "Name des {}:"
 

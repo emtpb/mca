@@ -4,10 +4,10 @@ from mca.language import _
 import numpy as np
 
 
-class Autocorrelation(Block):
-    """Computes the autocorrelation of the input signal."""
-    name = _("Autocorrelation")
-    description = _("Computes the autocorrelation of the input signal.")
+class AutoCorrelation(Block):
+    """Computes the auto correlation of the input signal."""
+    name = _("AutoCorrelation")
+    description = _("Computes the auto correlation of the input signal.")
     tags = (_("Processing"),)
 
     def setup_io(self):
