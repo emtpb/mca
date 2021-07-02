@@ -124,7 +124,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.save_warning_message.setStandardButtons(QtWidgets.QMessageBox.Yes
                                                      | QtWidgets.QMessageBox.Cancel
                                                      | QtWidgets.QMessageBox.No)
-        self.save_warning_message.button(QtWidgets.QMessageBox.Yes).setText(_("Ok"))
+        self.save_warning_message.button(QtWidgets.QMessageBox.Yes).setText(_("Ja"))
         self.save_warning_message.button(QtWidgets.QMessageBox.Cancel).setText(
             _("Cancel"))
         self.save_warning_message.button(QtWidgets.QMessageBox.No).setText(

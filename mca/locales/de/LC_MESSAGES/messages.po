@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-07-01 06:13-0700\n"
+"POT-Creation-Date: 2021-07-02 05:47-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -449,29 +449,46 @@ msgstr "Reinzoomen"
 msgid "Zoom out"
 msgstr "Rauszoomen"
 
-#: gui/pyside2/block_item.py:109
+#: gui/pyside2/block_item.py:111
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: gui/pyside2/block_item.py:114
+#: gui/pyside2/block_item.py:116
 msgid "Add Input"
 msgstr "Input hinzufügen"
 
-#: gui/pyside2/block_item.py:121
+#: gui/pyside2/block_item.py:123
 msgid "Delete Input"
 msgstr "Input löschen"
 
-#: gui/pyside2/block_item.py:129
+#: gui/pyside2/block_item.py:131
 msgid "Add Output"
 msgstr "Output hinzufügen"
 
-#: gui/pyside2/block_item.py:136
+#: gui/pyside2/block_item.py:138
 msgid "Delete Output"
 msgstr "Output löschen"
 
-#: gui/pyside2/block_item.py:143
+#: gui/pyside2/block_item.py:145
 msgid "Delete Block"
 msgstr "Block löschen"
+
+#: gui/pyside2/block_item.py:495
+msgid "Name of the Input:"
+msgstr "Name des Inputs:"
+
+#: gui/pyside2/block_item.py:497
+msgid "Name of the Output:"
+msgstr "Name des Outputs:"
+
+#: gui/pyside2/block_item.py:513 gui/pyside2/edit_window.py:103
+msgid "Ok"
+msgstr "Ok"
+
+#: gui/pyside2/block_item.py:515 gui/pyside2/edit_window.py:104
+#: gui/pyside2/main_window.py:129 gui/pyside2/main_window.py:266
+msgid "Cancel"
+msgstr "Abbrechen"
 
 #: gui/pyside2/block_list.py:42
 msgid "Create new block"
@@ -507,15 +524,6 @@ msgstr "Allgemein"
 #: gui/pyside2/edit_window.py:89
 msgid "Meta data"
 msgstr "Metadaten"
-
-#: gui/pyside2/edit_window.py:103 gui/pyside2/main_window.py:127
-msgid "Ok"
-msgstr "Ok"
-
-#: gui/pyside2/edit_window.py:104 gui/pyside2/main_window.py:129
-#: gui/pyside2/main_window.py:266
-msgid "Cancel"
-msgstr "Abbrechen"
 
 #: gui/pyside2/edit_window.py:105
 msgid "Apply"
@@ -657,6 +665,10 @@ msgid ""
 msgstr ""
 "Das Dokument wurde verändert.\n"
 "Wollen sie die Änderungen speichern?"
+
+#: gui/pyside2/main_window.py:127
+msgid "Ja"
+msgstr ""
 
 #: gui/pyside2/main_window.py:131
 msgid "No"
@@ -800,4 +812,7 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Saves the input signal as a sound file"
 #~ msgstr "Speichert das Eingangssignal als Audiodatei"
+
+#~ msgid "Name of the {}:"
+#~ msgstr "Name des {}:"
 

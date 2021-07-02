@@ -197,7 +197,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         create_input_action.
         """
         name_window = NameWindow(parent=self.view.scene().parent().parent(),
-                                 connection_type="Input")
+                                 connection_type="input")
         exit_code = name_window.exec_()
         if exit_code == 0:
             return
@@ -220,7 +220,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         create_output_action.
         """
         name_window = NameWindow(parent=self.view.scene().parent().parent(),
-                                 connection_type="Output")
+                                 connection_type="output")
         exit_code = name_window.exec_()
         if exit_code == 0:
             return
@@ -491,9 +491,13 @@ class NameWindow(QtWidgets.QDialog):
         self.name_widget = QtWidgets.QWidget(parent=self)
         self.name_layout = QtWidgets.QHBoxLayout()
         self.name_widget.setLayout(self.name_layout)
+        if connection_type == "input":
+            label_text = _("Name of the Input:")
+        else:
+            label_text = _("Name of the Output:")
         self.name_label = QtWidgets.QLabel(
             parent=self.name_widget,
-            text="Name of the {}:".format(connection_type))
+            text=label_text)
         self.name_edit = QtWidgets.QLineEdit(parent=self.name_widget)
         self.name_layout.addWidget(self.name_label)
         self.name_layout.addWidget(self.name_edit)
@@ -503,6 +507,11 @@ class NameWindow(QtWidgets.QDialog):
         self.button_box.setOrientation(QtCore.Qt.Horizontal)
         self.button_box.setStandardButtons(
             QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
+
+        self.button_box.button(QtWidgets.QDialogButtonBox.Ok).setText(
+            _("Ok"))
+        self.button_box.button(QtWidgets.QDialogButtonBox.Cancel).setText(
+            _("Cancel"))
 
         self.main_layout.addWidget(self.name_widget)
         self.main_layout.addWidget(self.button_box)
