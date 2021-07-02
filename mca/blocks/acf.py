@@ -2,6 +2,7 @@ from mca.framework import validator, data_types, Block
 from mca.language import _
 
 import numpy as np
+from copy import deepcopy
 
 
 class AutoCorrelation(Block):
@@ -25,8 +26,12 @@ class AutoCorrelation(Block):
         ordinate = np.correlate(input_signal.ordinate, input_signal.ordinate,
                                 mode="full")
         abscissa_start = input_signal.abscissa_start - (input_signal.values-1)*input_signal.increment
+        meta_data = deepcopy(input_signal.meta_data)
+        unit_o = input_signal.meta_data.unit_o**2
+        meta_data.unit_o = unit_o
+        meta_data.quantity_o = unit_o.quantity
         self.outputs[0].data = data_types.Signal(
-            meta_data=self.outputs[0].get_meta_data(input_signal.meta_data),
+            meta_data=self.outputs[0].get_meta_data(meta_data),
             abscissa_start=abscissa_start,
             values=input_signal.values*2-1,
             increment=input_signal.increment,
