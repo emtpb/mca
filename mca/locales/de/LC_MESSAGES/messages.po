@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-07-02 05:47-0700\n"
+"POT-Creation-Date: 2021-07-02 07:16-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -310,7 +310,7 @@ msgstr "Imaginärteil"
 
 #: blocks/signal_generator_arbitrary.py:14
 msgid "SignalGeneratorArbitrary"
-msgstr "SignalGenratorArbiträr"
+msgstr "SignalGeneratorArbiträr"
 
 #: blocks/signal_generator_arbitrary.py:15
 msgid "Loads arbitrary data to generate a signal on its output."
@@ -481,11 +481,11 @@ msgstr "Name des Inputs:"
 msgid "Name of the Output:"
 msgstr "Name des Outputs:"
 
-#: gui/pyside2/block_item.py:513 gui/pyside2/edit_window.py:103
+#: gui/pyside2/block_item.py:512 gui/pyside2/edit_window.py:103
 msgid "Ok"
 msgstr "Ok"
 
-#: gui/pyside2/block_item.py:515 gui/pyside2/edit_window.py:104
+#: gui/pyside2/block_item.py:514 gui/pyside2/edit_window.py:104
 #: gui/pyside2/main_window.py:129 gui/pyside2/main_window.py:266
 msgid "Cancel"
 msgstr "Abbrechen"
