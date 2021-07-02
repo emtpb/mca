@@ -19,7 +19,7 @@ class Absolute(Block):
         pass
 
     def _process(self):
-        if self.check_empty_inputs():
+        if self.check_all_empty_inputs():
             return
         validator.check_type_signal(self.inputs[0].data)
         input_signal = self.inputs[0].data

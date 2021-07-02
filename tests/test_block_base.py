@@ -470,15 +470,28 @@ def test_dynamic_output_data(dynamic_output_scenario):
 """Tests for block convenience methods."""
 
 
-def test_check_empty_inputs(two_input_one_output_block, two_output_block):
+def test_check_all_empty_inputs(two_input_one_output_block, two_output_block):
     a = two_input_one_output_block()
     a.outputs[0].data = 1
-    assert a.check_empty_inputs() is True
+    assert a.check_all_empty_inputs() is True
     assert a.outputs[0].data is None
     b = two_output_block()
     b.outputs[0].data = 1
     a.inputs[0].connect(b.outputs[0])
-    assert a.check_empty_inputs() is None
+    assert a.check_all_empty_inputs() is False
+
+
+def test_check_any_empty_input(two_input_one_output_block, two_output_block):
+    a = two_input_one_output_block()
+    a.outputs[0].data = 1
+    b = two_output_block()
+    b.trigger_update()
+    a.inputs[0].connect(b.outputs[0])
+    assert a.check_any_empty_inputs() is True
+    assert a.outputs[0].data is None
+    a.inputs[1].connect(b.outputs[1])
+    assert a.check_any_empty_inputs() is False
+    assert a.outputs[0].data == 3
 
 
 def test_read_kwargs(parameter_block):

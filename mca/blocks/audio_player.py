@@ -31,7 +31,7 @@ class AudioPlayer(Block):
 
     def play_sound(self):
         """Plays a sound through the current default sound device."""
-        if self.check_empty_inputs():
+        if self.check_all_empty_inputs():
             return
         input_signal = self.inputs[0].data
         sampling_frequency = self.parameters["sampling_freq"].value

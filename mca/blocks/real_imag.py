@@ -27,7 +27,7 @@ class RealImag(Block):
         pass
 
     def _process(self):
-        if self.check_empty_inputs():
+        if self.check_all_empty_inputs():
             return
         validator.check_type_signal(self.inputs[0].data)
         real_signal = copy.copy(self.inputs[0].data)

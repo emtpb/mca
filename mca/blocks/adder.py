@@ -38,7 +38,7 @@ class Adder(DynamicBlock):
         pass
 
     def _process(self):
-        if self.check_empty_inputs():
+        if self.check_all_empty_inputs():
             return
         for i in self.inputs:
             validator.check_type_signal(i.data)

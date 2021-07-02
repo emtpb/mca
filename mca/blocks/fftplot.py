@@ -53,7 +53,7 @@ class FFTPlot(Block):
     def _process(self):
         self.axes.cla()
         # Finish when no inputs connected
-        if self.check_empty_inputs():
+        if self.check_all_empty_inputs():
             return
 
         validator.check_type_signal(self.inputs[0].data)

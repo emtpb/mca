@@ -114,8 +114,8 @@ class Block:
             block_registry.Registry.add_node(block_io.Input(self, name=name))
         )
 
-    def check_empty_inputs(self):
-        """Checks if Inputs have any data and if that is not the case
+    def check_all_empty_inputs(self):
+        """Checks if all Inputs have no data and if that is the case
         the data of the Outputs will be set to None.
 
         Returns:
@@ -126,6 +126,23 @@ class Block:
             for output in self.outputs:
                 output.data = None
             return True
+        else:
+            return False
+
+    def check_any_empty_inputs(self):
+        """Checks if any Inputs have no data and if that is the case
+        the data of the Outputs will be set to None.
+
+        Returns:
+            bool: True if all Inputs contain no data.
+        """
+        no_data = any([input_.data is None for input_ in self.inputs])
+        if no_data:
+            for output in self.outputs:
+                output.data = None
+            return True
+        else:
+            return False
 
     def save_output_data(self, output_index, file_name):
         """Saves the data of the output in a json-file. Currently only supports

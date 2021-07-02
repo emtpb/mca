@@ -31,7 +31,7 @@ class AudioSaver(Block):
 
     def save_as_wav(self):
         """Saves the input signal as a .wav file."""
-        if self.check_empty_inputs():
+        if self.check_all_empty_inputs():
             raise exceptions.DataSavingError("No data to save.")
         input_signal = self.inputs[0].data
         validator.check_type_signal(input_signal)
