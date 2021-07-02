@@ -44,10 +44,11 @@ class AudioRecorder(Block):
         frames = int(sampling_frequency*record_time)
         recording = sd.rec(frames=frames, samplerate=sampling_frequency,
                            channels=1).reshape(frames)
+        sd.wait()
         self.outputs[0].data = data_types.Signal(
             meta_data=self.outputs[0].meta_data,
             abscissa_start=0,
             values=frames,
             increment=1/sampling_frequency,
             ordinate=recording)
-        self.update()
+        self.trigger_update()

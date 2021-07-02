@@ -66,4 +66,4 @@ class SignalGeneratorArbitrary(Block):
             increment=arbitrary_data["increment"],
             ordinate=np.array(arbitrary_data["ordinate"])
             )
-        self.update()
+        self.trigger_update()

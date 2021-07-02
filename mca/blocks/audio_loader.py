@@ -50,4 +50,4 @@ class AudioLoader(Block):
             values=len(data),
             increment=1/rate,
             ordinate=data)
-        self.update()
+        self.trigger_update()
