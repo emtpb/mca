@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-07-02 07:41-0700\n"
+"POT-Creation-Date: 2021-07-02 10:16-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -27,17 +27,17 @@ msgstr "Betrag"
 msgid "Computes the absolute of the input signal."
 msgstr "Berechnet den Betrag des Eingangssignals."
 
-#: blocks/absolute.py:12 blocks/acf.py:11 blocks/adder.py:21
-#: blocks/amplifier.py:14 blocks/ccf.py:11 blocks/fft.py:14
+#: blocks/absolute.py:12 blocks/acf.py:12 blocks/adder.py:21
+#: blocks/amplifier.py:14 blocks/ccf.py:12 blocks/fft.py:14
 #: blocks/fftplot.py:24 blocks/real_imag.py:17
 msgid "Processing"
 msgstr "Verarbeitende"
 
-#: blocks/acf.py:9
+#: blocks/acf.py:10
 msgid "AutoCorrelation"
 msgstr "Autokorrelation"
 
-#: blocks/acf.py:10
+#: blocks/acf.py:11
 msgid "Computes the auto correlation of the input signal."
 msgstr "Berechnet die Autokorrelationsfunktion des Eingangssignals."
 
@@ -159,11 +159,11 @@ msgstr "Speichern"
 msgid "Save as .wav"
 msgstr "Als .wav speichern"
 
-#: blocks/ccf.py:9
-msgid "CrossCorrelation"
-msgstr "Kreuzkorreltaion"
-
 #: blocks/ccf.py:10
+msgid "CrossCorrelation"
+msgstr "Kreuzkorrelation"
+
+#: blocks/ccf.py:11
 msgid "Computes the cross correlation of the input signal."
 msgstr "Berechnet die Kreuzkorrelationsfunktion des Eingangssignals"
 
@@ -235,11 +235,11 @@ msgstr "Phase"
 
 #: blocks/hs_oscilloscope.py:15
 msgid "HSOscilloscope"
-msgstr ""
+msgstr "HSOscilloscope"
 
 #: blocks/hs_oscilloscope.py:16
 msgid "Extract data from a Handyscope oscilloscope"
-msgstr ""
+msgstr "Extrahiert Daten von einem Handyscope Oszilloskop"
 
 #: blocks/hs_oscilloscope.py:17 blocks/signal_generator_arbitrary.py:16
 #: blocks/signal_generator_periodic.py:16
@@ -258,7 +258,7 @@ msgstr "Kanal 2"
 
 #: blocks/hs_oscilloscope.py:41
 msgid "Range"
-msgstr ""
+msgstr "Wertebereich"
 
 #: blocks/hs_oscilloscope.py:52
 msgid "Trigger Level"
@@ -674,7 +674,7 @@ msgstr ""
 "Das Dokument wurde verändert.\n"
 "Wollen sie die Änderungen speichern?"
 
-#: gui/pyside2/main_window.py:127
+#: gui/pyside2/main_window.py:127 gui/pyside2/main_window.py:268
 msgid "Yes"
 msgstr "Ja"
 
@@ -694,10 +694,6 @@ msgstr "Datei muss eine .json sein"
 msgid "Are you sure you want to remove all blocks?"
 msgstr "Sicher Sie sicher, dass sie alle Blöcke entfernen wollen?"
 
-#: gui/pyside2/main_window.py:268
-msgid "Yes"
-msgstr "Ja"
-
 #: gui/pyside2/main_window.py:287
 msgid "untitled.json"
 msgstr "Unbennant.json"
@@ -705,5 +701,4 @@ msgstr "Unbennant.json"
 #: gui/pyside2/main_window.py:303
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
-
 
