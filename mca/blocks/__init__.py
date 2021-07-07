@@ -19,6 +19,7 @@ from .signal_generator_stochastic import SignalGeneratorStochastic
 from .hs_oscilloscope import HSOscilloscope
 from .acf import AutoCorrelation
 from .ccf import CrossCorrelation
+from .psd import PowerDensitySpectrum
 
 block_classes = [i[1] for i in inspect.getmembers(sys.modules[__name__],
                                                   inspect.isclass)]

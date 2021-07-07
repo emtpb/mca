@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-07-02 10:16-0700\n"
+"POT-Creation-Date: 2021-07-07 07:46-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -29,7 +29,7 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 
 #: blocks/absolute.py:12 blocks/acf.py:12 blocks/adder.py:21
 #: blocks/amplifier.py:14 blocks/ccf.py:12 blocks/fft.py:14
-#: blocks/fftplot.py:24 blocks/real_imag.py:17
+#: blocks/fftplot.py:24 blocks/psd.py:12 blocks/real_imag.py:17
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -179,9 +179,13 @@ msgstr "Berechnet die FFT des Eingangssignals."
 msgid "Fourier"
 msgstr "Fourier"
 
-#: blocks/fft.py:22 blocks/signal_generator_periodic.py:35
+#: blocks/fft.py:22 blocks/psd.py:19 blocks/signal_generator_periodic.py:35
 msgid "Frequency"
 msgstr "Frequenz"
+
+#: blocks/fft.py:29 blocks/fftplot.py:50
+msgid "Normalize"
+msgstr ""
 
 #: blocks/fftplot.py:18
 msgid "FFTPlot"
@@ -295,6 +299,14 @@ msgstr "Aufnahmelänge"
 #: blocks/hs_oscilloscope.py:86
 msgid "Measure"
 msgstr "Messen"
+
+#: blocks/psd.py:10
+msgid "PowerDensitySpectrum"
+msgstr "Leistungsdichtespektrum"
+
+#: blocks/psd.py:11
+msgid "Calculates the power density spectrum of the input signal."
+msgstr "Berechnet das Leistungsdichtespektrum des Eingangssignals."
 
 #: blocks/real_imag.py:14
 msgid "RealImag"
