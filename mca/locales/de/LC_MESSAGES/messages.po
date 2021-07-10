@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-07-07 07:46-0700\n"
+"POT-Creation-Date: 2021-07-10 11:22-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -167,6 +167,42 @@ msgstr "Kreuzkorrelation"
 msgid "Computes the cross correlation of the input signal."
 msgstr "Berechnet die Kreuzkorrelationsfunktion des Eingangssignals"
 
+#: blocks/complex_plot.py:10
+msgid "ComplexPlot"
+msgstr "KomplexPlot"
+
+#: blocks/complex_plot.py:11
+msgid "Plots absolute and phase or real and imaginary part of the input signal."
+msgstr "Plottet Betrag und Phase oder Real- und Imaginärteil des Eingangsignals."
+
+#: blocks/complex_plot.py:13 blocks/fftplot.py:24 blocks/signal_plot.py:16
+msgid "Plotting"
+msgstr "Plottende"
+
+#: blocks/complex_plot.py:26
+msgid "Plot type"
+msgstr "Plot Variante"
+
+#: blocks/complex_plot.py:27
+msgid "Real/Imaginary"
+msgstr "Real/Imaginär"
+
+#: blocks/complex_plot.py:28
+msgid "Absolute/Phase"
+msgstr "Betrag/Phase"
+
+#: blocks/complex_plot.py:30 blocks/signal_plot.py:28
+msgid "Show plot"
+msgstr "Plot anzeigen"
+
+#: blocks/complex_plot.py:31 blocks/signal_plot.py:29
+msgid "Auto plot"
+msgstr "Automatisch neu plotten"
+
+#: blocks/complex_plot.py:87
+msgid "Phase in rad"
+msgstr "Phase in rad"
+
 #: blocks/fft.py:12
 msgid "FFT"
 msgstr "FFT"
@@ -200,10 +236,6 @@ msgstr ""
 "Berechnet die FFT des Eingangssignals und plottet entweder den Realteil, "
 "den Imaginärteil, den Betrag oder die Phase der FFT. Kann auch die FFT "
 "verschieben oder das Eingangsignal abscheiden vor der Transformation."
-
-#: blocks/fftplot.py:24 blocks/signal_plot.py:16
-msgid "Plotting"
-msgstr "Plottende"
 
 #: blocks/fftplot.py:38
 msgid "Shift to ordinate"
@@ -397,14 +429,6 @@ msgstr "SignalPlot"
 #: blocks/signal_plot.py:15
 msgid "Plots all input signals in matplotlib."
 msgstr "Plottet alle Eingangssignale in matplotlib."
-
-#: blocks/signal_plot.py:28
-msgid "Show plot"
-msgstr "Plot anzeigen"
-
-#: blocks/signal_plot.py:29
-msgid "Auto plot"
-msgstr "Automatisch neu plotten"
 
 #: blocks/signal_saver.py:13
 msgid "SignalSaver"
@@ -713,4 +737,9 @@ msgstr "Unbennant.json"
 #: gui/pyside2/main_window.py:303
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
+
+#~ msgid "Plots absolute and phase or real and imaginary part of the input signal"
+#~ msgstr ""
+#~ "Plottet Betrag und Phase oder Real- "
+#~ "und Imaginärteil des Eingangsignals."
 
