@@ -1,6 +1,8 @@
 from mca.framework import parameters
 from mca.language import _
 
+import numpy as np
+
 
 def create_abscissa_parameter_block():
         values = parameters.IntParameter(_("Values"), min_=1, value=628)
@@ -56,3 +58,48 @@ def create_abscissa_parameter_block():
                                              param_conversions=[conversion, conversion_1, conversion_2, conversion_3, conversion_4],
                                              default_conversion=0)
         return abscissa
+
+
+def fill_zeros(signals):
+    """This is a helper method to match the abscissa and ordinate length of
+    the given signals. Matching is done by adding zeros.
+
+    Args:
+        signals: Signals to match.
+    """
+    new_signals = []
+    increment = signals[0].increment
+    min_abscissa_start = min(
+        list(map(lambda sgn: sgn.abscissa_start, signals))
+    )
+    max_abscissa_end = max(
+        list(
+            map(
+                lambda sgn: sgn.abscissa_start + sgn.values * sgn.increment,
+                signals,
+            )
+        )
+    )
+    max_values = int((max_abscissa_end - min_abscissa_start) / increment)
+    for sgn in signals:
+        zeros_to_beginning = round(
+            (sgn.abscissa_start - min_abscissa_start) / increment
+        )
+        zeros_to_ending = round(
+            (
+                    (min_abscissa_start + max_values * increment)
+                    - (sgn.abscissa_start + sgn.values * increment)
+            )
+            / increment
+        )
+        sgn.abscissa_start = min_abscissa_start
+        sgn.values = max_values
+        sgn.ordinate = np.hstack(
+            (
+                np.zeros(zeros_to_beginning),
+                sgn.ordinate,
+                np.zeros(zeros_to_ending),
+            )
+        )
+        new_signals.append(sgn)
+    return new_signals
