@@ -20,6 +20,7 @@ from .hs_oscilloscope import HSOscilloscope
 from .acf import AutoCorrelation
 from .ccf import CrossCorrelation
 from .psd import PowerDensitySpectrum
+from .cpsd import CrossPowerDensitySpectrum
 from .complex_plot import ComplexPlot
 
 block_classes = [i[1] for i in inspect.getmembers(sys.modules[__name__],

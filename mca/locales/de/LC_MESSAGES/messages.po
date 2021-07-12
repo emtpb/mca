@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-07-10 11:22-0700\n"
+"POT-Creation-Date: 2021-07-12 05:29-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -27,17 +27,17 @@ msgstr "Betrag"
 msgid "Computes the absolute of the input signal."
 msgstr "Berechnet den Betrag des Eingangssignals."
 
-#: blocks/absolute.py:12 blocks/acf.py:12 blocks/adder.py:21
-#: blocks/amplifier.py:14 blocks/ccf.py:12 blocks/fft.py:14
-#: blocks/fftplot.py:24 blocks/psd.py:12 blocks/real_imag.py:17
+#: blocks/absolute.py:12 blocks/acf.py:11 blocks/adder.py:21
+#: blocks/amplifier.py:14 blocks/ccf.py:11 blocks/cpsd.py:12 blocks/fft.py:14
+#: blocks/fftplot.py:24 blocks/psd.py:11 blocks/real_imag.py:17
 msgid "Processing"
 msgstr "Verarbeitende"
 
-#: blocks/acf.py:10
+#: blocks/acf.py:9
 msgid "AutoCorrelation"
 msgstr "Autokorrelation"
 
-#: blocks/acf.py:11
+#: blocks/acf.py:10
 msgid "Computes the auto correlation of the input signal."
 msgstr "Berechnet die Autokorrelationsfunktion des Eingangssignals."
 
@@ -159,11 +159,11 @@ msgstr "Speichern"
 msgid "Save as .wav"
 msgstr "Als .wav speichern"
 
-#: blocks/ccf.py:10
+#: blocks/ccf.py:9
 msgid "CrossCorrelation"
 msgstr "Kreuzkorrelation"
 
-#: blocks/ccf.py:11
+#: blocks/ccf.py:10
 msgid "Computes the cross correlation of the input signal."
 msgstr "Berechnet die Kreuzkorrelationsfunktion des Eingangssignals"
 
@@ -203,6 +203,19 @@ msgstr "Automatisch neu plotten"
 msgid "Phase in rad"
 msgstr "Phase in rad"
 
+#: blocks/cpsd.py:9
+msgid "CrossPowerDensitySpectrum"
+msgstr "Kreuzleistungsdichtespektrum"
+
+#: blocks/cpsd.py:10
+msgid "Computes the cross power density spectrum of the input signals."
+msgstr "Berechnet das Kreuzleistungsdichtespektrum des Eingangssignals."
+
+#: blocks/cpsd.py:19 blocks/fft.py:22 blocks/psd.py:18
+#: blocks/signal_generator_periodic.py:35
+msgid "Frequency"
+msgstr "Frequenz"
+
 #: blocks/fft.py:12
 msgid "FFT"
 msgstr "FFT"
@@ -215,13 +228,9 @@ msgstr "Berechnet die FFT des Eingangssignals."
 msgid "Fourier"
 msgstr "Fourier"
 
-#: blocks/fft.py:22 blocks/psd.py:19 blocks/signal_generator_periodic.py:35
-msgid "Frequency"
-msgstr "Frequenz"
-
 #: blocks/fft.py:29 blocks/fftplot.py:50
 msgid "Normalize"
-msgstr ""
+msgstr "Normiert"
 
 #: blocks/fftplot.py:18
 msgid "FFTPlot"
@@ -332,13 +341,13 @@ msgstr "Aufnahmelänge"
 msgid "Measure"
 msgstr "Messen"
 
-#: blocks/psd.py:10
+#: blocks/psd.py:9
 msgid "PowerDensitySpectrum"
 msgstr "Leistungsdichtespektrum"
 
-#: blocks/psd.py:11
-msgid "Calculates the power density spectrum of the input signal."
-msgstr "Berechnet das Leistungsdichtespektrum des Eingangssignals."
+#: blocks/psd.py:10
+msgid "Computes the power density spectrum of the input signal."
+msgstr ""
 
 #: blocks/real_imag.py:14
 msgid "RealImag"
@@ -742,4 +751,7 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 #~ msgstr ""
 #~ "Plottet Betrag und Phase oder Real- "
 #~ "und Imaginärteil des Eingangsignals."
+
+#~ msgid "Calculates the power density spectrum of the input signal."
+#~ msgstr "Berechnet das Leistungsdichtespektrum des Eingangssignals."
 
