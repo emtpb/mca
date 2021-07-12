@@ -10,7 +10,7 @@ class Amplifier(Block):
     This block has one input and one output.
     """
     name = _("Amplifier")
-    description = _("Amplifies the input signal by the desired factor.")
+    description = _("Amplifies the input signal.")
     tags = (_("Processing"),)
 
     def setup_io(self):
@@ -33,7 +33,7 @@ class Amplifier(Block):
         )
         conversion_1 = parameters.ParameterConversion(
             [decibel], [factor], decibel_to_factor)
-        multiplier = parameters.ParameterBlock(name=_("Multiplier"),
+        multiplier = parameters.ParameterBlock(name=_("Amplification"),
                                                parameters={"factor": factor, "decibel": decibel},
                                                param_conversions=[conversion, conversion_1],
                                                default_conversion=0)

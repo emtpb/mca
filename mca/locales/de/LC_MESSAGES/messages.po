@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-07-12 05:29-0700\n"
+"POT-Creation-Date: 2021-07-12 09:20-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -29,7 +29,8 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 
 #: blocks/absolute.py:12 blocks/acf.py:11 blocks/adder.py:21
 #: blocks/amplifier.py:14 blocks/ccf.py:11 blocks/cpsd.py:12 blocks/fft.py:14
-#: blocks/fftplot.py:24 blocks/psd.py:11 blocks/real_imag.py:17
+#: blocks/fftplot.py:24 blocks/multiplier.py:21 blocks/psd.py:11
+#: blocks/real_imag.py:17
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -62,8 +63,8 @@ msgid "Amplifier"
 msgstr "Verstärker"
 
 #: blocks/amplifier.py:13
-msgid "Amplifies the input signal by the desired factor."
-msgstr "Verstärkt das Eingangssignal um den gewünschten Faktor."
+msgid "Amplifies the input signal."
+msgstr "Verstärkt das Eingangssignal."
 
 #: blocks/amplifier.py:22
 msgid "Factor"
@@ -74,8 +75,8 @@ msgid "Decibel"
 msgstr "Dezibel"
 
 #: blocks/amplifier.py:36
-msgid "Multiplier"
-msgstr "Multiplaktor"
+msgid "Amplification"
+msgstr "Verstärkung"
 
 #: blocks/audio_loader.py:13
 msgid "AudioLoader"
@@ -95,7 +96,7 @@ msgid "Audio"
 msgstr "Audio"
 
 #: blocks/audio_loader.py:19 blocks/audio_player.py:19 blocks/audio_saver.py:20
-#: framework/helpers.py:9
+#: framework/helpers.py:11
 msgid "Sampling frequency"
 msgstr "Abtastfrequenz"
 
@@ -341,13 +342,21 @@ msgstr "Aufnahmelänge"
 msgid "Measure"
 msgstr "Messen"
 
+#: blocks/multiplier.py:19
+msgid "Multiplier"
+msgstr "Multiplizierer"
+
+#: blocks/multiplier.py:20
+msgid "Multiplies the input signals with each other."
+msgstr "Multipliziert die Eingangssignale miteinander."
+
 #: blocks/psd.py:9
 msgid "PowerDensitySpectrum"
 msgstr "Leistungsdichtespektrum"
 
 #: blocks/psd.py:10
 msgid "Computes the power density spectrum of the input signal."
-msgstr ""
+msgstr "Berechnet das Leistungsdichtespektrum des Eingangssignals."
 
 #: blocks/real_imag.py:14
 msgid "RealImag"
@@ -456,19 +465,19 @@ msgstr "Speichern"
 msgid "Name"
 msgstr "Name"
 
-#: framework/helpers.py:6
+#: framework/helpers.py:8
 msgid "Values"
 msgstr "Werte"
 
-#: framework/helpers.py:7
+#: framework/helpers.py:9
 msgid "Increment"
 msgstr "Inkrement"
 
-#: framework/helpers.py:10
+#: framework/helpers.py:12
 msgid "Measure time"
 msgstr "Messzeit"
 
-#: framework/helpers.py:50
+#: framework/helpers.py:52
 msgid "Abscissa"
 msgstr "Abszisse"
 
@@ -754,4 +763,7 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Calculates the power density spectrum of the input signal."
 #~ msgstr "Berechnet das Leistungsdichtespektrum des Eingangssignals."
+
+#~ msgid "Amplifies the input signal by the desired factor."
+#~ msgstr "Verstärkt das Eingangssignal um den gewünschten Faktor."
 
