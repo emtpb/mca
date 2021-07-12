@@ -29,8 +29,11 @@ class CrossPowerDensitySpectrum(Block):
             return
         validator.check_type_signal(self.inputs[0].data)
         validator.check_type_signal(self.inputs[1].data)
+        validator.check_same_units([self.inputs[0].data.meta_data.unit_a,
+                                   self.inputs[1].data.meta_data.unit_a])
         first_signal = self.inputs[0].data
         second_signal = self.inputs[1].data
+        validator.check_intervals([first_signal, second_signal])
         ccf = np.correlate(first_signal.ordinate, second_signal.ordinate,
                            mode="full")
         cpsd = np.fft.fft(ccf)

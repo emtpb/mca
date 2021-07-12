@@ -27,6 +27,7 @@ class CrossCorrelation(Block):
                                    self.inputs[1].data.meta_data.unit_a])
         first_signal = self.inputs[0].data
         second_signal = self.inputs[1].data
+        validator.check_intervals([first_signal, second_signal])
         ccf = np.correlate(first_signal.ordinate, second_signal.ordinate,
                            mode="full")
         abscissa_start = first_signal.abscissa_start - (second_signal.values-1)*second_signal.increment
