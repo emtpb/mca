@@ -2,13 +2,12 @@ from mca.framework import validator, data_types, Block
 from mca.language import _
 
 import numpy as np
-from copy import deepcopy
 
 
 class PowerDensitySpectrum(Block):
-    """Computes the auto correlation of the input signal."""
+    """Computes the power density spectrum of the input signal."""
     name = _("PowerDensitySpectrum")
-    description = _("Calculates the power density spectrum of the input signal.")
+    description = _("Computes the power density spectrum of the input signal.")
     tags = (_("Processing"),)
 
     def setup_io(self):
@@ -35,13 +34,9 @@ class PowerDensitySpectrum(Block):
         values = input_signal.values*2-1
         increment = 1 / (
                 input_signal.increment * values)
-        meta_data = deepcopy(input_signal.meta_data)
         unit_o = input_signal.meta_data.unit_o**2
         unit_a = 1/input_signal.meta_data.unit_a
-        meta_data.unit_a = unit_a
-        meta_data.quantity_a = unit_a.quantity
-        meta_data.unit_o = unit_o
-        meta_data.quantity_o = unit_o.quantity
+        meta_data = data_types.MetaData(None, unit_a, unit_o)
         self.outputs[0].data = data_types.Signal(
             meta_data=self.outputs[0].get_meta_data(meta_data),
             abscissa_start=abscissa_start,
