@@ -78,10 +78,10 @@ class FloatParameter(BaseParameter):
         """
         if not isinstance(value, float) and not isinstance(value, int):
             raise exceptions.ParameterTypeError(self.name, float, type(value))
-        if self.max:
+        if self.max is not None:
             if value > self.max:
                 raise exceptions.OutOfBoundError(self.name)
-        if self.min:
+        if self.min is not None:
             if value < self.min:
                 raise exceptions.OutOfBoundError(self.name)
 
@@ -122,10 +122,10 @@ class IntParameter(BaseParameter):
         """
         if not isinstance(value, int):
             raise exceptions.ParameterTypeError(self.name, int, type(value))
-        if self.max:
+        if self.max is not None:
             if value > self.max:
                 raise exceptions.OutOfBoundError(self.name)
-        if self.min:
+        if self.min is not None:
             if value < self.min:
                 raise exceptions.OutOfBoundError(self.name)
 
