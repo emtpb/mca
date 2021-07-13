@@ -32,9 +32,9 @@ class SignalGeneratorPeriodic(Block):
                          ("sin", _("Sine"))],
                 value="sin"
             ),
-            "freq": parameters.FloatParameter(_("Frequency"), unit="Hz",
+            "freq": parameters.FloatParameter(_("Frequency"), unit="Hz", min_=0,
                                               value=1),
-            "amp": parameters.FloatParameter("Amplitude", value=1),
+            "amp": parameters.FloatParameter("Amplitude", min_=0, value=1),
             "phase": parameters.FloatParameter("Phase", value=0, unit="rad"),
             "abscissa": abscissa,
         })

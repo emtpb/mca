@@ -33,7 +33,7 @@ class SignalGeneratorStochastic(Block):
             ),
             "mean": parameters.FloatParameter(_("Mean µ"), value=0),
             "std_dev": parameters.FloatParameter(_("Standard deviation σ"),
-                                                 value=1),
+                                                 min_=0, value=1),
             "abscissa": abscissa
         })
 
