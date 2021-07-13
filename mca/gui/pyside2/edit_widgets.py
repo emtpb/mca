@@ -84,8 +84,9 @@ class FloatParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
 
     def check_changed(self):
         try:
-            float(self.text())
-        except ValueError:
+            value = float(self.text())
+            self.parameter.validate(value)
+        except (ValueError, exceptions.MCAError) as e:
             self.setStyleSheet("border-radius: 3px;"
                                "border: 2px solid red;")
             self.changed = True
@@ -131,8 +132,9 @@ class IntParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
 
     def check_changed(self):
         try:
-            int(self.text())
-        except ValueError:
+            value = int(self.text())
+            self.parameter.validate(value)
+        except (ValueError, exceptions.MCAError) as e:
             self.setStyleSheet("border-radius: 3px;"
                                "border: 2px solid red;")
             self.changed = True
