@@ -36,7 +36,6 @@ class Window(Block):
             return
         validator.check_type_signal(self.inputs[0].data)
         input_signal = self.inputs[0].data
-        kwargs = {}
         window_name = self.parameters["window_func"].value
         if window_name == "gaussian":
             args = (window_name, self.parameters["std"].value)
