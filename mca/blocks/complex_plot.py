@@ -60,10 +60,10 @@ class ComplexPlot(DynamicBlock):
                 labels = True
             if plot_type == "real_imag":
                 self.first_axes.plot(abscissa, ordinate.real, label=label)
-                self.second_axes.plot(abscissa, ordinate.imag, label=label)
+                self.second_axes.plot(abscissa, ordinate.imag)
             elif plot_type == "abs_phase":
                 self.first_axes.plot(abscissa, abs(ordinate), label=label)
-                self.second_axes.plot(abscissa, np.angle(ordinate), label=label)
+                self.second_axes.plot(abscissa, np.angle(ordinate))
         if labels:
             self.legend = self.fig.legend()
         else:
