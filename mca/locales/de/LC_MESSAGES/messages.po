@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-07-12 09:20-0700\n"
+"POT-Creation-Date: 2021-07-15 04:07-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -30,7 +30,7 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 #: blocks/absolute.py:12 blocks/acf.py:11 blocks/adder.py:21
 #: blocks/amplifier.py:14 blocks/ccf.py:11 blocks/cpsd.py:12 blocks/fft.py:14
 #: blocks/fftplot.py:24 blocks/multiplier.py:21 blocks/psd.py:11
-#: blocks/real_imag.py:17
+#: blocks/real_imag.py:17 blocks/window.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -402,7 +402,7 @@ msgstr "Funktion"
 msgid "Rectangle"
 msgstr "Rechteck"
 
-#: blocks/signal_generator_periodic.py:31
+#: blocks/signal_generator_periodic.py:31 blocks/window.py:25
 msgid "Triangle"
 msgstr "Dreieck"
 
@@ -460,6 +460,46 @@ msgstr "Speichert das Eingangssignal in einer.json Datei."
 #: gui/pyside2/main_window.py:206
 msgid "Save"
 msgstr "Speichern"
+
+#: blocks/window.py:9
+msgid "Window"
+msgstr "Fenster"
+
+#: blocks/window.py:10
+msgid "Applies a window function to the input signal."
+msgstr "Wendet eine Fensterfunktion auf das Eingangssignal an."
+
+#: blocks/window.py:20
+msgid "Window Function"
+msgstr "Fensterfunktion"
+
+#: blocks/window.py:21
+msgid "Tukey"
+msgstr "Tukey"
+
+#: blocks/window.py:21
+msgid "Hann"
+msgstr "Hann"
+
+#: blocks/window.py:22
+msgid "Hamming"
+msgstr "Hamming"
+
+#: blocks/window.py:23
+msgid "Exponential"
+msgstr "Exponentiell"
+
+#: blocks/window.py:24
+msgid "Gaussian"
+msgstr "Gauß"
+
+#: blocks/window.py:28
+msgid "Alpha (Tukey)"
+msgstr "Alpha (Tukey)"
+
+#: blocks/window.py:30
+msgid "Standard Deviation (Gaussian)"
+msgstr "Standardabweichung (Gauß)"
 
 #: framework/block_base.py:30
 msgid "Name"
@@ -556,14 +596,14 @@ msgstr "Abbrechen"
 msgid "Create new block"
 msgstr "Erstelle neuen Block"
 
-#: gui/pyside2/edit_widgets.py:325 gui/pyside2/io_items.py:118
+#: gui/pyside2/edit_widgets.py:327 gui/pyside2/io_items.py:118
 #: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:294
 #: gui/pyside2/io_items.py:297 gui/pyside2/io_items.py:301
 #: gui/pyside2/main_window.py:211 gui/pyside2/main_window.py:290
 msgid "MCA"
 msgstr "MKA"
 
-#: gui/pyside2/edit_widgets.py:325
+#: gui/pyside2/edit_widgets.py:327
 msgid "Something went wrong.\n"
 msgstr "Etwas ist schiefgelaufen.\n"
 
