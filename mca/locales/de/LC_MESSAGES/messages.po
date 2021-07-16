@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-07-15 04:07-0700\n"
+"POT-Creation-Date: 2021-07-16 04:39-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: blocks/absolute.py:10 blocks/fftplot.py:46
+#: blocks/absolute.py:10 blocks/fftplot.py:47
 msgid "Absolute"
 msgstr "Betrag"
 
@@ -168,6 +168,56 @@ msgstr "Kreuzkorrelation"
 msgid "Computes the cross correlation of the input signal."
 msgstr "Berechnet die Kreuzkorrelationsfunktion des Eingangssignals"
 
+#: blocks/chirp.py:13
+msgid "Chirp"
+msgstr ""
+
+#: blocks/chirp.py:14
+msgid ""
+"Generates a chirp signal. Two frequencies have to be specified where the "
+"first frequency corresponds to the frequency at the beginning of the "
+"signal and second frequency corresponds to the frequency at the end of "
+"the signal."
+msgstr ""
+"Generiert ein Chirpsignal. Es müssen dabei zwei Frequenzen angegeben "
+"werden.Die erste Frequenz entspricht der Startfrequenz und die zweite "
+"Frequenzentspricht der Endfrequenz."
+
+#: blocks/chirp.py:19 blocks/hs_oscilloscope.py:17
+#: blocks/signal_generator_arbitrary.py:16
+#: blocks/signal_generator_periodic.py:16
+#: blocks/signal_generator_stochastic.py:15
+msgid "Generating"
+msgstr "Generierende"
+
+#: blocks/chirp.py:33
+msgid "Sweep Kind"
+msgstr "Sweepart"
+
+#: blocks/chirp.py:34
+msgid "Linear"
+msgstr "Linear"
+
+#: blocks/chirp.py:34
+msgid "Quadratic"
+msgstr "Quadratisch"
+
+#: blocks/chirp.py:35
+msgid "Logarithmic"
+msgstr "Logarithmisch"
+
+#: blocks/chirp.py:36
+msgid "Hyperbolic"
+msgstr "Hyperbolisch"
+
+#: blocks/chirp.py:39
+msgid "Start Frequency"
+msgstr "Startfrequenz"
+
+#: blocks/chirp.py:41
+msgid "End Frequency"
+msgstr "Endfrequenz"
+
 #: blocks/complex_plot.py:10
 msgid "ComplexPlot"
 msgstr "KomplexPlot"
@@ -229,7 +279,7 @@ msgstr "Berechnet die FFT des Eingangssignals."
 msgid "Fourier"
 msgstr "Fourier"
 
-#: blocks/fft.py:29 blocks/fftplot.py:50
+#: blocks/fft.py:29 blocks/fftplot.py:51
 msgid "Normalize"
 msgstr "Normiert"
 
@@ -247,35 +297,35 @@ msgstr ""
 "den Imaginärteil, den Betrag oder die Phase der FFT. Kann auch die FFT "
 "verschieben oder das Eingangsignal abscheiden vor der Transformation."
 
-#: blocks/fftplot.py:38
+#: blocks/fftplot.py:39
 msgid "Shift to ordinate"
 msgstr "Zur Ordinate verschieben"
 
-#: blocks/fftplot.py:39
+#: blocks/fftplot.py:40
 msgid "No shift"
 msgstr "Kein Verschieben"
 
-#: blocks/fftplot.py:39
+#: blocks/fftplot.py:40
 msgid "Shift"
 msgstr "Verschieben"
 
-#: blocks/fftplot.py:40
+#: blocks/fftplot.py:41
 msgid "Shift and only positive frequencies"
 msgstr "Verschieben und nur positive Frequenzen"
 
-#: blocks/fftplot.py:44
+#: blocks/fftplot.py:45
 msgid "Plot Mode"
 msgstr "Plot Modus"
 
-#: blocks/fftplot.py:45
+#: blocks/fftplot.py:46
 msgid "Real"
 msgstr "Real"
 
-#: blocks/fftplot.py:45
+#: blocks/fftplot.py:46
 msgid "Imaginary"
 msgstr "Imaginär"
 
-#: blocks/fftplot.py:46
+#: blocks/fftplot.py:47
 msgid "Phase"
 msgstr "Phase"
 
@@ -286,12 +336,6 @@ msgstr "HSOscilloscope"
 #: blocks/hs_oscilloscope.py:16
 msgid "Extract data from a Handyscope oscilloscope"
 msgstr "Extrahiert Daten von einem Handyscope Oszilloskop"
-
-#: blocks/hs_oscilloscope.py:17 blocks/signal_generator_arbitrary.py:16
-#: blocks/signal_generator_periodic.py:16
-#: blocks/signal_generator_stochastic.py:15
-msgid "Generating"
-msgstr "Generierende"
 
 #: blocks/hs_oscilloscope.py:26 blocks/hs_oscilloscope.py:61
 #: blocks/hs_oscilloscope.py:68
@@ -806,4 +850,7 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Amplifies the input signal by the desired factor."
 #~ msgstr "Verstärkt das Eingangssignal um den gewünschten Faktor."
+
+#~ msgid "Second Frequency"
+#~ msgstr ""
 
