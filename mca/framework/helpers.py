@@ -5,11 +5,11 @@ import numpy as np
 
 
 def create_abscissa_parameter_block():
-        values = parameters.IntParameter(_("Values"), min_=1, value=628)
+        values = parameters.IntParameter(_("Values"), min_=1, value=1000)
         increment = parameters.FloatParameter(_("Increment"), min_=0,
                                               value=0.01)
         sampling = parameters.FloatParameter(_("Sampling frequency"), value=100, min_=0, unit="Hz")
-        measure_time = parameters.FloatParameter(_("Measure time"), value=6.28, min_=0)
+        measure_time = parameters.FloatParameter(_("Measure time"), value=10, min_=0)
         start = parameters.FloatParameter("Start", value=0)
 
         def dt_to_fabt():
