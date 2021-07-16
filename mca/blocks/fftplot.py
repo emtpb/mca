@@ -28,6 +28,7 @@ class FFTPlot(Block):
         super().__init__(**kwargs)
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
+        self.legend = None
 
     def setup_io(self):
         self._new_input()
@@ -54,6 +55,8 @@ class FFTPlot(Block):
 
     def _process(self):
         self.axes.cla()
+        if self.legend:
+            self.legend.remove()
         # Finish when no inputs connected
         if self.check_all_empty_inputs():
             return
@@ -100,8 +103,16 @@ class FFTPlot(Block):
             ordinate = np.angle(ordinate)
         meta_data = data_types.MetaData(input_signal.meta_data.name,
                                         unit_a=1/input_signal.meta_data.unit_a,
-                                        unit_o=input_signal.meta_data.unit_o)
-        self.axes.plot(abscissa, ordinate)
+                                        unit_o=input_signal.meta_data.unit_o,
+                                        quantity_o=input_signal.meta_data.quantity_o,
+                                        symbol_o=input_signal.meta_data.symbol_o
+                                        )
+        label = input_signal.meta_data.name
+        self.axes.plot(abscissa, ordinate, label=label)
+        if label:
+            self.legend = self.fig.legend()
+        else:
+            self.legend = None
         self.axes.set_xlabel(data_types.meta_data_to_axis_label(
             quantity=meta_data.quantity_a,
             unit=meta_data.unit_a,
