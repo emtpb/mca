@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-07-16 04:45-0700\n"
+"POT-Creation-Date: 2021-07-16 06:05-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -30,7 +30,7 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 #: blocks/absolute.py:12 blocks/acf.py:11 blocks/adder.py:21
 #: blocks/amplifier.py:14 blocks/ccf.py:11 blocks/cpsd.py:12 blocks/fft.py:14
 #: blocks/fftplot.py:24 blocks/multiplier.py:21 blocks/psd.py:11
-#: blocks/real_imag.py:17 blocks/window.py:11
+#: blocks/real_imag.py:17 blocks/window.py:11 blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -295,7 +295,7 @@ msgid ""
 msgstr ""
 "Berechnet die FFT des Eingangssignals und plottet entweder den Realteil, "
 "den Imaginärteil, den Betrag oder die Phase der FFT. Kann die negativen "
-"Frequenzen verschieben oder diese wegschneiden." 
+"Frequenzen verschieben oder diese wegschneiden."
 
 #: blocks/fftplot.py:39
 msgid "Shift to ordinate"
@@ -544,6 +544,22 @@ msgstr "Alpha (Tukey)"
 #: blocks/window.py:30
 msgid "Standard Deviation (Gaussian)"
 msgstr "Standardabweichung (Gauß)"
+
+#: blocks/zerofill.py:9
+msgid "Zerofill"
+msgstr "Zerofill"
+
+#: blocks/zerofill.py:10
+msgid "Adds dead time and zero padding to the input signal."
+msgstr "Fügt dem Eingangssignal Totzeit und Zeropadding hinzu."
+
+#: blocks/zerofill.py:20
+msgid "Dead Time Values"
+msgstr "Totzeit Werte"
+
+#: blocks/zerofill.py:23
+msgid "Zero Padding Values"
+msgstr "Zeropadding Werte"
 
 #: framework/block_base.py:30
 msgid "Name"
@@ -853,4 +869,7 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Second Frequency"
 #~ msgstr ""
+
+#~ msgid "Adds zero padding or dead time to the input signal."
+#~ msgstr "Fügt dem Eingangssignal Totzeit und Zeropadding hinzu."
 
