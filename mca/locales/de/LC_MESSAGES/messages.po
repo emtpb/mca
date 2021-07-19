@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-07-16 06:05-0700\n"
+"POT-Creation-Date: 2021-07-19 05:05-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -183,7 +183,7 @@ msgstr ""
 "werden.Die erste Frequenz entspricht der Startfrequenz und die zweite "
 "Frequenzentspricht der Endfrequenz."
 
-#: blocks/chirp.py:19 blocks/hs_oscilloscope.py:17
+#: blocks/chirp.py:19 blocks/gausspulse.py:17 blocks/hs_oscilloscope.py:17
 #: blocks/signal_generator_arbitrary.py:16
 #: blocks/signal_generator_periodic.py:16
 #: blocks/signal_generator_stochastic.py:15
@@ -329,6 +329,40 @@ msgstr "Imaginär"
 msgid "Phase"
 msgstr "Phase"
 
+#: blocks/gausspulse.py:14
+msgid "GaussPulse"
+msgstr "GaussPuls"
+
+#: blocks/gausspulse.py:15
+msgid ""
+"Generates a gaussian pulse signal. Returns real- and imaginary part as "
+"well as the envelope."
+msgstr "Generiert ein Gausspulssignal. Gibt Real-, Imaginärteil und die Einhüllende zurück."
+
+#: blocks/gausspulse.py:21 blocks/real_imag.py:21
+msgid "Real part"
+msgstr "Realteil"
+
+#: blocks/gausspulse.py:28 blocks/real_imag.py:23
+msgid "Imaginary part"
+msgstr "Imaginärteil"
+
+#: blocks/gausspulse.py:35
+msgid "Envelope"
+msgstr "Einhüllende"
+
+#: blocks/gausspulse.py:47
+msgid "Center Frequency"
+msgstr "Mittenfrequenz"
+
+#: blocks/gausspulse.py:49
+msgid "Fractional bandwidth"
+msgstr "Normierte Bandbreite"
+
+#: blocks/gausspulse.py:51
+msgid "Reference level"
+msgstr "Referenzpegel"
+
 #: blocks/hs_oscilloscope.py:15
 msgid "HSOscilloscope"
 msgstr "HSOscilloscope"
@@ -413,14 +447,6 @@ msgid ""
 msgstr ""
 "Teilt Real- und Imaginärteil the Eingangssignals in zwei Ausgangssignale "
 "auf."
-
-#: blocks/real_imag.py:21
-msgid "Real part"
-msgstr "Realteil"
-
-#: blocks/real_imag.py:23
-msgid "Imaginary part"
-msgstr "Imaginärteil"
 
 #: blocks/signal_generator_arbitrary.py:14
 msgid "SignalGeneratorArbitrary"
@@ -872,4 +898,22 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Adds zero padding or dead time to the input signal."
 #~ msgstr "Fügt dem Eingangssignal Totzeit und Zeropadding hinzu."
+
+#~ msgid "Generates a gaussian pulse signal."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Generates a gaussian pulse signal. "
+#~ "Returns in addition the quadraturecomponent"
+#~ " and the envelope."
+#~ msgstr "Generiert ein Gaußpulssignal. "
+
+#~ msgid ""
+#~ "Generates a gaussian pulse signal. "
+#~ "Returns in addition the quadrature "
+#~ "component and the envelope."
+#~ msgstr ""
+#~ "Generiert ein Gausspulssignal. Gibt "
+#~ "desweiteren den Imaginärteil und die "
+#~ "Einhüllende zurück."
 
