@@ -45,7 +45,7 @@ class GaussPulse(Block):
         self.parameters.update({
             "amp": parameters.FloatParameter("Amplitude", min_=0, value=1),
             "cfreq": parameters.FloatParameter(_("Center Frequency"), unit="Hz",
-                                               min_=0, value=10),
+                                               min_=0, value=1),
             "bw": parameters.FloatParameter(_("Fractional bandwidth"), min_=0,
                                             max_=1, value=0.5),
             "bwr": parameters.FloatParameter(_("Reference level"), unit="dB",
