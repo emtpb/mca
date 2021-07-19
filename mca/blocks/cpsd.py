@@ -15,7 +15,7 @@ class CrossPowerDensitySpectrum(Block):
         self._new_output(meta_data=data_types.MetaData(
                 "",
                 unit_a="1/s",
-                unit_o="V*V",
+                unit_o="V*V*s",
                 quantity_a=_("Frequency")
         ))
         self._new_input()
@@ -39,7 +39,7 @@ class CrossPowerDensitySpectrum(Block):
         cpsd = np.fft.fft(ccf)
         abscissa_start = 0
         values = first_signal.values + second_signal.values - 1
-        unit_o = first_signal.meta_data.unit_o * second_signal.meta_data.unit_o
+        unit_o = first_signal.meta_data.unit_o * second_signal.meta_data.unit_o * first_signal.meta_data.unit_a
         unit_a = 1/first_signal.meta_data.unit_a
         meta_data = data_types.MetaData(None, unit_a, unit_o)
         increment = 1 / (

@@ -74,6 +74,9 @@ class FFTPlot(Block):
         ordinate = np.fft.fft(input_signal.ordinate)
         if normalize:
             ordinate = ordinate/values
+            unit_o = input_signal.meta_data.unit_o
+        else:
+            unit_o = input_signal.meta_data.unit_a * input_signal.meta_data.unit_o
         abscissa = np.linspace(0, delta_f*(values-1), values)
         # Apply parameters
         if shift == "shift" or \
@@ -103,9 +106,7 @@ class FFTPlot(Block):
             ordinate = np.angle(ordinate)
         meta_data = data_types.MetaData(input_signal.meta_data.name,
                                         unit_a=1/input_signal.meta_data.unit_a,
-                                        unit_o=input_signal.meta_data.unit_o,
-                                        quantity_o=input_signal.meta_data.quantity_o,
-                                        symbol_o=input_signal.meta_data.symbol_o
+                                        unit_o=unit_o,
                                         )
         label = input_signal.meta_data.name
         self.axes.plot(abscissa, ordinate, label=label)

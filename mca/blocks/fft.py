@@ -18,9 +18,8 @@ class FFT(Block):
             meta_data=data_types.MetaData(
                 "",
                 unit_a="1/s",
-                unit_o="V",
-                quantity_a=_("Frequency"),
-                quantity_o=_("Voltage"))
+                unit_o="V*s",
+                quantity_a=_("Frequency"),)
         )
         self._new_input()
 
@@ -41,10 +40,13 @@ class FFT(Block):
         values = input_signal.values
         if normalize:
             ordinate = ordinate/values
+            unit_o = input_signal.meta_data.unit_o
+        else:
+            unit_o = input_signal.meta_data.unit_a * input_signal.meta_data.unit_o
         meta_data = data_types.MetaData(
             name="",
             unit_a=1/input_signal.meta_data.unit_a,
-            unit_o=input_signal.meta_data.unit_o
+            unit_o=unit_o
         )
         self.outputs[0].data = data_types.Signal(
             meta_data=self.outputs[0].get_meta_data(meta_data),
