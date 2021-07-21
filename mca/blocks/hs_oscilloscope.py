@@ -65,7 +65,7 @@ class HSOscilloscope(Block):
                                                     "trig_kind": trig_kind})
         trig_enabled_ch2 = parameters.BoolParameter(_("Enable Trigger"),
                                                     value=False)
-        ch2 = parameters.ParameterBlock(name=_("Channel 1"),
+        ch2 = parameters.ParameterBlock(name=_("Channel 2"),
                                         parameters={"range": deepcopy(volt_range),
                                                     "enable_trig": trig_enabled_ch2,
                                                     "trig_lvl": deepcopy(trig_lvl),
