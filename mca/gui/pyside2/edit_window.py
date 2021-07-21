@@ -52,7 +52,7 @@ class EditWindow(QtWidgets.QDialog):
         description_box = QtWidgets.QGroupBox(_("Description"))
         description_box_layout = QtWidgets.QVBoxLayout(description_box)
         description_label = QtWidgets.QLabel(self.block.description)
-        description_label.setMaximumHeight(60)
+        description_label.setMaximumHeight(100)
         description_label.setWordWrap(True)
         description_box_layout.addWidget(description_label)
         general_tab_contents_layout.addWidget(description_box)
@@ -87,6 +87,18 @@ class EditWindow(QtWidgets.QDialog):
             scroll.setWidgetResizable(True)
             self.meta_data_layout.addWidget(scroll)
             self.tab_widget.addTab(self.meta_data_tab, _("Meta data"))
+            info_box = QtWidgets.QGroupBox(_("Info"))
+            info_layout = QtWidgets.QVBoxLayout(info_box)
+            info_label = QtWidgets.QLabel(
+                _("Redefine the meta data for the "
+                  "outgoing signals. By default meta data is computed "
+                  "depending on the input meta data. In order to apply your "
+                  "own defined meta data tick the corresponding boxes "
+                  "'Use ordinate/abscissa meta data' below."))
+            info_label.setMaximumHeight(100)
+            info_label.setWordWrap(True)
+            info_layout.addWidget(info_label)
+            self.meta_data_contents_layout.addWidget(info_box)
             self.add_meta_data()
             self.meta_data_contents_layout.addItem(QtWidgets.QSpacerItem(
                 0, 0,
@@ -152,7 +164,7 @@ class EditWindow(QtWidgets.QDialog):
 
     def add_meta_data(self):
         """Arranges the meta data of the outputs of the block in the window."""
-        for i in reversed(range(self.meta_data_contents_layout.count())):
+        for i in reversed(range(1, self.meta_data_contents_layout.count())):
             self.meta_data_layout.itemAt(i).widget().setParent(None)
         self.meta_data_widgets = []
         for output_index, output in enumerate(self.block.outputs):

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-07-19 05:05-0700\n"
+"POT-Creation-Date: 2021-07-21 02:02-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -28,9 +28,10 @@ msgid "Computes the absolute of the input signal."
 msgstr "Berechnet den Betrag des Eingangssignals."
 
 #: blocks/absolute.py:12 blocks/acf.py:11 blocks/adder.py:21
-#: blocks/amplifier.py:14 blocks/ccf.py:11 blocks/cpsd.py:12 blocks/fft.py:14
-#: blocks/fftplot.py:24 blocks/multiplier.py:21 blocks/psd.py:11
-#: blocks/real_imag.py:17 blocks/window.py:11 blocks/zerofill.py:11
+#: blocks/amplifier.py:14 blocks/ccf.py:11 blocks/cpsd.py:12
+#: blocks/differentiator.py:14 blocks/fft.py:14 blocks/fftplot.py:24
+#: blocks/multiplier.py:21 blocks/psd.py:11 blocks/real_imag.py:17
+#: blocks/window.py:11 blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -54,7 +55,7 @@ msgstr "Addiert mehrere Signale zu einem Signal auf."
 msgid "Time"
 msgstr "Zeit"
 
-#: blocks/adder.py:31 blocks/fft.py:23 framework/data_types.py:199
+#: blocks/adder.py:31 framework/data_types.py:199
 msgid "Voltage"
 msgstr "Spannung"
 
@@ -267,6 +268,14 @@ msgstr "Berechnet das Kreuzleistungsdichtespektrum des Eingangssignals."
 msgid "Frequency"
 msgstr "Frequenz"
 
+#: blocks/differentiator.py:12
+msgid "Differentiator"
+msgstr ""
+
+#: blocks/differentiator.py:13
+msgid "Computes the gradient of the input signal."
+msgstr ""
+
 #: blocks/fft.py:12
 msgid "FFT"
 msgstr "FFT"
@@ -279,7 +288,7 @@ msgstr "Berechnet die FFT des Eingangssignals."
 msgid "Fourier"
 msgstr "Fourier"
 
-#: blocks/fft.py:29 blocks/fftplot.py:51
+#: blocks/fft.py:28 blocks/fftplot.py:51
 msgid "Normalize"
 msgstr "Normiert"
 
@@ -337,7 +346,9 @@ msgstr "GaussPuls"
 msgid ""
 "Generates a gaussian pulse signal. Returns real- and imaginary part as "
 "well as the envelope."
-msgstr "Generiert ein Gausspulssignal. Gibt Real-, Imaginärteil und die Einhüllende zurück."
+msgstr ""
+"Generiert ein Gausspulssignal. Gibt Real-, Imaginärteil und die "
+"Einhüllende zurück."
 
 #: blocks/gausspulse.py:21 blocks/real_imag.py:21
 msgid "Real part"
@@ -372,11 +383,10 @@ msgid "Extract data from a Handyscope oscilloscope"
 msgstr "Extrahiert Daten von einem Handyscope Oszilloskop"
 
 #: blocks/hs_oscilloscope.py:26 blocks/hs_oscilloscope.py:61
-#: blocks/hs_oscilloscope.py:68
 msgid "Channel 1"
 msgstr "Kanal 1"
 
-#: blocks/hs_oscilloscope.py:33
+#: blocks/hs_oscilloscope.py:33 blocks/hs_oscilloscope.py:68
 msgid "Channel 2"
 msgstr "Kanal 2"
 
@@ -669,11 +679,11 @@ msgstr "Name des Inputs:"
 msgid "Name of the Output:"
 msgstr "Name des Outputs:"
 
-#: gui/pyside2/block_item.py:512 gui/pyside2/edit_window.py:103
+#: gui/pyside2/block_item.py:512 gui/pyside2/edit_window.py:115
 msgid "Ok"
 msgstr "Ok"
 
-#: gui/pyside2/block_item.py:514 gui/pyside2/edit_window.py:104
+#: gui/pyside2/block_item.py:514 gui/pyside2/edit_window.py:116
 #: gui/pyside2/main_window.py:129 gui/pyside2/main_window.py:266
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -693,7 +703,7 @@ msgstr "MKA"
 msgid "Something went wrong.\n"
 msgstr "Etwas ist schiefgelaufen.\n"
 
-#: gui/pyside2/edit_window.py:38 gui/pyside2/edit_window.py:270
+#: gui/pyside2/edit_window.py:38 gui/pyside2/edit_window.py:282
 msgid "Edit {}"
 msgstr "{} bearbeiten"
 
@@ -713,12 +723,28 @@ msgstr "Allgemein"
 msgid "Meta data"
 msgstr "Metadaten"
 
-#: gui/pyside2/edit_window.py:105
+#: gui/pyside2/edit_window.py:90
+msgid "Info"
+msgstr "Info"
+
+#: gui/pyside2/edit_window.py:93
+msgid ""
+"Redefine the meta data for the outgoing signals. By default meta data is "
+"computed depending on the input meta data. In order to apply your own "
+"defined meta data tick the corresponding boxes 'Use ordinate/abscissa "
+"meta data' below."
+msgstr ""
+"Definiere die Metadaten für ausgehenden Signale. Standardmäßig ergeben "
+"sich die Metadaten der ausgehenden Signale aus den Metadaten der "
+"eingehenden Signale. Um die selbstdefinierten Metadaten anzuwenden, muss der "
+"Haken bei den entsprechenden Boxen 'Abzissen/Ordinaten Metadaten benutzen' gesetzt werden."
+
+#: gui/pyside2/edit_window.py:117
 msgid "Apply"
 msgstr "Übernehmen"
 
-#: gui/pyside2/edit_window.py:119 gui/pyside2/edit_window.py:228
-#: gui/pyside2/edit_window.py:233
+#: gui/pyside2/edit_window.py:131 gui/pyside2/edit_window.py:240
+#: gui/pyside2/edit_window.py:245
 msgid ""
 "Could not apply the changed parameters and meta data!Continue editing or "
 "revert changes?"
@@ -726,59 +752,59 @@ msgstr ""
 "Die veränderten Parameter und Metadaten konnten nicht angewendet! Mit der"
 " Bearbeitung fortfahren oder Änderung rückgängig machen?"
 
-#: gui/pyside2/edit_window.py:122
+#: gui/pyside2/edit_window.py:134
 msgid "Continue"
 msgstr "Fortfahren"
 
-#: gui/pyside2/edit_window.py:125
+#: gui/pyside2/edit_window.py:137
 msgid "Revert"
 msgstr "Rückgängig"
 
-#: gui/pyside2/edit_window.py:161
+#: gui/pyside2/edit_window.py:173
 msgid "Output '{}' meta data:"
 msgstr "Output '{}' Metadaten"
 
-#: gui/pyside2/edit_window.py:164
+#: gui/pyside2/edit_window.py:176
 msgid "Output {} meta data:"
 msgstr "Output {} MetaDaten:"
 
-#: gui/pyside2/edit_window.py:166
+#: gui/pyside2/edit_window.py:178
 msgid "Signal name:"
 msgstr "Signalname:"
 
-#: gui/pyside2/edit_window.py:167
+#: gui/pyside2/edit_window.py:179
 msgid "Abscissa quantity:"
 msgstr "Abszissengröße:"
 
-#: gui/pyside2/edit_window.py:168
+#: gui/pyside2/edit_window.py:180
 msgid "Abscissa symbol:"
 msgstr "Abszissensymbol:"
 
-#: gui/pyside2/edit_window.py:169
+#: gui/pyside2/edit_window.py:181
 msgid "Abscissa unit:"
 msgstr "Abszisseneinheit:"
 
-#: gui/pyside2/edit_window.py:170
+#: gui/pyside2/edit_window.py:182
 msgid "Ordinate quantity:"
 msgstr "Ordinatengröße:"
 
-#: gui/pyside2/edit_window.py:171
+#: gui/pyside2/edit_window.py:183
 msgid "Ordinate symbol:"
 msgstr "Ordinatensymbol:"
 
-#: gui/pyside2/edit_window.py:172
+#: gui/pyside2/edit_window.py:184
 msgid "Ordinate unit:"
 msgstr "Ordinateneinheit:"
 
-#: gui/pyside2/edit_window.py:183
+#: gui/pyside2/edit_window.py:195
 msgid "Use abscissa meta data"
 msgstr "Abzissen Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:191
+#: gui/pyside2/edit_window.py:203
 msgid "Use ordinate meta data"
 msgstr "Ordinaten Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:230
+#: gui/pyside2/edit_window.py:242
 msgid "Error message:"
 msgstr "Fehlermeldung:"
 
