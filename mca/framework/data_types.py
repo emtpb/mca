@@ -68,7 +68,8 @@ class MetaData:
 
     """
     def __init__(self, name, unit_a, unit_o, quantity_a=None, quantity_o=None,
-                 symbol_a=None, symbol_o=None):
+                 symbol_a=None, symbol_o=None, fixed_unit_a=False,
+                 fixed_unit_o=False):
         """Initialize MetaData.
 
         Args:
@@ -79,17 +80,22 @@ class MetaData:
             quantity_o (str): Quantity of the ordinate.
             symbol_a (str): Symbol of the abscissa.
             symbol_o (str): Symbol of the ordinate.
+            fixed_unit_a (bool): Set to True to not apply unit conversion by
+                                 'united'. Only  works if the passed unit is a
+                                 string.
+            fixed_unit_o (bool): Set to True to not apply unit conversion by
+                                 'united'. Only  works if the passed unit is a
+                                 string.
         """
         self.name = name
         if isinstance(unit_a, Unit):
             self._unit_a = unit_a
         elif isinstance(unit_a, str):
-            self._unit_a = string_to_unit(unit_a)
-
+            self._unit_a = string_to_unit(unit_a, fixed_unit_a)
         if isinstance(unit_o, Unit):
             self._unit_o = unit_o
         elif isinstance(unit_o, str):
-            self._unit_o = string_to_unit(unit_o)
+            self._unit_o = string_to_unit(unit_o, fixed_unit_o)
 
         self.quantity_a = quantity_a
         if not self.quantity_a:
@@ -101,6 +107,8 @@ class MetaData:
 
         self.symbol_a = symbol_a
         self.symbol_o = symbol_o
+        self.fixed_unit_a = fixed_unit_a
+        self.fixed_unit_o = fixed_unit_o
 
     @property
     def unit_a(self):
@@ -114,7 +122,7 @@ class MetaData:
         if isinstance(value, Unit):
             self._unit_a = value
         elif isinstance(value, str):
-            self._unit_a = string_to_unit(value)
+            self._unit_a = string_to_unit(value, fixed_unit=self.fixed_unit_a)
 
     @property
     def unit_o(self):
@@ -128,7 +136,7 @@ class MetaData:
         if isinstance(value, Unit):
             self._unit_o = value
         elif isinstance(value, str):
-            self._unit_o = string_to_unit(value)
+            self._unit_o = string_to_unit(value, fixed_unit=self.fixed_unit_a)
 
     def __eq__(self, other):
         """Defines equality of two Metadata objects."""
@@ -149,7 +157,7 @@ class MetaData:
         return True
 
 
-def string_to_unit(string):
+def string_to_unit(string, fixed_unit=False):
     """Converts a string fraction to an Unit object. The string has to be
     in a certain format.
 
@@ -162,6 +170,8 @@ def string_to_unit(string):
 
     Args:
         string (str): String to be converted.
+        fixed_unit (bool): Set to True to not apply unit conversion by
+                           'united'.
 
     Returns:
         Unit: Converted from the input string.
@@ -175,7 +185,7 @@ def string_to_unit(string):
         numerator = fraction[0].split("*")
     if len(fraction) > 1:
         denominator = fraction[1].split("*")
-    return Unit(numerator, denominator)
+    return Unit(numerator, denominator, fix_repr=fixed_unit)
 
 
 def meta_data_to_axis_label(unit, quantity=None, symbol=None):
@@ -196,5 +206,7 @@ def default_meta_data():
         unit_a="s",
         unit_o="V",
         quantity_a=_("Time"),
-        quantity_o=_("Voltage")
+        quantity_o=_("Voltage"),
+        fixed_unit_o=True,
+        fixed_unit_a=True
     )

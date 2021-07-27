@@ -127,26 +127,33 @@ class Output:
             unit_a = self.meta_data.unit_a
             symbol_a = self.meta_data.symbol_a
             quantity_a = self.meta_data.quantity_a
+            fixed_unit_a = True
         else:
             unit_a = external_meta_data.unit_a
-            symbol_a = external_meta_data.symbol_a
+            symbol_a = ""
             quantity_a = external_meta_data.quantity_a
+            fixed_unit_a = False
 
         if self.ordinate_meta_data:
             unit_o = self.meta_data.unit_o
             symbol_o = self.meta_data.symbol_o
             quantity_o = self.meta_data.quantity_o
+            fixed_unit_o = True
         else:
             unit_o = external_meta_data.unit_o
-            symbol_o = external_meta_data.symbol_o
+            symbol_o = ""
             quantity_o = external_meta_data.quantity_o
+            fixed_unit_o = False
+
         return data_types.MetaData(name=self.meta_data.name,
                                    unit_a=unit_a,
                                    unit_o=unit_o,
                                    symbol_a=symbol_a,
                                    symbol_o=symbol_o,
                                    quantity_a=quantity_a,
-                                   quantity_o=quantity_o)
+                                   quantity_o=quantity_o,
+                                   fixed_unit_a=fixed_unit_a,
+                                   fixed_unit_o=fixed_unit_o)
 
     def disconnect(self):
         """Disconnects itself from all Inputs."""

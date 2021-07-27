@@ -117,7 +117,7 @@ class EditWindow(QtWidgets.QDialog):
         self.button_box.button(QtWidgets.QDialogButtonBox.Apply).setText(_("Apply"))
         self.button_box.accepted.connect(self.accept)
         self.button_box.rejected.connect(self.reject)
-        self.button_box.clicked.connect(self.test)
+        self.button_box.clicked.connect(self.apply)
         self.main_layout.addWidget(self.button_box)
         # Set custom window icon
         if self.block.icon_file:
@@ -190,7 +190,6 @@ class EditWindow(QtWidgets.QDialog):
                 entry_edit_line.setMaximumHeight(25)
                 self.meta_data_widgets.append(entry_edit_line)
                 meta_data_box_layout.addRow(label, entry_edit_line)
-
             abscissa_check_box = edit_widgets.MetaDataBoolWidget(
                 _("Use abscissa meta data"), output, "abscissa_meta_data")
             abscissa_check_box.read_attribute()
@@ -198,7 +197,6 @@ class EditWindow(QtWidgets.QDialog):
                 abscissa_check_box.setEnabled(False)
             self.meta_data_widgets.append(abscissa_check_box)
             meta_data_box_layout.insertRow(4, "", abscissa_check_box)
-            
             ordinate_check_box = edit_widgets.MetaDataBoolWidget(
                 _("Use ordinate meta data"), output, "ordinate_meta_data")
             ordinate_check_box.read_attribute()
@@ -284,6 +282,9 @@ class EditWindow(QtWidgets.QDialog):
         )
         super(EditWindow, self).show()
 
-    def test(self, button):
+    def apply(self, button):
+        """Apply all changes made in the EditWindow. This is a helper function
+        and effectively only calls apply_changes.
+        """
         if self.button_box.buttonRole(button) == QtWidgets.QDialogButtonBox.ApplyRole:
             self.apply_changes()
