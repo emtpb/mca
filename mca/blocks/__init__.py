@@ -27,6 +27,8 @@ from .window import Window
 from .chirp import Chirp
 from .zerofill import Zerofill
 from .gausspulse import GaussPulse
+from .differentiator import Differentiator
+from .integrator import Integrator
 
 block_classes = [i[1] for i in inspect.getmembers(sys.modules[__name__],
                                                   inspect.isclass)]

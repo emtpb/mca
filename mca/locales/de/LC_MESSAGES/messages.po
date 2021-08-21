@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-07-21 02:02-0700\n"
+"POT-Creation-Date: 2021-08-21 12:18-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -19,19 +19,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: blocks/absolute.py:10 blocks/fftplot.py:47
+#: blocks/absolute.py:7 blocks/fftplot.py:39
 msgid "Absolute"
 msgstr "Betrag"
 
-#: blocks/absolute.py:11
+#: blocks/absolute.py:8
 msgid "Computes the absolute of the input signal."
 msgstr "Berechnet den Betrag des Eingangssignals."
 
-#: blocks/absolute.py:12 blocks/acf.py:11 blocks/adder.py:21
-#: blocks/amplifier.py:14 blocks/ccf.py:11 blocks/cpsd.py:12
-#: blocks/differentiator.py:14 blocks/fft.py:14 blocks/fftplot.py:24
-#: blocks/multiplier.py:21 blocks/psd.py:11 blocks/real_imag.py:17
-#: blocks/window.py:11 blocks/zerofill.py:11
+#: blocks/absolute.py:9 blocks/acf.py:11 blocks/adder.py:18
+#: blocks/amplifier.py:11 blocks/ccf.py:11 blocks/cpsd.py:12
+#: blocks/differentiator.py:11 blocks/fft.py:11 blocks/fftplot.py:16
+#: blocks/integrator.py:12 blocks/multiplier.py:18 blocks/psd.py:11
+#: blocks/real_imag.py:17 blocks/window.py:11 blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -43,121 +43,121 @@ msgstr "Autokorrelation"
 msgid "Computes the auto correlation of the input signal."
 msgstr "Berechnet die Autokorrelationsfunktion des Eingangssignals."
 
-#: blocks/adder.py:19
+#: blocks/adder.py:16
 msgid "Adder"
 msgstr "Addierer"
 
-#: blocks/adder.py:20
+#: blocks/adder.py:17
 msgid "Adds multiple signals to one signal."
 msgstr "Addiert mehrere Signale zu einem Signal auf."
 
-#: blocks/adder.py:30 framework/data_types.py:198
+#: blocks/adder.py:27 framework/data_types.py:208
 msgid "Time"
 msgstr "Zeit"
 
-#: blocks/adder.py:31 framework/data_types.py:199
+#: blocks/adder.py:28 framework/data_types.py:209
 msgid "Voltage"
 msgstr "Spannung"
 
-#: blocks/amplifier.py:12
+#: blocks/amplifier.py:9
 msgid "Amplifier"
 msgstr "Verstärker"
 
-#: blocks/amplifier.py:13
+#: blocks/amplifier.py:10
 msgid "Amplifies the input signal."
 msgstr "Verstärkt das Eingangssignal."
 
-#: blocks/amplifier.py:22
+#: blocks/amplifier.py:19
 msgid "Factor"
 msgstr "Faktor"
 
-#: blocks/amplifier.py:23
+#: blocks/amplifier.py:20
 msgid "Decibel"
 msgstr "Dezibel"
 
-#: blocks/amplifier.py:36
+#: blocks/amplifier.py:33
 msgid "Amplification"
 msgstr "Verstärkung"
 
-#: blocks/audio_loader.py:13
+#: blocks/audio_loader.py:10
 msgid "AudioLoader"
 msgstr "AudioLader"
 
-#: blocks/audio_loader.py:14
+#: blocks/audio_loader.py:11
 msgid "Reads a .wav to create an output signal."
 msgstr "Liest eine .wav ein und erzeugt daraus ein Ausgangssignal."
 
-#: blocks/audio_loader.py:15 blocks/signal_generator_arbitrary.py:16
+#: blocks/audio_loader.py:12 blocks/signal_generator_arbitrary.py:13
 msgid "Loading"
 msgstr "Ladend"
 
-#: blocks/audio_loader.py:15 blocks/audio_player.py:15
-#: blocks/audio_recorder.py:14 blocks/audio_saver.py:16
+#: blocks/audio_loader.py:12 blocks/audio_player.py:12
+#: blocks/audio_recorder.py:11 blocks/audio_saver.py:13
 msgid "Audio"
 msgstr "Audio"
 
-#: blocks/audio_loader.py:19 blocks/audio_player.py:19 blocks/audio_saver.py:20
+#: blocks/audio_loader.py:16 blocks/audio_player.py:16 blocks/audio_saver.py:17
 #: framework/helpers.py:11
 msgid "Sampling frequency"
 msgstr "Abtastfrequenz"
 
-#: blocks/audio_loader.py:21 blocks/audio_saver.py:22 blocks/signal_saver.py:22
+#: blocks/audio_loader.py:18 blocks/audio_saver.py:19 blocks/signal_saver.py:19
 msgid "Filename"
 msgstr "Dateiname"
 
-#: blocks/audio_loader.py:23 blocks/signal_generator_arbitrary.py:33
+#: blocks/audio_loader.py:20 blocks/signal_generator_arbitrary.py:30
 msgid "Load file"
 msgstr "Lade Datei"
 
-#: blocks/audio_player.py:13
+#: blocks/audio_player.py:10
 msgid "AudioPlayer"
 msgstr "AudioPlayer"
 
-#: blocks/audio_player.py:14
+#: blocks/audio_player.py:11
 msgid "Plays the input signal as a sound."
 msgstr "Spielt das Eingangssignal als Ton ab."
 
-#: blocks/audio_player.py:21
+#: blocks/audio_player.py:18
 msgid "Play sound"
 msgstr "Geräusch abspielen"
 
-#: blocks/audio_player.py:23
+#: blocks/audio_player.py:20
 msgid "Auto play"
 msgstr "Automatisch Geräusch abspielen"
 
-#: blocks/audio_recorder.py:12
+#: blocks/audio_recorder.py:9
 msgid "AudioRecorder"
 msgstr "AudioRecorder"
 
-#: blocks/audio_recorder.py:13
+#: blocks/audio_recorder.py:10
 msgid "Records the default audio input device."
 msgstr "Nimmt Geräusch von dem Standard Audio Input Gerät auf."
 
-#: blocks/audio_recorder.py:18
+#: blocks/audio_recorder.py:15
 msgid "Sampling Frequency"
 msgstr "Samplingfrequenz"
 
-#: blocks/audio_recorder.py:20
+#: blocks/audio_recorder.py:17
 msgid "Record time"
 msgstr "Aufnahmezeit"
 
-#: blocks/audio_recorder.py:22
+#: blocks/audio_recorder.py:19
 msgid "Record sound"
 msgstr "Geräusch aufnehmen"
 
-#: blocks/audio_saver.py:14
+#: blocks/audio_saver.py:11
 msgid "AudioSaver"
 msgstr "AudioSpeicherung"
 
-#: blocks/audio_saver.py:15
+#: blocks/audio_saver.py:12
 msgid "Saves the input signal as a sound file."
 msgstr "Speichert das Eingangssignal als Audiodatei."
 
-#: blocks/audio_saver.py:16 blocks/signal_saver.py:15
+#: blocks/audio_saver.py:13 blocks/signal_saver.py:12
 msgid "Saving"
 msgstr "Speichern"
 
-#: blocks/audio_saver.py:23
+#: blocks/audio_saver.py:20
 msgid "Save as .wav"
 msgstr "Als .wav speichern"
 
@@ -169,11 +169,11 @@ msgstr "Kreuzkorrelation"
 msgid "Computes the cross correlation of the input signal."
 msgstr "Berechnet die Kreuzkorrelationsfunktion des Eingangssignals"
 
-#: blocks/chirp.py:13
+#: blocks/chirp.py:10
 msgid "Chirp"
-msgstr ""
+msgstr "Chirp"
 
-#: blocks/chirp.py:14
+#: blocks/chirp.py:11
 msgid ""
 "Generates a chirp signal. Two frequencies have to be specified where the "
 "first frequency corresponds to the frequency at the beginning of the "
@@ -184,74 +184,74 @@ msgstr ""
 "werden.Die erste Frequenz entspricht der Startfrequenz und die zweite "
 "Frequenzentspricht der Endfrequenz."
 
-#: blocks/chirp.py:19 blocks/gausspulse.py:17 blocks/hs_oscilloscope.py:17
-#: blocks/signal_generator_arbitrary.py:16
-#: blocks/signal_generator_periodic.py:16
-#: blocks/signal_generator_stochastic.py:15
+#: blocks/chirp.py:16 blocks/gausspulse.py:15 blocks/hs_oscilloscope.py:17
+#: blocks/signal_generator_arbitrary.py:13
+#: blocks/signal_generator_periodic.py:13
+#: blocks/signal_generator_stochastic.py:14
 msgid "Generating"
 msgstr "Generierende"
 
-#: blocks/chirp.py:33
+#: blocks/chirp.py:30
 msgid "Sweep Kind"
 msgstr "Sweepart"
 
-#: blocks/chirp.py:34
+#: blocks/chirp.py:31
 msgid "Linear"
 msgstr "Linear"
 
-#: blocks/chirp.py:34
+#: blocks/chirp.py:31
 msgid "Quadratic"
 msgstr "Quadratisch"
 
-#: blocks/chirp.py:35
+#: blocks/chirp.py:32
 msgid "Logarithmic"
 msgstr "Logarithmisch"
 
-#: blocks/chirp.py:36
+#: blocks/chirp.py:33
 msgid "Hyperbolic"
 msgstr "Hyperbolisch"
 
-#: blocks/chirp.py:39
+#: blocks/chirp.py:36
 msgid "Start Frequency"
 msgstr "Startfrequenz"
 
-#: blocks/chirp.py:41
+#: blocks/chirp.py:38
 msgid "End Frequency"
 msgstr "Endfrequenz"
 
-#: blocks/complex_plot.py:10
+#: blocks/complex_plot.py:13
 msgid "ComplexPlot"
 msgstr "KomplexPlot"
 
-#: blocks/complex_plot.py:11
+#: blocks/complex_plot.py:14
 msgid "Plots absolute and phase or real and imaginary part of the input signal."
 msgstr "Plottet Betrag und Phase oder Real- und Imaginärteil des Eingangsignals."
 
-#: blocks/complex_plot.py:13 blocks/fftplot.py:24 blocks/signal_plot.py:16
+#: blocks/complex_plot.py:16 blocks/fftplot.py:16 blocks/signal_plot.py:13
 msgid "Plotting"
 msgstr "Plottende"
 
-#: blocks/complex_plot.py:26
+#: blocks/complex_plot.py:29
 msgid "Plot type"
 msgstr "Plot Variante"
 
-#: blocks/complex_plot.py:27
+#: blocks/complex_plot.py:30
 msgid "Real/Imaginary"
 msgstr "Real/Imaginär"
 
-#: blocks/complex_plot.py:28
+#: blocks/complex_plot.py:31
 msgid "Absolute/Phase"
 msgstr "Betrag/Phase"
 
-#: blocks/complex_plot.py:30 blocks/signal_plot.py:28
+#: blocks/complex_plot.py:33 blocks/signal_plot.py:25
 msgid "Show plot"
 msgstr "Plot anzeigen"
 
-#: blocks/complex_plot.py:31 blocks/signal_plot.py:29
+#: blocks/complex_plot.py:34 blocks/signal_plot.py:26
 msgid "Auto plot"
 msgstr "Automatisch neu plotten"
 
-#: blocks/complex_plot.py:87
+#: blocks/complex_plot.py:90
 msgid "Phase in rad"
 msgstr "Phase in rad"
 
@@ -263,40 +263,40 @@ msgstr "Kreuzleistungsdichtespektrum"
 msgid "Computes the cross power density spectrum of the input signals."
 msgstr "Berechnet das Kreuzleistungsdichtespektrum des Eingangssignals."
 
-#: blocks/cpsd.py:19 blocks/fft.py:22 blocks/psd.py:18
-#: blocks/signal_generator_periodic.py:35
+#: blocks/cpsd.py:19 blocks/fft.py:19 blocks/psd.py:18
+#: blocks/signal_generator_periodic.py:32
 msgid "Frequency"
 msgstr "Frequenz"
 
-#: blocks/differentiator.py:12
+#: blocks/differentiator.py:9
 msgid "Differentiator"
-msgstr ""
+msgstr "Differentiator"
 
-#: blocks/differentiator.py:13
+#: blocks/differentiator.py:10
 msgid "Computes the gradient of the input signal."
-msgstr ""
+msgstr "Berechnet den Gradienten des Eingangssignals."
 
-#: blocks/fft.py:12
+#: blocks/fft.py:9
 msgid "FFT"
 msgstr "FFT"
 
-#: blocks/fft.py:13
+#: blocks/fft.py:10
 msgid "Computes the FFT of the input signal."
 msgstr "Berechnet die FFT des Eingangssignals."
 
-#: blocks/fft.py:14 blocks/fftplot.py:24
+#: blocks/fft.py:11 blocks/fftplot.py:16
 msgid "Fourier"
 msgstr "Fourier"
 
-#: blocks/fft.py:28 blocks/fftplot.py:51
+#: blocks/fft.py:25 blocks/fftplot.py:43
 msgid "Normalize"
 msgstr "Normiert"
 
-#: blocks/fftplot.py:18
+#: blocks/fftplot.py:10
 msgid "FFTPlot"
 msgstr "FFTPlot"
 
-#: blocks/fftplot.py:19
+#: blocks/fftplot.py:11
 msgid ""
 "Computes the FFT of the input signal and plots either the real part, "
 "imaginary part, the absolute or the phase of the FFT. Shifts the FFT "
@@ -306,43 +306,43 @@ msgstr ""
 "den Imaginärteil, den Betrag oder die Phase der FFT. Kann die negativen "
 "Frequenzen verschieben oder diese wegschneiden."
 
-#: blocks/fftplot.py:39
+#: blocks/fftplot.py:31
 msgid "Shift to ordinate"
 msgstr "Zur Ordinate verschieben"
 
-#: blocks/fftplot.py:40
+#: blocks/fftplot.py:32
 msgid "No shift"
 msgstr "Kein Verschieben"
 
-#: blocks/fftplot.py:40
+#: blocks/fftplot.py:32
 msgid "Shift"
 msgstr "Verschieben"
 
-#: blocks/fftplot.py:41
+#: blocks/fftplot.py:33
 msgid "Shift and only positive frequencies"
 msgstr "Verschieben und nur positive Frequenzen"
 
-#: blocks/fftplot.py:45
+#: blocks/fftplot.py:37
 msgid "Plot Mode"
 msgstr "Plot Modus"
 
-#: blocks/fftplot.py:46
+#: blocks/fftplot.py:38
 msgid "Real"
 msgstr "Real"
 
-#: blocks/fftplot.py:46
+#: blocks/fftplot.py:38
 msgid "Imaginary"
 msgstr "Imaginär"
 
-#: blocks/fftplot.py:47
+#: blocks/fftplot.py:39
 msgid "Phase"
 msgstr "Phase"
 
-#: blocks/gausspulse.py:14
+#: blocks/gausspulse.py:12
 msgid "GaussPulse"
 msgstr "GaussPuls"
 
-#: blocks/gausspulse.py:15
+#: blocks/gausspulse.py:13
 msgid ""
 "Generates a gaussian pulse signal. Returns real- and imaginary part as "
 "well as the envelope."
@@ -350,27 +350,27 @@ msgstr ""
 "Generiert ein Gausspulssignal. Gibt Real-, Imaginärteil und die "
 "Einhüllende zurück."
 
-#: blocks/gausspulse.py:21 blocks/real_imag.py:21
+#: blocks/gausspulse.py:19 blocks/real_imag.py:21
 msgid "Real part"
 msgstr "Realteil"
 
-#: blocks/gausspulse.py:28 blocks/real_imag.py:23
+#: blocks/gausspulse.py:26 blocks/real_imag.py:23
 msgid "Imaginary part"
 msgstr "Imaginärteil"
 
-#: blocks/gausspulse.py:35
+#: blocks/gausspulse.py:33
 msgid "Envelope"
 msgstr "Einhüllende"
 
-#: blocks/gausspulse.py:47
+#: blocks/gausspulse.py:45
 msgid "Center Frequency"
 msgstr "Mittenfrequenz"
 
-#: blocks/gausspulse.py:49
+#: blocks/gausspulse.py:47
 msgid "Fractional bandwidth"
 msgstr "Normierte Bandbreite"
 
-#: blocks/gausspulse.py:51
+#: blocks/gausspulse.py:49
 msgid "Reference level"
 msgstr "Referenzpegel"
 
@@ -430,11 +430,31 @@ msgstr "Aufnahmelänge"
 msgid "Measure"
 msgstr "Messen"
 
-#: blocks/multiplier.py:19
+#: blocks/integrator.py:10
+msgid "Integrator"
+msgstr ""
+
+#: blocks/integrator.py:11
+msgid "Computes the numerical integration of the input signal."
+msgstr "Berechnet die numerische Integration des Eingangssignals."
+
+#: blocks/integrator.py:21
+msgid "Integration rule"
+msgstr "Integrationsregel"
+
+#: blocks/integrator.py:22
+msgid "Trapezoidal"
+msgstr "Trapez"
+
+#: blocks/integrator.py:22
+msgid "Rectangular"
+msgstr "Rechteck"
+
+#: blocks/multiplier.py:16
 msgid "Multiplier"
 msgstr "Multiplizierer"
 
-#: blocks/multiplier.py:20
+#: blocks/multiplier.py:17
 msgid "Multiplies the input signals with each other."
 msgstr "Multipliziert die Eingangssignale miteinander."
 
@@ -458,85 +478,85 @@ msgstr ""
 "Teilt Real- und Imaginärteil the Eingangssignals in zwei Ausgangssignale "
 "auf."
 
-#: blocks/signal_generator_arbitrary.py:14
+#: blocks/signal_generator_arbitrary.py:11
 msgid "SignalGeneratorArbitrary"
 msgstr "SignalGeneratorArbiträr"
 
-#: blocks/signal_generator_arbitrary.py:15
+#: blocks/signal_generator_arbitrary.py:12
 msgid "Loads arbitrary data to generate a signal on its output."
 msgstr "Läd arbiträre Daten um ein Signal an seinem Output zu generieren."
 
-#: blocks/signal_generator_arbitrary.py:29
+#: blocks/signal_generator_arbitrary.py:26
 msgid "Arbitrary data path"
 msgstr "Pfad der Arbiträrdaten"
 
-#: blocks/signal_generator_periodic.py:14
+#: blocks/signal_generator_periodic.py:11
 msgid "Generates a Sinus, a Rectangle function or a Triangle function."
 msgstr "Generiert einen Sinus, eine Rechteckfunktion oder eine Dreiecksfunktion."
 
-#: blocks/signal_generator_periodic.py:30
+#: blocks/signal_generator_periodic.py:27
 msgid "Function"
 msgstr "Funktion"
 
-#: blocks/signal_generator_periodic.py:31
+#: blocks/signal_generator_periodic.py:28
 msgid "Rectangle"
 msgstr "Rechteck"
 
-#: blocks/signal_generator_periodic.py:31 blocks/window.py:25
+#: blocks/signal_generator_periodic.py:28 blocks/window.py:25
 msgid "Triangle"
 msgstr "Dreieck"
 
-#: blocks/signal_generator_periodic.py:32
+#: blocks/signal_generator_periodic.py:29
 msgid "Sine"
 msgstr "Sinus"
 
-#: blocks/signal_generator_stochastic.py:13
+#: blocks/signal_generator_stochastic.py:12
 msgid "Generates a stochastic signal with either normal or equal distribution."
 msgstr ""
 "Generiert ein stochastisches Signal mit einer Normal- oder "
 "Gleichverteilung."
 
-#: blocks/signal_generator_stochastic.py:15
+#: blocks/signal_generator_stochastic.py:14
 msgid "Stochastic"
 msgstr "Stochastisch"
 
-#: blocks/signal_generator_stochastic.py:29
+#: blocks/signal_generator_stochastic.py:28
 msgid "Distribution"
 msgstr "Verteilung"
 
-#: blocks/signal_generator_stochastic.py:30
+#: blocks/signal_generator_stochastic.py:29
 msgid "Normal distribution"
 msgstr "Normalverteilt"
 
-#: blocks/signal_generator_stochastic.py:31
+#: blocks/signal_generator_stochastic.py:30
 msgid "Equal distribution"
 msgstr "Gleichverteilt"
 
-#: blocks/signal_generator_stochastic.py:34
+#: blocks/signal_generator_stochastic.py:33
 msgid "Mean µ"
 msgstr "Mittelwert µ"
 
-#: blocks/signal_generator_stochastic.py:35
+#: blocks/signal_generator_stochastic.py:34
 msgid "Standard deviation σ"
 msgstr "Standardabweichung σ"
 
-#: blocks/signal_plot.py:14
+#: blocks/signal_plot.py:11
 msgid "SignalPlot"
 msgstr "SignalPlot"
 
-#: blocks/signal_plot.py:15
+#: blocks/signal_plot.py:12
 msgid "Plots all input signals in matplotlib."
 msgstr "Plottet alle Eingangssignale in matplotlib."
 
-#: blocks/signal_saver.py:13
+#: blocks/signal_saver.py:10
 msgid "SignalSaver"
 msgstr "SignalSpeicherung"
 
-#: blocks/signal_saver.py:14
+#: blocks/signal_saver.py:11
 msgid "Saves the input signal in .json file."
 msgstr "Speichert das Eingangssignal in einer.json Datei."
 
-#: blocks/signal_saver.py:24 gui/pyside2/main_window.py:70
+#: blocks/signal_saver.py:21 gui/pyside2/main_window.py:70
 #: gui/pyside2/main_window.py:206
 msgid "Save"
 msgstr "Speichern"
@@ -703,7 +723,7 @@ msgstr "MKA"
 msgid "Something went wrong.\n"
 msgstr "Etwas ist schiefgelaufen.\n"
 
-#: gui/pyside2/edit_window.py:38 gui/pyside2/edit_window.py:282
+#: gui/pyside2/edit_window.py:38 gui/pyside2/edit_window.py:280
 msgid "Edit {}"
 msgstr "{} bearbeiten"
 
@@ -736,15 +756,16 @@ msgid ""
 msgstr ""
 "Definiere die Metadaten für ausgehenden Signale. Standardmäßig ergeben "
 "sich die Metadaten der ausgehenden Signale aus den Metadaten der "
-"eingehenden Signale. Um die selbstdefinierten Metadaten anzuwenden, muss der "
-"Haken bei den entsprechenden Boxen 'Abzissen/Ordinaten Metadaten benutzen' gesetzt werden."
+"eingehenden Signale. Um die selbstdefinierten Metadaten anzuwenden, muss "
+"der Haken bei den entsprechenden Boxen 'Abzissen/Ordinaten Metadaten "
+"benutzen' gesetzt werden."
 
 #: gui/pyside2/edit_window.py:117
 msgid "Apply"
 msgstr "Übernehmen"
 
-#: gui/pyside2/edit_window.py:131 gui/pyside2/edit_window.py:240
-#: gui/pyside2/edit_window.py:245
+#: gui/pyside2/edit_window.py:131 gui/pyside2/edit_window.py:238
+#: gui/pyside2/edit_window.py:243
 msgid ""
 "Could not apply the changed parameters and meta data!Continue editing or "
 "revert changes?"
@@ -796,15 +817,15 @@ msgstr "Ordinatensymbol:"
 msgid "Ordinate unit:"
 msgstr "Ordinateneinheit:"
 
-#: gui/pyside2/edit_window.py:195
+#: gui/pyside2/edit_window.py:194
 msgid "Use abscissa meta data"
 msgstr "Abzissen Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:203
+#: gui/pyside2/edit_window.py:201
 msgid "Use ordinate meta data"
 msgstr "Ordinaten Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:242
+#: gui/pyside2/edit_window.py:240
 msgid "Error message:"
 msgstr "Fehlermeldung:"
 
