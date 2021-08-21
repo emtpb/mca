@@ -8,8 +8,6 @@ from mca.language import _
 class GaussPulse(Block):
     """Generates a gaussian pulse signal. Returns in addition the quadrature
     component and the envelope.
-
-    This block has three outputs.
     """
     name = _("GaussPulse")
     description = _("Generates a gaussian pulse signal. Returns real- and "

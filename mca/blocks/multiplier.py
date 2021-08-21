@@ -8,9 +8,6 @@ from mca.language import _
 class Multiplier(DynamicBlock):
     """Multiplies the input signals with each other.
 
-    This block has at least one and no upper limit for the inputs and
-    one output.
-
     Note:
         This Block cannot add any signals which are incompatible.
 

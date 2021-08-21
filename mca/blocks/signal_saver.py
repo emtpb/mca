@@ -6,10 +6,7 @@ from mca import exceptions
 
 
 class SignalSaver(Block):
-    """Save the input signal in .json file.
-
-    This block has one input.
-    """
+    """Save the input signal in .json file."""
     name = _("SignalSaver")
     description = _("Saves the input signal in .json file.")
     tags = (_("Saving"),)
@@ -20,7 +17,7 @@ class SignalSaver(Block):
     def setup_parameters(self):
         self.parameters.update({
             "file_name": parameters.PathParameter(_("Filename"),
-                                                 file_formats=[".json"]),
+                                                  file_formats=[".json"]),
             "save": parameters.ActionParameter(_("Save"),
                                                self.save_data)})
 

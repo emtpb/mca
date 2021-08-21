@@ -6,10 +6,7 @@ from mca.language import _
 
 
 class Chirp(Block):
-    """Generates a chirp signal.
-
-    This block has one output.
-    """
+    """Generates a chirp signal."""
     name = _("Chirp")
     description = _("Generates a chirp signal. Two frequencies have to be "
                     "specified where the first frequency corresponds to the "

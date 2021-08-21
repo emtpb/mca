@@ -7,10 +7,7 @@ from mca.language import _
 
 
 class SignalPlot(DynamicBlock):
-    """Plots all input signals.
-
-    This block has at least one input and no upper limit for the inputs.
-    """
+    """Plots all input signals."""
     name = _("SignalPlot")
     description = _("Plots all input signals in matplotlib.")
     tags = (_("Plotting"),)

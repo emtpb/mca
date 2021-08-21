@@ -5,9 +5,8 @@ from mca.language import _
 
 
 class SignalGeneratorStochastic(Block):
-    """Generates a stochastic signal with either normal or equal distribution.
-
-    This block has one output.
+    """Generates a stochastic signal with either normal or equal
+    distribution.
     """
     name = "SignalGeneratorStochastic"
     description = _("Generates a stochastic signal "

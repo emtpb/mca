@@ -6,10 +6,7 @@ from mca.language import _
 
 
 class AudioPlayer(Block):
-    """Plays the input signal as a sound.
-
-    This block has one input.
-    """
+    """Plays the input signal as a sound."""
     name = _("AudioPlayer")
     description = _("Plays the input signal as a sound.")
     tags = (_("Audio"),)

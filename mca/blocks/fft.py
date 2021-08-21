@@ -5,10 +5,7 @@ from mca.language import _
 
 
 class FFT(Block):
-    """Calculates the FFT of the input signal.
-
-    This block has one input and one output.
-    """
+    """Calculates the FFT of the input signal."""
     name = _("FFT")
     description = _("Computes the FFT of the input signal.")
     tags = (_("Processing"), _("Fourier"))

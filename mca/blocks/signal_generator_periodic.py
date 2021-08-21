@@ -6,10 +6,7 @@ from mca.language import _
 
 
 class SignalGeneratorPeriodic(Block):
-    """Generates a periodic signal.
-
-    This block has one output.
-    """
+    """Generates a periodic signal."""
     name = "SignalGeneratorPeriodic"
     description = _("Generates a Sinus, a Rectangle function or a Triangle "
                     "function.")

@@ -5,10 +5,7 @@ from mca.language import _
 
 
 class AudioRecorder(Block):
-    """Records the default audio input device.
-
-    This block has one output.
-    """
+    """Records the default audio input device."""
     name = _("AudioRecorder")
     description = _("Records the default audio input device.")
     tags = (_("Audio"),)

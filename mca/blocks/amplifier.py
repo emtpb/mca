@@ -5,10 +5,7 @@ from mca.language import _
 
 
 class Amplifier(Block):
-    """Amplifies the input signal by the desired factor
-
-    This block has one input and one output.
-    """
+    """Amplifies the input signal by the desired factor."""
     name = _("Amplifier")
     description = _("Amplifies the input signal.")
     tags = (_("Processing"),)

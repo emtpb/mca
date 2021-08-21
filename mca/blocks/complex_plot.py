@@ -7,6 +7,9 @@ from mca.language import _
 
 
 class ComplexPlot(DynamicBlock):
+    """Plots absolute and phase or real and imaginary part of the input
+    signal.
+    """
     name = _("ComplexPlot")
     description = _("Plots absolute and phase or real and imaginary part of "
                     "the input signal.")

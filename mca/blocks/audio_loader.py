@@ -6,10 +6,7 @@ from mca import exceptions
 
 
 class AudioLoader(Block):
-    """Reads a .wav to create an output signal.
-
-    This block has one output.
-    """
+    """Reads a .wav to create an output signal."""
     name = _("AudioLoader")
     description = _("Reads a .wav to create an output signal.")
     tags = (_("Loading"), _("Audio"))

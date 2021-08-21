@@ -6,10 +6,10 @@ from mca.language import _
 
 class RealImag(Block):
     """Separates the real and imaginary part of the input
-    signal in two output signals.
+    signal in two signals.
 
-    This block has one input and two outputs. First output has the real part
-    and second output has the imaginary part.
+    First output yields the real part and second output yields the imaginary
+    part.
     """
     name = _("RealImag")
     description = _("Divides the real and imaginary part of "

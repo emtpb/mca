@@ -6,15 +6,7 @@ from mca.language import _
 
 
 class FFTPlot(Block):
-    """Plots the FFT of the input signal.
-
-    This block has one input.
-
-    Parameters:
-        shift: No shift, Shift, Shift and only positive frequencies
-        plot_mode: Real, Imaginary, Absolute, Phase
-
-    """
+    """Plots the FFT of the input signal."""
     name = _("FFTPlot")
     description = _("Computes the FFT of the input signal and plots "
                     "either the real part, imaginary part, "

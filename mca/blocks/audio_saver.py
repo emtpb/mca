@@ -7,10 +7,7 @@ from mca import exceptions
 
 
 class AudioSaver(Block):
-    """Saves the input signal as a .wav file.
-
-    This block has one input.
-    """
+    """Saves the input signal as a .wav file."""
     name = _("AudioSaver")
     description = _("Saves the input signal as a sound file.")
     tags = (_("Saving"), _("Audio"))
