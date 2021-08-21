@@ -34,6 +34,7 @@ class SignalPlot(DynamicBlock):
         self.axes.cla()
         if self.legend:
             self.legend.remove()
+            self.legend = None
         for i in self.inputs:
             validator.check_type_signal(i.data)
 
@@ -55,8 +56,6 @@ class SignalPlot(DynamicBlock):
             self.axes.plot(abscissa, ordinate, label=label)
         if labels:
             self.legend = self.fig.legend()
-        else:
-            self.legend = None
         if signals:
             meta_data = signals[0].meta_data
             abscissa_string = data_types.meta_data_to_axis_label(
