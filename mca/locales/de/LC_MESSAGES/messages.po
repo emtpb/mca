@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-08-22 11:23-0700\n"
+"POT-Creation-Date: 2021-08-22 20:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -29,10 +29,10 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 
 #: blocks/absolute.py:9 blocks/acf.py:11 blocks/adder.py:18
 #: blocks/amplifier.py:11 blocks/ccf.py:11 blocks/cpsd.py:12
-#: blocks/differentiator.py:11 blocks/divider.py:9 blocks/fft.py:11
-#: blocks/fftplot.py:16 blocks/integrator.py:12 blocks/multiplier.py:18
-#: blocks/psd.py:11 blocks/real_imag.py:17 blocks/window.py:11
-#: blocks/zerofill.py:11
+#: blocks/differentiator.py:11 blocks/divider.py:9 blocks/envelope.py:13
+#: blocks/fft.py:11 blocks/fftplot.py:16 blocks/integrator.py:12
+#: blocks/multiplier.py:18 blocks/psd.py:11 blocks/real_imag.py:17
+#: blocks/window.py:11 blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -285,6 +285,14 @@ msgstr "Dividierer"
 msgid "Divides the two input signals."
 msgstr "Dividiert die beiden Eingangssignale."
 
+#: blocks/envelope.py:11 blocks/gausspulse.py:33
+msgid "Envelope"
+msgstr "Einhüllende"
+
+#: blocks/envelope.py:12
+msgid "Computes the envelope of the input signal."
+msgstr "Berechnet die Einhüllende des Eingangssignals."
+
 #: blocks/fft.py:9
 msgid "FFT"
 msgstr "FFT"
@@ -366,10 +374,6 @@ msgstr "Realteil"
 #: blocks/gausspulse.py:26 blocks/real_imag.py:23
 msgid "Imaginary part"
 msgstr "Imaginärteil"
-
-#: blocks/gausspulse.py:33
-msgid "Envelope"
-msgstr "Einhüllende"
 
 #: blocks/gausspulse.py:45
 msgid "Center Frequency"
