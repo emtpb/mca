@@ -30,12 +30,20 @@ from .gausspulse import GaussPulse
 from .differentiator import Differentiator
 from .integrator import Integrator
 
+# Create list of
 block_classes = [i[1] for i in inspect.getmembers(sys.modules[__name__],
                                                   inspect.isclass)]
+block_classes.sort(key=lambda x: x.name)
+
 tags = set()
 
+# Extract all tags
 for block_class in block_classes:
     tags.update(block_class.tags)
 
+tags = list(tags)
+tags.sort()
+
+# Map tags to a list of blocks possessing the according tag
 tag_dict = {tag: [block_class for block_class in block_classes
                   if tag in block_class.tags] for tag in tags}
