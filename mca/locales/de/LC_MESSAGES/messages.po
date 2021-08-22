@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-08-21 12:18-0700\n"
+"POT-Creation-Date: 2021-08-22 11:23-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -29,9 +29,10 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 
 #: blocks/absolute.py:9 blocks/acf.py:11 blocks/adder.py:18
 #: blocks/amplifier.py:11 blocks/ccf.py:11 blocks/cpsd.py:12
-#: blocks/differentiator.py:11 blocks/fft.py:11 blocks/fftplot.py:16
-#: blocks/integrator.py:12 blocks/multiplier.py:18 blocks/psd.py:11
-#: blocks/real_imag.py:17 blocks/window.py:11 blocks/zerofill.py:11
+#: blocks/differentiator.py:11 blocks/divider.py:9 blocks/fft.py:11
+#: blocks/fftplot.py:16 blocks/integrator.py:12 blocks/multiplier.py:18
+#: blocks/psd.py:11 blocks/real_imag.py:17 blocks/window.py:11
+#: blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -275,6 +276,14 @@ msgstr "Differentiator"
 #: blocks/differentiator.py:10
 msgid "Computes the gradient of the input signal."
 msgstr "Berechnet den Gradienten des Eingangssignals."
+
+#: blocks/divider.py:7
+msgid "Divider"
+msgstr "Dividierer"
+
+#: blocks/divider.py:8
+msgid "Divides the two input signals."
+msgstr "Dividiert die beiden Eingangssignale."
 
 #: blocks/fft.py:9
 msgid "FFT"
