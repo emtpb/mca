@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-08-22 20:46+0200\n"
+"POT-Creation-Date: 2021-08-22 22:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -28,11 +28,11 @@ msgid "Computes the absolute of the input signal."
 msgstr "Berechnet den Betrag des Eingangssignals."
 
 #: blocks/absolute.py:9 blocks/acf.py:11 blocks/adder.py:18
-#: blocks/amplifier.py:11 blocks/ccf.py:11 blocks/cpsd.py:12
-#: blocks/differentiator.py:11 blocks/divider.py:9 blocks/envelope.py:13
-#: blocks/fft.py:11 blocks/fftplot.py:16 blocks/integrator.py:12
-#: blocks/multiplier.py:18 blocks/psd.py:11 blocks/real_imag.py:17
-#: blocks/window.py:11 blocks/zerofill.py:11
+#: blocks/amplifier.py:11 blocks/analytical_signal.py:12 blocks/ccf.py:11
+#: blocks/cpsd.py:12 blocks/differentiator.py:11 blocks/divider.py:9
+#: blocks/envelope.py:13 blocks/fft.py:11 blocks/fftplot.py:16
+#: blocks/integrator.py:12 blocks/multiplier.py:18 blocks/psd.py:11
+#: blocks/real_imag.py:17 blocks/window.py:11 blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -79,6 +79,14 @@ msgstr "Dezibel"
 #: blocks/amplifier.py:33
 msgid "Amplification"
 msgstr "Verstärkung"
+
+#: blocks/analytical_signal.py:10
+msgid "AnalyticalSignal"
+msgstr "AnalytischesSignal"
+
+#: blocks/analytical_signal.py:11
+msgid "Computes the analytical signal of the input signal."
+msgstr "Berechnet das analytische Signal des Eingangssignals."
 
 #: blocks/audio_loader.py:10
 msgid "AudioLoader"
