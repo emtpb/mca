@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-08-22 22:44+0200\n"
+"POT-Creation-Date: 2021-08-23 00:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -31,8 +31,9 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 #: blocks/amplifier.py:11 blocks/analytical_signal.py:12 blocks/ccf.py:11
 #: blocks/cpsd.py:12 blocks/differentiator.py:11 blocks/divider.py:9
 #: blocks/envelope.py:13 blocks/fft.py:11 blocks/fftplot.py:16
-#: blocks/integrator.py:12 blocks/multiplier.py:18 blocks/psd.py:11
-#: blocks/real_imag.py:17 blocks/window.py:11 blocks/zerofill.py:11
+#: blocks/integrator.py:12 blocks/limiter.py:14 blocks/multiplier.py:18
+#: blocks/psd.py:11 blocks/real_imag.py:17 blocks/window.py:11
+#: blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -470,6 +471,34 @@ msgstr "Trapez"
 #: blocks/integrator.py:22
 msgid "Rectangular"
 msgstr "Rechteck"
+
+#: blocks/limiter.py:11
+msgid "Limiter"
+msgstr "Begrenzer"
+
+#: blocks/limiter.py:12
+msgid ""
+"Limits the values of the input signal. Values exceeding this limit get "
+"set to the threshold."
+msgstr ""
+"Begrenzt die Werte des Eingangssignals. Werte, die über das Limit "
+"hinausgehen, werden auf den Grenzwert gesetzt."
+
+#: blocks/limiter.py:23
+msgid "Mode"
+msgstr "Mode"
+
+#: blocks/limiter.py:24
+msgid "Unipolar"
+msgstr "Unipolar"
+
+#: blocks/limiter.py:24
+msgid "Bipolar"
+msgstr "Bipolar"
+
+#: blocks/limiter.py:25
+msgid "Threshold"
+msgstr "Grenzwert"
 
 #: blocks/multiplier.py:16
 msgid "Multiplier"
