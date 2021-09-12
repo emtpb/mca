@@ -67,8 +67,8 @@ class MetaData:
         symbol_o (str): Symbol of the ordinate.
 
     """
-    def __init__(self, name, unit_a, unit_o, quantity_a=None, quantity_o=None,
-                 symbol_a=None, symbol_o=None, fixed_unit_a=False,
+    def __init__(self, name, unit_a, unit_o, quantity_a="", quantity_o="",
+                 symbol_a="", symbol_o="", fixed_unit_a=False,
                  fixed_unit_o=False):
         """Initialize MetaData.
 
