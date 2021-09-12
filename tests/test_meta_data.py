@@ -5,7 +5,7 @@ from mca.framework import data_types
 from united import Unit
 
 reference_signal = data_types.Signal(
-        meta_data=data_types.MetaData("test", Unit("s"), Unit("V")),
+        meta_data=data_types.MetaData("test", Unit(["s"]), Unit(["V"])),
         abscissa_start=0,
         values=10,
         increment=1,
@@ -13,19 +13,19 @@ reference_signal = data_types.Signal(
 test_cases_signal_unequal = [
     (reference_signal, None),
     (reference_signal, data_types.Signal(
-        meta_data=data_types.MetaData("test", Unit("s"), Unit("V")),
+        meta_data=data_types.MetaData("test", Unit(["s"]), Unit(["V"])),
         abscissa_start=0,
         values=9,
         increment=1,
         ordinate=np.arange(10))),
     (reference_signal, data_types.Signal(
-        meta_data=data_types.MetaData("test", Unit("s"), Unit("V")),
+        meta_data=data_types.MetaData("test", Unit(["s"]), Unit(["V"])),
         abscissa_start=0,
         values=10,
         increment=0.5,
         ordinate=np.arange(10))),
     (reference_signal, data_types.Signal(
-        meta_data=data_types.MetaData("test", Unit("s"), Unit("V")),
+        meta_data=data_types.MetaData("test", Unit(["s"]), Unit(["V"])),
         abscissa_start=0,
         values=10,
         increment=1,
@@ -40,7 +40,7 @@ def test_signal_unequal(first_signal, second_signal):
 
 def test_signal_equal():
     second_signal = data_types.Signal(
-        meta_data=data_types.MetaData("test_1", Unit("m"), Unit("I")),
+        meta_data=data_types.MetaData("test_1", Unit(["m"]), Unit(["I"])),
         abscissa_start=0,
         values=10,
         increment=1,
@@ -71,34 +71,34 @@ test_cases_unit_setters = [("m/s", Unit(["m"], ["s"])),
 
 @pytest.mark.parametrize("unit_a, result", test_cases_unit_setters)
 def test_unit_a_setters(unit_a, result):
-    meta_data = data_types.MetaData("test", Unit("s"), Unit("I"))
+    meta_data = data_types.MetaData("test", Unit(["s"]), Unit(["I"]))
     meta_data.unit_a = unit_a
     assert meta_data.unit_a == result
 
 
 @pytest.mark.parametrize("unit_o, result", test_cases_unit_setters)
 def test_unit_o_setters(unit_o, result):
-    meta_data = data_types.MetaData("test", Unit("s"), Unit("I"))
+    meta_data = data_types.MetaData("test", Unit(["s"]), Unit(["I"]))
     meta_data.unit_o = unit_o
     assert meta_data.unit_o == result
 
 
-reference_meta_data = data_types.MetaData("Test", Unit("s"), Unit("V"),
+reference_meta_data = data_types.MetaData("Test", Unit(["s"]), Unit(["V"]),
                                           "Time", "Voltage", "t", "U")
 
 test_cases_meta_data_unequal = [
     (reference_meta_data, None),
-    (reference_meta_data, data_types.MetaData("Test1", Unit("m"), Unit("V"),
+    (reference_meta_data, data_types.MetaData("Test1", Unit(["m"]), Unit(["V"]),
                                               "Time", "Voltage", "t", "U")),
-    (reference_meta_data, data_types.MetaData("Test2", Unit("s"), Unit("A"),
+    (reference_meta_data, data_types.MetaData("Test2", Unit(["s"]), Unit(["A"]),
                                               "Time", "Voltage", "t", "U")),
-    (reference_meta_data, data_types.MetaData("Test3", Unit("s"), Unit("V"),
+    (reference_meta_data, data_types.MetaData("Test3", Unit(["s"]), Unit(["V"]),
                                               "Length", "Voltage", "t", "U")),
-    (reference_meta_data, data_types.MetaData("Test4", Unit("s"), Unit("V"),
+    (reference_meta_data, data_types.MetaData("Test4", Unit(["s"]), Unit(["V"]),
                                               "Time", "Current", "t", "U")),
-    (reference_meta_data, data_types.MetaData("Test5", Unit("s"), Unit("V"),
+    (reference_meta_data, data_types.MetaData("Test5", Unit(["s"]), Unit(["V"]),
                                               "Time", "Voltage", "l", "U")),
-    (reference_meta_data, data_types.MetaData("Test6", Unit("s"), Unit("V"),
+    (reference_meta_data, data_types.MetaData("Test6", Unit(["s"]), Unit(["V"]),
                                               "Time", "Voltage", "t", "I")),
 ]
 
