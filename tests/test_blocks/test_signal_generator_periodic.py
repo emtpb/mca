@@ -33,7 +33,7 @@ def test_function():
     assert a.outputs[0].data == triangle_signal
 
 
-@pytest.mark.parametrize("test_input", [-5, 2])
+@pytest.mark.parametrize("test_input", [0.1, 2])
 def test_frequency(test_input):
     a = signal_generator_periodic.SignalGeneratorPeriodic(freq=test_input)
     a.trigger_update()
@@ -47,7 +47,7 @@ def test_frequency(test_input):
     assert a.outputs[0].data == test_signal
 
 
-@pytest.mark.parametrize("test_input", [-5, 2])
+@pytest.mark.parametrize("test_input", [0.1, 2])
 def test_amp(test_input):
     a = signal_generator_periodic.SignalGeneratorPeriodic(amp=test_input)
     a.trigger_update()
