@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-08-23 00:21+0200\n"
+"POT-Creation-Date: 2021-09-14 13:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -29,11 +29,11 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 
 #: blocks/absolute.py:9 blocks/acf.py:11 blocks/adder.py:18
 #: blocks/amplifier.py:11 blocks/analytical_signal.py:12 blocks/ccf.py:11
-#: blocks/cpsd.py:12 blocks/differentiator.py:11 blocks/divider.py:9
-#: blocks/envelope.py:13 blocks/fft.py:11 blocks/fftplot.py:16
-#: blocks/integrator.py:12 blocks/limiter.py:14 blocks/multiplier.py:18
-#: blocks/psd.py:11 blocks/real_imag.py:17 blocks/window.py:11
-#: blocks/zerofill.py:11
+#: blocks/cpsd.py:12 blocks/cutter.py:17 blocks/differentiator.py:11
+#: blocks/divider.py:9 blocks/envelope.py:13 blocks/fft.py:11
+#: blocks/fftplot.py:16 blocks/integrator.py:12 blocks/limiter.py:14
+#: blocks/multiplier.py:18 blocks/psd.py:11 blocks/real_imag.py:17
+#: blocks/window.py:11 blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -277,6 +277,34 @@ msgstr "Berechnet das Kreuzleistungsdichtespektrum des Eingangssignals."
 #: blocks/signal_generator_periodic.py:32
 msgid "Frequency"
 msgstr "Frequenz"
+
+#: blocks/cutter.py:12
+msgid "Cutter"
+msgstr "Cutter"
+
+#: blocks/cutter.py:13
+msgid ""
+"Cuts out a part of the input signal and puts the cut out signal to the "
+"output. Start and end values have to be in range of the abscissa values. "
+"Values within the abscissa range which do not match any sampling get "
+"rounded down."
+msgstr ""
+"Schneidet einen Teil des Eingangssignals "
+"heraus und gibt den ausgeschnittenen "
+"Teil an den Ausgang. Start- und "
+"Endwerte müssen im Bereich der "
+"Abszissenwerte liegen. Werte, die im "
+"Bereich der Abszisse liegen, aber nicht"
+" direkt einem Abtastwert entsprechen, "
+"werden abgerundet."
+
+#: blocks/cutter.py:25
+msgid "Start value"
+msgstr "Startwert"
+
+#: blocks/cutter.py:26
+msgid "End value"
+msgstr "Endwert"
 
 #: blocks/differentiator.py:9
 msgid "Differentiator"
@@ -1013,4 +1041,23 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 #~ "Generiert ein Gausspulssignal. Gibt "
 #~ "desweiteren den Imaginärteil und die "
 #~ "Einhüllende zurück."
+
+#~ msgid ""
+#~ "Cuts out a part of the input "
+#~ "signal and puts the cut out signal"
+#~ " to the output. Start and end "
+#~ "values have to be in range of "
+#~ "the abscissa values. Values within the"
+#~ " abscissa range which do not match"
+#~ " any specific value (due to sampling)"
+#~ " get rounded down."
+#~ msgstr ""
+#~ "Schneidet einen Teil des Eingangssignals "
+#~ "heraus und gibt den ausgeschnittenen "
+#~ "Teil an den Ausgang. Start- und "
+#~ "Endwerte müssen im Bereich der "
+#~ "Abszissenwerte liegen. Werte, die im "
+#~ "Bereich der Abszisse liegen, aber nicht"
+#~ " direkt einem Abtastwert entsprechen, "
+#~ "werden abgerundet."
 

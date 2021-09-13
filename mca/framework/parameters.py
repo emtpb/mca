@@ -310,7 +310,7 @@ class ParameterConversion:
                                main_parameters gets updated.
         conversion_func: Function executing the conversion.
     """
-    def __init__(self, main_parameters, sub_parameters, conversion_func):
+    def __init__(self, main_parameters, sub_parameters, conversion_func=None):
         """Initializes ParameterConversion.
 
         Args:
@@ -369,4 +369,5 @@ class ParameterBlock:
         if self.param_conversions:
             conversion = self.param_conversions[self.conversion_index]
             if source in conversion.main_parameters:
-                conversion.conversion_func()
+                if conversion.conversion_func:
+                    conversion.conversion_func()
