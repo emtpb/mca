@@ -4,6 +4,7 @@ import inspect
 from .fft import FFT
 from .signal_plot import SignalPlot
 from .complex_to_real import ComplexToReal
+from .real_to_complex import RealToComplex
 from .fftplot import FFTPlot
 from .signal_generator_periodic import SignalGeneratorPeriodic
 from .adder import Adder

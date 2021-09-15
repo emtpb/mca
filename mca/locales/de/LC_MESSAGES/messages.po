@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-09-15 16:04+0200\n"
+"POT-Creation-Date: 2021-09-15 17:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -33,8 +33,8 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 #: blocks/differentiator.py:11 blocks/divider.py:9 blocks/envelope.py:13
 #: blocks/fft.py:11 blocks/fftplot.py:16 blocks/iir_filter.py:19
 #: blocks/integrator.py:12 blocks/limiter.py:14 blocks/multiplier.py:18
-#: blocks/psd.py:11 blocks/quantization.py:13 blocks/window.py:11
-#: blocks/zerofill.py:11
+#: blocks/psd.py:11 blocks/quantization.py:13 blocks/real_to_complex.py:18
+#: blocks/window.py:11 blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -268,22 +268,23 @@ msgstr "Phase in rad"
 
 #: blocks/complex_to_real.py:14
 msgid "ComplexToReal"
-msgstr "ComplexToReal"
+msgstr "KomplexZuReal"
 
 #: blocks/complex_to_real.py:15
 msgid ""
 "Separates the real and imaginary part of the input signal into two output"
 " signals."
 msgstr ""
-"Teilt Real- und Imaginärteil des "
-"Eingangssignals in zwei Ausgangssignale auf."
-
+"Teilt Real- und Imaginärteil des Eingangssignals in zwei Ausgangssignale "
+"auf."
 
 #: blocks/complex_to_real.py:21 blocks/gausspulse.py:19
+#: blocks/real_to_complex.py:22
 msgid "Real part"
 msgstr "Realteil"
 
 #: blocks/complex_to_real.py:23 blocks/gausspulse.py:26
+#: blocks/real_to_complex.py:23
 msgid "Imaginary part"
 msgstr "Imaginärteil"
 
@@ -662,6 +663,21 @@ msgstr "Vorzeichenbehaftet"
 #: blocks/quantization.py:25
 msgid "Raw bits"
 msgstr "Bitwerte zurückgeben"
+
+#: blocks/real_to_complex.py:13
+msgid "RealToComplex"
+msgstr "RealZuKomplex"
+
+#: blocks/real_to_complex.py:14
+msgid ""
+"Combines two real signals into a complex signal. The signal of the first "
+"input turns into the real part of the output signal and the signal of the"
+" second input turns into the imaginary part of output signal."
+msgstr ""
+"Kombiniert zwei reellwertige Signal zu einem komplexen Signal. Das Signal"
+" am ersten Eingang entspricht dem Realteil des komplexen Ausgangssignals "
+"und das Signal am zweiten Eingang entspricht dem Imaginärteil des "
+"Ausgangssignals."
 
 #: blocks/signal_generator_arbitrary.py:11
 msgid "SignalGeneratorArbitrary"
