@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-09-14 13:53+0200\n"
+"POT-Creation-Date: 2021-09-15 12:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -32,8 +32,8 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 #: blocks/cpsd.py:12 blocks/cutter.py:17 blocks/differentiator.py:11
 #: blocks/divider.py:9 blocks/envelope.py:13 blocks/fft.py:11
 #: blocks/fftplot.py:16 blocks/integrator.py:12 blocks/limiter.py:14
-#: blocks/multiplier.py:18 blocks/psd.py:11 blocks/real_imag.py:17
-#: blocks/window.py:11 blocks/zerofill.py:11
+#: blocks/multiplier.py:18 blocks/psd.py:11 blocks/quantization.py:13
+#: blocks/real_imag.py:17 blocks/window.py:11 blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -289,14 +289,11 @@ msgid ""
 "Values within the abscissa range which do not match any sampling get "
 "rounded down."
 msgstr ""
-"Schneidet einen Teil des Eingangssignals "
-"heraus und gibt den ausgeschnittenen "
-"Teil an den Ausgang. Start- und "
-"Endwerte müssen im Bereich der "
-"Abszissenwerte liegen. Werte, die im "
-"Bereich der Abszisse liegen, aber nicht"
-" direkt einem Abtastwert entsprechen, "
-"werden abgerundet."
+"Schneidet einen Teil des Eingangssignals heraus und gibt den "
+"ausgeschnittenen Teil an den Ausgang. Start- und Endwerte müssen im "
+"Bereich der Abszissenwerte liegen. Werte, die im Bereich der Abszisse "
+"liegen, aber nicht direkt einem Abtastwert entsprechen, werden "
+"abgerundet."
 
 #: blocks/cutter.py:25
 msgid "Start value"
@@ -543,6 +540,34 @@ msgstr "Leistungsdichtespektrum"
 #: blocks/psd.py:10
 msgid "Computes the power density spectrum of the input signal."
 msgstr "Berechnet das Leistungsdichtespektrum des Eingangssignals."
+
+#: blocks/quantization.py:10
+msgid "Quantization"
+msgstr "Quantisierer"
+
+#: blocks/quantization.py:11
+msgid ""
+"Quantizes the input signal by a given amount of bits. Returns optionally "
+"the raw bit values."
+msgstr ""
+"Quantisiert das Eingangssignal mit einer gegebenen Anzahl von Bits. Gibt "
+"optional auch die Bitwerte zurück."
+
+#: blocks/quantization.py:21
+msgid "Bits"
+msgstr "Bits"
+
+#: blocks/quantization.py:22
+msgid "Max value"
+msgstr "Max. Wert"
+
+#: blocks/quantization.py:24
+msgid "Signed"
+msgstr "Vorzeichenbehaftet"
+
+#: blocks/quantization.py:25
+msgid "Raw bits"
+msgstr "Bitwerte zurückgeben"
 
 #: blocks/real_imag.py:14
 msgid "RealImag"
