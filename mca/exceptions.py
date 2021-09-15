@@ -120,16 +120,13 @@ class DataTypeError(MCAError):
     not match with the requirements of the Block.
     """
 
-    def __init__(self, data, data_type):
+    def __init__(self, cause):
         """Initializes DataTypeError.
 
         Args:
-            data: Given data object of the input.
-            data_type: Expected data type for the input data.
+            cause (str): Reason for the mismatch of data types.
         """
-        super().__init__(
-            "Input expected {} but was given {}".format(data_type, data)
-        )
+        super().__init__(cause)
 
 
 class UnitError(MCAError):

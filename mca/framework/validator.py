@@ -63,7 +63,8 @@ def check_type_signal(data):
     """
     if data:
         if not isinstance(data, data_types.Signal):
-            raise exceptions.DataTypeError(data, data_types.Signal)
+            raise exceptions.DataTypeError("Block expects the data "
+                                           "type signal and not {}".format(type(data)))
 
 
 def check_same_units(units):
