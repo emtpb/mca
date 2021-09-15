@@ -4,15 +4,15 @@ from mca.framework import validator, data_types, Block
 from mca.language import _
 
 
-class RealImag(Block):
+class ComplexToReal(Block):
     """Separates the real and imaginary part of the input
     signal in two signals.
 
     First output yields the real part and second output yields the imaginary
     part.
     """
-    name = _("RealImag")
-    description = _("Divides the real and imaginary part of "
+    name = _("ComplexToReal")
+    description = _("Separates the real and imaginary part of "
                     "the input signal into two output signals.")
     tags = (_("Processing"),)
 

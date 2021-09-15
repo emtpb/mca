@@ -3,7 +3,7 @@ import inspect
 
 from .fft import FFT
 from .signal_plot import SignalPlot
-from .real_imag import RealImag
+from .complex_to_real import ComplexToReal
 from .fftplot import FFTPlot
 from .signal_generator_periodic import SignalGeneratorPeriodic
 from .adder import Adder

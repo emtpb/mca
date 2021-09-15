@@ -1,6 +1,7 @@
 import pytest
 from mca.framework import data_types
-from mca.blocks import real_imag
+from mca.blocks import complex_to_real
+
 import numpy as np
 
 test_cases = [(1+3j, (1, 3)),
@@ -8,9 +9,9 @@ test_cases = [(1+3j, (1, 3)),
 
 
 @pytest.mark.parametrize("test_input, expected_ordinate", test_cases)
-def test_real_imag(test_input, expected_ordinate, test_output_block,
-                   default_meta_data):
-    a = real_imag.RealImag()
+def test_complex_to_real(test_input, expected_ordinate, test_output_block,
+                         default_meta_data):
+    a = complex_to_real.ComplexToReal()
     b = test_output_block(
         data_types.Signal(default_meta_data, None, None, None, test_input))
     a.inputs[0].connect(b.outputs[0])

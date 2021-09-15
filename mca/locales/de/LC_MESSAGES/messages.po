@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-09-15 15:17+0200\n"
+"POT-Creation-Date: 2021-09-15 16:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -29,11 +29,11 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 
 #: blocks/absolute.py:9 blocks/acf.py:11 blocks/adder.py:18
 #: blocks/amplifier.py:11 blocks/analytical_signal.py:12 blocks/ccf.py:11
-#: blocks/cpsd.py:12 blocks/cutter.py:17 blocks/differentiator.py:11
-#: blocks/divider.py:9 blocks/envelope.py:13 blocks/fft.py:11
-#: blocks/fftplot.py:16 blocks/iir_filter.py:18 blocks/integrator.py:12
-#: blocks/limiter.py:14 blocks/multiplier.py:18 blocks/psd.py:11
-#: blocks/quantization.py:13 blocks/real_imag.py:17 blocks/window.py:11
+#: blocks/complex_to_real.py:17 blocks/cpsd.py:12 blocks/cutter.py:17
+#: blocks/differentiator.py:11 blocks/divider.py:9 blocks/envelope.py:13
+#: blocks/fft.py:11 blocks/fftplot.py:16 blocks/iir_filter.py:19
+#: blocks/integrator.py:12 blocks/limiter.py:14 blocks/multiplier.py:18
+#: blocks/psd.py:11 blocks/quantization.py:13 blocks/window.py:11
 #: blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
@@ -266,6 +266,27 @@ msgstr "Automatisch neu plotten"
 msgid "Phase in rad"
 msgstr "Phase in rad"
 
+#: blocks/complex_to_real.py:14
+msgid "ComplexToReal"
+msgstr "ComplexToReal"
+
+#: blocks/complex_to_real.py:15
+msgid ""
+"Separates the real and imaginary part of the input signal into two output"
+" signals."
+msgstr ""
+"Teilt Real- und Imaginärteil des "
+"Eingangssignals in zwei Ausgangssignale auf."
+
+
+#: blocks/complex_to_real.py:21 blocks/gausspulse.py:19
+msgid "Real part"
+msgstr "Realteil"
+
+#: blocks/complex_to_real.py:23 blocks/gausspulse.py:26
+msgid "Imaginary part"
+msgstr "Imaginärteil"
+
 #: blocks/cpsd.py:9
 msgid "CrossPowerDensitySpectrum"
 msgstr "Kreuzleistungsdichtespektrum"
@@ -402,14 +423,6 @@ msgstr ""
 "Generiert ein Gausspulssignal. Gibt Real-, Imaginärteil und die "
 "Einhüllende zurück."
 
-#: blocks/gausspulse.py:19 blocks/real_imag.py:21
-msgid "Real part"
-msgstr "Realteil"
-
-#: blocks/gausspulse.py:26 blocks/real_imag.py:23
-msgid "Imaginary part"
-msgstr "Imaginärteil"
-
 #: blocks/gausspulse.py:45
 msgid "Center Frequency"
 msgstr "Mittenfrequenz"
@@ -486,73 +499,75 @@ msgstr "IIRFilter"
 msgid ""
 "Filters with common IIR filters the input signal. The upper cut off "
 "frequency is ignored when 'lowpass' or 'highpass' are selected as the "
-"characteristic. For specific 'Filter types' certain parameters are ignored as"
-" well."
-msgstr "Filtert mithilfe von gewöhnlichen IIR Filtern das Eingangssignal. Die "
-"obere Grenzfrequenz wird ignoriert, wenn 'Tiefpass' oder 'Hochpass' als Charakteristik "
-"ausgewählt ist. Für spezifische 'Filtertypen' werden bestimmte Parameter auch ignoriert."
+"characteristic. For specific 'Filter types' certain parameters are "
+"ignored as well."
+msgstr ""
+"Filtert mithilfe von gewöhnlichen IIR Filtern das Eingangssignal. Die "
+"obere Grenzfrequenz wird ignoriert, wenn 'Tiefpass' oder 'Hochpass' als "
+"Charakteristik ausgewählt ist. Für spezifische 'Filtertypen' werden "
+"bestimmte Parameter auch ignoriert."
 
-#: blocks/iir_filter.py:27
+#: blocks/iir_filter.py:28
 msgid "Filter type"
 msgstr "Filtertyp"
 
-#: blocks/iir_filter.py:28
+#: blocks/iir_filter.py:29
 msgid "Butter"
 msgstr "Butter"
 
-#: blocks/iir_filter.py:28
+#: blocks/iir_filter.py:29
 msgid "Cheby1"
 msgstr "Cheby1"
 
-#: blocks/iir_filter.py:29
+#: blocks/iir_filter.py:30
 msgid "Cheby2"
 msgstr "Cheby2"
 
-#: blocks/iir_filter.py:29
+#: blocks/iir_filter.py:30
 msgid "Elliptic"
 msgstr "Elliptisch"
 
-#: blocks/iir_filter.py:32
+#: blocks/iir_filter.py:33
 msgid "Order"
 msgstr "Ordnung"
 
-#: blocks/iir_filter.py:34
+#: blocks/iir_filter.py:35
 msgid "Characteristic"
 msgstr "Charakteristik"
 
-#: blocks/iir_filter.py:34
+#: blocks/iir_filter.py:35
 msgid "Lowpass"
 msgstr "Tiefpass"
 
-#: blocks/iir_filter.py:35
+#: blocks/iir_filter.py:36
 msgid "Highpass"
 msgstr "Hochpass"
 
-#: blocks/iir_filter.py:36
+#: blocks/iir_filter.py:37
 msgid "Bandpass"
 msgstr "Bandpass"
 
-#: blocks/iir_filter.py:37
+#: blocks/iir_filter.py:38
 msgid "Bandstop"
 msgstr "Bandstop"
 
-#: blocks/iir_filter.py:38
+#: blocks/iir_filter.py:39
 msgid "Cut off frequency"
 msgstr "Grenzfrequenz"
 
-#: blocks/iir_filter.py:41
+#: blocks/iir_filter.py:42
 msgid "Upper cut off frequency"
 msgstr "Obere Grenzfrequenz"
 
-#: blocks/iir_filter.py:42
+#: blocks/iir_filter.py:43
 msgid "Ripple"
 msgstr "Welligkeit"
 
-#: blocks/iir_filter.py:44
+#: blocks/iir_filter.py:45
 msgid "Attenuation"
 msgstr "Dämpfung"
 
-#: blocks/iir_filter.py:48
+#: blocks/iir_filter.py:49
 msgid "Phase correction (filtfilt)"
 msgstr "Phasenkorrektur (filtfilt)"
 
@@ -647,18 +662,6 @@ msgstr "Vorzeichenbehaftet"
 #: blocks/quantization.py:25
 msgid "Raw bits"
 msgstr "Bitwerte zurückgeben"
-
-#: blocks/real_imag.py:14
-msgid "RealImag"
-msgstr "RealImag"
-
-#: blocks/real_imag.py:15
-msgid ""
-"Divides the real and imaginary part of the input signal into two output "
-"signals."
-msgstr ""
-"Teilt Real- und Imaginärteil the Eingangssignals in zwei Ausgangssignale "
-"auf."
 
 #: blocks/signal_generator_arbitrary.py:11
 msgid "SignalGeneratorArbitrary"
@@ -1164,4 +1167,15 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 #~ "Bereich der Abszisse liegen, aber nicht"
 #~ " direkt einem Abtastwert entsprechen, "
 #~ "werden abgerundet."
+
+#~ msgid "RealImag"
+#~ msgstr "RealImag"
+
+#~ msgid ""
+#~ "Divides the real and imaginary part "
+#~ "of the input signal into two "
+#~ "output signals."
+#~ msgstr ""
+#~ "Teilt Real- und Imaginärteil the "
+#~ "Eingangssignals in zwei Ausgangssignale auf."
 
