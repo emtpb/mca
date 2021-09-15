@@ -35,7 +35,7 @@ from .analytical_signal import AnalyticalSignal
 from .limiter import Limiter
 from .cutter import Cutter
 from .quantization import Quantization
-
+from .iir_filter import IRRFilter
 # Create list of
 block_classes = [i[1] for i in inspect.getmembers(sys.modules[__name__],
                                                   inspect.isclass)]

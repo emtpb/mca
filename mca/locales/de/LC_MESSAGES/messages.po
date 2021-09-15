@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-09-15 12:47+0200\n"
+"POT-Creation-Date: 2021-09-15 15:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -31,9 +31,10 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 #: blocks/amplifier.py:11 blocks/analytical_signal.py:12 blocks/ccf.py:11
 #: blocks/cpsd.py:12 blocks/cutter.py:17 blocks/differentiator.py:11
 #: blocks/divider.py:9 blocks/envelope.py:13 blocks/fft.py:11
-#: blocks/fftplot.py:16 blocks/integrator.py:12 blocks/limiter.py:14
-#: blocks/multiplier.py:18 blocks/psd.py:11 blocks/quantization.py:13
-#: blocks/real_imag.py:17 blocks/window.py:11 blocks/zerofill.py:11
+#: blocks/fftplot.py:16 blocks/iir_filter.py:18 blocks/integrator.py:12
+#: blocks/limiter.py:14 blocks/multiplier.py:18 blocks/psd.py:11
+#: blocks/quantization.py:13 blocks/real_imag.py:17 blocks/window.py:11
+#: blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -477,9 +478,87 @@ msgstr "Aufnahmelänge"
 msgid "Measure"
 msgstr "Messen"
 
+#: blocks/iir_filter.py:13
+msgid "IIRFilter"
+msgstr "IIRFilter"
+
+#: blocks/iir_filter.py:14
+msgid ""
+"Filters with common IIR filters the input signal. The upper cut off "
+"frequency is ignored when 'lowpass' or 'highpass' are selected as the "
+"characteristic. For specific 'Filter types' certain parameters are ignored as"
+" well."
+msgstr "Filtert mithilfe von gewöhnlichen IIR Filtern das Eingangssignal. Die "
+"obere Grenzfrequenz wird ignoriert, wenn 'Tiefpass' oder 'Hochpass' als Charakteristik "
+"ausgewählt ist. Für spezifische 'Filtertypen' werden bestimmte Parameter auch ignoriert."
+
+#: blocks/iir_filter.py:27
+msgid "Filter type"
+msgstr "Filtertyp"
+
+#: blocks/iir_filter.py:28
+msgid "Butter"
+msgstr "Butter"
+
+#: blocks/iir_filter.py:28
+msgid "Cheby1"
+msgstr "Cheby1"
+
+#: blocks/iir_filter.py:29
+msgid "Cheby2"
+msgstr "Cheby2"
+
+#: blocks/iir_filter.py:29
+msgid "Elliptic"
+msgstr "Elliptisch"
+
+#: blocks/iir_filter.py:32
+msgid "Order"
+msgstr "Ordnung"
+
+#: blocks/iir_filter.py:34
+msgid "Characteristic"
+msgstr "Charakteristik"
+
+#: blocks/iir_filter.py:34
+msgid "Lowpass"
+msgstr "Tiefpass"
+
+#: blocks/iir_filter.py:35
+msgid "Highpass"
+msgstr "Hochpass"
+
+#: blocks/iir_filter.py:36
+msgid "Bandpass"
+msgstr "Bandpass"
+
+#: blocks/iir_filter.py:37
+msgid "Bandstop"
+msgstr "Bandstop"
+
+#: blocks/iir_filter.py:38
+msgid "Cut off frequency"
+msgstr "Grenzfrequenz"
+
+#: blocks/iir_filter.py:41
+msgid "Upper cut off frequency"
+msgstr "Obere Grenzfrequenz"
+
+#: blocks/iir_filter.py:42
+msgid "Ripple"
+msgstr "Welligkeit"
+
+#: blocks/iir_filter.py:44
+msgid "Attenuation"
+msgstr "Dämpfung"
+
+#: blocks/iir_filter.py:48
+msgid "Phase correction (filtfilt)"
+msgstr "Phasenkorrektur (filtfilt)"
+
 #: blocks/integrator.py:10
 msgid "Integrator"
-msgstr ""
+msgstr "Integrator"
 
 #: blocks/integrator.py:11
 msgid "Computes the numerical integration of the input signal."
