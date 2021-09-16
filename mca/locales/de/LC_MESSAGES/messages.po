@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-09-15 17:13+0200\n"
+"POT-Creation-Date: 2021-09-16 14:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -34,7 +34,7 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 #: blocks/fft.py:11 blocks/fftplot.py:16 blocks/iir_filter.py:19
 #: blocks/integrator.py:12 blocks/limiter.py:14 blocks/multiplier.py:18
 #: blocks/psd.py:11 blocks/quantization.py:13 blocks/real_to_complex.py:18
-#: blocks/window.py:11 blocks/zerofill.py:11
+#: blocks/resample.py:11 blocks/window.py:11 blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -108,7 +108,7 @@ msgid "Audio"
 msgstr "Audio"
 
 #: blocks/audio_loader.py:16 blocks/audio_player.py:16 blocks/audio_saver.py:17
-#: framework/helpers.py:11
+#: blocks/resample.py:20 framework/helpers.py:11
 msgid "Sampling frequency"
 msgstr "Abtastfrequenz"
 
@@ -678,6 +678,14 @@ msgstr ""
 " am ersten Eingang entspricht dem Realteil des komplexen Ausgangssignals "
 "und das Signal am zweiten Eingang entspricht dem Imaginärteil des "
 "Ausgangssignals."
+
+#: blocks/resample.py:9
+msgid "Resample"
+msgstr "Resample"
+
+#: blocks/resample.py:10
+msgid "Resamples the input signal."
+msgstr "Tastet das Eingangssignal neu ab."
 
 #: blocks/signal_generator_arbitrary.py:11
 msgid "SignalGeneratorArbitrary"
