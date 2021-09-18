@@ -5,11 +5,11 @@ import numpy as np
 
 
 def create_abscissa_parameter_block():
-        values = parameters.IntParameter(_("Values"), min_=1, value=1000)
+        values = parameters.IntParameter(_("Values"), min_=1, value=1001)
         increment = parameters.FloatParameter(_("Increment"), min_=0,
                                               value=0.01)
         sampling = parameters.FloatParameter(_("Sampling frequency"), value=100, min_=0, unit="Hz")
-        measure_time = parameters.FloatParameter(_("Measure time"), value=10, min_=0)
+        measure_time = parameters.FloatParameter(_("Measure time"), value=10.0, min_=0)
         start = parameters.FloatParameter("Start", value=0)
 
         def dt_to_fabt():
@@ -19,23 +19,23 @@ def create_abscissa_parameter_block():
             increment.value = 1 / sampling.value
 
         def dt_values_to_tmess():
-            measure_time.value = increment.value * values.value
+            measure_time.value = increment.value * (values.value-1)
             dt_to_fabt()
 
         def fabt_values_to_tmess():
-            measure_time.value = values.value / sampling.value
+            measure_time.value = (values.value-1) / sampling.value
             fabt_to_dt()
 
         def tmess_values_to_dt():
-            increment.value = measure_time.value / values.value
+            increment.value = measure_time.value / (values.value-1)
             dt_to_fabt()
 
         def tmess_dt_to_values():
-            values.value = measure_time.value / increment.value
+            values.value = (measure_time.value + increment.value) / increment.value
             dt_to_fabt()
 
         def tmess_fabt_to_values():
-            values.value = measure_time.value * sampling.value
+            values.value = (measure_time.value * sampling.value) + 1
             fabt_to_dt()
 
         conversion = parameters.ParameterConversion(
