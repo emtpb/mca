@@ -12,10 +12,9 @@ class SignalPlot(DynamicBlock):
     description = _("Plots all input signals in matplotlib.")
     tags = (_("Plotting"),)
 
-    def __init__(self, plot_widget=None, **kwargs):
+    def __init__(self, **kwargs):
         """Initializes SignalPlot class."""
         super().__init__(**kwargs)
-        self.plot_widget = plot_widget
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
         self.legend = None
