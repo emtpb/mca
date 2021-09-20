@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-09-16 14:37+0200\n"
+"POT-Creation-Date: 2021-09-20 13:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -32,9 +32,10 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 #: blocks/complex_to_real.py:17 blocks/cpsd.py:12 blocks/cutter.py:17
 #: blocks/differentiator.py:11 blocks/divider.py:9 blocks/envelope.py:13
 #: blocks/fft.py:11 blocks/fftplot.py:16 blocks/iir_filter.py:19
-#: blocks/integrator.py:12 blocks/limiter.py:14 blocks/multiplier.py:18
-#: blocks/psd.py:11 blocks/quantization.py:13 blocks/real_to_complex.py:18
-#: blocks/resample.py:11 blocks/window.py:11 blocks/zerofill.py:11
+#: blocks/integrator.py:12 blocks/interpolate.py:18 blocks/limiter.py:14
+#: blocks/multiplier.py:18 blocks/psd.py:11 blocks/quantization.py:13
+#: blocks/real_to_complex.py:18 blocks/resample.py:11 blocks/window.py:11
+#: blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitende"
 
@@ -206,11 +207,11 @@ msgstr "Generierende"
 msgid "Sweep Kind"
 msgstr "Sweepart"
 
-#: blocks/chirp.py:31
+#: blocks/chirp.py:31 blocks/interpolate.py:31
 msgid "Linear"
 msgstr "Linear"
 
-#: blocks/chirp.py:31
+#: blocks/chirp.py:31 blocks/interpolate.py:32
 msgid "Quadratic"
 msgstr "Quadratisch"
 
@@ -592,6 +593,51 @@ msgstr "Trapez"
 msgid "Rectangular"
 msgstr "Rechteck"
 
+#: blocks/interpolate.py:14
+msgid "Interpolate"
+msgstr "Interpolierer"
+
+#: blocks/interpolate.py:15
+msgid ""
+"Interpolates the input signal by defining a new abscissa. The range of "
+"the new abscissa has to within the range of the abscissa of the input "
+"signal."
+msgstr ""
+"Interpoliert das Eingangssignal, indem eine neue Abszisse definiert wird."
+" Der Bereich der neuen Abszisse muss innerhalb des Bereichs der alten Abszisse liegen."
+
+#: blocks/interpolate.py:26
+msgid "New abscissa"
+msgstr "Neue Abszisse"
+
+#: blocks/interpolate.py:30
+msgid "Interpolation kind"
+msgstr "Interpolationstyp"
+
+#: blocks/interpolate.py:31
+msgid "SLinear"
+msgstr "SLinear"
+
+#: blocks/interpolate.py:32
+msgid "Cubic"
+msgstr "Kubisch"
+
+#: blocks/interpolate.py:33
+msgid "Zero"
+msgstr "Null"
+
+#: blocks/interpolate.py:33
+msgid "Previous"
+msgstr "Vorheriger Wert"
+
+#: blocks/interpolate.py:34
+msgid "Next"
+msgstr "Nächster Wert"
+
+#: blocks/interpolate.py:34
+msgid "Nearest"
+msgstr "Nähester Wert"
+
 #: blocks/limiter.py:11
 msgid "Limiter"
 msgstr "Begrenzer"
@@ -919,7 +965,7 @@ msgstr "Abbrechen"
 
 #: gui/pyside2/block_list.py:42
 msgid "Create new block"
-msgstr "Erstelle neuen Block"
+msgstr "Neuer Block"
 
 #: gui/pyside2/edit_widgets.py:327 gui/pyside2/io_items.py:118
 #: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:294
@@ -1202,4 +1248,12 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 #~ msgstr ""
 #~ "Teilt Real- und Imaginärteil the "
 #~ "Eingangssignals in zwei Ausgangssignale auf."
+
+#~ msgid ""
+#~ "Interpolates by defining a new abscissa"
+#~ " for the input signal. The range "
+#~ "of the new abscissa has to within"
+#~ " the range of the abscissa of "
+#~ "the input signal."
+#~ msgstr "Interpoliert "
 
