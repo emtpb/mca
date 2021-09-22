@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-09-20 13:05+0200\n"
+"POT-Creation-Date: 2021-09-22 13:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -240,6 +240,7 @@ msgid "Plots absolute and phase or real and imaginary part of the input signal."
 msgstr "Plottet Betrag und Phase oder Real- und Imaginärteil des Eingangsignals."
 
 #: blocks/complex_plot.py:16 blocks/fftplot.py:16 blocks/signal_plot.py:13
+#: blocks/stft_plot.py:13
 msgid "Plotting"
 msgstr "Plottende"
 
@@ -255,11 +256,11 @@ msgstr "Real/Imaginär"
 msgid "Absolute/Phase"
 msgstr "Betrag/Phase"
 
-#: blocks/complex_plot.py:33 blocks/signal_plot.py:25
+#: blocks/complex_plot.py:33 blocks/signal_plot.py:24
 msgid "Show plot"
 msgstr "Plot anzeigen"
 
-#: blocks/complex_plot.py:34 blocks/signal_plot.py:26
+#: blocks/complex_plot.py:34 blocks/signal_plot.py:25
 msgid "Auto plot"
 msgstr "Automatisch neu plotten"
 
@@ -359,7 +360,7 @@ msgstr "FFT"
 msgid "Computes the FFT of the input signal."
 msgstr "Berechnet die FFT des Eingangssignals."
 
-#: blocks/fft.py:11 blocks/fftplot.py:16
+#: blocks/fft.py:11 blocks/fftplot.py:16 blocks/stft_plot.py:13
 msgid "Fourier"
 msgstr "Fourier"
 
@@ -604,7 +605,8 @@ msgid ""
 "signal."
 msgstr ""
 "Interpoliert das Eingangssignal, indem eine neue Abszisse definiert wird."
-" Der Bereich der neuen Abszisse muss innerhalb des Bereichs der alten Abszisse liegen."
+" Der Bereich der neuen Abszisse muss innerhalb des Bereichs der alten "
+"Abszisse liegen."
 
 #: blocks/interpolate.py:26
 msgid "New abscissa"
@@ -757,7 +759,8 @@ msgstr "Funktion"
 msgid "Rectangle"
 msgstr "Rechteck"
 
-#: blocks/signal_generator_periodic.py:28 blocks/window.py:25
+#: blocks/signal_generator_periodic.py:28 blocks/stft_plot.py:31
+#: blocks/window.py:25
 msgid "Triangle"
 msgstr "Dreieck"
 
@@ -816,9 +819,41 @@ msgstr "Speichert das Eingangssignal in einer.json Datei."
 msgid "Save"
 msgstr "Speichern"
 
-#: blocks/window.py:9
+#: blocks/stft_plot.py:10
+msgid "STFTPlot"
+msgstr "STFTPlot"
+
+#: blocks/stft_plot.py:11
+msgid "Plots the Short-Time Fourier Transformation of the input signal."
+msgstr "Plottet die Kurzeit Fourier-Tranformation des Eingangssignals."
+
+#: blocks/stft_plot.py:28 blocks/window.py:9
 msgid "Window"
 msgstr "Fenster"
+
+#: blocks/stft_plot.py:29 blocks/window.py:21
+msgid "Hann"
+msgstr "Hann"
+
+#: blocks/stft_plot.py:30 blocks/window.py:22
+msgid "Hamming"
+msgstr "Hamming"
+
+#: blocks/stft_plot.py:34
+msgid "Segment Length"
+msgstr "Segmentlänge"
+
+#: blocks/stft_plot.py:36
+msgid "Segment Overlap"
+msgstr "Segmentüberlappung"
+
+#: blocks/stft_plot.py:38
+msgid "FFT Length"
+msgstr "FFT Länge"
+
+#: blocks/stft_plot.py:40
+msgid "Show"
+msgstr ""
 
 #: blocks/window.py:10
 msgid "Applies a window function to the input signal."
@@ -831,14 +866,6 @@ msgstr "Fensterfunktion"
 #: blocks/window.py:21
 msgid "Tukey"
 msgstr "Tukey"
-
-#: blocks/window.py:21
-msgid "Hann"
-msgstr "Hann"
-
-#: blocks/window.py:22
-msgid "Hamming"
-msgstr "Hamming"
 
 #: blocks/window.py:23
 msgid "Exponential"
