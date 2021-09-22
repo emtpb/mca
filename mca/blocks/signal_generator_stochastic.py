@@ -43,10 +43,12 @@ class SignalGeneratorStochastic(Block):
         values = self.parameters["abscissa"].parameters["values"].value
         increment = self.parameters["abscissa"].parameters["increment"].value
         dist = self.parameters["dist"].value
+
         if dist == "normal":
             ordinate = mean + std_dev*np.random.randn(values)
         elif dist == "equal":
             ordinate = mean + std_dev * np.sqrt(12) * (np.random.rand(values)-0.5)
+
         self.outputs[0].data = data_types.Signal(
             meta_data=self.outputs[0].get_meta_data(None),
             abscissa_start=abscissa_start,

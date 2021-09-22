@@ -35,8 +35,10 @@ class Window(Block):
         if self.check_all_empty_inputs():
             return
         validator.check_type_signal(self.inputs[0].data)
+
         input_signal = self.inputs[0].data
         window_name = self.parameters["window_func"].value
+
         if window_name == "gaussian":
             args = (window_name, self.parameters["std"].value)
         elif window_name == "tukey":

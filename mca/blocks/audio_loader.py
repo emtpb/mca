@@ -6,9 +6,9 @@ from mca import exceptions
 
 
 class AudioLoader(Block):
-    """Reads a .wav to create an output signal."""
+    """Loads a .wav to create an output signal."""
     name = _("AudioLoader")
-    description = _("Reads a .wav to create an output signal.")
+    description = _("Loads a .wav to create an output signal.")
     tags = (_("Loading"), _("Audio"))
 
     def setup_parameters(self):

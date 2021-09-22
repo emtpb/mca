@@ -1,7 +1,7 @@
+import numpy as np
+
 from mca.framework import validator, data_types, Block
 from mca.language import _
-
-import numpy as np
 
 
 class PowerDensitySpectrum(Block):
@@ -26,6 +26,7 @@ class PowerDensitySpectrum(Block):
         if self.check_all_empty_inputs():
             return
         validator.check_type_signal(self.inputs[0].data)
+
         input_signal = self.inputs[0].data
         ccf = np.correlate(input_signal.ordinate, input_signal.ordinate,
                            mode="full")

@@ -23,6 +23,7 @@ class Envelope(Block):
         if self.check_all_empty_inputs():
             return
         validator.check_type_signal(self.inputs[0].data)
+
         input_signal = self.inputs[0].data
         analytical_signal = hilbert(input_signal.ordinate)
         envelope = np.abs(analytical_signal)

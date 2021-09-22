@@ -9,16 +9,22 @@ from mca.language import _
 class ComplexPlot(DynamicBlock):
     """Plots absolute and phase or real and imaginary part of the input
     signal.
+
+    Attributes:
+        fig: Figure for plotting data.
+        first_axes: Reference of the axes for the real part of the input signal.
+        second_axes: Reference of the axes for the imaginary part of the
+                    input signal.
+        legend: Reference of the legend.
     """
     name = _("ComplexPlot")
     description = _("Plots absolute and phase or real and imaginary part of "
                     "the input signal.")
     tags = (_("Plotting"),)
 
-    def __init__(self, plot_widget=None, **kwargs):
+    def __init__(self, **kwargs):
         """Initializes ComplexPlot class."""
         super().__init__(**kwargs)
-        self.plot_widget = plot_widget
         self.fig = plt.figure()
         self.first_axes = self.fig.add_subplot(211)
         self.second_axes = self.fig.add_subplot(212)
@@ -43,6 +49,7 @@ class ComplexPlot(DynamicBlock):
         self.second_axes.cla()
         if self.legend:
             self.legend.remove()
+
         for i in self.inputs:
             validator.check_type_signal(i.data)
         signals = [copy.copy(i.data) for i in self.inputs if i.data]
@@ -50,9 +57,11 @@ class ComplexPlot(DynamicBlock):
         ordinate_units = [signal.meta_data.unit_o for signal in signals]
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
+
         auto_show = self.parameters["auto_show"].value
         plot_type = self.parameters["plot_type"].value
         labels = False
+
         for signal in signals:
             abscissa = np.linspace(signal.abscissa_start,
                                    signal.abscissa_start + signal.increment * (signal.values - 1),
@@ -90,6 +99,7 @@ class ComplexPlot(DynamicBlock):
                 self.second_axes.set_ylabel(_("Phase in rad"))
             else:
                 self.second_axes.set_ylabel(ordinate_string)
+
         self.first_axes.grid(True)
         self.second_axes.grid(True)
         self.fig.tight_layout()

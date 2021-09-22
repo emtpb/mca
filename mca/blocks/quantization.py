@@ -1,7 +1,7 @@
+import numpy as np
+
 from mca.framework import validator, data_types, Block, parameters
 from mca.language import _
-
-import numpy as np
 
 
 class Quantization(Block):
@@ -35,6 +35,7 @@ class Quantization(Block):
         max_value = self.parameters["max_value"].value
         signed = self.parameters["signed"].value
         raw = self.parameters["raw"].value
+
         if not signed:
             ordinate = input_signal.ordinate * (2**bits) / max_value
         else:

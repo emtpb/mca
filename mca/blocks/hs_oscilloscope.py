@@ -105,7 +105,7 @@ class HSOscilloscope(Block):
         update in the block structure.
         """
         if not self.oscilloscope:
-            raise RuntimeError
+            raise RuntimeError("No oscilloscope object initialized.")
         self.apply_parameters()
         measurement = self.oscilloscope.measure()
         time_vector = self.oscilloscope.time_vector

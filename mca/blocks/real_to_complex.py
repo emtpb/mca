@@ -1,8 +1,8 @@
+import numpy as np
+
 from mca.framework import validator, data_types, Block
 from mca.language import _
 from mca import exceptions
-
-import numpy as np
 
 
 class RealToComplex(Block):

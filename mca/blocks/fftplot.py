@@ -6,7 +6,13 @@ from mca.language import _
 
 
 class FFTPlot(Block):
-    """Plots the FFT of the input signal."""
+    """Plots the FFT of the input signal.
+
+    Attributes:
+        fig: Figure for plotting data.
+        axes: Reference of the axes.
+        legend: Reference of the legend.
+    """
     name = _("FFTPlot")
     description = _("Computes the FFT of the input signal and plots "
                     "either the real part, imaginary part, "
@@ -49,20 +55,18 @@ class FFTPlot(Block):
         self.axes.cla()
         if self.legend:
             self.legend.remove()
-        # Finish when no inputs connected
         if self.check_all_empty_inputs():
             return
-
         validator.check_type_signal(self.inputs[0].data)
-        # Read parameters
+
         input_signal = self.inputs[0].data
         plot_mode = self.parameters["plot_mode"].value
         shift = self.parameters["shift"].value
         auto_show = self.parameters["auto_show"].value
         normalize = self.parameters["normalize"].value
         values = input_signal.values
+
         delta_f = 1 / (self.inputs[0].data.increment * values)
-        # Calculate fft
         ordinate = np.fft.fft(input_signal.ordinate)
         if normalize:
             ordinate = ordinate/values
@@ -70,7 +74,7 @@ class FFTPlot(Block):
         else:
             unit_o = input_signal.meta_data.unit_a * input_signal.meta_data.unit_o
         abscissa = np.linspace(0, delta_f*(values-1), values)
-        # Apply parameters
+
         if shift == "shift" or \
                 shift == "shift_positive":
             ordinate = np.fft.fftshift(ordinate)

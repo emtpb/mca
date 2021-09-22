@@ -25,7 +25,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         outputs (list): List of all its outputs.
         block: Instance of :class:`.Block' this block item is holding.
         resize_all (bool): Flag to indicate whether user is resizing or
-                            moving the block.
+                           moving the block.
         start_pos (tuple): Starting position of an resize event.
         original_width (int): Original width of the block.
         original_height (int): Original height of the block.
@@ -40,8 +40,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
                           block instance is a :class:`.DynamicBlock`. Adds an
                           :class:`.InputItem` dynamically to the block.
         delete_input_action: Action added to the menu which only exists when
-                          the block instance is a :class:`.DynamicBlock`. The
-                          last :class:`.InputItem is deleted of the input list.
+                             the block instance is a :class:`.DynamicBlock`. The
+                             last :class:`.InputItem is deleted of the input list.
         delete_action: Action added to the menu to delete the block.
     """
 

@@ -1,8 +1,8 @@
-from mca.framework import validator, data_types, Block, parameters
-from mca.language import _
-
 from scipy import integrate
 import numpy as np
+
+from mca.framework import validator, data_types, Block, parameters
+from mca.language import _
 
 
 class Integrator(Block):

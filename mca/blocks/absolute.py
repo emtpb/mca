@@ -3,7 +3,7 @@ from mca.language import _
 
 
 class Absolute(Block):
-    """Calculates the absolute of the input signal."""
+    """Computes the absolute of the input signal."""
     name = _("Absolute")
     description = _("Computes the absolute of the input signal.")
     tags = (_("Processing"),)

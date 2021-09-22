@@ -6,13 +6,7 @@ from mca.language import _
 
 
 class Multiplier(DynamicBlock):
-    """Multiplies the input signals with each other.
-
-    Note:
-        This Block cannot add any signals which are incompatible.
-
-        See also: :meth:`mca.framework.validator.check_intervals`.
-    """
+    """Multiplies the input signals with each other."""
     name = _("Multiplier")
     description = _("Multiplies the input signals with each other.")
     tags = (_("Processing"),)
@@ -36,6 +30,7 @@ class Multiplier(DynamicBlock):
         abscissa_units = [signal.meta_data.unit_a for signal in signals]
         validator.check_same_units(abscissa_units)
         validator.check_intervals(signals)
+
         matched_signals = helpers.fill_zeros(signals)
         ordinate = np.ones(matched_signals[0].values)
         unit_a = matched_signals[0].meta_data.unit_a

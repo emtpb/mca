@@ -6,9 +6,12 @@ from mca.language import _
 
 
 class AudioPlayer(Block):
-    """Plays the input signal as a sound."""
+    """Plays the input signal as a sound by using the current default
+    sound device.
+    """
     name = _("AudioPlayer")
-    description = _("Plays the input signal as a sound.")
+    description = _("Plays the input signal as a sound by using the current "
+                    "default sound device.")
     tags = (_("Audio"),)
 
     def setup_parameters(self):

@@ -7,9 +7,15 @@ from mca.language import _
 
 
 class SignalPlot(DynamicBlock):
-    """Plots all input signals."""
+    """Plots all input signals in single figure.
+
+    Attributes:
+        fig: Figure for plotting data.
+        axes: Reference of the axes.
+        legend: Reference of the legend.
+    """
     name = _("SignalPlot")
-    description = _("Plots all input signals in matplotlib.")
+    description = _("Plots all input signals in a single figure.")
     tags = (_("Plotting"),)
 
     def __init__(self, **kwargs):

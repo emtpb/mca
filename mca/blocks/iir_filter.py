@@ -1,8 +1,8 @@
+from scipy.signal import butter, cheby1, cheby2, ellip, lfilter, filtfilt
+
 from mca.framework import validator, data_types, Block, parameters
 from mca.language import _
 from mca import exceptions
-
-from scipy.signal import butter, cheby1, cheby2, ellip, lfilter, filtfilt
 
 
 class IRRFilter(Block):
@@ -53,6 +53,7 @@ class IRRFilter(Block):
         if self.check_all_empty_inputs():
             return
         validator.check_type_signal(self.inputs[0].data)
+
         input_signal = self.inputs[0].data
         filter_type = self.parameters["filter_type"].value
         order = self.parameters["order"].value

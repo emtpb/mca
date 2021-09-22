@@ -7,7 +7,7 @@ from mca.language import _
 class Amplifier(Block):
     """Amplifies the input signal by the desired factor."""
     name = _("Amplifier")
-    description = _("Amplifies the input signal.")
+    description = _("Amplifies the input signal by the desired factor.")
     tags = (_("Processing"),)
 
     def setup_io(self):

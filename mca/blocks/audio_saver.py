@@ -7,9 +7,9 @@ from mca import exceptions
 
 
 class AudioSaver(Block):
-    """Saves the input signal as a .wav file."""
+    """Saves the input signal as a .wav sound file."""
     name = _("AudioSaver")
-    description = _("Saves the input signal as a sound file.")
+    description = _("Saves the input signal as a .wav sound file.")
     tags = (_("Saving"), _("Audio"))
 
     def setup_parameters(self):

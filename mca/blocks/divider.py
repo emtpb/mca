@@ -24,16 +24,20 @@ class Divider(Block):
             validator.check_type_signal(i.data)
         input_signals = [self.inputs[0].data, self.inputs[1].data]
         abscissa_units = [signal.meta_data.unit_a for signal in input_signals]
+
         validator.check_same_units(abscissa_units)
         validator.check_intervals(input_signals)
+
         matched_signals = helpers.fill_zeros(input_signals)
         ordinate = input_signals[0].ordinate/input_signals[1].ordinate
+        values = matched_signals[0].values
+        increment = matched_signals[0].increment
+
         unit_a = matched_signals[0].meta_data.unit_a
         unit_o = input_signals[0].meta_data.unit_o / input_signals[1].meta_data.unit_o
         meta_data = data_types.MetaData(None, unit_a, unit_o)
         abscissa_start = matched_signals[0].abscissa_start
-        values = matched_signals[0].values
-        increment = matched_signals[0].increment
+
         self.outputs[0].data = data_types.Signal(
             meta_data=self.outputs[0].get_meta_data(meta_data),
             abscissa_start=abscissa_start,

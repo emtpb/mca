@@ -6,28 +6,14 @@ from mca.language import _
 
 
 class Adder(DynamicBlock):
-    """Adds multiple signals to one new signal.
-
-    Note:
-        This Block cannot add any signals which are incompatible.
-
-        See also: :meth:`mca.framework.validator.check_intervals`.
-    """
+    """Adds multiple signals to one new signal."""
     name = _("Adder")
     description = _("Adds multiple signals to one signal.")
     tags = (_("Processing"),)
 
     def setup_io(self):
         self.dynamic_input = (1, None)
-        self._new_output(
-            meta_data=data_types.MetaData(
-                name="",
-                unit_a="s",
-                unit_o="V",
-                quantity_a=_("Time"),
-                quantity_o=_("Voltage")
-            )
-        )
+        self._new_output(data_types.default_meta_data())
         self._new_input()
         self._new_input()
 

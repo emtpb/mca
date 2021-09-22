@@ -39,7 +39,7 @@ class BlockList(QtWidgets.QListWidget):
         self.search_bar.textChanged.connect(self.show_items)
 
         self.menu = QtWidgets.QMenu()
-        self.new_block_action = QtWidgets.QAction(_("Create new block"))
+        self.new_block_action = QtWidgets.QAction(_("New block"))
         self.new_block_action.triggered.connect(
             lambda: self.scene.create_block_item(self.currentItem().data(3)(),
                                                  self.width(), 10)

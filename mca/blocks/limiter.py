@@ -1,7 +1,7 @@
+import numpy as np
+
 from mca.framework import validator, data_types, Block, parameters
 from mca.language import _
-
-import numpy as np
 
 
 class Limiter(Block):

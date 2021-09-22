@@ -7,7 +7,7 @@ from mca.language import _
 
 
 class SignalGeneratorArbitrary(Block):
-    """Loads arbitrary data to generate a signal."""
+    """Loads arbitrary data to generate a signal on its output."""
     name = _("SignalGeneratorArbitrary")
     description = _("Loads arbitrary data to generate a signal on its output.")
     tags = (_("Generating"), _("Loading"))

@@ -5,7 +5,7 @@ import numpy as np
 
 
 class CrossPowerDensitySpectrum(Block):
-    """Computes the auto correlation of the input signal."""
+    """Computes the cross power density spectrum of the input signals."""
     name = _("CrossPowerDensitySpectrum")
     description = _("Computes the cross power density spectrum of the "
                     "input signals.")

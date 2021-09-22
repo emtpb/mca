@@ -6,7 +6,7 @@ from mca import exceptions
 
 
 class SignalSaver(Block):
-    """Save the input signal in .json file."""
+    """Saves the input signal in .json file."""
     name = _("SignalSaver")
     description = _("Saves the input signal in .json file.")
     tags = (_("Saving"),)

@@ -6,10 +6,10 @@ from mca.language import _
 
 
 class SignalGeneratorPeriodic(Block):
-    """Generates a periodic signal."""
+    """Generates a periodic sinus, rectangle or triangle signal."""
     name = "SignalGeneratorPeriodic"
-    description = _("Generates a Sinus, a Rectangle function or a Triangle "
-                    "function.")
+    description = _("Generates a periodic sinus, rectangle or "
+                    "triangle signal.")
     tags = (_("Generating"),)
 
     def setup_io(self):
@@ -66,10 +66,12 @@ class SignalGeneratorPeriodic(Block):
 
 
 def triangle(abscissa, freq, amp, phase):
-    ordinate = amp * sgn.sawtooth(
+    """Generates a triangular signal."""
+    tri = amp * sgn.sawtooth(
         2 * np.pi * freq * abscissa - phase + np.pi / 2, 0.5)
-    return ordinate
+    return tri
 
 
 def rect(abscissa, freq, amp, phase):
+    """Generates a rectangular signal."""
     return amp * np.sign(np.sin(2 * np.pi * freq * abscissa - phase))

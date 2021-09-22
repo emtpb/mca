@@ -5,7 +5,7 @@ from mca.language import _
 
 
 class FFT(Block):
-    """Calculates the FFT of the input signal."""
+    """Computes the FFT of the input signal."""
     name = _("FFT")
     description = _("Computes the FFT of the input signal.")
     tags = (_("Processing"), _("Fourier"))
@@ -28,13 +28,15 @@ class FFT(Block):
         if self.check_all_empty_inputs():
             return
         validator.check_type_signal(self.inputs[0].data)
+
         normalize = self.parameters["normalize"].value
         input_signal = self.inputs[0].data
-        ordinate = np.fft.fft(input_signal.ordinate)
 
+        ordinate = np.fft.fft(input_signal.ordinate)
         increment = 1 / (
                 input_signal.increment * input_signal.values)
         values = input_signal.values
+
         if normalize:
             ordinate = ordinate/values
             unit_o = input_signal.meta_data.unit_o
@@ -45,6 +47,7 @@ class FFT(Block):
             unit_a=1/input_signal.meta_data.unit_a,
             unit_o=unit_o
         )
+
         self.outputs[0].data = data_types.Signal(
             meta_data=self.outputs[0].get_meta_data(meta_data),
             abscissa_start=0,

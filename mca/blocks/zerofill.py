@@ -26,8 +26,10 @@ class Zerofill(Block):
         if self.check_all_empty_inputs():
             return
         validator.check_type_signal(self.inputs[0].data)
+
         dtime_values = self.parameters["dtime_values"].value
         zpad_values = self.parameters["zpad_values"].value
+
         input_signal = self.inputs[0].data
         ordinate = np.concatenate((np.zeros(dtime_values),
                                    input_signal.ordinate, np.zeros(zpad_values)))

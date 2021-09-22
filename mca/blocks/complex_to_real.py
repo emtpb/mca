@@ -13,7 +13,9 @@ class ComplexToReal(Block):
     """
     name = _("ComplexToReal")
     description = _("Separates the real and imaginary part of "
-                    "the input signal into two output signals.")
+                    "the input signal into two output signals. First output "
+                    "yields the real part and second output yields the "
+                    "imaginary part.")
     tags = (_("Processing"),)
 
     def setup_io(self):
@@ -30,10 +32,12 @@ class ComplexToReal(Block):
         if self.check_all_empty_inputs():
             return
         validator.check_type_signal(self.inputs[0].data)
+
         real_signal = copy.copy(self.inputs[0].data)
         real_signal.ordinate = real_signal.ordinate.real
         imag_signal = copy.copy(self.inputs[0].data)
         imag_signal.ordinate = imag_signal.ordinate.imag
+
         self.outputs[0].data = real_signal
         self.outputs[0].data.meta_data = self.outputs[0].get_meta_data(
             real_signal.meta_data)

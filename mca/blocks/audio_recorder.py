@@ -5,9 +5,9 @@ from mca.language import _
 
 
 class AudioRecorder(Block):
-    """Records the default audio input device."""
+    """Records a sound via the default audio input device."""
     name = _("AudioRecorder")
-    description = _("Records the default audio input device.")
+    description = _("Records a sound via the default audio input device.")
     tags = (_("Audio"),)
 
     def setup_parameters(self):
