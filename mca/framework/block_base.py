@@ -14,10 +14,11 @@ class Block:
         inputs: List that contains all its :class:`.Input`.
         outputs: List that contains all its :class:`.Output`.
         parameters: List that contains all parameters.
-        gui_data (dict): Holds data from a gui. Data is separated in save_data
-                         and run_time_data. Save_data is dumped into the save
-                         file when saving the block structure and run_time_data
-                         holds data is only used when the programme is running.
+        gui_data (dict): Holds GUI data. Data is separated in in the keys
+                         'save_data' and 'run_time_data'. 'save_data' is dumped
+                         into the save file when saving the block structure
+                         and 'run_time_data' holds data is only used while the
+                         program is running.
     """
     icon_file = None
     tags = []
@@ -185,8 +186,8 @@ class Block:
 class DynamicBlock(Block):
     """Basic dynamic block class is the subclass of the
     :class:`.Block` class with the extension of adding and
-    removing :class:`.Output` s and :class:`.Input` s. Further Blocks with
-    dynamic amount of Inputs or dynamic amount of outputs need to inherit from
+    removing :class:`.Output`  and :class: `.Input` objects. Blocks with
+    dynamic amount of Inputs or dynamic amount of Outputs need to inherit from
     this class. Furthermore it can be chosen between only the amount of Inputs
     being dynamic, only the amount of Outputs being dynamic or both. It is
     advised to overwrite the following methods in subclasses, if only specific
@@ -194,7 +195,7 @@ class DynamicBlock(Block):
     validation is needed.
 
     Attributes:
-        dynamic_output: (lower limit, upper limit) The upper limit and
+        dynamic_output: (lower_limit, upper_limit) The upper limit and
             lower limit of the amount of outputs. The lower limit is an
             integer and for it applies: lower limit >= 0.
             The upper limit is an integer and
@@ -204,7 +205,7 @@ class DynamicBlock(Block):
             Outputs are not dynamic and no Outputs can be added or removed
             after the initialization.
 
-        dynamic_input: (lower limit, upper limit) The upper limit and
+        dynamic_input: (lower_limit, upper_limit) The upper limit and
             lower limit of the amount of Inputs. The lower limit is an
             integer and for it applies: lower limit >= 0. The upper limit
             is an integer and for it applies: upper limit > lower limit.
@@ -230,14 +231,13 @@ class DynamicBlock(Block):
         self.dynamic_input = None
         super().__init__()
 
-
     def add_input(self, input_):
         """Adds an Input to the Block.
 
         Args:
             input_: Input instance added to the block.
         Raises:
-            :class:`.InputOutputError`: If adding the Input was not successful
+            :class:`.InputOutputError`: If adding the Input was not successful.
         """
         if input_ in block_registry.Registry._graph.nodes:
             raise exceptions.InputOutputError("Input already added")
@@ -257,7 +257,7 @@ class DynamicBlock(Block):
         Args:
             output: Output instance added to the block.
         Raises:
-            :class:`.InputOutputError`: If adding the Output was not successful
+            :class:`.InputOutputError`: If adding the Output was not successful.
         """
         if output in block_registry.Registry._graph.nodes:
             raise exceptions.InputOutputError("Output already added")

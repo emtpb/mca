@@ -28,7 +28,7 @@ class Input:
         self.block = block
 
     def connect(self, output):
-        """Connects the Input to an Output and trigger an update.
+        """Connects the Input to an Output and triggers an update.
         
         Args:
             output (Output): Output to which the Input gets connected.
@@ -69,16 +69,17 @@ class Output:
         up_to_date (bool): Flag which indicates if the data of the Output is
             valid or needs to be updated.
         data: Data which the Output contains.
-        meta_data_input_dependent (bool): True, if the output meta_data can be
-                                          dependent on the input meta_data.
+        meta_data_input_dependent (bool): True, if the MetaData of
+                                          the Output can be dependent on the
+                                          MetaData of any Input.
         abscissa_meta_data (bool): True, if the abscissa meta data
                                    should be used when data gets assigned
-                                   to this output.
+                                   to the Output.
         ordinate_meta_data (bool): True, if the ordinate meta data
                                    should be used when data gets assigned
-                                   to this output.
-        meta_data: Metadata for data.
-        id: Used to identify the inputs which were connected to the output
+                                   to this Output.
+        meta_data: MetaData of the attribute data.
+        id: Used to identify the Inputs which were connected to the Output
             after saving.
     """
 
@@ -90,16 +91,16 @@ class Output:
         Args:
             block: Block to which the Output belongs to.
             name (str): Name of the Output.
-            meta_data: Metadata for data.
-            meta_data_input_dependent (bool): True, if the output meta_data can
-                                              be dependent on the input
-                                              meta_data.
+            meta_data: MetaData of the attribute data.
+            meta_data_input_dependent (bool): True, if the :class:`.MetaData` of
+                                              the Output can be dependent on the
+                                              MetaData of any Input.
             abscissa_meta_data (bool): True, if the abscissa meta data
                                        should be used when data gets assigned
-                                       to this output.
+                                       to the Output.
             ordinate_meta_data (bool): True, if the ordinate meta data
                                        should be used when data gets assigned
-                                       to this output.
+                                       to this Output.
         """
         self.name = name
         self.block = block
@@ -112,16 +113,15 @@ class Output:
         self.id = uuid.uuid4()
 
     def get_meta_data(self, external_meta_data):
-        """Returns a meta data object as a mix of given external meta data and
-        internal meta data depending on the attributes abscissa_meta_data
-        and ordinate_meta_data. Setting abscissa_meta_data to True forces the
-        use of the internal abscissa meta data. Same goes for
+        """Returns a MetaData object as a mix of given external meta
+        data and internal meta data depending on the attributes
+        abscissa_meta_data and ordinate_meta_data. Setting abscissa_meta_data
+        to True forces the use of the internal abscissa meta data. Same goes for
         ordinate_meta_data. The meta data attribute "name" is always inherited
         by the internal meta data.
 
         Args:
-            external_meta_data: Given external meta_data from the processing
-                                method.
+            external_meta_data: Given external meta data.
         """
         if self.abscissa_meta_data:
             unit_a = self.meta_data.unit_a

@@ -2,9 +2,12 @@
 Blocks
 ******
 
-This chapter contains the API documentation for Multi Channel Analyzer.
+List of all implemented block classes divided into different groups.
 
 .. toctree::
     :maxdepth: 1
 
-    blocks
+    audio/index
+    generating/index
+    plotting/index
+    processing/index

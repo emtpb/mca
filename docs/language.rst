@@ -1,4 +1,4 @@
-Language support via gettext
-============================
+Language support
+================
 
 .. automodule:: mca.language

@@ -7,19 +7,19 @@ from mca.language import _
 class Signal:
     """Standard data type of mca.
     
-    The class describes a signal with two axes and its meta data. The ordinate
-    is stored in a one dimensional numpy array. Since this data type
-    only allows equidistant sampled signals the abscissa is described with
-    three parameters: starting point (abscissa_start),
-    amount of values (values) and the sampling rate (increment).
+    The class describes a signal with two axes and its Meta Data.
+    The ordinate is stored in a one dimensional numpy array. Since this
+    data type only allows equidistant sampled signals the abscissa is described
+    with three parameters: starting point (abscissa_start), amount of values
+    (values) and the sampling increment (increment).
     
     Attributes:
-        meta_data: Meta data of the signal with quantity, symbol and unit
-            for abscissa- and ordinate-axis.
+        meta_data: Meta Data of the signal with quantity, symbol and
+                   unit for abscissa- and ordinate-axis.
         abscissa_start (float): Starting point of the signal.
         values (int): Amount of values the signal contains.
         increment (float): Increment between two values.
-        ordinate : Ordinate stored in a numpy_array.
+        ordinate : Ordinate as a .
     """
 
     def __init__(self, meta_data, abscissa_start, values, increment, ordinate):

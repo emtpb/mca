@@ -36,6 +36,7 @@ class BlockList(QtWidgets.QListWidget):
 
         self.scene = scene
         self.search_bar = search_bar
+        self.search_bar.setPlaceholderText(_("Try #Processing or @Audio"))
         self.search_bar.textChanged.connect(self.show_items)
 
         self.menu = QtWidgets.QMenu()

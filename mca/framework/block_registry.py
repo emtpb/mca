@@ -12,7 +12,7 @@ class IORegistry:
     consistency of the data through updates.
     
     Attributes:
-        _graph: :ref:`Networkx Graph <networkx:DiGraph>` which is base of 
+        _graph: `Networkx DiGraph <https://networkx.org/documentation/stable/reference/classes/digraph>`_ which is base of
                 IORegistry.
     """
 
@@ -246,7 +246,7 @@ class IORegistry:
             file_path (str): Path of the .json file.
 
         Returns:
-            list: All saved blocks in no particular order.
+            list: Contains all saved blocks in no particular order.
         """
         if self.get_all_blocks():
             raise exceptions.DataLoadingError("Cannot load block structure"
