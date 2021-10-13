@@ -5,59 +5,70 @@ import numpy as np
 
 
 def create_abscissa_parameter_block():
-        values = parameters.IntParameter(_("Values"), min_=1, value=1001)
-        increment = parameters.FloatParameter(_("Increment"), min_=0,
-                                              value=0.01)
-        sampling = parameters.FloatParameter(_("Sampling frequency"), value=100, min_=0, unit="Hz")
-        measure_time = parameters.FloatParameter(_("Measure time"), value=10.0, min_=0)
-        start = parameters.FloatParameter("Start", value=0)
+    """Creates a template abscissa parameter block containing
+    the following parameters: Values, Increment, Sampling Frequency,
+    Measure Time, Abscissa Start. Those parameters get converted accordingly to
+    the current selected conversion.
 
-        def dt_to_fabt():
-            sampling.value = 1 / increment.value
+    For example: If the user assigns values to Increment and Measure Time then
+    Values and Sampling Frequency get updated accordingly.
 
-        def fabt_to_dt():
-            increment.value = 1 / sampling.value
+    Returns:
+        :class:`.ParameterBlock` :  Abscissa parameter block.
+    """
+    values = parameters.IntParameter(_("Values"), min_=1, value=1001)
+    increment = parameters.FloatParameter(_("Increment"), min_=0,
+                                          value=0.01)
+    sampling = parameters.FloatParameter(_("Sampling frequency"), value=100, min_=0, unit="Hz")
+    measure_time = parameters.FloatParameter(_("Measure time"), value=10.0, min_=0)
+    start = parameters.FloatParameter("Start", value=0)
 
-        def dt_values_to_tmess():
-            measure_time.value = increment.value * (values.value-1)
-            dt_to_fabt()
+    def dt_to_fabt():
+        sampling.value = 1 / increment.value
 
-        def fabt_values_to_tmess():
-            measure_time.value = (values.value-1) / sampling.value
-            fabt_to_dt()
+    def fabt_to_dt():
+        increment.value = 1 / sampling.value
 
-        def tmess_values_to_dt():
-            increment.value = measure_time.value / (values.value-1)
-            dt_to_fabt()
+    def dt_values_to_tmess():
+        measure_time.value = increment.value * (values.value-1)
+        dt_to_fabt()
 
-        def tmess_dt_to_values():
-            values.value = (measure_time.value + increment.value) / increment.value
-            dt_to_fabt()
+    def fabt_values_to_tmess():
+        measure_time.value = (values.value-1) / sampling.value
+        fabt_to_dt()
 
-        def tmess_fabt_to_values():
-            values.value = (measure_time.value * sampling.value) + 1
-            fabt_to_dt()
+    def tmess_values_to_dt():
+        increment.value = measure_time.value / (values.value-1)
+        dt_to_fabt()
 
-        conversion = parameters.ParameterConversion(
-            [increment, values], [sampling, measure_time], dt_values_to_tmess
-        )
-        conversion_1 = parameters.ParameterConversion(
-            [sampling, values], [increment, measure_time], fabt_values_to_tmess)
-        conversion_2 = parameters.ParameterConversion([values, measure_time], [increment, sampling],
-                                              tmess_values_to_dt)
-        conversion_3 = parameters.ParameterConversion([increment, measure_time], [sampling, values],
-                                              tmess_dt_to_values)
-        conversion_4 = parameters.ParameterConversion([sampling, measure_time], [increment, values],
-                                                      tmess_fabt_to_values)
-        abscissa = parameters.ParameterBlock(name=_("Abscissa"),
-                                             parameters={"start": start,
-                                                         "values": values,
-                                                         "increment": increment,
-                                                         "sampling": sampling,
-                                                         "measure_time": measure_time},
-                                             param_conversions=[conversion, conversion_1, conversion_2, conversion_3, conversion_4],
-                                             default_conversion=0)
-        return abscissa
+    def tmess_dt_to_values():
+        values.value = (measure_time.value + increment.value) / increment.value
+        dt_to_fabt()
+
+    def tmess_fabt_to_values():
+        values.value = (measure_time.value * sampling.value) + 1
+        fabt_to_dt()
+
+    conversion = parameters.ParameterConversion(
+        [increment, values], [sampling, measure_time], dt_values_to_tmess
+    )
+    conversion_1 = parameters.ParameterConversion(
+        [sampling, values], [increment, measure_time], fabt_values_to_tmess)
+    conversion_2 = parameters.ParameterConversion([values, measure_time], [increment, sampling],
+                                          tmess_values_to_dt)
+    conversion_3 = parameters.ParameterConversion([increment, measure_time], [sampling, values],
+                                          tmess_dt_to_values)
+    conversion_4 = parameters.ParameterConversion([sampling, measure_time], [increment, values],
+                                                  tmess_fabt_to_values)
+    abscissa = parameters.ParameterBlock(name=_("Abscissa"),
+                                         parameters={"start": start,
+                                                     "values": values,
+                                                     "increment": increment,
+                                                     "sampling": sampling,
+                                                     "measure_time": measure_time},
+                                         param_conversions=[conversion, conversion_1, conversion_2, conversion_3, conversion_4],
+                                         default_conversion=0)
+    return abscissa
 
 
 def fill_zeros(signals):
@@ -66,6 +77,8 @@ def fill_zeros(signals):
 
     Args:
         signals: Signals to match.
+    Returns:
+        list: List of zero filled signals.
     """
     new_signals = []
     increment = signals[0].increment

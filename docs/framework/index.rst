@@ -13,5 +13,6 @@ This chapter contains the documentation of all modules and classes of the framew
     parameters
     validator
     data_types
+    helpers
     save
     load
