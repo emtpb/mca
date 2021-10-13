@@ -1,7 +1,5 @@
 """Tests for the Block, the DynamicBlock and the Connection between blocks."""
 import pytest
-import os
-import json
 
 import mca.framework
 from mca import exceptions
@@ -17,7 +15,7 @@ def basic_scenario(one_input_block, one_output_block):
     b.inputs[0].connect(a.outputs[0])
     a.trigger_update()
     yield a, b
-    mca.framework.block_registry.Registry.clear()
+    mca.framework.io_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -28,7 +26,7 @@ def second_scenario(two_output_block, two_input_block):
     b.inputs[1].connect(a.outputs[1])
     a.trigger_update()
     yield a, b
-    mca.framework.block_registry.Registry.clear()
+    mca.framework.io_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -39,7 +37,7 @@ def third_scenario(one_output_block, two_input_block):
     b.inputs[0].connect(a.outputs[0])
     b.inputs[1].connect(a.outputs[0])
     yield a, b
-    mca.framework.block_registry.Registry.clear()
+    mca.framework.io_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -51,7 +49,7 @@ def fourth_scenario(one_output_block, one_input_block):
     b.inputs[0].connect(a.outputs[0])
     c.inputs[0].connect(a.outputs[0])
     yield a, b, c
-    mca.framework.block_registry.Registry.clear()
+    mca.framework.io_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -64,7 +62,7 @@ def fifth_scenario(one_output_block, one_input_one_output_block,
     b.inputs[0].connect(a.outputs[0])
     c.inputs[0].connect(b.outputs[0])
     yield a, b, c
-    mca.framework.block_registry.Registry.clear()
+    mca.framework.io_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -80,7 +78,7 @@ def sixth_scenario(one_output_block, one_input_one_output_block,
     d.inputs[0].connect(b.outputs[0])
     d.inputs[1].connect(c.outputs[0])
     yield a, b, c, d
-    mca.framework.block_registry.Registry.clear()
+    mca.framework.io_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -96,7 +94,7 @@ def seventh_scenario(one_output_block, two_input_one_output_block,
     c.inputs[1].connect(b.outputs[0])
     d.inputs[0].connect(c.outputs[0])
     yield a, b, c, d
-    mca.framework.block_registry.Registry.clear()
+    mca.framework.io_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -105,7 +103,7 @@ def add_input_scenario(dynamic_input_block):
     a.add_input(mca.framework.block_io.Input(a))
     a.add_input(mca.framework.block_io.Input(a))
     yield a
-    mca.framework.block_registry.Registry.clear()
+    mca.framework.io_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -137,7 +135,7 @@ def add_output_scenario(dynamic_output_block):
     a.add_output(mca.framework.block_io.Output(block=a))
     a.add_output(mca.framework.block_io.Output(block=a))
     yield a
-    mca.framework.block_registry.Registry.clear()
+    mca.framework.io_registry.Registry.clear()
 
 
 @pytest.fixture
@@ -167,7 +165,7 @@ def dynamic_output_scenario(add_output_scenario, two_input_one_output_block,
 
 def test_connect(basic_scenario):
     a, b = basic_scenario
-    assert [a.outputs[0], b.inputs[0]] in mca.framework.block_registry.Registry._graph.edges
+    assert [a.outputs[0], b.inputs[0]] in mca.framework.io_registry.Registry._graph.edges
 
 
 def test_connect_2(one_input_block):
@@ -176,7 +174,7 @@ def test_connect_2(one_input_block):
     print(a is b)
     with pytest.raises(exceptions.ConnectionsError):
         b.inputs[0].connect(a.inputs[0])
-    mca.framework.block_registry.Registry.clear()
+    mca.framework.io_registry.Registry.clear()
 
 
 def test_connect_3(basic_scenario, one_output_block):
@@ -192,12 +190,12 @@ def test_disconnect_input(basic_scenario):
     assert [
         a.outputs[0],
         b.inputs[0],
-    ] not in mca.framework.block_registry.Registry._graph.edges
+    ] not in mca.framework.io_registry.Registry._graph.edges
     b.inputs[0].disconnect()
     assert [
         a.outputs[0],
         b.inputs[0],
-    ] not in mca.framework.block_registry.Registry._graph.edges
+    ] not in mca.framework.io_registry.Registry._graph.edges
 
 
 def test_disconnect_output(basic_scenario, one_input_block):
@@ -208,23 +206,23 @@ def test_disconnect_output(basic_scenario, one_input_block):
     assert [
         a.outputs[0],
         b.inputs[0],
-    ] not in mca.framework.block_registry.Registry._graph.edges
+    ] not in mca.framework.io_registry.Registry._graph.edges
     assert [
         a.outputs[0],
         c.inputs[0],
-    ] not in mca.framework.block_registry.Registry._graph.edges
+    ] not in mca.framework.io_registry.Registry._graph.edges
     a.outputs[0].disconnect()
     assert [
         a.outputs[0],
         c.inputs[0],
-    ] not in mca.framework.block_registry.Registry._graph.edges
+    ] not in mca.framework.io_registry.Registry._graph.edges
 
 
 def test_get_output(basic_scenario):
     a, b = basic_scenario
-    assert mca.framework.block_registry.Registry.get_output(b.inputs[0]) is a.outputs[0]
+    assert mca.framework.io_registry.Registry.get_output(b.inputs[0]) is a.outputs[0]
     b.inputs[0].disconnect()
-    assert mca.framework.block_registry.Registry.get_output(b.inputs[0]) is None
+    assert mca.framework.io_registry.Registry.get_output(b.inputs[0]) is None
 
 
 def test_data_availability(basic_scenario):
@@ -385,7 +383,7 @@ def test_block_circle_error_2(one_output_block, two_input_one_output_block):
     c.inputs[1].connect(d.outputs[0])
     with pytest.raises(exceptions.BlockCircleError):
         d.inputs[1].connect(c.outputs[0])
-    mca.framework.block_registry.Registry.clear()
+    mca.framework.io_registry.Registry.clear()
 
 
 """Tests concerning the dynamic block."""
@@ -394,7 +392,7 @@ def test_block_circle_error_2(one_output_block, two_input_one_output_block):
 def test_add_input(add_input_scenario, dynamic_output_block):
     a = add_input_scenario
     assert len(a.inputs) == 3
-    assert [a.inputs[1], a.outputs[0]] in mca.framework.block_registry.Registry._graph.edges
+    assert [a.inputs[1], a.outputs[0]] in mca.framework.io_registry.Registry._graph.edges
     with pytest.raises(exceptions.InputOutputError):
         a.add_input(mca.framework.block_io.Input(a))
     b = dynamic_output_block()
@@ -413,7 +411,7 @@ def test_add_input_2(dynamic_input_block):
 def test_delete_input(delete_input_scenario, dynamic_output_block):
     a = delete_input_scenario
     assert len(a.inputs) == 2
-    assert all([x in mca.framework.block_registry.Registry._graph.nodes() for x in a.inputs])
+    assert all([x in mca.framework.io_registry.Registry._graph.nodes() for x in a.inputs])
     a.delete_input(1)
     with pytest.raises(exceptions.InputOutputError):
         a.delete_input(0)
@@ -438,7 +436,7 @@ def test_dynamic_input_data(dynamic_input_scenario):
 def test_add_output(add_output_scenario):
     a = add_output_scenario
     assert len(a.outputs) == 3
-    assert [a.inputs[0], a.outputs[2]] in mca.framework.block_registry.Registry._graph.edges
+    assert [a.inputs[0], a.outputs[2]] in mca.framework.io_registry.Registry._graph.edges
     with pytest.raises(exceptions.InputOutputError):
         a.add_output(mca.framework.block_io.Output(a))
         a.add_output(mca.framework.block_io.Output(a))
@@ -447,7 +445,7 @@ def test_add_output(add_output_scenario):
 def test_delete_output(delete_output_scenario):
     a = delete_output_scenario
     assert len(a.outputs) == 2
-    assert all([x in mca.framework.block_registry.Registry._graph.nodes()
+    assert all([x in mca.framework.io_registry.Registry._graph.nodes()
                 for x in a.outputs])
     a.delete_output(1)
     with pytest.raises(exceptions.InputOutputError):
@@ -507,11 +505,11 @@ def test_disconnect_all(seventh_scenario):
     a, b, c, d = seventh_scenario
     c.disconnect_all()
     assert [a.outputs[0],
-            c.inputs[0]] not in mca.framework.block_registry.Registry._graph.edges
+            c.inputs[0]] not in mca.framework.io_registry.Registry._graph.edges
     assert [b.outputs[0],
-            c.inputs[1]] not in mca.framework.block_registry.Registry._graph.edges
+            c.inputs[1]] not in mca.framework.io_registry.Registry._graph.edges
     assert [c.outputs[0],
-            d.inputs[0]] not in mca.framework.block_registry.Registry._graph.edges
+            d.inputs[0]] not in mca.framework.io_registry.Registry._graph.edges
 
 
 def test_get_meta_data(default_meta_data):

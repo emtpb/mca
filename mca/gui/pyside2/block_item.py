@@ -1,7 +1,7 @@
 from PySide2 import QtWidgets, QtCore, QtGui
 
 from mca.gui.pyside2 import edit_window, io_items
-from mca.framework import data_types, DynamicBlock, block_io, block_registry
+from mca.framework import data_types, DynamicBlock, block_io, io_registry
 from mca.language import _
 
 
@@ -263,7 +263,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         for o in self.outputs:
             o.disconnect()
         self.modified()
-        block_registry.Registry.remove_block(self.block)
+        io_registry.Registry.remove_block(self.block)
         self.scene().removeItem(self)
 
     def open_edit_window(self):

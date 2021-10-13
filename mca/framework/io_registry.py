@@ -1,13 +1,11 @@
 import networkx as nx
-import json
 
-from mca.framework import block_io, data_types, parameters
+from mca.framework import block_io
 from mca import exceptions
-from mca import blocks
 
 
 class IORegistry:
-    """Class to register all :class:`.Input` s and :class:`.Output` s
+    """Class to register all :class:`.Input`  and :class:`.Output` objects
     created and also handles connections  between Outputs and Inputs and the 
     consistency of the data through updates.
     
@@ -193,115 +191,6 @@ class IORegistry:
             self.remove_input(input_)
         for output in block.outputs:
             self.remove_output(output)
-
-    def save_block_structure(self, file_path):
-        """Saves the current block structure to the given file_path as
-        a .json.
-
-        Args:
-            file_path (str): Path of the .json file.
-        """
-        save_data = {"blocks": []}
-        for block in self.get_all_blocks():
-            parameter_dict = {}
-            for parameter_name, parameter in block.parameters.items():
-                if isinstance(parameter, parameters.ParameterBlock):
-                    sub_parameter_dict = {}
-                    for sub_parameter_name, sub_parameter in parameter.parameters.items():
-                        sub_parameter_dict[sub_parameter_name] = sub_parameter.value
-                    parameter_dict[parameter_name] = sub_parameter_dict
-                else:
-                    parameter_dict[parameter_name] = parameter.value
-            save_block = {"class": str(type(block)),
-                          "parameters": parameter_dict,
-                          "inputs": [],
-                          "outputs": [{
-                              "id": output.id.int,
-                              "meta_data": {"signal_name": output.meta_data.name,
-                                            "quantity_a": output.meta_data.quantity_a,
-                                            "symbol_a": output.meta_data.symbol_a,
-                                            "unit_a": repr(output.meta_data.unit_a),
-                                            "quantity_o": output.meta_data.quantity_o,
-                                            "symbol_o": output.meta_data.symbol_o,
-                                            "unit_o": repr(output.meta_data.unit_o)},
-                              "abscissa_meta_data": output.abscissa_meta_data,
-                              "ordinate_meta_data": output.ordinate_meta_data
-                              }
-                              for output in block.outputs],
-                          "gui_data": block.gui_data["save_data"]}
-            for input_ in block.inputs:
-                input_save = {}
-                if input_.connected_output:
-                    input_save[
-                        "connected_output"] = input_.connected_output.id.int
-                save_block["inputs"].append(input_save)
-            save_data["blocks"].append(save_block)
-        with open(file_path, "w") as save_file:
-            json.dump(save_data, save_file)
-
-    def load_block_structure(self, file_path):
-        """Loads a block structure into an empty structure.
-
-        Args:
-            file_path (str): Path of the .json file.
-
-        Returns:
-            list: Contains all saved blocks in no particular order.
-        """
-        if self.get_all_blocks():
-            raise exceptions.DataLoadingError("Cannot load block structure"
-                                              "into an existing structure.")
-        with open(file_path, "r") as load_file:
-            load_data = json.load(load_file)
-        str_to_block_types = {str(block_class): block_class
-                              for block_class in blocks.block_classes}
-        block_structure = []
-        for block_save in load_data["blocks"]:
-            block_instance = str_to_block_types[block_save["class"]]()
-            block_structure.append(block_instance)
-            block_instance.gui_data["save_data"] = block_save["gui_data"]
-            for parameter_name, parameter in block_save["parameters"].items():
-                if isinstance(parameter, dict):
-                    for sub_parameter_name, sub_parameter in parameter.items():
-                        block_instance.parameters[parameter_name].parameters[sub_parameter_name].value = sub_parameter
-                else:
-                    block_instance.parameters[parameter_name].value = parameter
-            for index, input_save in enumerate(block_save["inputs"]):
-                if index + 1 > len(block_instance.inputs):
-                    block_instance.add_input(block_io.Input(block_instance))
-            for index, output_save in enumerate(block_save["outputs"]):
-                meta_data = data_types.MetaData(
-                    output_save["meta_data"]["signal_name"],
-                    output_save["meta_data"]["unit_a"],
-                    output_save["meta_data"]["unit_o"],
-                    output_save["meta_data"]["quantity_o"],
-                    output_save["meta_data"]["quantity_a"],
-                    output_save["meta_data"]["symbol_a"],
-                    output_save["meta_data"]["symbol_o"],
-                )
-                if index + 1 > len(block_instance.outputs):
-                    block_instance.add_output(block_io.Output(block_instance))
-                block_instance.outputs[index].meta_data = meta_data
-                block_instance.outputs[index].abscissa_meta_data = output_save["abscissa_meta_data"]
-                block_instance.outputs[index].ordinate_meta_data = output_save["ordinate_meta_data"]
-                block_instance.trigger_update()
-        for block_index_outer, block_save_outer in enumerate(
-                load_data["blocks"]):
-            for input_index, input_save in enumerate(
-                    block_save_outer["inputs"]):
-                if input_save.get("connected_output"):
-                    found = False
-                    for block_index_inner, block_save_inner in enumerate(
-                            load_data["blocks"]):
-                        if found:
-                            break
-                        for output_index, output_save in enumerate(
-                                block_save_inner["outputs"]):
-                            if input_save["connected_output"] == output_save["id"]:
-                                block_structure[block_index_outer].inputs[input_index].connect(
-                                    block_structure[block_index_inner].outputs[output_index])
-                                found = True
-        return block_structure
 
 
 Registry = IORegistry()
