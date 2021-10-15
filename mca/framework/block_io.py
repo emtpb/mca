@@ -1,6 +1,6 @@
 import uuid
 
-from mca.framework import block_registry, data_types
+from mca.framework import io_registry, data_types
 
 
 class Input:
@@ -33,13 +33,13 @@ class Input:
         Args:
             output (Output): Output to which the Input gets connected.
         """
-        block_registry.Registry.connect(output, self)
+        io_registry.Registry.connect(output, self)
 
     def disconnect(self):
         """Disconnects the Input from its Output if it is connected
         to any Output. Triggers an update.
         """
-        block_registry.Registry.disconnect_input(self)
+        io_registry.Registry.disconnect_input(self)
 
     @property
     def data(self):
@@ -54,7 +54,7 @@ class Input:
         Returns:
             output (Output): If the Input is connected, the output is returned.
         """
-        return block_registry.Registry.get_output(self)
+        return io_registry.Registry.get_output(self)
 
 
 class Output:
@@ -157,4 +157,4 @@ class Output:
 
     def disconnect(self):
         """Disconnects itself from all Inputs."""
-        block_registry.Registry.disconnect_output(self)
+        io_registry.Registry.disconnect_output(self)

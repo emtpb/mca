@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import data_types, block_io, block_registry
+from mca.framework import data_types, block_io, io_registry
 from mca.blocks import signal_plot
 
 

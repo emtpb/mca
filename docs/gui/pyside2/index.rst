@@ -7,6 +7,7 @@ Contains the documentation of all modules and classes of the PySide2 based Graph
 .. toctree::
     :maxdepth: 1
 
+    about_window
     block_display
     block_list
     block_item

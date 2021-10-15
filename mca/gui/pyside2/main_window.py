@@ -2,8 +2,8 @@ from PySide2 import QtWidgets, QtGui
 import os
 import ntpath
 
-from mca import blocks, config
-from mca.framework import block_registry
+from mca import config
+from mca.framework import save, load
 from mca.gui.pyside2 import block_list, block_display, about_window
 from mca.language import _
 
@@ -173,7 +173,7 @@ class MainWindow(QtWidgets.QMainWindow):
             file_path (str): Path of the file to open.
         """
         self.scene.clear()
-        loaded_blocks = block_registry.Registry.load_block_structure(file_path)
+        loaded_blocks = load.load_block_structure(file_path)
         self.save_file_path = file_path
         self.conf["load_file_dir"] = file_path
         if file_path in self.conf["recent_files"]:
@@ -230,7 +230,7 @@ class MainWindow(QtWidgets.QMainWindow):
                   Otherwise False.
         """
         if self.save_file_path:
-            block_registry.Registry.save_block_structure(self.save_file_path)
+            save.save_block_structure(self.save_file_path)
             self.modified = False
             return True
         else:

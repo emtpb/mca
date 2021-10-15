@@ -8,8 +8,11 @@ This chapter contains the documentation of all modules and classes of the framew
     :maxdepth: 1
 
     block_base
-    block_registry
+    io_registry
     io_base
     parameters
     validator
     data_types
+    helpers
+    save
+    load
