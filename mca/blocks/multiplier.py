@@ -12,8 +12,7 @@ class Multiplier(DynamicBlock):
     tags = (_("Processing"),)
 
     def setup_io(self):
-        self._new_output(
-            meta_data=data_types.default_meta_data())
+        self._new_output()
         self.dynamic_input = (1, None)
         self._new_input()
         self._new_input()

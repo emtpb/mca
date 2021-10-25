@@ -13,7 +13,7 @@ class Adder(DynamicBlock):
 
     def setup_io(self):
         self.dynamic_input = (1, None)
-        self._new_output(data_types.default_meta_data())
+        self._new_output()
         self._new_input()
         self._new_input()
 

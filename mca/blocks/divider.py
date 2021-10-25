@@ -10,7 +10,7 @@ class Divider(Block):
 
     def setup_io(self):
         self._new_output(
-            meta_data=data_types.default_meta_data())
+            )
         self._new_input()
         self._new_input()
 

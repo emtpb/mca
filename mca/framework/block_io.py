@@ -91,7 +91,7 @@ class Output:
         Args:
             block: Block to which the Output belongs to.
             name (str): Name of the Output.
-            meta_data: MetaData of the attribute data.
+            meta_data: Meta data of the data.
             meta_data_input_dependent (bool): True, if the :class:`.MetaData` of
                                               the Output can be dependent on the
                                               MetaData of any Input.
@@ -109,7 +109,10 @@ class Output:
         self.meta_data_input_dependent = meta_data_input_dependent
         self.abscissa_meta_data = abscissa_meta_data
         self.ordinate_meta_data = ordinate_meta_data
-        self.meta_data = meta_data
+        if meta_data is None:
+            self.meta_data = data_types.default_meta_data()
+        else:
+            self.meta_data = meta_data
         self.id = uuid.uuid4()
 
     def get_meta_data(self, external_meta_data):

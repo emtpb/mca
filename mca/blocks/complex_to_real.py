@@ -19,10 +19,8 @@ class ComplexToReal(Block):
     tags = (_("Processing"),)
 
     def setup_io(self):
-        self._new_output(
-            meta_data=data_types.default_meta_data(), name=_("Real part"))
-        self._new_output(
-            meta_data=data_types.default_meta_data(), name=_("Imaginary part"))
+        self._new_output(name=_("Real part"))
+        self._new_output(name=_("Imaginary part"))
         self._new_input()
 
     def setup_parameters(self):

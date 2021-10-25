@@ -80,7 +80,7 @@ class Block:
         for o in self.outputs:
             o.disconnect()
 
-    def _new_output(self, meta_data, meta_data_input_dependent=True,
+    def _new_output(self, meta_data=None, meta_data_input_dependent=True,
                     abscissa_meta_data=False, ordinate_meta_data=False,
                     name=None):
         """Creates and adds an new output to the block. Used to create new

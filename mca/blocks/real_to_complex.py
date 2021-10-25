@@ -18,7 +18,7 @@ class RealToComplex(Block):
     tags = (_("Processing"),)
 
     def setup_io(self):
-        self._new_output(meta_data=data_types.default_meta_data())
+        self._new_output()
         self._new_input(name=_("Real part"))
         self._new_input(name=_("Imaginary part"))
 

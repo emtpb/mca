@@ -17,21 +17,18 @@ class GaussPulse(Block):
     def setup_io(self):
         self._new_output(
             name=_("Real part"),
-            meta_data=data_types.default_meta_data(),
             meta_data_input_dependent=False,
             ordinate_meta_data=True,
             abscissa_meta_data=True,
         )
         self._new_output(
             name=_("Imaginary part"),
-            meta_data=data_types.default_meta_data(),
             meta_data_input_dependent=False,
             ordinate_meta_data=True,
             abscissa_meta_data=True,
         )
         self._new_output(
             name=_("Envelope"),
-            meta_data=data_types.default_meta_data(),
             meta_data_input_dependent=False,
             ordinate_meta_data=True,
             abscissa_meta_data=True,
