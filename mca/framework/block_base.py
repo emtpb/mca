@@ -115,7 +115,7 @@ class Block:
             io_registry.Registry.add_node(block_io.Input(self, name=name))
         )
 
-    def check_all_empty_inputs(self):
+    def all_inputs_empty(self):
         """Checks if all Inputs have no data and if that is the case
         the data of the Outputs will be set to None.
 
@@ -130,7 +130,7 @@ class Block:
         else:
             return False
 
-    def check_any_empty_inputs(self):
+    def any_inputs_empty(self):
         """Checks if any Inputs have no data and if that is the case
         the data of the Outputs will be set to None.
 

@@ -21,7 +21,7 @@ class Multiplier(DynamicBlock):
         pass
 
     def _process(self):
-        if self.check_all_empty_inputs():
+        if self.all_inputs_empty():
             return
         for i in self.inputs:
             validator.check_type_signal(i.data)

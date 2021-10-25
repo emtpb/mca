@@ -55,7 +55,7 @@ class FFTPlot(Block):
         self.axes.cla()
         if self.legend:
             self.legend.remove()
-        if self.check_all_empty_inputs():
+        if self.all_inputs_empty():
             return
         validator.check_type_signal(self.inputs[0].data)
 

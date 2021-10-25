@@ -46,7 +46,7 @@ class STFTPlot(Block):
             self.color_bar.remove()
             self.color_bar = None
         self.axes.cla()
-        if self.check_all_empty_inputs():
+        if self.all_inputs_empty():
             self.fig.canvas.draw()
             return
 

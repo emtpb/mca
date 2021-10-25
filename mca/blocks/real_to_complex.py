@@ -26,7 +26,7 @@ class RealToComplex(Block):
         pass
 
     def _process(self):
-        if self.check_any_empty_inputs():
+        if self.any_inputs_empty():
             return
         validator.check_type_signal(self.inputs[0].data)
         validator.check_type_signal(self.inputs[1].data)

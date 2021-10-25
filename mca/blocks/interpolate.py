@@ -38,7 +38,7 @@ class Interpolate(Block):
              })
 
     def _process(self):
-        if self.check_all_empty_inputs():
+        if self.all_inputs_empty():
             return
         validator.check_type_signal(self.inputs[0].data)
 

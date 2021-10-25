@@ -79,7 +79,7 @@ class DynamicOutputBlock(mca.framework.DynamicBlock):
         pass
 
     def _process(self):
-        if self.check_all_empty_inputs():
+        if self.all_inputs_empty():
             return
         data = self.inputs[0].data
         for index, output in enumerate(self.outputs):

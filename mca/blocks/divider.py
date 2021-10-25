@@ -18,7 +18,7 @@ class Divider(Block):
         pass
 
     def _process(self):
-        if self.check_any_empty_inputs():
+        if self.any_inputs_empty():
             return
         for i in self.inputs:
             validator.check_type_signal(i.data)
