@@ -15,8 +15,8 @@ class Amplifier(Block):
         self._new_input()
 
     def setup_parameters(self):
-        factor = parameters.FloatParameter(name=_("Factor"), value=1)
-        decibel = parameters.FloatParameter(name=_("Decibel"), value=0, unit="dB")
+        factor = parameters.FloatParameter(name=_("Factor"), default=1)
+        decibel = parameters.FloatParameter(name=_("Decibel"), default=0, unit="dB")
 
         def factor_to_decibel():
             decibel.value = 10*np.log10(factor.value)

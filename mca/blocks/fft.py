@@ -22,7 +22,7 @@ class FFT(Block):
 
     def setup_parameters(self):
         self.parameters.update({"normalize": parameters.BoolParameter(
-            _("Normalize"), value=False)})
+            _("Normalize"), default=False)})
 
     def _process(self):
         if self.check_all_empty_inputs():

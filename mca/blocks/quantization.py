@@ -18,11 +18,11 @@ class Quantization(Block):
 
     def setup_parameters(self):
         self.parameters.update({
-            "bits": parameters.IntParameter(_("Bits"), min_=1, value=10),
+            "bits": parameters.IntParameter(_("Bits"), min_=1, default=10),
             "max_value": parameters.FloatParameter(_("Max value"), min_=0,
-                                                   value=1),
-            "signed": parameters.BoolParameter(_("Signed"), value=True),
-            "raw": parameters.BoolParameter(_("Raw bits"), value=False)
+                                                   default=1),
+            "signed": parameters.BoolParameter(_("Signed"), default=True),
+            "raw": parameters.BoolParameter(_("Raw bits"), default=False)
         })
 
     def _process(self):

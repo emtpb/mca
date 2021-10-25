@@ -238,8 +238,8 @@ class ParameterBlock(mca.framework.block_base.Block):
         pass
 
     def setup_parameters(self):
-        factor = mca.framework.parameters.FloatParameter(name=_("Test"), value=1)
-        decibel = mca.framework.parameters.FloatParameter(name=_("Decibel"), value=0, unit="dB")
+        factor = mca.framework.parameters.FloatParameter(name=_("Test"), default=1)
+        decibel = mca.framework.parameters.FloatParameter(name=_("Decibel"), default=0, unit="dB")
 
         def factor_to_decibel():
             decibel.value = 10*np.log10(factor.value)
@@ -258,10 +258,10 @@ class ParameterBlock(mca.framework.block_base.Block):
                                                default_conversion=0)
         self.parameters.update({
             "test_parameter": mca.framework.parameters.FloatParameter(
-                name="Test", value=0
+                name="Test", default=0
             ),
             "test_parameter1": mca.framework.parameters.IntParameter(
-                name="Test", value=100, min_=1
+                name="Test", default=100, min_=1
             ),
             "multiplier": multiplier
         })

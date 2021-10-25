@@ -22,8 +22,8 @@ class Cutter(Block):
 
     def setup_parameters(self):
         self.parameters.update({
-            "start_value": parameters.FloatParameter(_("Start value"), value=0),
-            "end_value": parameters.FloatParameter(_("End value"), value=1)
+            "start_value": parameters.FloatParameter(_("Start value"), default=0),
+            "end_value": parameters.FloatParameter(_("End value"), default=1)
         })
 
     def _process(self):

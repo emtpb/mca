@@ -16,12 +16,12 @@ def create_abscissa_parameter_block():
     Returns:
         :class:`.ParameterBlock` :  Abscissa parameter block.
     """
-    values = parameters.IntParameter(_("Values"), min_=1, value=1001)
+    values = parameters.IntParameter(_("Values"), min_=1, default=1001)
     increment = parameters.FloatParameter(_("Increment"), min_=0,
-                                          value=0.01)
-    sampling = parameters.FloatParameter(_("Sampling frequency"), value=100, min_=0, unit="Hz")
-    measure_time = parameters.FloatParameter(_("Measure time"), value=10.0, min_=0)
-    start = parameters.FloatParameter("Start", value=0)
+                                          default=0.01)
+    sampling = parameters.FloatParameter(_("Sampling frequency"), default=100, min_=0, unit="Hz")
+    measure_time = parameters.FloatParameter(_("Measure time"), default=10.0, min_=0)
+    start = parameters.FloatParameter("Start", default=0)
 
     def dt_to_fabt():
         sampling.value = 1 / increment.value

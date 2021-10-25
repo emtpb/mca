@@ -18,7 +18,7 @@ class Resample(Block):
         self.parameters.update({
             "sample_freq": parameters.FloatParameter(
                 name=_("Sampling frequency"),
-                min_=0, value=1, unit="Hz")
+                min_=0, default=1, unit="Hz")
         })
 
     def _process(self):

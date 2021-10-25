@@ -33,7 +33,7 @@ class Interpolate(Block):
                           ("zero", _("Zero")), ("previous", _("Previous")),
                           ("next", _("Next")), ("nearest", _("Nearest"))
                           ],
-                 value="linear"
+                 default="linear"
                 )
              })
 

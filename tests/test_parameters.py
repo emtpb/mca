@@ -11,7 +11,7 @@ from mca import exceptions
 
 @pytest.mark.parametrize("test_input", ["a", [1, 2]])
 def test_type_float(test_input):
-    a = pm.FloatParameter("Test", value=42.2)
+    a = pm.FloatParameter("Test", default=42.2)
     with pytest.raises(exceptions.ParameterTypeError):
         a.validate(test_input)
     a.validate(42)
@@ -31,7 +31,7 @@ def test_bounds_float():
 
 
 def test_type_int():
-    a = pm.IntParameter("Test", value=42)
+    a = pm.IntParameter("Test", default=42)
     with pytest.raises(exceptions.ParameterTypeError):
         a.validate("a")
 
@@ -49,7 +49,7 @@ def test_bounds_int():
 
 
 def test_type_str():
-    a = pm.StrParameter("Test", value="test")
+    a = pm.StrParameter("Test", default="test")
     with pytest.raises(exceptions.ParameterTypeError):
         a.validate(5.1)
 
@@ -65,7 +65,7 @@ def test_bounds_str():
 
 
 def test_choice():
-    a = pm.ChoiceParameter("Test", choices=[(1.2, "1.2"), ("a", "all"), (42, "42")], value=1.2)
+    a = pm.ChoiceParameter("Test", choices=[(1.2, "1.2"), ("a", "all"), (42, "42")], default=1.2)
     with pytest.raises(exceptions.ParameterValueError):
         a.validate("test")
     a.validate(42)
@@ -76,7 +76,7 @@ def test_choice():
 
 
 def test_type_bool():
-    a = pm.BoolParameter("Test", value=True)
+    a = pm.BoolParameter("Test", default=True)
     with pytest.raises(exceptions.ParameterTypeError):
         a.validate("test")
     a.validate(True)
@@ -86,15 +86,15 @@ def test_type_bool():
 
 
 def test_type_path():
-    a = pm.PathParameter("Test", value="test")
+    a = pm.PathParameter("Test", default="test")
     with pytest.raises(exceptions.ParameterTypeError):
         a.validate(5)
     a.validate("test")
 
 
 def test_parameter_conversion_1():
-    a = pm.FloatParameter("dt", value=0.01, min_=0)
-    b = pm.FloatParameter("fabt", value=100, min_=0)
+    a = pm.FloatParameter("dt", default=0.01, min_=0)
+    b = pm.FloatParameter("fabt", default=100, min_=0)
 
     def conversion_func():
         b.value = 1/a.value
@@ -105,10 +105,10 @@ def test_parameter_conversion_1():
 
 
 def test_parameter_conversion_2():
-    a = pm.FloatParameter("dt", value=0.01, min_=0)
-    b = pm.FloatParameter("fabt", value=100, min_=0)
-    c = pm.IntParameter("values", value=200, min_=0)
-    d = pm.FloatParameter("t_mess", value=2.0, min_=0)
+    a = pm.FloatParameter("dt", default=0.01, min_=0)
+    b = pm.FloatParameter("fabt", default=100, min_=0)
+    c = pm.IntParameter("values", default=200, min_=0)
+    d = pm.FloatParameter("t_mess", default=2.0, min_=0)
 
     def conversion_func():
         b.value = 1/a.value
@@ -121,8 +121,8 @@ def test_parameter_conversion_2():
 
 
 def test_parameter_block_1():
-    a = pm.FloatParameter("dt", value=0.01, min_=0)
-    b = pm.FloatParameter("fabt", value=100, min_=0)
+    a = pm.FloatParameter("dt", default=0.01, min_=0)
+    b = pm.FloatParameter("fabt", default=100, min_=0)
 
     def dt_to_fabt():
         b.value = 1/a.value
@@ -142,10 +142,10 @@ def test_parameter_block_1():
 
 
 def test_parameter_block_2():
-    a = pm.FloatParameter("dt", value=0.01, min_=0)
-    b = pm.FloatParameter("fabt", value=100, min_=0)
-    c = pm.IntParameter("values", value=200, min_=0)
-    d = pm.FloatParameter("t_mess", value=2.0, min_=0)
+    a = pm.FloatParameter("dt", default=0.01, min_=0)
+    b = pm.FloatParameter("fabt", default=100, min_=0)
+    c = pm.IntParameter("values", default=200, min_=0)
+    d = pm.FloatParameter("t_mess", default=2.0, min_=0)
 
     def dt_to_fabt():
         b.value = 1/a.value

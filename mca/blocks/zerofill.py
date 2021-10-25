@@ -17,10 +17,10 @@ class Zerofill(Block):
     def setup_parameters(self):
         self.parameters.update({
             "dtime_values": parameters.IntParameter(
-                _("Dead Time Values"), min_=0, value=0
+                _("Dead Time Values"), min_=0, default=0
             ),
             "zpad_values": parameters.IntParameter(
-                _("Zero Padding Values"), min_=0, value=0)})
+                _("Zero Padding Values"), min_=0, default=0)})
 
     def _process(self):
         if self.check_all_empty_inputs():

@@ -30,14 +30,14 @@ class Chirp(Block):
                 choices=[("linear", _("Linear")), ("quadratic", _("Quadratic")),
                          ("logarithmic", _("Logarithmic")),
                          ("hyperbolic", _("Hyperbolic"))],
-                value="linear"
+                default="linear"
             ),
             "freq1": parameters.FloatParameter(_("Start Frequency"),
-                                               unit="Hz", min_=0, value=1),
+                                               unit="Hz", min_=0, default=1),
             "freq2": parameters.FloatParameter(_("End Frequency"),
-                                               unit="Hz", min_=0, value=10),
-            "amp": parameters.FloatParameter("Amplitude", min_=0, value=1),
-            "phase": parameters.FloatParameter("Phase", value=0, unit="°"),
+                                               unit="Hz", min_=0, default=10),
+            "amp": parameters.FloatParameter("Amplitude", min_=0, default=1),
+            "phase": parameters.FloatParameter("Phase", default=0, unit="°"),
             "abscissa": abscissa,
         })
 

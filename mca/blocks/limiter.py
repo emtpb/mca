@@ -21,8 +21,8 @@ class Limiter(Block):
         self.parameters.update(
             {"mode": parameters.ChoiceParameter(
                 _("Mode"),
-                choices=[("unipolar", _("Unipolar")), ("bipolar", _("Bipolar"))], value="unipolar"),
-             "threshold": parameters.FloatParameter(_("Threshold"), value=1)
+                choices=[("unipolar", _("Unipolar")), ("bipolar", _("Bipolar"))], default="unipolar"),
+             "threshold": parameters.FloatParameter(_("Threshold"), default=1)
              })
 
     def _process(self):

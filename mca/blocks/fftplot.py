@@ -37,16 +37,16 @@ class FFTPlot(Block):
                 _("Shift to ordinate"),
                 [("no_shift", _("No shift")), ("shift", _("Shift")),
                  ("shift_positive", _("Shift and only positive frequencies"))],
-                value="no_shift",
+                default="no_shift",
             ),
             "plot_mode": parameters.ChoiceParameter(
                 _("Plot Mode"),
                 [("real", _("Real")), ("imaginary", _("Imaginary")),
                  ("absolute", _("Absolute")), ("phase", _("Phase"))],
-                value="absolute",
+                default="absolute",
             ),
             "normalize": parameters.BoolParameter(
-                _("Normalize"), value=False),
+                _("Normalize"), default=False),
             "show": parameters.ActionParameter("Show", self.show),
             "auto_show": parameters.BoolParameter("Auto plot", False),
         })

@@ -29,13 +29,13 @@ class STFTPlot(Block):
                 choices=[("hann", _("Hann")),
                          ("hamming", _("Hamming")),
                          ("triangle", _("Triangle"))],
-                value="hann"),
+                default="hann"),
             "seg_length": parameters.IntParameter(
-                name=_("Segment Length"), min_=1, value=20),
+                name=_("Segment Length"), min_=1, default=20),
             "seg_overlap": parameters.IntParameter(
-                name=_("Segment Overlap"), min_=0, value=10),
+                name=_("Segment Overlap"), min_=0, default=10),
             "fft_length": parameters.IntParameter(
-                name=_("FFT Length"), min_=1, value=20),
+                name=_("FFT Length"), min_=1, default=20),
             "show": parameters.ActionParameter(
                 name=_("Show"), function=self.show
             )

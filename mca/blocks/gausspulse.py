@@ -38,13 +38,13 @@ class GaussPulse(Block):
         abscissa = helpers.create_abscissa_parameter_block()
         abscissa.parameters["start"].value = -5
         self.parameters.update({
-            "amp": parameters.FloatParameter("Amplitude", min_=0, value=1),
+            "amp": parameters.FloatParameter("Amplitude", min_=0, default=1),
             "cfreq": parameters.FloatParameter(_("Center Frequency"), unit="Hz",
-                                               min_=0, value=1),
+                                               min_=0, default=1),
             "bw": parameters.FloatParameter(_("Fractional bandwidth"), min_=0,
-                                            max_=1, value=0.5),
+                                            max_=1, default=0.5),
             "bwr": parameters.FloatParameter(_("Reference level"), unit="dB",
-                                             value=-6),
+                                             default=-6),
             "abscissa": abscissa,
         })
 

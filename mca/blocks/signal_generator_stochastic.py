@@ -27,11 +27,11 @@ class SignalGeneratorStochastic(Block):
                 _("Distribution"),
                 choices=[("normal", _("Normal distribution")),
                          ("equal", _("Equal distribution"))],
-                value="normal"
+                default="normal"
             ),
-            "mean": parameters.FloatParameter(_("Mean µ"), value=0),
+            "mean": parameters.FloatParameter(_("Mean µ"), default=0),
             "std_dev": parameters.FloatParameter(_("Standard deviation σ"),
-                                                 min_=0, value=1),
+                                                 min_=0, default=1),
             "abscissa": abscissa
         })
 

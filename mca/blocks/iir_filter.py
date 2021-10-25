@@ -29,24 +29,24 @@ class IRRFilter(Block):
                 choices=[("butter", _("Butter")), ("cheby1", _("Cheby1")),
                          ("cheby2", _("Cheby2")), ("ellip", _("Elliptic"))
                          ],
-                value="butter"),
-            "order": parameters.IntParameter(name=_("Order"), min_=1, value=1),
+                default="butter"),
+            "order": parameters.IntParameter(name=_("Order"), min_=1, default=1),
             "characteristic": parameters.ChoiceParameter(
                 name=_("Characteristic"), choices=[("low", _("Lowpass")),
                                                    ("high", _("Highpass")),
                                                    ("band", _("Bandpass")),
                                                    ("stop", _("Bandstop"))]),
             "cut_off": parameters.FloatParameter(name=_("Cut off frequency"),
-                                                 min_=0, value=1, unit="Hz"),
+                                                 min_=0, default=1, unit="Hz"),
             "upper_cut_off": parameters.FloatParameter(
-                name=_("Upper cut off frequency"), min_=0, value=10, unit="Hz"),
+                name=_("Upper cut off frequency"), min_=0, default=10, unit="Hz"),
             "ripple": parameters.FloatParameter(name=_("Ripple"), min_=0,
-                                                value=5, unit="dB"),
+                                                default=5, unit="dB"),
             "attenuation": parameters.FloatParameter(name=_("Attenuation"),
-                                                     min_=0, value=5,
+                                                     min_=0, default=5,
                                                      unit="dB"),
             "phase_corr": parameters.BoolParameter(
-                name=_("Phase correction (filtfilt)"), value=False)
+                name=_("Phase correction (filtfilt)"), default=False)
         })
 
     def _process(self):

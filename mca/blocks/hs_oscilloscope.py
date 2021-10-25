@@ -46,23 +46,23 @@ class HSOscilloscope(Block):
                                                          (20, "20"),
                                                          (40, "40"),
                                                          (80, "80")],
-                                                value=80)
+                                                default=80)
         trig_lvl = parameters.FloatParameter(_("Trigger Level"), min_=0,
-                                             max_=1, value=0.5)
+                                             max_=1, default=0.5)
         trig_kind = parameters.ChoiceParameter(_("Trigger Kind"),
                                                choices=[("rising", "Rising Edge"),
                                                         ("falling", "Falling Edge"),
                                                         ("in window", "In Window"),
                                                         ("out window", "Out Window")],
-                                               value="rising")
-        trig_enabled_ch1 = parameters.BoolParameter(_("Enable Trigger"), value=True)
+                                               default="rising")
+        trig_enabled_ch1 = parameters.BoolParameter(_("Enable Trigger"), default=True)
         ch1 = parameters.ParameterBlock(name=_("Channel 1"),
                                         parameters={"range": volt_range,
                                                     "enable_trig": trig_enabled_ch1,
                                                     "trig_lvl": trig_lvl,
                                                     "trig_kind": trig_kind})
         trig_enabled_ch2 = parameters.BoolParameter(_("Enable Trigger"),
-                                                    value=False)
+                                                    default=False)
         ch2 = parameters.ParameterBlock(name=_("Channel 2"),
                                         parameters={"range": deepcopy(volt_range),
                                                     "enable_trig": trig_enabled_ch2,
@@ -72,15 +72,15 @@ class HSOscilloscope(Block):
             "device": parameters.ChoiceParameter(
                 name=_("Device"),
                 choices=[("HS3", "HS3"), ("HS5", "HS5")],
-                value="HS3"),
+                default="HS3"),
             "connect": parameters.ActionParameter(
                 _("Connect"),
                 function=self.connect_oscilloscope),
             "adc_resolution": parameters.ChoiceParameter(_("ADC Resolution"),
-                                                        choices=[(8, "8"), (10, "10"), (12, "12"), (14, "14")],
-                                                        value=8),
-            "sample_freq": parameters.FloatParameter(_("Sample Frequency"), unit="Hz", value=1e8),
-            "record_length": parameters.IntParameter(_("Record Length"), value=5000),
+                                                         choices=[(8, "8"), (10, "10"), (12, "12"), (14, "14")],
+                                                         default=8),
+            "sample_freq": parameters.FloatParameter(_("Sample Frequency"), unit="Hz", default=1e8),
+            "record_length": parameters.IntParameter(_("Record Length"), default=5000),
             "measure": parameters.ActionParameter(_("Measure"), function=self.measure),
             "ch1": ch1,
             "ch2": ch2

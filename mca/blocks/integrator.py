@@ -20,7 +20,7 @@ class Integrator(Block):
             "int_rule": parameters.ChoiceParameter(
                 _("Integration rule"),
                 [("trapz", _("Trapezoidal")), ("rect", _("Rectangular"))],
-                value="trapz",
+                default="trapz",
             )})
 
     def _process(self):

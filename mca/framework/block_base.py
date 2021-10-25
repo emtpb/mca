@@ -29,7 +29,7 @@ class Block:
         self.outputs = []
         self.parameters = {
             "name": parameters.StrParameter(name=_("Name"), max_length=35,
-                                            value=self.name)}
+                                            default=self.name)}
         self.gui_data = {"save_data": {}, "run_time_data": {}}
         self.setup_io()
         self.setup_parameters()

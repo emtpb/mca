@@ -23,12 +23,12 @@ class Window(Block):
                          ("exponential", _("Exponential")),
                          ("gaussian", _("Gaussian")),
                          ("triangle", _("Triangle"))],
-                value="hann"
+                default="hann"
             ),
             "alpha": parameters.FloatParameter(_("Alpha (Tukey)"), min_=0,
-                                               max_=1, value=0.5),
+                                               max_=1, default=0.5),
             "std": parameters.FloatParameter(_("Standard Deviation (Gaussian)"),
-                                             min_=0, value=1)
+                                             min_=0, default=1)
         })
 
     def _process(self):

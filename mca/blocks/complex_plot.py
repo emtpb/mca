@@ -35,7 +35,7 @@ class ComplexPlot(DynamicBlock):
             "plot_type": parameters.ChoiceParameter(_("Plot type"), choices=(
                 ("real_imag", _("Real/Imaginary")),
                 ("abs_phase", _("Absolute/Phase"))),
-                                                    value="abs_phase"),
+                                                    default="abs_phase"),
             "show": parameters.ActionParameter(_("Show plot"), self.show),
             "auto_show": parameters.BoolParameter(_("Auto plot"), False),
         })
