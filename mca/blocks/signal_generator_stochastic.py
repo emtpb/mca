@@ -15,9 +15,9 @@ class SignalGeneratorStochastic(Block):
 
     def setup_io(self):
         self.new_output(
-            meta_data_input_dependent=False,
-            ordinate_meta_data=True,
-            abscissa_meta_data=True,
+            metadata_input_dependent=False,
+            ordinate_metadata=True,
+            abscissa_metadata=True,
         )
 
     def setup_parameters(self):
@@ -49,7 +49,7 @@ class SignalGeneratorStochastic(Block):
             ordinate = mean + std_dev * np.sqrt(12) * (np.random.rand(values)-0.5)
 
         self.outputs[0].data = data_types.Signal(
-            meta_data=self.outputs[0].get_meta_data(None),
+            metadata=self.outputs[0].get_metadata(None),
             abscissa_start=abscissa_start,
             values=values,
             increment=increment,

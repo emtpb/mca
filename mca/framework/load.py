@@ -36,22 +36,22 @@ def load_block_structure(file_path):
             if index + 1 > len(block_instance.inputs):
                 block_instance.add_input(block_io.Input(block_instance))
         for index, output_save in enumerate(block_save["outputs"]):
-            meta_data = data_types.MetaData(
-                output_save["meta_data"]["signal_name"],
-                output_save["meta_data"]["unit_a"],
-                output_save["meta_data"]["unit_o"],
-                output_save["meta_data"]["quantity_o"],
-                output_save["meta_data"]["quantity_a"],
-                output_save["meta_data"]["symbol_a"],
-                output_save["meta_data"]["symbol_o"],
+            metadata = data_types.MetaData(
+                output_save["metadata"]["signal_name"],
+                output_save["metadata"]["unit_a"],
+                output_save["metadata"]["unit_o"],
+                output_save["metadata"]["quantity_o"],
+                output_save["metadata"]["quantity_a"],
+                output_save["metadata"]["symbol_a"],
+                output_save["metadata"]["symbol_o"],
             )
             if index + 1 > len(block_instance.outputs):
                 block_instance.add_output(block_io.Output(block_instance))
-            block_instance.outputs[index].meta_data = meta_data
-            block_instance.outputs[index].abscissa_meta_data = output_save[
-                "abscissa_meta_data"]
-            block_instance.outputs[index].ordinate_meta_data = output_save[
-                "ordinate_meta_data"]
+            block_instance.outputs[index].metadata = metadata
+            block_instance.outputs[index].abscissa_metadata = output_save[
+                "abscissa_metadata"]
+            block_instance.outputs[index].ordinate_metadata = output_save[
+                "ordinate_metadata"]
             block_instance.trigger_update()
     for block_index_outer, block_save_outer in enumerate(
             load_data["blocks"]):

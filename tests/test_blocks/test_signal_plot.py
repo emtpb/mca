@@ -56,7 +56,7 @@ def test_legend(test_output_block):
     b = signal_plot.SignalPlot()
     c = test_output_block(sin_signal_2)
     b.inputs[0].connect(a.outputs[0])
-    b.fig.axes[0].get_legend_handles_labels()[1][0] == sin_signal.meta_data.name
+    b.fig.axes[0].get_legend_handles_labels()[1][0] == sin_signal.metadata.name
     b.add_input(block_io.Input(b))
     b.inputs[1].connect(c.outputs[0])
-    b.fig.axes[0].get_legend_handles_labels()[1][1] == sin_signal_2.meta_data.name
+    b.fig.axes[0].get_legend_handles_labels()[1][1] == sin_signal_2.metadata.name

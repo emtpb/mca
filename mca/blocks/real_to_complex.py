@@ -34,10 +34,10 @@ class RealToComplex(Block):
         real_part = self.inputs[0].data
         imaginary_part = self.inputs[1].data
 
-        validator.check_same_units((real_part.meta_data.unit_a,
-                                    imaginary_part.meta_data.unit_a))
-        validator.check_same_units((real_part.meta_data.unit_o,
-                                    imaginary_part.meta_data.unit_o))
+        validator.check_same_units((real_part.metadata.unit_a,
+                                    imaginary_part.metadata.unit_a))
+        validator.check_same_units((real_part.metadata.unit_o,
+                                    imaginary_part.metadata.unit_o))
 
         if real_part.increment != imaginary_part.increment:
             raise exceptions.IntervalError("Real and Imaginary part need to "
@@ -54,7 +54,7 @@ class RealToComplex(Block):
                                            "signal.")
         ordinate = real_part.ordinate + 1j*imaginary_part.ordinate
         self.outputs[0].data = data_types.Signal(
-            meta_data=self.outputs[0].get_meta_data(real_part.meta_data),
+            metadata=self.outputs[0].get_metadata(real_part.metadata),
             abscissa_start=real_part.abscissa_start,
             values=real_part.values,
             increment=real_part.increment,

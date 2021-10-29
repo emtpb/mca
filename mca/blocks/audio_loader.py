@@ -23,9 +23,9 @@ class AudioLoader(Block):
 
     def setup_io(self):
         self.new_output(
-            meta_data_input_dependent=False,
-            ordinate_meta_data=True,
-            abscissa_meta_data=True,
+            metadata_input_dependent=False,
+            ordinate_metadata=True,
+            abscissa_metadata=True,
         )
 
     def _process(self):
@@ -41,7 +41,7 @@ class AudioLoader(Block):
         except FileNotFoundError:
             raise exceptions.DataLoadingError("File not found")
         self.outputs[0].data = data_types.Signal(
-            meta_data=self.outputs[0].meta_data,
+            metadata=self.outputs[0].metadata,
             abscissa_start=0,
             values=len(data),
             increment=1/rate,

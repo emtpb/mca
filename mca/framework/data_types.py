@@ -14,7 +14,7 @@ class Signal:
     (values) and the sampling increment (increment).
     
     Attributes:
-        meta_data: Meta Data of the signal with quantity, symbol and
+        metadata: Meta Data of the signal with quantity, symbol and
                    unit for abscissa- and ordinate-axis.
         abscissa_start (float): Starting point of the signal.
         values (int): Amount of values the signal contains.
@@ -22,18 +22,18 @@ class Signal:
         ordinate : Ordinate as a .
     """
 
-    def __init__(self, meta_data, abscissa_start, values, increment, ordinate):
+    def __init__(self, metadata, abscissa_start, values, increment, ordinate):
         """Initializes Signal.
         
         Args:
-            meta_data: Meta data of the signal with quantity, symbol and unit
+            metadata: Metadata of the signal with quantity, symbol and unit
                 for abscissa and ordinate.
             abscissa_start (float): Starting point of the signal.
             values (int): Amount of values the signal contains.
             increment (float): Increment between two values.
             ordinate : Ordinate stored in a numpy_array.
         """
-        self.meta_data = meta_data
+        self.metadata = metadata
         self.abscissa_start = abscissa_start
         self.values = values
         self.increment = increment
@@ -55,7 +55,7 @@ class Signal:
 
 
 class MetaData:
-    """Meta data class for the :class:`.Signal` class.
+    """Metadata class for the :class:`.Signal` class.
 
     Attributes:
         name (str): Name of the Signal.
@@ -188,7 +188,7 @@ def string_to_unit(string, fixed_unit=False):
     return Unit(numerator, denominator, fix_repr=fixed_unit)
 
 
-def meta_data_to_axis_label(unit, quantity=None, symbol=None):
+def metadata_to_axis_label(unit, quantity=None, symbol=None):
     """Returns a string axis labels given a quantity, unit and (symbol)."""
     if symbol and quantity:
         return "{} {} / {}".format(quantity, symbol, unit)
@@ -200,7 +200,7 @@ def meta_data_to_axis_label(unit, quantity=None, symbol=None):
         return repr(unit)
 
 
-def default_meta_data():
+def default_metadata():
     return MetaData(
         name="",
         unit_a="s",

@@ -17,9 +17,9 @@ class Chirp(Block):
 
     def setup_io(self):
         self.new_output(
-            meta_data_input_dependent=False,
-            ordinate_meta_data=True,
-            abscissa_meta_data=True,
+            metadata_input_dependent=False,
+            ordinate_metadata=True,
+            abscissa_metadata=True,
         )
 
     def setup_parameters(self):
@@ -59,7 +59,7 @@ class Chirp(Block):
         chirp = amp * sgn.chirp(t=abscissa, f0=freq1, t1=abscissa[-1], f1=freq2,
                                 phi=phase, method=sweep_kind)
         self.outputs[0].data = data_types.Signal(
-            self.outputs[0].get_meta_data(None),
+            self.outputs[0].get_metadata(None),
             abscissa_start,
             values,
             increment,

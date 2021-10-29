@@ -80,11 +80,25 @@ class Block:
         for o in self.outputs:
             o.disconnect()
 
-    def new_output(self, meta_data=None, meta_data_input_dependent=True,
-                   abscissa_meta_data=False, ordinate_meta_data=False,
+    def new_output(self, metadata=None, metadata_input_dependent=True,
+                   abscissa_metadata=False, ordinate_metadata=False,
                    name=None):
-        """Creates and adds an new output to the block. Used to create new
+        """Creates and adds an new Output to the block. Used to create new
         Outputs in the initialization of a new block.
+
+        Args:
+            name (str): Name of the Output.
+            metadata(:class:`.MetaData`): Metadata of the data.
+            metadata_input_dependent (bool): True, if the :class:`.MetaData` of
+                                              the Output can be dependent on the
+                                              MetaData of any Input.
+            abscissa_metadata (bool): True, if the abscissa metadata
+                                       should be used when data gets assigned
+                                       to the Output.
+            ordinate_metadata (bool): True, if the ordinate metadata
+                                       should be used when data gets assigned
+                                       to this Output.
+
 
         .. see also::
             :class:`.DynamicBlock`
@@ -94,10 +108,10 @@ class Block:
             io_registry.Registry.add_node(
                 block_io.Output(
                     self,
-                    meta_data=meta_data,
-                    meta_data_input_dependent=meta_data_input_dependent,
-                    abscissa_meta_data=abscissa_meta_data,
-                    ordinate_meta_data=ordinate_meta_data,
+                    metadata=metadata,
+                    metadata_input_dependent=metadata_input_dependent,
+                    abscissa_metadata=abscissa_metadata,
+                    ordinate_metadata=ordinate_metadata,
                     name=name)
             )
         )
@@ -105,9 +119,7 @@ class Block:
     def new_input(self, name=None):
         """Creates and adds an new Input to the block. Used to create new
         Inputs in the initialization of a new block.
-        
-        .. warning:: Never call this method after a block instance has been
-            initialized.
+
         .. see also::
             :class:`.DynamicBlock`
         """
@@ -160,19 +172,19 @@ class Block:
             if isinstance(self.outputs[output_index].data, data_types.Signal):
                 save_data = {"data_type": "Signal",
                              "name": self.outputs[
-                                 output_index].data.meta_data.name,
+                                 output_index].data.metadata.name,
                              "quantity_a": self.outputs[
-                                 output_index].data.meta_data.quantity_a,
+                                 output_index].data.metadata.quantity_a,
                              "symbol_a": self.outputs[
-                                 output_index].data.meta_data.symbol_a,
+                                 output_index].data.metadata.symbol_a,
                              "unit_a": repr(self.outputs[
-                                 output_index].data.meta_data.unit_a),
+                                 output_index].data.metadata.unit_a),
                              "quantity_o": self.outputs[
-                                 output_index].data.meta_data.quantity_o,
+                                 output_index].data.metadata.quantity_o,
                              "symbol_o": self.outputs[
-                                 output_index].data.meta_data.symbol_o,
+                                 output_index].data.metadata.symbol_o,
                              "unit_o": repr(self.outputs[
-                                 output_index].data.meta_data.unit_o),
+                                 output_index].data.metadata.unit_o),
                              "abscissa_start": self.outputs[
                                  output_index].data.abscissa_start,
                              "values": self.outputs[output_index].data.values,

@@ -55,7 +55,7 @@ class Cutter(Block):
         ordinate = input_signal.ordinate[start_index:end_index]
 
         self.outputs[0].data = data_types.Signal(
-            meta_data=self.outputs[0].get_meta_data(input_signal.meta_data),
+            metadata=self.outputs[0].get_metadata(input_signal.metadata),
             abscissa_start=abscissa_start,
             values=values,
             increment=input_signal.increment,

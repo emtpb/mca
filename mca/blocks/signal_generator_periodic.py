@@ -14,9 +14,9 @@ class SignalGeneratorPeriodic(Block):
 
     def setup_io(self):
         self.new_output(
-            meta_data_input_dependent=False,
-            ordinate_meta_data=True,
-            abscissa_meta_data=True,
+            metadata_input_dependent=False,
+            ordinate_metadata=True,
+            abscissa_metadata=True,
         )
 
     def setup_parameters(self):
@@ -56,7 +56,7 @@ class SignalGeneratorPeriodic(Block):
         elif function == "tri":
             ordinate = triangle(abscissa, freq, amp, phase)
         self.outputs[0].data = data_types.Signal(
-            self.outputs[0].get_meta_data(None),
+            self.outputs[0].get_metadata(None),
             abscissa_start,
             values,
             increment,

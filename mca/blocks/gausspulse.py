@@ -17,21 +17,21 @@ class GaussPulse(Block):
     def setup_io(self):
         self.new_output(
             name=_("Real part"),
-            meta_data_input_dependent=False,
-            ordinate_meta_data=True,
-            abscissa_meta_data=True,
+            metadata_input_dependent=False,
+            ordinate_metadata=True,
+            abscissa_metadata=True,
         )
         self.new_output(
             name=_("Imaginary part"),
-            meta_data_input_dependent=False,
-            ordinate_meta_data=True,
-            abscissa_meta_data=True,
+            metadata_input_dependent=False,
+            ordinate_metadata=True,
+            abscissa_metadata=True,
         )
         self.new_output(
             name=_("Envelope"),
-            meta_data_input_dependent=False,
-            ordinate_meta_data=True,
-            abscissa_meta_data=True,
+            metadata_input_dependent=False,
+            ordinate_metadata=True,
+            abscissa_metadata=True,
         )
 
     def setup_parameters(self):
@@ -69,21 +69,21 @@ class GaussPulse(Block):
         imag *= amp
         envelope *= amp
         self.outputs[0].data = data_types.Signal(
-            self.outputs[0].get_meta_data(None),
+            self.outputs[0].get_metadata(None),
             abscissa_start,
             values,
             increment,
             real,
         )
         self.outputs[1].data = data_types.Signal(
-            self.outputs[1].get_meta_data(None),
+            self.outputs[1].get_metadata(None),
             abscissa_start,
             values,
             increment,
             imag,
         )
         self.outputs[2].data = data_types.Signal(
-            self.outputs[2].get_meta_data(None),
+            self.outputs[2].get_metadata(None),
             abscissa_start,
             values,
             increment,

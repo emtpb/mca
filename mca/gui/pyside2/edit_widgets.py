@@ -321,7 +321,7 @@ class ActionParameterWidget(BaseParameterWidget, QtWidgets.QPushButton):
     def execute_function(self):
         """Executes the function of the parameter."""
         try:
-            self.edit_window.apply_changes(meta_data_changes=False)
+            self.edit_window.apply_changes(metadata_changes=False)
             self.parameter.function()
         except exceptions.MCAError as error:
             message = error.args[0]
@@ -417,41 +417,41 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
 
 
 class MetaDataEditWidget(QtWidgets.QLineEdit):
-    """Widget to display attributes of meta data objects.
+    """Widget to display attributes of metadata objects.
 
     Attributes:
-        meta_data: Reference of the :class:`.MetaData` object.
+        metadata: Reference of the :class:`.MetaData` object.
         attr(str): Attribute name of the :class:`.MetaData` object.
         prev_value: Stores the last value of the attribute until changes get
                     finally applied.
         changed (bool): Indicates whether the current value in the widget
                         differs from the previous value.
     """
-    def __init__(self, meta_data, attr):
+    def __init__(self, metadata, attr):
         """Initializes MetaDataEditWidget class.
 
         Args:
-            meta_data: Reference of the :class:`.MetaData` object.
+            metadata: Reference of the :class:`.MetaData` object.
             attr(str): Attribute name of the :class:`.MetaData` object.
         """
         QtWidgets.QLineEdit.__init__(self)
-        self.meta_data = meta_data
+        self.metadata = metadata
         self.attr = attr
         self.changed = False
-        self.prev_value = getattr(self.meta_data, self.attr)
+        self.prev_value = getattr(self.metadata, self.attr)
         self.textChanged.connect(self.check_changed)
         self.setFixedHeight(25)
 
     def write_attribute(self):
         """Writes the value from the widget to the attribute."""
         if self.changed:
-            setattr(self.meta_data, self.attr, self.text())
+            setattr(self.metadata, self.attr, self.text())
 
     def read_attribute(self):
         """Reads the value from the attribute and sets the widget text
         to it.
         """
-        attr = getattr(self.meta_data, self.attr)
+        attr = getattr(self.metadata, self.attr)
         if isinstance(attr, Unit):
             attr = repr(attr)
         self.setText(attr)
@@ -460,7 +460,7 @@ class MetaDataEditWidget(QtWidgets.QLineEdit):
         """Checks whether the value has been changed compared to the
         previous value.
         """
-        attr = getattr(self.meta_data, self.attr)
+        attr = getattr(self.metadata, self.attr)
         if isinstance(attr, Unit):
             attr = repr(attr)
         if attr != self.text():
@@ -474,7 +474,7 @@ class MetaDataEditWidget(QtWidgets.QLineEdit):
     def apply_changes(self):
         """Accepts changes to the attribute."""
         self.changed = False
-        self.prev_value = getattr(self.meta_data, self.attr)
+        self.prev_value = getattr(self.metadata, self.attr)
         self.setStyleSheet("")
         self.window().parent().modified = True
 
@@ -494,7 +494,7 @@ class MetaDataEditWidget(QtWidgets.QLineEdit):
 
 
 class MetaDataBoolWidget(QtWidgets.QCheckBox):
-    """Widget to confirm whether predefined meta data from the output should
+    """Widget to confirm whether predefined metadata from the output should
     be applied to the signal by manipulating bool values from the output.
 
     Attributes:

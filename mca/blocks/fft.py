@@ -12,7 +12,7 @@ class FFT(Block):
 
     def setup_io(self):
         self.new_output(
-            meta_data=data_types.MetaData(
+            metadata=data_types.MetaData(
                 "",
                 unit_a="1/s",
                 unit_o="V*s",
@@ -39,17 +39,17 @@ class FFT(Block):
 
         if normalize:
             ordinate = ordinate/values
-            unit_o = input_signal.meta_data.unit_o
+            unit_o = input_signal.metadata.unit_o
         else:
-            unit_o = input_signal.meta_data.unit_a * input_signal.meta_data.unit_o
-        meta_data = data_types.MetaData(
+            unit_o = input_signal.metadata.unit_a * input_signal.metadata.unit_o
+        metadata = data_types.MetaData(
             name="",
-            unit_a=1/input_signal.meta_data.unit_a,
+            unit_a=1/input_signal.metadata.unit_a,
             unit_o=unit_o
         )
 
         self.outputs[0].data = data_types.Signal(
-            meta_data=self.outputs[0].get_meta_data(meta_data),
+            metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=0,
             values=values,
             increment=increment,

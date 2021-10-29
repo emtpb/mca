@@ -26,16 +26,16 @@ def save_block_structure(file_path):
                       "inputs": [],
                       "outputs": [{
                           "id": output.id.int,
-                          "meta_data": {"signal_name": output.meta_data.name,
-                                        "quantity_a": output.meta_data.quantity_a,
-                                        "symbol_a": output.meta_data.symbol_a,
-                                        "unit_a": repr(output.meta_data.unit_a),
-                                        "quantity_o": output.meta_data.quantity_o,
-                                        "symbol_o": output.meta_data.symbol_o,
+                          "metadata": {"signal_name": output.metadata.name,
+                                        "quantity_a": output.metadata.quantity_a,
+                                        "symbol_a": output.metadata.symbol_a,
+                                        "unit_a": repr(output.metadata.unit_a),
+                                        "quantity_o": output.metadata.quantity_o,
+                                        "symbol_o": output.metadata.symbol_o,
                                         "unit_o": repr(
-                                            output.meta_data.unit_o)},
-                          "abscissa_meta_data": output.abscissa_meta_data,
-                          "ordinate_meta_data": output.ordinate_meta_data
+                                            output.metadata.unit_o)},
+                          "abscissa_metadata": output.abscissa_metadata,
+                          "ordinate_metadata": output.ordinate_metadata
                       }
                           for output in block.outputs],
                       "gui_data": block.gui_data["save_data"]}

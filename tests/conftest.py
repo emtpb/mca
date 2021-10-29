@@ -283,7 +283,7 @@ class TestOutputBlock(mca.framework.block_base.Block):
         self.outputs[0].data = sig
 
     def setup_io(self):
-        self.new_output(meta_data=None)
+        self.new_output(metadata=None)
 
     def setup_parameters(self):
         pass
@@ -293,7 +293,7 @@ class TestOutputBlock(mca.framework.block_base.Block):
 
 
 @pytest.fixture(scope="module")
-def default_meta_data():
+def default_metadata():
     return mca.framework.data_types.MetaData("", "s", "V", _("Time"),
                                              _("Voltage"))
 

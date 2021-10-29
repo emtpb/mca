@@ -24,15 +24,15 @@ class HSOscilloscope(Block):
     def setup_io(self):
         self.new_output(
             name=_("Channel 1"),
-            meta_data_input_dependent=False,
-            ordinate_meta_data=True,
-            abscissa_meta_data=True,
+            metadata_input_dependent=False,
+            ordinate_metadata=True,
+            abscissa_metadata=True,
         )
         self.new_output(
             name=_("Channel 2"),
-            meta_data_input_dependent=False,
-            ordinate_meta_data=True,
-            abscissa_meta_data=True,
+            metadata_input_dependent=False,
+            ordinate_metadata=True,
+            abscissa_metadata=True,
         )
 
     def setup_parameters(self):
@@ -110,13 +110,13 @@ class HSOscilloscope(Block):
         increment = 1/self.parameters["sample_freq"].value
         values = len(time_vector)
         self.outputs[0].data = data_types.Signal(
-            meta_data=self.outputs[0].get_meta_data(None),
+            metadata=self.outputs[0].get_metadata(None),
             abscissa_start=0,
             values=values,
             increment=increment,
             ordinate=measurement[0])
         self.outputs[1].data = data_types.Signal(
-            meta_data=self.outputs[1].get_meta_data(None),
+            metadata=self.outputs[1].get_metadata(None),
             abscissa_start=0,
             values=values,
             increment=increment,

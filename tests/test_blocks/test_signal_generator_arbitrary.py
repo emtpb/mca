@@ -10,13 +10,13 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 def test_load_json(sin_signal):
     test_dict = {"data_type": "Signal",
-                 "name": sin_signal.meta_data.name,
-                 "quantity_a": sin_signal.meta_data.quantity_a,
-                 "symbol_a": sin_signal.meta_data.symbol_a,
-                 "unit_a": repr(sin_signal.meta_data.unit_a),
-                 "quantity_o": sin_signal.meta_data.quantity_o,
-                 "symbol_o": sin_signal.meta_data.symbol_o,
-                 "unit_o": repr(sin_signal.meta_data.unit_o),
+                 "name": sin_signal.metadata.name,
+                 "quantity_a": sin_signal.metadata.quantity_a,
+                 "symbol_a": sin_signal.metadata.symbol_a,
+                 "unit_a": repr(sin_signal.metadata.unit_a),
+                 "quantity_o": sin_signal.metadata.quantity_o,
+                 "symbol_o": sin_signal.metadata.symbol_o,
+                 "unit_o": repr(sin_signal.metadata.unit_o),
                  "abscissa_start": sin_signal.abscissa_start,
                  "values": sin_signal.values,
                  "increment": sin_signal.increment,
@@ -28,10 +28,10 @@ def test_load_json(sin_signal):
     b.parameters["file_name"].value = file_name
     b.load_file()
     assert b.outputs[0].data == sin_signal
-    assert b.outputs[0].data.meta_data.unit_a == sin_signal.meta_data.unit_a
-    assert b.outputs[0].data.meta_data.unit_o == sin_signal.meta_data.unit_o
-    assert b.outputs[0].data.meta_data.quantity_a == sin_signal.meta_data.quantity_a
-    assert b.outputs[0].data.meta_data.quantity_o == sin_signal.meta_data.quantity_o
+    assert b.outputs[0].data.metadata.unit_a == sin_signal.metadata.unit_a
+    assert b.outputs[0].data.metadata.unit_o == sin_signal.metadata.unit_o
+    assert b.outputs[0].data.metadata.quantity_a == sin_signal.metadata.quantity_a
+    assert b.outputs[0].data.metadata.quantity_o == sin_signal.metadata.quantity_o
     with pytest.raises(exceptions.DataLoadingError):
         b.parameters["file_name"].value = "test.json"
         b.load_file()

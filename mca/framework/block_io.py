@@ -69,36 +69,36 @@ class Output:
         up_to_date (bool): Flag which indicates if the data of the Output is
             valid or needs to be updated.
         data: Data which the Output contains.
-        meta_data_input_dependent (bool): True, if the MetaData of
+        metadata_input_dependent (bool): True, if the MetaData of
                                           the Output can be dependent on the
                                           MetaData of any Input.
-        abscissa_meta_data (bool): True, if the abscissa meta data
+        abscissa_metadata (bool): True, if the abscissa
                                    should be used when data gets assigned
                                    to the Output.
-        ordinate_meta_data (bool): True, if the ordinate meta data
+        ordinate_metadata (bool): True, if the ordinate
                                    should be used when data gets assigned
                                    to this Output.
-        meta_data: MetaData of the attribute data.
+        metadata: MetaData of the attribute data.
         id: Used to identify the Inputs which were connected to the Output
             after saving.
     """
 
-    def __init__(self, block=None, meta_data=None, name=None,
-                 meta_data_input_dependent=True, abscissa_meta_data=False,
-                 ordinate_meta_data=False):
+    def __init__(self, block=None, metadata=None, name=None,
+                 metadata_input_dependent=True, abscissa_metadata=False,
+                 ordinate_metadata=False):
         """Initializes Output class.
 
         Args:
             block: Block to which the Output belongs to.
             name (str): Name of the Output.
-            meta_data: Meta data of the data.
-            meta_data_input_dependent (bool): True, if the :class:`.MetaData` of
+            metadata: Metadata of the data.
+            metadata_input_dependent (bool): True, if the :class:`.MetaData` of
                                               the Output can be dependent on the
                                               MetaData of any Input.
-            abscissa_meta_data (bool): True, if the abscissa meta data
+            abscissa_metadata (bool): True, if the abscissa metadata
                                        should be used when data gets assigned
                                        to the Output.
-            ordinate_meta_data (bool): True, if the ordinate meta data
+            ordinate_metadata (bool): True, if the ordinate metadata
                                        should be used when data gets assigned
                                        to this Output.
         """
@@ -106,49 +106,49 @@ class Output:
         self.block = block
         self.up_to_date = True
         self.data = None
-        self.meta_data_input_dependent = meta_data_input_dependent
-        self.abscissa_meta_data = abscissa_meta_data
-        self.ordinate_meta_data = ordinate_meta_data
-        if meta_data is None:
-            self.meta_data = data_types.default_meta_data()
+        self.metadata_input_dependent = metadata_input_dependent
+        self.abscissa_metadata = abscissa_metadata
+        self.ordinate_metadata = ordinate_metadata
+        if metadata is None:
+            self.metadata = data_types.default_metadata()
         else:
-            self.meta_data = meta_data
+            self.metadata = metadata
         self.id = uuid.uuid4()
 
-    def get_meta_data(self, external_meta_data):
+    def get_metadata(self, external_metadata):
         """Returns a MetaData object as a mix of given external meta
-        data and internal meta data depending on the attributes
-        abscissa_meta_data and ordinate_meta_data. Setting abscissa_meta_data
-        to True forces the use of the internal abscissa meta data. Same goes for
-        ordinate_meta_data. The meta data attribute "name" is always inherited
-        by the internal meta data.
+        data and internal metadata depending on the attributes
+        abscissa_metadata and ordinate_metadata. Setting abscissa_metadata
+        to True forces the use of the internal abscissa metadata. Same goes for
+        ordinate_metadata. The metadata attribute "name" is always inherited
+        by the internal metadata.
 
         Args:
-            external_meta_data: Given external meta data.
+            external_metadata: Given external metadata.
         """
-        if self.abscissa_meta_data:
-            unit_a = self.meta_data.unit_a
-            symbol_a = self.meta_data.symbol_a
-            quantity_a = self.meta_data.quantity_a
+        if self.abscissa_metadata:
+            unit_a = self.metadata.unit_a
+            symbol_a = self.metadata.symbol_a
+            quantity_a = self.metadata.quantity_a
             fixed_unit_a = True
         else:
-            unit_a = external_meta_data.unit_a
+            unit_a = external_metadata.unit_a
             symbol_a = ""
-            quantity_a = external_meta_data.quantity_a
+            quantity_a = external_metadata.quantity_a
             fixed_unit_a = False
 
-        if self.ordinate_meta_data:
-            unit_o = self.meta_data.unit_o
-            symbol_o = self.meta_data.symbol_o
-            quantity_o = self.meta_data.quantity_o
+        if self.ordinate_metadata:
+            unit_o = self.metadata.unit_o
+            symbol_o = self.metadata.symbol_o
+            quantity_o = self.metadata.quantity_o
             fixed_unit_o = True
         else:
-            unit_o = external_meta_data.unit_o
+            unit_o = external_metadata.unit_o
             symbol_o = ""
-            quantity_o = external_meta_data.quantity_o
+            quantity_o = external_metadata.quantity_o
             fixed_unit_o = False
 
-        return data_types.MetaData(name=self.meta_data.name,
+        return data_types.MetaData(name=self.metadata.name,
                                    unit_a=unit_a,
                                    unit_o=unit_o,
                                    symbol_a=symbol_a,

@@ -11,7 +11,7 @@ class PowerDensitySpectrum(Block):
     tags = (_("Processing"),)
 
     def setup_io(self):
-        self.new_output(meta_data=data_types.MetaData(
+        self.new_output(metadata=data_types.MetaData(
                 "",
                 unit_a="1/s",
                 unit_o="V*V*s",
@@ -35,11 +35,11 @@ class PowerDensitySpectrum(Block):
         values = input_signal.values*2-1
         increment = 1 / (
                 input_signal.increment * values)
-        unit_o = input_signal.meta_data.unit_o**2 * input_signal.meta_data.unit_a
-        unit_a = 1/input_signal.meta_data.unit_a
-        meta_data = data_types.MetaData(None, unit_a, unit_o)
+        unit_o = input_signal.metadata.unit_o**2 * input_signal.metadata.unit_a
+        unit_a = 1/input_signal.metadata.unit_a
+        metadata = data_types.MetaData(None, unit_a, unit_o)
         self.outputs[0].data = data_types.Signal(
-            meta_data=self.outputs[0].get_meta_data(meta_data),
+            metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=abscissa_start,
             values=values,
             increment=increment,

@@ -116,7 +116,7 @@ class InputItem(QtWidgets.QGraphicsItem):
                         "Cyclic structures are not allowed."))
                 except exceptions.UnitError:
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(
-                        "Signals have incompatible meta data."))
+                        "Signals have incompatible metadata."))
                     self.mca_input.disconnect()
                 except exceptions.IntervalError:
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(
@@ -295,7 +295,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
                         "Cyclic structures are not allowed."))
                 except exceptions.UnitError:
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(
-                        "Signals have incompatible meta data."))
+                        "Signals have incompatible metadata."))
                     item.mca_input.disconnect()
                 except exceptions.IntervalError:
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(

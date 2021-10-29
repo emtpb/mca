@@ -8,17 +8,17 @@ from mca.language import _
 
 
 class EditWindow(QtWidgets.QDialog):
-    """Window to display the parameter and meta data of a :class:`.Block`.
+    """Window to display the parameter and metadata of a :class:`.Block`.
 
     Attributes:
         block: Reference of the :class:`.Block` instance.
         main_layout: Arranges the tab widget und the buttons.
         parameter_box_layout: Grid layout which arranges the parameter widgets.
         parameter_widgets (list): Contains references to all parameter widgets.
-        meta_data_layout: Vertical layout which arranges the meta data group
+        metadata_layout: Vertical layout which arranges the metadata group
                           boxes.
-        meta_data_widgets (list): Contains references to all meta data widgets.
-        tab_widget: Widget containing the tabs 'general' and 'meta data'.
+        metadata_widgets (list): Contains references to all metadata widgets.
+        tab_widget: Widget containing the tabs 'general' and 'metadata'.
         warning_message: Dialogue window which pops up when errors occur during
                          editing.
         button_box: "Apply|Cancel|Ok" button widgets.
@@ -40,7 +40,7 @@ class EditWindow(QtWidgets.QDialog):
         self.main_layout = QtWidgets.QVBoxLayout(self)
 
         self.parameter_widgets = []
-        self.meta_data_widgets = []
+        self.metadata_widgets = []
 
         self.tab_widget = QtWidgets.QTabWidget()
         self.main_layout.addWidget(self.tab_widget)
@@ -71,36 +71,36 @@ class EditWindow(QtWidgets.QDialog):
         general_tab_layout.addWidget(scroll, 0, 0, 1, 1)
         self.tab_widget.addTab(general_tab, _("General"))
         self.add_parameters()
-        # Initialize meta data tab
-        self.meta_data_layout = None
-        self.meta_data_tab = None
-        self.meta_data_contents = None
-        self.meta_data_contents_layout = None
+        # Initialize metadata tab
+        self.metadata_layout = None
+        self.metadata_tab = None
+        self.metadata_contents = None
+        self.metadata_contents_layout = None
         if self.block.outputs or (isinstance(self.block, DynamicBlock) and
                                   self.block.dynamic_output):
-            self.meta_data_contents = QtWidgets.QWidget()
-            self.meta_data_contents_layout = QtWidgets.QVBoxLayout(self.meta_data_contents)
-            self.meta_data_tab = QtWidgets.QWidget()
-            self.meta_data_layout = QtWidgets.QVBoxLayout(self.meta_data_tab)
+            self.metadata_contents = QtWidgets.QWidget()
+            self.metadata_contents_layout = QtWidgets.QVBoxLayout(self.metadata_contents)
+            self.metadata_tab = QtWidgets.QWidget()
+            self.metadata_layout = QtWidgets.QVBoxLayout(self.metadata_tab)
             scroll = QtWidgets.QScrollArea()
-            scroll.setWidget(self.meta_data_contents)
+            scroll.setWidget(self.metadata_contents)
             scroll.setWidgetResizable(True)
-            self.meta_data_layout.addWidget(scroll)
-            self.tab_widget.addTab(self.meta_data_tab, _("Meta data"))
+            self.metadata_layout.addWidget(scroll)
+            self.tab_widget.addTab(self.metadata_tab, _("Metadata"))
             info_box = QtWidgets.QGroupBox(_("Info"))
             info_layout = QtWidgets.QVBoxLayout(info_box)
             info_label = QtWidgets.QLabel(
-                _("Redefine the meta data for the "
-                  "outgoing signals. By default meta data is computed "
-                  "depending on the input meta data. In order to apply your "
-                  "own defined meta data tick the corresponding boxes "
-                  "'Use ordinate/abscissa meta data' below."))
+                _("Redefine the metadata for the "
+                  "outgoing signals. By default metadata is computed "
+                  "depending on the input metadata. In order to apply your "
+                  "own defined metadata tick the corresponding boxes "
+                  "'Use ordinate/abscissa metadata' below."))
             info_label.setMaximumHeight(100)
             info_label.setWordWrap(True)
             info_layout.addWidget(info_label)
-            self.meta_data_contents_layout.addWidget(info_box)
-            self.add_meta_data()
-            self.meta_data_contents_layout.addItem(QtWidgets.QSpacerItem(
+            self.metadata_contents_layout.addWidget(info_box)
+            self.add_metadata()
+            self.metadata_contents_layout.addItem(QtWidgets.QSpacerItem(
                 0, 0,
                 QtWidgets.QSizePolicy.Minimum,
                 QtWidgets.QSizePolicy.Expanding))
@@ -128,7 +128,7 @@ class EditWindow(QtWidgets.QDialog):
         self.warning_message = QtWidgets.QMessageBox()
         self.warning_message.setIcon(QtWidgets.QMessageBox.Warning)
         self.warning_message.setText(
-            _("Could not apply the changed parameters and meta data!"
+            _("Could not apply the changed parameters and metadata!"
               "Continue editing or revert changes?"))
         self.warning_message.continue_button = self.warning_message.addButton(
             _("Continue"),
@@ -162,19 +162,19 @@ class EditWindow(QtWidgets.QDialog):
                 unit_label = QtWidgets.QLabel(block_parameter.unit)
                 self.parameter_box_layout.addWidget(unit_label, index, 2, 1, 1)
 
-    def add_meta_data(self):
-        """Arranges the meta data of the outputs of the block in the window."""
-        for i in reversed(range(1, self.meta_data_contents_layout.count())):
-            self.meta_data_layout.itemAt(i).widget().setParent(None)
-        self.meta_data_widgets = []
+    def add_metadata(self):
+        """Arranges the metadata of the outputs of the block in the window."""
+        for i in reversed(range(1, self.metadata_contents_layout.count())):
+            self.metadata_layout.itemAt(i).widget().setParent(None)
+        self.metadata_widgets = []
         for output_index, output in enumerate(self.block.outputs):
             if output.name:
-                meta_data_box = QtWidgets.QGroupBox(
-                    _("Output '{}' meta data:").format(output.name))
+                metadata_box = QtWidgets.QGroupBox(
+                    _("Output '{}' metadata:").format(output.name))
             else:
-                meta_data_box = QtWidgets.QGroupBox(
-                    _("Output {} meta data:").format(output_index))
-            meta_data_box_layout = QtWidgets.QFormLayout(meta_data_box)
+                metadata_box = QtWidgets.QGroupBox(
+                    _("Output {} metadata:").format(output_index))
+            metadata_box_layout = QtWidgets.QFormLayout(metadata_box)
             label_attributes = ((_("Signal name:"), "name"),
                                 (_("Abscissa quantity:"), "quantity_a"),
                                 (_("Abscissa symbol:"), "symbol_a"),
@@ -184,34 +184,34 @@ class EditWindow(QtWidgets.QDialog):
                                 (_("Ordinate unit:"), "unit_o"))
             for label, attribute in label_attributes:
                 entry_edit_line = edit_widgets.MetaDataEditWidget(
-                    meta_data=output.meta_data, attr=attribute
+                    metadata=output.metadata, attr=attribute
                 )
                 entry_edit_line.read_attribute()
                 entry_edit_line.setMaximumHeight(25)
-                self.meta_data_widgets.append(entry_edit_line)
-                meta_data_box_layout.addRow(label, entry_edit_line)
+                self.metadata_widgets.append(entry_edit_line)
+                metadata_box_layout.addRow(label, entry_edit_line)
             abscissa_check_box = edit_widgets.MetaDataBoolWidget(
-                _("Use abscissa meta data"), output, "abscissa_meta_data")
+                _("Use abscissa metadata"), output, "abscissa_metadata")
             abscissa_check_box.read_attribute()
-            if not output.meta_data_input_dependent:
+            if not output.metadata_input_dependent:
                 abscissa_check_box.setEnabled(False)
-            self.meta_data_widgets.append(abscissa_check_box)
-            meta_data_box_layout.insertRow(4, "", abscissa_check_box)
+            self.metadata_widgets.append(abscissa_check_box)
+            metadata_box_layout.insertRow(4, "", abscissa_check_box)
             ordinate_check_box = edit_widgets.MetaDataBoolWidget(
-                _("Use ordinate meta data"), output, "ordinate_meta_data")
+                _("Use ordinate metadata"), output, "ordinate_metadata")
             ordinate_check_box.read_attribute()
-            if not output.meta_data_input_dependent:
+            if not output.metadata_input_dependent:
                 ordinate_check_box.setEnabled(False)
-            self.meta_data_widgets.append(ordinate_check_box)
-            meta_data_box_layout.insertRow(8, "", ordinate_check_box)
-            self.meta_data_contents_layout.addWidget(meta_data_box)
+            self.metadata_widgets.append(ordinate_check_box)
+            metadata_box_layout.insertRow(8, "", ordinate_check_box)
+            self.metadata_contents_layout.addWidget(metadata_box)
 
     def accept(self):
         """Applies changes to all parameters and closes the window."""
         self.apply_changes()
         super(EditWindow, self).accept()
 
-    def apply_changes(self, parameter_changes=True, meta_data_changes=True):
+    def apply_changes(self, parameter_changes=True, metadata_changes=True):
         """Tries to apply changes. In case of an error the user gets a
         notification and can choose between reverting his last changes or
         continue editing and potentially fix the error.
@@ -219,15 +219,15 @@ class EditWindow(QtWidgets.QDialog):
         Args:
             parameter_changes (bool): True, if changes to the parameter
                                       should be applied.
-            meta_data_changes (bool): True, if changes to the meta_data should
+            metadata_changes (bool): True, if changes to the metadata should
                                       be applied
         """
         try:
             if parameter_changes:
                 for parameter_widget in self.parameter_widgets:
                     parameter_widget.write_parameter()
-            if meta_data_changes:
-                for entry in self.meta_data_widgets:
+            if metadata_changes:
+                for entry in self.metadata_widgets:
                     entry.write_attribute()
             self.block.trigger_update()
             self.block_item.adjust_width(self.block_item.width)
@@ -235,12 +235,12 @@ class EditWindow(QtWidgets.QDialog):
         except Exception as error:
             if error.args:
                 self.warning_message.setText(
-                    _("Could not apply the changed parameters and meta data!"
+                    _("Could not apply the changed parameters and metadata!"
                       "Continue editing or revert changes?") +
                     "\n" + _("Error message:") + error.args[0])
             else:
                 self.warning_message.setText(
-                    _("Could not apply the changed parameters and meta data!"
+                    _("Could not apply the changed parameters and metadata!"
                       "Continue editing or revert changes?"))
             self.warning_message.exec_()
             if self.warning_message.clickedButton() == self.warning_message.revert_button:
@@ -249,15 +249,15 @@ class EditWindow(QtWidgets.QDialog):
             if parameter_changes:
                 for parameter_widget in self.parameter_widgets:
                     parameter_widget.apply_changes()
-            if meta_data_changes:
-                for entry in self.meta_data_widgets:
+            if metadata_changes:
+                for entry in self.metadata_widgets:
                     entry.apply_changes()
 
     def revert_changes(self):
         """Revert the last changes made."""
         for parameter_widget in self.parameter_widgets:
             parameter_widget.revert_changes()
-        for entry in self.meta_data_widgets:
+        for entry in self.metadata_widgets:
             entry.revert_changes()
         self.block.trigger_update()
 
@@ -272,11 +272,11 @@ class EditWindow(QtWidgets.QDialog):
         super(EditWindow, self).closeEvent(e)
 
     def show(self):
-        """Opens the window and reloads the meta data tab if the block is a
+        """Opens the window and reloads the metadata tab if the block is a
         dynamic block.
         """
         if isinstance(self.block, DynamicBlock) and self.block.dynamic_output:
-            self.add_meta_data()
+            self.add_metadata()
         self.setWindowTitle(_("Edit {}").format(
             self.block.parameters["name"].value)
         )

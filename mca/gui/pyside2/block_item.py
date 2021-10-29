@@ -32,7 +32,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         resize_width (bool): Indicates whether the width should be resized.
         resize_height (bool): Indicates whether the height should be resized.
         menu: Menu which pops up when the right mouse button is pressed.
-        edit_window: Window which carries all parameters and meta data
+        edit_window: Window which carries all parameters and metadata
                      of the block.
         edit_action: Action added to the menu which opens the
                      :class:`.EditWindow` of the class.
@@ -226,9 +226,9 @@ class BlockItem(QtWidgets.QGraphicsItem):
             return
         else:
             name = name_window.name_edit.text()
-        meta_data = data_types.MetaData("", "s", "V")
+        metadata = data_types.MetaData("", "s", "V")
         new_mca_output = block_io.Output(block=self.block, name=name,
-                                         meta_data=meta_data)
+                                         metadata=metadata)
         self.block.add_output(new_mca_output)
         self.add_output(new_mca_output)
         self.modified()

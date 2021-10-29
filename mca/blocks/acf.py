@@ -25,11 +25,11 @@ class AutoCorrelation(Block):
         ordinate = np.correlate(input_signal.ordinate, input_signal.ordinate,
                                 mode="full")
         abscissa_start = input_signal.abscissa_start - (input_signal.values-1)*input_signal.increment
-        unit_o = input_signal.meta_data.unit_o ** 2
-        unit_a = input_signal.meta_data.unit_a
-        meta_data = data_types.MetaData(None, unit_a, unit_o)
+        unit_o = input_signal.metadata.unit_o ** 2
+        unit_a = input_signal.metadata.unit_a
+        metadata = data_types.MetaData(None, unit_a, unit_o)
         self.outputs[0].data = data_types.Signal(
-            meta_data=self.outputs[0].get_meta_data(meta_data),
+            metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=abscissa_start,
             values=input_signal.values*2-1,
             increment=input_signal.increment,

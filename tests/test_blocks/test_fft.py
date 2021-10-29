@@ -12,9 +12,9 @@ def test_fft(sin_block):
     expected_ordinate = np.fft.fft(sin.ordinate)
     increment = 1 / (sin.increment * sin.values)
     values = sin.values
-    expected_meta_data = data_types.MetaData(
+    expected_metadata = data_types.MetaData(
         "", "1/s", "V*s", _("Frequency"))
-    expected_signal = data_types.Signal(expected_meta_data, 0, values,
+    expected_signal = data_types.Signal(expected_metadata, 0, values,
                                         increment, expected_ordinate)
     assert a.outputs[0].data == expected_signal
-    assert a.outputs[0].data.meta_data == expected_signal.meta_data
+    assert a.outputs[0].data.metadata == expected_signal.metadata

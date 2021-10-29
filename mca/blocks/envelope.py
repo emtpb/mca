@@ -27,10 +27,10 @@ class Envelope(Block):
         input_signal = self.inputs[0].data
         analytical_signal = hilbert(input_signal.ordinate)
         envelope = np.abs(analytical_signal)
-        meta_data = data_types.MetaData(None, input_signal.meta_data.unit_a,
-                                        input_signal.meta_data.unit_o)
+        metadata = data_types.MetaData(None, input_signal.metadata.unit_a,
+                                        input_signal.metadata.unit_o)
         self.outputs[0].data = data_types.Signal(
-            meta_data=self.outputs[0].get_meta_data(meta_data),
+            metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=input_signal.abscissa_start,
             values=input_signal.values,
             increment=input_signal.increment,

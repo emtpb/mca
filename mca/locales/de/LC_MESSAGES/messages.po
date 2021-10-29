@@ -1032,7 +1032,7 @@ msgid "General"
 msgstr "Allgemein"
 
 #: gui/pyside2/edit_window.py:89
-msgid "Meta data"
+msgid "Metadata"
 msgstr "Metadaten"
 
 #: gui/pyside2/edit_window.py:90
@@ -1041,10 +1041,10 @@ msgstr "Info"
 
 #: gui/pyside2/edit_window.py:93
 msgid ""
-"Redefine the meta data for the outgoing signals. By default meta data is "
-"computed depending on the input meta data. In order to apply your own "
-"defined meta data tick the corresponding boxes 'Use ordinate/abscissa "
-"meta data' below."
+"Redefine the metadata for the outgoing signals. By default metadata is "
+"computed depending on the input metadata. In order to apply your own "
+"defined metadata tick the corresponding boxes 'Use ordinate/abscissa "
+"metadata' below."
 msgstr ""
 "Definiere die Metadaten für ausgehenden Signale. Standardmäßig ergeben "
 "sich die Metadaten der ausgehenden Signale aus den Metadaten der "
@@ -1059,7 +1059,7 @@ msgstr "Übernehmen"
 #: gui/pyside2/edit_window.py:131 gui/pyside2/edit_window.py:238
 #: gui/pyside2/edit_window.py:243
 msgid ""
-"Could not apply the changed parameters and meta data!Continue editing or "
+"Could not apply the changed parameters and metadata!Continue editing or "
 "revert changes?"
 msgstr ""
 "Die veränderten Parameter und Metadaten konnten nicht angewendet! Mit der"
@@ -1074,11 +1074,11 @@ msgid "Revert"
 msgstr "Rückgängig"
 
 #: gui/pyside2/edit_window.py:173
-msgid "Output '{}' meta data:"
+msgid "Output '{}' metadata:"
 msgstr "Output '{}' Metadaten"
 
 #: gui/pyside2/edit_window.py:176
-msgid "Output {} meta data:"
+msgid "Output {} metadata:"
 msgstr "Output {} MetaDaten:"
 
 #: gui/pyside2/edit_window.py:178
@@ -1110,11 +1110,11 @@ msgid "Ordinate unit:"
 msgstr "Ordinateneinheit:"
 
 #: gui/pyside2/edit_window.py:194
-msgid "Use abscissa meta data"
+msgid "Use abscissa metadata"
 msgstr "Abzissen Metadaten benutzen"
 
 #: gui/pyside2/edit_window.py:201
-msgid "Use ordinate meta data"
+msgid "Use ordinate metadata"
 msgstr "Ordinaten Metadaten benutzen"
 
 #: gui/pyside2/edit_window.py:240
@@ -1134,7 +1134,7 @@ msgid "Cyclic structures are not allowed."
 msgstr "Zyklische Strukturen sind nicht erlaubt."
 
 #: gui/pyside2/io_items.py:118 gui/pyside2/io_items.py:297
-msgid "Signals have incompatible meta data."
+msgid "Signals have incompatible metadata."
 msgstr "Signale haben inkompatible Metadaten."
 
 #: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:301

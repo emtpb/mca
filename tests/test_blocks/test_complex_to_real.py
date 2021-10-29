@@ -10,12 +10,12 @@ test_cases = [(1+3j, (1, 3)),
 
 @pytest.mark.parametrize("test_input, expected_ordinate", test_cases)
 def test_complex_to_real(test_input, expected_ordinate, test_output_block,
-                         default_meta_data):
+                         default_metadata):
     a = complex_to_real.ComplexToReal()
     b = test_output_block(
-        data_types.Signal(default_meta_data, None, None, None, test_input))
+        data_types.Signal(default_metadata, None, None, None, test_input))
     a.inputs[0].connect(b.outputs[0])
     assert np.array_equal(a.outputs[0].data.ordinate, expected_ordinate[0])
     assert np.array_equal(a.outputs[1].data.ordinate, expected_ordinate[1])
-    assert default_meta_data == a.outputs[0].meta_data
-    assert default_meta_data == a.outputs[1].meta_data
+    assert default_metadata == a.outputs[0].metadata
+    assert default_metadata == a.outputs[1].metadata

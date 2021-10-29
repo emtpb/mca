@@ -70,9 +70,9 @@ class FFTPlot(Block):
         ordinate = np.fft.fft(input_signal.ordinate)
         if normalize:
             ordinate = ordinate/values
-            unit_o = input_signal.meta_data.unit_o
+            unit_o = input_signal.metadata.unit_o
         else:
-            unit_o = input_signal.meta_data.unit_a * input_signal.meta_data.unit_o
+            unit_o = input_signal.metadata.unit_a * input_signal.metadata.unit_o
         abscissa = np.linspace(0, delta_f*(values-1), values)
 
         if shift == "shift" or \
@@ -100,26 +100,26 @@ class FFTPlot(Block):
             ordinate = abs(ordinate)
         elif plot_mode == "phase":
             ordinate = np.angle(ordinate)
-        meta_data = data_types.MetaData(input_signal.meta_data.name,
-                                        unit_a=1/input_signal.meta_data.unit_a,
+        metadata = data_types.MetaData(input_signal.metadata.name,
+                                        unit_a=1/input_signal.metadata.unit_a,
                                         unit_o=unit_o,
                                         )
-        label = input_signal.meta_data.name
+        label = input_signal.metadata.name
         self.axes.plot(abscissa, ordinate, label=label)
         if label:
             self.legend = self.fig.legend()
         else:
             self.legend = None
-        self.axes.set_xlabel(data_types.meta_data_to_axis_label(
-            quantity=meta_data.quantity_a,
-            unit=meta_data.unit_a,
-            symbol=meta_data.symbol_a
+        self.axes.set_xlabel(data_types.metadata_to_axis_label(
+            quantity=metadata.quantity_a,
+            unit=metadata.unit_a,
+            symbol=metadata.symbol_a
             )
         )
-        self.axes.set_ylabel(data_types.meta_data_to_axis_label(
-            quantity=meta_data.quantity_o,
-            unit=meta_data.unit_o,
-            symbol=meta_data.symbol_o
+        self.axes.set_ylabel(data_types.metadata_to_axis_label(
+            quantity=metadata.quantity_o,
+            unit=metadata.unit_o,
+            symbol=metadata.symbol_o
             )
         )
         self.axes.grid(True)
