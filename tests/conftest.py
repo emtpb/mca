@@ -12,9 +12,9 @@ class TestBlock(mca.framework.block_base.Block):
     def __init__(self, inputs, outputs, **kwargs):
         super().__init__(**kwargs)
         for i in range(inputs):
-            self._new_input("Test")
+            self.new_input("Test")
         for o in range(outputs):
-            self._new_output(None)
+            self.new_output(None)
         self.process_count = 0
 
     def setup_io(self):
@@ -44,8 +44,8 @@ class DynamicInputBlock(mca.framework.DynamicBlock):
 
     def setup_io(self):
         self.dynamic_input = [1, 3]
-        self._new_output(None)
-        self._new_input()
+        self.new_output(None)
+        self.new_input()
 
     def setup_parameters(self):
         pass
@@ -72,8 +72,8 @@ class DynamicOutputBlock(mca.framework.DynamicBlock):
 
     def setup_io(self):
         self.dynamic_output = [1, 4]
-        self._new_output(None)
-        self._new_input()
+        self.new_output(None)
+        self.new_input()
 
     def setup_parameters(self):
         pass
@@ -283,7 +283,7 @@ class TestOutputBlock(mca.framework.block_base.Block):
         self.outputs[0].data = sig
 
     def setup_io(self):
-        self._new_output(meta_data=None)
+        self.new_output(meta_data=None)
 
     def setup_parameters(self):
         pass

@@ -22,13 +22,13 @@ class HSOscilloscope(Block):
         self.oscilloscope = None
 
     def setup_io(self):
-        self._new_output(
+        self.new_output(
             name=_("Channel 1"),
             meta_data_input_dependent=False,
             ordinate_meta_data=True,
             abscissa_meta_data=True,
         )
-        self._new_output(
+        self.new_output(
             name=_("Channel 2"),
             meta_data_input_dependent=False,
             ordinate_meta_data=True,

@@ -18,8 +18,8 @@ class Interpolate(Block):
     tags = (_("Processing"),)
 
     def setup_io(self):
-        self._new_output()
-        self._new_input()
+        self.new_output()
+        self.new_input()
 
     def setup_parameters(self):
         abscissa = helpers.create_abscissa_parameter_block()

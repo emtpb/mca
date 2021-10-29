@@ -12,10 +12,10 @@ class Multiplier(DynamicBlock):
     tags = (_("Processing"),)
 
     def setup_io(self):
-        self._new_output()
+        self.new_output()
         self.dynamic_input = (1, None)
-        self._new_input()
-        self._new_input()
+        self.new_input()
+        self.new_input()
 
     def setup_parameters(self):
         pass

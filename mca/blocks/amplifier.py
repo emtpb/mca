@@ -11,8 +11,8 @@ class Amplifier(Block):
     tags = (_("Processing"),)
 
     def setup_io(self):
-        self._new_output()
-        self._new_input()
+        self.new_output()
+        self.new_input()
 
     def setup_parameters(self):
         factor = parameters.FloatParameter(name=_("Factor"), default=1)

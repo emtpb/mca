@@ -13,7 +13,7 @@ class SignalGeneratorPeriodic(Block):
     tags = (_("Generating"),)
 
     def setup_io(self):
-        self._new_output(
+        self.new_output(
             meta_data_input_dependent=False,
             ordinate_meta_data=True,
             abscissa_meta_data=True,

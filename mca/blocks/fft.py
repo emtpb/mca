@@ -11,14 +11,14 @@ class FFT(Block):
     tags = (_("Processing"), _("Fourier"))
 
     def setup_io(self):
-        self._new_output(
+        self.new_output(
             meta_data=data_types.MetaData(
                 "",
                 unit_a="1/s",
                 unit_o="V*s",
                 quantity_a=_("Frequency"),)
         )
-        self._new_input()
+        self.new_input()
 
     def setup_parameters(self):
         self.parameters.update({"normalize": parameters.BoolParameter(

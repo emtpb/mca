@@ -20,7 +20,7 @@ class STFTPlot(Block):
         self.color_bar = None
 
     def setup_io(self):
-        self._new_input()
+        self.new_input()
 
     def setup_parameters(self):
         self.parameters.update({

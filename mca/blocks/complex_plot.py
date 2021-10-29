@@ -42,7 +42,7 @@ class ComplexPlot(DynamicBlock):
 
     def setup_io(self):
         self.dynamic_input = [1, None]
-        self._new_input()
+        self.new_input()
 
     def _process(self):
         self.first_axes.cla()

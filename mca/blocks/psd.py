@@ -11,13 +11,13 @@ class PowerDensitySpectrum(Block):
     tags = (_("Processing"),)
 
     def setup_io(self):
-        self._new_output(meta_data=data_types.MetaData(
+        self.new_output(meta_data=data_types.MetaData(
                 "",
                 unit_a="1/s",
                 unit_o="V*V*s",
                 quantity_a=_("Frequency")
         ))
-        self._new_input()
+        self.new_input()
 
     def setup_parameters(self):
         pass

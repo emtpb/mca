@@ -13,7 +13,7 @@ class SignalGeneratorArbitrary(Block):
     tags = (_("Generating"), _("Loading"))
 
     def setup_io(self):
-        self._new_output(
+        self.new_output(
             meta_data_input_dependent=False,
             ordinate_meta_data=False,
             abscissa_meta_data=False,
