@@ -1,5 +1,6 @@
 import sys
 import inspect
+import warnings
 
 from .fft import FFT
 from .signal_plot import SignalPlot
@@ -17,7 +18,6 @@ from .audio_recorder import AudioRecorder
 from .audio_player import AudioPlayer
 from .amplifier import Amplifier
 from .signal_generator_stochastic import SignalGeneratorStochastic
-from .hs_oscilloscope import HSOscilloscope
 from .acf import AutoCorrelation
 from .ccf import CrossCorrelation
 from .psd import PowerDensitySpectrum
@@ -41,7 +41,10 @@ from .resample import Resample
 from .interpolate import Interpolate
 from .stft_plot import STFTPlot
 from .dc_generator import DCGenerator
-
+try:
+    from .hs_oscilloscope import HSOscilloscope
+except ModuleNotFoundError:
+    warnings.warn("Module 'tiepie' not found.")
 # Create list of all blocks
 block_classes = [i[1] for i in inspect.getmembers(sys.modules[__name__],
                                                   inspect.isclass)]
