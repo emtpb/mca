@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-09-22 16:09+0200\n"
+"POT-Creation-Date: 2021-11-22 14:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -63,15 +63,15 @@ msgstr "Verstärker"
 msgid "Amplifies the input signal by the desired factor."
 msgstr "Verstärkt das Eingangssignal."
 
-#: blocks/amplifier.py:19
+#: blocks/amplifier.py:18
 msgid "Factor"
 msgstr "Faktor"
 
-#: blocks/amplifier.py:20
+#: blocks/amplifier.py:19
 msgid "Decibel"
 msgstr "Dezibel"
 
-#: blocks/amplifier.py:33
+#: blocks/amplifier.py:32
 msgid "Amplification"
 msgstr "Verstärkung"
 
@@ -101,7 +101,7 @@ msgid "Audio"
 msgstr "Audio"
 
 #: blocks/audio_loader.py:16 blocks/audio_player.py:19 blocks/audio_saver.py:17
-#: blocks/resample.py:20 framework/helpers.py:11
+#: blocks/resample.py:20 framework/helpers.py:22
 msgid "Sampling frequency"
 msgstr "Abtastfrequenz"
 
@@ -109,7 +109,7 @@ msgstr "Abtastfrequenz"
 msgid "Filename"
 msgstr "Dateiname"
 
-#: blocks/audio_loader.py:20 blocks/signal_generator_arbitrary.py:30
+#: blocks/audio_loader.py:20 blocks/signal_generator_arbitrary.py:29
 msgid "Load file"
 msgstr "Lade Datei"
 
@@ -192,38 +192,38 @@ msgstr ""
 "werden.Die erste Frequenz entspricht der Startfrequenz und die zweite "
 "Frequenzentspricht der Endfrequenz."
 
-#: blocks/chirp.py:16 blocks/gausspulse.py:15 blocks/hs_oscilloscope.py:17
-#: blocks/signal_generator_arbitrary.py:13
+#: blocks/chirp.py:16 blocks/dc_generator.py:11 blocks/gausspulse.py:15
+#: blocks/hs_oscilloscope.py:17 blocks/signal_generator_arbitrary.py:13
 #: blocks/signal_generator_periodic.py:13
 #: blocks/signal_generator_stochastic.py:14
 msgid "Generating"
 msgstr "Generierung"
 
-#: blocks/chirp.py:30
+#: blocks/chirp.py:29
 msgid "Sweep Kind"
 msgstr "Sweepart"
 
-#: blocks/chirp.py:31 blocks/interpolate.py:31
+#: blocks/chirp.py:30 blocks/interpolate.py:31
 msgid "Linear"
 msgstr "Linear"
 
-#: blocks/chirp.py:31 blocks/interpolate.py:32
+#: blocks/chirp.py:30 blocks/interpolate.py:32
 msgid "Quadratic"
 msgstr "Quadratisch"
 
-#: blocks/chirp.py:32
+#: blocks/chirp.py:31
 msgid "Logarithmic"
 msgstr "Logarithmisch"
 
-#: blocks/chirp.py:33
+#: blocks/chirp.py:32
 msgid "Hyperbolic"
 msgstr "Hyperbolisch"
 
-#: blocks/chirp.py:36
+#: blocks/chirp.py:35
 msgid "Start Frequency"
 msgstr "Startfrequenz"
 
-#: blocks/chirp.py:38
+#: blocks/chirp.py:37
 msgid "End Frequency"
 msgstr "Endfrequenz"
 
@@ -278,12 +278,12 @@ msgstr ""
 "auf. Der erste Ausgang liefert des Realteil und der zweite Ausgang des "
 "Imginärteil"
 
-#: blocks/complex_to_real.py:23 blocks/gausspulse.py:19
+#: blocks/complex_to_real.py:22 blocks/gausspulse.py:19
 #: blocks/real_to_complex.py:22
 msgid "Real part"
 msgstr "Realteil"
 
-#: blocks/complex_to_real.py:25 blocks/gausspulse.py:26
+#: blocks/complex_to_real.py:23 blocks/gausspulse.py:25
 #: blocks/real_to_complex.py:23
 msgid "Imaginary part"
 msgstr "Imaginärteil"
@@ -297,7 +297,7 @@ msgid "Computes the cross power density spectrum of the input signals."
 msgstr "Berechnet das Kreuzleistungsdichtespektrum des Eingangssignals."
 
 #: blocks/cpsd.py:19 blocks/fft.py:19 blocks/psd.py:18
-#: blocks/signal_generator_periodic.py:32
+#: blocks/signal_generator_periodic.py:31
 msgid "Frequency"
 msgstr "Frequenz"
 
@@ -326,6 +326,18 @@ msgstr "Startwert"
 msgid "End value"
 msgstr "Endwert"
 
+#: blocks/dc_generator.py:9
+msgid "DCGenerator"
+msgstr "DCGenerator"
+
+#: blocks/dc_generator.py:10
+msgid "Generates a DC signal."
+msgstr "Generiert ein DC Signal."
+
+#: blocks/dc_generator.py:23
+msgid "DC Value"
+msgstr "DC Wert"
+
 #: blocks/differentiator.py:9
 msgid "Differentiator"
 msgstr "Differentiator"
@@ -342,7 +354,7 @@ msgstr "Dividierer"
 msgid "Divides the two input signals."
 msgstr "Dividiert die beiden Eingangssignale."
 
-#: blocks/envelope.py:11 blocks/gausspulse.py:33
+#: blocks/envelope.py:11 blocks/gausspulse.py:31
 msgid "Envelope"
 msgstr "Einhüllende"
 
@@ -424,15 +436,15 @@ msgstr ""
 "Generiert ein Gausspulssignal. Gibt Real-, Imaginärteil und die "
 "Einhüllende zurück."
 
-#: blocks/gausspulse.py:45
+#: blocks/gausspulse.py:42
 msgid "Center Frequency"
 msgstr "Mittenfrequenz"
 
-#: blocks/gausspulse.py:47
+#: blocks/gausspulse.py:44
 msgid "Fractional bandwidth"
 msgstr "Normierte Bandbreite"
 
-#: blocks/gausspulse.py:49
+#: blocks/gausspulse.py:46
 msgid "Reference level"
 msgstr "Referenzpegel"
 
@@ -444,51 +456,51 @@ msgstr "HSOscilloscope"
 msgid "Extract data from a Handyscope oscilloscope"
 msgstr "Extrahiert Daten von einem Handyscope Oszilloskop"
 
-#: blocks/hs_oscilloscope.py:26 blocks/hs_oscilloscope.py:61
+#: blocks/hs_oscilloscope.py:26 blocks/hs_oscilloscope.py:59
 msgid "Channel 1"
 msgstr "Kanal 1"
 
-#: blocks/hs_oscilloscope.py:33 blocks/hs_oscilloscope.py:68
+#: blocks/hs_oscilloscope.py:32 blocks/hs_oscilloscope.py:66
 msgid "Channel 2"
 msgstr "Kanal 2"
 
-#: blocks/hs_oscilloscope.py:41
+#: blocks/hs_oscilloscope.py:39
 msgid "Range"
 msgstr "Wertebereich"
 
-#: blocks/hs_oscilloscope.py:52
+#: blocks/hs_oscilloscope.py:50
 msgid "Trigger Level"
 msgstr "Trigger level"
 
-#: blocks/hs_oscilloscope.py:54
+#: blocks/hs_oscilloscope.py:52
 msgid "Trigger Kind"
 msgstr "Trigger Art"
 
-#: blocks/hs_oscilloscope.py:60 blocks/hs_oscilloscope.py:66
+#: blocks/hs_oscilloscope.py:58 blocks/hs_oscilloscope.py:64
 msgid "Enable Trigger"
 msgstr "Trigger aktivieren"
 
-#: blocks/hs_oscilloscope.py:75
+#: blocks/hs_oscilloscope.py:73
 msgid "Device"
 msgstr "Gerät"
 
-#: blocks/hs_oscilloscope.py:79
+#: blocks/hs_oscilloscope.py:77
 msgid "Connect"
 msgstr "Verbinden"
 
-#: blocks/hs_oscilloscope.py:81
+#: blocks/hs_oscilloscope.py:79
 msgid "ADC Resolution"
 msgstr "ADU Auflösung"
 
-#: blocks/hs_oscilloscope.py:84
+#: blocks/hs_oscilloscope.py:82
 msgid "Sample Frequency"
 msgstr "Samplingfrequenz"
 
-#: blocks/hs_oscilloscope.py:85
+#: blocks/hs_oscilloscope.py:83
 msgid "Record Length"
 msgstr "Aufnahmelänge"
 
-#: blocks/hs_oscilloscope.py:86
+#: blocks/hs_oscilloscope.py:84
 msgid "Measure"
 msgstr "Messen"
 
@@ -741,7 +753,7 @@ msgstr "SignalGeneratorArbiträr"
 msgid "Loads arbitrary data to generate a signal on its output."
 msgstr "Läd arbiträre Daten um ein Signal an seinem Output zu generieren."
 
-#: blocks/signal_generator_arbitrary.py:26
+#: blocks/signal_generator_arbitrary.py:25
 msgid "Arbitrary data path"
 msgstr "Pfad der Arbiträrdaten"
 
@@ -749,20 +761,20 @@ msgstr "Pfad der Arbiträrdaten"
 msgid "Generates a periodic sinus, rectangle or triangle signal."
 msgstr "Generiert ein periodisches Sinus-, Rechteck- oder Dreiecksignal."
 
-#: blocks/signal_generator_periodic.py:27
+#: blocks/signal_generator_periodic.py:26
 msgid "Function"
 msgstr "Funktion"
 
-#: blocks/signal_generator_periodic.py:28
+#: blocks/signal_generator_periodic.py:27
 msgid "Rectangle"
 msgstr "Rechteck"
 
-#: blocks/signal_generator_periodic.py:28 blocks/stft_plot.py:31
+#: blocks/signal_generator_periodic.py:27 blocks/stft_plot.py:31
 #: blocks/window.py:25
 msgid "Triangle"
 msgstr "Dreieck"
 
-#: blocks/signal_generator_periodic.py:29
+#: blocks/signal_generator_periodic.py:28
 msgid "Sine"
 msgstr "Sinus"
 
@@ -776,23 +788,23 @@ msgstr ""
 msgid "Stochastic"
 msgstr "Stochastisch"
 
-#: blocks/signal_generator_stochastic.py:28
+#: blocks/signal_generator_stochastic.py:27
 msgid "Distribution"
 msgstr "Verteilung"
 
-#: blocks/signal_generator_stochastic.py:29
+#: blocks/signal_generator_stochastic.py:28
 msgid "Normal distribution"
 msgstr "Normalverteilt"
 
-#: blocks/signal_generator_stochastic.py:30
+#: blocks/signal_generator_stochastic.py:29
 msgid "Equal distribution"
 msgstr "Gleichverteilt"
 
-#: blocks/signal_generator_stochastic.py:33
+#: blocks/signal_generator_stochastic.py:32
 msgid "Mean µ"
 msgstr "Mittelwert µ"
 
-#: blocks/signal_generator_stochastic.py:34
+#: blocks/signal_generator_stochastic.py:33
 msgid "Standard deviation σ"
 msgstr "Standardabweichung σ"
 
@@ -897,7 +909,7 @@ msgstr "Totzeit Werte"
 msgid "Zero Padding Values"
 msgstr "Zeropadding Werte"
 
-#: framework/block_base.py:30
+#: framework/block_base.py:31
 msgid "Name"
 msgstr "Name"
 
@@ -909,19 +921,19 @@ msgstr "Zeit"
 msgid "Voltage"
 msgstr "Spannung"
 
-#: framework/helpers.py:8
+#: framework/helpers.py:19
 msgid "Values"
 msgstr "Werte"
 
-#: framework/helpers.py:9
+#: framework/helpers.py:20
 msgid "Increment"
 msgstr "Inkrement"
 
-#: framework/helpers.py:12
+#: framework/helpers.py:23
 msgid "Measure time"
 msgstr "Messzeit"
 
-#: framework/helpers.py:52
+#: framework/helpers.py:63
 msgid "Abscissa"
 msgstr "Abszisse"
 
@@ -1004,14 +1016,14 @@ msgstr ""
 msgid "New block"
 msgstr "Neuer Block"
 
-#: gui/pyside2/edit_widgets.py:327 gui/pyside2/io_items.py:118
+#: gui/pyside2/edit_widgets.py:329 gui/pyside2/io_items.py:118
 #: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:294
 #: gui/pyside2/io_items.py:297 gui/pyside2/io_items.py:301
 #: gui/pyside2/main_window.py:210 gui/pyside2/main_window.py:289
 msgid "MCA"
 msgstr "MKA"
 
-#: gui/pyside2/edit_widgets.py:327
+#: gui/pyside2/edit_widgets.py:329
 msgid "Something went wrong.\n"
 msgstr "Etwas ist schiefgelaufen.\n"
 
