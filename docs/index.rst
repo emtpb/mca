@@ -17,6 +17,7 @@ Contents
    api
    authors
    changelog
+   block_guide
 
 
 Indices and tables
