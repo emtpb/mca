@@ -802,7 +802,7 @@ msgstr "SignalPlot"
 
 #: blocks/signal_plot.py:18
 msgid "Plots all input signals in a single figure."
-msgstr ""
+msgstr "Plottet alle Eingangssignale in eine Abbildung."
 
 #: blocks/signal_saver.py:10
 msgid "SignalSaver"
