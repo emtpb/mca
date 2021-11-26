@@ -87,7 +87,7 @@ class ParameterValueError(MCAError):
         super().__init__(cause)
 
 
-class InputOutputError(MCAError):
+class DynamicIOError(MCAError):
     """Exception raised when adding or removing of an input or output
     was unsuccessful.
     """
@@ -101,7 +101,7 @@ class InputOutputError(MCAError):
         super().__init__(cause)
 
 
-class ConnectionsError(MCAError):
+class BlockConnectionError(MCAError):
     """Exception raised when connecting or disconnecting of in- and outputs
     failed.
     """

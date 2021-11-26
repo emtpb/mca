@@ -172,7 +172,7 @@ def test_connect_2(one_input_block):
     a = one_input_block()
     b = one_input_block()
     print(a is b)
-    with pytest.raises(exceptions.ConnectionsError):
+    with pytest.raises(exceptions.BlockConnectionError):
         b.inputs[0].connect(a.inputs[0])
     mca.framework.io_registry.Registry.clear()
 
@@ -180,7 +180,7 @@ def test_connect_2(one_input_block):
 def test_connect_3(basic_scenario, one_output_block):
     a, b = basic_scenario
     c = one_output_block()
-    with pytest.raises(exceptions.ConnectionsError):
+    with pytest.raises(exceptions.BlockConnectionError):
         b.inputs[0].connect(c.outputs[0])
 
 
@@ -393,10 +393,10 @@ def test_add_input(add_input_scenario, dynamic_output_block):
     a = add_input_scenario
     assert len(a.inputs) == 3
     assert [a.inputs[1], a.outputs[0]] in mca.framework.io_registry.Registry._graph.edges
-    with pytest.raises(exceptions.InputOutputError):
+    with pytest.raises(exceptions.DynamicIOError):
         a.add_input(mca.framework.block_io.Input(a))
     b = dynamic_output_block()
-    with pytest.raises(exceptions.InputOutputError):
+    with pytest.raises(exceptions.DynamicIOError):
         b.add_input(mca.framework.block_io.Input(b))
 
 
@@ -404,7 +404,7 @@ def test_add_input_2(dynamic_input_block):
     a = dynamic_input_block()
     b = mca.framework.block_io.Input(a)
     a.add_input(b)
-    with pytest.raises(exceptions.InputOutputError):
+    with pytest.raises(exceptions.DynamicIOError):
         a.add_input(b)
 
 
@@ -413,10 +413,10 @@ def test_delete_input(delete_input_scenario, dynamic_output_block):
     assert len(a.inputs) == 2
     assert all([x in mca.framework.io_registry.Registry._graph.nodes() for x in a.inputs])
     a.delete_input(1)
-    with pytest.raises(exceptions.InputOutputError):
+    with pytest.raises(exceptions.DynamicIOError):
         a.delete_input(0)
     b = dynamic_output_block()
-    with pytest.raises(exceptions.InputOutputError):
+    with pytest.raises(exceptions.DynamicIOError):
         b.delete_input(0)
 
 
@@ -437,7 +437,7 @@ def test_add_output(add_output_scenario):
     a = add_output_scenario
     assert len(a.outputs) == 3
     assert [a.inputs[0], a.outputs[2]] in mca.framework.io_registry.Registry._graph.edges
-    with pytest.raises(exceptions.InputOutputError):
+    with pytest.raises(exceptions.DynamicIOError):
         a.add_output(mca.framework.block_io.Output(a))
         a.add_output(mca.framework.block_io.Output(a))
 
@@ -448,7 +448,7 @@ def test_delete_output(delete_output_scenario):
     assert all([x in mca.framework.io_registry.Registry._graph.nodes()
                 for x in a.outputs])
     a.delete_output(1)
-    with pytest.raises(exceptions.InputOutputError):
+    with pytest.raises(exceptions.DynamicIOError):
         a.delete_output(0)
 
 

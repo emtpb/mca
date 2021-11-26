@@ -252,13 +252,13 @@ class DynamicBlock(Block):
             :class:`.InputOutputError`: If adding the Input was not successful.
         """
         if input_ in io_registry.Registry._graph.nodes:
-            raise exceptions.InputOutputError("Input already added")
+            raise exceptions.DynamicIOError("Input already added")
         if not self.dynamic_input:
-            raise exceptions.InputOutputError("No permission to create Input")
+            raise exceptions.DynamicIOError("No permission to create Input")
 
         if self.dynamic_input[1]:
             if self.dynamic_input[1] <= len(self.inputs):
-                raise exceptions.InputOutputError("Maximum Inputs reached")
+                raise exceptions.DynamicIOError("Maximum Inputs reached")
             self.inputs.append(io_registry.Registry.add_node(input_))
         else:
             self.inputs.append(io_registry.Registry.add_node(input_))
@@ -272,12 +272,12 @@ class DynamicBlock(Block):
             :class:`.InputOutputError`: If adding the Output was not successful.
         """
         if output in io_registry.Registry._graph.nodes:
-            raise exceptions.InputOutputError("Output already added")
+            raise exceptions.DynamicIOError("Output already added")
         if not self.dynamic_output:
-            raise exceptions.InputOutputError("No permission to create Output")
+            raise exceptions.DynamicIOError("No permission to create Output")
         if self.dynamic_output[1]:
             if self.dynamic_output[1] <= len(self.outputs):
-                raise exceptions.InputOutputError("Maximum Outputs reached")
+                raise exceptions.DynamicIOError("Maximum Outputs reached")
             self.outputs.append(io_registry.Registry.add_node(output))
         else:
             self.outputs.append(io_registry.Registry.add_node(output))
@@ -293,9 +293,9 @@ class DynamicBlock(Block):
                 reached or dynamic_input is set to None.
         """
         if not self.dynamic_input:
-            raise exceptions.InputOutputError("No permission to delete Input")
+            raise exceptions.DynamicIOError("No permission to delete Input")
         if self.dynamic_input[0] >= len(self.inputs):
-            raise exceptions.InputOutputError("Minimum Inputs reached")
+            raise exceptions.DynamicIOError("Minimum Inputs reached")
         io_registry.Registry.remove_input(self.inputs.pop(input_index))
 
     def delete_output(self, output_index):
@@ -308,9 +308,9 @@ class DynamicBlock(Block):
                 reached or dynamic_output is set to None.
         """
         if not self.dynamic_output:
-            raise exceptions.InputOutputError("No permission to delete Output")
+            raise exceptions.DynamicIOError("No permission to delete Output")
         if self.dynamic_output[0] >= len(self.outputs):
-            raise exceptions.InputOutputError("Minimum Outputs reached")
+            raise exceptions.DynamicIOError("Minimum Outputs reached")
         io_registry.Registry.remove_output(self.outputs.pop(output_index))
 
     def _process(self):

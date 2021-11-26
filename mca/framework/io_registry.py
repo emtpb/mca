@@ -116,9 +116,9 @@ class IORegistry:
             message = "{} is not instance of {} or {} is not instance of {}".format(
                 output, block_io.Output, input_, block_io.Input
             )
-            raise exceptions.ConnectionsError(message)
+            raise exceptions.BlockConnectionError(message)
         if list(self._graph.predecessors(input_)):
-            raise exceptions.ConnectionsError("Input already connected")
+            raise exceptions.BlockConnectionError("Input already connected")
         self._graph.add_edge(output, input_)
         if not nx.is_directed_acyclic_graph(self._graph):
             self._graph.remove_edge(output, input_)
