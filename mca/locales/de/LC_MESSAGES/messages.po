@@ -1253,6 +1253,59 @@ msgstr "Unbennant.json"
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
 
+
+msgid "Radiant"
+msgstr "Radiant"
+
+msgid "Magnetic flux"
+msgstr "Magnetischer Fluss"
+
+msgid "Mass"
+msgstr "Masse"
+
+msgid "Current"
+msgstr "Strom"
+
+msgid "Length"
+msgstr "Länge"
+
+msgid "Temperature"
+msgstr "Temparatur"
+
+msgid "Amount of substance"
+msgstr "Stoffmenge"
+
+msgid "Luminous intensity"
+msgstr "Lichtstärke"
+
+msgid "Resistance"
+msgstr "Widerstand"
+
+msgid "Capacitance"
+msgstr "Kapazität"
+
+msgid "Power"
+msgstr "Leistung"
+
+msgid "Electric charge"
+msgstr "Elektrische Ladung"
+
+msgid "Inductance"
+msgstr "Induktivität"
+
+msgid "Energy"
+msgstr "Energie"
+
+msgid "Force"
+msgstr "Kraft"
+
+msgid "Magnetic Induction"
+msgstr "Magnetische Flussdichte"
+
+msgid "Pressure"
+msgstr "Druck"
+
+
 #~ msgid "Plots absolute and phase or real and imaginary part of the input signal"
 #~ msgstr ""
 #~ "Plottet Betrag und Phase oder Real- "
