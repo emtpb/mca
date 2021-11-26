@@ -49,17 +49,15 @@ class SignalPlot(DynamicBlock):
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
         auto_show = self.parameters["auto_show"].value
-        labels = False
+        label = None
         for signal in signals:
             abscissa = np.linspace(signal.abscissa_start,
                                    signal.abscissa_start + signal.increment * (signal.values - 1),
                                    signal.values)
             ordinate = signal.ordinate
             label = signal.metadata.name
-            if label:
-                labels = True
             self.axes.plot(abscissa, ordinate, label=label)
-        if labels:
+        if label:
             self.legend = self.fig.legend()
         if signals:
             metadata = signals[0].metadata
