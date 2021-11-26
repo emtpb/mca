@@ -347,10 +347,6 @@ more data types in the future other than :class:`.Signal`. There are some
 convenience functions provided by the :ref:`validator` module for example
 checking the data type to be :class:`.Signal` , units of the metadata,
 compatible abscissa intervals.
-The motivation behind validating the units of the metadata can be explained by
-two perspectives. For example there is an adder block with two inputs which adds
-the ordinates of the two input signals and puts another signal on the output.
-
 
 The validating of parameters is mostly handled by the parameters classes
 themself (data type, range of integer and floats, ...). However in some cases
@@ -362,7 +358,31 @@ from using/raising :class:`Exceptions <.MCAError>` provided by the mca package.
 3. The actual processing
 ------------------------
 
-This up to the developer of the block.
+This up to the developer itself however here is an important tip to avoid
+errors or undesired behaviour of your block: When working with data of your
+inputs note that the data object (for example :class:`.Signal` object) may
+be provided to other blocks. Thus refrain from assigning shallow copies
+and changing their attributes. This will modify also the output data
+object to which your input is connected.
+
+Do not do this::
+
+    input_signal = self.inputs[0].data
+    my_ordinate = input_signal.ordinate
+    my_ordinate += 5
+
+An alternative would be::
+
+    input_signal = self.inputs[0].data
+    my_ordinate = input_signal.ordinate + 5
+
+Or use copy/deepcopy::
+
+    import copy
+
+    input_signal = self.inputs[0].data
+    my_ordinate = copy(input_signal.ordinate)
+    my_ordinate += 5
 
 4. Applying the data on the output
 ----------------------------------
