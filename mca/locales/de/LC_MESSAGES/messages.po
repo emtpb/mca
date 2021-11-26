@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-11-22 14:52+0100\n"
+"POT-Creation-Date: 2021-11-26 16:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -236,7 +236,7 @@ msgid "Plots absolute and phase or real and imaginary part of the input signal."
 msgstr "Plottet Betrag und Phase oder Real- und Imaginärteil des Eingangsignals."
 
 #: blocks/complex_plot.py:23 blocks/fftplot.py:22 blocks/signal_plot.py:19
-#: blocks/stft_plot.py:13
+#: blocks/stft_plot.py:13 blocks/xy_plot.py:14
 msgid "Plotting"
 msgstr "Plotten"
 
@@ -861,7 +861,7 @@ msgstr "Segmentüberlappung"
 msgid "FFT Length"
 msgstr "FFT Länge"
 
-#: blocks/stft_plot.py:40
+#: blocks/stft_plot.py:40 blocks/xy_plot.py:39
 msgid "Show"
 msgstr ""
 
@@ -892,6 +892,30 @@ msgstr "Alpha (Tukey)"
 #: blocks/window.py:30
 msgid "Standard Deviation (Gaussian)"
 msgstr "Standardabweichung (Gauß)"
+
+#: blocks/xy_plot.py:11
+msgid "XYPlot"
+msgstr ""
+
+#: blocks/xy_plot.py:12
+msgid "Plots the ordinates of the input signals against each other."
+msgstr "Plottet die Ordinaten der Eingangssignale gegeneinander."
+
+#: blocks/xy_plot.py:28
+msgid "Input signal for ordinate axis"
+msgstr "Eingangssignal für die Ordinatenachse"
+
+#: blocks/xy_plot.py:29 blocks/xy_plot.py:35
+msgid "First"
+msgstr "Erster"
+
+#: blocks/xy_plot.py:30 blocks/xy_plot.py:36
+msgid "Second"
+msgstr "Zweiter"
+
+#: blocks/xy_plot.py:34
+msgid "Input signal for abscissa axis"
+msgstr "Eingangssignal für die Abszissenachse"
 
 #: blocks/zerofill.py:9
 msgid "Zerofill"
