@@ -40,8 +40,8 @@ def load_block_structure(file_path):
                 output_save["metadata"]["signal_name"],
                 output_save["metadata"]["unit_a"],
                 output_save["metadata"]["unit_o"],
-                output_save["metadata"]["quantity_o"],
                 output_save["metadata"]["quantity_a"],
+                output_save["metadata"]["quantity_o"],
                 output_save["metadata"]["symbol_a"],
                 output_save["metadata"]["symbol_o"],
             )
