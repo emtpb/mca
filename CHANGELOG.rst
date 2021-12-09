@@ -9,9 +9,9 @@ This project follows the guidelines of `Keep a changelog`_ and adheres to
 .. _Semantic versioning: https://semver.org/
 
 
-[Unreleased]
-============
+0.1.0 - 2021-12-09
+==================
 
 Added
 -----
-* Initial implementation (preview).
+* Initial implementation.
