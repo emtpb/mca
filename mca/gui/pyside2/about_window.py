@@ -68,7 +68,7 @@ class AboutWindow(QtWidgets.QDialog):
             version = version_file.read()
         version_field_label = QtWidgets.QLabel(self.about_info)
         version_field_label.setText(version)
-        version_field_label.font()
+        version_field_label.setFont(font)
         # Add labels
         self.about_info_layout.setWidget(0, QtWidgets.QFormLayout.LabelRole, develop_label)
         self.about_info_layout.setWidget(0, QtWidgets.QFormLayout.FieldRole, develop_field_label)
