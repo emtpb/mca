@@ -64,6 +64,7 @@ class MainWindow(QtWidgets.QMainWindow):
             icon=QtWidgets.QMessageBox.Warning,
             text=_("The document has been modified.\nDo you want to save your changes?"),
         )
+        self.save_warning_message.setWindowTitle(_("MCA"))
         self.save_warning_message.setStandardButtons(QtWidgets.QMessageBox.Yes
                                                      | QtWidgets.QMessageBox.Cancel
                                                      | QtWidgets.QMessageBox.No)
@@ -264,6 +265,7 @@ class MainWindow(QtWidgets.QMainWindow):
         message_box = QtWidgets.QMessageBox(parent=self,
                                             icon=QtWidgets.QMessageBox.Question,
                                             text=_("Are you sure you want to remove all blocks?"))
+        message_box.setWindowTitle(_("MCA"))
         message_box.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Cancel)
         message_box.button(QtWidgets.QMessageBox.Cancel).setText(_("Cancel"))
         message_box.button(QtWidgets.QMessageBox.Yes).setText(

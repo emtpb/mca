@@ -126,6 +126,7 @@ class EditWindow(QtWidgets.QDialog):
             self.setWindowIcon(icon)
         # Create warning message
         self.warning_message = QtWidgets.QMessageBox()
+        self.warning_message.setWindowTitle(_("MCA"))
         self.warning_message.setIcon(QtWidgets.QMessageBox.Warning)
         self.warning_message.setText(
             _("Could not apply the changed parameters and metadata!"
@@ -237,7 +238,7 @@ class EditWindow(QtWidgets.QDialog):
                 self.warning_message.setText(
                     _("Could not apply the changed parameters and metadata!"
                       "Continue editing or revert changes?") +
-                    "\n" + _("Error message:") + error.args[0])
+                    "\n" + _("Error message: ") + error.args[0])
             else:
                 self.warning_message.setText(
                     _("Could not apply the changed parameters and metadata!"
