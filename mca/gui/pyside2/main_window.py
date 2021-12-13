@@ -127,9 +127,9 @@ class MainWindow(QtWidgets.QMainWindow):
         file_menu.addAction(exit_action)
 
         theme_menu = view_menu.addMenu(_("Theme"))
-        default_theme_action = QtWidgets.QAction("Default", self)
+        default_theme_action = QtWidgets.QAction(_("Default"), self)
         default_theme_action.triggered.connect(self.set_default_theme)
-        dark_theme_action = QtWidgets.QAction("Dark", self)
+        dark_theme_action = QtWidgets.QAction(_("Dark"), self)
         dark_theme_action.triggered.connect(self.set_dark_theme)
         theme_menu.addAction(default_theme_action)
         theme_menu.addAction(dark_theme_action)

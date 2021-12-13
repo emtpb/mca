@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-11-26 16:04+0100\n"
+"POT-Creation-Date: 2021-12-13 23:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -824,8 +824,8 @@ msgstr "SignalSpeicherung"
 msgid "Saves the input signal in .json file."
 msgstr "Speichert das Eingangssignal in einer.json Datei."
 
-#: blocks/signal_saver.py:21 gui/pyside2/main_window.py:70
-#: gui/pyside2/main_window.py:205
+#: blocks/signal_saver.py:21 gui/pyside2/main_window.py:108
+#: gui/pyside2/main_window.py:209
 msgid "Save"
 msgstr "Speichern"
 
@@ -895,7 +895,7 @@ msgstr "Standardabweichung (Gauß)"
 
 #: blocks/xy_plot.py:11
 msgid "XYPlot"
-msgstr ""
+msgstr "XYPlot"
 
 #: blocks/xy_plot.py:12
 msgid "Plots the ordinates of the input signals against each other."
@@ -961,27 +961,31 @@ msgstr "Messzeit"
 msgid "Abscissa"
 msgstr "Abszisse"
 
-#: gui/pyside2/about_window.py:29
+#: gui/pyside2/about_window.py:30
 msgid "Close"
 msgstr "Schließen"
 
-#: gui/pyside2/about_window.py:44
+#: gui/pyside2/about_window.py:46
 msgid "Developed by:"
 msgstr "Entwickelt von:"
 
-#: gui/pyside2/about_window.py:47
+#: gui/pyside2/about_window.py:50
 msgid "Measurement Engineering Group"
 msgstr "Fachgebiet Elektrische Messtechnik"
 
-#: gui/pyside2/about_window.py:50
+#: gui/pyside2/about_window.py:54
 msgid "Homepage:"
 msgstr "Startseite:"
 
-#: gui/pyside2/about_window.py:53
+#: gui/pyside2/about_window.py:58
 msgid ""
 "<a href=\"https://ei.uni-paderborn.de/en/electrical-engineering/emt"
 "/electrical-engineering/home\">EMT</a>"
 msgstr "<a href=\"https://ei.uni-paderborn.de/emt/startseite\">EMT</a>"
+
+#: gui/pyside2/about_window.py:63
+msgid "Version:"
+msgstr "Version:"
 
 #: gui/pyside2/block_display.py:24
 msgid "Zoom in"
@@ -990,6 +994,14 @@ msgstr "Reinzoomen"
 #: gui/pyside2/block_display.py:29
 msgid "Zoom out"
 msgstr "Rauszoomen"
+
+#: gui/pyside2/block_explorer.py:35
+msgid "Search..."
+msgstr "Suchen..."
+
+#: gui/pyside2/block_explorer.py:74
+msgid "New block"
+msgstr "Neuer Block"
 
 #: gui/pyside2/block_item.py:111
 msgid "Edit"
@@ -1015,35 +1027,29 @@ msgstr "Output löschen"
 msgid "Delete Block"
 msgstr "Block löschen"
 
-#: gui/pyside2/block_item.py:495
+#: gui/pyside2/block_item.py:496
 msgid "Name of the Input:"
 msgstr "Name des Inputs:"
 
-#: gui/pyside2/block_item.py:497
+#: gui/pyside2/block_item.py:498
 msgid "Name of the Output:"
 msgstr "Name des Outputs:"
 
-#: gui/pyside2/block_item.py:512 gui/pyside2/edit_window.py:115
+#: gui/pyside2/block_item.py:513 gui/pyside2/edit_window.py:115
 msgid "Ok"
 msgstr "Ok"
 
-#: gui/pyside2/block_item.py:514 gui/pyside2/edit_window.py:116
-#: gui/pyside2/main_window.py:128 gui/pyside2/main_window.py:265
+#: gui/pyside2/block_item.py:515 gui/pyside2/edit_window.py:116
+#: gui/pyside2/main_window.py:73 gui/pyside2/main_window.py:270
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: gui/pyside2/block_list.py:39
-msgid "Try #Processing or @Audio"
-msgstr ""
-
-#: gui/pyside2/block_list.py:43
-msgid "New block"
-msgstr "Neuer Block"
-
-#: gui/pyside2/edit_widgets.py:329 gui/pyside2/io_items.py:118
-#: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:294
-#: gui/pyside2/io_items.py:297 gui/pyside2/io_items.py:301
-#: gui/pyside2/main_window.py:210 gui/pyside2/main_window.py:289
+#: gui/pyside2/edit_widgets.py:329 gui/pyside2/edit_window.py:129
+#: gui/pyside2/io_items.py:118 gui/pyside2/io_items.py:122
+#: gui/pyside2/io_items.py:295 gui/pyside2/io_items.py:298
+#: gui/pyside2/io_items.py:302 gui/pyside2/main_window.py:67
+#: gui/pyside2/main_window.py:214 gui/pyside2/main_window.py:268
+#: gui/pyside2/main_window.py:294
 msgid "MCA"
 msgstr "MKA"
 
@@ -1051,7 +1057,7 @@ msgstr "MKA"
 msgid "Something went wrong.\n"
 msgstr "Etwas ist schiefgelaufen.\n"
 
-#: gui/pyside2/edit_window.py:38 gui/pyside2/edit_window.py:280
+#: gui/pyside2/edit_window.py:38 gui/pyside2/edit_window.py:281
 msgid "Edit {}"
 msgstr "{} bearbeiten"
 
@@ -1092,70 +1098,70 @@ msgstr ""
 msgid "Apply"
 msgstr "Übernehmen"
 
-#: gui/pyside2/edit_window.py:131 gui/pyside2/edit_window.py:238
-#: gui/pyside2/edit_window.py:243
+#: gui/pyside2/edit_window.py:132 gui/pyside2/edit_window.py:239
+#: gui/pyside2/edit_window.py:244
 msgid ""
 "Could not apply the changed parameters and metadata!Continue editing or "
 "revert changes?"
 msgstr ""
-"Die veränderten Parameter und Metadaten konnten nicht angewendet! Mit der"
-" Bearbeitung fortfahren oder Änderung rückgängig machen?"
+"Die veränderten Parameter und Metadaten konnten nicht angewendet werden! "
+"Mit der Bearbeitung fortfahren oder Änderung rückgängig machen?"
 
-#: gui/pyside2/edit_window.py:134
+#: gui/pyside2/edit_window.py:135
 msgid "Continue"
 msgstr "Fortfahren"
 
-#: gui/pyside2/edit_window.py:137
+#: gui/pyside2/edit_window.py:138
 msgid "Revert"
 msgstr "Rückgängig"
 
-#: gui/pyside2/edit_window.py:173
+#: gui/pyside2/edit_window.py:174
 msgid "Output '{}' metadata:"
 msgstr "Output '{}' Metadaten"
 
-#: gui/pyside2/edit_window.py:176
+#: gui/pyside2/edit_window.py:177
 msgid "Output {} metadata:"
 msgstr "Output {} MetaDaten:"
 
-#: gui/pyside2/edit_window.py:178
+#: gui/pyside2/edit_window.py:179
 msgid "Signal name:"
 msgstr "Signalname:"
 
-#: gui/pyside2/edit_window.py:179
+#: gui/pyside2/edit_window.py:180
 msgid "Abscissa quantity:"
 msgstr "Abszissengröße:"
 
-#: gui/pyside2/edit_window.py:180
+#: gui/pyside2/edit_window.py:181
 msgid "Abscissa symbol:"
 msgstr "Abszissensymbol:"
 
-#: gui/pyside2/edit_window.py:181
+#: gui/pyside2/edit_window.py:182
 msgid "Abscissa unit:"
 msgstr "Abszisseneinheit:"
 
-#: gui/pyside2/edit_window.py:182
+#: gui/pyside2/edit_window.py:183
 msgid "Ordinate quantity:"
 msgstr "Ordinatengröße:"
 
-#: gui/pyside2/edit_window.py:183
+#: gui/pyside2/edit_window.py:184
 msgid "Ordinate symbol:"
 msgstr "Ordinatensymbol:"
 
-#: gui/pyside2/edit_window.py:184
+#: gui/pyside2/edit_window.py:185
 msgid "Ordinate unit:"
 msgstr "Ordinateneinheit:"
 
-#: gui/pyside2/edit_window.py:194
+#: gui/pyside2/edit_window.py:195
 msgid "Use abscissa metadata"
 msgstr "Abzissen Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:201
+#: gui/pyside2/edit_window.py:202
 msgid "Use ordinate metadata"
 msgstr "Ordinaten Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:240
-msgid "Error message:"
-msgstr "Fehlermeldung:"
+#: gui/pyside2/edit_window.py:241
+msgid "Error message: "
+msgstr ""
 
 #: gui/pyside2/io_items.py:53 gui/pyside2/io_items.py:235
 msgid "Disconnect"
@@ -1165,59 +1171,19 @@ msgstr "Verbindung trennen"
 msgid "Error"
 msgstr "Fehler"
 
-#: gui/pyside2/io_items.py:115 gui/pyside2/io_items.py:294
+#: gui/pyside2/io_items.py:115 gui/pyside2/io_items.py:295
 msgid "Cyclic structures are not allowed."
 msgstr "Zyklische Strukturen sind nicht erlaubt."
 
-#: gui/pyside2/io_items.py:118 gui/pyside2/io_items.py:297
+#: gui/pyside2/io_items.py:118 gui/pyside2/io_items.py:298
 msgid "Signals have incompatible metadata."
 msgstr "Signale haben inkompatible Metadaten."
 
-#: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:301
+#: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:302
 msgid "Signals have incompatible abscissas."
 msgstr "Signale haben inkompatible Abszissen."
 
-#: gui/pyside2/main_window.py:41
-msgid "File"
-msgstr "Datei"
-
-#: gui/pyside2/main_window.py:42
-msgid "Language"
-msgstr "Sprache"
-
-#: gui/pyside2/main_window.py:44
-msgid "About"
-msgstr "Über"
-
-#: gui/pyside2/main_window.py:57
-msgid "New"
-msgstr "Neu"
-
-#: gui/pyside2/main_window.py:61
-msgid "Open"
-msgstr "Öffnen"
-
 #: gui/pyside2/main_window.py:65
-msgid "Open Recent"
-msgstr "Zuletzt geöffnet"
-
-#: gui/pyside2/main_window.py:76
-msgid "Save as"
-msgstr "Speichern als"
-
-#: gui/pyside2/main_window.py:81
-msgid "Clear all blocks"
-msgstr "Alle Blöcke löschen"
-
-#: gui/pyside2/main_window.py:85
-msgid "Exit"
-msgstr "Verlassen"
-
-#: gui/pyside2/main_window.py:87
-msgid "Close Application"
-msgstr "Programm beenden"
-
-#: gui/pyside2/main_window.py:121
 msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
@@ -1225,86 +1191,89 @@ msgstr ""
 "Das Dokument wurde verändert.\n"
 "Wollen sie die Änderungen speichern?"
 
-#: gui/pyside2/main_window.py:126 gui/pyside2/main_window.py:267
+#: gui/pyside2/main_window.py:71 gui/pyside2/main_window.py:272
 msgid "Yes"
 msgstr "Ja"
 
-#: gui/pyside2/main_window.py:130
+#: gui/pyside2/main_window.py:75
 msgid "No"
 msgstr "Nein"
 
-#: gui/pyside2/main_window.py:152
+#: gui/pyside2/main_window.py:80
+msgid "File"
+msgstr "Datei"
+
+#: gui/pyside2/main_window.py:81
+msgid "Language"
+msgstr "Sprache"
+
+#: gui/pyside2/main_window.py:82
+msgid "View"
+msgstr "Ansicht"
+
+#: gui/pyside2/main_window.py:84
+msgid "About"
+msgstr "Über"
+
+#: gui/pyside2/main_window.py:95
+msgid "New"
+msgstr "Neu"
+
+#: gui/pyside2/main_window.py:99
+msgid "Open"
+msgstr "Öffnen"
+
+#: gui/pyside2/main_window.py:103
+msgid "Open Recent"
+msgstr "Zuletzt geöffnet"
+
+#: gui/pyside2/main_window.py:114
+msgid "Save as"
+msgstr "Speichern als"
+
+#: gui/pyside2/main_window.py:119
+msgid "Clear all blocks"
+msgstr "Alle Blöcke löschen"
+
+#: gui/pyside2/main_window.py:123
+msgid "Exit"
+msgstr "Verlassen"
+
+#: gui/pyside2/main_window.py:125
+msgid "Close Application"
+msgstr "Programm beenden"
+
+#: gui/pyside2/main_window.py:129
+msgid "Theme"
+msgstr "Theme"
+
+#: gui/pyside2/main_window.py:130
+msgid "Default"
+msgstr "Standard"
+
+#: gui/pyside2/main_window.py:132
+msgid "Dark"
+msgstr "Dunkel"
+
+#: gui/pyside2/main_window.py:157
 msgid "Select a file to open"
 msgstr "Auswählen um Datei zu öffnen"
 
-#: gui/pyside2/main_window.py:211
+#: gui/pyside2/main_window.py:215
 msgid "File has to be a .json"
 msgstr "Datei muss eine .json sein"
 
-#: gui/pyside2/main_window.py:263
+#: gui/pyside2/main_window.py:267
 msgid "Are you sure you want to remove all blocks?"
 msgstr "Sicher Sie sicher, dass sie alle Blöcke entfernen wollen?"
 
-#: gui/pyside2/main_window.py:286
+#: gui/pyside2/main_window.py:291
 msgid "untitled.json"
 msgstr "Unbennant.json"
 
-#: gui/pyside2/main_window.py:302
+#: gui/pyside2/main_window.py:318
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
-
-
-msgid "Radiant"
-msgstr "Radiant"
-
-msgid "Magnetic flux"
-msgstr "Magnetischer Fluss"
-
-msgid "Mass"
-msgstr "Masse"
-
-msgid "Current"
-msgstr "Strom"
-
-msgid "Length"
-msgstr "Länge"
-
-msgid "Temperature"
-msgstr "Temparatur"
-
-msgid "Amount of substance"
-msgstr "Stoffmenge"
-
-msgid "Luminous intensity"
-msgstr "Lichtstärke"
-
-msgid "Resistance"
-msgstr "Widerstand"
-
-msgid "Capacitance"
-msgstr "Kapazität"
-
-msgid "Power"
-msgstr "Leistung"
-
-msgid "Electric charge"
-msgstr "Elektrische Ladung"
-
-msgid "Inductance"
-msgstr "Induktivität"
-
-msgid "Energy"
-msgstr "Energie"
-
-msgid "Force"
-msgstr "Kraft"
-
-msgid "Magnetic Induction"
-msgstr "Magnetische Flussdichte"
-
-msgid "Pressure"
-msgstr "Druck"
-
 
 #~ msgid "Plots absolute and phase or real and imaginary part of the input signal"
 #~ msgstr ""
@@ -1423,4 +1392,61 @@ msgstr "Druck"
 #~ "Generates a periodic sinus, a rectangle"
 #~ " function or a triangle function."
 #~ msgstr ""
+
+#~ msgid "Try #Processing or @Audio"
+#~ msgstr ""
+
+#~ msgid "Error message:"
+#~ msgstr "Fehlermeldung:"
+
+#~ msgid "Radiant"
+#~ msgstr "Radiant"
+
+#~ msgid "Magnetic flux"
+#~ msgstr "Magnetischer Fluss"
+
+#~ msgid "Mass"
+#~ msgstr "Masse"
+
+#~ msgid "Current"
+#~ msgstr "Strom"
+
+#~ msgid "Length"
+#~ msgstr "Länge"
+
+#~ msgid "Temperature"
+#~ msgstr "Temparatur"
+
+#~ msgid "Amount of substance"
+#~ msgstr "Stoffmenge"
+
+#~ msgid "Luminous intensity"
+#~ msgstr "Lichtstärke"
+
+#~ msgid "Resistance"
+#~ msgstr "Widerstand"
+
+#~ msgid "Capacitance"
+#~ msgstr "Kapazität"
+
+#~ msgid "Power"
+#~ msgstr "Leistung"
+
+#~ msgid "Electric charge"
+#~ msgstr "Elektrische Ladung"
+
+#~ msgid "Inductance"
+#~ msgstr "Induktivität"
+
+#~ msgid "Energy"
+#~ msgstr "Energie"
+
+#~ msgid "Force"
+#~ msgstr "Kraft"
+
+#~ msgid "Magnetic Induction"
+#~ msgstr "Magnetische Flussdichte"
+
+#~ msgid "Pressure"
+#~ msgstr "Druck"
 
