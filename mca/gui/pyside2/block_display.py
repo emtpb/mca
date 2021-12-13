@@ -1,4 +1,4 @@
-from PySide2 import QtWidgets, QtCore
+from PySide2 import QtWidgets, QtCore, QtGui
 
 from mca.gui.pyside2 import block_item, io_items
 from mca.language import _
@@ -30,6 +30,7 @@ class BlockView(QtWidgets.QGraphicsView):
         zoom_out_action.setShortcut("Ctrl+-")
         zoom_out_action.triggered.connect(self.zoom_out)
         self.addAction(zoom_out_action)
+        self.setBackgroundBrush(draw_pattern(40, QtGui.Qt.gray))
 
     def zoom_in(self):
         """Zooms in by scaling the size of all items up."""
@@ -150,3 +151,17 @@ class BlockScene(QtWidgets.QGraphicsScene):
                             output_item, input_item
                         )
                     )
+
+
+def draw_pattern(step, color):
+    pixmap = QtGui.QPixmap(step, step)
+    pixmap.fill(QtGui.Qt.transparent)
+    painter = QtGui.QPainter()
+    painter.begin(pixmap)
+    painter.setPen(color)
+    width = step - 1
+    painter.drawLine(0, 0, 2, 0)
+    painter.drawLine(0, 0, 0, 2)
+    painter.drawLine(0, width - 1, 0, width)
+    painter.drawLine(width - 1, 0, width, 0)
+    return pixmap
