@@ -178,8 +178,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         self.open_recent_menu.clear()
         for file_name in self.conf["recent_files"]:
-            open_file_action = QtWidgets.QAction(
-                ntpath.basename(file_name), self)
+            open_file_action = QtWidgets.QAction(file_name, self)
             open_file_action.triggered.connect(
                 self.open_file_direct(file_name))
             self.open_recent_menu.addAction(open_file_action)
