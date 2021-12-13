@@ -62,7 +62,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         return QtCore.QRectF(0, 0, self.width, self.height)
 
     def paint(self, painter, option, widget):
-        """Method to paint the the input. This method gets invoked after
+        """Method to paint the input. This method gets invoked after
         initialization and every time the input gets updated.
        """
         path = QtGui.QPainterPath()
@@ -266,6 +266,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
             self.scenePos().y() + self.height / 2,
             event.scenePos().x(),
             event.scenePos().y())
+        self.temp_connection_line.setPen(QtGui.QPen(QtGui.Qt.green))
         self.scene().addItem(self.temp_connection_line)
         self.setCursor(QtCore.Qt.BlankCursor)
 
@@ -387,6 +388,7 @@ class ConnectionLine(QtWidgets.QGraphicsLineItem):
             output_item.scenePos().y() + output_item.height / 2,
             input_item.scenePos().x(),
             input_item.scenePos().y() + input_item. height / 2)
+        self.setPen(QtGui.QPen(QtGui.Qt.green))
         self.output_item = output_item
         self.input_item = input_item
         if self.output_item and self.input_item:

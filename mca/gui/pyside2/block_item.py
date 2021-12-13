@@ -49,8 +49,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         QtWidgets.QGraphicsItem.__init__(self)
         self.setPos(x, y)
         # Color settings
-        self.default_color = QtGui.QColor(250, 235, 215)
-        self.hover_color = QtGui.QColor(255, 228, 181)
+        self.default_color = QtGui.Qt.darkGray
+        self.hover_color = QtGui.Qt.lightGray
         self.current_color = self.default_color
 
         self.view = view
@@ -153,10 +153,11 @@ class BlockItem(QtWidgets.QGraphicsItem):
         return QtCore.QRectF(0, 0, self.width, self.height)
 
     def paint(self, painter, option, widget):
-        """Method to paint the the block. This method gets invoked after
+        """Method to paint the block. This method gets invoked after
         initialization and every time the block gets updated.
         """
-        painter.setBrush(QtGui.QBrush(self.current_color))
+        painter.setBrush(self.current_color)
+        painter.setPen(QtGui.Qt.black)
         painter.drawRoundedRect(0, 0, self.width, self.height, 5, 5)
         painter.setFont(self.name_font)
         painter.drawText(5, 2, self.width - 5, 25, 0,

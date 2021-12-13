@@ -1,6 +1,6 @@
 from PySide2 import QtWidgets, QtGui
 import os
-import ntpath
+import qdarkstyle
 
 from mca import config
 from mca.framework import save, load
@@ -13,18 +13,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
     Attributes:
         conf: Reference of the user config :class:`.Config`.
-        menu: Menu bar of the application.
-        file_menu: File menu.
-        language_menu: Language menu.
-        main_widget: Main widget with horizontal layout for child widgets.
-        main_layout: Horizontal layout of the main widget
+        main_widget: Main splitter widget with horizontal layout
+                     for child widgets.
         scene: :class:`.BlockScene` to manage and hold blocks.
         view: :class:`.BlockView` to visualize the items of the
               :class:`.BlockScene`.
-        search_widget: Widget with vertical layout holding the search bar and
-                       the :class:`.BlockList`.
-        search_bar: Reference of the search bar.
-        block_list: Reference of the :class:`.BlockList`.
+        block_explorer: Widget for the block explorer plane.
         save_file_path: Path of the file to save the block structure to.
     """
 
@@ -37,56 +31,17 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.about_window = about_window.AboutWindow(self)
 
-        self.menu = self.menuBar()
-        self.file_menu = self.menu.addMenu(_("File"))
-        self.language_menu = self.menu.addMenu(_("Language"))
-
-        open_about_window = QtWidgets.QAction(_("About"), self)
-        open_about_window.triggered.connect(self.about_window.show)
-
-        self.menu.addAction(open_about_window)
-        languages = [("Deutsch", "de"), ("English", "en")]
-
         self.setWindowIcon(QtGui.QIcon(
             os.path.dirname(__file__) + "/../../images/emt_logo.png"))
-        for i in languages:
-            action = QtWidgets.QAction(i[0], self)
-            action.triggered.connect(change_language(i[1]))
-            self.language_menu.addAction(action)
+        if self.conf["theme"] == "default":
+            self.set_default_theme()
+        else:
+            self.set_dark_theme()
 
-        new_action = QtWidgets.QAction(_("New"), self)
-        new_action.triggered.connect(self.new_file)
-        self.file_menu.addAction(new_action)
-
-        open_action = QtWidgets.QAction(_("Open"), self)
-        open_action.triggered.connect(self.open_file_dialog)
-        self.file_menu.addAction(open_action)
-
-        self.open_recent_menu = QtWidgets.QMenu(_("Open Recent"), self)
-        self.update_recent_menu()
-
-        self.file_menu.addMenu(self.open_recent_menu)
-
-        save_action = QtWidgets.QAction(_("Save"), self)
-        save_action.setShortcut("Ctrl+S")
-        save_action.triggered.connect(self.save_file)
+        self.open_recent_menu = None
         self.save_file_path = None
-        self.file_menu.addAction(save_action)
 
-        save_as_action = QtWidgets.QAction(_("Save as"), self)
-        save_as_action.setShortcut("Ctrl+Shift+S")
-        save_as_action.triggered.connect(self.save_file_as)
-        self.file_menu.addAction(save_as_action)
-
-        clear_action = QtWidgets.QAction(_("Clear all blocks"), self)
-        clear_action.triggered.connect(self.clear_all_blocks)
-        self.file_menu.addAction(clear_action)
-
-        exit_action = QtWidgets.QAction(_("Exit"), self)
-        exit_action.setShortcut("Ctrl+Q")
-        exit_action.setStatusTip(_("Close Application"))
-        exit_action.triggered.connect(self.close)
-        self.file_menu.addAction(exit_action)
+        self.init_menu()
 
         self.modified = False
 
@@ -117,6 +72,66 @@ class MainWindow(QtWidgets.QMainWindow):
             _("Cancel"))
         self.save_warning_message.button(QtWidgets.QMessageBox.No).setText(
             _("No"))
+
+    def init_menu(self):
+
+        menu = self.menuBar()
+        file_menu = menu.addMenu(_("File"))
+        language_menu = menu.addMenu(_("Language"))
+        view_menu = menu.addMenu(_("View"))
+
+        open_about_window = QtWidgets.QAction(_("About"), self)
+        open_about_window.triggered.connect(self.about_window.show)
+
+        menu.addAction(open_about_window)
+        languages = [("Deutsch", "de"), ("English", "en")]
+
+        for i in languages:
+            action = QtWidgets.QAction(i[0], self)
+            action.triggered.connect(self.change_language(i[1]))
+            language_menu.addAction(action)
+
+        new_action = QtWidgets.QAction(_("New"), self)
+        new_action.triggered.connect(self.new_file)
+        file_menu.addAction(new_action)
+
+        open_action = QtWidgets.QAction(_("Open"), self)
+        open_action.triggered.connect(self.open_file_dialog)
+        file_menu.addAction(open_action)
+
+        self.open_recent_menu = QtWidgets.QMenu(_("Open Recent"), self)
+        self.update_recent_menu()
+
+        file_menu.addMenu(self.open_recent_menu)
+
+        save_action = QtWidgets.QAction(_("Save"), self)
+        save_action.setShortcut("Ctrl+S")
+        save_action.triggered.connect(self.save_file)
+
+        file_menu.addAction(save_action)
+
+        save_as_action = QtWidgets.QAction(_("Save as"), self)
+        save_as_action.setShortcut("Ctrl+Shift+S")
+        save_as_action.triggered.connect(self.save_file_as)
+        file_menu.addAction(save_as_action)
+
+        clear_action = QtWidgets.QAction(_("Clear all blocks"), self)
+        clear_action.triggered.connect(self.clear_all_blocks)
+        file_menu.addAction(clear_action)
+
+        exit_action = QtWidgets.QAction(_("Exit"), self)
+        exit_action.setShortcut("Ctrl+Q")
+        exit_action.setStatusTip(_("Close Application"))
+        exit_action.triggered.connect(self.close)
+        file_menu.addAction(exit_action)
+
+        theme_menu = view_menu.addMenu(_("Theme"))
+        default_theme_action = QtWidgets.QAction("Default", self)
+        default_theme_action.triggered.connect(self.set_default_theme)
+        dark_theme_action = QtWidgets.QAction("Dark", self)
+        dark_theme_action.triggered.connect(self.set_dark_theme)
+        theme_menu.addAction(default_theme_action)
+        theme_menu.addAction(dark_theme_action)
 
     def closeEvent(self, event):
         """Method invoked when the application gets closed. Asks the user to
@@ -276,18 +291,28 @@ class MainWindow(QtWidgets.QMainWindow):
             show_file = "*" + show_file
         self.setWindowTitle("{} - {}".format(show_file, _("MCA")))
 
+    def set_default_theme(self):
+        """Sets the application style to default."""
+        self.conf["theme"] = "default"
+        app = QtWidgets.QApplication.instance()
+        app.setStyleSheet("")
 
-def change_language(language):
-    """Returns a function which changes the language in the config.
+    def set_dark_theme(self):
+        """Sets the application style to dark."""
+        self.conf["theme"] = "dark"
+        app = QtWidgets.QApplication.instance()
+        app.setStyleSheet(qdarkstyle.load_stylesheet_pyside2())
 
-    Args:
-        language (str): Language the function changes to.
-    """
+    def change_language(self, language):
+        """Returns a function which changes the language in the config.
 
-    def tmp():
-        config.Config()["language"] = language
-        msg_box = QtWidgets.QMessageBox()
-        msg_box.setText(_("Changes will be applied after restart."))
-        msg_box.exec()
+        Args:
+            language (str): Language the function changes to.
+        """
 
-    return tmp
+        def tmp():
+            self.conf["language"] = language
+            msg_box = QtWidgets.QMessageBox()
+            msg_box.setText(_("Changes will be applied after restart."))
+            msg_box.exec()
+        return tmp
