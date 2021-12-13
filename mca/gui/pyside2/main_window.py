@@ -4,7 +4,7 @@ import ntpath
 
 from mca import config
 from mca.framework import save, load
-from mca.gui.pyside2 import block_list, block_display, about_window
+from mca.gui.pyside2 import block_explorer, block_display, about_window
 from mca.language import _
 
 
@@ -90,29 +90,18 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.modified = False
 
-        self.main_widget = QtWidgets.QWidget(self)
-        self.main_layout = QtWidgets.QHBoxLayout(self.main_widget)
-
-        self.search_widget = QtWidgets.QWidget(self.main_widget)
-        self.search_widget.setMaximumSize(250, 16777215)
-        self.search_widget.setMinimumSize(200, 0)
-        self.search_widget.setLayout(QtWidgets.QVBoxLayout())
+        self.main_widget = QtWidgets.QSplitter(self)
 
         self.scene = block_display.BlockScene(self.main_widget)
         self.view = block_display.BlockView(scene=self.scene, parent=self)
         self.view.show()
 
-        self.search_bar = QtWidgets.QLineEdit(self.search_widget)
-        self.search_bar.setClearButtonEnabled(True)
-        self.block_list = block_list.BlockList(self.search_widget,
-                                               self.scene, self.search_bar)
-        self.search_widget.layout().addWidget(self.search_bar)
-        self.search_widget.layout().addWidget(self.block_list)
+        self.block_explorer = block_explorer.BlockExplorer(self.scene)
 
-        self.scene.block_list = self.block_list
+        self.scene.block_list = self.block_explorer.block_list
 
-        self.main_layout.addWidget(self.search_widget)
-        self.main_layout.addWidget(self.view)
+        self.main_widget.addWidget(self.block_explorer)
+        self.main_widget.addWidget(self.view)
         self.setCentralWidget(self.main_widget)
         # Save warning message
         self.save_warning_message = QtWidgets.QMessageBox(
