@@ -1,4 +1,4 @@
-from PySide2 import QtWidgets, QtGui
+from PySide2 import QtWidgets, QtGui, QtCore
 import os
 import qdarkstyle
 
@@ -15,8 +15,8 @@ class MainWindow(QtWidgets.QMainWindow):
         conf: Reference of the user config :class:`.Config`.
         main_widget: Main splitter widget with horizontal layout
                      for child widgets.
-        scene: :class:`.BlockScene` to manage and hold blocks.
-        view: :class:`.BlockView` to visualize the items of the
+        block_scene: :class:`.BlockScene` to manage and hold blocks.
+        block_view: :class:`.BlockView` to visualize the items of the
               :class:`.BlockScene`.
         block_explorer: Widget for the block explorer plane.
         save_file_path: Path of the file to save the block structure to.
@@ -47,16 +47,22 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.main_widget = QtWidgets.QSplitter(self)
 
-        self.scene = block_display.BlockScene(self.main_widget)
-        self.view = block_display.BlockView(scene=self.scene, parent=self)
-        self.view.show()
+        self.block_scene = block_display.BlockScene(self.main_widget)
+        self.block_view = block_display.BlockView(scene=self.block_scene, parent=self)
+        self.block_view.show()
 
-        self.block_explorer = block_explorer.BlockExplorer(self.scene)
+        view_widget = QtWidgets.QWidget()
+        view_widget.setLayout(QtWidgets.QVBoxLayout())
+        self.view_tool_bar = QtWidgets.QToolBar()
+        self.init_view_toolbar()
+        view_widget.layout().addWidget(self.view_tool_bar)
+        view_widget.layout().addWidget(self.block_view)
 
-        self.scene.block_list = self.block_explorer.block_list
+        self.block_explorer = block_explorer.BlockExplorer(self.block_scene)
+        self.block_scene.block_list = self.block_explorer.block_list
 
         self.main_widget.addWidget(self.block_explorer)
-        self.main_widget.addWidget(self.view)
+        self.main_widget.addWidget(view_widget)
         self.setCentralWidget(self.main_widget)
         # Save warning message
         self.save_warning_message = QtWidgets.QMessageBox(
@@ -134,6 +140,14 @@ class MainWindow(QtWidgets.QMainWindow):
         theme_menu.addAction(default_theme_action)
         theme_menu.addAction(dark_theme_action)
 
+    def init_view_toolbar(self):
+        """Initializes the toolbar for the block view."""
+        self.view_tool_bar = QtWidgets.QToolBar()
+        self.view_tool_bar.addAction(self.block_view.zoom_in_action)
+        self.view_tool_bar.addAction(self.block_view.zoom_out_action)
+        self.view_tool_bar.addAction(self.block_view.zoom_original_action)
+        self.view_tool_bar.addAction(self.block_view.toggle_drag_mode_action)
+
     def closeEvent(self, event):
         """Method invoked when the application gets closed. Asks the user to
         save unsaved changes.
@@ -146,7 +160,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def new_file(self):
         """Creates a new file."""
         if self.save_maybe():
-            self.scene.clear()
+            self.block_scene.clear()
             self.save_file_path = None
             self.modified = False
 
@@ -177,7 +191,7 @@ class MainWindow(QtWidgets.QMainWindow):
         Args:
             file_path (str): Path of the file to open.
         """
-        self.scene.clear()
+        self.block_scene.clear()
         loaded_blocks = load.load_block_structure(file_path)
         self.save_file_path = file_path
         self.conf["load_file_dir"] = file_path
@@ -185,7 +199,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.conf["recent_files"].remove(file_path)
         self.conf["recent_files"] = [file_path] + self.conf["recent_files"][:3]
         self.update_recent_menu()
-        self.scene.create_blocks(loaded_blocks)
+        self.block_scene.create_blocks(loaded_blocks)
         self.modified = False
 
     def update_recent_menu(self):
@@ -272,7 +286,7 @@ class MainWindow(QtWidgets.QMainWindow):
             _("Yes"))
         result = message_box.exec_()
         if result == QtWidgets.QMessageBox.StandardButton.Yes:
-            self.scene.clear()
+            self.block_scene.clear()
 
     @property
     def modified(self):

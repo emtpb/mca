@@ -21,24 +21,54 @@ class BlockView(QtWidgets.QGraphicsView):
         QtWidgets.QGraphicsView.__init__(self, scene=scene, parent=parent)
         self.setMinimumSize(500, 400)
 
-        zoom_in_action = QtWidgets.QAction(_("Zoom in"), self)
-        zoom_in_action.setShortcut("Ctrl++")
-        zoom_in_action.triggered.connect(self.zoom_in)
-        self.addAction(zoom_in_action)
+        self.zoom_factor = 1
 
-        zoom_out_action = QtWidgets.QAction(_("Zoom out"), self)
-        zoom_out_action.setShortcut("Ctrl+-")
-        zoom_out_action.triggered.connect(self.zoom_out)
-        self.addAction(zoom_out_action)
+        self.zoom_in_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("zoom-in"), _("Zoom in"))
+        self.zoom_in_action.setShortcut("Ctrl++")
+        self.zoom_in_action.triggered.connect(self.zoom_in)
+        self.addAction(self.zoom_in_action)
+
+        self.zoom_out_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("zoom-out"), _("Zoom out"))
+        self.zoom_out_action.setShortcut("Ctrl+-")
+        self.zoom_out_action.triggered.connect(self.zoom_out)
+        self.addAction(self.zoom_out_action)
+
+        self.zoom_original_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("zoom-original"), _("Zoom original"))
+        self.zoom_original_action.triggered.connect(self.zoom_original)
+
+        self.toggle_drag_mode_action = QtWidgets.QAction(_("Toggle Drag"))
+        self.toggle_drag_mode_action.setCheckable(True)
+        self.toggle_drag_mode_action.toggled.connect(self.set_drag_mode)
+
         self.setBackgroundBrush(draw_pattern(40, QtGui.Qt.gray))
+
+        self.toggle_drag_mode(False)
 
     def zoom_in(self):
         """Zooms in by scaling the size of all items up."""
         self.scale(1.2, 1.2)
+        self.zoom_factor *= 1.2
 
     def zoom_out(self):
         """Zooms out by scaling the size of all items down."""
         self.scale(1 / 1.2, 1 / 1.2)
+        self.zoom_factor /= 1.2
+
+    def zoom_original(self):
+        """Zooms to the original scale."""
+        self.scale(1/self.zoom_factor, 1/self.zoom_factor)
+        self.zoom_factor = 1
+
+    def set_drag_mode(self, checked):
+        """Sets the drag mode.
+
+        Args:
+            checked: True to set the drag mode to scroll hand drag.
+        """
+        if checked:
+            self.setDragMode(self.ScrollHandDrag)
+        else:
+            self.setDragMode(self.RubberBandDrag)
 
 
 class BlockScene(QtWidgets.QGraphicsScene):
