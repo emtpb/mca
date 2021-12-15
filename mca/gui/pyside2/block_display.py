@@ -41,7 +41,6 @@ class BlockView(QtWidgets.QGraphicsView):
         self.toggle_drag_mode_action.toggled.connect(self.set_drag_mode)
 
         self.setBackgroundBrush(draw_pattern(40, QtGui.Qt.gray))
-
         self.set_drag_mode(False)
 
     def zoom_in(self):

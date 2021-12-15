@@ -73,6 +73,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
             self.width = width
         self.height = height
 
+        self.select_point_diameter = 8
+
         self.min_width = 100
         self.min_height = 100
 
@@ -89,6 +91,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
         self.setFlag(self.ItemIsMovable, True)
         self.setFlag(self.ItemSendsGeometryChanges, True)
+        self.setFlag(self.ItemIsSelectable, True)
 
         # Create visual inputs and outputs for the existing ones
         for i in self.block.inputs:
@@ -150,7 +153,24 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     def boundingRect(self, *args, **kwargs):
         """Rectangle which marks where events should be invoked."""
-        return QtCore.QRectF(0, 0, self.width, self.height)
+        width = self.width
+        height = self.height
+        # Increase bounding rect by the size of the circles which appear
+        # when selecting the block
+        width += self.select_point_diameter + 2
+        height += self.select_point_diameter + 2
+
+        x = -self.select_point_diameter // 2 + 1
+        y = -self.select_point_diameter // 2 + 1
+
+        if self.inputs:
+            x -= self.input_width
+            width += self.input_width
+        # Increase the width if the block has outputs and inputs
+        if self.outputs:
+            width += self.output_width
+
+        return QtCore.QRectF(x, y, width, height)
 
     def paint(self, painter, option, widget):
         """Method to paint the block. This method gets invoked after
@@ -159,6 +179,45 @@ class BlockItem(QtWidgets.QGraphicsItem):
         painter.setBrush(self.current_color)
         painter.setPen(QtGui.Qt.black)
         painter.drawRoundedRect(0, 0, self.width, self.height, 5, 5)
+        if self.isSelected():
+            total_width = self.width
+            total_height = self.height
+            select_point_radius = self.select_point_diameter//2
+            x_offset = 0
+            if self.inputs:
+                x_offset = self.input_width
+            if self.outputs:
+                total_width += self.output_width
+
+            painter.setPen(QtGui.Qt.blue)
+            painter.setBrush(QtGui.Qt.transparent)
+            path = QtGui.QPainterPath()
+            path.moveTo(-x_offset, 0)
+            path.lineTo(total_width, 0)
+            path.lineTo(total_width, total_height)
+            path.lineTo(-x_offset, total_height)
+            path.lineTo(-x_offset, 0)
+            painter.drawPath(path)
+            painter.setBrush(QtGui.Qt.blue)
+            painter.drawEllipse(-select_point_radius-x_offset, -select_point_radius, self.select_point_diameter,
+                                self.select_point_diameter)
+            painter.drawEllipse(total_width//2-select_point_radius, -select_point_radius, self.select_point_diameter,
+                                self.select_point_diameter)
+            painter.drawEllipse(total_width-select_point_radius, -select_point_radius, self.select_point_diameter, self.select_point_diameter)
+            painter.drawEllipse(total_width-select_point_radius, total_height//2-select_point_radius,
+                                self.select_point_diameter,
+                                self.select_point_diameter)
+            painter.drawEllipse(total_width-select_point_radius, total_height-select_point_radius,
+                                self.select_point_diameter,
+                                self.select_point_diameter)
+            painter.drawEllipse(total_width//2-select_point_radius, total_height-select_point_radius,
+                                self.select_point_diameter,
+                                self.select_point_diameter)
+            painter.drawEllipse(-select_point_radius-x_offset, total_height-select_point_radius, self.select_point_diameter,
+                                self.select_point_diameter)
+            painter.drawEllipse(-select_point_radius-x_offset, total_height//2 - select_point_radius, self.select_point_diameter,
+                                self.select_point_diameter)
+        painter.setPen(QtGui.Qt.black)
         painter.setFont(self.name_font)
         painter.drawText(5, 2, self.width - 5, 25, 0,
                          self.block.name)
@@ -293,7 +352,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """Adds an existing :class:`.Output` from the block instance to a new
         :class:`.OutputItem` and adds it to its output list.
         """
-        new_output = io_items.OutputItem(self.width, len(self.outputs) * (
+        new_output = io_items.OutputItem(self.width+self.input_width, len(self.outputs) * (
                     self.output_height + self.output_dist) + 5,
                                 self.output_width, self.output_height, output,
                                 self.view, self)
@@ -386,8 +445,9 @@ class BlockItem(QtWidgets.QGraphicsItem):
             height = io_height
         if self.min_height > height:
             height = self.min_height
+
         self.scene().update(self.scenePos().x(), self.scenePos().y(),
-                            self.width, self.height)
+                            self.boundingRect().width(), self.boundingRect().height())
         self.height = height
         self.update()
 
@@ -412,8 +472,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         for o in self.outputs:
             o.setPos(width, o.pos().y())
             o.update_connection_line()
-        self.scene().update(self.scenePos().x(), self.scenePos().y(),
-                            self.width, self.height)
+        self.scene().update(self.scenePos().x()-self.select_point_diameter//2, self.scenePos().y()-self.select_point_diameter//2,
+                            self.boundingRect().width(), self.boundingRect().height())
         self.width = width
         self.update()
 
