@@ -42,7 +42,7 @@ class BlockView(QtWidgets.QGraphicsView):
 
         self.setBackgroundBrush(draw_pattern(40, QtGui.Qt.gray))
 
-        self.toggle_drag_mode(False)
+        self.set_drag_mode(False)
 
     def zoom_in(self):
         """Zooms in by scaling the size of all items up."""
