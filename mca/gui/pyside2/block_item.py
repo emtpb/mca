@@ -11,8 +11,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     Attributes:
         view: Reference of the :class:`.BlockView` instance.
-        width (int): Current width of the block.
-        height (int): Current height of the block.
+        block_width (int): Current width of the block.
+        block_height (int): Current height of the block.
         min_width (int): Minimum width of the block.
         min_height (int): Minimum height of the block.
         input_height (int): Height of its inputs.
@@ -24,13 +24,13 @@ class BlockItem(QtWidgets.QGraphicsItem):
         inputs (list): List of all its inputs.
         outputs (list): List of all its outputs.
         block: Instance of :class:`.Block' this block item is holding.
-        resize_all (bool): Flag to indicate whether user is resizing or
+        _resize_all (bool): Flag to indicate whether user is resizing or
                            moving the block.
-        start_pos (tuple): Starting position of an resize event.
-        original_width (int): Original width of the block.
-        original_height (int): Original height of the block.
-        resize_width (bool): Indicates whether the width should be resized.
-        resize_height (bool): Indicates whether the height should be resized.
+        _start_pos (tuple): Starting position of an resize event.
+        _original_width (int): Original width of the block.
+        _original_height (int): Original height of the block.
+        _resize_width (bool): Indicates whether the width should be resized.
+        _resize_height (bool): Indicates whether the height should be resized.
         menu: Menu which pops up when the right mouse button is pressed.
         edit_window: Window which carries all parameters and metadata
                      of the block.
@@ -45,7 +45,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         delete_action: Action added to the menu to delete the block.
     """
 
-    def __init__(self, view, x, y, block, width=100, height=100):
+    def __init__(self, view, x, y, block, block_width=100, block_height=100):
         QtWidgets.QGraphicsItem.__init__(self)
         self.setPos(x, y)
         # Color settings
@@ -65,19 +65,6 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.custom_name_font.setItalic(True)
 
         # Define heights and widths
-        fm = QtGui.QFontMetrics(self.name_font)
-        name_width = fm.width(self.block.name) + 10
-        if name_width > width:
-            self.width = name_width
-        else:
-            self.width = width
-        self.height = height
-
-        self.select_point_diameter = 8
-
-        self.min_width = 100
-        self.min_height = 100
-
         self.input_height = 20
         self.input_width = 10
         self.input_dist = 10
@@ -86,9 +73,24 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.output_width = 10
         self.output_dist = 10
 
+        self.select_point_diameter = 12
+
+        self.block_width = block_width
+        self.block_height = block_height
+
+        # Compute name width
+        fm = QtGui.QFontMetrics(self.name_font)
+        name_width = fm.width(self.block.name) + 10
+
+        if name_width > self.block_width:
+            self.block_width = name_width
+
+        self.min_width = 100
+        self.min_height = 100
+
         self.inputs = []
         self.outputs = []
-
+        # Set Flags
         self.setFlag(self.ItemIsMovable, True)
         self.setFlag(self.ItemSendsGeometryChanges, True)
         self.setFlag(self.ItemIsSelectable, True)
@@ -99,21 +101,23 @@ class BlockItem(QtWidgets.QGraphicsItem):
         for o in self.block.outputs:
             self.add_output(o)
 
-        self.resize_all = False
-        self.resize_width = False
-        self.resize_height = False
-        self.start_pos = None
-        self.original_width = None
-        self.original_height = None
+        self._resize_all = False
+        self._resize_width = False
+        self._resize_height = False
+        self._start_pos = None
+        self._original_width = None
+        self._original_height = None
 
         self.menu = QtWidgets.QMenu(self.view)
-        self.edit_window = edit_window.EditWindow(self.view.scene().parent().parent(),
-                                                  self, self.block)
-
+        self.edit_window = edit_window.EditWindow(
+            self.view.scene().parent().parent(),
+            self, self.block)
+        # Add edit action
         if self.block.parameters:
             self.edit_action = QtWidgets.QAction(_("Edit"), self.view)
             self.edit_action.triggered.connect(self.open_edit_window)
             self.menu.addAction(self.edit_action)
+        # Add actions for dynamic blocks
         if isinstance(self.block, DynamicBlock):
             if self.block.dynamic_input:
                 self.add_input_action = QtWidgets.QAction(_("Add Input"),
@@ -138,8 +142,9 @@ class BlockItem(QtWidgets.QGraphicsItem):
                         len(self.block.outputs) == self.block.dynamic_output[1]:
                     self.add_output_action.setEnabled(False)
                 self.menu.addAction(self.add_output_action)
-                self.delete_output_action = QtWidgets.QAction(_("Delete Output"),
-                                                              self.view)
+                self.delete_output_action = QtWidgets.QAction(
+                    _("Delete Output"),
+                    self.view)
                 self.delete_output_action.triggered.connect(self.delete_output)
                 if self.block.dynamic_output[0] is not None and \
                         len(self.block.outputs) == self.block.dynamic_output[0]:
@@ -153,82 +158,98 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     def boundingRect(self, *args, **kwargs):
         """Rectangle which marks where events should be invoked."""
-        width = self.width
-        height = self.height
-        # Increase bounding rect by the size of the circles which appear
-        # when selecting the block
-        width += self.select_point_diameter + 2
-        height += self.select_point_diameter + 2
+        return QtCore.QRectF(0, 0, self.width, self.height)
 
-        x = -self.select_point_diameter // 2 + 1
-        y = -self.select_point_diameter // 2 + 1
+    @property
+    def width(self):
+        """Get the total width of the block item. This includes its inputs, outputs
+        and the selection circles around the block.
+        """
+        return self.block_width + self.select_point_diameter + self.output_offset + self.input_offset
 
+    @property
+    def height(self):
+        """Get the total height of the block item. This includes the selection
+        circles around the block.
+        """
+        return self.block_height + self.select_point_diameter
+
+    @property
+    def input_offset(self):
+        """Get the block offset caused by inputs."""
         if self.inputs:
-            x -= self.input_width
-            width += self.input_width
-        # Increase the width if the block has outputs and inputs
-        if self.outputs:
-            width += self.output_width
+            return self.input_width
+        else:
+            return 0
 
-        return QtCore.QRectF(x, y, width, height)
+    @property
+    def output_offset(self):
+        """Get the block offset caused by outputs."""
+        if self.outputs:
+            return self.output_width
+        else:
+            return 0
 
     def paint(self, painter, option, widget):
         """Method to paint the block. This method gets invoked after
         initialization and every time the block gets updated.
         """
+        select_point_radius = self.select_point_diameter // 2
+        x_offset_block = select_point_radius + self.input_offset
+        y_offset_block = select_point_radius
+        # Draw the main block
         painter.setBrush(self.current_color)
         painter.setPen(QtGui.Qt.black)
-        painter.drawRoundedRect(0, 0, self.width, self.height, 5, 5)
-        if self.isSelected():
-            total_width = self.width
-            total_height = self.height
-            select_point_radius = self.select_point_diameter//2
-            x_offset = 0
-            if self.inputs:
-                x_offset = self.input_width
-            if self.outputs:
-                total_width += self.output_width
+        painter.drawRoundedRect(x_offset_block, select_point_radius,
+                                self.block_width, self.block_height, 5, 5)
 
-            painter.setPen(QtGui.Qt.blue)
+        total_width = self.width - self.select_point_diameter
+        total_height = self.height - self.select_point_diameter
+        # Draw the selection rectangle with 8 circles
+        if self.isSelected():
+            selection_colour = QtGui.QColor(58, 147, 224)
+            painter.setPen(selection_colour)
             painter.setBrush(QtGui.Qt.transparent)
             path = QtGui.QPainterPath()
-            path.moveTo(-x_offset, 0)
-            path.lineTo(total_width, 0)
-            path.lineTo(total_width, total_height)
-            path.lineTo(-x_offset, total_height)
-            path.lineTo(-x_offset, 0)
+            path.addRect(
+                select_point_radius,
+                select_point_radius,
+                total_width,
+                total_height
+            )
             painter.drawPath(path)
-            painter.setBrush(QtGui.Qt.blue)
-            painter.drawEllipse(-select_point_radius-x_offset, -select_point_radius, self.select_point_diameter,
-                                self.select_point_diameter)
-            painter.drawEllipse(total_width//2-select_point_radius, -select_point_radius, self.select_point_diameter,
-                                self.select_point_diameter)
-            painter.drawEllipse(total_width-select_point_radius, -select_point_radius, self.select_point_diameter, self.select_point_diameter)
-            painter.drawEllipse(total_width-select_point_radius, total_height//2-select_point_radius,
-                                self.select_point_diameter,
-                                self.select_point_diameter)
-            painter.drawEllipse(total_width-select_point_radius, total_height-select_point_radius,
-                                self.select_point_diameter,
-                                self.select_point_diameter)
-            painter.drawEllipse(total_width//2-select_point_radius, total_height-select_point_radius,
-                                self.select_point_diameter,
-                                self.select_point_diameter)
-            painter.drawEllipse(-select_point_radius-x_offset, total_height-select_point_radius, self.select_point_diameter,
-                                self.select_point_diameter)
-            painter.drawEllipse(-select_point_radius-x_offset, total_height//2 - select_point_radius, self.select_point_diameter,
-                                self.select_point_diameter)
+            painter.setBrush(selection_colour)
+            select_point_coordinates = (
+                (0, 0),
+                (total_width // 2, 0),
+                (total_width, 0),
+                (total_width, total_height // 2),
+                (total_width, total_height),
+                (total_width // 2, total_height),
+                (0, total_height),
+                (0, total_height // 2)
+            )
+            for coordinates in select_point_coordinates:
+                painter.drawEllipse(coordinates[0],
+                                    coordinates[1],
+                                    self.select_point_diameter,
+                                    self.select_point_diameter)
+        # Draw block name
         painter.setPen(QtGui.Qt.black)
         painter.setFont(self.name_font)
-        painter.drawText(5, 2, self.width - 5, 25, 0,
+        painter.drawText(x_offset_block + 5, y_offset_block + 2,
+                         self.block_width - 5, 25, 0,
                          self.block.name)
         custom_name = self.block.parameters["name"].value
+        # Draw user block name
         if custom_name != self.block.name:
             painter.setFont(self.custom_name_font)
             fm = QtGui.QFontMetrics(self.custom_name_font)
             custom_name_width = fm.width(custom_name)
-            painter.drawText(self.width/2-custom_name_width/2,
-                             self.height/2-12, self.width - 5, 25, 0,
-                             custom_name)
+            painter.drawText(
+                x_offset_block + self.block_width // 2 - custom_name_width // 2,
+                self.block_height // 2 - 12, self.block_width - 5, 25, 0,
+                custom_name)
 
     def contextMenuEvent(self, event):
         """Method that is invoked when the user right-clicks the block.
@@ -335,32 +356,36 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """Adds an existing :class:`.Input` from the block instance to a new
         :class:`.InputItem` and adds it to its input list.
         """
-        new_input = io_items.InputItem(-self.input_width,
-                                       len(self.inputs) * (self.input_height +
-                                                           self.input_dist) + 5,
-                                       self.input_width,
-                                       self.input_height,
-                                       input_,
-                                       self.view, self)
+        new_input = io_items.InputItem(
+            x=self.select_point_diameter // 2,
+            y=len(self.inputs) * (self.input_height + self.input_dist) +
+            self.select_point_diameter // 2 + 5,
+            width=self.input_width,
+            height=self.input_height,
+            mca_input=input_,
+            view=self.view,
+            parent=self)
         self.inputs.append(new_input)
-        if len(self.inputs) * (
-                self.input_height + self.input_dist) + 5 > self.height:
-            self.resize(self.width, len(self.inputs) * (
-                        self.input_height + self.input_dist) + 5)
+        needed_height = len(self.inputs) * (self.input_height + self.input_dist) + 5
+        if needed_height > self.block_height:
+            self.adjust_block_height(needed_height)
 
     def add_output(self, output):
         """Adds an existing :class:`.Output` from the block instance to a new
         :class:`.OutputItem` and adds it to its output list.
         """
-        new_output = io_items.OutputItem(self.width+self.input_width, len(self.outputs) * (
-                    self.output_height + self.output_dist) + 5,
-                                self.output_width, self.output_height, output,
-                                self.view, self)
+        pos_x = self.block_width + self.select_point_diameter//2 + self.input_offset
+        new_output = io_items.OutputItem(
+            x=pos_x,
+            y=len(self.outputs) * (self.output_height + self.output_dist) + 5 + self.select_point_diameter // 2,
+            width=self.output_width,
+            height=self.output_height,
+            mca_output=output,
+            view=self.view, parent=self)
         self.outputs.append(new_output)
-        if len(self.outputs) * (
-                self.output_height + self.output_dist) + 5 > self.height:
-            self.resize(self.width, len(self.outputs) * (
-                        self.output_height + self.output_dist) + 5)
+        needed_height = len(self.outputs) * (self.output_height + self.output_dist) + 5
+        if needed_height > self.block_height:
+            self.adjust_block_height(needed_height)
 
     def itemChange(self, change, value):
         """Updates the connection lines of all its inputs and outputs when
@@ -386,20 +411,21 @@ class BlockItem(QtWidgets.QGraphicsItem):
         if event.button() == QtCore.Qt.MouseButton.RightButton:
             event.ignore()
         self.setZValue(1.0)
-        self.start_pos = (event.screenPos().x(), event.screenPos().y())
-        self.original_width = self.width
-        self.original_height = self.height
-        if event.pos().x() > self.width - 10 and \
-                event.pos().y() > self.height - 10:
-            self.resize_all = True
-        elif 0 <= event.pos().x() < self.width - 10 and \
-                event.pos().y() >= self.height - 10:
-            self.resize_height = True
-        elif 0 <= event.pos().y() < self.height - 10 and \
-                event.pos().x() >= self.width - 10:
-            self.resize_width = True
-        else:
-            self.setCursor(QtCore.Qt.OpenHandCursor)
+        self._start_pos = (event.screenPos().x(), event.screenPos().y())
+        self._original_width = self.block_width
+        self._original_height = self.block_height
+        if self.isSelected():
+            if event.pos().x() > self.width - 10 and \
+                    event.pos().y() > self.height - 10:
+                self._resize_all = True
+            elif 0 <= event.pos().x() < self.width - 10 and \
+                    event.pos().y() >= self.height - 10:
+                self._resize_height = True
+            elif 0 <= event.pos().y() < self.height - 10 and \
+                    event.pos().x() >= self.width - 10:
+                self._resize_width = True
+            else:
+                self.setCursor(QtCore.Qt.OpenHandCursor)
             super().mousePressEvent(event)
 
     def mouseMoveEvent(self, event):
@@ -407,51 +433,52 @@ class BlockItem(QtWidgets.QGraphicsItem):
         mouse. If resize_mode is False then the block gets moved otherwise
         the block gets resized.
         """
-        if self.resize_all:
-            self.adjust_width(
-                self.original_width + event.screenPos().x() - self.start_pos[0])
-            self.adjust_height(
-                self.original_height + event.screenPos().y() - self.start_pos[1])
-        elif self.resize_width:
-            self.adjust_width(
-                self.original_width + event.screenPos().x() - self.start_pos[0])
-        elif self.resize_height:
-            self.adjust_height(
-                self.original_height + event.screenPos().y() - self.start_pos[1])
+        if self._resize_all:
+            self.adjust_block_width(
+                self._original_width + event.screenPos().x() - self._start_pos[0])
+            self.adjust_block_height(
+                self._original_height + event.screenPos().y() - self._start_pos[
+                    1])
+        elif self._resize_width:
+            self.adjust_block_width(
+                self._original_width + event.screenPos().x() - self._start_pos[0])
+        elif self._resize_height:
+            self.adjust_block_height(
+                self._original_height + event.screenPos().y() - self._start_pos[
+                    1])
         else:
             super().mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event):
         """Method invoked when a mouse button on the block gets released."""
         self.setZValue(0.0)
-        self.resize_all = False
-        self.resize_width = False
-        self.resize_height = False
+        self._resize_all = False
+        self._resize_width = False
+        self._resize_height = False
         self.save_gui_data()
         self.modified()
         self.setCursor(QtCore.Qt.ArrowCursor)
         super().mouseReleaseEvent(event)
 
-    def adjust_height(self, height):
+    def adjust_block_height(self, height):
         """Adjust the height of the block. Check if height is greater than the
         minimum height and the needed height for inputs and outputs.
 
         Args:
             height (int): Height to adjust the block to.
         """
-        io_height = max(len(self.outputs) * (self.output_height + self.output_dist) + 5,
-                        len(self.inputs) * (self.input_height + self.input_dist) + 5)
-        if io_height > height:
-            height = io_height
-        if self.min_height > height:
-            height = self.min_height
+        io_height = max(
+            len(self.outputs) * (self.output_height + self.output_dist) + 5,
+            len(self.inputs) * (self.input_height + self.input_dist) + 5)
+        height = max(io_height, height, self.min_height)
 
         self.scene().update(self.scenePos().x(), self.scenePos().y(),
-                            self.boundingRect().width(), self.boundingRect().height())
-        self.height = height
+                            self.width,
+                            self.height)
+        self.block_height = height
         self.update()
 
-    def adjust_width(self, width):
+    def adjust_block_width(self, width):
         """Adjust the width of the block. Check if the given width is greater
         than the minimum width.
 
@@ -459,22 +486,21 @@ class BlockItem(QtWidgets.QGraphicsItem):
             width (int): Width to adjust the block to.
         """
         name_width = QtGui.QFontMetrics(self.name_font).width(self.block.name)
-        custom_name_width = QtGui.QFontMetrics(self.custom_name_font).width(self.block.parameters["name"].value)
+        custom_name_width = QtGui.QFontMetrics(self.custom_name_font).width(
+            self.block.parameters["name"].value)
         if self.block.parameters["name"].value != self.block.name:
             min_name_length = max(name_width, custom_name_width) + 10
         else:
             min_name_length = name_width + 10
-        if width < min_name_length:
-            width = min_name_length
-        elif width < self.min_width:
-            width = self.min_width
+        width = max(width, min_name_length, self.min_width)
         # Reposition outputs and update connection lines
+        x_offset = width+self.select_point_diameter//2 + self.input_offset
         for o in self.outputs:
-            o.setPos(width, o.pos().y())
+            o.setPos(x_offset, o.pos().y())
             o.update_connection_line()
-        self.scene().update(self.scenePos().x()-self.select_point_diameter//2, self.scenePos().y()-self.select_point_diameter//2,
-                            self.boundingRect().width(), self.boundingRect().height())
-        self.width = width
+        self.scene().update(self.scenePos().x(), self.scenePos().y(),
+                            self.width, self.height)
+        self.block_width = width
         self.update()
 
     def hoverEnterEvent(self, event):
@@ -490,17 +516,19 @@ class BlockItem(QtWidgets.QGraphicsItem):
         block.
         """
         event.accept()
-        if event.pos().x() >= self.width - 10 and \
-                event.pos().y() >= self.height - 10:
-            self.setCursor(QtCore.Qt.SizeFDiagCursor)
-        elif 0 <= event.pos().x() < self.width - 10 and \
-                event.pos().y() >= self.height - 10:
-            self.setCursor(QtCore.Qt.SizeVerCursor)
-        elif 0 <= event.pos().y() < self.height - 10 and \
-                event.pos().x() >= self.width - 10:
-            self.setCursor(QtCore.Qt.SizeHorCursor)
-        else:
-            self.setCursor(QtCore.Qt.ArrowCursor)
+        if self.isSelected():
+            if event.pos().x() >= self.width - 10 and \
+                    event.pos().y() >= self.height - 10:
+                self.setCursor(QtCore.Qt.SizeFDiagCursor)
+
+            elif 0 <= event.pos().x() < self.width - 10 and \
+                    event.pos().y() >= self.height - 10:
+                self.setCursor(QtCore.Qt.SizeVerCursor)
+            elif 0 <= event.pos().y() < self.height - 10 and \
+                    event.pos().x() >= self.width - 10:
+                self.setCursor(QtCore.Qt.SizeHorCursor)
+            else:
+                self.setCursor(QtCore.Qt.ArrowCursor)
 
     def hoverLeaveEvent(self, event):
         """Method invoked when the mouse leaves the area of a block and
@@ -513,9 +541,10 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     def save_gui_data(self):
         """Stores position and size in the :class:`.Block` gui_data dict."""
-        self.block.gui_data["save_data"]["pyside2"] = {"pos": [self.scenePos().x(),
-                                                               self.scenePos().y()],
-                                                       "size": [self.width, self.height]}
+        self.block.gui_data["save_data"]["pyside2"] = {
+            "pos": [self.scenePos().x(),
+                    self.scenePos().y()],
+            "size": [self.block_width, self.block_height]}
 
     def modified(self):
         """Signalizes the :class:`.MainWindow` that the file is modified."""
@@ -533,6 +562,7 @@ class NameWindow(QtWidgets.QDialog):
         name_edit: Line edit to enter the name of the input or output.
         button_box: Button box for confirming the name.
     """
+
     def __init__(self, parent, connection_type):
         """Initialize NameWindow.
 
