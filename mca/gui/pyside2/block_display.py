@@ -36,12 +36,8 @@ class BlockView(QtWidgets.QGraphicsView):
         self.zoom_original_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("zoom-original"), _("Zoom original"))
         self.zoom_original_action.triggered.connect(self.zoom_original)
 
-        self.toggle_drag_mode_action = QtWidgets.QAction(_("Toggle Drag"))
-        self.toggle_drag_mode_action.setCheckable(True)
-        self.toggle_drag_mode_action.toggled.connect(self.set_drag_mode)
-
         self.setBackgroundBrush(draw_pattern(40, QtGui.Qt.gray))
-        self.set_drag_mode(False)
+        self.setDragMode(self.RubberBandDrag)
 
     def zoom_in(self):
         """Zooms in by scaling the size of all items up."""
@@ -58,16 +54,36 @@ class BlockView(QtWidgets.QGraphicsView):
         self.scale(1/self.zoom_factor, 1/self.zoom_factor)
         self.zoom_factor = 1
 
-    def set_drag_mode(self, checked):
-        """Sets the drag mode.
-
-        Args:
-            checked: True to set the drag mode to scroll hand drag.
-        """
-        if checked:
+    def mousePressEvent(self, event):
+        """Method invoked when a mouse button has been pressed."""
+        if event.button() == QtGui.Qt.MiddleButton:
             self.setDragMode(self.ScrollHandDrag)
-        else:
+            new_event = QtGui.QMouseEvent(
+                QtCore.QEvent.GraphicsSceneMousePress,
+                event.pos(), QtGui.Qt.MouseButton.LeftButton,
+                event.buttons(),
+                QtGui.Qt.KeyboardModifier.NoModifier)
+            self.mousePressEvent(new_event)
+        super().mousePressEvent(event)
+
+    def mouseReleaseEvent(self, event):
+        """Method invoked when a mouse button has been released."""
+        if event.button() == QtGui.Qt.MiddleButton:
+            new_event = QtGui.QMouseEvent(
+                QtCore.QEvent.GraphicsSceneMouseRelease,
+                event.pos(), QtGui.Qt.MouseButton.LeftButton,
+                event.buttons(),
+                QtGui.Qt.KeyboardModifier.NoModifier)
+            self.mouseReleaseEvent(new_event)
             self.setDragMode(self.RubberBandDrag)
+        super().mouseReleaseEvent(event)
+
+    def wheelEvent(self, event):
+        if event.modifiers() == QtCore.Qt.CTRL:
+            if event.delta() > 0:
+                self.zoom_in_action.trigger()
+            else:
+                self.zoom_out_action.trigger()
 
 
 class BlockScene(QtWidgets.QGraphicsScene):
