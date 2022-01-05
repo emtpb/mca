@@ -1,4 +1,5 @@
 from PySide2 import QtWidgets, QtCore, QtGui
+import qdarkstyle
 
 from mca.gui.pyside2 import edit_window, io_items
 from mca.framework import data_types, DynamicBlock, block_io, io_registry
@@ -21,12 +22,21 @@ class BlockItem(QtWidgets.QGraphicsItem):
         output_height (int): Height of its outputs.
         output_width (int): Width of its output.
         output_dist (int): Distance between two outputs.
+        selection_point_diameter: Diameter of the selection points.
         inputs (list): List of all its inputs.
         outputs (list): List of all its outputs.
         block: Instance of :class:`.Block' this block item is holding.
+        default_color: Default color of the block.
+        hover_color: Hover color of the block.
+        selection_color: Color for the selection rectangle.
+        name_color: Color of the name fonts.
+        default_font: Default font of the block.
+        custom_name_font: Font for the custom user name.
         _resize_all (bool): Flag to indicate whether user is resizing or
                            moving the block.
         _start_pos (tuple): Starting position of an resize event.
+        _hovering (bool): Flag to indicate whether the mouse is hovering over
+                          the block.
         _original_width (int): Original width of the block.
         _original_height (int): Original height of the block.
         _resize_width (bool): Indicates whether the width should be resized.
@@ -48,21 +58,25 @@ class BlockItem(QtWidgets.QGraphicsItem):
     def __init__(self, view, x, y, block, block_width=100, block_height=100):
         QtWidgets.QGraphicsItem.__init__(self)
         self.setPos(x, y)
-        # Color settings
-        self.default_color = QtGui.Qt.darkGray
-        self.hover_color = QtGui.Qt.lightGray
-        self.current_color = self.default_color
 
         self.view = view
         self.block = block
         self.block.gui_data["run_time_data"]["pyside2"] = {"block_item": self}
 
+        # Color settings
+        self.default_color = None
+        self.hover_color = None
+        self.selection_color = None
+        self.name_color = None
+
+        # Set fonts
+        app = QtWidgets.QApplication.instance()
+        self.default_font = QtGui.QFont(app.font())
+        self.custom_name_font = QtGui.QFont(app.font())
+        self.custom_name_font.setPointSize(13)
+
         self.setToolTip(self.block.description)
         self.setAcceptHoverEvents(True)
-        # Define fonts
-        self.name_font = QtGui.QFont("Times", 12, QtGui.QFont.Bold)
-        self.custom_name_font = QtGui.QFont("Times", 14)
-        self.custom_name_font.setItalic(True)
 
         # Define heights and widths
         self.input_height = 20
@@ -78,9 +92,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.block_width = block_width
         self.block_height = block_height
 
-        # Compute name width
-        fm = QtGui.QFontMetrics(self.name_font)
-        name_width = fm.width(self.block.name) + 10
+        name_width = self.required_name_width()
 
         if name_width > self.block_width:
             self.block_width = name_width
@@ -104,6 +116,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self._resize_all = False
         self._resize_width = False
         self._resize_height = False
+        self._hovering = False
         self._start_pos = None
         self._original_width = None
         self._original_height = None
@@ -160,6 +173,17 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """Rectangle which marks where events should be invoked."""
         return QtCore.QRectF(0, 0, self.width, self.height)
 
+    def required_name_width(self):
+        """Width required to display the block name and the custom user name."""
+        name_width = QtGui.QFontMetrics(self.default_font).width(self.block.name)
+        custom_name_width = QtGui.QFontMetrics(self.custom_name_font).width(
+            self.block.parameters["name"].value)
+        if self.block.parameters["name"].value != self.block.name:
+            min_name_length = max(name_width, custom_name_width) + 10
+        else:
+            min_name_length = name_width + 10
+        return min_name_length
+
     @property
     def width(self):
         """Get the total width of the block item. This includes its inputs, outputs
@@ -190,15 +214,33 @@ class BlockItem(QtWidgets.QGraphicsItem):
         else:
             return 0
 
+    def apply_colors(self):
+        self.selection_color = QtGui.QColor("#259AE9")
+        if self.view.style().objectName() == "qdarkstyle":
+            self.name_color = QtGui.QColor("#FFFFFF")
+            self.default_color = QtGui.QColor("#455364")
+            self.hover_color = QtGui.QColor("#346792")
+        else:
+            app = QtWidgets.QApplication.instance()
+            palette = app.palette()
+            self.name_color = palette.color(palette.Text)
+            self.default_color = palette.color(palette.Dark)
+            self.hover_color = palette.color(palette.Mid)
+
     def paint(self, painter, option, widget):
         """Method to paint the block. This method gets invoked after
         initialization and every time the block gets updated.
         """
+        self.apply_colors()
         select_point_radius = self.select_point_diameter // 2
         x_offset_block = select_point_radius + self.input_offset
         y_offset_block = select_point_radius
         # Draw the main block
-        painter.setBrush(self.current_color)
+        if self._hovering:
+            painter.setBrush(self.hover_color)
+        else:
+            painter.setBrush(self.default_color)
+
         painter.setPen(QtGui.Qt.black)
         painter.drawRoundedRect(x_offset_block, select_point_radius,
                                 self.block_width, self.block_height, 5, 5)
@@ -207,8 +249,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         total_height = self.height - self.select_point_diameter
         # Draw the selection rectangle with 8 circles
         if self.isSelected():
-            selection_colour = QtGui.QColor(58, 147, 224)
-            painter.setPen(selection_colour)
+            painter.setPen(self.selection_color)
             painter.setBrush(QtGui.Qt.transparent)
             path = QtGui.QPainterPath()
             path.addRect(
@@ -218,7 +259,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
                 total_height
             )
             painter.drawPath(path)
-            painter.setBrush(selection_colour)
+            painter.setBrush(self.selection_color)
             select_point_coordinates = (
                 (0, 0),
                 (total_width // 2, 0),
@@ -235,8 +276,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
                                     self.select_point_diameter,
                                     self.select_point_diameter)
         # Draw block name
-        painter.setPen(QtGui.Qt.black)
-        painter.setFont(self.name_font)
+        painter.setPen(self.name_color)
         painter.drawText(x_offset_block + 5, y_offset_block + 2,
                          self.block_width - 5, 25, 0,
                          self.block.name)
@@ -426,6 +466,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
                 self._resize_width = True
             else:
                 self.setCursor(QtCore.Qt.OpenHandCursor)
+        else:
+            self.setCursor(QtCore.Qt.OpenHandCursor)
             super().mousePressEvent(event)
 
     def mouseMoveEvent(self, event):
@@ -485,14 +527,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         Args:
             width (int): Width to adjust the block to.
         """
-        name_width = QtGui.QFontMetrics(self.name_font).width(self.block.name)
-        custom_name_width = QtGui.QFontMetrics(self.custom_name_font).width(
-            self.block.parameters["name"].value)
-        if self.block.parameters["name"].value != self.block.name:
-            min_name_length = max(name_width, custom_name_width) + 10
-        else:
-            min_name_length = name_width + 10
-        width = max(width, min_name_length, self.min_width)
+        name_length = self.required_name_width()
+        width = max(width, name_length, self.min_width)
         # Reposition outputs and update connection lines
         x_offset = width+self.select_point_diameter//2 + self.input_offset
         for o in self.outputs:
@@ -508,7 +544,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         hovering over it. Changes color of the block to the hover color.
         """
         event.accept()
-        self.current_color = self.hover_color
+        self._hovering = True
         self.update()
 
     def hoverMoveEvent(self, event):
@@ -529,6 +565,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
                 self.setCursor(QtCore.Qt.SizeHorCursor)
             else:
                 self.setCursor(QtCore.Qt.ArrowCursor)
+        else:
+            self.setCursor(QtCore.Qt.ArrowCursor)
 
     def hoverLeaveEvent(self, event):
         """Method invoked when the mouse leaves the area of a block and
@@ -536,7 +574,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         color.
         """
         event.accept()
-        self.current_color = self.default_color
+        self._hovering = False
         self.update()
 
     def save_gui_data(self):

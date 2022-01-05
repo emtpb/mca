@@ -318,6 +318,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.conf["theme"] = "dark"
         app = QtWidgets.QApplication.instance()
         app.setStyleSheet(qdarkstyle.load_stylesheet_pyside2())
+        self.style().setObjectName("qdarkstyle")
 
     def change_language(self, language):
         """Returns a function which changes the language in the config.
