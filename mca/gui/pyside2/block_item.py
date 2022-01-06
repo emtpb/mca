@@ -1,5 +1,4 @@
 from PySide2 import QtWidgets, QtCore, QtGui
-import qdarkstyle
 
 from mca.gui.pyside2 import edit_window, io_items
 from mca.framework import data_types, DynamicBlock, block_io, io_registry
@@ -22,7 +21,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         output_height (int): Height of its outputs.
         output_width (int): Width of its output.
         output_dist (int): Distance between two outputs.
-        selection_point_diameter: Diameter of the selection points.
+        select_point_diameter: Diameter of the selection points.
         inputs (list): List of all its inputs.
         outputs (list): List of all its outputs.
         block: Instance of :class:`.Block' this block item is holding.
@@ -215,6 +214,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
             return 0
 
     def apply_colors(self):
+        """Applies the current colors depending on the chosen style."""
         self.selection_color = QtGui.QColor("#259AE9")
         if self.view.style().objectName() == "qdarkstyle":
             self.name_color = QtGui.QColor("#FFFFFF")

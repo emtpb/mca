@@ -79,6 +79,7 @@ class BlockView(QtWidgets.QGraphicsView):
         super().mouseReleaseEvent(event)
 
     def wheelEvent(self, event):
+        """Method invoked when the mouse wheel is used."""
         if event.modifiers() == QtCore.Qt.CTRL:
             if event.delta() > 0:
                 self.zoom_in_action.trigger()
@@ -199,6 +200,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
 
 
 def draw_pattern(step, color):
+    """Draws the background pattern of the block view."""
     pixmap = QtGui.QPixmap(step, step)
     pixmap.fill(QtGui.Qt.transparent)
     painter = QtGui.QPainter()
