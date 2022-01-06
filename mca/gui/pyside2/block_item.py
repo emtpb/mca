@@ -30,10 +30,10 @@ class BlockItem(QtWidgets.QGraphicsItem):
         selection_color: Color for the selection rectangle.
         name_color: Color of the name fonts.
         default_font: Default font of the block.
-        custom_name_font: Font for the custom user name.
+        custom_name_font: Font for the custom username.
         _resize_all (bool): Flag to indicate whether user is resizing or
                            moving the block.
-        _start_pos (tuple): Starting position of an resize event.
+        _start_pos (tuple): Starting position of a resize event.
         _hovering (bool): Flag to indicate whether the mouse is hovering over
                           the block.
         _original_width (int): Original width of the block.
