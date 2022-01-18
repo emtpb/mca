@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2021-12-13 23:56+0100\n"
+"POT-Creation-Date: 2022-01-18 17:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -420,7 +420,7 @@ msgstr "Real"
 msgid "Imaginary"
 msgstr "Imaginär"
 
-#: blocks/fftplot.py:45
+#: blocks/fftplot.py:45 blocks/signal_generator_periodic.py:34
 msgid "Phase"
 msgstr "Phase"
 
@@ -757,6 +757,10 @@ msgstr "Läd arbiträre Daten um ein Signal an seinem Output zu generieren."
 msgid "Arbitrary data path"
 msgstr "Pfad der Arbiträrdaten"
 
+#: blocks/signal_generator_periodic.py:10
+msgid "SignalGeneratorPeriodic"
+msgstr ""
+
 #: blocks/signal_generator_periodic.py:11
 msgid "Generates a periodic sinus, rectangle or triangle signal."
 msgstr "Generiert ein periodisches Sinus-, Rechteck- oder Dreiecksignal."
@@ -778,6 +782,14 @@ msgstr "Dreieck"
 msgid "Sine"
 msgstr "Sinus"
 
+#: blocks/signal_generator_periodic.py:33
+msgid "Amplitude"
+msgstr "Maximalwert"
+
+#: blocks/signal_generator_stochastic.py:11
+msgid "SignalGeneratorStochastic"
+msgstr "SignalGeneratorStochastic"
+
 #: blocks/signal_generator_stochastic.py:12
 msgid "Generates a stochastic signal with either normal or equal distribution."
 msgstr ""
@@ -797,8 +809,8 @@ msgid "Normal distribution"
 msgstr "Normalverteilt"
 
 #: blocks/signal_generator_stochastic.py:29
-msgid "Equal distribution"
-msgstr "Gleichverteilt"
+msgid "Uniform distribution"
+msgstr "Gleichverteilung"
 
 #: blocks/signal_generator_stochastic.py:32
 msgid "Mean µ"
@@ -824,8 +836,8 @@ msgstr "SignalSpeicherung"
 msgid "Saves the input signal in .json file."
 msgstr "Speichert das Eingangssignal in einer.json Datei."
 
-#: blocks/signal_saver.py:21 gui/pyside2/main_window.py:108
-#: gui/pyside2/main_window.py:209
+#: blocks/signal_saver.py:21 gui/pyside2/main_window.py:114
+#: gui/pyside2/main_window.py:225
 msgid "Save"
 msgstr "Speichern"
 
@@ -863,7 +875,7 @@ msgstr "FFT Länge"
 
 #: blocks/stft_plot.py:40 blocks/xy_plot.py:39
 msgid "Show"
-msgstr ""
+msgstr "Anzeigen"
 
 #: blocks/window.py:10
 msgid "Applies a window function to the input signal."
@@ -987,13 +999,29 @@ msgstr "<a href=\"https://ei.uni-paderborn.de/emt/startseite\">EMT</a>"
 msgid "Version:"
 msgstr "Version:"
 
-#: gui/pyside2/block_display.py:24
+#: gui/pyside2/block_display.py:27
 msgid "Zoom in"
 msgstr "Reinzoomen"
 
-#: gui/pyside2/block_display.py:29
+#: gui/pyside2/block_display.py:32
 msgid "Zoom out"
 msgstr "Rauszoomen"
+
+#: gui/pyside2/block_display.py:37
+msgid "Zoom original"
+msgstr "Originalgröße"
+
+#: gui/pyside2/block_display.py:41
+msgid "Copy"
+msgstr "Kopieren"
+
+#: gui/pyside2/block_display.py:46
+msgid "Paste"
+msgstr "Einfügen"
+
+#: gui/pyside2/block_display.py:51
+msgid "Cut"
+msgstr "Ausschneiden"
 
 #: gui/pyside2/block_explorer.py:35
 msgid "Search..."
@@ -1003,53 +1031,53 @@ msgstr "Suchen..."
 msgid "New block"
 msgstr "Neuer Block"
 
-#: gui/pyside2/block_item.py:111
+#: gui/pyside2/block_item.py:129
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: gui/pyside2/block_item.py:116
+#: gui/pyside2/block_item.py:135
 msgid "Add Input"
 msgstr "Input hinzufügen"
 
-#: gui/pyside2/block_item.py:123
+#: gui/pyside2/block_item.py:142
 msgid "Delete Input"
 msgstr "Input löschen"
 
-#: gui/pyside2/block_item.py:131
+#: gui/pyside2/block_item.py:150
 msgid "Add Output"
 msgstr "Output hinzufügen"
 
-#: gui/pyside2/block_item.py:138
+#: gui/pyside2/block_item.py:158
 msgid "Delete Output"
 msgstr "Output löschen"
 
-#: gui/pyside2/block_item.py:145
+#: gui/pyside2/block_item.py:165
 msgid "Delete Block"
 msgstr "Block löschen"
 
-#: gui/pyside2/block_item.py:496
+#: gui/pyside2/block_item.py:624
 msgid "Name of the Input:"
 msgstr "Name des Inputs:"
 
-#: gui/pyside2/block_item.py:498
+#: gui/pyside2/block_item.py:626
 msgid "Name of the Output:"
 msgstr "Name des Outputs:"
 
-#: gui/pyside2/block_item.py:513 gui/pyside2/edit_window.py:115
+#: gui/pyside2/block_item.py:641 gui/pyside2/edit_window.py:115
 msgid "Ok"
 msgstr "Ok"
 
-#: gui/pyside2/block_item.py:515 gui/pyside2/edit_window.py:116
-#: gui/pyside2/main_window.py:73 gui/pyside2/main_window.py:270
+#: gui/pyside2/block_item.py:643 gui/pyside2/edit_window.py:116
+#: gui/pyside2/main_window.py:79 gui/pyside2/main_window.py:286
 msgid "Cancel"
 msgstr "Abbrechen"
 
 #: gui/pyside2/edit_widgets.py:329 gui/pyside2/edit_window.py:129
 #: gui/pyside2/io_items.py:118 gui/pyside2/io_items.py:122
 #: gui/pyside2/io_items.py:295 gui/pyside2/io_items.py:298
-#: gui/pyside2/io_items.py:302 gui/pyside2/main_window.py:67
-#: gui/pyside2/main_window.py:214 gui/pyside2/main_window.py:268
-#: gui/pyside2/main_window.py:294
+#: gui/pyside2/io_items.py:302 gui/pyside2/main_window.py:73
+#: gui/pyside2/main_window.py:230 gui/pyside2/main_window.py:284
+#: gui/pyside2/main_window.py:310
 msgid "MCA"
 msgstr "MKA"
 
@@ -1161,7 +1189,7 @@ msgstr "Ordinaten Metadaten benutzen"
 
 #: gui/pyside2/edit_window.py:241
 msgid "Error message: "
-msgstr ""
+msgstr "Fehlermeldung: "
 
 #: gui/pyside2/io_items.py:53 gui/pyside2/io_items.py:235
 msgid "Disconnect"
@@ -1183,7 +1211,7 @@ msgstr "Signale haben inkompatible Metadaten."
 msgid "Signals have incompatible abscissas."
 msgstr "Signale haben inkompatible Abszissen."
 
-#: gui/pyside2/main_window.py:65
+#: gui/pyside2/main_window.py:71
 msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
@@ -1191,87 +1219,87 @@ msgstr ""
 "Das Dokument wurde verändert.\n"
 "Wollen sie die Änderungen speichern?"
 
-#: gui/pyside2/main_window.py:71 gui/pyside2/main_window.py:272
+#: gui/pyside2/main_window.py:77 gui/pyside2/main_window.py:288
 msgid "Yes"
 msgstr "Ja"
 
-#: gui/pyside2/main_window.py:75
+#: gui/pyside2/main_window.py:81
 msgid "No"
 msgstr "Nein"
 
-#: gui/pyside2/main_window.py:80
+#: gui/pyside2/main_window.py:86
 msgid "File"
 msgstr "Datei"
 
-#: gui/pyside2/main_window.py:81
+#: gui/pyside2/main_window.py:87
 msgid "Language"
 msgstr "Sprache"
 
-#: gui/pyside2/main_window.py:82
+#: gui/pyside2/main_window.py:88
 msgid "View"
 msgstr "Ansicht"
 
-#: gui/pyside2/main_window.py:84
+#: gui/pyside2/main_window.py:90
 msgid "About"
 msgstr "Über"
 
-#: gui/pyside2/main_window.py:95
+#: gui/pyside2/main_window.py:101
 msgid "New"
 msgstr "Neu"
 
-#: gui/pyside2/main_window.py:99
+#: gui/pyside2/main_window.py:105
 msgid "Open"
 msgstr "Öffnen"
 
-#: gui/pyside2/main_window.py:103
+#: gui/pyside2/main_window.py:109
 msgid "Open Recent"
 msgstr "Zuletzt geöffnet"
 
-#: gui/pyside2/main_window.py:114
+#: gui/pyside2/main_window.py:120
 msgid "Save as"
 msgstr "Speichern als"
 
-#: gui/pyside2/main_window.py:119
+#: gui/pyside2/main_window.py:125
 msgid "Clear all blocks"
 msgstr "Alle Blöcke löschen"
 
-#: gui/pyside2/main_window.py:123
+#: gui/pyside2/main_window.py:129
 msgid "Exit"
 msgstr "Verlassen"
 
-#: gui/pyside2/main_window.py:125
+#: gui/pyside2/main_window.py:131
 msgid "Close Application"
 msgstr "Programm beenden"
 
-#: gui/pyside2/main_window.py:129
+#: gui/pyside2/main_window.py:135
 msgid "Theme"
 msgstr "Theme"
 
-#: gui/pyside2/main_window.py:130
+#: gui/pyside2/main_window.py:136
 msgid "Default"
 msgstr "Standard"
 
-#: gui/pyside2/main_window.py:132
+#: gui/pyside2/main_window.py:138
 msgid "Dark"
 msgstr "Dunkel"
 
-#: gui/pyside2/main_window.py:157
+#: gui/pyside2/main_window.py:173
 msgid "Select a file to open"
 msgstr "Auswählen um Datei zu öffnen"
 
-#: gui/pyside2/main_window.py:215
+#: gui/pyside2/main_window.py:231
 msgid "File has to be a .json"
 msgstr "Datei muss eine .json sein"
 
-#: gui/pyside2/main_window.py:267
+#: gui/pyside2/main_window.py:283
 msgid "Are you sure you want to remove all blocks?"
 msgstr "Sicher Sie sicher, dass sie alle Blöcke entfernen wollen?"
 
-#: gui/pyside2/main_window.py:291
+#: gui/pyside2/main_window.py:307
 msgid "untitled.json"
 msgstr "Unbennant.json"
 
-#: gui/pyside2/main_window.py:318
+#: gui/pyside2/main_window.py:335
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
 
@@ -1449,4 +1477,10 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Pressure"
 #~ msgstr "Druck"
+
+#~ msgid "Equal distribution"
+#~ msgstr "Gleichverteilt"
+
+#~ msgid "Error message: "
+#~ msgstr ""
 

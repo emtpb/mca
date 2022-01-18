@@ -238,7 +238,7 @@ class EditWindow(QtWidgets.QDialog):
                 self.warning_message.setText(
                     _("Could not apply the changed parameters and metadata!"
                       "Continue editing or revert changes?") +
-                    "\n" + _("Error message: f") + error.args[0])
+                    "\n" + _("Error message: ") + error.args[0])
             else:
                 self.warning_message.setText(
                     _("Could not apply the changed parameters and metadata!"
