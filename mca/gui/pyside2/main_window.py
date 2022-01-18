@@ -146,6 +146,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.view_tool_bar.addAction(self.block_view.copy_action)
         self.view_tool_bar.addAction(self.block_view.paste_action)
         self.view_tool_bar.addAction(self.block_view.cut_action)
+        self.view_tool_bar.addAction(self.block_view.delete_action)
         self.view_tool_bar.addAction(self.block_view.clear_action)
 
     def closeEvent(self, event):

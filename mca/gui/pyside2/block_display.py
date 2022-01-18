@@ -42,22 +42,27 @@ class BlockView(QtWidgets.QGraphicsView):
 
         self.copy_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("edit-copy"),
                                              _("Copy"))
-        self.copy_action.triggered.connect(self.scene().copy)
+        self.copy_action.triggered.connect(self.scene().copy_selected)
         self.copy_action.setShortcut("Ctrl+C")
         self.copy_action.setToolTip("{}, {}".format(_("Copy"), _("Ctrl+C")))
 
         self.paste_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("edit-paste"),
                                               _("Paste"))
-        self.paste_action.triggered.connect(self.scene().paste)
+        self.paste_action.triggered.connect(self.scene().paste_selected)
         self.paste_action.setShortcut("Ctrl+V")
         self.paste_action.setToolTip("{}, {}".format(_("Paste"), "Ctrl+V"))
 
         self.cut_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("edit-cut"),
                                             _("Cut"))
-        self.cut_action.triggered.connect(self.scene().cut)
+        self.cut_action.triggered.connect(self.scene().cut_selected)
         self.cut_action.setShortcut("Ctrl+X")
         self.cut_action.setToolTip("{}, {}".format(_("Cut"), _("Ctrl+X")))
 
+        self.delete_action = QtWidgets.QAction(
+            QtGui.QIcon.fromTheme("edit-delete"), _("Delete"))
+        self.delete_action.triggered.connect(self.scene().delete_selected)
+        self.delete_action.setShortcut("Del")
+        self.delete_action.setToolTip("{}, {}".format(_("Delete"), _("Del")))
         self.clear_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("edit-clear"),
                                               _("Clear"))
         self.clear_action.triggered.connect(self.scene().clear)
@@ -224,7 +229,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
                         )
                     )
 
-    def copy(self):
+    def copy_selected(self):
         """Copies the selected blocks from the scene as a json string
         to the clipboard.
         """
@@ -239,7 +244,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
         else:
             clipboard.clear()
 
-    def paste(self):
+    def paste_selected(self):
         """Pastes copied blocks from the clipboard into the scene."""
         app = QtWidgets.QApplication.instance()
         clipboard = app.clipboard()
@@ -247,16 +252,18 @@ class BlockScene(QtWidgets.QGraphicsScene):
             pasted_blocks = load.json_to_blocks(clipboard.mimeData().text())
             self.create_blocks(pasted_blocks)
 
-    def cut(self):
+    def cut_selected(self):
         """Copies the selected blocks from the scene as a json string
         to the clipboard. Deletes the selected block afterwards.
         """
-        self.copy()
+        self.copy_selected()
+        self.delete_selected()
+
+    def delete_selected(self):
+        """Deletes the selected block from the scene."""
         for item in self.selectedItems():
             if isinstance(item, block_item.BlockItem):
                 item.delete()
-
-
 
 
 def draw_pattern(step, color):
