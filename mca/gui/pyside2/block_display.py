@@ -2,6 +2,7 @@ from PySide2 import QtWidgets, QtCore, QtGui
 
 from mca.gui.pyside2 import block_item, io_items
 from mca.language import _
+from mca.framework import load, save
 
 
 class BlockView(QtWidgets.QGraphicsView):
@@ -22,7 +23,7 @@ class BlockView(QtWidgets.QGraphicsView):
         self.setMinimumSize(500, 400)
 
         self.zoom_factor = 1
-
+        # Define all
         self.zoom_in_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("zoom-in"), _("Zoom in"))
         self.zoom_in_action.setShortcut("Ctrl++")
         self.zoom_in_action.triggered.connect(self.zoom_in)
@@ -35,6 +36,21 @@ class BlockView(QtWidgets.QGraphicsView):
 
         self.zoom_original_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("zoom-original"), _("Zoom original"))
         self.zoom_original_action.triggered.connect(self.zoom_original)
+
+        self.copy_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("edit-copy"),
+                                             _("Copy"))
+        self.copy_action.triggered.connect(self.scene().copy)
+        self.copy_action.setShortcut("Ctrl+C")
+
+        self.paste_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("edit-paste"),
+                                              _("Paste"))
+        self.paste_action.triggered.connect(self.scene().paste)
+        self.paste_action.setShortcut("Ctrl+V")
+
+        self.cut_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("edit-cut"),
+                                            _("Cut"))
+        self.cut_action.triggered.connect(self.scene().cut)
+        self.cut_action.setShortcut("Ctrl+X")
 
         self.setBackgroundBrush(draw_pattern(40, QtGui.Qt.gray))
         self.setDragMode(self.RubberBandDrag)
@@ -197,6 +213,38 @@ class BlockScene(QtWidgets.QGraphicsScene):
                             output_item, input_item
                         )
                     )
+
+    def copy(self):
+        """Copies the selected blocks from the scene as a json string
+        to the clipboard.
+        """
+        app = QtWidgets.QApplication.instance()
+        clipboard = app.clipboard()
+        if self.selectedItems():
+            mime_data = QtCore.QMimeData()
+            backend_blocks = [block.block for block in self.selectedItems()]
+            json_blocks = save.blocks_to_json(backend_blocks)
+            mime_data.setText(json_blocks)
+            clipboard.setMimeData(mime_data)
+        else:
+            clipboard.clear()
+
+    def paste(self):
+        """Pastes copied blocks from the clipboard into the scene."""
+        app = QtWidgets.QApplication.instance()
+        clipboard = app.clipboard()
+        if clipboard.mimeData().text():
+            pasted_blocks = load.json_to_blocks(clipboard.mimeData().text())
+            self.create_blocks(pasted_blocks)
+
+    def cut(self):
+        """Copies the selected blocks from the scene as a json string
+        to the clipboard. Deletes the selected block afterwards.
+        """
+        self.copy()
+        for item in self.selectedItems():
+            if isinstance(item, block_item.BlockItem):
+                item.delete()
 
 
 def draw_pattern(step, color):

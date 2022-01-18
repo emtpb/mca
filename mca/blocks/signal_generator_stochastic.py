@@ -8,7 +8,7 @@ class SignalGeneratorStochastic(Block):
     """Generates a stochastic signal with either normal or equal
     distribution.
     """
-    name = "SignalGeneratorStochastic"
+    name = _("SignalGeneratorStochastic")
     description = _("Generates a stochastic signal "
                     "with either normal or equal distribution.")
     tags = (_("Generating"), _("Stochastic"))
@@ -26,7 +26,7 @@ class SignalGeneratorStochastic(Block):
             "dist": parameters.ChoiceParameter(
                 _("Distribution"),
                 choices=[("normal", _("Normal distribution")),
-                         ("equal", _("Equal distribution"))],
+                         ("uniform", _("Uniform distribution"))],
                 default="normal"
             ),
             "mean": parameters.FloatParameter(_("Mean µ"), default=0),
@@ -45,7 +45,7 @@ class SignalGeneratorStochastic(Block):
 
         if dist == "normal":
             ordinate = mean + std_dev*np.random.randn(values)
-        elif dist == "equal":
+        elif dist == "uniform":
             ordinate = mean + std_dev * np.sqrt(12) * (np.random.rand(values)-0.5)
 
         self.outputs[0].data = data_types.Signal(

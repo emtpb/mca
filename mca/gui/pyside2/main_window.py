@@ -146,6 +146,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.view_tool_bar.addAction(self.block_view.zoom_in_action)
         self.view_tool_bar.addAction(self.block_view.zoom_out_action)
         self.view_tool_bar.addAction(self.block_view.zoom_original_action)
+        self.view_tool_bar.addAction(self.block_view.copy_action)
+        self.view_tool_bar.addAction(self.block_view.paste_action)
+        self.view_tool_bar.addAction(self.block_view.cut_action)
 
     def closeEvent(self, event):
         """Method invoked when the application gets closed. Asks the user to

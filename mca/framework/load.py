@@ -17,7 +17,13 @@ def load_block_structure(file_path):
         raise exceptions.DataLoadingError("Cannot load block structure"
                                           "into an existing structure.")
     with open(file_path, "r") as load_file:
-        load_data = json.load(load_file)
+        json_string = load_file.read()
+    block_structure = json_to_blocks(json_string)
+    return block_structure
+
+
+def json_to_blocks(json_string):
+    load_data = json.loads(json_string)
     str_to_block_types = {str(block_class): block_class
                           for block_class in blocks.block_classes}
     block_structure = []
