@@ -23,15 +23,18 @@ class BlockView(QtWidgets.QGraphicsView):
         self.setMinimumSize(500, 400)
 
         self.zoom_factor = 1
-        # Define all
+        # Define actions
         self.zoom_in_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("zoom-in"), _("Zoom in"))
         self.zoom_in_action.setShortcut("Ctrl++")
         self.zoom_in_action.triggered.connect(self.zoom_in)
+        self.zoom_in_action.setToolTip("{}, {}".format(_("Zoom in"), _("Ctrl +")))
         self.addAction(self.zoom_in_action)
 
         self.zoom_out_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("zoom-out"), _("Zoom out"))
         self.zoom_out_action.setShortcut("Ctrl+-")
         self.zoom_out_action.triggered.connect(self.zoom_out)
+        self.zoom_out_action.setToolTip("{}, {}".format(_("Zoom out"),
+                                                        _("Ctrl -")))
         self.addAction(self.zoom_out_action)
 
         self.zoom_original_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("zoom-original"), _("Zoom original"))
@@ -41,16 +44,19 @@ class BlockView(QtWidgets.QGraphicsView):
                                              _("Copy"))
         self.copy_action.triggered.connect(self.scene().copy)
         self.copy_action.setShortcut("Ctrl+C")
+        self.copy_action.setToolTip("{}, {}".format(_("Copy"), _("Ctrl+C")))
 
         self.paste_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("edit-paste"),
                                               _("Paste"))
         self.paste_action.triggered.connect(self.scene().paste)
         self.paste_action.setShortcut("Ctrl+V")
+        self.paste_action.setToolTip("{}, {}".format(_("Paste"), "Ctrl+V"))
 
         self.cut_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("edit-cut"),
                                             _("Cut"))
         self.cut_action.triggered.connect(self.scene().cut)
         self.cut_action.setShortcut("Ctrl+X")
+        self.cut_action.setToolTip("{}, {}".format(_("Cut"), _("Ctrl+X")))
 
         self.clear_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("edit-clear"),
                                               _("Clear"))
@@ -249,6 +255,8 @@ class BlockScene(QtWidgets.QGraphicsScene):
         for item in self.selectedItems():
             if isinstance(item, block_item.BlockItem):
                 item.delete()
+
+
 
 
 def draw_pattern(step, color):
