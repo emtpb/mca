@@ -52,6 +52,10 @@ class BlockView(QtWidgets.QGraphicsView):
         self.cut_action.triggered.connect(self.scene().cut)
         self.cut_action.setShortcut("Ctrl+X")
 
+        self.clear_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("edit-clear"),
+                                              _("Clear"))
+        self.clear_action.triggered.connect(self.scene().clear)
+
         self.setBackgroundBrush(draw_pattern(40, QtGui.Qt.gray))
         self.setDragMode(self.RubberBandDrag)
 

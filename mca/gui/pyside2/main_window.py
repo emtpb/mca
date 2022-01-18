@@ -122,10 +122,6 @@ class MainWindow(QtWidgets.QMainWindow):
         save_as_action.triggered.connect(self.save_file_as)
         file_menu.addAction(save_as_action)
 
-        clear_action = QtWidgets.QAction(_("Clear all blocks"), self)
-        clear_action.triggered.connect(self.clear_all_blocks)
-        file_menu.addAction(clear_action)
-
         exit_action = QtWidgets.QAction(_("Exit"), self)
         exit_action.setShortcut("Ctrl+Q")
         exit_action.setStatusTip(_("Close Application"))
@@ -149,6 +145,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.view_tool_bar.addAction(self.block_view.copy_action)
         self.view_tool_bar.addAction(self.block_view.paste_action)
         self.view_tool_bar.addAction(self.block_view.cut_action)
+        self.view_tool_bar.addAction(self.block_view.clear_action)
 
     def closeEvent(self, event):
         """Method invoked when the application gets closed. Asks the user to
