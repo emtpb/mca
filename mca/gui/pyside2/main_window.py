@@ -103,6 +103,7 @@ class MainWindow(QtWidgets.QMainWindow):
         file_menu.addAction(new_action)
 
         open_action = QtWidgets.QAction(_("Open"), self)
+        open_action.setShortcut("Ctrl+O")
         open_action.triggered.connect(self.open_file_dialog)
         file_menu.addAction(open_action)
 
