@@ -354,7 +354,7 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
         dir_path = ""
 
         if self.parameter.value:
-            dir_path = os.path.dirname(os.path.realpath(self.parameter.file))
+            dir_path = os.path.dirname(os.path.realpath(self.parameter.value))
         self.file_dialog = QtWidgets.QFileDialog()
         if self.parameter.file_formats:
             file_formats = "(*" + " *".join(self.parameter.file_formats) + ")"
