@@ -36,6 +36,9 @@ setup(
     # Python version requirement
     python_requires='>=3',
 
+    # Additional package data
+    package_data={'mca': ['version.txt', 'images/emt_logo.png']},
+
     # Dependencies of this setup script
     setup_requires=[
         'setuptools_scm',  # For automatic git-based versioning
