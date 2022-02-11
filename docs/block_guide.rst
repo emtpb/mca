@@ -9,6 +9,7 @@ Overview
 
 What is a block?
 ----------------
+
 A block is basically a processing unit with inputs, outputs and parameters.
 Different blocks can be connected via IO and transmit/receive data. Blocks can
 also have other functions apart from processing for
@@ -16,6 +17,7 @@ example plotting or recording audio.
 
 Data types
 ----------
+
 There currently exists only one data type. This data type is called
 :class:`.Signal` . There are more data types planned for the future and this
 needs be taken into account and is discussed in :ref:`Consideration`.
@@ -168,6 +170,7 @@ the same figure over multiple executions of the process function.
 
 IO Setup
 ========
+
 Every block needs some kind of IO to pass or receive data from other blocks. This
 is done by reimplementing the method *setup_io*. Within that method
 :class:`Inputs <.Input>` and :class:`Outputs <.Output>` are added via calling
@@ -217,7 +220,8 @@ The available parameter classes are listed in :ref:`parameters`.
 
 
 Parameter blocks
----------------
+----------------
+
 The :class:`.ParameterBlock` class groups other parameters and allows
 conversions if those are related to each other. This allows adding redundant
 parameters without changing how the original parameters are processed or
@@ -342,6 +346,7 @@ Example from the dummy block::
 
 2. Validating input data and parameters
 ---------------------------------------
+
 For validating input data it is important to note that there are going to be
 more data types in the future other than :class:`.Signal`. There are some
 convenience functions provided by the :ref:`validator` module for example
