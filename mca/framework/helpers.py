@@ -82,37 +82,33 @@ def fill_zeros(signals):
     """
     new_signals = []
     increment = signals[0].increment
-    min_abscissa_start = min(
-        list(map(lambda sgn: sgn.abscissa_start, signals))
-    )
+    min_abscissa_start = min(map(lambda signal: signal.abscissa_start, signals))
     max_abscissa_end = max(
-        list(
-            map(
-                lambda sgn: sgn.abscissa_start + sgn.values * sgn.increment,
-                signals,
-            )
+        map(
+            lambda signal: signal.abscissa_start + signal.values * signal.increment,
+            signals,
         )
     )
-    max_values = int((max_abscissa_end - min_abscissa_start) / increment)
-    for sgn in signals:
-        zeros_to_beginning = round(
-            (sgn.abscissa_start - min_abscissa_start) / increment
+    max_values = round((max_abscissa_end - min_abscissa_start) / increment)
+    for signal in signals:
+        zeros_insert = round(
+            (signal.abscissa_start - min_abscissa_start) / increment
         )
-        zeros_to_ending = round(
+        zeros_append = round(
             (
-                    (min_abscissa_start + max_values * increment)
-                    - (sgn.abscissa_start + sgn.values * increment)
+                    max_abscissa_end
+                    - (signal.abscissa_start + signal.values * increment)
             )
             / increment
         )
-        sgn.abscissa_start = min_abscissa_start
-        sgn.values = max_values
-        sgn.ordinate = np.hstack(
+        signal.abscissa_start = min_abscissa_start
+        signal.values = max_values
+        signal.ordinate = np.hstack(
             (
-                np.zeros(zeros_to_beginning),
-                sgn.ordinate,
-                np.zeros(zeros_to_ending),
+                np.zeros(zeros_insert),
+                signal.ordinate,
+                np.zeros(zeros_append),
             )
         )
-        new_signals.append(sgn)
+        new_signals.append(signal)
     return new_signals
