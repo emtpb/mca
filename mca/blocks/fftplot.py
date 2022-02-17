@@ -84,12 +84,8 @@ class FFTPlot(Block):
                 abscissa = np.linspace(-values / 2 * delta_f,
                                        (values / 2 - 1)*delta_f, values)
         if shift == "shift_positive":
-            if values % 2:
-                ordinate = ordinate[len(ordinate) // 2:]
-                abscissa = abscissa[len(abscissa) // 2:]
-            else:
-                ordinate = ordinate[len(ordinate) // 2 + 1:]
-                abscissa = abscissa[len(abscissa) // 2 + 1:]
+            ordinate = ordinate[len(ordinate) // 2:]
+            abscissa = abscissa[len(abscissa) // 2:]
         if plot_mode == "real":
             ordinate = ordinate.real
         elif plot_mode == "imaginary":
@@ -98,10 +94,11 @@ class FFTPlot(Block):
             ordinate = abs(ordinate)
         elif plot_mode == "phase":
             ordinate = np.angle(ordinate)
-        metadata = data_types.MetaData(input_signal.metadata.name,
-                                        unit_a=1/input_signal.metadata.unit_a,
-                                        unit_o=unit_o,
-                                        )
+        metadata = data_types.MetaData(
+            input_signal.metadata.name,
+            unit_a=1/input_signal.metadata.unit_a,
+            unit_o=unit_o,
+        )
         label = input_signal.metadata.name
         self.axes.plot(abscissa, ordinate, label=label)
         if label:
