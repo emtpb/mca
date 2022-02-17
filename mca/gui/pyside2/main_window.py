@@ -331,6 +331,7 @@ class MainWindow(QtWidgets.QMainWindow):
         def tmp():
             self.conf["language"] = language
             msg_box = QtWidgets.QMessageBox()
+            msg_box.setWindowTitle(_("MCA"))
             msg_box.setText(_("Changes will be applied after restart."))
             msg_box.exec()
         return tmp
