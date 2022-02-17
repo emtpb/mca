@@ -54,7 +54,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         delete_action: Action added to the menu to delete the block.
     """
 
-    def __init__(self, view, x, y, block, block_width=100, block_height=100):
+    def __init__(self, view, block, x, y, block_width=100, block_height=100):
         QtWidgets.QGraphicsItem.__init__(self)
         self.setPos(x, y)
 
@@ -431,6 +431,10 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """Updates the connection lines of all its inputs and outputs when
         the block moves.
         """
+        try:
+            self.save_gui_data()
+        except AttributeError:
+            pass
         if change == self.ItemPositionChange:
             for i in self.inputs:
                 i.update_connection_line()
@@ -497,7 +501,6 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self._resize_all = False
         self._resize_width = False
         self._resize_height = False
-        self.save_gui_data()
         self.modified()
         self.setCursor(QtCore.Qt.ArrowCursor)
         super().mouseReleaseEvent(event)

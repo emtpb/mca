@@ -1,4 +1,5 @@
 from PySide2 import QtWidgets, QtCore, QtGui
+import json
 
 from mca.gui.pyside2 import block_item, io_items
 from mca.language import _
@@ -167,7 +168,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
                 item.delete()
 
     def create_block_item(self, block, x, y, width=100, height=100,
-                          open_edit_window=True):
+                          open_edit_window=False, find_free_space=False):
         """Creates a new :class:`.BlockItem` to an existing :class:`.Block`.
         Tries to find the next free spot of (x,y) to create the block. A free
         spot means there is enough space to crate 100x100 block without
@@ -182,19 +183,55 @@ class BlockScene(QtWidgets.QGraphicsScene):
             open_edit_window (bool): True, if the edit window
                                      should be opened immediately after
                                      initializing the block.
+            find_free_space (bool): True, if the position should be modified
+                                    to find space where it not intersects
+                                    with another item.
 
         """
-        for i in range(int(y), self.parent().height(), 4):
-            for j in range(int(x), self.parent().width(), 4):
-                if not self.items(QtCore.QRect(j, i, 100, 100)):
-                    new_block = block_item.BlockItem(self.views()[0], j, i,
-                                                     block, width, height)
-                    self.addItem(new_block)
-                    if open_edit_window:
-                        new_block.open_edit_window()
-                    self.parent().parent().modified = True
-                    return
-            x = 0
+        new_block = block_item.BlockItem(self.views()[0], block, x, y, width,
+                                         height)
+        width = new_block.width
+        height = new_block.height
+        radius = 0
+        free_space_found = False
+        while not free_space_found:
+            # Change rect to bounding rect
+            if not self.items(QtCore.QRect(x-radius, y-radius, width, height)):
+                x -= radius
+                y -= radius
+                free_space_found = True
+            if not self.items(QtCore.QRect(x, y-radius, width, height)):
+                y -= radius
+                free_space_found = True
+            if not self.items(QtCore.QRect(x+radius, y-radius, width, height)):
+                x += radius
+                y -= radius
+                free_space_found = True
+            if not self.items(QtCore.QRect(x-radius, y, width, height)):
+                x -= radius
+                free_space_found = True
+            if not self.items(QtCore.QRect(x+radius, y, width, height)):
+                x += radius
+                free_space_found = True
+            if not self.items(QtCore.QRect(x-radius, y+radius, width, height)):
+                x -= radius
+                y += radius
+                free_space_found = True
+            if not self.items(QtCore.QRect(x, y+radius, width, height)):
+                y += radius
+                free_space_found = True
+            if not self.items(QtCore.QRect(x+radius, y+radius, width, height)):
+                y += radius
+                x += radius
+                free_space_found = True
+            radius += 4
+        if find_free_space:
+            new_block.setPos(x, y)
+
+        self.addItem(new_block)
+        if open_edit_window:
+            new_block.open_edit_window()
+        self.parent().parent().modified = True
 
     def create_blocks(self, blocks):
         """Create the graphical :class:`.BlockItem` structure of an existing
@@ -214,7 +251,9 @@ class BlockScene(QtWidgets.QGraphicsScene):
                 y_pos = 0
                 width = 100
                 height = 100
-            self.create_block_item(block, x_pos, y_pos, width, height, False)
+            self.create_block_item(block, x_pos, y_pos, width, height,
+                                   open_edit_window=False,
+                                   find_free_space=False)
         for block in blocks:
             for input_index, input_ in enumerate(block.inputs):
                 if input_.connected_output:
@@ -238,6 +277,11 @@ class BlockScene(QtWidgets.QGraphicsScene):
         if self.selectedItems():
             mime_data = QtCore.QMimeData()
             backend_blocks = [block.block for block in self.selectedItems()]
+            x_min = min(map(lambda block: block.gui_data["save_data"]["pyside2"]["pos"][0], backend_blocks))
+            y_min = min(map(lambda block: block.gui_data["save_data"]["pyside2"]["pos"][1], backend_blocks))
+            for block in backend_blocks:
+                block.gui_data["save_data"]["pyside2"]["pos"][0] -= x_min
+                block.gui_data["save_data"]["pyside2"]["pos"][1] -= y_min
             json_blocks = save.blocks_to_json(backend_blocks)
             mime_data.setText(json_blocks)
             clipboard.setMimeData(mime_data)
@@ -248,9 +292,31 @@ class BlockScene(QtWidgets.QGraphicsScene):
         """Pastes copied blocks from the clipboard into the scene."""
         app = QtWidgets.QApplication.instance()
         clipboard = app.clipboard()
-        if clipboard.mimeData().text():
+        if not clipboard.mimeData().text():
+            return
+        # Check if clipboard has json string
+        try:
             pasted_blocks = load.json_to_blocks(clipboard.mimeData().text())
-            self.create_blocks(pasted_blocks)
+        except json.decoder.JSONDecodeError:
+            return
+        # Map global mouse pos to view pos
+        global_pos = QtGui.QCursor.pos()
+        view_pos = self.views()[0].mapFromGlobal(global_pos)
+        view_size = self.views()[0].size()
+        # Check if mouse is within view
+        if (view_pos.x() >= 0) & (view_pos.y() >= 0) & (view_pos.x() >= view_size.width()) & (view_pos.y() >= view_size.height()):
+            scene_pos = self.views()[0].mapToScene(view_pos)
+            # Paste all block centered to the mouse
+            x_min = min(map(lambda block: block.gui_data["save_data"]["pyside2"]["pos"][0], pasted_blocks))
+            y_min = min(map(lambda block: block.gui_data["save_data"]["pyside2"]["pos"][1], pasted_blocks))
+            x_max = max(map(lambda block: block.gui_data["save_data"]["pyside2"]["pos"][0] + block.gui_data["save_data"]["pyside2"]["size"][0], pasted_blocks))
+            y_max = max(map(lambda block: block.gui_data["save_data"]["pyside2"]["pos"][1] + block.gui_data["save_data"]["pyside2"]["size"][1], pasted_blocks))
+            paste_width = x_max-x_min
+            paste_height = y_max-y_min
+            for block in pasted_blocks:
+                block.gui_data["save_data"]["pyside2"]["pos"][0] += scene_pos.x() - paste_width//2
+                block.gui_data["save_data"]["pyside2"]["pos"][1] += scene_pos.y() - paste_height//2
+        self.create_blocks(pasted_blocks)
 
     def cut_selected(self):
         """Copies the selected blocks from the scene as a json string
