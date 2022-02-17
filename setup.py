@@ -37,7 +37,9 @@ setup(
     python_requires='>=3',
 
     # Additional package data
-    package_data={'mca': ['version.txt', 'images/emt_logo.png']},
+    package_data={'mca': ['version.txt', 'images/emt_logo.png',
+                          'locales/*/LC_MESSAGES/*.po',
+                          'locales/*/LC_MESSAGES/*.mo']},
 
     # Dependencies of this setup script
     setup_requires=[
