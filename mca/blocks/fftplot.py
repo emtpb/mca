@@ -70,9 +70,7 @@ class FFTPlot(Block):
         ordinate = np.fft.fft(input_signal.ordinate)
         if normalize:
             ordinate = ordinate/values
-            unit_o = input_signal.metadata.unit_o
-        else:
-            unit_o = input_signal.metadata.unit_a * input_signal.metadata.unit_o
+        unit_o = input_signal.metadata.unit_o
         abscissa = np.linspace(0, delta_f*(values-1), values)
 
         if shift == "shift" or \
