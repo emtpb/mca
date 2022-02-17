@@ -87,6 +87,7 @@ class InputItem(QtWidgets.QGraphicsItem):
                                                    self.scenePos().x() + 5,
                                                    self.scenePos().y() +
                                                    self.height / 2)
+        self.temp_connection_line.setPen(QtGui.QPen(QtGui.Qt.green))
         self.scene().addItem(self.temp_connection_line)
         self.setCursor(QtCore.Qt.BlankCursor)
 
