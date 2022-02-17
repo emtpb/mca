@@ -14,8 +14,10 @@ except FileNotFoundError:
 
 setup(
     name='mca',
-
-    description='Example Python Project containing all necessary files for a Python distribution.',
+    description='Graph based signal processing tool.'
+                ' Data is being passed between blocks via inputs and outputs'
+                ' in a block diagram. Allows sequential and parallel execution'
+                ' of various processing steps in a easy and trivial manner.',
     long_description=long_description,
     author='Kevin Koch',
     author_email='kevink2@mail.uni-paderborn.de',
