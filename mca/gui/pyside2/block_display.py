@@ -159,7 +159,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
         x = event.scenePos().x()
         y = event.scenePos().y()
         block_class = event.source().selectedItems()[0].data(3)
-        self.create_block_item(block_class(), x, y)
+        self.create_block_item(block_class(), x, y, open_edit_window=True)
 
     def clear(self):
         """Removes all items from the BlockScene."""
