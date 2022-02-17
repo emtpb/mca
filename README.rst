@@ -3,7 +3,7 @@ Multi Channel Analyzer
 **********************
 
 Graph based signal processing tool. Data is being passed between
-blocks via inputs and outputs in a block diagramm.
+blocks via inputs and outputs in a block diagram.
 Allows sequential and parallel execution of various processing steps in a
 easy and trivial manner.
 
