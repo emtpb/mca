@@ -14,7 +14,7 @@ class PowerDensitySpectrum(Block):
         self.new_output(metadata=data_types.MetaData(
                 "",
                 unit_a="1/s",
-                unit_o="V*V*s",
+                unit_o="V*V",
                 quantity_a=_("Frequency")
         ))
         self.new_input()
@@ -35,7 +35,7 @@ class PowerDensitySpectrum(Block):
         values = input_signal.values*2-1
         increment = 1 / (
                 input_signal.increment * values)
-        unit_o = input_signal.metadata.unit_o**2 * input_signal.metadata.unit_a
+        unit_o = input_signal.metadata.unit_o**2
         unit_a = 1/input_signal.metadata.unit_a
         metadata = data_types.MetaData(None, unit_a, unit_o)
         self.outputs[0].data = data_types.Signal(
