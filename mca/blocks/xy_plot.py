@@ -18,6 +18,7 @@ class XYPlot(Block):
         super().__init__(**kwargs)
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
+        self.axes.grid(True)
 
     def setup_io(self):
         self.new_input()
@@ -39,7 +40,7 @@ class XYPlot(Block):
         self.parameters["show"] = parameters.ActionParameter(_("Show"), self.show)
 
     def _process(self):
-        self.axes.cla()
+        self.axes.lines.clear()
         if self.any_inputs_empty():
             return
         y_axis = self.parameters["y_axis"].value
@@ -71,7 +72,7 @@ class XYPlot(Block):
             raise exceptions.IntervalError("Cannot plot ordinates with "
                                            "different lengths.")
 
-        self.axes.scatter(abscissa, ordinate)
+        self.axes.scatter(abscissa, ordinate, color="C0")
         self.axes.set_xlabel(data_types.metadata_to_axis_label(
                 quantity=quantity_a,
                 unit=unit_a,
@@ -82,7 +83,6 @@ class XYPlot(Block):
                 unit=unit_o,
                 symbol=symbol_o
             ))
-        self.axes.grid(True)
         self.fig.tight_layout()
         self.fig.canvas.draw()
 

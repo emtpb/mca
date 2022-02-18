@@ -17,6 +17,7 @@ class STFTPlot(Block):
         super().__init__(**kwargs)
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
+        self.axes.grid(True)
         self.color_bar = None
 
     def setup_io(self):
@@ -45,7 +46,7 @@ class STFTPlot(Block):
         if self.color_bar:
             self.color_bar.remove()
             self.color_bar = None
-        self.axes.cla()
+        self.axes.lines.clear()
         if self.all_inputs_empty():
             self.fig.canvas.draw()
             return
@@ -78,7 +79,6 @@ class STFTPlot(Block):
         )
         self.axes.set_xlabel(abscissa_string)
         self.axes.set_ylabel(ordinate_string)
-        self.axes.grid(True)
         self.fig.tight_layout()
         self.fig.canvas.draw()
 

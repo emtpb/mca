@@ -26,6 +26,7 @@ class FFTPlot(Block):
         super().__init__(**kwargs)
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
+        self.axes.grid(True)
         self.legend = None
 
     def setup_io(self):
@@ -52,9 +53,10 @@ class FFTPlot(Block):
         })
 
     def _process(self):
-        self.axes.cla()
+        self.axes.lines.clear()
         if self.legend:
             self.legend.remove()
+            self.legend = None
         if self.all_inputs_empty():
             return
         validator.check_type_signal(self.inputs[0].data)
@@ -100,11 +102,10 @@ class FFTPlot(Block):
             unit_o=unit_o,
         )
         label = input_signal.metadata.name
-        self.axes.plot(abscissa, ordinate, label=label)
+        self.axes.plot(abscissa, ordinate, "C0", label=label)
         if label:
             self.legend = self.fig.legend()
-        else:
-            self.legend = None
+
         self.axes.set_xlabel(data_types.metadata_to_axis_label(
             quantity=metadata.quantity_a,
             unit=metadata.unit_a,
@@ -117,7 +118,6 @@ class FFTPlot(Block):
             symbol=metadata.symbol_o
             )
         )
-        self.axes.grid(True)
         self.fig.canvas.draw()
         if auto_show:
             self.show()

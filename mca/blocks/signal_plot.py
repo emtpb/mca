@@ -23,6 +23,7 @@ class SignalPlot(DynamicBlock):
         super().__init__(**kwargs)
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
+        self.axes.grid(True)
         self.legend = None
 
     def setup_parameters(self):
@@ -36,7 +37,7 @@ class SignalPlot(DynamicBlock):
         self.new_input()
 
     def _process(self):
-        self.axes.cla()
+        self.axes.lines.clear()
         if self.legend:
             self.legend.remove()
             self.legend = None
@@ -50,13 +51,13 @@ class SignalPlot(DynamicBlock):
         validator.check_same_units(ordinate_units)
         auto_show = self.parameters["auto_show"].value
         label = None
-        for signal in signals:
+        for index, signal in enumerate(signals):
             abscissa = np.linspace(signal.abscissa_start,
                                    signal.abscissa_start + signal.increment * (signal.values - 1),
                                    signal.values)
             ordinate = signal.ordinate
             label = signal.metadata.name
-            self.axes.plot(abscissa, ordinate, label=label)
+            self.axes.plot(abscissa, ordinate, f"C{index}", label=label)
         if label:
             self.legend = self.fig.legend()
         if signals:
@@ -73,7 +74,6 @@ class SignalPlot(DynamicBlock):
             )
             self.axes.set_xlabel(abscissa_string)
             self.axes.set_ylabel(ordinate_string)
-        self.axes.grid(True)
         self.fig.tight_layout()
         self.fig.canvas.draw()
 

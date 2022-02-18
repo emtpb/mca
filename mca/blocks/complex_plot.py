@@ -28,6 +28,8 @@ class ComplexPlot(DynamicBlock):
         self.fig = plt.figure()
         self.first_axes = self.fig.add_subplot(211)
         self.second_axes = self.fig.add_subplot(212)
+        self.first_axes.grid(True)
+        self.second_axes.grid(True)
         self.legend = None
 
     def setup_parameters(self):
@@ -45,8 +47,8 @@ class ComplexPlot(DynamicBlock):
         self.new_input()
 
     def _process(self):
-        self.first_axes.cla()
-        self.second_axes.cla()
+        self.first_axes.lines.clear()
+        self.second_axes.lines.clear()
         if self.legend:
             self.legend.remove()
 
@@ -71,11 +73,11 @@ class ComplexPlot(DynamicBlock):
             if label:
                 labels = True
             if plot_type == "real_imag":
-                self.first_axes.plot(abscissa, ordinate.real, label=label)
-                self.second_axes.plot(abscissa, ordinate.imag)
+                self.first_axes.plot(abscissa, ordinate.real, "C0", label=label)
+                self.second_axes.plot(abscissa, ordinate.imag, "C0")
             elif plot_type == "abs_phase":
-                self.first_axes.plot(abscissa, abs(ordinate), label=label)
-                self.second_axes.plot(abscissa, np.angle(ordinate))
+                self.first_axes.plot(abscissa, abs(ordinate), "C0", label=label)
+                self.second_axes.plot(abscissa, np.angle(ordinate), "C0")
         if labels:
             self.legend = self.fig.legend()
         else:
@@ -100,8 +102,6 @@ class ComplexPlot(DynamicBlock):
             else:
                 self.second_axes.set_ylabel(ordinate_string)
 
-        self.first_axes.grid(True)
-        self.second_axes.grid(True)
         self.fig.tight_layout()
         self.fig.canvas.draw()
 
