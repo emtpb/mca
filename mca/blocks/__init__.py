@@ -42,6 +42,8 @@ from .interpolate import Interpolate
 from .stft_plot import STFTPlot
 from .dc_generator import DCGenerator
 from .xy_plot import XYPlot
+from .stem_plot import StemPlot
+
 try:
     from .hs_oscilloscope import HSOscilloscope
 except ModuleNotFoundError:
