@@ -42,6 +42,7 @@ class XYPlot(Block):
     def _process(self):
         self.axes.lines.clear()
         if self.any_inputs_empty():
+            self.fig.canvas.draw()
             return
         y_axis = self.parameters["y_axis"].value
         x_axis = self.parameters["x_axis"].value

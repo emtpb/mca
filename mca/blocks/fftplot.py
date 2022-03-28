@@ -58,6 +58,7 @@ class FFTPlot(Block):
             self.legend.remove()
             self.legend = None
         if self.all_inputs_empty():
+            self.fig.canvas.draw()
             return
         validator.check_type_signal(self.inputs[0].data)
 
