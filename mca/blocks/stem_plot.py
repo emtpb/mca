@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import copy
 
 from mca.framework import validator, data_types, parameters, Block
 from mca.language import _

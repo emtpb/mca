@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import data_types, block_io, io_registry
+from mca.framework import data_types, block_io
 from mca.blocks import line_plot
 
 
