@@ -3,7 +3,7 @@ import inspect
 import warnings
 
 from .fft import FFT
-from .signal_plot import SignalPlot
+from .line_plot import LinePlot
 from .complex_to_real import ComplexToReal
 from .real_to_complex import RealToComplex
 from .fftplot import FFTPlot
