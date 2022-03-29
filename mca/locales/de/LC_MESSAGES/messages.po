@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2022-01-18 17:40+0100\n"
+"POT-Creation-Date: 2022-03-29 15:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: blocks/absolute.py:7 blocks/fftplot.py:45
+#: blocks/absolute.py:7 blocks/fftplot.py:46
 msgid "Absolute"
 msgstr "Betrag"
 
@@ -83,35 +83,34 @@ msgstr "AnalytischesSignal"
 msgid "Computes the analytical signal of the input signal."
 msgstr "Berechnet das analytische Signal des Eingangssignals."
 
-#: blocks/audio_loader.py:10
+#: blocks/audio_loader.py:11
 msgid "AudioLoader"
 msgstr "AudioLader"
 
-#: blocks/audio_loader.py:11
+#: blocks/audio_loader.py:12
 msgid "Loads a .wav to create an output signal."
 msgstr "Läd eine .wav Datei als Ausgangssignal."
 
-#: blocks/audio_loader.py:12 blocks/signal_generator_arbitrary.py:13
+#: blocks/audio_loader.py:13 blocks/signal_generator_arbitrary.py:13
 msgid "Loading"
 msgstr "Ladend"
 
-#: blocks/audio_loader.py:12 blocks/audio_player.py:15
+#: blocks/audio_loader.py:13 blocks/audio_player.py:15
 #: blocks/audio_recorder.py:11 blocks/audio_saver.py:13
 msgid "Audio"
 msgstr "Audio"
 
-#: blocks/audio_loader.py:16 blocks/audio_player.py:19 blocks/audio_saver.py:17
-#: blocks/resample.py:20 framework/helpers.py:22
-msgid "Sampling frequency"
-msgstr "Abtastfrequenz"
-
-#: blocks/audio_loader.py:18 blocks/audio_saver.py:19 blocks/signal_saver.py:19
+#: blocks/audio_loader.py:17 blocks/audio_saver.py:19 blocks/signal_saver.py:19
 msgid "Filename"
 msgstr "Dateiname"
 
-#: blocks/audio_loader.py:20 blocks/signal_generator_arbitrary.py:29
+#: blocks/audio_loader.py:19 blocks/signal_generator_arbitrary.py:29
 msgid "Load file"
 msgstr "Lade Datei"
+
+#: blocks/audio_loader.py:21 blocks/fft.py:25 blocks/fftplot.py:50
+msgid "Normalize"
+msgstr "Normiert"
 
 #: blocks/audio_player.py:12
 msgid "AudioPlayer"
@@ -124,6 +123,11 @@ msgid ""
 msgstr ""
 "Spielt das Eingangssignal als Audiosignal ab. Dabei wird das "
 "standardmäßige Audiogerät verwendet."
+
+#: blocks/audio_player.py:19 blocks/audio_saver.py:17 blocks/resample.py:20
+#: framework/helpers.py:22
+msgid "Sampling frequency"
+msgstr "Abtastfrequenz"
 
 #: blocks/audio_player.py:21
 msgid "Play sound"
@@ -168,6 +172,30 @@ msgstr "Speichern"
 #: blocks/audio_saver.py:20
 msgid "Save as .wav"
 msgstr "Als .wav speichern"
+
+#: blocks/bar_plot.py:17
+msgid "BarPlot"
+msgstr ""
+
+#: blocks/bar_plot.py:18
+msgid "Plots the input signal as a bar plot."
+msgstr ""
+
+#: blocks/bar_plot.py:19 blocks/complex_plot.py:23 blocks/fftplot.py:22
+#: blocks/line_plot.py:20 blocks/stem_plot.py:19 blocks/stft_plot.py:13
+#: blocks/xy_plot.py:14
+msgid "Plotting"
+msgstr "Plotten"
+
+#: blocks/bar_plot.py:32 blocks/complex_plot.py:41 blocks/line_plot.py:33
+#: blocks/stem_plot.py:32
+msgid "Show plot"
+msgstr "Plot anzeigen"
+
+#: blocks/bar_plot.py:33 blocks/complex_plot.py:42 blocks/line_plot.py:34
+#: blocks/stem_plot.py:33
+msgid "Auto plot"
+msgstr "Automatisch neu plotten"
 
 #: blocks/ccf.py:9
 msgid "CrossCorrelation"
@@ -235,32 +263,19 @@ msgstr "KomplexPlot"
 msgid "Plots absolute and phase or real and imaginary part of the input signal."
 msgstr "Plottet Betrag und Phase oder Real- und Imaginärteil des Eingangsignals."
 
-#: blocks/complex_plot.py:23 blocks/fftplot.py:22 blocks/signal_plot.py:19
-#: blocks/stft_plot.py:13 blocks/xy_plot.py:14
-msgid "Plotting"
-msgstr "Plotten"
-
-#: blocks/complex_plot.py:35
+#: blocks/complex_plot.py:37
 msgid "Plot type"
 msgstr "Plot Variante"
 
-#: blocks/complex_plot.py:36
+#: blocks/complex_plot.py:38
 msgid "Real/Imaginary"
 msgstr "Real/Imaginär"
 
-#: blocks/complex_plot.py:37
+#: blocks/complex_plot.py:39
 msgid "Absolute/Phase"
 msgstr "Betrag/Phase"
 
-#: blocks/complex_plot.py:39 blocks/signal_plot.py:30
-msgid "Show plot"
-msgstr "Plot anzeigen"
-
-#: blocks/complex_plot.py:40 blocks/signal_plot.py:31
-msgid "Auto plot"
-msgstr "Automatisch neu plotten"
-
-#: blocks/complex_plot.py:99
+#: blocks/complex_plot.py:101
 msgid "Phase in rad"
 msgstr "Phase in rad"
 
@@ -374,10 +389,6 @@ msgstr "Berechnet die FFT des Eingangssignals."
 msgid "Fourier"
 msgstr "Fourier"
 
-#: blocks/fft.py:25 blocks/fftplot.py:49
-msgid "Normalize"
-msgstr "Normiert"
-
 #: blocks/fftplot.py:16
 msgid "FFTPlot"
 msgstr "FFTPlot"
@@ -392,35 +403,35 @@ msgstr ""
 "den Imaginärteil, den Betrag oder die Phase der FFT. Kann die negativen "
 "Frequenzen verschieben oder diese wegschneiden."
 
-#: blocks/fftplot.py:37
+#: blocks/fftplot.py:38
 msgid "Shift to ordinate"
 msgstr "Zur Ordinate verschieben"
 
-#: blocks/fftplot.py:38
+#: blocks/fftplot.py:39
 msgid "No shift"
 msgstr "Kein Verschieben"
 
-#: blocks/fftplot.py:38
+#: blocks/fftplot.py:39
 msgid "Shift"
 msgstr "Verschieben"
 
-#: blocks/fftplot.py:39
+#: blocks/fftplot.py:40
 msgid "Shift and only positive frequencies"
 msgstr "Verschieben und nur positive Frequenzen"
 
-#: blocks/fftplot.py:43
+#: blocks/fftplot.py:44
 msgid "Plot Mode"
 msgstr "Plot Modus"
 
-#: blocks/fftplot.py:44
+#: blocks/fftplot.py:45
 msgid "Real"
 msgstr "Real"
 
-#: blocks/fftplot.py:44
+#: blocks/fftplot.py:45
 msgid "Imaginary"
 msgstr "Imaginär"
 
-#: blocks/fftplot.py:45 blocks/signal_generator_periodic.py:34
+#: blocks/fftplot.py:46 blocks/signal_generator_periodic.py:34
 msgid "Phase"
 msgstr "Phase"
 
@@ -678,6 +689,14 @@ msgstr "Bipolar"
 msgid "Threshold"
 msgstr "Grenzwert"
 
+#: blocks/line_plot.py:18
+msgid "LinePlot"
+msgstr "LinePlot"
+
+#: blocks/line_plot.py:19
+msgid "Plots all input signals as lines in a single figure."
+msgstr "Plottet alle Eingangssignale mit Linien in ein Fenster."
+
 #: blocks/multiplier.py:10
 msgid "Multiplier"
 msgstr "Multiplizierer"
@@ -773,7 +792,7 @@ msgstr "Funktion"
 msgid "Rectangle"
 msgstr "Rechteck"
 
-#: blocks/signal_generator_periodic.py:27 blocks/stft_plot.py:31
+#: blocks/signal_generator_periodic.py:27 blocks/stft_plot.py:32
 #: blocks/window.py:25
 msgid "Triangle"
 msgstr "Dreieck"
@@ -820,14 +839,6 @@ msgstr "Mittelwert µ"
 msgid "Standard deviation σ"
 msgstr "Standardabweichung σ"
 
-#: blocks/signal_plot.py:17
-msgid "SignalPlot"
-msgstr "SignalPlot"
-
-#: blocks/signal_plot.py:18
-msgid "Plots all input signals in a single figure."
-msgstr "Plottet alle Eingangssignale in eine Abbildung."
-
 #: blocks/signal_saver.py:10
 msgid "SignalSaver"
 msgstr "SignalSpeicherung"
@@ -836,10 +847,18 @@ msgstr "SignalSpeicherung"
 msgid "Saves the input signal in .json file."
 msgstr "Speichert das Eingangssignal in einer.json Datei."
 
-#: blocks/signal_saver.py:21 gui/pyside2/main_window.py:114
-#: gui/pyside2/main_window.py:225
+#: blocks/signal_saver.py:21 gui/pyside2/main_window.py:115
+#: gui/pyside2/main_window.py:224
 msgid "Save"
 msgstr "Speichern"
+
+#: blocks/stem_plot.py:17
+msgid "StemPlot"
+msgstr "StemPlot"
+
+#: blocks/stem_plot.py:18
+msgid "Plots the input signal as a stem plot."
+msgstr "Plottet alle Eingangssignale in einen Stemplot."
 
 #: blocks/stft_plot.py:10
 msgid "STFTPlot"
@@ -849,31 +868,31 @@ msgstr "STFTPlot"
 msgid "Plots the Short-Time Fourier Transformation of the input signal."
 msgstr "Plottet die Kurzeit Fourier-Tranformation des Eingangssignals."
 
-#: blocks/stft_plot.py:28 blocks/window.py:9
+#: blocks/stft_plot.py:29 blocks/window.py:9
 msgid "Window"
 msgstr "Fenster"
 
-#: blocks/stft_plot.py:29 blocks/window.py:21
+#: blocks/stft_plot.py:30 blocks/window.py:21
 msgid "Hann"
 msgstr "Hann"
 
-#: blocks/stft_plot.py:30 blocks/window.py:22
+#: blocks/stft_plot.py:31 blocks/window.py:22
 msgid "Hamming"
 msgstr "Hamming"
 
-#: blocks/stft_plot.py:34
+#: blocks/stft_plot.py:35
 msgid "Segment Length"
 msgstr "Segmentlänge"
 
-#: blocks/stft_plot.py:36
+#: blocks/stft_plot.py:37
 msgid "Segment Overlap"
 msgstr "Segmentüberlappung"
 
-#: blocks/stft_plot.py:38
+#: blocks/stft_plot.py:39
 msgid "FFT Length"
 msgstr "FFT Länge"
 
-#: blocks/stft_plot.py:40 blocks/xy_plot.py:39
+#: blocks/stft_plot.py:41 blocks/xy_plot.py:40
 msgid "Show"
 msgstr "Anzeigen"
 
@@ -913,19 +932,19 @@ msgstr "XYPlot"
 msgid "Plots the ordinates of the input signals against each other."
 msgstr "Plottet die Ordinaten der Eingangssignale gegeneinander."
 
-#: blocks/xy_plot.py:28
+#: blocks/xy_plot.py:29
 msgid "Input signal for ordinate axis"
 msgstr "Eingangssignal für die Ordinatenachse"
 
-#: blocks/xy_plot.py:29 blocks/xy_plot.py:35
+#: blocks/xy_plot.py:30 blocks/xy_plot.py:36
 msgid "First"
 msgstr "Erster"
 
-#: blocks/xy_plot.py:30 blocks/xy_plot.py:36
+#: blocks/xy_plot.py:31 blocks/xy_plot.py:37
 msgid "Second"
 msgstr "Zweiter"
 
-#: blocks/xy_plot.py:34
+#: blocks/xy_plot.py:35
 msgid "Input signal for abscissa axis"
 msgstr "Eingangssignal für die Abszissenachse"
 
@@ -999,29 +1018,57 @@ msgstr "<a href=\"https://ei.uni-paderborn.de/emt/startseite\">EMT</a>"
 msgid "Version:"
 msgstr "Version:"
 
-#: gui/pyside2/block_display.py:27
+#: gui/pyside2/block_display.py:28 gui/pyside2/block_display.py:31
 msgid "Zoom in"
 msgstr "Reinzoomen"
 
-#: gui/pyside2/block_display.py:32
+#: gui/pyside2/block_display.py:31
+msgid "Ctrl +"
+msgstr "Strg +"
+
+#: gui/pyside2/block_display.py:34 gui/pyside2/block_display.py:37
 msgid "Zoom out"
 msgstr "Rauszoomen"
 
-#: gui/pyside2/block_display.py:37
+#: gui/pyside2/block_display.py:38
+msgid "Ctrl -"
+msgstr "Strg -"
+
+#: gui/pyside2/block_display.py:41
 msgid "Zoom original"
 msgstr "Originalgröße"
 
-#: gui/pyside2/block_display.py:41
+#: gui/pyside2/block_display.py:45 gui/pyside2/block_display.py:48
 msgid "Copy"
 msgstr "Kopieren"
 
-#: gui/pyside2/block_display.py:46
+#: gui/pyside2/block_display.py:48
+msgid "Ctrl+C"
+msgstr "Strg+C"
+
+#: gui/pyside2/block_display.py:51 gui/pyside2/block_display.py:54
 msgid "Paste"
 msgstr "Einfügen"
 
-#: gui/pyside2/block_display.py:51
+#: gui/pyside2/block_display.py:57 gui/pyside2/block_display.py:60
 msgid "Cut"
 msgstr "Ausschneiden"
+
+#: gui/pyside2/block_display.py:60
+msgid "Ctrl+X"
+msgstr "Strg+X"
+
+#: gui/pyside2/block_display.py:63 gui/pyside2/block_display.py:66
+msgid "Delete"
+msgstr "Löschen"
+
+#: gui/pyside2/block_display.py:66
+msgid "Del"
+msgstr "Entf"
+
+#: gui/pyside2/block_display.py:68
+msgid "Clear"
+msgstr "Alles löschen"
 
 #: gui/pyside2/block_explorer.py:35
 msgid "Search..."
@@ -1055,29 +1102,29 @@ msgstr "Output löschen"
 msgid "Delete Block"
 msgstr "Block löschen"
 
-#: gui/pyside2/block_item.py:624
+#: gui/pyside2/block_item.py:627
 msgid "Name of the Input:"
 msgstr "Name des Inputs:"
 
-#: gui/pyside2/block_item.py:626
+#: gui/pyside2/block_item.py:629
 msgid "Name of the Output:"
 msgstr "Name des Outputs:"
 
-#: gui/pyside2/block_item.py:641 gui/pyside2/edit_window.py:115
+#: gui/pyside2/block_item.py:644 gui/pyside2/edit_window.py:115
 msgid "Ok"
 msgstr "Ok"
 
-#: gui/pyside2/block_item.py:643 gui/pyside2/edit_window.py:116
-#: gui/pyside2/main_window.py:79 gui/pyside2/main_window.py:286
+#: gui/pyside2/block_item.py:646 gui/pyside2/edit_window.py:116
+#: gui/pyside2/main_window.py:79 gui/pyside2/main_window.py:285
 msgid "Cancel"
 msgstr "Abbrechen"
 
 #: gui/pyside2/edit_widgets.py:329 gui/pyside2/edit_window.py:129
-#: gui/pyside2/io_items.py:118 gui/pyside2/io_items.py:122
-#: gui/pyside2/io_items.py:295 gui/pyside2/io_items.py:298
-#: gui/pyside2/io_items.py:302 gui/pyside2/main_window.py:73
-#: gui/pyside2/main_window.py:230 gui/pyside2/main_window.py:284
-#: gui/pyside2/main_window.py:310
+#: gui/pyside2/io_items.py:119 gui/pyside2/io_items.py:123
+#: gui/pyside2/io_items.py:296 gui/pyside2/io_items.py:299
+#: gui/pyside2/io_items.py:303 gui/pyside2/main_window.py:73
+#: gui/pyside2/main_window.py:229 gui/pyside2/main_window.py:283
+#: gui/pyside2/main_window.py:309 gui/pyside2/main_window.py:334
 msgid "MCA"
 msgstr "MKA"
 
@@ -1191,23 +1238,23 @@ msgstr "Ordinaten Metadaten benutzen"
 msgid "Error message: "
 msgstr "Fehlermeldung: "
 
-#: gui/pyside2/io_items.py:53 gui/pyside2/io_items.py:235
+#: gui/pyside2/io_items.py:53 gui/pyside2/io_items.py:236
 msgid "Disconnect"
 msgstr "Verbindung trennen"
 
-#: gui/pyside2/io_items.py:115
+#: gui/pyside2/io_items.py:116
 msgid "Error"
 msgstr "Fehler"
 
-#: gui/pyside2/io_items.py:115 gui/pyside2/io_items.py:295
+#: gui/pyside2/io_items.py:116 gui/pyside2/io_items.py:296
 msgid "Cyclic structures are not allowed."
 msgstr "Zyklische Strukturen sind nicht erlaubt."
 
-#: gui/pyside2/io_items.py:118 gui/pyside2/io_items.py:298
+#: gui/pyside2/io_items.py:119 gui/pyside2/io_items.py:299
 msgid "Signals have incompatible metadata."
 msgstr "Signale haben inkompatible Metadaten."
 
-#: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:302
+#: gui/pyside2/io_items.py:123 gui/pyside2/io_items.py:303
 msgid "Signals have incompatible abscissas."
 msgstr "Signale haben inkompatible Abszissen."
 
@@ -1219,7 +1266,7 @@ msgstr ""
 "Das Dokument wurde verändert.\n"
 "Wollen sie die Änderungen speichern?"
 
-#: gui/pyside2/main_window.py:77 gui/pyside2/main_window.py:288
+#: gui/pyside2/main_window.py:77 gui/pyside2/main_window.py:287
 msgid "Yes"
 msgstr "Ja"
 
@@ -1251,51 +1298,47 @@ msgstr "Neu"
 msgid "Open"
 msgstr "Öffnen"
 
-#: gui/pyside2/main_window.py:109
+#: gui/pyside2/main_window.py:110
 msgid "Open Recent"
 msgstr "Zuletzt geöffnet"
 
-#: gui/pyside2/main_window.py:120
+#: gui/pyside2/main_window.py:121
 msgid "Save as"
 msgstr "Speichern als"
 
-#: gui/pyside2/main_window.py:125
-msgid "Clear all blocks"
-msgstr "Alle Blöcke löschen"
-
-#: gui/pyside2/main_window.py:129
+#: gui/pyside2/main_window.py:126
 msgid "Exit"
 msgstr "Verlassen"
 
-#: gui/pyside2/main_window.py:131
+#: gui/pyside2/main_window.py:128
 msgid "Close Application"
 msgstr "Programm beenden"
 
-#: gui/pyside2/main_window.py:135
+#: gui/pyside2/main_window.py:132
 msgid "Theme"
 msgstr "Theme"
 
-#: gui/pyside2/main_window.py:136
+#: gui/pyside2/main_window.py:133
 msgid "Default"
 msgstr "Standard"
 
-#: gui/pyside2/main_window.py:138
+#: gui/pyside2/main_window.py:135
 msgid "Dark"
 msgstr "Dunkel"
 
-#: gui/pyside2/main_window.py:173
+#: gui/pyside2/main_window.py:172
 msgid "Select a file to open"
 msgstr "Auswählen um Datei zu öffnen"
 
-#: gui/pyside2/main_window.py:231
+#: gui/pyside2/main_window.py:230
 msgid "File has to be a .json"
 msgstr "Datei muss eine .json sein"
 
-#: gui/pyside2/main_window.py:283
+#: gui/pyside2/main_window.py:282
 msgid "Are you sure you want to remove all blocks?"
 msgstr "Sicher Sie sicher, dass sie alle Blöcke entfernen wollen?"
 
-#: gui/pyside2/main_window.py:307
+#: gui/pyside2/main_window.py:306
 msgid "untitled.json"
 msgstr "Unbennant.json"
 
@@ -1483,4 +1526,13 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Error message: "
 #~ msgstr ""
+
+#~ msgid "SignalPlot"
+#~ msgstr "SignalPlot"
+
+#~ msgid "Plots all input signals in a single figure."
+#~ msgstr "Plottet alle Eingangssignale in eine Abbildung."
+
+#~ msgid "Clear all blocks"
+#~ msgstr "Alle Blöcke löschen"
 
