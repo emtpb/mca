@@ -43,6 +43,7 @@ from .stft_plot import STFTPlot
 from .dc_generator import DCGenerator
 from .xy_plot import XYPlot
 from .stem_plot import StemPlot
+from .bar_plot import BarPlot
 
 try:
     from .hs_oscilloscope import HSOscilloscope
