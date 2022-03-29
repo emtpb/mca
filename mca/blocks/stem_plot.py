@@ -15,7 +15,7 @@ class StemPlot(Block):
         line: Line container of the stem plot.
     """
     name = _("StemPlot")
-    description = _("Plots all input signals as lines in a single figure.")
+    description = _("Plots the input signal as a stem plot.")
     tags = (_("Plotting"),)
 
     def __init__(self, **kwargs):
