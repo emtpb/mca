@@ -21,6 +21,7 @@ class AboutWindow(QtWidgets.QDialog):
             parent: Parent of this window.
         """
         QtWidgets.QDialog.__init__(self, parent=parent)
+        self.setWindowTitle(_("MCA"))
         self.setFixedSize(510, 430)
         # Create button box
         self.button_box = QtWidgets.QDialogButtonBox(self)
