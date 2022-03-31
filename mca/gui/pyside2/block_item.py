@@ -162,7 +162,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
                         len(self.block.outputs) == self.block.dynamic_output[0]:
                     self.delete_output_action.setEnabled(False)
                 self.menu.addAction(self.delete_output_action)
-        self.delete_action = QtWidgets.QAction(_("Delete Block"), self.view)
+        self.delete_action = QtWidgets.QAction(
+            QtGui.QIcon.fromTheme("edit-delete"), _("Delete"), self.view)
         self.delete_action.triggered.connect(self.delete)
         self.menu.addAction(self.delete_action)
 
