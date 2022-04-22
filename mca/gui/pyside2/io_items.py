@@ -123,6 +123,13 @@ class InputItem(QtWidgets.QGraphicsItem):
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                         "Signals have incompatible abscissas."))
                     self.mca_input.disconnect()
+                except Exception as error:
+                    if error.args:
+                        QtWidgets.QMessageBox().warning(
+                            None, _("MCA"),
+                            _("Could not connect blocks") + "\n" +
+                            _("Error message: ") + error.args[0])
+                    self.mca_input.disconnect()
                 else:
                     self.scene().addItem(ConnectionLine(
                         output_item=item,
@@ -302,6 +309,13 @@ class OutputItem(QtWidgets.QGraphicsItem):
                 except exceptions.IntervalError:
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                         "Signals have incompatible abscissas."))
+                    item.mca_input.disconnect()
+                except Exception as error:
+                    if error.args:
+                        QtWidgets.QMessageBox().warning(
+                            None, _("MCA"),
+                            _("Could not connect blocks") + "\n" +
+                            _("Error message: ") + error.args[0])
                     item.mca_input.disconnect()
                 else:
                     self.scene().addItem(ConnectionLine(
