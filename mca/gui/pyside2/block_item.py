@@ -1,3 +1,4 @@
+import logging
 from PySide2 import QtWidgets, QtCore, QtGui
 
 from mca.gui.pyside2 import edit_window, io_items

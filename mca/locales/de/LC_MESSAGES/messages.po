@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2022-03-29 15:05+0200\n"
+"POT-Creation-Date: 2022-04-22 17:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -992,29 +992,39 @@ msgstr "Messzeit"
 msgid "Abscissa"
 msgstr "Abszisse"
 
-#: gui/pyside2/about_window.py:30
+#: gui/pyside2/about_window.py:24 gui/pyside2/edit_widgets.py:329
+#: gui/pyside2/edit_window.py:129 gui/pyside2/io_items.py:119
+#: gui/pyside2/io_items.py:123 gui/pyside2/io_items.py:296
+#: gui/pyside2/io_items.py:299 gui/pyside2/io_items.py:303
+#: gui/pyside2/main_window.py:73 gui/pyside2/main_window.py:229
+#: gui/pyside2/main_window.py:283 gui/pyside2/main_window.py:309
+#: gui/pyside2/main_window.py:334
+msgid "MCA"
+msgstr "MKA"
+
+#: gui/pyside2/about_window.py:31
 msgid "Close"
 msgstr "Schließen"
 
-#: gui/pyside2/about_window.py:46
+#: gui/pyside2/about_window.py:47
 msgid "Developed by:"
 msgstr "Entwickelt von:"
 
-#: gui/pyside2/about_window.py:50
+#: gui/pyside2/about_window.py:51
 msgid "Measurement Engineering Group"
 msgstr "Fachgebiet Elektrische Messtechnik"
 
-#: gui/pyside2/about_window.py:54
+#: gui/pyside2/about_window.py:55
 msgid "Homepage:"
 msgstr "Startseite:"
 
-#: gui/pyside2/about_window.py:58
+#: gui/pyside2/about_window.py:59
 msgid ""
 "<a href=\"https://ei.uni-paderborn.de/en/electrical-engineering/emt"
 "/electrical-engineering/home\">EMT</a>"
 msgstr "<a href=\"https://ei.uni-paderborn.de/emt/startseite\">EMT</a>"
 
-#: gui/pyside2/about_window.py:63
+#: gui/pyside2/about_window.py:64
 msgid "Version:"
 msgstr "Version:"
 
@@ -1059,6 +1069,7 @@ msgid "Ctrl+X"
 msgstr "Strg+X"
 
 #: gui/pyside2/block_display.py:63 gui/pyside2/block_display.py:66
+#: gui/pyside2/block_item.py:166
 msgid "Delete"
 msgstr "Löschen"
 
@@ -1098,35 +1109,22 @@ msgstr "Output hinzufügen"
 msgid "Delete Output"
 msgstr "Output löschen"
 
-#: gui/pyside2/block_item.py:165
-msgid "Delete Block"
-msgstr "Block löschen"
-
-#: gui/pyside2/block_item.py:627
+#: gui/pyside2/block_item.py:628
 msgid "Name of the Input:"
 msgstr "Name des Inputs:"
 
-#: gui/pyside2/block_item.py:629
+#: gui/pyside2/block_item.py:630
 msgid "Name of the Output:"
 msgstr "Name des Outputs:"
 
-#: gui/pyside2/block_item.py:644 gui/pyside2/edit_window.py:115
+#: gui/pyside2/block_item.py:645 gui/pyside2/edit_window.py:115
 msgid "Ok"
 msgstr "Ok"
 
-#: gui/pyside2/block_item.py:646 gui/pyside2/edit_window.py:116
+#: gui/pyside2/block_item.py:647 gui/pyside2/edit_window.py:116
 #: gui/pyside2/main_window.py:79 gui/pyside2/main_window.py:285
 msgid "Cancel"
 msgstr "Abbrechen"
-
-#: gui/pyside2/edit_widgets.py:329 gui/pyside2/edit_window.py:129
-#: gui/pyside2/io_items.py:119 gui/pyside2/io_items.py:123
-#: gui/pyside2/io_items.py:296 gui/pyside2/io_items.py:299
-#: gui/pyside2/io_items.py:303 gui/pyside2/main_window.py:73
-#: gui/pyside2/main_window.py:229 gui/pyside2/main_window.py:283
-#: gui/pyside2/main_window.py:309 gui/pyside2/main_window.py:334
-msgid "MCA"
-msgstr "MKA"
 
 #: gui/pyside2/edit_widgets.py:329
 msgid "Something went wrong.\n"
@@ -1535,4 +1533,7 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Clear all blocks"
 #~ msgstr "Alle Blöcke löschen"
+
+#~ msgid "Delete Block"
+#~ msgstr "Block löschen"
 

@@ -1,4 +1,5 @@
 import json
+import logging
 
 from mca.framework import block_io, io_registry, data_types, parameters
 from mca import exceptions
@@ -25,6 +26,7 @@ class Block:
 
     def __init__(self, **kwargs):
         """Initializes the main Block class."""
+        logging.info(f"Initializing {self.name}")
         self.inputs = []
         self.outputs = []
         self.parameters = {

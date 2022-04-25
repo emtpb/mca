@@ -1,5 +1,6 @@
 from PySide2 import QtWidgets, QtCore, QtGui
 import os
+import logging
 
 import mca
 from mca.framework import parameters, DynamicBlock
@@ -235,6 +236,7 @@ class EditWindow(QtWidgets.QDialog):
             self.block_item.update()
         except Exception as error:
             if error.args:
+                logging.error(error.args)
                 self.warning_message.setText(
                     _("Could not apply the changed parameters and metadata!"
                       "Continue editing or revert changes?") +
@@ -263,7 +265,7 @@ class EditWindow(QtWidgets.QDialog):
         self.block.trigger_update()
 
     def reject(self):
-        """Reverts all not applied changes and closes the the window."""
+        """Reverts all not applied changes and closes the window."""
         self.revert_changes()
         super(EditWindow, self).reject()
 

@@ -1,4 +1,5 @@
 import json
+import logging
 
 from mca import exceptions, blocks
 from mca.framework import io_registry, block_io, data_types
@@ -13,6 +14,7 @@ def load_block_structure(file_path):
     Returns:
         list: Contains all saved blocks in no particular order.
     """
+    logging.info(f"Loading block structure from {file_path}")
     if io_registry.Registry.get_all_blocks():
         raise exceptions.DataLoadingError("Cannot load block structure"
                                           "into an existing structure.")

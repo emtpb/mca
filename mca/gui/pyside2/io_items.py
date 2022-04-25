@@ -1,4 +1,5 @@
 from PySide2 import QtWidgets, QtCore, QtGui
+import logging
 
 from mca import exceptions
 from mca.language import _
@@ -113,18 +114,22 @@ class InputItem(QtWidgets.QGraphicsItem):
                 try:
                     self.mca_input.connect(item.mca_output)
                 except exceptions.BlockCircleError:
-                    QtWidgets.QMessageBox().warning(None, _("Error"), _(
+                    logging.error("Cyclic structures are not allowed.")
+                    QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                         "Cyclic structures are not allowed."))
                 except exceptions.UnitError:
+                    logging.error("Signals have incompatible metadata.")
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                         "Signals have incompatible metadata."))
-                    self.mca_input.disconnect()
+                    item.mca_input.disconnect()
                 except exceptions.IntervalError:
+                    logging.error("Signals have incompatible abscissas.")
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                         "Signals have incompatible abscissas."))
                     self.mca_input.disconnect()
                 except Exception as error:
                     if error.args:
+                        logging.error(error.args)
                         QtWidgets.QMessageBox().warning(
                             None, _("MCA"),
                             _("Could not connect blocks") + "\n" +
@@ -300,18 +305,22 @@ class OutputItem(QtWidgets.QGraphicsItem):
                 try:
                     item.mca_input.connect(self.mca_output)
                 except exceptions.BlockCircleError:
+                    logging.error("Cyclic structures are not allowed.")
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                         "Cyclic structures are not allowed."))
                 except exceptions.UnitError:
+                    logging.error("Signals have incompatible metadata.")
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                         "Signals have incompatible metadata."))
                     item.mca_input.disconnect()
                 except exceptions.IntervalError:
+                    logging.error("Signals have incompatible abscissas.")
                     QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                         "Signals have incompatible abscissas."))
                     item.mca_input.disconnect()
                 except Exception as error:
                     if error.args:
+                        logging.error(error.args)
                         QtWidgets.QMessageBox().warning(
                             None, _("MCA"),
                             _("Could not connect blocks") + "\n" +

@@ -1,3 +1,5 @@
+import logging
+
 from mca import exceptions
 
 
@@ -37,6 +39,8 @@ class BaseParameter:
 
     @value.setter
     def value(self, val):
+        logging.info(f"Changing value of {self.name} from {self._value} "
+                     f"to {val}")
         self.validate(val)
         self._value = val
         if self.parameter_block:

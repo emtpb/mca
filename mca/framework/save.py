@@ -1,4 +1,5 @@
 import json
+import logging
 
 from mca.framework import parameters, io_registry
 
@@ -10,6 +11,7 @@ def save_block_structure(file_path):
     Args:
         file_path (str): Path of the .json file.
     """
+    logging.info(f"Saving block structure to {file_path}")
     block_structure = blocks_to_json(io_registry.Registry.get_all_blocks())
     with open(file_path, "w") as save_file:
         save_file.write(block_structure)
@@ -24,6 +26,7 @@ def blocks_to_json(blocks):
     Returns:
         json (str): json-formatted string of the extracted data.
      """
+
     data = {"blocks": []}
     for block in blocks:
         parameter_dict = {}
