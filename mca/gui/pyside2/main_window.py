@@ -192,6 +192,10 @@ class MainWindow(QtWidgets.QMainWindow):
         Args:
             file_path (str): Path of the file to open.
         """
+        if not os.path.exists(file_path):
+            QtWidgets.QMessageBox.warning(self, _("MCA"), _("File does not exist"),
+                                          QtWidgets.QMessageBox.Ok)
+            return
         self.block_scene.clear()
         loaded_blocks = load.load_block_structure(file_path)
         self.save_file_path = file_path
