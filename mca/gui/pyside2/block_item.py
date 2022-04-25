@@ -391,7 +391,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     def open_edit_window(self):
         """Opens up the parameter window."""
-        self.edit_window.show()
+        self.edit_window.exec_()
         self.update()
 
     def add_input(self, input_):
