@@ -1,8 +1,7 @@
-import logging
 from PySide2 import QtWidgets, QtCore, QtGui
 
 from mca.gui.pyside2 import edit_window, io_items
-from mca.framework import data_types, DynamicBlock, block_io, io_registry
+from mca.framework import data_types, DynamicBlock, block_io, io_registry, parameters
 from mca.language import _
 
 
@@ -113,6 +112,21 @@ class BlockItem(QtWidgets.QGraphicsItem):
         for o in self.block.outputs:
             self.add_output(o)
 
+        # Add button for an action parameter if needed
+        self.action_buttons = []
+        self.button_height = 20
+        self.button_margin = 5
+        i = 0
+        for parameter in self.block.parameters.values():
+            if isinstance(parameter, parameters.ActionParameter) and "block_button" in parameter.display_options:
+                self.action_buttons.append(
+                    BlockButton(action_parameter=parameter,
+                                parent=self, x=self.input_offset+self.select_point_diameter//2+5,
+                                y=50+i*(self.button_height+self.button_margin),
+                                width=self.block_width-2*self.button_margin,
+                                height=self.button_height))
+                i += 1
+
         self._resize_all = False
         self._resize_width = False
         self._resize_height = False
@@ -167,8 +181,21 @@ class BlockItem(QtWidgets.QGraphicsItem):
             QtGui.QIcon.fromTheme("edit-delete"), _("Delete"), self.view)
         self.delete_action.triggered.connect(self.delete)
         self.menu.addAction(self.delete_action)
+        self.add_block_actions_to_menu()
 
         self.save_gui_data()
+
+    def add_block_actions_to_menu(self):
+        """Add the :class:`.ActionParameter` of the block specified by
+        the display_options.
+        """
+        self.menu.addSeparator()
+        for parameter in self.block.parameters.values():
+            if isinstance(parameter, parameters.ActionParameter) and \
+                    "menu_action" in parameter.display_options:
+                action = QtWidgets.QAction(parameter.name, self.view)
+                action.triggered.connect(parameter.function)
+                self.menu.addAction(action)
 
     def boundingRect(self, *args, **kwargs):
         """Rectangle which marks where events should be invoked."""
@@ -221,13 +248,11 @@ class BlockItem(QtWidgets.QGraphicsItem):
         if self.view.style().objectName() == "qdarkstyle":
             self.name_color = QtGui.QColor("#FFFFFF")
             self.default_color = QtGui.QColor("#455364")
-            self.hover_color = QtGui.QColor("#346792")
+            self.hover_color = QtGui.QColor("#54687A")
         else:
-            app = QtWidgets.QApplication.instance()
-            palette = app.palette()
-            self.name_color = palette.color(palette.Text)
-            self.default_color = palette.color(palette.Dark)
-            self.hover_color = palette.color(palette.Mid)
+            self.name_color = QtGui.QColor("#000000")
+            self.default_color = QtGui.QColor("#b8b8b8")
+            self.hover_color = QtGui.QColor("#c0c0c0")
 
     def paint(self, painter, option, widget):
         """Method to paint the block. This method gets invoked after
@@ -289,8 +314,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
             fm = QtGui.QFontMetrics(self.custom_name_font)
             custom_name_width = fm.width(custom_name)
             painter.drawText(
-                x_offset_block + self.block_width // 2 - custom_name_width // 2,
-                self.block_height // 2 - 12, self.block_width - 5, 25, 0,
+                x_offset_block + 5,
+                y_offset_block + 20, custom_name_width, 25, 0,
                 custom_name)
 
     def contextMenuEvent(self, event):
@@ -442,6 +467,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
                 i.update_connection_line()
             for o in self.outputs:
                 o.update_connection_line()
+        if change == self.ItemScaleChange:
+            print("Hello")
         return super().itemChange(change, value)
 
     def mouseDoubleClickEvent(self, event):
@@ -495,6 +522,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
                 self._original_height + event.screenPos().y() - self._start_pos[
                     1])
         else:
+            pass
             super().mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event):
@@ -505,6 +533,9 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self._resize_height = False
         self.modified()
         self.setCursor(QtCore.Qt.ArrowCursor)
+        for action_button in self.action_buttons:
+            if action_button in self.scene().items(event.scenePos()):
+                action_button.mouseReleaseEvent(event)
         super().mouseReleaseEvent(event)
 
     def adjust_block_height(self, height):
@@ -654,3 +685,88 @@ class NameWindow(QtWidgets.QDialog):
                                self.accept)
         QtCore.QObject.connect(self.button_box, QtCore.SIGNAL("rejected()"),
                                self.reject)
+
+
+class BlockButton(QtWidgets.QGraphicsItem):
+    """Button class for the :class:`.BlockItem` to display an
+    :class:`.ActionParameter` .
+
+    Attributes:
+        action_parameter: Refers to the corresponding ActionParameter object.
+        width (int): Width of the button.
+        height (int): Height of the button.
+        text_margin (int): Margin of the button text within the button.
+        default_color: Color of the button. Changes according to the style.
+        name_color: Color of the button text. Changes according to the style.
+        press_color: Color of the button when pressed.
+                     Changes according to the style.
+        pressed (bool): Flag whether the button is pressed.
+    """
+    def __init__(self, action_parameter, parent, x, y, width, height):
+        """Initialize BlockButton class.
+
+        Args:
+            action_parameter: Refers to the corresponding ActionParameter object.
+            x (int): X Position of the button.
+            y (int): Y Position of the button.
+            width (int): Width of the button.
+            height (int): Height of the button.
+        """
+        QtWidgets.QGraphicsItem.__init__(self)
+        self.action_parameter = action_parameter
+        self.setParentItem(parent)
+        self.width = width
+        self.height = height
+
+        self.text_margin = 4
+        self.setPos(x, y)
+
+        self.default_color = None
+        self.name_color = None
+        self.press_color = None
+
+        self.pressed = False
+
+        self.apply_colors()
+
+    def paint(self, painter, option, widget):
+        self.apply_colors()
+        painter.setPen(QtCore.Qt.NoPen)
+        if self.pressed:
+            painter.setBrush(self.press_color)
+        else:
+            painter.setBrush(self.default_color)
+        painter.drawRoundedRect(0, 0, self.width, self.height, 5, 5)
+
+        painter.setPen(self.name_color)
+        font = painter.font()
+        fm = QtGui.QFontMetrics(font)
+        name_width = fm.width(self.action_parameter.name)
+        painter.drawText(self.width//2-name_width//2, self.text_margin+self.height//2,
+                         self.action_parameter.name)
+
+    def boundingRect(self):
+        return QtCore.QRectF(0, 0, self.width, self.height)
+
+    def mousePressEvent(self, event):
+        self.pressed = True
+        super().mousePressEvent(event)
+
+    def mouseMoveEvent(self, event):
+        super().mouseMoveEvent(event)
+
+    def mouseReleaseEvent(self, event):
+        self.pressed = False
+        self.action_parameter.function()
+        super().mousePressEvent(event)
+
+    def apply_colors(self):
+        """Applies the current colors depending on the chosen style."""
+        if self.parentItem().view.style().objectName() == "qdarkstyle":
+            self.name_color = QtGui.QColor("#FFFFFF")
+            self.default_color = QtGui.QColor("#788D9C")
+            self.press_color = QtGui.QColor("#60798B")
+        else:
+            self.name_color = QtGui.QColor("#000000")
+            self.default_color = QtGui.QColor("#d3d3d3")
+            self.press_color = QtGui.QColor("#b5b5b5")

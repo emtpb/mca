@@ -37,7 +37,11 @@ class XYPlot(Block):
                      ("second", _("Second"))],
             default="second"
         )
-        self.parameters["show"] = parameters.ActionParameter(_("Show"), self.show)
+        self.parameters["show"] = parameters.ActionParameter(
+            _("Show plot"),
+            self.show,
+            display_options=("block_button",
+                             "edit_window"))
 
     def _process(self):
         self.axes.lines.clear()

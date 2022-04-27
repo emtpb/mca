@@ -38,7 +38,8 @@ class STFTPlot(Block):
             "fft_length": parameters.IntParameter(
                 name=_("FFT Length"), min_=1, default=20),
             "show": parameters.ActionParameter(
-                name=_("Show"), function=self.show
+                name=_("Show plot"), function=self.show,
+                display_options=("block_button", "edit_window")
             )
         })
 

@@ -17,7 +17,9 @@ class AudioRecorder(Block):
              "record_time": parameters.FloatParameter(_("Record time"), 0,
                                                       None, "s", 5),
              "record_sound": parameters.ActionParameter(_("Record sound"),
-                                                        self.record_sound),
+                                                        self.record_sound,
+                                                        display_options=("block_button",
+                                                                         "edit_window")),
 
              })
 

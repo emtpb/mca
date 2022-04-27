@@ -145,22 +145,32 @@ class EditWindow(QtWidgets.QDialog):
         desired widget and the unit if given.
         """
         block_parameters = self.block.parameters.values()
-
+        # Iterate over the parameters and add them row wise to the edit window
         for index, block_parameter in enumerate(block_parameters):
+            # Skip if the parameter is not meant to be displayed here
+            if hasattr(block_parameter, "display_options") and \
+                    "edit_window" not in block_parameter.display_options:
+                continue
+            # Add name labels except for action and bool parameters and
+            # parameter blocks
             if not isinstance(block_parameter, parameters.BoolParameter) and \
                not isinstance(block_parameter, parameters.ActionParameter) and \
                not isinstance(block_parameter, parameters.ParameterBlock):
                 name_label = QtWidgets.QLabel(block_parameter.name + ":")
                 name_label.setFixedHeight(25)
                 self.parameter_box_layout.addWidget(name_label, index, 0, 1, 1)
+            # Translate parameter to the corresponding widget
             widget = edit_widgets.widget_dict[type(block_parameter)](block_parameter, self)
             self.parameter_widgets.append(widget)
             widget.read_parameter()
+            # Add widgets to the layout though parameters blocks
+            # take two columns
             if isinstance(block_parameter, parameters.ParameterBlock):
                 self.parameter_box_layout.addWidget(widget, index, 0, 1, 2)
             else:
                 self.parameter_box_layout.addWidget(widget, index, 1, 1, 1)
-            if getattr(block_parameter, "unit", None):
+            # Add the unit to the parameter
+            if hasattr(block_parameter, "unit"):
                 unit_label = QtWidgets.QLabel(block_parameter.unit)
                 self.parameter_box_layout.addWidget(unit_label, index, 2, 1, 1)
 

@@ -29,7 +29,9 @@ class StemPlot(Block):
 
     def setup_parameters(self):
         self.parameters.update({
-            "show": parameters.ActionParameter(_("Show plot"), self.show),
+            "show": parameters.ActionParameter(_("Show plot"), self.show,
+                                               display_options=("block_button",
+                                                                "edit_window")),
             "auto_show": parameters.BoolParameter(_("Auto plot"), False)
         })
 

@@ -19,7 +19,7 @@ class SignalSaver(Block):
             "file_name": parameters.PathParameter(_("Filename"),
                                                   file_formats=[".json"]),
             "save": parameters.ActionParameter(_("Save"),
-                                               self.save_data)})
+                                               self.save_data, display_options=("edit_window", "block_button"))})
 
     def _process(self):
         if self.all_inputs_empty():
