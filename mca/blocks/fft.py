@@ -8,7 +8,7 @@ class FFT(Block):
     """Computes the FFT of the input signal."""
     name = _("FFT")
     description = _("Computes the FFT of the input signal.")
-    tags = (_("Processing"), _("Fourier"))
+    tags = (_("Processing"), _("Fouriertransformation"))
 
     def setup_io(self):
         self.new_output(

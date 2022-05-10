@@ -20,8 +20,8 @@ from .amplifier import Amplifier
 from .signal_generator_stochastic import SignalGeneratorStochastic
 from .acf import AutoCorrelation
 from .ccf import CrossCorrelation
-from .psd import PowerDensitySpectrum
-from .cpsd import CrossPowerDensitySpectrum
+from .power_spectrum import PowerSpectrum
+from .cps import CrossPowerSpectrum
 from .complex_plot import ComplexPlot
 from .multiplier import Multiplier
 from .window import Window

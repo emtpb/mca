@@ -19,7 +19,7 @@ class FFTPlot(Block):
                     "the absolute or the phase of the FFT. "
                     "Shifts the FFT optionally or cuts the input"
                     "signal before the conversion.")
-    tags = (_("Processing"), _("Fourier"), _("Plotting"))
+    tags = (_("Processing"), _("Fouriertransformation"), _("Plotting"))
 
     def __init__(self, **kwargs):
         """Initializes FFTPlot class."""

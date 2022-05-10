@@ -4,10 +4,10 @@ from mca.framework import validator, data_types, Block
 from mca.language import _
 
 
-class PowerDensitySpectrum(Block):
-    """Computes the power density spectrum of the input signal."""
-    name = _("PowerDensitySpectrum")
-    description = _("Computes the power density spectrum of the input signal.")
+class PowerSpectrum(Block):
+    """Computes the power spectrum of the input signal."""
+    name = _("PowerSpectrum")
+    description = _("Computes the power spectrum of the input signal.")
     tags = (_("Processing"),)
 
     def setup_io(self):

@@ -6,8 +6,8 @@ from mca.language import _
 
 class CrossCorrelation(Block):
     """Computes the cross correlation of the input signal."""
-    name = _("CrossCorrelation")
-    description = _("Computes the cross correlation of the input signal.")
+    name = _("CCF")
+    description = _("Computes the cross correlation function of the input signal.")
     tags = (_("Processing"),)
 
     def setup_io(self):

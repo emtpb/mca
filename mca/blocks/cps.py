@@ -4,10 +4,10 @@ from mca.language import _
 import numpy as np
 
 
-class CrossPowerDensitySpectrum(Block):
-    """Computes the cross power density spectrum of the input signals."""
-    name = _("CrossPowerDensitySpectrum")
-    description = _("Computes the cross power density spectrum of the "
+class CrossPowerSpectrum(Block):
+    """Computes the cross power spectrum of the input signals."""
+    name = _("CrossPowerSpectrum")
+    description = _("Computes the cross power spectrum of the "
                     "input signals.")
     tags = (_("Processing"),)
 

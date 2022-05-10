@@ -6,8 +6,8 @@ import numpy as np
 
 class AutoCorrelation(Block):
     """Computes the auto correlation of the input signal."""
-    name = _("AutoCorrelation")
-    description = _("Computes the auto correlation of the input signal.")
+    name = _("ACF")
+    description = _("Computes the auto correlation function of the input signal.")
     tags = (_("Processing"),)
 
     def setup_io(self):
