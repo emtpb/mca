@@ -1,6 +1,6 @@
 import sys
 import inspect
-import warnings
+import logging
 
 from .fft import FFT
 from .plot import Plot
@@ -46,7 +46,7 @@ from .xy_plot import XYPlot
 try:
     from .hs_oscilloscope import HSOscilloscope
 except ModuleNotFoundError:
-    warnings.warn("Module 'tiepie' not found.")
+    logging.warning("Module 'tiepie' not found.")
 # Create list of all blocks
 block_classes = [i[1] for i in inspect.getmembers(sys.modules[__name__],
                                                   inspect.isclass)]
