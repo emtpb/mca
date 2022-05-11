@@ -26,7 +26,6 @@ class FFTPlot(Block):
         super().__init__(**kwargs)
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
-        self.axes.grid(True)
         self.legend = None
 
     def setup_io(self):
@@ -55,7 +54,7 @@ class FFTPlot(Block):
         })
 
     def _process(self):
-        self.axes.lines.clear()
+        self.axes.cla()
         if self.legend:
             self.legend.remove()
             self.legend = None
@@ -121,7 +120,10 @@ class FFTPlot(Block):
             symbol=metadata.symbol_o
             )
         )
+
+        self.axes.grid(True)
         self.fig.canvas.draw()
+
         if auto_show:
             self.show()
 

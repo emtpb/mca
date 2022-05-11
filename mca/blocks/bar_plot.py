@@ -23,9 +23,7 @@ class BarPlot(Block):
         super().__init__(**kwargs)
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
-        self.axes.grid(True)
         self.legend = None
-        self.line = None
 
     def setup_parameters(self):
         self.parameters.update({
@@ -39,9 +37,7 @@ class BarPlot(Block):
         self.new_input()
 
     def _process(self):
-        if self.line:
-            self.line.remove()
-            self.line = None
+        self.axes.cla()
         if self.legend:
             self.legend.remove()
             self.legend = None
@@ -57,8 +53,8 @@ class BarPlot(Block):
                                signal.values)
         ordinate = signal.ordinate
         label = signal.metadata.name
-        self.line = self.axes.bar(abscissa, ordinate, label=label, color="C0",
-                                  align="edge", width=signal.increment)
+        self.axes.bar(abscissa, ordinate, label=label, color="C0",
+                      align="edge", width=signal.increment)
         if label:
             self.legend = self.fig.legend()
         metadata = signal.metadata
@@ -74,6 +70,7 @@ class BarPlot(Block):
         )
         self.axes.set_xlabel(abscissa_string)
         self.axes.set_ylabel(ordinate_string)
+        self.axes.grid(True)
         self.fig.tight_layout()
         self.fig.canvas.draw()
 

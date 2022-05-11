@@ -24,7 +24,6 @@ class LinePlot(DynamicBlock):
         super().__init__(**kwargs)
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
-        self.axes.grid(True)
         self.legend = None
         self.lines = []
 
@@ -41,8 +40,7 @@ class LinePlot(DynamicBlock):
         self.new_input()
 
     def _process(self):
-        for line in self.lines:
-            line.remove()
+        self.axes.cla()
         if self.legend:
             self.legend.remove()
             self.legend = None
@@ -59,15 +57,13 @@ class LinePlot(DynamicBlock):
         auto_show = self.parameters["auto_show"].value
 
         label = None
-        self.lines = []
         for index, signal in enumerate(signals):
             abscissa = np.linspace(signal.abscissa_start,
                                    signal.abscissa_start + signal.increment * (signal.values - 1),
                                    signal.values)
             ordinate = signal.ordinate
             label = signal.metadata.name
-            self.lines.append(self.axes.plot(abscissa, ordinate, f"C{index}",
-                                             label=label)[0])
+            self.axes.plot(abscissa, ordinate, f"C{index}", label=label)
         if label:
             self.legend = self.fig.legend()
         if signals:
@@ -84,6 +80,7 @@ class LinePlot(DynamicBlock):
             )
             self.axes.set_xlabel(abscissa_string)
             self.axes.set_ylabel(ordinate_string)
+        self.axes.grid(True)
         self.fig.tight_layout()
         self.fig.canvas.draw()
 

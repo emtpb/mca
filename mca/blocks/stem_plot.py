@@ -23,9 +23,7 @@ class StemPlot(Block):
         super().__init__(**kwargs)
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
-        self.axes.grid(True)
         self.legend = None
-        self.line = None
 
     def setup_parameters(self):
         self.parameters.update({
@@ -39,9 +37,7 @@ class StemPlot(Block):
         self.new_input()
 
     def _process(self):
-        if self.line:
-            self.line.remove()
-            self.line = None
+        self.axes.grid(True)
         if self.legend:
             self.legend.remove()
             self.legend = None
@@ -57,8 +53,8 @@ class StemPlot(Block):
                                signal.values)
         ordinate = signal.ordinate
         label = signal.metadata.name
-        self.line = self.axes.stem(abscissa, ordinate, label=label,
-                                   use_line_collection=True)
+        self.axes.stem(abscissa, ordinate, label=label,
+                       use_line_collection=True)
         if label:
             self.legend = self.fig.legend()
         metadata = signal.metadata
@@ -72,8 +68,11 @@ class StemPlot(Block):
             unit=metadata.unit_o,
             symbol=metadata.symbol_o
         )
+
         self.axes.set_xlabel(abscissa_string)
         self.axes.set_ylabel(ordinate_string)
+        self.axes.grid(True)
+
         self.fig.tight_layout()
         self.fig.canvas.draw()
 

@@ -17,7 +17,6 @@ class STFTPlot(Block):
         super().__init__(**kwargs)
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
-        self.axes.grid(True)
         self.color_bar = None
 
     def setup_io(self):
@@ -27,9 +26,11 @@ class STFTPlot(Block):
         self.parameters.update({
             "window": parameters.ChoiceParameter(
                 name=_("Window"),
-                choices=[("hann", _("Hann")),
-                         ("hamming", _("Hamming")),
-                         ("triangle", _("Triangle"))],
+                choices=[
+                    ("boxcar", _("Rectangle")),
+                    ("hann", _("Hann")),
+                    ("hamming", _("Hamming")),
+                    ("triangle", _("Triangle"))],
                 default="hann"),
             "seg_length": parameters.IntParameter(
                 name=_("Segment Length"), min_=1, default=20),
@@ -47,7 +48,7 @@ class STFTPlot(Block):
         if self.color_bar:
             self.color_bar.remove()
             self.color_bar = None
-        self.axes.lines.clear()
+        self.axes.cla()
         if self.all_inputs_empty():
             self.fig.canvas.draw()
             return
@@ -66,8 +67,8 @@ class STFTPlot(Block):
         im = self.axes.pcolormesh(t, f, abs(z))
         self.color_bar = self.fig.colorbar(im, ax=self.axes)
         metadata = data_types.MetaData(input_signal.metadata.name,
-                                        unit_a=input_signal.metadata.unit_a,
-                                        unit_o=1/input_signal.metadata.unit_a)
+                                       unit_a=input_signal.metadata.unit_a,
+                                       unit_o=1/input_signal.metadata.unit_a)
         abscissa_string = data_types.metadata_to_axis_label(
             quantity=metadata.quantity_a,
             unit=metadata.unit_a,
@@ -80,6 +81,7 @@ class STFTPlot(Block):
         )
         self.axes.set_xlabel(abscissa_string)
         self.axes.set_ylabel(ordinate_string)
+        self.axes.grid(True)
         self.fig.tight_layout()
         self.fig.canvas.draw()
 

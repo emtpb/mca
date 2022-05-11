@@ -28,8 +28,6 @@ class ComplexPlot(DynamicBlock):
         self.fig = plt.figure()
         self.first_axes = self.fig.add_subplot(211)
         self.second_axes = self.fig.add_subplot(212)
-        self.first_axes.grid(True)
-        self.second_axes.grid(True)
         self.legend = None
 
     def setup_parameters(self):
@@ -49,8 +47,8 @@ class ComplexPlot(DynamicBlock):
         self.new_input()
 
     def _process(self):
-        self.first_axes.lines.clear()
-        self.second_axes.lines.clear()
+        self.first_axes.cla()
+        self.second_axes.cla()
         if self.legend:
             self.legend.remove()
 
@@ -103,6 +101,9 @@ class ComplexPlot(DynamicBlock):
                 self.second_axes.set_ylabel(_("Phase in rad"))
             else:
                 self.second_axes.set_ylabel(ordinate_string)
+
+        self.first_axes.grid(True)
+        self.second_axes.grid(True)
 
         self.fig.tight_layout()
         self.fig.canvas.draw()
