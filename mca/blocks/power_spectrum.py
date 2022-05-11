@@ -1,13 +1,16 @@
 import numpy as np
+from scipy.signal import welch
 
-from mca.framework import validator, data_types, Block
+from mca.framework import validator, data_types, Block, parameters
 from mca.language import _
 
 
 class PowerSpectrum(Block):
-    """Computes the power spectrum of the input signal."""
+    """Computes the power spectrum of the input signal using Welch's
+    method."""
     name = _("PowerSpectrum")
-    description = _("Computes the power spectrum of the input signal.")
+    description = _("Computes the power spectrum of the input signal using "
+                    "Welch's method")
     tags = (_("Processing"),)
 
     def setup_io(self):
@@ -20,7 +23,21 @@ class PowerSpectrum(Block):
         self.new_input()
 
     def setup_parameters(self):
-        pass
+        self.parameters["window"] = parameters.ChoiceParameter(
+            name=_("Window"),
+            choices=[("hann", _("Hann")),
+                     ("hamming", _("Hamming")),
+                     ("triangle", _("Triangle"))], default="hann")
+        self.parameters["seg_length"] = parameters.IntParameter(
+                        name=_("Segment Length"), min_=1, default=100)
+        self.parameters["seg_overlap"] = parameters.IntParameter(
+                        name=_("Segment Overlap"), min_=0, default=10)
+        self.parameters["fft_length"] = parameters.IntParameter(
+                        name=_("FFT Length"), min_=1, default=100)
+        self.parameters["scaling"] = parameters.ChoiceParameter(
+                        name=_("Scaling"), choices=[("density", _("Density")),
+                                                    ("spectrum", _("Spectrum"))],
+                        default="spectrum")
 
     def _process(self):
         if self.all_inputs_empty():
@@ -28,13 +45,22 @@ class PowerSpectrum(Block):
         validator.check_type_signal(self.inputs[0].data)
 
         input_signal = self.inputs[0].data
-        ccf = np.correlate(input_signal.ordinate, input_signal.ordinate,
-                           mode="full")
-        psd = np.fft.fft(ccf)
-        abscissa_start = 0
-        values = input_signal.values*2-1
-        increment = 1 / (
-                input_signal.increment * values)
+        window = self.parameters["window"].value
+        seg_length = self.parameters["seg_length"].value
+        seg_overlap = self.parameters["seg_overlap"].value
+        fft_length = self.parameters["fft_length"].value
+        scaling = self.parameters["scaling"].value
+        freq, power_density = welch(x=input_signal.ordinate,
+                              fs=1/input_signal.increment,
+                              window=window,
+                              nperseg=seg_length,
+                              noverlap=seg_overlap,
+                              nfft=fft_length,
+                              scaling=scaling
+                              )
+        abscissa_start = freq[0]
+        values = len(freq)
+        increment = freq[1] - freq[0]
         unit_o = input_signal.metadata.unit_o**2
         unit_a = 1/input_signal.metadata.unit_a
         metadata = data_types.MetaData(None, unit_a, unit_o)
@@ -43,5 +69,5 @@ class PowerSpectrum(Block):
             abscissa_start=abscissa_start,
             values=values,
             increment=increment,
-            ordinate=psd,
+            ordinate=power_density,
         )
