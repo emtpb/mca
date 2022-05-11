@@ -53,7 +53,7 @@ def test_lines(test_output_block):
 
 def test_legend(test_output_block):
     a = test_output_block(sin_signal)
-    b = line_plot.Plot()
+    b = plot.Plot()
     c = test_output_block(sin_signal_2)
     b.inputs[0].connect(a.outputs[0])
     b.fig.axes[0].get_legend_handles_labels()[1][0] == sin_signal.metadata.name
