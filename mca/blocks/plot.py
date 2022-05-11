@@ -7,7 +7,8 @@ from mca.language import _
 
 
 class Plot(DynamicBlock):
-    """Plots all input signals in single figure.
+    """Plots all input signals as lines, stems or bars
+    in a single figure.
 
     Attributes:
         fig: Figure for plotting data.
@@ -16,7 +17,7 @@ class Plot(DynamicBlock):
         lines: Lines of the plot which correspond to the inputs.
     """
     name = _("Plot")
-    description = _("Plots all input signals as lines, stem or bars "
+    description = _("Plots all input signals as lines, stems or bars "
                     "in a single figure.")
     tags = (_("Plotting"),)
 
