@@ -3,7 +3,7 @@ import inspect
 import warnings
 
 from .fft import FFT
-from .line_plot import LinePlot
+from .plot import Plot
 from .complex_to_real import ComplexToReal
 from .real_to_complex import RealToComplex
 from .fftplot import FFTPlot
@@ -42,8 +42,6 @@ from .interpolate import Interpolate
 from .stft_plot import STFTPlot
 from .dc_generator import DCGenerator
 from .xy_plot import XYPlot
-from .stem_plot import StemPlot
-from .bar_plot import BarPlot
 
 try:
     from .hs_oscilloscope import HSOscilloscope
