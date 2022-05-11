@@ -146,9 +146,9 @@ class MainWindow(QtWidgets.QMainWindow):
         appearance_menu = view_menu.addMenu(_("Appearance"))
         explorer_menu = appearance_menu.addMenu(_("Explorer"))
         explorer_left_action = explorer_menu.addAction(_("Align left"))
-        explorer_left_action.triggered.connect(self.move_explorer_left)
+        explorer_left_action.triggered.connect(self.align_explorer_left)
         explorer_right_action = explorer_menu.addAction(_("Align right"))
-        explorer_right_action.triggered.connect(self.move_explorer_right)
+        explorer_right_action.triggered.connect(self.align_explorer_right)
 
     def init_view_toolbar(self):
         """Initializes the toolbar for the block view."""
