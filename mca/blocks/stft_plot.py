@@ -10,7 +10,7 @@ class STFTPlot(Block):
     name = _("STFTPlot")
     description = _("Plots the Short-Time Fourier Transformation of the "
                     "input signal.")
-    tags = (_("Plotting"), _("Fourier"))
+    tags = (_("Plotting"), _("Fouriertransformation"))
 
     def __init__(self, **kwargs):
         """Initializes STFTPlot class."""
