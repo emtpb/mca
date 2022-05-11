@@ -1,5 +1,5 @@
-import numpy as np
 from scipy.signal import welch
+from united import Unit
 
 from mca.framework import validator, data_types, Block, parameters
 from mca.language import _
@@ -25,9 +25,11 @@ class PowerSpectrum(Block):
     def setup_parameters(self):
         self.parameters["window"] = parameters.ChoiceParameter(
             name=_("Window"),
-            choices=[("hann", _("Hann")),
-                     ("hamming", _("Hamming")),
-                     ("triangle", _("Triangle"))], default="hann")
+            choices=[
+                ("boxcar", _("Rectangle")),
+                ("hann", _("Hann")),
+                ("hamming", _("Hamming")),
+                ("triangle", _("Triangle"))], default="hann")
         self.parameters["seg_length"] = parameters.IntParameter(
                         name=_("Segment Length"), min_=1, default=100)
         self.parameters["seg_overlap"] = parameters.IntParameter(
@@ -51,18 +53,20 @@ class PowerSpectrum(Block):
         fft_length = self.parameters["fft_length"].value
         scaling = self.parameters["scaling"].value
         freq, power_density = welch(x=input_signal.ordinate,
-                              fs=1/input_signal.increment,
-                              window=window,
-                              nperseg=seg_length,
-                              noverlap=seg_overlap,
-                              nfft=fft_length,
-                              scaling=scaling
-                              )
+                                    fs=1/input_signal.increment,
+                                    window=window,
+                                    nperseg=seg_length,
+                                    noverlap=seg_overlap,
+                                    nfft=fft_length,
+                                    scaling=scaling
+                                    )
         abscissa_start = freq[0]
         values = len(freq)
         increment = freq[1] - freq[0]
-        unit_o = input_signal.metadata.unit_o**2
         unit_a = 1/input_signal.metadata.unit_a
+        unit_o = input_signal.metadata.unit_o**2
+        if scaling == "density":
+            unit_o = Unit([unit_o.repr], [unit_a.repr], fix_repr=True)
         metadata = data_types.MetaData(None, unit_a, unit_o)
         self.outputs[0].data = data_types.Signal(
             metadata=self.outputs[0].get_metadata(metadata),
