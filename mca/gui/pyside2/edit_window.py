@@ -34,7 +34,7 @@ class EditWindow(QtWidgets.QDialog):
         QtWidgets.QDialog.__init__(self, parent=parent)
         self.block = block
         self.block_item = block_item
-        self.resize(500, 550)
+        self.resize(600, 750)
         self.setMinimumSize((QtCore.QSize(500, 400)))
         self.setWindowTitle(_("Edit {}").format(self.block.parameters["name"].value))
 
