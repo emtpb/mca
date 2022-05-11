@@ -26,7 +26,6 @@ class BlockExplorer(QtWidgets.QWidget):
         """
         QtWidgets.QWidget.__init__(self)
 
-        self.setMaximumSize(300, 16777215)
         self.setMinimumSize(200, 0)
         self.setLayout(QtWidgets.QVBoxLayout())
 
