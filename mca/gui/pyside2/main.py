@@ -1,4 +1,5 @@
 import PySide2
+from PySide2 import QtWidgets, QtCore
 import os
 import platform
 import sys
@@ -18,6 +19,7 @@ def main():
     backend to Qt5 and opens the :class:`.MainWindow` ."""
     from mca.gui.pyside2 import main_window
     matplotlib.use("qt5agg")
+    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
     app = PySide2.QtWidgets.QApplication(sys.argv)
     window = main_window.MainWindow()
     window.show()
