@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2022-05-10 15:01+0200\n"
+"POT-Creation-Date: 2022-05-11 15:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: blocks/absolute.py:7 blocks/fftplot.py:46
+#: blocks/absolute.py:7 blocks/fftplot.py:45
 msgid "Absolute"
 msgstr "Betrag"
 
@@ -29,11 +29,11 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 
 #: blocks/absolute.py:9 blocks/acf.py:11 blocks/adder.py:12
 #: blocks/amplifier.py:11 blocks/analytical_signal.py:12 blocks/ccf.py:11
-#: blocks/complex_to_real.py:19 blocks/cps.py:12 blocks/cutter.py:17
+#: blocks/complex_to_real.py:19 blocks/cps.py:13 blocks/cutter.py:17
 #: blocks/differentiator.py:11 blocks/divider.py:9 blocks/envelope.py:13
 #: blocks/fft.py:11 blocks/fftplot.py:22 blocks/iir_filter.py:19
 #: blocks/integrator.py:12 blocks/interpolate.py:18 blocks/limiter.py:14
-#: blocks/multiplier.py:12 blocks/power_spectrum.py:11
+#: blocks/multiplier.py:12 blocks/power_spectrum.py:14
 #: blocks/quantization.py:13 blocks/real_to_complex.py:18 blocks/resample.py:11
 #: blocks/window.py:11 blocks/zerofill.py:11
 msgid "Processing"
@@ -108,7 +108,7 @@ msgstr "Dateiname"
 msgid "Load file"
 msgstr "Lade Datei"
 
-#: blocks/audio_loader.py:21 blocks/fft.py:25 blocks/fftplot.py:50
+#: blocks/audio_loader.py:21 blocks/fft.py:25 blocks/fftplot.py:49
 msgid "Normalize"
 msgstr "Normiert"
 
@@ -172,30 +172,6 @@ msgstr "Speichern"
 #: blocks/audio_saver.py:20
 msgid "Save as .wav"
 msgstr "Als .wav speichern"
-
-#: blocks/bar_plot.py:17
-msgid "BarPlot"
-msgstr ""
-
-#: blocks/bar_plot.py:18
-msgid "Plots the input signal as a bar plot."
-msgstr ""
-
-#: blocks/bar_plot.py:19 blocks/complex_plot.py:23 blocks/fftplot.py:22
-#: blocks/line_plot.py:20 blocks/stem_plot.py:19 blocks/stft_plot.py:13
-#: blocks/xy_plot.py:14
-msgid "Plotting"
-msgstr "Plotten"
-
-#: blocks/bar_plot.py:32 blocks/complex_plot.py:41 blocks/line_plot.py:33
-#: blocks/stem_plot.py:32 blocks/stft_plot.py:41 blocks/xy_plot.py:41
-msgid "Show plot"
-msgstr "Plot anzeigen"
-
-#: blocks/bar_plot.py:35 blocks/complex_plot.py:44 blocks/line_plot.py:36
-#: blocks/stem_plot.py:35
-msgid "Auto plot"
-msgstr "Automatisch neu plotten"
 
 #: blocks/ccf.py:9
 msgid "CCF"
@@ -263,19 +239,33 @@ msgstr "KomplexPlot"
 msgid "Plots absolute and phase or real and imaginary part of the input signal."
 msgstr "Plottet Betrag und Phase oder Real- und Imaginärteil des Eingangsignals."
 
-#: blocks/complex_plot.py:37
+#: blocks/complex_plot.py:23 blocks/fftplot.py:22 blocks/plot.py:22
+#: blocks/stft_plot.py:13 blocks/xy_plot.py:14
+msgid "Plotting"
+msgstr "Plotten"
+
+#: blocks/complex_plot.py:35
 msgid "Plot type"
 msgstr "Plot Variante"
 
-#: blocks/complex_plot.py:38
+#: blocks/complex_plot.py:36
 msgid "Real/Imaginary"
 msgstr "Real/Imaginär"
 
-#: blocks/complex_plot.py:39
+#: blocks/complex_plot.py:37
 msgid "Absolute/Phase"
 msgstr "Betrag/Phase"
 
-#: blocks/complex_plot.py:103
+#: blocks/complex_plot.py:39 blocks/plot.py:34 blocks/stft_plot.py:42
+#: blocks/xy_plot.py:41
+msgid "Show plot"
+msgstr "Plot anzeigen"
+
+#: blocks/complex_plot.py:42 blocks/plot.py:37
+msgid "Auto plot"
+msgstr "Automatisch neu plotten"
+
+#: blocks/complex_plot.py:101
 msgid "Phase in rad"
 msgstr "Phase in rad"
 
@@ -303,18 +293,68 @@ msgstr "Realteil"
 msgid "Imaginary part"
 msgstr "Imaginärteil"
 
-#: blocks/cps.py:9
+#: blocks/cps.py:10
 msgid "CrossPowerSpectrum"
 msgstr "Kreuzleistungsspektrum"
 
-#: blocks/cps.py:10
+#: blocks/cps.py:11
 msgid "Computes the cross power spectrum of the input signals."
 msgstr "Berechnet das Kreuzleistungsspektrum des Eingangssignal."
 
-#: blocks/cps.py:19 blocks/fft.py:19 blocks/power_spectrum.py:18
+#: blocks/cps.py:20 blocks/fft.py:19 blocks/power_spectrum.py:21
 #: blocks/signal_generator_periodic.py:31
 msgid "Frequency"
 msgstr "Frequenz"
+
+#: blocks/cps.py:27 blocks/power_spectrum.py:27 blocks/stft_plot.py:28
+#: blocks/window.py:9
+msgid "Window"
+msgstr "Fensterung"
+
+#: blocks/cps.py:29 blocks/power_spectrum.py:29
+#: blocks/signal_generator_periodic.py:27 blocks/stft_plot.py:30
+msgid "Rectangle"
+msgstr "Rechteck"
+
+#: blocks/cps.py:30 blocks/power_spectrum.py:30 blocks/stft_plot.py:31
+#: blocks/window.py:21
+msgid "Hann"
+msgstr "Hann"
+
+#: blocks/cps.py:31 blocks/power_spectrum.py:31 blocks/stft_plot.py:32
+#: blocks/window.py:22
+msgid "Hamming"
+msgstr "Hamming"
+
+#: blocks/cps.py:32 blocks/power_spectrum.py:32
+#: blocks/signal_generator_periodic.py:27 blocks/stft_plot.py:33
+#: blocks/window.py:25
+msgid "Triangle"
+msgstr "Dreieck"
+
+#: blocks/cps.py:34 blocks/power_spectrum.py:34 blocks/stft_plot.py:36
+msgid "Segment Length"
+msgstr "Segmentlänge"
+
+#: blocks/cps.py:36 blocks/power_spectrum.py:36 blocks/stft_plot.py:38
+msgid "Segment Overlap"
+msgstr "Segmentüberlappung"
+
+#: blocks/cps.py:38 blocks/power_spectrum.py:38 blocks/stft_plot.py:40
+msgid "FFT Length"
+msgstr "FFT Länge"
+
+#: blocks/cps.py:40 blocks/power_spectrum.py:40
+msgid "Scaling"
+msgstr "Skalierung"
+
+#: blocks/cps.py:40 blocks/power_spectrum.py:40
+msgid "Density"
+msgstr "Dichte"
+
+#: blocks/cps.py:41 blocks/power_spectrum.py:41
+msgid "Spectrum"
+msgstr "Spektrum"
 
 #: blocks/cutter.py:12
 msgid "Cutter"
@@ -355,7 +395,7 @@ msgstr "DC Wert"
 
 #: blocks/differentiator.py:9
 msgid "Differentiator"
-msgstr "Differentiator"
+msgstr "Differenzierer"
 
 #: blocks/differentiator.py:10
 msgid "Computes the gradient of the input signal."
@@ -385,7 +425,7 @@ msgstr "FFT"
 msgid "Computes the FFT of the input signal."
 msgstr "Berechnet die FFT des Eingangssignals."
 
-#: blocks/fft.py:11 blocks/fftplot.py:22
+#: blocks/fft.py:11 blocks/fftplot.py:22 blocks/stft_plot.py:13
 msgid "Fouriertransformation"
 msgstr "Fouriertransformation"
 
@@ -403,35 +443,35 @@ msgstr ""
 "den Imaginärteil, den Betrag oder die Phase der FFT. Kann die negativen "
 "Frequenzen verschieben oder diese wegschneiden."
 
-#: blocks/fftplot.py:38
+#: blocks/fftplot.py:37
 msgid "Shift to ordinate"
 msgstr "Zur Ordinate verschieben"
 
-#: blocks/fftplot.py:39
+#: blocks/fftplot.py:38
 msgid "No shift"
 msgstr "Kein Verschieben"
 
-#: blocks/fftplot.py:39
+#: blocks/fftplot.py:38
 msgid "Shift"
 msgstr "Verschieben"
 
-#: blocks/fftplot.py:40
+#: blocks/fftplot.py:39
 msgid "Shift and only positive frequencies"
 msgstr "Verschieben und nur positive Frequenzen"
 
-#: blocks/fftplot.py:44
+#: blocks/fftplot.py:43
 msgid "Plot Mode"
 msgstr "Plot Modus"
 
-#: blocks/fftplot.py:45
+#: blocks/fftplot.py:44
 msgid "Real"
 msgstr "Real"
 
-#: blocks/fftplot.py:45
+#: blocks/fftplot.py:44
 msgid "Imaginary"
 msgstr "Imaginär"
 
-#: blocks/fftplot.py:46 blocks/signal_generator_periodic.py:34
+#: blocks/fftplot.py:45 blocks/signal_generator_periodic.py:34
 msgid "Phase"
 msgstr "Phase"
 
@@ -689,14 +729,6 @@ msgstr "Bipolar"
 msgid "Threshold"
 msgstr "Grenzwert"
 
-#: blocks/line_plot.py:18
-msgid "LinePlot"
-msgstr "LinePlot"
-
-#: blocks/line_plot.py:19
-msgid "Plots all input signals as lines in a single figure."
-msgstr "Plottet alle Eingangssignale mit Linien in ein Fenster."
-
 #: blocks/multiplier.py:10
 msgid "Multiplier"
 msgstr "Multiplizierer"
@@ -705,13 +737,37 @@ msgstr "Multiplizierer"
 msgid "Multiplies the input signals with each other."
 msgstr "Multipliziert die Eingangssignale miteinander."
 
-#: blocks/power_spectrum.py:9
+#: blocks/plot.py:19
+msgid "Plot"
+msgstr "Plot"
+
+#: blocks/plot.py:20
+msgid "Plots all input signals as lines, stems or bars in a single figure."
+msgstr "Plottet alle Eingangssignale als Linien-, Stem- oder Barplot in einer Abbildung"
+
+#: blocks/plot.py:39
+msgid "Plot kind"
+msgstr "Plottyp"
+
+#: blocks/plot.py:39
+msgid "Line"
+msgstr "Linie"
+
+#: blocks/plot.py:40
+msgid "Stem"
+msgstr "Stem"
+
+#: blocks/plot.py:41
+msgid "Bar"
+msgstr "Bar"
+
+#: blocks/power_spectrum.py:11
 msgid "PowerSpectrum"
 msgstr "Leistungsspektrum"
 
-#: blocks/power_spectrum.py:10
-msgid "Computes the power spectrum of the input signal."
-msgstr "Berechnet das Leistungsspeltrum des Eingangssignal."
+#: blocks/power_spectrum.py:12
+msgid "Computes the power spectrum of the input signal using Welch's method"
+msgstr "Berechnet das Leistungsspektrum des Eingangssignals nach Welch's Methode."
 
 #: blocks/quantization.py:10
 msgid "Quantization"
@@ -788,15 +844,6 @@ msgstr "Generiert ein periodisches Sinus-, Rechteck- oder Dreiecksignal."
 msgid "Function"
 msgstr "Funktion"
 
-#: blocks/signal_generator_periodic.py:27
-msgid "Rectangle"
-msgstr "Rechteck"
-
-#: blocks/signal_generator_periodic.py:27 blocks/stft_plot.py:32
-#: blocks/window.py:25
-msgid "Triangle"
-msgstr "Dreieck"
-
 #: blocks/signal_generator_periodic.py:28
 msgid "Sine"
 msgstr "Sinus"
@@ -852,14 +899,6 @@ msgstr "Speichert das Eingangssignal in einer.json Datei."
 msgid "Save"
 msgstr "Speichern"
 
-#: blocks/stem_plot.py:17
-msgid "StemPlot"
-msgstr "StemPlot"
-
-#: blocks/stem_plot.py:18
-msgid "Plots the input signal as a stem plot."
-msgstr "Plottet alle Eingangssignale in einen Stemplot."
-
 #: blocks/stft_plot.py:10
 msgid "STFTPlot"
 msgstr "STFTPlot"
@@ -868,41 +907,13 @@ msgstr "STFTPlot"
 msgid "Plots the Short-Time Fourier Transformation of the input signal."
 msgstr "Plottet die Kurzeit Fourier-Tranformation des Eingangssignals."
 
-#: blocks/stft_plot.py:13
-msgid "Fourier"
-msgstr "Fourier"
-
-#: blocks/stft_plot.py:29 blocks/window.py:9
-msgid "Window"
-msgstr "Fenster"
-
-#: blocks/stft_plot.py:30 blocks/window.py:21
-msgid "Hann"
-msgstr "Hann"
-
-#: blocks/stft_plot.py:31 blocks/window.py:22
-msgid "Hamming"
-msgstr "Hamming"
-
-#: blocks/stft_plot.py:35
-msgid "Segment Length"
-msgstr "Segmentlänge"
-
-#: blocks/stft_plot.py:37
-msgid "Segment Overlap"
-msgstr "Segmentüberlappung"
-
-#: blocks/stft_plot.py:39
-msgid "FFT Length"
-msgstr "FFT Länge"
-
 #: blocks/window.py:10
 msgid "Applies a window function to the input signal."
 msgstr "Wendet eine Fensterfunktion auf das Eingangssignal an."
 
 #: blocks/window.py:20
 msgid "Window Function"
-msgstr "Fensterfunktion"
+msgstr "Fenster Funktion"
 
 #: blocks/window.py:21
 msgid "Tukey"
@@ -1083,11 +1094,11 @@ msgstr "Entf"
 msgid "Clear"
 msgstr "Alles löschen"
 
-#: gui/pyside2/block_explorer.py:35
+#: gui/pyside2/block_explorer.py:34
 msgid "Search..."
 msgstr "Suchen..."
 
-#: gui/pyside2/block_explorer.py:74
+#: gui/pyside2/block_explorer.py:73
 msgid "New block"
 msgstr "Neuer Block"
 
@@ -1265,7 +1276,7 @@ msgid ""
 "Do you want to save your changes?"
 msgstr ""
 "Das Dokument wurde verändert.\n"
-"Wollen sie die Änderungen speichern?"
+"Wollen Sie die Änderungen speichern?"
 
 #: gui/pyside2/main_window.py:77 gui/pyside2/main_window.py:291
 msgid "Yes"
@@ -1333,7 +1344,7 @@ msgstr "Auswählen um Datei zu öffnen"
 
 #: gui/pyside2/main_window.py:196
 msgid "File does not exist"
-msgstr ""
+msgstr "Die Datei existiert nicht"
 
 #: gui/pyside2/main_window.py:234
 msgid "File has to be a .json"
@@ -1341,7 +1352,7 @@ msgstr "Datei muss eine .json sein"
 
 #: gui/pyside2/main_window.py:286
 msgid "Are you sure you want to remove all blocks?"
-msgstr "Sicher Sie sicher, dass sie alle Blöcke entfernen wollen?"
+msgstr "Sind Sie sicher, dass Sie alle Blöcke entfernen wollen?"
 
 #: gui/pyside2/main_window.py:310
 msgid "untitled.json"
@@ -1576,4 +1587,28 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "CrossCorrelationFunction"
 #~ msgstr ""
+
+#~ msgid "BarPlot"
+#~ msgstr ""
+
+#~ msgid "Plots the input signal as a bar plot."
+#~ msgstr ""
+
+#~ msgid "LinePlot"
+#~ msgstr "LinePlot"
+
+#~ msgid "Plots all input signals as lines in a single figure."
+#~ msgstr "Plottet alle Eingangssignale mit Linien in ein Fenster."
+
+#~ msgid "Computes the power spectrum of the input signal."
+#~ msgstr "Berechnet das Leistungsspeltrum des Eingangssignal."
+
+#~ msgid "StemPlot"
+#~ msgstr "StemPlot"
+
+#~ msgid "Plots the input signal as a stem plot."
+#~ msgstr "Plottet alle Eingangssignale in einen Stemplot."
+
+#~ msgid "Fourier"
+#~ msgstr "Fourier"
 
