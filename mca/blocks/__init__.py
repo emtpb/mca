@@ -42,6 +42,7 @@ from .interpolate import Interpolate
 from .stft_plot import STFTPlot
 from .dc_generator import DCGenerator
 from .xy_plot import XYPlot
+from .histogramm import Histogramm
 
 try:
     from .hs_oscilloscope import HSOscilloscope
