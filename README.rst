@@ -26,30 +26,8 @@ Features
 How to use
 ==========
 
-After installing the package, run the following command:
+After installing the package, you can run the following command to start the mca:
 
 .. code-block:: console
 
     $ mca
-
-
-Issues when using Anaconda
-==========================
-
-When having Anaconda installed you might get the error that some plugins
-could not be loaded.
-
-Before running the MCA set the environment variable QT_PLUGIN_PATH to the
-path where the PySide2 plugins are located. It will look something like this:
-
-.. code-block:: console
-
-    $ export QT_PLUGIN_PATH=Your_python_installation_path/PySide2/Qt/plugins
-
-or
-
-.. code-block:: console
-
-    $ export QT_PLUGIN_PATH=Your_python_installation_path/PySide2/plugins
-
-You might want to consider putting this command into your shell config.
