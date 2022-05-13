@@ -31,8 +31,7 @@ class Histogramm(Block):
                                                     default="absolute"),
             "bins": parameters.IntParameter(_("Bins"), min_=1, default=100),
             "show": parameters.ActionParameter(_("Show plot"), self.show,
-                                               display_options=("block_button",
-                                                                "edit_window")),
+                                               display_options=("block_button",)),
             "auto_show": parameters.BoolParameter(_("Auto plot"), False),
         })
 

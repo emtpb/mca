@@ -37,8 +37,7 @@ class ComplexPlot(DynamicBlock):
                 ("abs_phase", _("Absolute/Phase"))),
                                                     default="abs_phase"),
             "show": parameters.ActionParameter(_("Show plot"), self.show,
-                                               display_options=("block_button",
-                                                                "edit_window")),
+                                               display_options=("block_button",)),
             "auto_show": parameters.BoolParameter(_("Auto plot"), False),
         })
 

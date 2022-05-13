@@ -40,8 +40,7 @@ class XYPlot(Block):
         self.parameters["show"] = parameters.ActionParameter(
             _("Show plot"),
             self.show,
-            display_options=("block_button",
-                             "edit_window"))
+            display_options=("block_button",))
 
     def _process(self):
         self.axes.lines.clear()

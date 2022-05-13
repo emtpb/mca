@@ -32,8 +32,7 @@ class Plot(DynamicBlock):
     def setup_parameters(self):
         self.parameters.update({
             "show": parameters.ActionParameter(_("Show plot"), self.show,
-                                               display_options=("block_button",
-                                                                "edit_window")),
+                                               display_options=("block_button",)),
             "auto_show": parameters.BoolParameter(_("Auto plot"), False),
             "plot_kind": parameters.ChoiceParameter(
                 _("Plot kind"), choices=[("line", _("Line")),

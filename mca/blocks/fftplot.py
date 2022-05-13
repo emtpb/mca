@@ -48,8 +48,7 @@ class FFTPlot(Block):
             "normalize": parameters.BoolParameter(
                 _("Normalize"), default=False),
             "show": parameters.ActionParameter("Show plot", self.show,
-                                               display_options=("block_button",
-                                                                "edit_window")),
+                                               display_options=("block_button",)),
             "auto_show": parameters.BoolParameter("Auto plot", False),
         })
 
