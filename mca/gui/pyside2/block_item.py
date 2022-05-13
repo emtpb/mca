@@ -549,12 +549,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
             len(self.outputs) * (self.output_height + self.output_dist) + 5,
             len(self.inputs) * (self.input_height + self.input_dist) + 5)
         height = max(io_height, height, self.min_height)
-
-        self.scene().update(self.scenePos().x(), self.scenePos().y(),
-                            self.width,
-                            self.height)
+        self.prepareGeometryChange()
         self.block_height = height
-        self.update()
 
     def adjust_block_width(self, width):
         """Adjust the width of the block. Check if the given width is greater
@@ -570,10 +566,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         for o in self.outputs:
             o.setPos(x_offset, o.pos().y())
             o.update_connection_line()
-        self.scene().update(self.scenePos().x(), self.scenePos().y(),
-                            self.width, self.height)
+        self.prepareGeometryChange()
         self.block_width = width
-        self.update()
 
     def hoverEnterEvent(self, event):
         """Method invoked when the mouse enters the area of a block and starts
