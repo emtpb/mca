@@ -45,6 +45,9 @@ class FFTPlot(Block):
                  ("absolute", _("Absolute")), ("phase", _("Phase"))],
                 default="absolute",
             ),
+            "plot_kind": parameters.ChoiceParameter(
+                _("Plot kind"), choices=[("line", _("Line")),
+                                         ("stem", _("Stem"))],),
             "normalize": parameters.BoolParameter(
                 _("Normalize"), default=False),
             "show": parameters.ActionParameter("Show plot", self.show,
@@ -67,6 +70,7 @@ class FFTPlot(Block):
         shift = self.parameters["shift"].value
         auto_show = self.parameters["auto_show"].value
         normalize = self.parameters["normalize"].value
+        plot_kind = self.parameters["plot_kind"].value
         values = input_signal.values
 
         delta_f = 1 / (self.inputs[0].data.increment * values)
@@ -103,7 +107,11 @@ class FFTPlot(Block):
             unit_o=unit_o,
         )
         label = input_signal.metadata.name
-        self.axes.plot(abscissa, ordinate, "C0", label=label)
+        if plot_kind == "line":
+            self.axes.plot(abscissa, ordinate, "C0", label=label)
+        elif plot_kind == "stem":
+            self.axes.stem(abscissa, ordinate, "C0", label=label,
+                           use_line_collection=True, basefmt=" ")
         if label:
             self.legend = self.fig.legend()
 
