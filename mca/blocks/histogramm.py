@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 
 from mca.framework import validator, data_types, parameters, Block
 from mca.language import _
@@ -23,8 +24,9 @@ class Histogramm(Block):
     def setup_parameters(self):
         self.parameters.update({
             "plot_type": parameters.ChoiceParameter(_("Plot type"), choices=(
-                ("absolute", _("Absolut")),
-                ("relative", _("Relativ"))
+                ("absolute", _("Absolute")),
+                ("relative", _("Relative")),
+                ("density", _("Relative (density)"))
             ),
                                                     default="absolute"),
             "bins": parameters.IntParameter(_("Bins"), min_=1, default=100),
@@ -58,10 +60,21 @@ class Histogramm(Block):
             density = False
             y_label = _("Absolute frequency of occurrence")
         elif plot_type == "relative":
-            density = True
+            density = False
             y_label = _("Relative frequency of occurrence")
+        else:
+            density = True
+            y_label = _("Relative density frequency of occurrence")
+
         label = signal.metadata.name
-        self.axes.hist(signal.ordinate, bins=bins, density=density, label=label)
+        if plot_type == "relative":
+            self.axes.hist(signal.ordinate,
+                           weights=np.ones(signal.ordinate.shape)/len(signal.ordinate),
+                           bins=bins,
+                           label=label)
+        else:
+            self.axes.hist(signal.ordinate, bins=bins, density=density,
+                           label=label)
 
         if label:
             self.legend = self.fig.legend()
