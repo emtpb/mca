@@ -277,11 +277,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
                     input_item = block_item.inputs[input_index]
                     block_item = output.block.gui_data["run_time_data"]["pyside2"]["block_item"]
                     output_item = block_item.outputs[output.block.outputs.index(output)]
-                    self.addItem(
-                        io_items.ConnectionLine(
-                            output_item, input_item
-                        )
-                    )
+                    input_item.connect(output_item, loading=True)
 
     def copy_selected(self):
         """Copies the selected blocks from the scene as a json string

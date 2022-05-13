@@ -14,10 +14,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         height (int): Current height of the input.
         mca_input: Reference of the :class:`.Input` to display.
         view: Reference of the :class:`.BlockView` instance.
-        connection_line: :class:`.ConnectionLine` to the :class:`.OutputItem`
-                         it is connected to. None if its not connected.
-        temp_connection_line: Line visible when the user is dragging from the
-                              Input.
+        connection_line: Reference of the :class:`.ConnectionLine` object.
         menu: Menu which pops up when the right mouse button is pressed.
         disconnect_action: Action which calls :meth:`.disconnect`.
     """
@@ -48,7 +45,6 @@ class InputItem(QtWidgets.QGraphicsItem):
         self.setAcceptDrops(True)
         self.setAcceptHoverEvents(True)
         self.connection_line = None
-        self.temp_connection_line = None
 
         self.menu = QtWidgets.QMenu(self.view)
         self.disconnect_action = QtWidgets.QAction(_("Disconnect"), self.view)
@@ -74,84 +70,45 @@ class InputItem(QtWidgets.QGraphicsItem):
         painter.fillPath(path, QtGui.QBrush(self.current_color))
 
     def mousePressEvent(self, event):
-        """Method invoked when the block gets clicked. Creates a
-        temporary line if the input is not yet connected else the
-        event is ignored.
+        """A :class:`.ConnectionLine` is created if the input is not yet
+        connected or the right mouse button has been pressed (since it shadows
+        the contextMenuEvent) else the event is ignored.
         """
         if self.mca_input.connected_output or \
                 event.button() == QtCore.Qt.MouseButton.RightButton:
             event.ignore()
             return
-        self.temp_connection_line = QtWidgets.QGraphicsLineItem(
-                                                   event.scenePos().x(),
-                                                   event.scenePos().y(),
-                                                   self.scenePos().x() + 5,
-                                                   self.scenePos().y() +
-                                                   self.height / 2)
-        self.temp_connection_line.setPen(QtGui.QPen(QtGui.Qt.green))
-        self.scene().addItem(self.temp_connection_line)
+        self.connection_line = ConnectionLine(event.scenePos().x(),
+                                              event.scenePos().y(),
+                                              self.scenePos().x() + 5,
+                                              self.scenePos().y() +
+                                              self.height / 2, input_item=self)
+        self.scene().addItem(self.connection_line)
         self.setCursor(QtCore.Qt.BlankCursor)
 
     def mouseMoveEvent(self, event):
-        """Method invoked when the input is being dragged. Updates the
-        temp_connection_line.
-        """
-        self.temp_connection_line.setLine(
-            event.scenePos().x(),
-            event.scenePos().y(),
-            self.temp_connection_line.line().x2(),
-            self.temp_connection_line.line().y2())
+        """Updates the connection line position."""
+        self.connection_line.p1 = (event.scenePos().x(), event.scenePos().y())
 
     def mouseReleaseEvent(self, event):
-        """Method invoked when the drag of inputs gets released. The temporary
-        line gets removed. If the mouse is released over an
-        :class:`.OutputItem`, it will get replaced by a :class:`.ConnectionLine`
-        and Input and Output get connected.
+        """If the mouse is released over an :class:`.OutputItem`, it gets
+        connected to it. Else the connection line is removed.
         """
         self.setCursor(QtCore.Qt.ArrowCursor)
+        output_found = False
         for item in self.scene().items(event.scenePos()):
             if isinstance(item, OutputItem):
-                try:
-                    self.mca_input.connect(item.mca_output)
-                except exceptions.BlockCircleError:
-                    logging.error("Cyclic structures are not allowed.")
-                    QtWidgets.QMessageBox().warning(None, _("MCA"), _(
-                        "Cyclic structures are not allowed."))
-                except exceptions.UnitError:
-                    logging.error("Signals have incompatible metadata.")
-                    QtWidgets.QMessageBox().warning(None, _("MCA"), _(
-                        "Signals have incompatible metadata."))
-                    item.mca_input.disconnect()
-                except exceptions.IntervalError:
-                    logging.error("Signals have incompatible abscissas.")
-                    QtWidgets.QMessageBox().warning(None, _("MCA"), _(
-                        "Signals have incompatible abscissas."))
-                    self.mca_input.disconnect()
-                except Exception as error:
-                    if error.args:
-                        logging.error(error.args)
-                        QtWidgets.QMessageBox().warning(
-                            None, _("MCA"),
-                            _("Could not connect blocks") + "\n" +
-                            _("Error message: ") + error.args[0])
-                    self.mca_input.disconnect()
-                else:
-                    self.scene().addItem(ConnectionLine(
-                        output_item=item,
-                        input_item=self
-                        )
-                    )
-                    self.modified()
-        self.scene().removeItem(self.temp_connection_line)
-        self.temp_connection_line = None
+                self.connect(item, self.connection_line)
+                output_found = True
+        if not output_found:
+            self.scene().removeItem(self.connection_line)
+            self.connection_line = None
 
     def update_connection_line(self):
-        """Method to update its connection line according to its own
-        position.
-        """
-        if self.connection_line:
-            self.connection_line.x2 = self.scenePos().x()
-            self.connection_line.y2 = self.scenePos().y() + self.height / 2
+        """Updates the connection line according to its own position."""
+        if self.connection_line is not None:
+            self.connection_line.p2 = (self.scenePos().x(),
+                                       self.scenePos().y() + self.height / 2)
 
     def contextMenuEvent(self, event):
         """Method invoked when the user right-clicks the input.
@@ -170,6 +127,77 @@ class InputItem(QtWidgets.QGraphicsItem):
             self.scene().removeItem(self.connection_line)
             self.connection_line = None
         self.modified()
+
+    def connect(self, output_item, connection_line=None, loading=False):
+        """Connects itself to an :class:`.OutputItem`.
+
+        Args:
+            output_item: Output to connect to.
+            connection_line: Already existing connection line (from dragging).
+                             The position gets adjusted, and it is made sure
+                             that all reference are passed. By default, set to
+                             None. If set to None a new :class:`.ConnectionLine`
+                             object is created.
+            loading (bool): If set to True, connecting the backend input is
+                            skipped. It is assumed that has already been done
+                            by the backend.
+        """
+        try:
+            if not loading:
+                self.mca_input.connect(output_item.mca_output)
+        except exceptions.BlockCircleError:
+            logging.error("Cyclic structures are not allowed.")
+            QtWidgets.QMessageBox().warning(None, _("MCA"), _(
+                "Cyclic structures are not allowed."))
+        except exceptions.UnitError:
+            logging.error("Signals have incompatible metadata.")
+            QtWidgets.QMessageBox().warning(None, _("MCA"), _(
+                "Signals have incompatible metadata."))
+            self.mca_input.disconnect()
+        except exceptions.IntervalError:
+            logging.error("Signals have incompatible abscissas.")
+            QtWidgets.QMessageBox().warning(None, _("MCA"), _(
+                "Signals have incompatible abscissas."))
+            self.mca_input.disconnect()
+        except Exception as error:
+            if error.args:
+                logging.error(error.args)
+                QtWidgets.QMessageBox().warning(
+                    None, _("MCA"),
+                    _("Could not connect blocks") + "\n" +
+                    _("Error message: ") + error.args[0])
+            self.mca_input.disconnect()
+        else:
+            # Create a new connection line
+            if connection_line is None:
+                self.connection_line = ConnectionLine(
+                    output_item.scenePos().x() + output_item.width,
+                    output_item.scenePos().y() + output_item.height / 2,
+                    self.scenePos().x(),
+                    self.scenePos().y() + self.height / 2,
+                    input_item=self, output_item=output_item)
+                output_item.connection_lines.append(self.connection_line)
+                self.scene().addItem(self.connection_line)
+            else:
+                # Update existing connection line
+                if connection_line not in output_item.connection_lines:
+                    output_item.connection_lines.append(connection_line)
+                    connection_line.output_item = output_item
+                connection_line.input_item = self
+                self.connection_line = connection_line
+                self.connection_line.p2 = (self.scenePos().x(),
+                                           self.scenePos().y() + self.height / 2)
+                self.connection_line.p1 = (output_item.scenePos().x() + output_item.width,
+                                           output_item.scenePos().y() + output_item.height / 2)
+            self.modified()
+            return
+
+        # Remove the connection line in case an error occurred
+        if connection_line:
+            self.scene().removeItem(connection_line)
+            if connection_line in output_item.connection_lines:
+                output_item.connection_lines.remove(connection_line)
+            self.connection_line = None
 
     def hoverEnterEvent(self, event):
         """Method invoked when the mouse enters the area of the input and starts
@@ -209,8 +237,6 @@ class OutputItem(QtWidgets.QGraphicsItem):
        mca_output: Reference of the :class:`.Output` to display.
        view: Reference of the :class:`.BlockView` instance.
        connection_lines (list): List of :class:`.ConnectionLine` s.
-       temp_connection_line: Line visible when the user is dragging from
-                             the Input.
        menu: Menu which pops up when the right mouse button is pressed.
        disconnect_action: Action which calls :meth:`.disconnect` .
     """
@@ -242,7 +268,6 @@ class OutputItem(QtWidgets.QGraphicsItem):
         self.setAcceptHoverEvents(True)
         self.setAcceptDrops(True)
         self.connection_lines = []
-        self.temp_connection_line = None
 
         self.menu = QtWidgets.QMenu(self.view)
         self.disconnect_action = QtWidgets.QAction(_("Disconnect"), self.view)
@@ -268,86 +293,46 @@ class OutputItem(QtWidgets.QGraphicsItem):
         painter.fillPath(path, QtGui.QBrush(self.current_color))
 
     def mousePressEvent(self, event):
-        """Method invoked when the output gets clicked. Creates a
-        temp_connection_line.
+        """Creates new connection line and adds it to its list of connection
+        lines.
         """
         if event.button() == QtCore.Qt.MouseButton.RightButton:
             event.ignore()
             return
-        self.temp_connection_line = QtWidgets.QGraphicsLineItem(
+        self.connection_lines.append(ConnectionLine(
             self.scenePos().x() + self.width,
             self.scenePos().y() + self.height / 2,
             event.scenePos().x(),
-            event.scenePos().y())
-        self.temp_connection_line.setPen(QtGui.QPen(QtGui.Qt.green))
-        self.scene().addItem(self.temp_connection_line)
+            event.scenePos().y(), output_item=self))
+        self.scene().addItem(self.connection_lines[-1])
         self.setCursor(QtCore.Qt.BlankCursor)
 
     def mouseMoveEvent(self, event):
-        """Method invoked when the output is being dragged. Updates the
-        temp_connection_line.
-        """
-        self.temp_connection_line.setLine(
-            self.temp_connection_line.line().x1(),
-            self.temp_connection_line.line().y1(),
-            event.scenePos().x(),
-            event.scenePos().y())
+        """Updates the connection lines."""
+        self.connection_lines[-1].p2 = (event.scenePos().x(),
+                                        event.scenePos().y())
 
     def mouseReleaseEvent(self, event):
-        """Method invoked when the drag of inputs gets released. The temporary
-        line gets removed. If the mouse is released over an
-        :class:`.InputItem`, it will get replaced by a :class:`.ConnectionLine`
-        and Input and Output get connected.
+        """If the mouse is released over an :class:`.InputItem`, it gets
+        connected to it. Else the last added connection line is removed.
         """
         self.setCursor(QtCore.Qt.ArrowCursor)
+        input_found = False
         for item in self.scene().items(event.scenePos()):
             if isinstance(item, InputItem):
-                try:
-                    item.mca_input.connect(self.mca_output)
-                except exceptions.BlockCircleError:
-                    logging.error("Cyclic structures are not allowed.")
-                    QtWidgets.QMessageBox().warning(None, _("MCA"), _(
-                        "Cyclic structures are not allowed."))
-                except exceptions.UnitError:
-                    logging.error("Signals have incompatible metadata.")
-                    QtWidgets.QMessageBox().warning(None, _("MCA"), _(
-                        "Signals have incompatible metadata."))
-                    item.mca_input.disconnect()
-                except exceptions.IntervalError:
-                    logging.error("Signals have incompatible abscissas.")
-                    QtWidgets.QMessageBox().warning(None, _("MCA"), _(
-                        "Signals have incompatible abscissas."))
-                    item.mca_input.disconnect()
-                except Exception as error:
-                    if error.args:
-                        logging.error(error.args)
-                        QtWidgets.QMessageBox().warning(
-                            None, _("MCA"),
-                            _("Could not connect blocks") + "\n" +
-                            _("Error message: ") + error.args[0])
-                    item.mca_input.disconnect()
-                else:
-                    self.scene().addItem(ConnectionLine(
-                        output_item=self,
-                        input_item=item
-                        )
-                    )
-                    self.modified()
-        self.scene().removeItem(self.temp_connection_line)
-        self.temp_connection_line = None
+                item.connect(self, self.connection_lines[-1])
+                input_found = True
+        if not input_found:
+            self.scene().removeItem(self.connection_lines.pop(-1))
 
     def update_connection_line(self):
-        """Method to update all its connection lines according to its own
-        position.
-        """
+        """Updates all its connection lines positions."""
         for connection_line in self.connection_lines:
-            connection_line.x1 = self.scenePos().x() + self.width
-            connection_line.y1 = self.scenePos().y() + self.height / 2
+            connection_line.p1 = (self.scenePos().x() + self.width,
+                                  self.scenePos().y() + self.height / 2)
 
     def disconnect(self):
-        """Disconnects the :class:`.OutputItem` from all its
-        :class:`.InputItem` s.
-        """
+        """Disconnects from all its :class:`.InputItem` s."""
         self.mca_output.disconnect()
         for connection_line in self.connection_lines:
             connection_line.input_item.connection_line = None
@@ -398,7 +383,7 @@ class ConnectionLine(QtWidgets.QGraphicsLineItem):
         input_item: :class:`.InputItem` to connect.
     """
 
-    def __init__(self, output_item, input_item):
+    def __init__(self, x1, y1, x2, y2, input_item=None, output_item=None):
         """Initialize ConnectionLine class.
 
         Args:
@@ -406,71 +391,58 @@ class ConnectionLine(QtWidgets.QGraphicsLineItem):
             input_item::class:`.InputItem` to connect.
         """
 
-        QtWidgets.QGraphicsLineItem.__init__(
-            self,
-            output_item.scenePos().x() + output_item.width,
-            output_item.scenePos().y() + output_item.height / 2,
-            input_item.scenePos().x(),
-            input_item.scenePos().y() + input_item. height / 2)
-        self.setPen(QtGui.QPen(QtGui.Qt.green))
-        self.output_item = output_item
+        QtWidgets.QGraphicsLineItem.__init__(self, x1, y1, x2, y2)
+
+        self.setAcceptHoverEvents(True)
+        self.default_color = QtGui.QColor("#0dd41d")
+        self.hover_color = QtGui.QColor("#7efc88")
+        self.line_width = 2
+        self.setPen(QtGui.QPen(self.default_color, self.line_width))
+
         self.input_item = input_item
-        if self.output_item and self.input_item:
-            self.output_item.connection_lines.append(self)
-            self.input_item.connection_line = self
+        self.output_item = output_item
 
     @property
-    def x1(self):
-        """Sets or gets the X-Position of the first point of the line.
+    def p1(self):
+        """Sets or gets coordinates of the first point of the line.
 
         Args:
-            value (int): Sets the new value.
+            value (tuple): Sets the new value.
         """
-        self.line().x1()
+        return self.line().p1().x(), self.line().p1().y()
 
-    @x1.setter
-    def x1(self, value):
-        self.setLine(value, self.line().y1(), self.line().x2(),
-                     self.line().y2())
+    @p1.setter
+    def p1(self, value):
+        self.setLine(value[0], value[1], self.line().x2(), self.line().y2())
 
     @property
-    def y1(self):
-        """Sets or gets the Y-Position of the first point of the line.
+    def p2(self):
+        """Sets or gets the coordinates of the second point of the line.
 
         Args:
-            value (int): Sets the new value.
+            value (tuple): Sets the new value.
         """
-        self.line().y1()
+        return self.line().p1().x(), self.line().p1().y()
 
-    @y1.setter
-    def y1(self, value):
-        self.setLine(self.line().x1(), value, self.line().x2(),
-                     self.line().y2())
+    @p2.setter
+    def p2(self, value):
+        self.setLine(self.line().x1(), self.line().y1(), value[0], value[1])
 
-    @property
-    def x2(self):
-        """Sets or gets the X-Position of the second point of the line.
+    def hoverEnterEvent(self, event):
+        """Sets the colour of the line to the hover color."""
+        self.setPen(QtGui.QPen(self.hover_color, self.line_width))
+        event.accept()
 
-        Args:
-            value (int): Sets the new value.
+    def hoverMoveEvent(self, event):
+        event.accept()
+
+    def hoverLeaveEvent(self, event):
+        """Sets the colour of the line to the defualt color."""
+        self.setPen((QtGui.QPen(self.default_color, self.line_width)))
+        event.accept()
+
+    def contextMenuEvent(self, event):
+        """Disconnects the referenced :class:`.InputItem` from
+        its :class:`.Output`.
         """
-        self.line().x2()
-
-    @x2.setter
-    def x2(self, value):
-        self.setLine(self.line().x1(), self.line().y1(), value,
-                     self.line().y2())
-
-    @property
-    def y2(self):
-        """Sets or gets the Y-Position of the second point of the line.
-
-        Args:
-            value (int): Sets the new value.
-        """
-        self.line().x1()
-
-    @y2.setter
-    def y2(self, value):
-        self.setLine(self.line().x1(), self.line().y1(), self.line().x2(),
-                     value)
+        self.input_item.disconnect()
