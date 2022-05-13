@@ -74,7 +74,7 @@ class Plot(DynamicBlock):
                 self.axes.plot(abscissa, ordinate, f"C{index}", label=label)
             elif plot_kind == "stem":
                 self.axes.stem(abscissa, ordinate, f"C{index}", label=label,
-                               use_line_collection=True)
+                               use_line_collection=True, basefmt=" ")
             elif plot_kind == "bar":
                 self.axes.bar(abscissa, ordinate, label=label, color=f"C{index}",
                               align="edge", width=signal.increment)
