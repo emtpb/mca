@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2022-05-11 15:42+0200\n"
+"POT-Creation-Date: 2022-05-13 18:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -239,12 +239,12 @@ msgstr "KomplexPlot"
 msgid "Plots absolute and phase or real and imaginary part of the input signal."
 msgstr "Plottet Betrag und Phase oder Real- und Imaginärteil des Eingangsignals."
 
-#: blocks/complex_plot.py:23 blocks/fftplot.py:22 blocks/plot.py:22
-#: blocks/stft_plot.py:13 blocks/xy_plot.py:14
+#: blocks/complex_plot.py:23 blocks/fftplot.py:22 blocks/histogramm.py:15
+#: blocks/plot.py:22 blocks/stft_plot.py:13 blocks/xy_plot.py:14
 msgid "Plotting"
 msgstr "Plotten"
 
-#: blocks/complex_plot.py:35
+#: blocks/complex_plot.py:35 blocks/histogramm.py:26
 msgid "Plot type"
 msgstr "Plot Variante"
 
@@ -256,12 +256,12 @@ msgstr "Real/Imaginär"
 msgid "Absolute/Phase"
 msgstr "Betrag/Phase"
 
-#: blocks/complex_plot.py:39 blocks/plot.py:34 blocks/stft_plot.py:42
-#: blocks/xy_plot.py:41
+#: blocks/complex_plot.py:39 blocks/histogramm.py:33 blocks/plot.py:34
+#: blocks/stft_plot.py:42 blocks/xy_plot.py:41
 msgid "Show plot"
 msgstr "Plot anzeigen"
 
-#: blocks/complex_plot.py:42 blocks/plot.py:37
+#: blocks/complex_plot.py:42 blocks/histogramm.py:36 blocks/plot.py:37
 msgid "Auto plot"
 msgstr "Automatisch neu plotten"
 
@@ -498,6 +498,46 @@ msgstr "Normierte Bandbreite"
 #: blocks/gausspulse.py:46
 msgid "Reference level"
 msgstr "Referenzpegel"
+
+#: blocks/histogramm.py:12
+msgid "Histogramm"
+msgstr "Histogramm"
+
+#: blocks/histogramm.py:13
+msgid ""
+"Plots absolute and relative (density) frequency of occurrences of values "
+"in a histogramm."
+msgstr ""
+"Plottet die absolute und relative Häufigkeit als auch die relative Häufigkeitsdichte der "
+"Werte des Eingangssignals als Histogramm"
+
+#: blocks/histogramm.py:27
+msgid "Absolute frequency"
+msgstr "Absolute Häufigkeit"
+
+#: blocks/histogramm.py:28
+msgid "Relative frequency"
+msgstr "Relative Häufigkeit"
+
+#: blocks/histogramm.py:29
+msgid "Relative (density) frequency"
+msgstr "Relative Häufigkeitsdichte"
+
+#: blocks/histogramm.py:32
+msgid "Bins"
+msgstr ""
+
+#: blocks/histogramm.py:61
+msgid "Absolute frequency of occurrence"
+msgstr "Absolute Häufigkeit"
+
+#: blocks/histogramm.py:64
+msgid "Relative frequency of occurrence"
+msgstr "Relative Häufigkeit"
+
+#: blocks/histogramm.py:67
+msgid "Relative density frequency of occurrence"
+msgstr "Relative Häufigkeitsdichte"
 
 #: blocks/hs_oscilloscope.py:15
 msgid "HSOscilloscope"
@@ -743,7 +783,9 @@ msgstr "Plot"
 
 #: blocks/plot.py:20
 msgid "Plots all input signals as lines, stems or bars in a single figure."
-msgstr "Plottet alle Eingangssignale als Linien-, Stem- oder Barplot in einer Abbildung"
+msgstr ""
+"Plottet alle Eingangssignale als Linien-, Stem- oder Barplot in einer "
+"Abbildung"
 
 #: blocks/plot.py:39
 msgid "Plot kind"
@@ -894,8 +936,8 @@ msgstr "SignalSpeicherung"
 msgid "Saves the input signal in .json file."
 msgstr "Speichert das Eingangssignal in einer.json Datei."
 
-#: blocks/signal_saver.py:21 gui/pyside2/main_window.py:115
-#: gui/pyside2/main_window.py:228
+#: blocks/signal_saver.py:21 gui/pyside2/main_window.py:121
+#: gui/pyside2/main_window.py:241
 msgid "Save"
 msgstr "Speichern"
 
@@ -1008,10 +1050,10 @@ msgstr "Abszisse"
 #: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:127
 #: gui/pyside2/io_items.py:134 gui/pyside2/io_items.py:309
 #: gui/pyside2/io_items.py:313 gui/pyside2/io_items.py:318
-#: gui/pyside2/io_items.py:325 gui/pyside2/main_window.py:73
-#: gui/pyside2/main_window.py:196 gui/pyside2/main_window.py:233
-#: gui/pyside2/main_window.py:287 gui/pyside2/main_window.py:313
-#: gui/pyside2/main_window.py:338
+#: gui/pyside2/io_items.py:325 gui/pyside2/main_window.py:78
+#: gui/pyside2/main_window.py:209 gui/pyside2/main_window.py:246
+#: gui/pyside2/main_window.py:300 gui/pyside2/main_window.py:326
+#: gui/pyside2/main_window.py:351
 msgid "MCA"
 msgstr "MKA"
 
@@ -1135,7 +1177,7 @@ msgid "Ok"
 msgstr "Ok"
 
 #: gui/pyside2/block_item.py:679 gui/pyside2/edit_window.py:117
-#: gui/pyside2/main_window.py:79 gui/pyside2/main_window.py:289
+#: gui/pyside2/main_window.py:84 gui/pyside2/main_window.py:302
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -1270,7 +1312,7 @@ msgstr "Signale haben inkompatible Abszissen."
 msgid "Could not connect blocks"
 msgstr ""
 
-#: gui/pyside2/main_window.py:71
+#: gui/pyside2/main_window.py:76
 msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
@@ -1278,87 +1320,103 @@ msgstr ""
 "Das Dokument wurde verändert.\n"
 "Wollen Sie die Änderungen speichern?"
 
-#: gui/pyside2/main_window.py:77 gui/pyside2/main_window.py:291
+#: gui/pyside2/main_window.py:82 gui/pyside2/main_window.py:304
 msgid "Yes"
 msgstr "Ja"
 
-#: gui/pyside2/main_window.py:81
+#: gui/pyside2/main_window.py:86
 msgid "No"
 msgstr "Nein"
 
-#: gui/pyside2/main_window.py:86
+#: gui/pyside2/main_window.py:92
 msgid "File"
 msgstr "Datei"
 
-#: gui/pyside2/main_window.py:87
+#: gui/pyside2/main_window.py:93
 msgid "Language"
 msgstr "Sprache"
 
-#: gui/pyside2/main_window.py:88
+#: gui/pyside2/main_window.py:94
 msgid "View"
 msgstr "Ansicht"
 
-#: gui/pyside2/main_window.py:90
+#: gui/pyside2/main_window.py:96
 msgid "About"
 msgstr "Über"
 
-#: gui/pyside2/main_window.py:101
+#: gui/pyside2/main_window.py:107
 msgid "New"
 msgstr "Neu"
 
-#: gui/pyside2/main_window.py:105
+#: gui/pyside2/main_window.py:111
 msgid "Open"
 msgstr "Öffnen"
 
-#: gui/pyside2/main_window.py:110
+#: gui/pyside2/main_window.py:116
 msgid "Open Recent"
 msgstr "Zuletzt geöffnet"
 
-#: gui/pyside2/main_window.py:121
+#: gui/pyside2/main_window.py:127
 msgid "Save as"
 msgstr "Speichern als"
 
-#: gui/pyside2/main_window.py:126
+#: gui/pyside2/main_window.py:132
 msgid "Exit"
 msgstr "Verlassen"
 
-#: gui/pyside2/main_window.py:128
+#: gui/pyside2/main_window.py:134
 msgid "Close Application"
 msgstr "Programm beenden"
 
-#: gui/pyside2/main_window.py:132
+#: gui/pyside2/main_window.py:138
 msgid "Theme"
 msgstr "Theme"
 
-#: gui/pyside2/main_window.py:133
+#: gui/pyside2/main_window.py:139
 msgid "Default"
 msgstr "Standard"
 
-#: gui/pyside2/main_window.py:135
+#: gui/pyside2/main_window.py:141
 msgid "Dark"
 msgstr "Dunkel"
 
-#: gui/pyside2/main_window.py:172
+#: gui/pyside2/main_window.py:146
+msgid "Appearance"
+msgstr ""
+
+#: gui/pyside2/main_window.py:147
+msgid "Explorer"
+msgstr ""
+
+#: gui/pyside2/main_window.py:148
+msgid "Align left"
+msgstr ""
+
+#: gui/pyside2/main_window.py:150
+msgid "Align right"
+msgstr ""
+
+#: gui/pyside2/main_window.py:185
 msgid "Select a file to open"
 msgstr "Auswählen um Datei zu öffnen"
 
-#: gui/pyside2/main_window.py:196
+#: gui/pyside2/main_window.py:209
 msgid "File does not exist"
 msgstr "Die Datei existiert nicht"
 
-#: gui/pyside2/main_window.py:234
+#: gui/pyside2/main_window.py:247
 msgid "File has to be a .json"
 msgstr "Datei muss eine .json sein"
 
-#: gui/pyside2/main_window.py:286
+#: gui/pyside2/main_window.py:299
 msgid "Are you sure you want to remove all blocks?"
 msgstr "Sind Sie sicher, dass Sie alle Blöcke entfernen wollen?"
 
-#: gui/pyside2/main_window.py:310
+#: gui/pyside2/main_window.py:323
 msgid "untitled.json"
 msgstr "Unbennant.json"
 
-#: gui/pyside2/main_window.py:339
+#: gui/pyside2/main_window.py:352
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
 
@@ -1611,4 +1669,16 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 
 #~ msgid "Fourier"
 #~ msgstr "Fourier"
+
+#~ msgid "Relative"
+#~ msgstr ""
+
+#~ msgid "Relative (density)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Plots absolute and relative frequency of"
+#~ " occurrences of values in a "
+#~ "histogramm."
+#~ msgstr ""
 

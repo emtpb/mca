@@ -6,12 +6,12 @@ from mca.language import _
 
 
 class Histogramm(Block):
-    """Plots absolute and relative frequency of occurrences of
+    """Plots absolute and relative (density) frequency of occurrences of
     values in a histogramm.
     """
     name = _("Histogramm")
-    description = _("Plots absolute and relative frequency of occurrences of "
-                    "values in a histogramm.")
+    description = _("Plots absolute and relative (density) frequency of "
+                    "occurrences of values in a histogramm.")
     tags = (_("Plotting"),)
 
     def __init__(self, **kwargs):
@@ -24,9 +24,9 @@ class Histogramm(Block):
     def setup_parameters(self):
         self.parameters.update({
             "plot_type": parameters.ChoiceParameter(_("Plot type"), choices=(
-                ("absolute", _("Absolute")),
-                ("relative", _("Relative")),
-                ("density", _("Relative (density)"))
+                ("absolute", _("Absolute frequency")),
+                ("relative", _("Relative frequency")),
+                ("density", _("Relative (density) frequency"))
             ),
                                                     default="absolute"),
             "bins": parameters.IntParameter(_("Bins"), min_=1, default=100),
@@ -64,7 +64,7 @@ class Histogramm(Block):
             y_label = _("Relative frequency of occurrence")
         else:
             density = True
-            y_label = _("Relative density frequency of occurrence")
+            y_label = _("Relative density frequency of occurrence") + f" in {1/signal.metadata.unit_o}"
 
         label = signal.metadata.name
         if plot_type == "relative":
