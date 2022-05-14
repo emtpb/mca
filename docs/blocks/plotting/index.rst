@@ -4,6 +4,11 @@ Plotting Blocks
 
 List of all plotting related blocks.
 
+Standard Plot
+=============
+
+.. automodule:: mca.blocks.plot
+
 ComplexPlot
 ===========
 
@@ -13,11 +18,6 @@ FFTPlot
 =======
 
 .. automodule:: mca.blocks.fftplot
-
-SignalPlot
-==========
-
-.. automodule:: mca.blocks.signal_plot
 
 STFTPlot
 ========

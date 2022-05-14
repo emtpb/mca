@@ -35,7 +35,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
                            moving the block.
         _start_pos (tuple): Starting position of a resize event.
         _hovering (bool): Flag to indicate whether the mouse is hovering over
-                          the block.
+                         the block.
         _original_width (int): Original width of the block.
         _original_height (int): Original height of the block.
         _resize_width (bool): Indicates whether the width should be resized.

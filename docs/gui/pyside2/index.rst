@@ -9,7 +9,7 @@ Contains the documentation of all modules and classes of the PySide2 based Graph
 
     about_window
     block_display
-    block_list
+    block_explorer
     block_item
     edit_window
     edit_widgets

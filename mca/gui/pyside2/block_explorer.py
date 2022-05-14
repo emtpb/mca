@@ -10,7 +10,7 @@ class BlockExplorer(QtWidgets.QWidget):
     """Widget that holds and arranges the search bar,
      the button filter and the block list.
 
-     Attributes
+     Attributes:
          search_bar: Matches the strings the tags and block classes within
                      the block list.
          button_filter: Group of buttons which can only be pressed exclusively
@@ -93,10 +93,9 @@ class BlockList(QtWidgets.QListWidget):
                    QtCore.Qt.CopyAction)
 
     def mouseDoubleClickEvent(self, event):
-        """Method invoked when an item in the list gets double-clicked.
-        If a block gets clicked, it will get initialized in the
-        :class:`.BlockScene`. If a tag gets clicked the string will appear in
-         the search_bar.
+        """Method invoked when an item in the list gets double-clicked. If a block gets clicked, it will get
+        initialized in the :class:`.BlockScene`. If a tag gets clicked the
+        string will appear in the search_bar.
         """
         item = self.currentItem()
         if item is None:
