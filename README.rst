@@ -23,10 +23,23 @@ Features
       library
 
 
+Requirements
+============
+
+Python3.7 or greater
+
+Under Linux you might to need to install the PortAudio
+library which can be done via package manager:
+
+.. code-block:: console
+
+    $ sudo apt-get install libportaudio2
+
 How to use
 ==========
 
-After installing the package, you can run the following command to start the mca:
+After installing the package, you can run the following command to start the mca
+(if you have added your python scripts path to your PATH):
 
 .. code-block:: console
 
