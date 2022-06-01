@@ -19,7 +19,7 @@ class FFTPlot(Block):
                     "the absolute or the phase of the FFT. "
                     "Shifts the FFT optionally or cuts the input"
                     "signal before the conversion.")
-    tags = (_("Processing"), _("Fourier"), _("Plotting"))
+    tags = (_("Processing"), _("Fouriertransformation"), _("Plotting"))
 
     def __init__(self, **kwargs):
         """Initializes FFTPlot class."""
@@ -45,9 +45,13 @@ class FFTPlot(Block):
                  ("absolute", _("Absolute")), ("phase", _("Phase"))],
                 default="absolute",
             ),
+            "plot_kind": parameters.ChoiceParameter(
+                _("Plot kind"), choices=[("line", _("Line")),
+                                         ("stem", _("Stem"))],),
             "normalize": parameters.BoolParameter(
                 _("Normalize"), default=False),
-            "show": parameters.ActionParameter("Show", self.show),
+            "show": parameters.ActionParameter("Show plot", self.show,
+                                               display_options=("block_button",)),
             "auto_show": parameters.BoolParameter("Auto plot", False),
         })
 
@@ -55,7 +59,9 @@ class FFTPlot(Block):
         self.axes.cla()
         if self.legend:
             self.legend.remove()
+            self.legend = None
         if self.all_inputs_empty():
+            self.fig.canvas.draw()
             return
         validator.check_type_signal(self.inputs[0].data)
 
@@ -64,6 +70,7 @@ class FFTPlot(Block):
         shift = self.parameters["shift"].value
         auto_show = self.parameters["auto_show"].value
         normalize = self.parameters["normalize"].value
+        plot_kind = self.parameters["plot_kind"].value
         values = input_signal.values
 
         delta_f = 1 / (self.inputs[0].data.increment * values)
@@ -100,11 +107,14 @@ class FFTPlot(Block):
             unit_o=unit_o,
         )
         label = input_signal.metadata.name
-        self.axes.plot(abscissa, ordinate, label=label)
+        if plot_kind == "line":
+            self.axes.plot(abscissa, ordinate, "C0", label=label)
+        elif plot_kind == "stem":
+            self.axes.stem(abscissa, ordinate, "C0", label=label,
+                           use_line_collection=True, basefmt=" ")
         if label:
             self.legend = self.fig.legend()
-        else:
-            self.legend = None
+
         self.axes.set_xlabel(data_types.metadata_to_axis_label(
             quantity=metadata.quantity_a,
             unit=metadata.unit_a,
@@ -117,8 +127,10 @@ class FFTPlot(Block):
             symbol=metadata.symbol_o
             )
         )
+
         self.axes.grid(True)
         self.fig.canvas.draw()
+
         if auto_show:
             self.show()
 

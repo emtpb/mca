@@ -39,10 +39,10 @@ ComplexToReal
 
 .. automodule:: mca.blocks.complex_to_real
 
-CPSD
-====
+Cross Power Spectrum
+====================
 
-.. automodule:: mca.blocks.cpsd
+.. automodule:: mca.blocks.cps
 
 Cutter
 ======
@@ -94,10 +94,10 @@ Multiplier
 
 .. automodule:: mca.blocks.multiplier
 
-PSD
-===
+Power Spectrum
+==============
 
-.. automodule:: mca.blocks.psd
+.. automodule:: mca.blocks.power_spectrum
 
 Quantization
 ============

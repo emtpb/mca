@@ -6,29 +6,39 @@ from mca.framework import validator, data_types, parameters, DynamicBlock
 from mca.language import _
 
 
-class SignalPlot(DynamicBlock):
-    """Plots all input signals in single figure.
+class Plot(DynamicBlock):
+    """Plots all input signals as lines, stems or bars
+    in a single figure.
 
     Attributes:
         fig: Figure for plotting data.
-        axes: Reference of the axes.
-        legend: Reference of the legend.
+        axes: Axes object of the figure.
+        legend: Legend of the plot.
+        lines: Lines of the plot which correspond to the inputs.
     """
-    name = _("SignalPlot")
-    description = _("Plots all input signals in a single figure.")
+    name = _("Plot")
+    description = _("Plots all input signals as lines, stems or bars "
+                    "in a single figure.")
     tags = (_("Plotting"),)
 
     def __init__(self, **kwargs):
-        """Initializes SignalPlot class."""
+        """Initializes Plot class."""
         super().__init__(**kwargs)
         self.fig = plt.figure()
         self.axes = self.fig.add_subplot(111)
         self.legend = None
+        self.lines = []
 
     def setup_parameters(self):
         self.parameters.update({
-            "show": parameters.ActionParameter(_("Show plot"), self.show),
-            "auto_show": parameters.BoolParameter(_("Auto plot"), False)
+            "show": parameters.ActionParameter(_("Show plot"), self.show,
+                                               display_options=("block_button",)),
+            "auto_show": parameters.BoolParameter(_("Auto plot"), False),
+            "plot_kind": parameters.ChoiceParameter(
+                _("Plot kind"), choices=[("line", _("Line")),
+                                         ("stem", _("Stem")),
+                                         ("bar", _("Bar"))],
+                default="line")
         })
 
     def setup_io(self):
@@ -46,17 +56,28 @@ class SignalPlot(DynamicBlock):
         signals = [copy.copy(i.data) for i in self.inputs if i.data]
         abscissa_units = [signal.metadata.unit_a for signal in signals]
         ordinate_units = [signal.metadata.unit_o for signal in signals]
+
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
+
         auto_show = self.parameters["auto_show"].value
+        plot_kind = self.parameters["plot_kind"].value
+
         label = None
-        for signal in signals:
+        for index, signal in enumerate(signals):
             abscissa = np.linspace(signal.abscissa_start,
                                    signal.abscissa_start + signal.increment * (signal.values - 1),
                                    signal.values)
             ordinate = signal.ordinate
             label = signal.metadata.name
-            self.axes.plot(abscissa, ordinate, label=label)
+            if plot_kind == "line":
+                self.axes.plot(abscissa, ordinate, f"C{index}", label=label)
+            elif plot_kind == "stem":
+                self.axes.stem(abscissa, ordinate, f"C{index}", label=label,
+                               use_line_collection=True, basefmt=" ")
+            elif plot_kind == "bar":
+                self.axes.bar(abscissa, ordinate, label=label, color=f"C{index}",
+                              align="edge", width=signal.increment)
         if label:
             self.legend = self.fig.legend()
         if signals:

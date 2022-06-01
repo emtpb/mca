@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2022-01-18 17:40+0100\n"
+"POT-Creation-Date: 2022-05-13 18:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -29,22 +29,22 @@ msgstr "Berechnet den Betrag des Eingangssignals."
 
 #: blocks/absolute.py:9 blocks/acf.py:11 blocks/adder.py:12
 #: blocks/amplifier.py:11 blocks/analytical_signal.py:12 blocks/ccf.py:11
-#: blocks/complex_to_real.py:19 blocks/cpsd.py:12 blocks/cutter.py:17
+#: blocks/complex_to_real.py:19 blocks/cps.py:13 blocks/cutter.py:17
 #: blocks/differentiator.py:11 blocks/divider.py:9 blocks/envelope.py:13
 #: blocks/fft.py:11 blocks/fftplot.py:22 blocks/iir_filter.py:19
 #: blocks/integrator.py:12 blocks/interpolate.py:18 blocks/limiter.py:14
-#: blocks/multiplier.py:12 blocks/psd.py:11 blocks/quantization.py:13
-#: blocks/real_to_complex.py:18 blocks/resample.py:11 blocks/window.py:11
-#: blocks/zerofill.py:11
+#: blocks/multiplier.py:12 blocks/power_spectrum.py:14
+#: blocks/quantization.py:13 blocks/real_to_complex.py:18 blocks/resample.py:11
+#: blocks/window.py:11 blocks/zerofill.py:11
 msgid "Processing"
 msgstr "Verarbeitung"
 
 #: blocks/acf.py:9
-msgid "AutoCorrelation"
-msgstr "Autokorrelation"
+msgid "ACF"
+msgstr "AKF"
 
 #: blocks/acf.py:10
-msgid "Computes the auto correlation of the input signal."
+msgid "Computes the auto correlation function of the input signal."
 msgstr "Berechnet die Autokorrelationsfunktion des Eingangssignals."
 
 #: blocks/adder.py:10
@@ -83,35 +83,34 @@ msgstr "AnalytischesSignal"
 msgid "Computes the analytical signal of the input signal."
 msgstr "Berechnet das analytische Signal des Eingangssignals."
 
-#: blocks/audio_loader.py:10
+#: blocks/audio_loader.py:11
 msgid "AudioLoader"
 msgstr "AudioLader"
 
-#: blocks/audio_loader.py:11
+#: blocks/audio_loader.py:12
 msgid "Loads a .wav to create an output signal."
 msgstr "Läd eine .wav Datei als Ausgangssignal."
 
-#: blocks/audio_loader.py:12 blocks/signal_generator_arbitrary.py:13
+#: blocks/audio_loader.py:13 blocks/signal_generator_arbitrary.py:13
 msgid "Loading"
 msgstr "Ladend"
 
-#: blocks/audio_loader.py:12 blocks/audio_player.py:15
+#: blocks/audio_loader.py:13 blocks/audio_player.py:15
 #: blocks/audio_recorder.py:11 blocks/audio_saver.py:13
 msgid "Audio"
 msgstr "Audio"
 
-#: blocks/audio_loader.py:16 blocks/audio_player.py:19 blocks/audio_saver.py:17
-#: blocks/resample.py:20 framework/helpers.py:22
-msgid "Sampling frequency"
-msgstr "Abtastfrequenz"
-
-#: blocks/audio_loader.py:18 blocks/audio_saver.py:19 blocks/signal_saver.py:19
+#: blocks/audio_loader.py:17 blocks/audio_saver.py:19 blocks/signal_saver.py:19
 msgid "Filename"
 msgstr "Dateiname"
 
-#: blocks/audio_loader.py:20 blocks/signal_generator_arbitrary.py:29
+#: blocks/audio_loader.py:19 blocks/signal_generator_arbitrary.py:29
 msgid "Load file"
 msgstr "Lade Datei"
+
+#: blocks/audio_loader.py:21 blocks/fft.py:25 blocks/fftplot.py:49
+msgid "Normalize"
+msgstr "Normiert"
 
 #: blocks/audio_player.py:12
 msgid "AudioPlayer"
@@ -125,11 +124,16 @@ msgstr ""
 "Spielt das Eingangssignal als Audiosignal ab. Dabei wird das "
 "standardmäßige Audiogerät verwendet."
 
+#: blocks/audio_player.py:19 blocks/audio_saver.py:17 blocks/resample.py:20
+#: framework/helpers.py:22
+msgid "Sampling frequency"
+msgstr "Abtastfrequenz"
+
 #: blocks/audio_player.py:21
 msgid "Play sound"
 msgstr "Audiosignal abspielen"
 
-#: blocks/audio_player.py:23
+#: blocks/audio_player.py:25
 msgid "Auto play"
 msgstr "Automatisch abspielen"
 
@@ -170,12 +174,12 @@ msgid "Save as .wav"
 msgstr "Als .wav speichern"
 
 #: blocks/ccf.py:9
-msgid "CrossCorrelation"
-msgstr "Kreuzkorrelation"
+msgid "CCF"
+msgstr "KKF"
 
 #: blocks/ccf.py:10
-msgid "Computes the cross correlation of the input signal."
-msgstr "Berechnet die Kreuzkorrelationsfunktion des Eingangssignals"
+msgid "Computes the cross correlation function of the input signal."
+msgstr "Berechnet die Kreuzkorrelationsfunktion des Eingangssignals."
 
 #: blocks/chirp.py:10
 msgid "Chirp"
@@ -235,12 +239,12 @@ msgstr "KomplexPlot"
 msgid "Plots absolute and phase or real and imaginary part of the input signal."
 msgstr "Plottet Betrag und Phase oder Real- und Imaginärteil des Eingangsignals."
 
-#: blocks/complex_plot.py:23 blocks/fftplot.py:22 blocks/signal_plot.py:19
-#: blocks/stft_plot.py:13 blocks/xy_plot.py:14
+#: blocks/complex_plot.py:23 blocks/fftplot.py:22 blocks/histogramm.py:15
+#: blocks/plot.py:22 blocks/stft_plot.py:13 blocks/xy_plot.py:14
 msgid "Plotting"
 msgstr "Plotten"
 
-#: blocks/complex_plot.py:35
+#: blocks/complex_plot.py:35 blocks/histogramm.py:26
 msgid "Plot type"
 msgstr "Plot Variante"
 
@@ -252,15 +256,16 @@ msgstr "Real/Imaginär"
 msgid "Absolute/Phase"
 msgstr "Betrag/Phase"
 
-#: blocks/complex_plot.py:39 blocks/signal_plot.py:30
+#: blocks/complex_plot.py:39 blocks/histogramm.py:33 blocks/plot.py:34
+#: blocks/stft_plot.py:42 blocks/xy_plot.py:41
 msgid "Show plot"
 msgstr "Plot anzeigen"
 
-#: blocks/complex_plot.py:40 blocks/signal_plot.py:31
+#: blocks/complex_plot.py:42 blocks/histogramm.py:36 blocks/plot.py:37
 msgid "Auto plot"
 msgstr "Automatisch neu plotten"
 
-#: blocks/complex_plot.py:99
+#: blocks/complex_plot.py:101
 msgid "Phase in rad"
 msgstr "Phase in rad"
 
@@ -288,18 +293,68 @@ msgstr "Realteil"
 msgid "Imaginary part"
 msgstr "Imaginärteil"
 
-#: blocks/cpsd.py:9
-msgid "CrossPowerDensitySpectrum"
-msgstr "Kreuzleistungsdichtespektrum"
+#: blocks/cps.py:10
+msgid "CrossPowerSpectrum"
+msgstr "Kreuzleistungsspektrum"
 
-#: blocks/cpsd.py:10
-msgid "Computes the cross power density spectrum of the input signals."
-msgstr "Berechnet das Kreuzleistungsdichtespektrum des Eingangssignals."
+#: blocks/cps.py:11
+msgid "Computes the cross power spectrum of the input signals."
+msgstr "Berechnet das Kreuzleistungsspektrum des Eingangssignal."
 
-#: blocks/cpsd.py:19 blocks/fft.py:19 blocks/psd.py:18
+#: blocks/cps.py:20 blocks/fft.py:19 blocks/power_spectrum.py:21
 #: blocks/signal_generator_periodic.py:31
 msgid "Frequency"
 msgstr "Frequenz"
+
+#: blocks/cps.py:27 blocks/power_spectrum.py:27 blocks/stft_plot.py:28
+#: blocks/window.py:9
+msgid "Window"
+msgstr "Fensterung"
+
+#: blocks/cps.py:29 blocks/power_spectrum.py:29
+#: blocks/signal_generator_periodic.py:27 blocks/stft_plot.py:30
+msgid "Rectangle"
+msgstr "Rechteck"
+
+#: blocks/cps.py:30 blocks/power_spectrum.py:30 blocks/stft_plot.py:31
+#: blocks/window.py:21
+msgid "Hann"
+msgstr "Hann"
+
+#: blocks/cps.py:31 blocks/power_spectrum.py:31 blocks/stft_plot.py:32
+#: blocks/window.py:22
+msgid "Hamming"
+msgstr "Hamming"
+
+#: blocks/cps.py:32 blocks/power_spectrum.py:32
+#: blocks/signal_generator_periodic.py:27 blocks/stft_plot.py:33
+#: blocks/window.py:25
+msgid "Triangle"
+msgstr "Dreieck"
+
+#: blocks/cps.py:34 blocks/power_spectrum.py:34 blocks/stft_plot.py:36
+msgid "Segment Length"
+msgstr "Segmentlänge"
+
+#: blocks/cps.py:36 blocks/power_spectrum.py:36 blocks/stft_plot.py:38
+msgid "Segment Overlap"
+msgstr "Segmentüberlappung"
+
+#: blocks/cps.py:38 blocks/power_spectrum.py:38 blocks/stft_plot.py:40
+msgid "FFT Length"
+msgstr "FFT Länge"
+
+#: blocks/cps.py:40 blocks/power_spectrum.py:40
+msgid "Scaling"
+msgstr "Skalierung"
+
+#: blocks/cps.py:40 blocks/power_spectrum.py:40
+msgid "Density"
+msgstr "Dichte"
+
+#: blocks/cps.py:41 blocks/power_spectrum.py:41
+msgid "Spectrum"
+msgstr "Spektrum"
 
 #: blocks/cutter.py:12
 msgid "Cutter"
@@ -340,7 +395,7 @@ msgstr "DC Wert"
 
 #: blocks/differentiator.py:9
 msgid "Differentiator"
-msgstr "Differentiator"
+msgstr "Differenzierer"
 
 #: blocks/differentiator.py:10
 msgid "Computes the gradient of the input signal."
@@ -371,12 +426,8 @@ msgid "Computes the FFT of the input signal."
 msgstr "Berechnet die FFT des Eingangssignals."
 
 #: blocks/fft.py:11 blocks/fftplot.py:22 blocks/stft_plot.py:13
-msgid "Fourier"
-msgstr "Fourier"
-
-#: blocks/fft.py:25 blocks/fftplot.py:49
-msgid "Normalize"
-msgstr "Normiert"
+msgid "Fouriertransformation"
+msgstr "Fouriertransformation"
 
 #: blocks/fftplot.py:16
 msgid "FFTPlot"
@@ -447,6 +498,46 @@ msgstr "Normierte Bandbreite"
 #: blocks/gausspulse.py:46
 msgid "Reference level"
 msgstr "Referenzpegel"
+
+#: blocks/histogramm.py:12
+msgid "Histogramm"
+msgstr "Histogramm"
+
+#: blocks/histogramm.py:13
+msgid ""
+"Plots absolute and relative (density) frequency of occurrences of values "
+"in a histogramm."
+msgstr ""
+"Plottet die absolute und relative Häufigkeit als auch die relative Häufigkeitsdichte der "
+"Werte des Eingangssignals als Histogramm"
+
+#: blocks/histogramm.py:27
+msgid "Absolute frequency"
+msgstr "Absolute Häufigkeit"
+
+#: blocks/histogramm.py:28
+msgid "Relative frequency"
+msgstr "Relative Häufigkeit"
+
+#: blocks/histogramm.py:29
+msgid "Relative (density) frequency"
+msgstr "Relative Häufigkeitsdichte"
+
+#: blocks/histogramm.py:32
+msgid "Bins"
+msgstr ""
+
+#: blocks/histogramm.py:61
+msgid "Absolute frequency of occurrence"
+msgstr "Absolute Häufigkeit"
+
+#: blocks/histogramm.py:64
+msgid "Relative frequency of occurrence"
+msgstr "Relative Häufigkeit"
+
+#: blocks/histogramm.py:67
+msgid "Relative density frequency of occurrence"
+msgstr "Relative Häufigkeitsdichte"
 
 #: blocks/hs_oscilloscope.py:15
 msgid "HSOscilloscope"
@@ -686,13 +777,39 @@ msgstr "Multiplizierer"
 msgid "Multiplies the input signals with each other."
 msgstr "Multipliziert die Eingangssignale miteinander."
 
-#: blocks/psd.py:9
-msgid "PowerDensitySpectrum"
-msgstr "Leistungsdichtespektrum"
+#: blocks/plot.py:19
+msgid "Plot"
+msgstr "Plot"
 
-#: blocks/psd.py:10
-msgid "Computes the power density spectrum of the input signal."
-msgstr "Berechnet das Leistungsdichtespektrum des Eingangssignals."
+#: blocks/plot.py:20
+msgid "Plots all input signals as lines, stems or bars in a single figure."
+msgstr ""
+"Plottet alle Eingangssignale als Linien-, Stem- oder Barplot in einer "
+"Abbildung"
+
+#: blocks/plot.py:39
+msgid "Plot kind"
+msgstr "Plottyp"
+
+#: blocks/plot.py:39
+msgid "Line"
+msgstr "Linie"
+
+#: blocks/plot.py:40
+msgid "Stem"
+msgstr "Stem"
+
+#: blocks/plot.py:41
+msgid "Bar"
+msgstr "Bar"
+
+#: blocks/power_spectrum.py:11
+msgid "PowerSpectrum"
+msgstr "Leistungsspektrum"
+
+#: blocks/power_spectrum.py:12
+msgid "Computes the power spectrum of the input signal using Welch's method"
+msgstr "Berechnet das Leistungsspektrum des Eingangssignals nach Welch's Methode."
 
 #: blocks/quantization.py:10
 msgid "Quantization"
@@ -769,15 +886,6 @@ msgstr "Generiert ein periodisches Sinus-, Rechteck- oder Dreiecksignal."
 msgid "Function"
 msgstr "Funktion"
 
-#: blocks/signal_generator_periodic.py:27
-msgid "Rectangle"
-msgstr "Rechteck"
-
-#: blocks/signal_generator_periodic.py:27 blocks/stft_plot.py:31
-#: blocks/window.py:25
-msgid "Triangle"
-msgstr "Dreieck"
-
 #: blocks/signal_generator_periodic.py:28
 msgid "Sine"
 msgstr "Sinus"
@@ -820,14 +928,6 @@ msgstr "Mittelwert µ"
 msgid "Standard deviation σ"
 msgstr "Standardabweichung σ"
 
-#: blocks/signal_plot.py:17
-msgid "SignalPlot"
-msgstr "SignalPlot"
-
-#: blocks/signal_plot.py:18
-msgid "Plots all input signals in a single figure."
-msgstr "Plottet alle Eingangssignale in eine Abbildung."
-
 #: blocks/signal_saver.py:10
 msgid "SignalSaver"
 msgstr "SignalSpeicherung"
@@ -836,8 +936,8 @@ msgstr "SignalSpeicherung"
 msgid "Saves the input signal in .json file."
 msgstr "Speichert das Eingangssignal in einer.json Datei."
 
-#: blocks/signal_saver.py:21 gui/pyside2/main_window.py:114
-#: gui/pyside2/main_window.py:225
+#: blocks/signal_saver.py:21 gui/pyside2/main_window.py:121
+#: gui/pyside2/main_window.py:241
 msgid "Save"
 msgstr "Speichern"
 
@@ -849,41 +949,13 @@ msgstr "STFTPlot"
 msgid "Plots the Short-Time Fourier Transformation of the input signal."
 msgstr "Plottet die Kurzeit Fourier-Tranformation des Eingangssignals."
 
-#: blocks/stft_plot.py:28 blocks/window.py:9
-msgid "Window"
-msgstr "Fenster"
-
-#: blocks/stft_plot.py:29 blocks/window.py:21
-msgid "Hann"
-msgstr "Hann"
-
-#: blocks/stft_plot.py:30 blocks/window.py:22
-msgid "Hamming"
-msgstr "Hamming"
-
-#: blocks/stft_plot.py:34
-msgid "Segment Length"
-msgstr "Segmentlänge"
-
-#: blocks/stft_plot.py:36
-msgid "Segment Overlap"
-msgstr "Segmentüberlappung"
-
-#: blocks/stft_plot.py:38
-msgid "FFT Length"
-msgstr "FFT Länge"
-
-#: blocks/stft_plot.py:40 blocks/xy_plot.py:39
-msgid "Show"
-msgstr "Anzeigen"
-
 #: blocks/window.py:10
 msgid "Applies a window function to the input signal."
 msgstr "Wendet eine Fensterfunktion auf das Eingangssignal an."
 
 #: blocks/window.py:20
 msgid "Window Function"
-msgstr "Fensterfunktion"
+msgstr "Fenster Funktion"
 
 #: blocks/window.py:21
 msgid "Tukey"
@@ -913,19 +985,19 @@ msgstr "XYPlot"
 msgid "Plots the ordinates of the input signals against each other."
 msgstr "Plottet die Ordinaten der Eingangssignale gegeneinander."
 
-#: blocks/xy_plot.py:28
+#: blocks/xy_plot.py:29
 msgid "Input signal for ordinate axis"
 msgstr "Eingangssignal für die Ordinatenachse"
 
-#: blocks/xy_plot.py:29 blocks/xy_plot.py:35
+#: blocks/xy_plot.py:30 blocks/xy_plot.py:36
 msgid "First"
 msgstr "Erster"
 
-#: blocks/xy_plot.py:30 blocks/xy_plot.py:36
+#: blocks/xy_plot.py:31 blocks/xy_plot.py:37
 msgid "Second"
 msgstr "Zweiter"
 
-#: blocks/xy_plot.py:34
+#: blocks/xy_plot.py:35
 msgid "Input signal for abscissa axis"
 msgstr "Eingangssignal für die Abszissenachse"
 
@@ -945,7 +1017,7 @@ msgstr "Totzeit Werte"
 msgid "Zero Padding Values"
 msgstr "Zeropadding Werte"
 
-#: framework/block_base.py:31
+#: framework/block_base.py:33
 msgid "Name"
 msgstr "Name"
 
@@ -973,143 +1045,171 @@ msgstr "Messzeit"
 msgid "Abscissa"
 msgstr "Abszisse"
 
-#: gui/pyside2/about_window.py:30
+#: gui/pyside2/about_window.py:24 gui/pyside2/edit_widgets.py:329
+#: gui/pyside2/edit_window.py:130 gui/pyside2/io_items.py:118
+#: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:127
+#: gui/pyside2/io_items.py:134 gui/pyside2/io_items.py:309
+#: gui/pyside2/io_items.py:313 gui/pyside2/io_items.py:318
+#: gui/pyside2/io_items.py:325 gui/pyside2/main_window.py:78
+#: gui/pyside2/main_window.py:209 gui/pyside2/main_window.py:246
+#: gui/pyside2/main_window.py:300 gui/pyside2/main_window.py:326
+#: gui/pyside2/main_window.py:351
+msgid "MCA"
+msgstr "MKA"
+
+#: gui/pyside2/about_window.py:31
 msgid "Close"
 msgstr "Schließen"
 
-#: gui/pyside2/about_window.py:46
+#: gui/pyside2/about_window.py:47
 msgid "Developed by:"
 msgstr "Entwickelt von:"
 
-#: gui/pyside2/about_window.py:50
+#: gui/pyside2/about_window.py:51
 msgid "Measurement Engineering Group"
 msgstr "Fachgebiet Elektrische Messtechnik"
 
-#: gui/pyside2/about_window.py:54
+#: gui/pyside2/about_window.py:55
 msgid "Homepage:"
 msgstr "Startseite:"
 
-#: gui/pyside2/about_window.py:58
+#: gui/pyside2/about_window.py:59
 msgid ""
 "<a href=\"https://ei.uni-paderborn.de/en/electrical-engineering/emt"
 "/electrical-engineering/home\">EMT</a>"
 msgstr "<a href=\"https://ei.uni-paderborn.de/emt/startseite\">EMT</a>"
 
-#: gui/pyside2/about_window.py:63
+#: gui/pyside2/about_window.py:64
 msgid "Version:"
 msgstr "Version:"
 
-#: gui/pyside2/block_display.py:27
+#: gui/pyside2/block_display.py:28 gui/pyside2/block_display.py:31
 msgid "Zoom in"
 msgstr "Reinzoomen"
 
-#: gui/pyside2/block_display.py:32
+#: gui/pyside2/block_display.py:31
+msgid "Ctrl +"
+msgstr "Strg +"
+
+#: gui/pyside2/block_display.py:34 gui/pyside2/block_display.py:37
 msgid "Zoom out"
 msgstr "Rauszoomen"
 
-#: gui/pyside2/block_display.py:37
+#: gui/pyside2/block_display.py:38
+msgid "Ctrl -"
+msgstr "Strg -"
+
+#: gui/pyside2/block_display.py:41
 msgid "Zoom original"
 msgstr "Originalgröße"
 
-#: gui/pyside2/block_display.py:41
+#: gui/pyside2/block_display.py:45 gui/pyside2/block_display.py:48
 msgid "Copy"
 msgstr "Kopieren"
 
-#: gui/pyside2/block_display.py:46
+#: gui/pyside2/block_display.py:48
+msgid "Ctrl+C"
+msgstr "Strg+C"
+
+#: gui/pyside2/block_display.py:51 gui/pyside2/block_display.py:54
 msgid "Paste"
 msgstr "Einfügen"
 
-#: gui/pyside2/block_display.py:51
+#: gui/pyside2/block_display.py:57 gui/pyside2/block_display.py:60
 msgid "Cut"
 msgstr "Ausschneiden"
 
-#: gui/pyside2/block_explorer.py:35
+#: gui/pyside2/block_display.py:60
+msgid "Ctrl+X"
+msgstr "Strg+X"
+
+#: gui/pyside2/block_display.py:63 gui/pyside2/block_display.py:66
+#: gui/pyside2/block_item.py:181
+msgid "Delete"
+msgstr "Löschen"
+
+#: gui/pyside2/block_display.py:66
+msgid "Del"
+msgstr "Entf"
+
+#: gui/pyside2/block_display.py:68
+msgid "Clear"
+msgstr "Alles löschen"
+
+#: gui/pyside2/block_explorer.py:34
 msgid "Search..."
 msgstr "Suchen..."
 
-#: gui/pyside2/block_explorer.py:74
+#: gui/pyside2/block_explorer.py:73
 msgid "New block"
 msgstr "Neuer Block"
 
-#: gui/pyside2/block_item.py:129
+#: gui/pyside2/block_item.py:144
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: gui/pyside2/block_item.py:135
+#: gui/pyside2/block_item.py:150
 msgid "Add Input"
 msgstr "Input hinzufügen"
 
-#: gui/pyside2/block_item.py:142
+#: gui/pyside2/block_item.py:157
 msgid "Delete Input"
 msgstr "Input löschen"
 
-#: gui/pyside2/block_item.py:150
+#: gui/pyside2/block_item.py:165
 msgid "Add Output"
 msgstr "Output hinzufügen"
 
-#: gui/pyside2/block_item.py:158
+#: gui/pyside2/block_item.py:173
 msgid "Delete Output"
 msgstr "Output löschen"
 
-#: gui/pyside2/block_item.py:165
-msgid "Delete Block"
-msgstr "Block löschen"
-
-#: gui/pyside2/block_item.py:624
+#: gui/pyside2/block_item.py:660
 msgid "Name of the Input:"
 msgstr "Name des Inputs:"
 
-#: gui/pyside2/block_item.py:626
+#: gui/pyside2/block_item.py:662
 msgid "Name of the Output:"
 msgstr "Name des Outputs:"
 
-#: gui/pyside2/block_item.py:641 gui/pyside2/edit_window.py:115
+#: gui/pyside2/block_item.py:677 gui/pyside2/edit_window.py:116
 msgid "Ok"
 msgstr "Ok"
 
-#: gui/pyside2/block_item.py:643 gui/pyside2/edit_window.py:116
-#: gui/pyside2/main_window.py:79 gui/pyside2/main_window.py:286
+#: gui/pyside2/block_item.py:679 gui/pyside2/edit_window.py:117
+#: gui/pyside2/main_window.py:84 gui/pyside2/main_window.py:302
 msgid "Cancel"
 msgstr "Abbrechen"
-
-#: gui/pyside2/edit_widgets.py:329 gui/pyside2/edit_window.py:129
-#: gui/pyside2/io_items.py:118 gui/pyside2/io_items.py:122
-#: gui/pyside2/io_items.py:295 gui/pyside2/io_items.py:298
-#: gui/pyside2/io_items.py:302 gui/pyside2/main_window.py:73
-#: gui/pyside2/main_window.py:230 gui/pyside2/main_window.py:284
-#: gui/pyside2/main_window.py:310
-msgid "MCA"
-msgstr "MKA"
 
 #: gui/pyside2/edit_widgets.py:329
 msgid "Something went wrong.\n"
 msgstr "Etwas ist schiefgelaufen.\n"
 
-#: gui/pyside2/edit_window.py:38 gui/pyside2/edit_window.py:281
+#: gui/pyside2/edit_window.py:39 gui/pyside2/edit_window.py:293
 msgid "Edit {}"
 msgstr "{} bearbeiten"
 
-#: gui/pyside2/edit_window.py:52
+#: gui/pyside2/edit_window.py:53
 msgid "Description"
 msgstr "Beschreibung"
 
-#: gui/pyside2/edit_window.py:60
+#: gui/pyside2/edit_window.py:61
 msgid "Parameters"
 msgstr "Parameter"
 
-#: gui/pyside2/edit_window.py:72
+#: gui/pyside2/edit_window.py:73
 msgid "General"
 msgstr "Allgemein"
 
-#: gui/pyside2/edit_window.py:89
+#: gui/pyside2/edit_window.py:90
 msgid "Metadata"
 msgstr "Metadaten"
 
-#: gui/pyside2/edit_window.py:90
+#: gui/pyside2/edit_window.py:91
 msgid "Info"
 msgstr "Info"
 
-#: gui/pyside2/edit_window.py:93
+#: gui/pyside2/edit_window.py:94
 msgid ""
 "Redefine the metadata for the outgoing signals. By default metadata is "
 "computed depending on the input metadata. In order to apply your own "
@@ -1122,12 +1222,12 @@ msgstr ""
 "der Haken bei den entsprechenden Boxen 'Abzissen/Ordinaten Metadaten "
 "benutzen' gesetzt werden."
 
-#: gui/pyside2/edit_window.py:117
+#: gui/pyside2/edit_window.py:118
 msgid "Apply"
 msgstr "Übernehmen"
 
-#: gui/pyside2/edit_window.py:132 gui/pyside2/edit_window.py:239
-#: gui/pyside2/edit_window.py:244
+#: gui/pyside2/edit_window.py:133 gui/pyside2/edit_window.py:251
+#: gui/pyside2/edit_window.py:256
 msgid ""
 "Could not apply the changed parameters and metadata!Continue editing or "
 "revert changes?"
@@ -1135,171 +1235,188 @@ msgstr ""
 "Die veränderten Parameter und Metadaten konnten nicht angewendet werden! "
 "Mit der Bearbeitung fortfahren oder Änderung rückgängig machen?"
 
-#: gui/pyside2/edit_window.py:135
+#: gui/pyside2/edit_window.py:136
 msgid "Continue"
 msgstr "Fortfahren"
 
-#: gui/pyside2/edit_window.py:138
+#: gui/pyside2/edit_window.py:139
 msgid "Revert"
 msgstr "Rückgängig"
 
-#: gui/pyside2/edit_window.py:174
+#: gui/pyside2/edit_window.py:185
 msgid "Output '{}' metadata:"
 msgstr "Output '{}' Metadaten"
 
-#: gui/pyside2/edit_window.py:177
+#: gui/pyside2/edit_window.py:188
 msgid "Output {} metadata:"
 msgstr "Output {} MetaDaten:"
 
-#: gui/pyside2/edit_window.py:179
+#: gui/pyside2/edit_window.py:190
 msgid "Signal name:"
 msgstr "Signalname:"
 
-#: gui/pyside2/edit_window.py:180
+#: gui/pyside2/edit_window.py:191
 msgid "Abscissa quantity:"
 msgstr "Abszissengröße:"
 
-#: gui/pyside2/edit_window.py:181
+#: gui/pyside2/edit_window.py:192
 msgid "Abscissa symbol:"
 msgstr "Abszissensymbol:"
 
-#: gui/pyside2/edit_window.py:182
+#: gui/pyside2/edit_window.py:193
 msgid "Abscissa unit:"
 msgstr "Abszisseneinheit:"
 
-#: gui/pyside2/edit_window.py:183
+#: gui/pyside2/edit_window.py:194
 msgid "Ordinate quantity:"
 msgstr "Ordinatengröße:"
 
-#: gui/pyside2/edit_window.py:184
+#: gui/pyside2/edit_window.py:195
 msgid "Ordinate symbol:"
 msgstr "Ordinatensymbol:"
 
-#: gui/pyside2/edit_window.py:185
+#: gui/pyside2/edit_window.py:196
 msgid "Ordinate unit:"
 msgstr "Ordinateneinheit:"
 
-#: gui/pyside2/edit_window.py:195
+#: gui/pyside2/edit_window.py:206
 msgid "Use abscissa metadata"
 msgstr "Abzissen Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:202
+#: gui/pyside2/edit_window.py:213
 msgid "Use ordinate metadata"
 msgstr "Ordinaten Metadaten benutzen"
 
-#: gui/pyside2/edit_window.py:241
+#: gui/pyside2/edit_window.py:253 gui/pyside2/io_items.py:136
+#: gui/pyside2/io_items.py:327
 msgid "Error message: "
 msgstr "Fehlermeldung: "
 
-#: gui/pyside2/io_items.py:53 gui/pyside2/io_items.py:235
+#: gui/pyside2/io_items.py:54 gui/pyside2/io_items.py:248
 msgid "Disconnect"
 msgstr "Verbindung trennen"
 
-#: gui/pyside2/io_items.py:115
-msgid "Error"
-msgstr "Fehler"
-
-#: gui/pyside2/io_items.py:115 gui/pyside2/io_items.py:295
+#: gui/pyside2/io_items.py:118 gui/pyside2/io_items.py:309
 msgid "Cyclic structures are not allowed."
 msgstr "Zyklische Strukturen sind nicht erlaubt."
 
-#: gui/pyside2/io_items.py:118 gui/pyside2/io_items.py:298
+#: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:313
 msgid "Signals have incompatible metadata."
 msgstr "Signale haben inkompatible Metadaten."
 
-#: gui/pyside2/io_items.py:122 gui/pyside2/io_items.py:302
+#: gui/pyside2/io_items.py:127 gui/pyside2/io_items.py:318
 msgid "Signals have incompatible abscissas."
 msgstr "Signale haben inkompatible Abszissen."
 
-#: gui/pyside2/main_window.py:71
+#: gui/pyside2/io_items.py:135 gui/pyside2/io_items.py:326
+msgid "Could not connect blocks"
+msgstr ""
+
+#: gui/pyside2/main_window.py:76
 msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
 msgstr ""
 "Das Dokument wurde verändert.\n"
-"Wollen sie die Änderungen speichern?"
+"Wollen Sie die Änderungen speichern?"
 
-#: gui/pyside2/main_window.py:77 gui/pyside2/main_window.py:288
+#: gui/pyside2/main_window.py:82 gui/pyside2/main_window.py:304
 msgid "Yes"
 msgstr "Ja"
 
-#: gui/pyside2/main_window.py:81
+#: gui/pyside2/main_window.py:86
 msgid "No"
 msgstr "Nein"
 
-#: gui/pyside2/main_window.py:86
+#: gui/pyside2/main_window.py:92
 msgid "File"
 msgstr "Datei"
 
-#: gui/pyside2/main_window.py:87
+#: gui/pyside2/main_window.py:93
 msgid "Language"
 msgstr "Sprache"
 
-#: gui/pyside2/main_window.py:88
+#: gui/pyside2/main_window.py:94
 msgid "View"
 msgstr "Ansicht"
 
-#: gui/pyside2/main_window.py:90
+#: gui/pyside2/main_window.py:96
 msgid "About"
 msgstr "Über"
 
-#: gui/pyside2/main_window.py:101
+#: gui/pyside2/main_window.py:107
 msgid "New"
 msgstr "Neu"
 
-#: gui/pyside2/main_window.py:105
+#: gui/pyside2/main_window.py:111
 msgid "Open"
 msgstr "Öffnen"
 
-#: gui/pyside2/main_window.py:109
+#: gui/pyside2/main_window.py:116
 msgid "Open Recent"
 msgstr "Zuletzt geöffnet"
 
-#: gui/pyside2/main_window.py:120
+#: gui/pyside2/main_window.py:127
 msgid "Save as"
 msgstr "Speichern als"
 
-#: gui/pyside2/main_window.py:125
-msgid "Clear all blocks"
-msgstr "Alle Blöcke löschen"
-
-#: gui/pyside2/main_window.py:129
+#: gui/pyside2/main_window.py:132
 msgid "Exit"
 msgstr "Verlassen"
 
-#: gui/pyside2/main_window.py:131
+#: gui/pyside2/main_window.py:134
 msgid "Close Application"
 msgstr "Programm beenden"
 
-#: gui/pyside2/main_window.py:135
+#: gui/pyside2/main_window.py:138
 msgid "Theme"
 msgstr "Theme"
 
-#: gui/pyside2/main_window.py:136
+#: gui/pyside2/main_window.py:139
 msgid "Default"
 msgstr "Standard"
 
-#: gui/pyside2/main_window.py:138
+#: gui/pyside2/main_window.py:141
 msgid "Dark"
 msgstr "Dunkel"
 
-#: gui/pyside2/main_window.py:173
+#: gui/pyside2/main_window.py:146
+msgid "Appearance"
+msgstr ""
+
+#: gui/pyside2/main_window.py:147
+msgid "Explorer"
+msgstr ""
+
+#: gui/pyside2/main_window.py:148
+msgid "Align left"
+msgstr ""
+
+#: gui/pyside2/main_window.py:150
+msgid "Align right"
+msgstr ""
+
+#: gui/pyside2/main_window.py:185
 msgid "Select a file to open"
 msgstr "Auswählen um Datei zu öffnen"
 
-#: gui/pyside2/main_window.py:231
+#: gui/pyside2/main_window.py:209
+msgid "File does not exist"
+msgstr "Die Datei existiert nicht"
+
+#: gui/pyside2/main_window.py:247
 msgid "File has to be a .json"
 msgstr "Datei muss eine .json sein"
 
-#: gui/pyside2/main_window.py:283
+#: gui/pyside2/main_window.py:299
 msgid "Are you sure you want to remove all blocks?"
-msgstr "Sicher Sie sicher, dass sie alle Blöcke entfernen wollen?"
+msgstr "Sind Sie sicher, dass Sie alle Blöcke entfernen wollen?"
 
-#: gui/pyside2/main_window.py:307
+#: gui/pyside2/main_window.py:323
 msgid "untitled.json"
 msgstr "Unbennant.json"
 
-#: gui/pyside2/main_window.py:335
+#: gui/pyside2/main_window.py:352
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
 
@@ -1482,5 +1599,86 @@ msgstr "Einstellungen werden nach Neustart übernommen."
 #~ msgstr "Gleichverteilt"
 
 #~ msgid "Error message: "
+#~ msgstr ""
+
+#~ msgid "SignalPlot"
+#~ msgstr "SignalPlot"
+
+#~ msgid "Plots all input signals in a single figure."
+#~ msgstr "Plottet alle Eingangssignale in eine Abbildung."
+
+#~ msgid "Clear all blocks"
+#~ msgstr "Alle Blöcke löschen"
+
+#~ msgid "Delete Block"
+#~ msgstr "Block löschen"
+
+#~ msgid "AutoCorrelation"
+#~ msgstr "Autokorrelation"
+
+#~ msgid "Computes the auto correlation of the input signal."
+#~ msgstr "Berechnet die Autokorrelationsfunktion des Eingangssignals."
+
+#~ msgid "CrossCorrelation"
+#~ msgstr "Kreuzkorrelation"
+
+#~ msgid "Computes the cross correlation of the input signal."
+#~ msgstr "Berechnet die Kreuzkorrelationsfunktion des Eingangssignals"
+
+#~ msgid "CrossPowerDensitySpectrum"
+#~ msgstr "Kreuzleistungsdichtespektrum"
+
+#~ msgid "Computes the cross power density spectrum of the input signals."
+#~ msgstr "Berechnet das Kreuzleistungsdichtespektrum des Eingangssignals."
+
+#~ msgid "PowerDensitySpectrum"
+#~ msgstr "Leistungsdichtespektrum"
+
+#~ msgid "Computes the power density spectrum of the input signal."
+#~ msgstr "Berechnet das Leistungsdichtespektrum des Eingangssignals."
+
+#~ msgid "Show"
+#~ msgstr "Anzeigen"
+
+#~ msgid "Error"
+#~ msgstr "Fehler"
+
+#~ msgid "CrossCorrelationFunction"
+#~ msgstr ""
+
+#~ msgid "BarPlot"
+#~ msgstr ""
+
+#~ msgid "Plots the input signal as a bar plot."
+#~ msgstr ""
+
+#~ msgid "LinePlot"
+#~ msgstr "LinePlot"
+
+#~ msgid "Plots all input signals as lines in a single figure."
+#~ msgstr "Plottet alle Eingangssignale mit Linien in ein Fenster."
+
+#~ msgid "Computes the power spectrum of the input signal."
+#~ msgstr "Berechnet das Leistungsspeltrum des Eingangssignal."
+
+#~ msgid "StemPlot"
+#~ msgstr "StemPlot"
+
+#~ msgid "Plots the input signal as a stem plot."
+#~ msgstr "Plottet alle Eingangssignale in einen Stemplot."
+
+#~ msgid "Fourier"
+#~ msgstr "Fourier"
+
+#~ msgid "Relative"
+#~ msgstr ""
+
+#~ msgid "Relative (density)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Plots absolute and relative frequency of"
+#~ " occurrences of values in a "
+#~ "histogramm."
 #~ msgstr ""
 

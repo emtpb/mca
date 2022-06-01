@@ -1,4 +1,5 @@
 import uuid
+import logging
 
 from mca.framework import io_registry, data_types
 
@@ -33,12 +34,16 @@ class Input:
         Args:
             output (Output): Output to which the Input gets connected.
         """
+        logging.info(f"Connecting {self.block}  to {output.block}")
         io_registry.Registry.connect(output, self)
 
     def disconnect(self):
         """Disconnects the Input from its Output if it is connected
         to any Output. Triggers an update.
         """
+        if self.connected_output:
+            logging.info(f"Disconnecting {self.block} from "
+                         f"{self.connected_output.block}")
         io_registry.Registry.disconnect_input(self)
 
     @property
@@ -160,4 +165,5 @@ class Output:
 
     def disconnect(self):
         """Disconnects itself from all Inputs."""
+        logging.info(f"Disconnecting {self.block} from all inputs.")
         io_registry.Registry.disconnect_output(self)

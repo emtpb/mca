@@ -1,4 +1,4 @@
-from PySide2 import QtWidgets, QtGui, QtCore
+from PySide2 import QtWidgets, QtGui
 import os
 import qdarkstyle
 
@@ -51,18 +51,23 @@ class MainWindow(QtWidgets.QMainWindow):
         self.block_view = block_display.BlockView(scene=self.block_scene, parent=self)
         self.block_view.show()
 
-        view_widget = QtWidgets.QWidget()
-        view_widget.setLayout(QtWidgets.QVBoxLayout())
+        self.view_widget = QtWidgets.QWidget()
+        self.view_widget.setLayout(QtWidgets.QVBoxLayout())
         self.view_tool_bar = QtWidgets.QToolBar()
         self.init_view_toolbar()
-        view_widget.layout().addWidget(self.view_tool_bar)
-        view_widget.layout().addWidget(self.block_view)
+        self.view_widget.layout().addWidget(self.view_tool_bar)
+        self.view_widget.layout().addWidget(self.block_view)
 
         self.block_explorer = block_explorer.BlockExplorer(self.block_scene)
         self.block_scene.block_list = self.block_explorer.block_list
 
-        self.main_widget.addWidget(self.block_explorer)
-        self.main_widget.addWidget(view_widget)
+        if self.conf["explorer_pos"] == "left":
+            self.main_widget.addWidget(self.block_explorer)
+            self.main_widget.addWidget(self.view_widget)
+        else:
+            self.main_widget.addWidget(self.view_widget)
+            self.main_widget.addWidget(self.block_explorer)
+
         self.setCentralWidget(self.main_widget)
         # Save warning message
         self.save_warning_message = QtWidgets.QMessageBox(
@@ -81,6 +86,7 @@ class MainWindow(QtWidgets.QMainWindow):
             _("No"))
 
     def init_menu(self):
+        """Initializes the top menu bar of the main window."""
 
         menu = self.menuBar()
         file_menu = menu.addMenu(_("File"))
@@ -137,6 +143,13 @@ class MainWindow(QtWidgets.QMainWindow):
         theme_menu.addAction(default_theme_action)
         theme_menu.addAction(dark_theme_action)
 
+        appearance_menu = view_menu.addMenu(_("Appearance"))
+        explorer_menu = appearance_menu.addMenu(_("Explorer"))
+        explorer_left_action = explorer_menu.addAction(_("Align left"))
+        explorer_left_action.triggered.connect(self.align_explorer_left)
+        explorer_right_action = explorer_menu.addAction(_("Align right"))
+        explorer_right_action.triggered.connect(self.align_explorer_right)
+
     def init_view_toolbar(self):
         """Initializes the toolbar for the block view."""
         self.view_tool_bar = QtWidgets.QToolBar()
@@ -192,6 +205,10 @@ class MainWindow(QtWidgets.QMainWindow):
         Args:
             file_path (str): Path of the file to open.
         """
+        if not os.path.exists(file_path):
+            QtWidgets.QMessageBox.warning(self, _("MCA"), _("File does not exist"),
+                                          QtWidgets.QMessageBox.Ok)
+            return
         self.block_scene.clear()
         loaded_blocks = load.load_block_structure(file_path)
         self.save_file_path = file_path
@@ -335,3 +352,18 @@ class MainWindow(QtWidgets.QMainWindow):
             msg_box.setText(_("Changes will be applied after restart."))
             msg_box.exec()
         return tmp
+
+    def align_explorer_left(self):
+        """Aligns the explorer widget to the left side of the splitter
+        widget.
+        """
+        if self.main_widget.indexOf(self.block_explorer) == 1:
+            self.main_widget.insertWidget(0, self.block_explorer)
+        self.conf["explorer_pos"] = "left"
+
+    def align_explorer_right(self):
+        """Aligns the explorer widget to the right side of the splitter widget.
+        """
+        if self.main_widget.indexOf(self.block_explorer) == 0:
+            self.main_widget.insertWidget(1, self.block_explorer)
+        self.conf["explorer_pos"] = "right"

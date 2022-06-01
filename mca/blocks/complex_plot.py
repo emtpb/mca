@@ -36,7 +36,11 @@ class ComplexPlot(DynamicBlock):
                 ("real_imag", _("Real/Imaginary")),
                 ("abs_phase", _("Absolute/Phase"))),
                                                     default="abs_phase"),
-            "show": parameters.ActionParameter(_("Show plot"), self.show),
+            "plot_kind": parameters.ChoiceParameter(
+                _("Plot kind"), choices=[("line", _("Line")),
+                                         ("stem", _("Stem"))], ),
+            "show": parameters.ActionParameter(_("Show plot"), self.show,
+                                               display_options=("block_button",)),
             "auto_show": parameters.BoolParameter(_("Auto plot"), False),
         })
 
@@ -60,6 +64,7 @@ class ComplexPlot(DynamicBlock):
 
         auto_show = self.parameters["auto_show"].value
         plot_type = self.parameters["plot_type"].value
+        plot_kind = self.parameters["plot_kind"].value
         labels = False
 
         for signal in signals:
@@ -71,11 +76,18 @@ class ComplexPlot(DynamicBlock):
             if label:
                 labels = True
             if plot_type == "real_imag":
-                self.first_axes.plot(abscissa, ordinate.real, label=label)
-                self.second_axes.plot(abscissa, ordinate.imag)
+                first_ordinate = ordinate.real
+                second_ordinate = ordinate.imag
             elif plot_type == "abs_phase":
-                self.first_axes.plot(abscissa, abs(ordinate), label=label)
-                self.second_axes.plot(abscissa, np.angle(ordinate))
+                first_ordinate = abs(ordinate)
+                second_ordinate = np.angle(ordinate)
+            self.second_axes.plot(abscissa, second_ordinate, "C0")
+            if plot_kind == "line":
+                self.first_axes.plot(abscissa, first_ordinate, "C0", label=label)
+            else:
+                self.first_axes.stem(abscissa, first_ordinate, "C0",
+                                     label=label, use_line_collection=True,
+                                     basefmt=" ")
         if labels:
             self.legend = self.fig.legend()
         else:
@@ -102,6 +114,7 @@ class ComplexPlot(DynamicBlock):
 
         self.first_axes.grid(True)
         self.second_axes.grid(True)
+
         self.fig.tight_layout()
         self.fig.canvas.draw()
 

@@ -1,9 +1,9 @@
 import sys
 import inspect
-import warnings
+import logging
 
 from .fft import FFT
-from .signal_plot import SignalPlot
+from .plot import Plot
 from .complex_to_real import ComplexToReal
 from .real_to_complex import RealToComplex
 from .fftplot import FFTPlot
@@ -20,8 +20,8 @@ from .amplifier import Amplifier
 from .signal_generator_stochastic import SignalGeneratorStochastic
 from .acf import AutoCorrelation
 from .ccf import CrossCorrelation
-from .psd import PowerDensitySpectrum
-from .cpsd import CrossPowerDensitySpectrum
+from .power_spectrum import PowerSpectrum
+from .cps import CrossPowerSpectrum
 from .complex_plot import ComplexPlot
 from .multiplier import Multiplier
 from .window import Window
@@ -42,10 +42,12 @@ from .interpolate import Interpolate
 from .stft_plot import STFTPlot
 from .dc_generator import DCGenerator
 from .xy_plot import XYPlot
+from .histogramm import Histogramm
+
 try:
     from .hs_oscilloscope import HSOscilloscope
 except ModuleNotFoundError:
-    warnings.warn("Module 'tiepie' not found.")
+    logging.warning("Module 'tiepie' not found.")
 # Create list of all blocks
 block_classes = [i[1] for i in inspect.getmembers(sys.modules[__name__],
                                                   inspect.isclass)]

@@ -8,7 +8,35 @@ This project follows the guidelines of `Keep a changelog`_ and adheres to
 .. _Keep a changelog: http://keepachangelog.com/
 .. _Semantic versioning: https://semver.org/
 
-0.2.0 - 2021-17-02
+0.3.0 - 2022-01-06
+==================
+
+Added
+-----
+* Context menu for editing actions
+* High DPI scaling
+* Logging
+* The block explorer can now be realigned
+* Histogramm plot block
+* Connection lines can now be removed by right-clicking
+
+
+
+Changed
+-------
+* SignalPlot has been renamed to Plot
+
+    * Implements also a bar and stem plot
+* Renamed the FFT tag
+* Reworked how the connection lines are implemented
+* Editing windows are blocking now
+
+Fixed
+-----
+* Set environment variable to select the PySide2 installation when using Anaconda
+* The plot view sometimes would not update its default view
+
+0.2.0 - 2022-17-02
 ==================
 
 Added

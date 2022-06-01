@@ -13,7 +13,7 @@ def test_fft(sin_block):
     increment = 1 / (sin.increment * sin.values)
     values = sin.values
     expected_metadata = data_types.MetaData(
-        "", "1/s", "V*s", _("Frequency"))
+        "", "1/s", "V", _("Frequency"))
     expected_signal = data_types.Signal(expected_metadata, 0, values,
                                         increment, expected_ordinate)
     assert a.outputs[0].data == expected_signal

@@ -10,7 +10,7 @@ class STFTPlot(Block):
     name = _("STFTPlot")
     description = _("Plots the Short-Time Fourier Transformation of the "
                     "input signal.")
-    tags = (_("Plotting"), _("Fourier"))
+    tags = (_("Plotting"), _("Fouriertransformation"))
 
     def __init__(self, **kwargs):
         """Initializes STFTPlot class."""
@@ -26,9 +26,11 @@ class STFTPlot(Block):
         self.parameters.update({
             "window": parameters.ChoiceParameter(
                 name=_("Window"),
-                choices=[("hann", _("Hann")),
-                         ("hamming", _("Hamming")),
-                         ("triangle", _("Triangle"))],
+                choices=[
+                    ("boxcar", _("Rectangle")),
+                    ("hann", _("Hann")),
+                    ("hamming", _("Hamming")),
+                    ("triangle", _("Triangle"))],
                 default="hann"),
             "seg_length": parameters.IntParameter(
                 name=_("Segment Length"), min_=1, default=20),
@@ -37,7 +39,8 @@ class STFTPlot(Block):
             "fft_length": parameters.IntParameter(
                 name=_("FFT Length"), min_=1, default=20),
             "show": parameters.ActionParameter(
-                name=_("Show"), function=self.show
+                name=_("Show plot"), function=self.show,
+                display_options=("block_button",)
             )
         })
 
@@ -64,8 +67,8 @@ class STFTPlot(Block):
         im = self.axes.pcolormesh(t, f, abs(z))
         self.color_bar = self.fig.colorbar(im, ax=self.axes)
         metadata = data_types.MetaData(input_signal.metadata.name,
-                                        unit_a=input_signal.metadata.unit_a,
-                                        unit_o=1/input_signal.metadata.unit_a)
+                                       unit_a=input_signal.metadata.unit_a,
+                                       unit_o=1/input_signal.metadata.unit_a)
         abscissa_string = data_types.metadata_to_axis_label(
             quantity=metadata.quantity_a,
             unit=metadata.unit_a,

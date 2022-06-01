@@ -71,6 +71,15 @@ class BlockView(QtWidgets.QGraphicsView):
         self.setBackgroundBrush(draw_pattern(40, QtGui.Qt.gray))
         self.setDragMode(self.RubberBandDrag)
 
+        self.default_context_menu = QtWidgets.QMenu(self)
+        self.default_context_menu.addAction(self.paste_action)
+
+        self.selection_context_menu = QtWidgets.QMenu(self)
+        self.selection_context_menu.addAction(self.copy_action)
+        self.selection_context_menu.addAction(self.paste_action)
+        self.selection_context_menu.addAction(self.cut_action)
+        self.selection_context_menu.addAction(self.delete_action)
+
     def zoom_in(self):
         """Zooms in by scaling the size of all items up."""
         self.scale(1.2, 1.2)
@@ -96,7 +105,13 @@ class BlockView(QtWidgets.QGraphicsView):
                 event.buttons(),
                 QtGui.Qt.KeyboardModifier.NoModifier)
             self.mousePressEvent(new_event)
-        super().mousePressEvent(event)
+        if event.button() == QtGui.Qt.RightButton:
+            if self.scene().selectedItems() and not self.itemAt(event.pos()):
+                self.selection_context_menu.exec_(event.screenPos().toPoint())
+            elif not self.itemAt(event.pos()):
+                self.default_context_menu.exec_(event.screenPos().toPoint())
+        else:
+            super().mousePressEvent(event)
 
     def mouseReleaseEvent(self, event):
         """Method invoked when a mouse button has been released."""
@@ -262,11 +277,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
                     input_item = block_item.inputs[input_index]
                     block_item = output.block.gui_data["run_time_data"]["pyside2"]["block_item"]
                     output_item = block_item.outputs[output.block.outputs.index(output)]
-                    self.addItem(
-                        io_items.ConnectionLine(
-                            output_item, input_item
-                        )
-                    )
+                    input_item.connect(output_item, loading=True)
 
     def copy_selected(self):
         """Copies the selected blocks from the scene as a json string

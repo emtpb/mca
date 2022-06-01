@@ -1,3 +1,5 @@
+import logging
+
 from mca import exceptions
 
 
@@ -37,6 +39,8 @@ class BaseParameter:
 
     @value.setter
     def value(self, val):
+        logging.info(f"Changing value of {self.name} from {self._value} "
+                     f"to {val}")
         self.validate(val)
         self._value = val
         if self.parameter_block:
@@ -252,16 +256,23 @@ class ActionParameter(BaseParameter):
 
     Attributes:
         function: Function this parameter calls.
+        display_options: Option for the GUI to specify how to display
+                            the parameter. Options: edit_window, menu_action,
+                            block_button.
     """
-    def __init__(self, name, function):
+    def __init__(self, name, function, display_options=("edit_window",)):
         """Initialize ActionParameter.
 
         Args:
             name (str): Name of the Parameter.
             function: Function this parameter calls.
+            display_options (tuple): Options for the GUI to specify how to
+                            display the parameter. Options: edit_window,
+                            menu_action, block_button.
         """
         super().__init__(name)
         self.function = function
+        self.display_options = display_options
 
     def validate(self, value):
         pass
