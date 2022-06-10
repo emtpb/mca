@@ -307,8 +307,8 @@ class BlockScene(QtWidgets.QGraphicsScene):
         view_size = self.views()[0].size()
         # Check if mouse is within view
         if (view_pos.x() >= 0) & (view_pos.y() >= 0) & (
-                view_pos.x() >= view_size.width()) & (
-                view_pos.y() >= view_size.height()):
+                view_pos.x() <= view_size.width()) & (
+                view_pos.y() <= view_size.height()):
             scene_pos = self.views()[0].mapToScene(view_pos)
             # Paste all block centered to the mouse
             x_min = min(
