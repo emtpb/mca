@@ -1,7 +1,8 @@
 from PySide2 import QtWidgets, QtCore, QtGui
 
+from mca.framework import data_types, DynamicBlock, block_io, io_registry, \
+    parameters
 from mca.gui.pyside2 import edit_window, io_items
-from mca.framework import data_types, DynamicBlock, block_io, io_registry, parameters
 from mca.language import _
 
 
@@ -118,12 +119,15 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.button_margin = 5
         i = 0
         for parameter in self.block.parameters.values():
-            if isinstance(parameter, parameters.ActionParameter) and "block_button" in parameter.display_options:
+            if isinstance(parameter,
+                          parameters.ActionParameter) and "block_button" in parameter.display_options:
                 self.action_buttons.append(
                     BlockButton(action_parameter=parameter,
-                                parent=self, x=self.input_offset+self.select_point_diameter//2+5,
-                                y=50+i*(self.button_height+self.button_margin),
-                                width=self.block_width-2*self.button_margin,
+                                parent=self,
+                                x=self.input_offset + self.select_point_diameter // 2 + 5,
+                                y=50 + i * (
+                                            self.button_height + self.button_margin),
+                                width=self.block_width - 2 * self.button_margin,
                                 height=self.button_height))
                 i += 1
 
@@ -203,7 +207,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     def required_name_width(self):
         """Width required to display the block name and the custom user name."""
-        name_width = QtGui.QFontMetrics(self.default_font).width(self.block.name)
+        name_width = QtGui.QFontMetrics(self.default_font).width(
+            self.block.name)
         custom_name_width = QtGui.QFontMetrics(self.custom_name_font).width(
             self.block.parameters["name"].value)
         if self.block.parameters["name"].value != self.block.name:
@@ -426,14 +431,15 @@ class BlockItem(QtWidgets.QGraphicsItem):
         new_input = io_items.InputItem(
             x=self.select_point_diameter // 2,
             y=len(self.inputs) * (self.input_height + self.input_dist) +
-            self.select_point_diameter // 2 + 5,
+              self.select_point_diameter // 2 + 5,
             width=self.input_width,
             height=self.input_height,
             mca_input=input_,
             view=self.view,
             parent=self)
         self.inputs.append(new_input)
-        needed_height = len(self.inputs) * (self.input_height + self.input_dist) + 5
+        needed_height = len(self.inputs) * (
+                    self.input_height + self.input_dist) + 5
         if needed_height > self.block_height:
             self.adjust_block_height(needed_height)
 
@@ -441,16 +447,18 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """Adds an existing :class:`.Output` from the block instance to a new
         :class:`.OutputItem` and adds it to its output list.
         """
-        pos_x = self.block_width + self.select_point_diameter//2 + self.input_offset
+        pos_x = self.block_width + self.select_point_diameter // 2 + self.input_offset
         new_output = io_items.OutputItem(
             x=pos_x,
-            y=len(self.outputs) * (self.output_height + self.output_dist) + 5 + self.select_point_diameter // 2,
+            y=len(self.outputs) * (
+                        self.output_height + self.output_dist) + 5 + self.select_point_diameter // 2,
             width=self.output_width,
             height=self.output_height,
             mca_output=output,
             view=self.view, parent=self)
         self.outputs.append(new_output)
-        needed_height = len(self.outputs) * (self.output_height + self.output_dist) + 5
+        needed_height = len(self.outputs) * (
+                    self.output_height + self.output_dist) + 5
         if needed_height > self.block_height:
             self.adjust_block_height(needed_height)
 
@@ -510,13 +518,15 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """
         if self._resize_all:
             self.adjust_block_width(
-                self._original_width + event.screenPos().x() - self._start_pos[0])
+                self._original_width + event.screenPos().x() - self._start_pos[
+                    0])
             self.adjust_block_height(
                 self._original_height + event.screenPos().y() - self._start_pos[
                     1])
         elif self._resize_width:
             self.adjust_block_width(
-                self._original_width + event.screenPos().x() - self._start_pos[0])
+                self._original_width + event.screenPos().x() - self._start_pos[
+                    0])
         elif self._resize_height:
             self.adjust_block_height(
                 self._original_height + event.screenPos().y() - self._start_pos[
@@ -562,7 +572,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         name_length = self.required_name_width()
         width = max(width, name_length, self.min_width)
         # Reposition outputs and update connection lines
-        x_offset = width+self.select_point_diameter//2 + self.input_offset
+        x_offset = width + self.select_point_diameter // 2 + self.input_offset
         for o in self.outputs:
             o.setPos(x_offset, o.pos().y())
             o.update_connection_line()
@@ -696,6 +706,7 @@ class BlockButton(QtWidgets.QGraphicsItem):
                      Changes according to the style.
         pressed (bool): Flag whether the button is pressed.
     """
+
     def __init__(self, action_parameter, parent, x, y, width, height):
         """Initialize BlockButton class.
 
@@ -736,7 +747,8 @@ class BlockButton(QtWidgets.QGraphicsItem):
         font = painter.font()
         fm = QtGui.QFontMetrics(font)
         name_width = fm.width(self.action_parameter.name)
-        painter.drawText(self.width//2-name_width//2, self.text_margin+self.height//2,
+        painter.drawText(self.width // 2 - name_width // 2,
+                         self.text_margin + self.height // 2,
                          self.action_parameter.name)
 
     def boundingRect(self):

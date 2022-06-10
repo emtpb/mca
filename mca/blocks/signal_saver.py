@@ -1,8 +1,8 @@
 import json
 
+from mca import exceptions
 from mca.framework import validator, Block, parameters
 from mca.language import _
-from mca import exceptions
 
 
 class SignalSaver(Block):
@@ -19,7 +19,8 @@ class SignalSaver(Block):
             "file_name": parameters.PathParameter(_("Filename"),
                                                   file_formats=[".json"]),
             "save": parameters.ActionParameter(_("Save"),
-                                               self.save_data, display_options=("edit_window", "block_button"))})
+                                               self.save_data, display_options=(
+                "edit_window", "block_button"))})
 
     def _process(self):
         if self.all_inputs_empty():

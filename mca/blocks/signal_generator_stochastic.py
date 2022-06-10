@@ -44,9 +44,10 @@ class SignalGeneratorStochastic(Block):
         dist = self.parameters["dist"].value
 
         if dist == "normal":
-            ordinate = mean + std_dev*np.random.randn(values)
+            ordinate = mean + std_dev * np.random.randn(values)
         elif dist == "uniform":
-            ordinate = mean + std_dev * np.sqrt(12) * (np.random.rand(values)-0.5)
+            ordinate = mean + std_dev * np.sqrt(12) * (
+                        np.random.rand(values) - 0.5)
 
         self.outputs[0].data = data_types.Signal(
             metadata=self.outputs[0].get_metadata(None),

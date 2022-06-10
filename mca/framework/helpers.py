@@ -1,7 +1,7 @@
+import numpy as np
+
 from mca.framework import parameters
 from mca.language import _
-
-import numpy as np
 
 
 def create_abscissa_parameter_block():
@@ -19,8 +19,10 @@ def create_abscissa_parameter_block():
     values = parameters.IntParameter(_("Values"), min_=1, default=1000)
     increment = parameters.FloatParameter(_("Increment"), min_=0,
                                           default=0.01)
-    sampling = parameters.FloatParameter(_("Sampling frequency"), default=100, min_=0, unit="Hz")
-    measure_time = parameters.FloatParameter(_("Measure time"), default=10.0, min_=0, unit="s")
+    sampling = parameters.FloatParameter(_("Sampling frequency"), default=100,
+                                         min_=0, unit="Hz")
+    measure_time = parameters.FloatParameter(_("Measure time"), default=10.0,
+                                             min_=0, unit="s")
     start = parameters.FloatParameter("Start", default=0)
 
     def dt_to_fabt():
@@ -54,11 +56,14 @@ def create_abscissa_parameter_block():
     )
     conversion_1 = parameters.ParameterConversion(
         [sampling, values], [increment, measure_time], fabt_values_to_tmess)
-    conversion_2 = parameters.ParameterConversion([values, measure_time], [increment, sampling],
-                                          tmess_values_to_dt)
-    conversion_3 = parameters.ParameterConversion([increment, measure_time], [sampling, values],
-                                          tmess_dt_to_values)
-    conversion_4 = parameters.ParameterConversion([sampling, measure_time], [increment, values],
+    conversion_2 = parameters.ParameterConversion([values, measure_time],
+                                                  [increment, sampling],
+                                                  tmess_values_to_dt)
+    conversion_3 = parameters.ParameterConversion([increment, measure_time],
+                                                  [sampling, values],
+                                                  tmess_dt_to_values)
+    conversion_4 = parameters.ParameterConversion([sampling, measure_time],
+                                                  [increment, values],
                                                   tmess_fabt_to_values)
     abscissa = parameters.ParameterBlock(name=_("Abscissa"),
                                          parameters={"start": start,
@@ -66,7 +71,11 @@ def create_abscissa_parameter_block():
                                                      "increment": increment,
                                                      "sampling": sampling,
                                                      "measure_time": measure_time},
-                                         param_conversions=[conversion, conversion_1, conversion_2, conversion_3, conversion_4],
+                                         param_conversions=[conversion,
+                                                            conversion_1,
+                                                            conversion_2,
+                                                            conversion_3,
+                                                            conversion_4],
                                          default_conversion=0)
     return abscissa
 
@@ -85,7 +94,8 @@ def fill_zeros(signals):
     min_abscissa_start = min(map(lambda signal: signal.abscissa_start, signals))
     max_abscissa_end = max(
         map(
-            lambda signal: signal.abscissa_start + signal.values * signal.increment,
+            lambda
+                signal: signal.abscissa_start + signal.values * signal.increment,
             signals,
         )
     )

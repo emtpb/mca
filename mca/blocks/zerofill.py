@@ -1,7 +1,7 @@
+import numpy as np
+
 from mca.framework import validator, data_types, parameters, Block
 from mca.language import _
-
-import numpy as np
 
 
 class Zerofill(Block):
@@ -32,7 +32,8 @@ class Zerofill(Block):
 
         input_signal = self.inputs[0].data
         ordinate = np.concatenate((np.zeros(dtime_values),
-                                   input_signal.ordinate, np.zeros(zpad_values)))
+                                   input_signal.ordinate,
+                                   np.zeros(zpad_values)))
         values = dtime_values + zpad_values + input_signal.values
         self.outputs[0].data = data_types.Signal(
             metadata=self.outputs[0].get_metadata(input_signal.metadata),

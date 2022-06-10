@@ -15,10 +15,10 @@ class PowerSpectrum(Block):
 
     def setup_io(self):
         self.new_output(metadata=data_types.MetaData(
-                "",
-                unit_a="1/s",
-                unit_o="V*V",
-                quantity_a=_("Frequency")
+            "",
+            unit_a="1/s",
+            unit_o="V*V",
+            quantity_a=_("Frequency")
         ))
         self.new_input()
 
@@ -31,15 +31,15 @@ class PowerSpectrum(Block):
                 ("hamming", _("Hamming")),
                 ("triangle", _("Triangle"))], default="hann")
         self.parameters["seg_length"] = parameters.IntParameter(
-                        name=_("Segment Length"), min_=1, default=100)
+            name=_("Segment Length"), min_=1, default=100)
         self.parameters["seg_overlap"] = parameters.IntParameter(
-                        name=_("Segment Overlap"), min_=0, default=10)
+            name=_("Segment Overlap"), min_=0, default=10)
         self.parameters["fft_length"] = parameters.IntParameter(
-                        name=_("FFT Length"), min_=1, default=100)
+            name=_("FFT Length"), min_=1, default=100)
         self.parameters["scaling"] = parameters.ChoiceParameter(
-                        name=_("Scaling"), choices=[("density", _("Density")),
-                                                    ("spectrum", _("Spectrum"))],
-                        default="spectrum")
+            name=_("Scaling"), choices=[("density", _("Density")),
+                                        ("spectrum", _("Spectrum"))],
+            default="spectrum")
 
     def _process(self):
         if self.all_inputs_empty():
@@ -53,7 +53,7 @@ class PowerSpectrum(Block):
         fft_length = self.parameters["fft_length"].value
         scaling = self.parameters["scaling"].value
         freq, power_density = welch(x=input_signal.ordinate,
-                                    fs=1/input_signal.increment,
+                                    fs=1 / input_signal.increment,
                                     window=window,
                                     nperseg=seg_length,
                                     noverlap=seg_overlap,
@@ -63,8 +63,8 @@ class PowerSpectrum(Block):
         abscissa_start = freq[0]
         values = len(freq)
         increment = freq[1] - freq[0]
-        unit_a = 1/input_signal.metadata.unit_a
-        unit_o = input_signal.metadata.unit_o**2
+        unit_a = 1 / input_signal.metadata.unit_a
+        unit_o = input_signal.metadata.unit_o ** 2
         if scaling == "density":
             unit_o = Unit([unit_o.repr], [unit_a.repr], fix_repr=True)
         metadata = data_types.MetaData(None, unit_a, unit_o)

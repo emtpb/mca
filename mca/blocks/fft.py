@@ -16,7 +16,7 @@ class FFT(Block):
                 "",
                 unit_a="1/s",
                 unit_o="V",
-                quantity_a=_("Frequency"),)
+                quantity_a=_("Frequency"), )
         )
         self.new_input()
 
@@ -38,12 +38,12 @@ class FFT(Block):
         values = input_signal.values
 
         if normalize:
-            ordinate = ordinate/values
+            ordinate = ordinate / values
         unit_o = input_signal.metadata.unit_o
 
         metadata = data_types.MetaData(
             name="",
-            unit_a=1/input_signal.metadata.unit_a,
+            unit_a=1 / input_signal.metadata.unit_a,
             unit_o=unit_o
         )
 

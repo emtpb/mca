@@ -1,7 +1,7 @@
-from mca.framework import validator, data_types, Block, parameters
-from mca.language import _
-
 import numpy as np
+
+from mca.framework import validator, data_types, Block
+from mca.language import _
 
 
 class Differentiator(Block):

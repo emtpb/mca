@@ -1,12 +1,12 @@
-from PySide2 import QtWidgets
-from united import Unit
 import os
 
-from mca.config import Config
-from mca import exceptions
-from mca.language import _
-from mca.framework import parameters
+from PySide2 import QtWidgets
+from united import Unit
 
+from mca import exceptions
+from mca.config import Config
+from mca.framework import parameters
+from mca.language import _
 
 config = Config()
 
@@ -297,6 +297,7 @@ class BoolParameterWidget(BaseParameterWidget, QtWidgets.QCheckBox):
 
 class ActionParameterWidget(BaseParameterWidget, QtWidgets.QPushButton):
     """Widget to display :class:`.ActionParameter`."""
+
     def __init__(self, parameter, edit_window):
         self.parameter = parameter
         QtWidgets.QPushButton.__init__(self, self.parameter.name)
@@ -335,6 +336,7 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
     can be entered manually with the line edit or can be chosen via a file
     dialog window.
     """
+
     def __init__(self, parameter, edit_window):
         """Initializes FileParameterWidget class."""
         QtWidgets.QWidget.__init__(self)
@@ -427,6 +429,7 @@ class MetaDataEditWidget(QtWidgets.QLineEdit):
         changed (bool): Indicates whether the current value in the widget
                         differs from the previous value.
     """
+
     def __init__(self, metadata, attr):
         """Initializes MetaDataEditWidget class.
 
@@ -506,6 +509,7 @@ class MetaDataBoolWidget(QtWidgets.QCheckBox):
         changed (bool): Indicates whether the current value in the widget
                         differs from the previous value.
     """
+
     def __init__(self, text, output, attr):
         """Initializes MetaDataEditWidget class.
 
@@ -589,7 +593,8 @@ class ParameterBlockChoiceWidget(QtWidgets.QComboBox):
         self.parameter_block = parameter_block
         self.parameters_to_widgets = parameters_to_widgets
         # Add the conversions to the ComboBox
-        for index, conversion in enumerate(self.parameter_block.param_conversions):
+        for index, conversion in enumerate(
+                self.parameter_block.param_conversions):
             names = [parameter.name for parameter in conversion.main_parameters]
             self.addItem("/".join(names), userData=index)
         self.enable_parameter_widgets()
@@ -599,7 +604,8 @@ class ParameterBlockChoiceWidget(QtWidgets.QComboBox):
         """Enables and disables the parameter widgets depending on the
         current activated conversion.
         """
-        current_conversion = self.parameter_block.param_conversions[self.parameter_block.conversion_index]
+        current_conversion = self.parameter_block.param_conversions[
+            self.parameter_block.conversion_index]
         for parameter in current_conversion.main_parameters:
             widget = self.parameters_to_widgets[parameter]
             widget.setEnabled(True)
@@ -626,6 +632,7 @@ class ParameterBlockWidget(QtWidgets.QGroupBox):
         parameters_to_widgets (dict): Mapping of the parameter to the
                                       corresponding widgets.
     """
+
     def __init__(self, parameter_block, edit_window):
         """Initializes the ParameterBlockWidget.
 
@@ -639,9 +646,10 @@ class ParameterBlockWidget(QtWidgets.QGroupBox):
         self.main_layout = QtWidgets.QGridLayout(self)
         self.parameters_to_widgets = {}
         # Create and arrange the parameter widgets
-        for index, parameter in enumerate(self.parameter_block.parameters.values(), 1):
+        for index, parameter in enumerate(
+                self.parameter_block.parameters.values(), 1):
             if not isinstance(parameter, parameters.BoolParameter) and \
-               not isinstance(parameter, parameters.ActionParameter):
+                    not isinstance(parameter, parameters.ActionParameter):
                 name_label = QtWidgets.QLabel(parameter.name + ":")
                 name_label.setFixedHeight(25)
                 self.main_layout.addWidget(name_label, index, 0, 1, 1)

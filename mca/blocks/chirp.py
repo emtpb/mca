@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import signal as sgn
 
-from mca.framework import data_types, parameters, helpers,  Block
+from mca.framework import data_types, parameters, helpers, Block
 from mca.language import _
 
 

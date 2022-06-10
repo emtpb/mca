@@ -1,6 +1,7 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import copy
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 from mca.framework import validator, data_types, parameters, DynamicBlock
 from mca.language import _
@@ -40,7 +41,8 @@ class ComplexPlot(DynamicBlock):
                 _("Plot kind"), choices=[("line", _("Line")),
                                          ("stem", _("Stem"))], ),
             "show": parameters.ActionParameter(_("Show plot"), self.show,
-                                               display_options=("block_button",)),
+                                               display_options=(
+                                               "block_button",)),
             "auto_show": parameters.BoolParameter(_("Auto plot"), False),
         })
 
@@ -69,7 +71,8 @@ class ComplexPlot(DynamicBlock):
 
         for signal in signals:
             abscissa = np.linspace(signal.abscissa_start,
-                                   signal.abscissa_start + signal.increment * (signal.values - 1),
+                                   signal.abscissa_start + signal.increment * (
+                                               signal.values - 1),
                                    signal.values)
             ordinate = signal.ordinate
             label = signal.metadata.name
@@ -83,7 +86,8 @@ class ComplexPlot(DynamicBlock):
                 second_ordinate = np.angle(ordinate)
             self.second_axes.plot(abscissa, second_ordinate, "C0")
             if plot_kind == "line":
-                self.first_axes.plot(abscissa, first_ordinate, "C0", label=label)
+                self.first_axes.plot(abscissa, first_ordinate, "C0",
+                                     label=label)
             else:
                 self.first_axes.stem(abscissa, first_ordinate, "C0",
                                      label=label, use_line_collection=True,

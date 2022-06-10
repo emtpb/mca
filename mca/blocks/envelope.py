@@ -1,6 +1,5 @@
-from scipy.signal import hilbert
 import numpy as np
-
+from scipy.signal import hilbert
 
 from mca.framework import validator, data_types, Block
 from mca.language import _
@@ -28,7 +27,7 @@ class Envelope(Block):
         analytical_signal = hilbert(input_signal.ordinate)
         envelope = np.abs(analytical_signal)
         metadata = data_types.MetaData(None, input_signal.metadata.unit_a,
-                                        input_signal.metadata.unit_o)
+                                       input_signal.metadata.unit_o)
         self.outputs[0].data = data_types.Signal(
             metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=input_signal.abscissa_start,

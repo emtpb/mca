@@ -1,7 +1,7 @@
 import networkx as nx
 
-from mca.framework import block_io
 from mca import exceptions
+from mca.framework import block_io
 
 
 class IORegistry:

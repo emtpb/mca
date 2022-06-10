@@ -37,14 +37,17 @@ class Quantization(Block):
         raw = self.parameters["raw"].value
 
         if not signed:
-            ordinate = input_signal.ordinate * (2**bits) / max_value
+            ordinate = input_signal.ordinate * (2 ** bits) / max_value
         else:
-            ordinate = (input_signal.ordinate+max_value) * (2**bits-1) / (2*max_value)
+            ordinate = (input_signal.ordinate + max_value) * (2 ** bits - 1) / (
+                        2 * max_value)
         ordinate = np.rint(ordinate)
 
-        pos_clipping_mask = ordinate > 2**bits-1
+        pos_clipping_mask = ordinate > 2 ** bits - 1
         neg_clipping_mask = ordinate < 0
-        ordinate = ~(pos_clipping_mask | neg_clipping_mask) * ordinate + pos_clipping_mask*(2**bits-1)
+        ordinate = ~(
+                    pos_clipping_mask | neg_clipping_mask) * ordinate + pos_clipping_mask * (
+                               2 ** bits - 1)
 
         if not raw:
             ordinate = ordinate * (1 + signed) * max_value / (2 ** bits)

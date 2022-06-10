@@ -18,8 +18,9 @@ class AudioRecorder(Block):
                                                       None, "s", 5),
              "record_sound": parameters.ActionParameter(_("Record sound"),
                                                         self.record_sound,
-                                                        display_options=("block_button",
-                                                                         "edit_window")),
+                                                        display_options=(
+                                                        "block_button",
+                                                        "edit_window")),
 
              })
 
@@ -39,7 +40,7 @@ class AudioRecorder(Block):
         """
         sampling_frequency = self.parameters["sampling_freq"].value
         record_time = self.parameters["record_time"].value
-        frames = int(sampling_frequency*record_time)
+        frames = int(sampling_frequency * record_time)
         recording = sd.rec(frames=frames, samplerate=sampling_frequency,
                            channels=1).reshape(frames)
         sd.wait()
@@ -47,6 +48,6 @@ class AudioRecorder(Block):
             metadata=self.outputs[0].metadata,
             abscissa_start=0,
             values=frames,
-            increment=1/sampling_frequency,
+            increment=1 / sampling_frequency,
             ordinate=recording)
         self.trigger_update()

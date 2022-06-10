@@ -1,5 +1,6 @@
-from PySide2 import QtWidgets, QtCore, QtGui
 import logging
+
+from PySide2 import QtWidgets, QtCore, QtGui
 
 from mca import exceptions
 from mca.language import _
@@ -187,8 +188,9 @@ class InputItem(QtWidgets.QGraphicsItem):
                 self.connection_line = connection_line
                 self.connection_line.p2 = (self.scenePos().x(),
                                            self.scenePos().y() + self.height / 2)
-                self.connection_line.p1 = (output_item.scenePos().x() + output_item.width,
-                                           output_item.scenePos().y() + output_item.height / 2)
+                self.connection_line.p1 = (
+                output_item.scenePos().x() + output_item.width,
+                output_item.scenePos().y() + output_item.height / 2)
             self.modified()
             return
 

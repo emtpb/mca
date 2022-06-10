@@ -10,7 +10,7 @@ class Divider(Block):
 
     def setup_io(self):
         self.new_output(
-            )
+        )
         self.new_input()
         self.new_input()
 
@@ -29,12 +29,13 @@ class Divider(Block):
         validator.check_intervals(input_signals)
 
         matched_signals = helpers.fill_zeros(input_signals)
-        ordinate = input_signals[0].ordinate/input_signals[1].ordinate
+        ordinate = input_signals[0].ordinate / input_signals[1].ordinate
         values = matched_signals[0].values
         increment = matched_signals[0].increment
 
         unit_a = matched_signals[0].metadata.unit_a
-        unit_o = input_signals[0].metadata.unit_o / input_signals[1].metadata.unit_o
+        unit_o = input_signals[0].metadata.unit_o / input_signals[
+            1].metadata.unit_o
         metadata = data_types.MetaData(None, unit_a, unit_o)
         abscissa_start = matched_signals[0].abscissa_start
 

@@ -1,5 +1,6 @@
-from tiepie import Oscilloscope
 from copy import deepcopy
+
+from tiepie import Oscilloscope
 
 from mca.framework import data_types, parameters, Block
 from mca.language import _
@@ -50,12 +51,15 @@ class HSOscilloscope(Block):
         trig_lvl = parameters.FloatParameter(_("Trigger Level"), min_=0,
                                              max_=1, default=0.5)
         trig_kind = parameters.ChoiceParameter(_("Trigger Kind"),
-                                               choices=[("rising", "Rising Edge"),
-                                                        ("falling", "Falling Edge"),
-                                                        ("in window", "In Window"),
-                                                        ("out window", "Out Window")],
+                                               choices=[
+                                                   ("rising", "Rising Edge"),
+                                                   ("falling", "Falling Edge"),
+                                                   ("in window", "In Window"),
+                                                   (
+                                                   "out window", "Out Window")],
                                                default="rising")
-        trig_enabled_ch1 = parameters.BoolParameter(_("Enable Trigger"), default=True)
+        trig_enabled_ch1 = parameters.BoolParameter(_("Enable Trigger"),
+                                                    default=True)
         ch1 = parameters.ParameterBlock(name=_("Channel 1"),
                                         parameters={"range": volt_range,
                                                     "enable_trig": trig_enabled_ch1,
@@ -64,10 +68,11 @@ class HSOscilloscope(Block):
         trig_enabled_ch2 = parameters.BoolParameter(_("Enable Trigger"),
                                                     default=False)
         ch2 = parameters.ParameterBlock(name=_("Channel 2"),
-                                        parameters={"range": deepcopy(volt_range),
-                                                    "enable_trig": trig_enabled_ch2,
-                                                    "trig_lvl": deepcopy(trig_lvl),
-                                                    "trig_kind": deepcopy(trig_kind)})
+                                        parameters={
+                                            "range": deepcopy(volt_range),
+                                            "enable_trig": trig_enabled_ch2,
+                                            "trig_lvl": deepcopy(trig_lvl),
+                                            "trig_kind": deepcopy(trig_kind)})
         self.parameters.update({
             "device": parameters.ChoiceParameter(
                 name=_("Device"),
@@ -77,14 +82,20 @@ class HSOscilloscope(Block):
                 _("Connect"),
                 function=self.connect_oscilloscope),
             "adc_resolution": parameters.ChoiceParameter(_("ADC Resolution"),
-                                                         choices=[(8, "8"), (10, "10"), (12, "12"), (14, "14")],
+                                                         choices=[(8, "8"),
+                                                                  (10, "10"),
+                                                                  (12, "12"),
+                                                                  (14, "14")],
                                                          default=8),
-            "sample_freq": parameters.FloatParameter(_("Sample Frequency"), unit="Hz", default=1e8),
-            "record_length": parameters.IntParameter(_("Record Length"), default=5000),
-            "measure": parameters.ActionParameter(_("Measure"), function=self.measure),
+            "sample_freq": parameters.FloatParameter(_("Sample Frequency"),
+                                                     unit="Hz", default=1e8),
+            "record_length": parameters.IntParameter(_("Record Length"),
+                                                     default=5000),
+            "measure": parameters.ActionParameter(_("Measure"),
+                                                  function=self.measure),
             "ch1": ch1,
             "ch2": ch2
-             })
+        })
 
     def _process(self):
         if self.oscilloscope:
@@ -107,7 +118,7 @@ class HSOscilloscope(Block):
         self.apply_parameters()
         measurement = self.oscilloscope.measure()
         time_vector = self.oscilloscope.time_vector
-        increment = 1/self.parameters["sample_freq"].value
+        increment = 1 / self.parameters["sample_freq"].value
         values = len(time_vector)
         self.outputs[0].data = data_types.Signal(
             metadata=self.outputs[0].get_metadata(None),
@@ -131,9 +142,14 @@ class HSOscilloscope(Block):
         self.oscilloscope.resolution = self.parameters["adc_resolution"].value
         self.oscilloscope.record_length = self.parameters["record_length"].value
         for channel, index in zip(self.oscilloscope.channels, ("1", "2")):
-            channel.range = self.parameters["ch{}".format(index)].parameters["range"].value
-            channel.is_trig_enabled = self.parameters["ch{}".format(index)].parameters["enable_trig"].value
-            channel.trig_kind = self.parameters["ch{}".format(index)].parameters[
+            channel.range = self.parameters["ch{}".format(index)].parameters[
+                "range"].value
+            channel.is_trig_enabled = \
+            self.parameters["ch{}".format(index)].parameters[
+                "enable_trig"].value
+            channel.trig_kind = \
+            self.parameters["ch{}".format(index)].parameters[
                 "trig_kind"].value
-            channel.trig_lvl = (self.parameters["ch{}".format(index)].parameters[
+            channel.trig_lvl = (
+            self.parameters["ch{}".format(index)].parameters[
                 "trig_lvl"].value,)

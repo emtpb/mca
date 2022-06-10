@@ -1,6 +1,7 @@
 import json
-import appdirs
 import os
+
+import appdirs
 
 
 class Config(dict):

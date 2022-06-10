@@ -1,9 +1,10 @@
-from PySide2 import QtWidgets, QtCore, QtGui
 import os
 
+from PySide2 import QtWidgets, QtCore, QtGui
+
 import mca
-from mca.language import _
 from mca import blocks
+from mca.language import _
 
 
 class BlockExplorer(QtWidgets.QWidget):
@@ -38,7 +39,8 @@ class BlockExplorer(QtWidgets.QWidget):
         self.block_list.button_group = self.button_filter.button_group
 
         self.button_filter.tag_button.pressed.connect(self.block_list.show_all)
-        self.button_filter.block_button.pressed.connect(self.block_list.show_blocks)
+        self.button_filter.block_button.pressed.connect(
+            self.block_list.show_blocks)
 
         self.block_list.search_bar = self.search_bar
         self.search_bar.textChanged.connect(self.block_list.show_items)
@@ -55,6 +57,7 @@ class BlockList(QtWidgets.QListWidget):
     block items in the :class:`.BlockScene` with the drag-able block list
     items.
     """
+
     def __init__(self, scene):
         """Initialize BlockList widget.
 
@@ -93,9 +96,9 @@ class BlockList(QtWidgets.QListWidget):
                    QtCore.Qt.CopyAction)
 
     def mouseDoubleClickEvent(self, event):
-        """Method invoked when an item in the list gets double-clicked. If a block gets clicked, it will get
-        initialized in the :class:`.BlockScene`. If a tag gets clicked the
-        string will appear in the search_bar.
+        """Method invoked when an item in the list gets double-clicked. If a
+        block gets clicked, it will get initialized in the :class:`.BlockScene`.
+        If a tag gets clicked the string will appear in the search_bar.
         """
         item = self.currentItem()
         if item is None:
@@ -103,7 +106,8 @@ class BlockList(QtWidgets.QListWidget):
         if item.data(4) == "block":
             selected_block_class = item.data(3)
             self.scene.create_block_item(selected_block_class(), 0, 0,
-                                         open_edit_window=True, find_free_space=True)
+                                         open_edit_window=True,
+                                         find_free_space=True)
         elif item.data(4) == "tag":
             self.search_bar.setText(item.data(5))
 
@@ -151,7 +155,8 @@ class BlockList(QtWidgets.QListWidget):
             related_blocks += tag.related_blocks
         matching_blocks = list(map(lambda x: x.data(3), related_blocks))
         for item in matching_items:
-            if search_string and item.data(5) is False and matching_blocks.count(item.data(3)) == 0:
+            if search_string and item.data(
+                    5) is False and matching_blocks.count(item.data(3)) == 0:
                 item.setHidden(False)
             elif item.data(4) == "tag":
                 item.setHidden(False)
@@ -195,6 +200,7 @@ class TagListItem(QtWidgets.QListWidgetItem):
     Attributes:
         related_blocks(list): List of all block list items related to this tag.
     """
+
     def __init__(self, tag_name):
         """Initialize TagListItem.
 
@@ -237,6 +243,7 @@ class ButtonFilter(QtWidgets.QWidget):
         block_button: Button to filter only for block list items which are
                       not related to a tag.
     """
+
     def __init__(self):
         """Initialize ButtonFilter widget."""
         QtWidgets.QWidget.__init__(self)

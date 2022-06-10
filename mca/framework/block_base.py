@@ -1,8 +1,8 @@
 import json
 import logging
 
-from mca.framework import block_io, io_registry, data_types, parameters
 from mca import exceptions
+from mca.framework import block_io, io_registry, data_types, parameters
 from mca.language import _
 
 
@@ -46,7 +46,8 @@ class Block:
         for key in kwargs:
             if isinstance(kwargs[key], dict):
                 for sub_key in kwargs[key]:
-                    self.parameters[key].parameters[sub_key].value = kwargs[key][sub_key]
+                    self.parameters[key].parameters[sub_key].value = \
+                    kwargs[key][sub_key]
             else:
                 self.parameters[key].value = kwargs[key]
 
@@ -180,13 +181,13 @@ class Block:
                              "symbol_a": self.outputs[
                                  output_index].data.metadata.symbol_a,
                              "unit_a": repr(self.outputs[
-                                 output_index].data.metadata.unit_a),
+                                                output_index].data.metadata.unit_a),
                              "quantity_o": self.outputs[
                                  output_index].data.metadata.quantity_o,
                              "symbol_o": self.outputs[
                                  output_index].data.metadata.symbol_o,
                              "unit_o": repr(self.outputs[
-                                 output_index].data.metadata.unit_o),
+                                                output_index].data.metadata.unit_o),
                              "abscissa_start": self.outputs[
                                  output_index].data.abscissa_start,
                              "values": self.outputs[output_index].data.values,

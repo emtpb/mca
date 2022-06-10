@@ -1,9 +1,8 @@
 import matplotlib.pyplot as plt
 
+from mca import exceptions
 from mca.framework import Block, parameters, data_types
 from mca.language import _
-
-from mca import exceptions
 
 
 class XYPlot(Block):
@@ -78,15 +77,15 @@ class XYPlot(Block):
 
         self.axes.scatter(abscissa, ordinate, color="C0")
         self.axes.set_xlabel(data_types.metadata_to_axis_label(
-                quantity=quantity_a,
-                unit=unit_a,
-                symbol=symbol_a
-            ))
+            quantity=quantity_a,
+            unit=unit_a,
+            symbol=symbol_a
+        ))
         self.axes.set_ylabel(data_types.metadata_to_axis_label(
-                quantity=quantity_o,
-                unit=unit_o,
-                symbol=symbol_o
-            ))
+            quantity=quantity_o,
+            unit=unit_o,
+            symbol=symbol_o
+        ))
         self.fig.tight_layout()
         self.fig.canvas.draw()
 

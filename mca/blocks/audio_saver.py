@@ -1,9 +1,9 @@
-from united import Unit
 import scipy.io.wavfile
+from united import Unit
 
+from mca import exceptions
 from mca.framework import validator, parameters, Block
 from mca.language import _
-from mca import exceptions
 
 
 class AudioSaver(Block):

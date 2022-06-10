@@ -1,9 +1,9 @@
-import scipy.io.wavfile
 import numpy as np
+import scipy.io.wavfile
 
+from mca import exceptions
 from mca.framework import parameters, Block, data_types
 from mca.language import _
-from mca import exceptions
 
 
 class AudioLoader(Block):
@@ -42,11 +42,11 @@ class AudioLoader(Block):
         except FileNotFoundError:
             raise exceptions.DataLoadingError("File not found")
         if normalize:
-            data = data/np.max(data)
+            data = data / np.max(data)
         self.outputs[0].data = data_types.Signal(
             metadata=self.outputs[0].metadata,
             abscissa_start=0,
             values=len(data),
-            increment=1/rate,
+            increment=1 / rate,
             ordinate=data)
         self.trigger_update()

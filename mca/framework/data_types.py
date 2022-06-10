@@ -1,5 +1,5 @@
-from united import Unit
 import numpy as np
+from united import Unit
 
 from mca.language import _
 
@@ -67,6 +67,7 @@ class MetaData:
         symbol_o (str): Symbol of the ordinate.
 
     """
+
     def __init__(self, name, unit_a, unit_o, quantity_a="", quantity_o="",
                  symbol_a="", symbol_o="", fixed_unit_a=False,
                  fixed_unit_o=False):

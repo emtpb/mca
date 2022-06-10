@@ -1,5 +1,5 @@
-import uuid
 import logging
+import uuid
 
 from mca.framework import io_registry, data_types
 

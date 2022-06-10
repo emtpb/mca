@@ -1,6 +1,7 @@
-from PySide2 import QtWidgets, QtGui
 import os
+
 import qdarkstyle
+from PySide2 import QtWidgets, QtGui
 
 from mca import config
 from mca.framework import save, load
@@ -48,7 +49,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.main_widget = QtWidgets.QSplitter(self)
 
         self.block_scene = block_display.BlockScene(self.main_widget)
-        self.block_view = block_display.BlockView(scene=self.block_scene, parent=self)
+        self.block_view = block_display.BlockView(scene=self.block_scene,
+                                                  parent=self)
         self.block_view.show()
 
         self.view_widget = QtWidgets.QWidget()
@@ -73,13 +75,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.save_warning_message = QtWidgets.QMessageBox(
             parent=self,
             icon=QtWidgets.QMessageBox.Warning,
-            text=_("The document has been modified.\nDo you want to save your changes?"),
+            text=_(
+                "The document has been modified.\nDo you want to save your changes?"),
         )
         self.save_warning_message.setWindowTitle(_("MCA"))
         self.save_warning_message.setStandardButtons(QtWidgets.QMessageBox.Yes
                                                      | QtWidgets.QMessageBox.Cancel
                                                      | QtWidgets.QMessageBox.No)
-        self.save_warning_message.button(QtWidgets.QMessageBox.Yes).setText(_("Yes"))
+        self.save_warning_message.button(QtWidgets.QMessageBox.Yes).setText(
+            _("Yes"))
         self.save_warning_message.button(QtWidgets.QMessageBox.Cancel).setText(
             _("Cancel"))
         self.save_warning_message.button(QtWidgets.QMessageBox.No).setText(
@@ -193,9 +197,11 @@ class MainWindow(QtWidgets.QMainWindow):
         Args:
             file_name (str): Path of the file to open.
         """
+
         def tmp():
             if self.save_maybe():
                 self.open_file(file_name)
+
         return tmp
 
     def open_file(self, file_path):
@@ -206,7 +212,8 @@ class MainWindow(QtWidgets.QMainWindow):
             file_path (str): Path of the file to open.
         """
         if not os.path.exists(file_path):
-            QtWidgets.QMessageBox.warning(self, _("MCA"), _("File does not exist"),
+            QtWidgets.QMessageBox.warning(self, _("MCA"),
+                                          _("File does not exist"),
                                           QtWidgets.QMessageBox.Ok)
             return
         self.block_scene.clear()
@@ -296,9 +303,11 @@ class MainWindow(QtWidgets.QMainWindow):
         """Clears the :class:`.BlockScene` from all blocks."""
         message_box = QtWidgets.QMessageBox(parent=self,
                                             icon=QtWidgets.QMessageBox.Question,
-                                            text=_("Are you sure you want to remove all blocks?"))
+                                            text=_(
+                                                "Are you sure you want to remove all blocks?"))
         message_box.setWindowTitle(_("MCA"))
-        message_box.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Cancel)
+        message_box.setStandardButtons(
+            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Cancel)
         message_box.button(QtWidgets.QMessageBox.Cancel).setText(_("Cancel"))
         message_box.button(QtWidgets.QMessageBox.Yes).setText(
             _("Yes"))
@@ -351,6 +360,7 @@ class MainWindow(QtWidgets.QMainWindow):
             msg_box.setWindowTitle(_("MCA"))
             msg_box.setText(_("Changes will be applied after restart."))
             msg_box.exec()
+
         return tmp
 
     def align_explorer_left(self):

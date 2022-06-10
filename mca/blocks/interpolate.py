@@ -1,9 +1,9 @@
-from scipy.interpolate import interp1d
 import numpy as np
+from scipy.interpolate import interp1d
 
+from mca import exceptions
 from mca.framework import validator, data_types, Block, helpers, parameters
 from mca.language import _
-from mca import exceptions
 
 
 class Interpolate(Block):
@@ -34,7 +34,7 @@ class Interpolate(Block):
                           ("next", _("Next")), ("nearest", _("Nearest"))
                           ],
                  default="linear"
-                )
+             )
              })
 
     def _process(self):
@@ -52,10 +52,11 @@ class Interpolate(Block):
         interpol_kind = self.parameters["interpol_kind"].value
 
         input_signal_abscissa = np.linspace(input_signal.abscissa_start,
-                    input_signal.abscissa_start + input_signal.increment * (
-                                input_signal.values - 1), input_signal.values)
+                                            input_signal.abscissa_start + input_signal.increment * (
+                                                    input_signal.values - 1),
+                                            input_signal.values)
         new_abscissa = np.linspace(new_abscissa_start,
-                                   new_abscissa_start + new_increment*(
+                                   new_abscissa_start + new_increment * (
                                            new_values - 1),
                                    new_values)
         if new_abscissa_start < input_signal.abscissa_start:

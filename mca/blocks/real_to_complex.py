@@ -1,8 +1,8 @@
 import numpy as np
 
+from mca import exceptions
 from mca.framework import validator, data_types, Block
 from mca.language import _
-from mca import exceptions
 
 
 class RealToComplex(Block):
@@ -52,7 +52,7 @@ class RealToComplex(Block):
         if np.iscomplex(real_part) or np.iscomplex(imaginary_part):
             raise exceptions.DataTypeError("Input cannot be a complex-valued "
                                            "signal.")
-        ordinate = real_part.ordinate + 1j*imaginary_part.ordinate
+        ordinate = real_part.ordinate + 1j * imaginary_part.ordinate
         self.outputs[0].data = data_types.Signal(
             metadata=self.outputs[0].get_metadata(real_part.metadata),
             abscissa_start=real_part.abscissa_start,

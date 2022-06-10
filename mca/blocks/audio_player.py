@@ -20,8 +20,9 @@ class AudioPlayer(Block):
                                                       1, None, "Hz", 44100),
              "play_sound": parameters.ActionParameter(_("Play sound"),
                                                       self.play_sound,
-                                                      display_options=("block_button",
-                                                                       "edit_window")),
+                                                      display_options=(
+                                                      "block_button",
+                                                      "edit_window")),
              "auto_play": parameters.BoolParameter(_("Auto play"), False)})
 
     def setup_io(self):

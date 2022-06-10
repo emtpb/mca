@@ -1,5 +1,5 @@
-import numpy as np
 import copy
+import numpy as np
 
 from mca.framework import validator, data_types, DynamicBlock, helpers
 from mca.language import _

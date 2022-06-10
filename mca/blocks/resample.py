@@ -1,7 +1,7 @@
+from scipy.signal import resample
+
 from mca.framework import validator, data_types, Block, parameters
 from mca.language import _
-
-from scipy.signal import resample
 
 
 class Resample(Block):
@@ -29,8 +29,8 @@ class Resample(Block):
         input_signal = self.inputs[0].data
         sample_freq = self.parameters["sample_freq"].value
 
-        measure_time = input_signal.increment*input_signal.values
-        new_values = int(measure_time*sample_freq)
+        measure_time = input_signal.increment * input_signal.values
+        new_values = int(measure_time * sample_freq)
         ordinate = resample(input_signal.ordinate, new_values)
         new_increment = 1 / sample_freq
         self.outputs[0].data = data_types.Signal(

@@ -1,6 +1,5 @@
 from scipy.signal import hilbert
 
-
 from mca.framework import validator, data_types, Block
 from mca.language import _
 
@@ -25,7 +24,7 @@ class AnalyticalSignal(Block):
         input_signal = self.inputs[0].data
         analytical_signal = hilbert(input_signal.ordinate)
         metadata = data_types.MetaData(None, input_signal.metadata.unit_a,
-                                        input_signal.metadata.unit_o)
+                                       input_signal.metadata.unit_o)
         self.outputs[0].data = data_types.Signal(
             metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=input_signal.abscissa_start,

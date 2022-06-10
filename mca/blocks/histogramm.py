@@ -31,7 +31,8 @@ class Histogramm(Block):
                                                     default="absolute"),
             "bins": parameters.IntParameter(_("Bins"), min_=1, default=100),
             "show": parameters.ActionParameter(_("Show plot"), self.show,
-                                               display_options=("block_button",)),
+                                               display_options=(
+                                               "block_button",)),
             "auto_show": parameters.BoolParameter(_("Auto plot"), False),
         })
 
@@ -63,12 +64,14 @@ class Histogramm(Block):
             y_label = _("Relative frequency of occurrence")
         else:
             density = True
-            y_label = _("Relative density frequency of occurrence") + f" in {1/signal.metadata.unit_o}"
+            y_label = _(
+                "Relative density frequency of occurrence") + f" in {1 / signal.metadata.unit_o}"
 
         label = signal.metadata.name
         if plot_type == "relative":
             self.axes.hist(signal.ordinate,
-                           weights=np.ones(signal.ordinate.shape)/len(signal.ordinate),
+                           weights=np.ones(signal.ordinate.shape) / len(
+                               signal.ordinate),
                            bins=bins,
                            label=label)
         else:

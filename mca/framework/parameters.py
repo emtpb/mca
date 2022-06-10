@@ -260,6 +260,7 @@ class ActionParameter(BaseParameter):
                             the parameter. Options: edit_window, menu_action,
                             block_button.
     """
+
     def __init__(self, name, function, display_options=("edit_window",)):
         """Initialize ActionParameter.
 
@@ -284,6 +285,7 @@ class PathParameter(BaseParameter):
     Attributes:
         default: Path of the file.
     """
+
     def __init__(self, name, file_formats=None, loading=False, default=""):
         """Initialize PathParameter.
 
@@ -322,6 +324,7 @@ class ParameterConversion:
                                main_parameters gets updated.
         conversion_func: Function executing the conversion.
     """
+
     def __init__(self, main_parameters, sub_parameters, conversion_func=None):
         """Initializes ParameterConversion.
 
@@ -351,7 +354,9 @@ class ParameterBlock:
         conversion_index (int): Current active conversion of the
                                 param_conversions.
     """
-    def __init__(self, parameters, param_conversions=None, default_conversion=None,
+
+    def __init__(self, parameters, param_conversions=None,
+                 default_conversion=None,
                  name=""):
         """Initialize ParameterBlock.
 

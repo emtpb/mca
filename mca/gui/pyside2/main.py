@@ -1,9 +1,10 @@
-import PySide2
-from PySide2 import QtWidgets, QtCore
 import os
 import platform
 import sys
+
+import PySide2
 import matplotlib
+from PySide2 import QtWidgets, QtCore
 
 pyside_path = os.path.dirname(PySide2.__file__)
 if platform.system() == "Linux":

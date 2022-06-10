@@ -1,5 +1,5 @@
-from scipy import integrate
 import numpy as np
+from scipy import integrate
 
 from mca.framework import validator, data_types, Block, parameters
 from mca.language import _
@@ -34,7 +34,8 @@ class Integrator(Block):
                                               dx=input_signal.increment,
                                               initial=0)
         elif int_rule == "rect":
-            ordinate_int = np.cumsum(input_signal.ordinate) * input_signal.increment
+            ordinate_int = np.cumsum(
+                input_signal.ordinate) * input_signal.increment
         unit_a = input_signal.metadata.unit_a
         unit_o = input_signal.metadata.unit_o * input_signal.metadata.unit_a
         metadata = data_types.MetaData(None, unit_a=unit_a, unit_o=unit_o)

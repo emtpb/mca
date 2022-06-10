@@ -14,10 +14,10 @@ class CrossPowerSpectrum(Block):
 
     def setup_io(self):
         self.new_output(metadata=data_types.MetaData(
-                "",
-                unit_a="1/s",
-                unit_o="V*V",
-                quantity_a=_("Frequency")
+            "",
+            unit_a="1/s",
+            unit_o="V*V",
+            quantity_a=_("Frequency")
         ))
         self.new_input()
         self.new_input()
@@ -70,7 +70,7 @@ class CrossPowerSpectrum(Block):
         abscissa_start = freq[0]
         values = len(freq)
         unit_o = first_signal.metadata.unit_o * second_signal.metadata.unit_o
-        unit_a = 1/first_signal.metadata.unit_a
+        unit_a = 1 / first_signal.metadata.unit_a
         if scaling == "density":
             unit_o = Unit([unit_o.repr], [unit_a.repr], fix_repr=True)
         metadata = data_types.MetaData(None, unit_a, unit_o)

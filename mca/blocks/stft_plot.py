@@ -1,5 +1,5 @@
-from scipy.signal import stft
 import matplotlib.pyplot as plt
+from scipy.signal import stft
 
 from mca.framework import validator, Block, parameters, data_types
 from mca.language import _
@@ -61,14 +61,14 @@ class STFTPlot(Block):
         seg_overlap = self.parameters["seg_overlap"].value
         fft_length = self.parameters["fft_length"].value
 
-        f, t, z = stft(x=input_signal.ordinate, fs=1/input_signal.increment,
+        f, t, z = stft(x=input_signal.ordinate, fs=1 / input_signal.increment,
                        window=window, nperseg=seg_length, noverlap=seg_overlap,
                        nfft=fft_length)
         im = self.axes.pcolormesh(t, f, abs(z))
         self.color_bar = self.fig.colorbar(im, ax=self.axes)
         metadata = data_types.MetaData(input_signal.metadata.name,
                                        unit_a=input_signal.metadata.unit_a,
-                                       unit_o=1/input_signal.metadata.unit_a)
+                                       unit_o=1 / input_signal.metadata.unit_a)
         abscissa_string = data_types.metadata_to_axis_label(
             quantity=metadata.quantity_a,
             unit=metadata.unit_a,

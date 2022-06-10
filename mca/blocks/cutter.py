@@ -22,7 +22,8 @@ class Cutter(Block):
 
     def setup_parameters(self):
         self.parameters.update({
-            "start_value": parameters.FloatParameter(_("Start value"), default=0),
+            "start_value": parameters.FloatParameter(_("Start value"),
+                                                     default=0),
             "end_value": parameters.FloatParameter(_("End value"), default=1)
         })
 
@@ -42,16 +43,20 @@ class Cutter(Block):
         if end_value <= start_value:
             raise exceptions.ParameterValueError("Cut end has to be greater "
                                                  "than the cut start.")
-        if input_signal.abscissa_start + input_signal.increment*(input_signal.values-1) < end_value:
-            raise exceptions.ParameterValueError("Cut end must be even or less than the abscissa end.")
+        if input_signal.abscissa_start + input_signal.increment * (
+                input_signal.values - 1) < end_value:
+            raise exceptions.ParameterValueError(
+                "Cut end must be even or less than the abscissa end.")
 
         start_index = int(
-            (start_value-input_signal.abscissa_start)/input_signal.increment)
+            (
+                        start_value - input_signal.abscissa_start) / input_signal.increment)
         end_index = int(
-            (end_value-input_signal.abscissa_start)/input_signal.increment)+1
+            (
+                        end_value - input_signal.abscissa_start) / input_signal.increment) + 1
 
-        abscissa_start = input_signal.abscissa_start + input_signal.increment*start_index
-        values = end_index-start_index
+        abscissa_start = input_signal.abscissa_start + input_signal.increment * start_index
+        values = end_index - start_index
         ordinate = input_signal.ordinate[start_index:end_index]
 
         self.outputs[0].data = data_types.Signal(

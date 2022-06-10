@@ -1,6 +1,7 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import copy
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 from mca.framework import validator, data_types, parameters, DynamicBlock
 from mca.language import _
@@ -32,7 +33,8 @@ class Plot(DynamicBlock):
     def setup_parameters(self):
         self.parameters.update({
             "show": parameters.ActionParameter(_("Show plot"), self.show,
-                                               display_options=("block_button",)),
+                                               display_options=(
+                                               "block_button",)),
             "auto_show": parameters.BoolParameter(_("Auto plot"), False),
             "plot_kind": parameters.ChoiceParameter(
                 _("Plot kind"), choices=[("line", _("Line")),
@@ -66,7 +68,8 @@ class Plot(DynamicBlock):
         label = None
         for index, signal in enumerate(signals):
             abscissa = np.linspace(signal.abscissa_start,
-                                   signal.abscissa_start + signal.increment * (signal.values - 1),
+                                   signal.abscissa_start + signal.increment * (
+                                               signal.values - 1),
                                    signal.values)
             ordinate = signal.ordinate
             label = signal.metadata.name
@@ -76,7 +79,8 @@ class Plot(DynamicBlock):
                 self.axes.stem(abscissa, ordinate, f"C{index}", label=label,
                                use_line_collection=True, basefmt=" ")
             elif plot_kind == "bar":
-                self.axes.bar(abscissa, ordinate, label=label, color=f"C{index}",
+                self.axes.bar(abscissa, ordinate, label=label,
+                              color=f"C{index}",
                               align="edge", width=signal.increment)
         if label:
             self.legend = self.fig.legend()

@@ -47,11 +47,12 @@ class FFTPlot(Block):
             ),
             "plot_kind": parameters.ChoiceParameter(
                 _("Plot kind"), choices=[("line", _("Line")),
-                                         ("stem", _("Stem"))],),
+                                         ("stem", _("Stem"))], ),
             "normalize": parameters.BoolParameter(
                 _("Normalize"), default=False),
             "show": parameters.ActionParameter("Show plot", self.show,
-                                               display_options=("block_button",)),
+                                               display_options=(
+                                               "block_button",)),
             "auto_show": parameters.BoolParameter("Auto plot", False),
         })
 
@@ -76,9 +77,9 @@ class FFTPlot(Block):
         delta_f = 1 / (self.inputs[0].data.increment * values)
         ordinate = np.fft.fft(input_signal.ordinate)
         if normalize:
-            ordinate = ordinate/values
+            ordinate = ordinate / values
         unit_o = input_signal.metadata.unit_o
-        abscissa = np.linspace(0, delta_f*(values-1), values)
+        abscissa = np.linspace(0, delta_f * (values - 1), values)
 
         if shift == "shift" or \
                 shift == "shift_positive":
@@ -89,7 +90,7 @@ class FFTPlot(Block):
                                        values / 2 * delta_f, values)
             else:
                 abscissa = np.linspace(-values / 2 * delta_f,
-                                       (values / 2 - 1)*delta_f, values)
+                                       (values / 2 - 1) * delta_f, values)
         if shift == "shift_positive":
             ordinate = ordinate[len(ordinate) // 2:]
             abscissa = abscissa[len(abscissa) // 2:]
@@ -103,7 +104,7 @@ class FFTPlot(Block):
             ordinate = np.angle(ordinate)
         metadata = data_types.MetaData(
             input_signal.metadata.name,
-            unit_a=1/input_signal.metadata.unit_a,
+            unit_a=1 / input_signal.metadata.unit_a,
             unit_o=unit_o,
         )
         label = input_signal.metadata.name
@@ -119,13 +120,13 @@ class FFTPlot(Block):
             quantity=metadata.quantity_a,
             unit=metadata.unit_a,
             symbol=metadata.symbol_a
-            )
+        )
         )
         self.axes.set_ylabel(data_types.metadata_to_axis_label(
             quantity=metadata.quantity_o,
             unit=metadata.unit_o,
             symbol=metadata.symbol_o
-            )
+        )
         )
 
         self.axes.grid(True)

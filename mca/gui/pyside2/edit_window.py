@@ -1,6 +1,7 @@
-from PySide2 import QtWidgets, QtCore, QtGui
-import os
 import logging
+import os
+
+from PySide2 import QtWidgets, QtCore, QtGui
 
 import mca
 from mca.framework import parameters, DynamicBlock
@@ -25,6 +26,7 @@ class EditWindow(QtWidgets.QDialog):
         button_box: "Apply|Cancel|Ok" button widgets.
 
     """
+
     def __init__(self, parent, block_item, block):
         """Initialize EditWindow class.
 
@@ -36,7 +38,8 @@ class EditWindow(QtWidgets.QDialog):
         self.block_item = block_item
         self.resize(600, 750)
         self.setMinimumSize((QtCore.QSize(500, 400)))
-        self.setWindowTitle(_("Edit {}").format(self.block.parameters["name"].value))
+        self.setWindowTitle(
+            _("Edit {}").format(self.block.parameters["name"].value))
 
         self.main_layout = QtWidgets.QVBoxLayout(self)
 
@@ -49,7 +52,8 @@ class EditWindow(QtWidgets.QDialog):
         general_tab = QtWidgets.QWidget()
         general_tab_layout = QtWidgets.QGridLayout(general_tab)
         general_tab_contents = QtWidgets.QWidget()
-        general_tab_contents_layout = QtWidgets.QVBoxLayout(general_tab_contents)
+        general_tab_contents_layout = QtWidgets.QVBoxLayout(
+            general_tab_contents)
         description_box = QtWidgets.QGroupBox(_("Description"))
         description_box_layout = QtWidgets.QVBoxLayout(description_box)
         description_label = QtWidgets.QLabel(self.block.description)
@@ -80,7 +84,8 @@ class EditWindow(QtWidgets.QDialog):
         if self.block.outputs or (isinstance(self.block, DynamicBlock) and
                                   self.block.dynamic_output):
             self.metadata_contents = QtWidgets.QWidget()
-            self.metadata_contents_layout = QtWidgets.QVBoxLayout(self.metadata_contents)
+            self.metadata_contents_layout = QtWidgets.QVBoxLayout(
+                self.metadata_contents)
             self.metadata_tab = QtWidgets.QWidget()
             self.metadata_layout = QtWidgets.QVBoxLayout(self.metadata_tab)
             scroll = QtWidgets.QScrollArea()
@@ -114,8 +119,10 @@ class EditWindow(QtWidgets.QDialog):
                                            | QtWidgets.QDialogButtonBox.Cancel
                                            | QtWidgets.QDialogButtonBox.Apply)
         self.button_box.button(QtWidgets.QDialogButtonBox.Ok).setText(_("Ok"))
-        self.button_box.button(QtWidgets.QDialogButtonBox.Cancel).setText(_("Cancel"))
-        self.button_box.button(QtWidgets.QDialogButtonBox.Apply).setText(_("Apply"))
+        self.button_box.button(QtWidgets.QDialogButtonBox.Cancel).setText(
+            _("Cancel"))
+        self.button_box.button(QtWidgets.QDialogButtonBox.Apply).setText(
+            _("Apply"))
         self.button_box.accepted.connect(self.accept)
         self.button_box.rejected.connect(self.reject)
         self.button_box.clicked.connect(self.apply)
@@ -154,13 +161,15 @@ class EditWindow(QtWidgets.QDialog):
             # Add name labels except for action and bool parameters and
             # parameter blocks
             if not isinstance(block_parameter, parameters.BoolParameter) and \
-               not isinstance(block_parameter, parameters.ActionParameter) and \
-               not isinstance(block_parameter, parameters.ParameterBlock):
+                    not isinstance(block_parameter,
+                                   parameters.ActionParameter) and \
+                    not isinstance(block_parameter, parameters.ParameterBlock):
                 name_label = QtWidgets.QLabel(block_parameter.name + ":")
                 name_label.setFixedHeight(25)
                 self.parameter_box_layout.addWidget(name_label, index, 0, 1, 1)
             # Translate parameter to the corresponding widget
-            widget = edit_widgets.widget_dict[type(block_parameter)](block_parameter, self)
+            widget = edit_widgets.widget_dict[type(block_parameter)](
+                block_parameter, self)
             self.parameter_widgets.append(widget)
             widget.read_parameter()
             # Add widgets to the layout though parameters blocks
@@ -299,5 +308,6 @@ class EditWindow(QtWidgets.QDialog):
         """Apply all changes made in the EditWindow. This is a helper function
         and effectively only calls apply_changes.
         """
-        if self.button_box.buttonRole(button) == QtWidgets.QDialogButtonBox.ApplyRole:
+        if self.button_box.buttonRole(
+                button) == QtWidgets.QDialogButtonBox.ApplyRole:
             self.apply_changes()

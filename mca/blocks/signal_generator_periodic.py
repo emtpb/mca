@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import signal as sgn
 
-from mca.framework import data_types, parameters, helpers,  Block
+from mca.framework import data_types, parameters, helpers, Block
 from mca.language import _
 
 
@@ -31,7 +31,8 @@ class SignalGeneratorPeriodic(Block):
             "freq": parameters.FloatParameter(_("Frequency"), unit="Hz", min_=0,
                                               default=1),
             "amp": parameters.FloatParameter(_("Amplitude"), min_=0, default=1),
-            "phase": parameters.FloatParameter(_("Phase"), default=0, unit="rad"),
+            "phase": parameters.FloatParameter(_("Phase"), default=0,
+                                               unit="rad"),
             "abscissa": abscissa,
         })
 

@@ -1,4 +1,5 @@
 import json
+
 import numpy as np
 
 from mca import exceptions
@@ -52,7 +53,7 @@ class SignalGeneratorArbitrary(Block):
                     arbitrary_data["quantity_o"],
                     arbitrary_data["symbol_a"],
                     arbitrary_data["symbol_o"],
-                    )
+                )
         except FileNotFoundError:
             raise exceptions.DataLoadingError("File not found")
         self.outputs[0].data = data_types.Signal(
@@ -61,5 +62,5 @@ class SignalGeneratorArbitrary(Block):
             values=arbitrary_data["values"],
             increment=arbitrary_data["increment"],
             ordinate=np.array(arbitrary_data["ordinate"])
-            )
+        )
         self.trigger_update()
