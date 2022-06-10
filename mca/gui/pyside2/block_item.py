@@ -418,6 +418,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.modified()
         io_registry.Registry.remove_block(self.block)
         self.scene().removeItem(self)
+        self.block.delete()
 
     def open_edit_window(self):
         """Opens up the parameter window."""
@@ -475,8 +476,6 @@ class BlockItem(QtWidgets.QGraphicsItem):
                 i.update_connection_line()
             for o in self.outputs:
                 o.update_connection_line()
-        if change == self.ItemScaleChange:
-            print("Hello")
         return super().itemChange(change, value)
 
     def mouseDoubleClickEvent(self, event):
