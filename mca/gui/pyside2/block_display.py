@@ -1,4 +1,5 @@
 import json
+import random
 
 from PySide2 import QtWidgets, QtCore, QtGui
 
@@ -23,7 +24,6 @@ class BlockView(QtWidgets.QGraphicsView):
         """
         QtWidgets.QGraphicsView.__init__(self, scene=scene, parent=parent)
         self.setMinimumSize(500, 400)
-
         self.zoom_factor = 1
         # Define actions
         self.zoom_in_action = QtWidgets.QAction(
@@ -190,7 +190,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
                 item.delete()
 
     def create_block_item(self, block, x, y, width=100, height=100,
-                          open_edit_window=False, find_free_space=False):
+                          open_edit_window=False, random_pos=False):
         """Creates a new :class:`.BlockItem` to an existing :class:`.Block`.
         Tries to find the next free spot of (x,y) to create the block. A free
         spot means there is enough space to crate 100x100 block without
@@ -205,53 +205,25 @@ class BlockScene(QtWidgets.QGraphicsScene):
             open_edit_window (bool): True, if the edit window
                                      should be opened immediately after
                                      initializing the block.
-            find_free_space (bool): True, if the position should be modified
-                                    to find space where it not intersects
-                                    with another item.
+            random_pos (bool): True, if the position should be random within
+                               the view.
 
         """
         new_block = block_item.BlockItem(self.views()[0], block, x, y, width,
                                          height)
-        width = new_block.width
-        height = new_block.height
-        radius = 0
-        free_space_found = False
-        while not free_space_found:
-            # Change rect to bounding rect
-            if not self.items(
-                    QtCore.QRect(x - radius, y - radius, width, height)):
-                x -= radius
-                y -= radius
-                free_space_found = True
-            if not self.items(QtCore.QRect(x, y - radius, width, height)):
-                y -= radius
-                free_space_found = True
-            if not self.items(
-                    QtCore.QRect(x + radius, y - radius, width, height)):
-                x += radius
-                y -= radius
-                free_space_found = True
-            if not self.items(QtCore.QRect(x - radius, y, width, height)):
-                x -= radius
-                free_space_found = True
-            if not self.items(QtCore.QRect(x + radius, y, width, height)):
-                x += radius
-                free_space_found = True
-            if not self.items(
-                    QtCore.QRect(x - radius, y + radius, width, height)):
-                x -= radius
-                y += radius
-                free_space_found = True
-            if not self.items(QtCore.QRect(x, y + radius, width, height)):
-                y += radius
-                free_space_found = True
-            if not self.items(
-                    QtCore.QRect(x + radius, y + radius, width, height)):
-                y += radius
-                x += radius
-                free_space_found = True
-            radius += 4
-        if find_free_space:
+        if random_pos:
+            width = self.views()[0].width()
+            height = self.views()[0].height()
+            x_min = 0
+            x_max = width - new_block.width
+            if x_min > x_max:
+                x_max = x_min
+            x = random.randint(x_min, x_max)
+            y_min = 0
+            y_max = height - new_block.height
+            if y_min > y_max:
+                y_max = y_min
+            y = random.randint(y_min, y_max)
             new_block.setPos(x, y)
 
         self.addItem(new_block)
@@ -279,7 +251,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
                 height = 100
             self.create_block_item(block, x_pos, y_pos, width, height,
                                    open_edit_window=False,
-                                   find_free_space=False)
+                                   random_pos=False)
         for block in blocks:
             for input_index, input_ in enumerate(block.inputs):
                 if input_.connected_output:
