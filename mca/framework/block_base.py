@@ -1,5 +1,6 @@
 import json
 import logging
+import sys
 
 from mca import exceptions
 from mca.framework import block_io, io_registry, data_types, parameters
@@ -67,7 +68,8 @@ class Block:
 
     def update(self):
         """Updates the data and the flags of the Outputs if all
-        Inputs have valid data."""
+        Inputs have valid data.
+        """
         if (not self.inputs) or all(
                 elem == True
                 for elem in [input_.up_to_date for input_ in self.inputs]
@@ -118,6 +120,16 @@ class Block:
                     name=name)
             )
         )
+
+    def delete(self):
+        for input_ in self.inputs:
+            input_.delete()
+        for output in self.outputs:
+            output.delete()
+        self.gui_data = None
+        for parameter in self.parameters.values():
+            if isinstance(parameter, parameters.ActionParameter):
+                parameter.function = None
 
     def new_input(self, name=None):
         """Creates and adds an new Input to the block. Used to create new

@@ -27,13 +27,13 @@ class EditWindow(QtWidgets.QDialog):
 
     """
 
-    def __init__(self, parent, block_item, block):
+    def __init__(self, block_item, block):
         """Initialize EditWindow class.
 
         Args:
             block: Reference of the :class:`.Block` instance.
         """
-        QtWidgets.QDialog.__init__(self, parent=parent)
+        QtWidgets.QDialog.__init__(self)
         self.block = block
         self.block_item = block_item
         self.resize(600, 750)
@@ -169,7 +169,7 @@ class EditWindow(QtWidgets.QDialog):
                 self.parameter_box_layout.addWidget(name_label, index, 0, 1, 1)
             # Translate parameter to the corresponding widget
             widget = edit_widgets.widget_dict[type(block_parameter)](
-                block_parameter, self)
+                block_parameter)
             self.parameter_widgets.append(widget)
             widget.read_parameter()
             # Add widgets to the layout though parameters blocks
@@ -251,7 +251,6 @@ class EditWindow(QtWidgets.QDialog):
                 for entry in self.metadata_widgets:
                     entry.write_attribute()
             self.block.trigger_update()
-            self.block_item.adjust_block_width(self.block_item.block_width)
             self.block_item.update()
         except Exception as error:
             if error.args:

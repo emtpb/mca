@@ -61,6 +61,10 @@ class Input:
         """
         return io_registry.Registry.get_output(self)
 
+    def delete(self):
+        self.block = None
+        io_registry.Registry.remove_input(self)
+
 
 class Output:
     """Basic Output class.
@@ -167,3 +171,7 @@ class Output:
         """Disconnects itself from all Inputs."""
         logging.info(f"Disconnecting {self.block} from all inputs.")
         io_registry.Registry.disconnect_output(self)
+
+    def delete(self):
+        self.block = None
+        io_registry.Registry.remove_output(self)

@@ -1,7 +1,6 @@
 from PySide2 import QtWidgets, QtCore, QtGui
 
-from mca.framework import data_types, DynamicBlock, block_io, io_registry, \
-    parameters
+from mca.framework import data_types, DynamicBlock, block_io, parameters
 from mca.gui.pyside2 import edit_window, io_items
 from mca.language import _
 
@@ -42,10 +41,6 @@ class BlockItem(QtWidgets.QGraphicsItem):
         _resize_width (bool): Indicates whether the width should be resized.
         _resize_height (bool): Indicates whether the height should be resized.
         menu: Menu which pops up when the right mouse button is pressed.
-        edit_window: Window which carries all parameters and metadata
-                     of the block.
-        edit_action: Action added to the menu which opens the
-                     :class:`.EditWindow` of the class.
         add_input_action: Action added to the menu which only exists when the
                           block instance is a :class:`.DynamicBlock`. Adds an
                           :class:`.InputItem` dynamically to the block.
@@ -140,9 +135,6 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self._original_height = None
 
         self.menu = QtWidgets.QMenu(self.view)
-        self.edit_window = edit_window.EditWindow(
-            self.view.scene().parent().parent(),
-            self, self.block)
         # Add edit action
         if self.block.parameters:
             self.edit_action = QtWidgets.QAction(_("Edit"), self.view)
@@ -416,13 +408,13 @@ class BlockItem(QtWidgets.QGraphicsItem):
         for o in self.outputs:
             o.disconnect()
         self.modified()
-        io_registry.Registry.remove_block(self.block)
         self.scene().removeItem(self)
         self.block.delete()
+        self.block = None
 
     def open_edit_window(self):
         """Opens up the parameter window."""
-        self.edit_window.exec_()
+        edit_window.EditWindow(self, self.block).exec_()
         self.update()
 
     def add_input(self, input_):

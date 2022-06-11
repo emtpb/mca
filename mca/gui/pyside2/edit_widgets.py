@@ -22,17 +22,14 @@ class BaseParameterWidget:
                         differs from the previous value.
     """
 
-    def __init__(self, parameter, edit_window):
+    def __init__(self, parameter):
         """Initializes BaseParameterWidget class.
 
         Args:
             parameter: Given :class:`.Parameter` to display.
-            edit_window: Reference of the :class:`.EditWindow` the widget
-                         belongs to.
         """
         self.parameter = parameter
         self.prev_value = self.parameter.value
-        self.edit_window = edit_window
         self.changed = False
         self.setFixedHeight(25)
 
@@ -65,16 +62,17 @@ class BaseParameterWidget:
 
     def modified(self):
         """Informs the :class:`.MainWindow` that there are unsaved changes."""
-        self.window().parent().modified = True
+        pass
+        self.window().block_item.modified()
 
 
 class FloatParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
     """Widget to display a :class:`.FloatParameter` ."""
 
-    def __init__(self, parameter, edit_window):
+    def __init__(self, parameter):
         """Initializes FloatParameterWidget class."""
         QtWidgets.QLineEdit.__init__(self)
-        BaseParameterWidget.__init__(self, parameter, edit_window)
+        BaseParameterWidget.__init__(self, parameter)
         self.textChanged.connect(self.check_changed)
 
     def write_parameter(self):
@@ -119,10 +117,10 @@ class FloatParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
 class IntParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
     """Widget to display an :class:`.IntParameter` ."""
 
-    def __init__(self, parameter, edit_window):
+    def __init__(self, parameter):
         """Initializes IntParameterWidget class."""
         QtWidgets.QLineEdit.__init__(self)
-        BaseParameterWidget.__init__(self, parameter, edit_window)
+        BaseParameterWidget.__init__(self, parameter)
         self.textChanged.connect(self.check_changed)
 
     def write_parameter(self):
@@ -166,10 +164,10 @@ class IntParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
 class ChoiceParameterWidget(BaseParameterWidget, QtWidgets.QComboBox):
     """Widget to display a :class:`.ChoiceParameter` ."""
 
-    def __init__(self, parameter, edit_window):
+    def __init__(self, parameter):
         """Initializes ChoiceParameterWidget class."""
         QtWidgets.QComboBox.__init__(self)
-        BaseParameterWidget.__init__(self, parameter, edit_window)
+        BaseParameterWidget.__init__(self, parameter)
         self.currentIndexChanged.connect(self.check_changed)
         for i in range(len(self.parameter.choices)):
             self.addItem(self.parameter.choices[i][1],
@@ -218,10 +216,10 @@ class ChoiceParameterWidget(BaseParameterWidget, QtWidgets.QComboBox):
 class StringParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
     """Widget to display a :class:`.StringParameter` ."""
 
-    def __init__(self, parameter, edit_window):
+    def __init__(self, parameter):
         """Initializes StringParameterWidget class."""
         QtWidgets.QLineEdit.__init__(self)
-        BaseParameterWidget.__init__(self, parameter, edit_window)
+        BaseParameterWidget.__init__(self, parameter)
         self.textChanged.connect(self.check_changed)
 
     def write_parameter(self):
@@ -258,10 +256,10 @@ class StringParameterWidget(BaseParameterWidget, QtWidgets.QLineEdit):
 class BoolParameterWidget(BaseParameterWidget, QtWidgets.QCheckBox):
     """Widget to display a :class:`.BoolParameter` ."""
 
-    def __init__(self, parameter, edit_window):
+    def __init__(self, parameter):
         """Initializes BoolParameterWidget class."""
         QtWidgets.QCheckBox.__init__(self, parameter.name)
-        BaseParameterWidget.__init__(self, parameter, edit_window)
+        BaseParameterWidget.__init__(self, parameter)
         self.stateChanged.connect(self.check_changed)
 
     def write_parameter(self):
@@ -298,10 +296,10 @@ class BoolParameterWidget(BaseParameterWidget, QtWidgets.QCheckBox):
 class ActionParameterWidget(BaseParameterWidget, QtWidgets.QPushButton):
     """Widget to display :class:`.ActionParameter`."""
 
-    def __init__(self, parameter, edit_window):
+    def __init__(self, parameter):
         self.parameter = parameter
         QtWidgets.QPushButton.__init__(self, self.parameter.name)
-        BaseParameterWidget.__init__(self, parameter, edit_window)
+        BaseParameterWidget.__init__(self, parameter)
         self.pressed.connect(self.execute_function)
 
     def write_parameter(self):
@@ -322,7 +320,6 @@ class ActionParameterWidget(BaseParameterWidget, QtWidgets.QPushButton):
     def execute_function(self):
         """Executes the function of the parameter."""
         try:
-            self.edit_window.apply_changes(metadata_changes=False)
             self.parameter.function()
         except exceptions.MCAError as error:
             message = error.args[0]
@@ -337,13 +334,13 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
     dialog window.
     """
 
-    def __init__(self, parameter, edit_window):
+    def __init__(self, parameter):
         """Initializes FileParameterWidget class."""
         QtWidgets.QWidget.__init__(self)
         self.button = QtWidgets.QPushButton(text="...")
         self.file_edit = QtWidgets.QLineEdit()
 
-        BaseParameterWidget.__init__(self, parameter, edit_window)
+        BaseParameterWidget.__init__(self, parameter)
         self.setLayout(QtWidgets.QHBoxLayout())
         self.layout().addWidget(self.file_edit)
         self.file_edit.setText(self.parameter.value)
@@ -479,7 +476,7 @@ class MetaDataEditWidget(QtWidgets.QLineEdit):
         self.changed = False
         self.prev_value = getattr(self.metadata, self.attr)
         self.setStyleSheet("")
-        self.window().parent().modified = True
+        self.window().block_item.modified()
 
     def revert_changes(self):
         """Reverts changes made by the user and applies the
@@ -556,7 +553,7 @@ class MetaDataBoolWidget(QtWidgets.QCheckBox):
         self.changed = False
         self.prev_value = getattr(self.output, self.attr)
         self.setStyleSheet("")
-        self.window().parent().modified = True
+        self.window().block_item.modified()
 
     def revert_changes(self):
         """Reverts changes made by the user and applies the
@@ -633,13 +630,11 @@ class ParameterBlockWidget(QtWidgets.QGroupBox):
                                       corresponding widgets.
     """
 
-    def __init__(self, parameter_block, edit_window):
+    def __init__(self, parameter_block):
         """Initializes the ParameterBlockWidget.
 
         Args:
             parameter_block: Reference of the ParameterBlock.
-            edit_window: Reference of the :class:`.EditWindow` the widget
-                         belongs to.
         """
         self.parameter_block = parameter_block
         QtWidgets.QGroupBox.__init__(self, title=parameter_block.name)
@@ -653,7 +648,7 @@ class ParameterBlockWidget(QtWidgets.QGroupBox):
                 name_label = QtWidgets.QLabel(parameter.name + ":")
                 name_label.setFixedHeight(25)
                 self.main_layout.addWidget(name_label, index, 0, 1, 1)
-            widget = widget_dict[type(parameter)](parameter, edit_window)
+            widget = widget_dict[type(parameter)](parameter)
             self.parameters_to_widgets[parameter] = widget
             widget.read_parameter()
             self.main_layout.addWidget(widget, index, 1, 1, 1)
@@ -684,7 +679,7 @@ class ParameterBlockWidget(QtWidgets.QGroupBox):
     def apply_changes(self):
         for parameter in self.parameters_to_widgets.values():
             parameter.apply_changes()
-        self.window().parent().modified = True
+        self.window().block_item.modified()
 
     def revert_changes(self):
         for parameter in self.parameters_to_widgets.values():
