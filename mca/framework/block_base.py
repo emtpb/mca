@@ -122,6 +122,10 @@ class Block:
         )
 
     def delete(self):
+        """Removes its inputs and outputs from the registry and cleans up all
+        internal references to allow the garbage collector to remove the object
+        once all explicit references are deleted.
+        """
         for input_ in self.inputs:
             input_.delete()
         for output in self.outputs:
@@ -130,6 +134,7 @@ class Block:
         for parameter in self.parameters.values():
             if isinstance(parameter, parameters.ActionParameter):
                 parameter.function = None
+        logging.info(f"Deleting {self}")
 
     def new_input(self, name=None):
         """Creates and adds an new Input to the block. Used to create new

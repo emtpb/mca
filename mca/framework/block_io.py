@@ -62,8 +62,12 @@ class Input:
         return io_registry.Registry.get_output(self)
 
     def delete(self):
+        """Removes itself from the registry and removes its reference of
+        its block.
+        """
         self.block = None
         io_registry.Registry.remove_input(self)
+        logging.info(f"Deleting {self}")
 
 
 class Output:
@@ -173,5 +177,9 @@ class Output:
         io_registry.Registry.disconnect_output(self)
 
     def delete(self):
+        """Removes itself from the registry and removes its reference of
+        its block.
+        """
         self.block = None
         io_registry.Registry.remove_output(self)
+        logging.info(f"Deleting {self}")
