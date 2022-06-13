@@ -70,7 +70,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.custom_name_font = QtGui.QFont(app.font())
         self.custom_name_font.setPointSize(13)
 
-        self.setToolTip(self.block.description)
+        self.setToolTip(f"<html><head/><body><p>{self.block.description}</p></body></html>")
         self.setAcceptHoverEvents(True)
 
         # Define heights and widths
