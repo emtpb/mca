@@ -807,4 +807,5 @@ def show_function_generator(block):
     """Generates functions for reopening plot windows of plot blocks."""
     def show_function():
         block.gui_data["run_time_data"]["pyside2"]["dock_widget"].setVisible(True)
+        block.fig.tight_layout()
     return show_function
