@@ -1,13 +1,13 @@
 import copy
 
-import matplotlib.pyplot as plt
 import numpy as np
 
-from mca.framework import validator, data_types, parameters, DynamicBlock
+from mca.framework import validator, data_types, parameters, DynamicBlock,\
+    PlotBlock
 from mca.language import _
 
 
-class ComplexPlot(DynamicBlock):
+class ComplexPlot(DynamicBlock, PlotBlock):
     """Plots absolute and phase or real and imaginary part of the input
     signal.
 
@@ -25,10 +25,9 @@ class ComplexPlot(DynamicBlock):
 
     def __init__(self, **kwargs):
         """Initializes ComplexPlot class."""
-        super().__init__(**kwargs)
-        self.fig = plt.figure()
-        self.first_axes = self.fig.add_subplot(211)
-        self.second_axes = self.fig.add_subplot(212)
+        super().__init__(rows=2, cols=1, **kwargs)
+        self.first_axes = self.axes[0]
+        self.second_axes = self.axes[1]
         self.legend = None
 
     def setup_parameters(self):
@@ -40,10 +39,6 @@ class ComplexPlot(DynamicBlock):
             "plot_kind": parameters.ChoiceParameter(
                 _("Plot kind"), choices=[("line", _("Line")),
                                          ("stem", _("Stem"))], ),
-            "show": parameters.ActionParameter(_("Show plot"), self.show,
-                                               display_options=(
-                                               "block_button",)),
-            "auto_show": parameters.BoolParameter(_("Auto plot"), False),
         })
 
     def setup_io(self):
@@ -64,7 +59,6 @@ class ComplexPlot(DynamicBlock):
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
 
-        auto_show = self.parameters["auto_show"].value
         plot_type = self.parameters["plot_type"].value
         plot_kind = self.parameters["plot_kind"].value
         labels = False
@@ -119,12 +113,4 @@ class ComplexPlot(DynamicBlock):
         self.first_axes.grid(True)
         self.second_axes.grid(True)
 
-        self.fig.tight_layout()
         self.fig.canvas.draw()
-
-        if auto_show:
-            self.show()
-
-    def show(self):
-        """Shows the plot."""
-        self.fig.show()

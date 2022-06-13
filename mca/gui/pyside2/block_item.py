@@ -1,6 +1,6 @@
 from PySide2 import QtWidgets, QtCore, QtGui
 
-from mca.framework import data_types, DynamicBlock, block_io, parameters
+from mca.framework import data_types, DynamicBlock, block_io, parameters, PlotBlock
 from mca.gui.pyside2 import edit_window, io_items
 from mca.language import _
 
@@ -108,23 +108,46 @@ class BlockItem(QtWidgets.QGraphicsItem):
         for o in self.block.outputs:
             self.add_output(o)
 
-        # Add button for an action parameter if needed
         self.action_buttons = []
         self.button_height = 20
         self.button_margin = 5
-        i = 0
+        num_buttons = 0
+        # Add button if the block is a PlotBlock
+        if isinstance(self.block, PlotBlock):
+            plot_dock_manager = self.view.parent().parent().parent().plot_dock_manager
+            dock_widget = QtWidgets.QDockWidget(self.block.name,
+                                                plot_dock_manager)
+            dock_widget.setWidget(self.block.plot_window)
+            plot_dock_manager.addDockWidget(QtCore.Qt.RightDockWidgetArea,
+                                            dock_widget)
+            block.gui_data["run_time_data"]["pyside2"]["dock_widget"] = dock_widget
+            show_function = show_function_generator(self.block)
+            self.action_buttons.append(
+                BlockButton(
+                    name=_("Show plot"),
+                    function=show_function,
+                    parent=self,
+                    x=self.input_offset + self.select_point_diameter // 2 + 5,
+                    y=50 + num_buttons * (
+                            self.button_height + self.button_margin),
+                    width=self.block_width - 2 * self.button_margin,
+                    height=self.button_height))
+            num_buttons += 1
+        # Add button for an action parameter if needed
         for parameter in self.block.parameters.values():
             if isinstance(parameter,
                           parameters.ActionParameter) and "block_button" in parameter.display_options:
                 self.action_buttons.append(
-                    BlockButton(action_parameter=parameter,
-                                parent=self,
-                                x=self.input_offset + self.select_point_diameter // 2 + 5,
-                                y=50 + i * (
-                                            self.button_height + self.button_margin),
-                                width=self.block_width - 2 * self.button_margin,
-                                height=self.button_height))
-                i += 1
+                    BlockButton(
+                        name=parameter.name,
+                        function=parameter.function,
+                        parent=self,
+                        x=self.input_offset + self.select_point_diameter // 2 + 5,
+                        y=50 + num_buttons * (
+                                    self.button_height + self.button_margin),
+                        width=self.block_width - 2 * self.button_margin,
+                        height=self.button_height))
+                num_buttons += 1
 
         self._resize_all = False
         self._resize_width = False
@@ -408,6 +431,9 @@ class BlockItem(QtWidgets.QGraphicsItem):
         for o in self.outputs:
             o.disconnect()
         self.modified()
+        if isinstance(self.block, PlotBlock):
+            self.scene().parent().parent().plot_dock_manager.removeDockWidget(
+                self.block.gui_data["run_time_data"]["pyside2"]["dock_widget"])
         self.scene().removeItem(self)
         self.block.delete()
         self.block = None
@@ -687,7 +713,8 @@ class BlockButton(QtWidgets.QGraphicsItem):
     :class:`.ActionParameter` .
 
     Attributes:
-        action_parameter: Refers to the corresponding ActionParameter object.
+        name (str): Name of the button.
+        function: Function to execute when the button is pressed.
         width (int): Width of the button.
         height (int): Height of the button.
         text_margin (int): Margin of the button text within the button.
@@ -698,18 +725,20 @@ class BlockButton(QtWidgets.QGraphicsItem):
         pressed (bool): Flag whether the button is pressed.
     """
 
-    def __init__(self, action_parameter, parent, x, y, width, height):
+    def __init__(self, name, function, parent, x, y, width, height):
         """Initialize BlockButton class.
 
         Args:
-            action_parameter: Refers to the corresponding ActionParameter object.
+            name (str): Name of the button.
+            function: Function to execute when the button is pressed.
             x (int): X Position of the button.
             y (int): Y Position of the button.
             width (int): Width of the button.
             height (int): Height of the button.
         """
         QtWidgets.QGraphicsItem.__init__(self)
-        self.action_parameter = action_parameter
+        self.name = name
+        self.function = function
         self.setParentItem(parent)
         self.width = width
         self.height = height
@@ -737,10 +766,10 @@ class BlockButton(QtWidgets.QGraphicsItem):
         painter.setPen(self.name_color)
         font = painter.font()
         fm = QtGui.QFontMetrics(font)
-        name_width = fm.width(self.action_parameter.name)
+        name_width = fm.width(self.name)
         painter.drawText(self.width // 2 - name_width // 2,
                          self.text_margin + self.height // 2,
-                         self.action_parameter.name)
+                         self.name)
 
     def boundingRect(self):
         return QtCore.QRectF(0, 0, self.width, self.height)
@@ -754,7 +783,7 @@ class BlockButton(QtWidgets.QGraphicsItem):
 
     def mouseReleaseEvent(self, event):
         self.pressed = False
-        self.action_parameter.function()
+        self.function()
         super().mousePressEvent(event)
 
     def apply_colors(self):
@@ -767,3 +796,10 @@ class BlockButton(QtWidgets.QGraphicsItem):
             self.name_color = QtGui.QColor("#000000")
             self.default_color = QtGui.QColor("#d3d3d3")
             self.press_color = QtGui.QColor("#b5b5b5")
+
+
+def show_function_generator(block):
+    """Generates functions for reopening plot windows of plot blocks."""
+    def show_function():
+        block.gui_data["run_time_data"]["pyside2"]["dock_widget"].setVisible(True)
+    return show_function

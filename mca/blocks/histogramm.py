@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from mca.framework import validator, data_types, parameters, Block
+from mca.framework import validator, data_types, parameters, Block, PlotBlock
 from mca.language import _
 
 
-class Histogramm(Block):
+class Histogramm(Block, PlotBlock):
     """Plots absolute and relative (density) frequency of occurrences of
     values in a histogramm.
     """
@@ -16,9 +16,7 @@ class Histogramm(Block):
 
     def __init__(self, **kwargs):
         """Initializes Histogramm class."""
-        super().__init__(**kwargs)
-        self.fig = plt.figure()
-        self.axes = self.fig.add_subplot(111)
+        super().__init__(rows=1, cols=1, **kwargs)
         self.legend = None
 
     def setup_parameters(self):
@@ -30,10 +28,6 @@ class Histogramm(Block):
             ),
                                                     default="absolute"),
             "bins": parameters.IntParameter(_("Bins"), min_=1, default=100),
-            "show": parameters.ActionParameter(_("Show plot"), self.show,
-                                               display_options=(
-                                               "block_button",)),
-            "auto_show": parameters.BoolParameter(_("Auto plot"), False),
         })
 
     def setup_io(self):
@@ -52,7 +46,6 @@ class Histogramm(Block):
         signal = self.inputs[0].data
         validator.check_type_signal(signal)
 
-        auto_show = self.parameters["auto_show"].value
         plot_type = self.parameters["plot_type"].value
         bins = self.parameters["bins"].value
 
@@ -91,12 +84,4 @@ class Histogramm(Block):
 
         self.axes.grid(True)
 
-        self.fig.tight_layout()
         self.fig.canvas.draw()
-
-        if auto_show:
-            self.show()
-
-    def show(self):
-        """Shows the plot."""
-        self.fig.show()

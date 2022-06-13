@@ -1,11 +1,10 @@
-import matplotlib.pyplot as plt
 from scipy.signal import stft
 
-from mca.framework import validator, Block, parameters, data_types
+from mca.framework import validator, Block, parameters, data_types, PlotBlock
 from mca.language import _
 
 
-class STFTPlot(Block):
+class STFTPlot(Block, PlotBlock):
     """Plots the Short-Time Fourier Transformation of the input signal."""
     name = _("STFTPlot")
     description = _("Plots the Short-Time Fourier Transformation of the "
@@ -14,9 +13,7 @@ class STFTPlot(Block):
 
     def __init__(self, **kwargs):
         """Initializes STFTPlot class."""
-        super().__init__(**kwargs)
-        self.fig = plt.figure()
-        self.axes = self.fig.add_subplot(111)
+        super().__init__(rows=1, cols=1, **kwargs)
         self.color_bar = None
 
     def setup_io(self):
@@ -38,10 +35,6 @@ class STFTPlot(Block):
                 name=_("Segment Overlap"), min_=0, default=10),
             "fft_length": parameters.IntParameter(
                 name=_("FFT Length"), min_=1, default=20),
-            "show": parameters.ActionParameter(
-                name=_("Show plot"), function=self.show,
-                display_options=("block_button",)
-            )
         })
 
     def _process(self):
@@ -81,10 +74,7 @@ class STFTPlot(Block):
         )
         self.axes.set_xlabel(abscissa_string)
         self.axes.set_ylabel(ordinate_string)
-        self.axes.grid(True)
-        self.fig.tight_layout()
-        self.fig.canvas.draw()
 
-    def show(self):
-        """Shows the plot."""
-        self.fig.show()
+        self.axes.grid(True)
+
+        self.fig.canvas.draw()

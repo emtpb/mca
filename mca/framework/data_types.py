@@ -19,7 +19,7 @@ class Signal:
         abscissa_start (float): Starting point of the signal.
         values (int): Amount of values the signal contains.
         increment (float): Increment between two values.
-        ordinate : Ordinate as a .
+        ordinate : Ordinate as a :py:class:`numpy.ndarray` .
     """
 
     def __init__(self, metadata, abscissa_start, values, increment, ordinate):

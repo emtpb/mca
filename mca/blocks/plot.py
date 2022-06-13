@@ -1,13 +1,12 @@
 import copy
 
-import matplotlib.pyplot as plt
 import numpy as np
 
-from mca.framework import validator, data_types, parameters, DynamicBlock
+from mca.framework import validator, data_types, parameters, DynamicBlock, PlotBlock
 from mca.language import _
 
 
-class Plot(DynamicBlock):
+class Plot(DynamicBlock, PlotBlock):
     """Plots all input signals as lines, stems or bars
     in a single figure.
 
@@ -24,18 +23,12 @@ class Plot(DynamicBlock):
 
     def __init__(self, **kwargs):
         """Initializes Plot class."""
-        super().__init__(**kwargs)
-        self.fig = plt.figure()
-        self.axes = self.fig.add_subplot(111)
+        super().__init__(rows=1, cols=1, **kwargs)
         self.legend = None
         self.lines = []
 
     def setup_parameters(self):
         self.parameters.update({
-            "show": parameters.ActionParameter(_("Show plot"), self.show,
-                                               display_options=(
-                                               "block_button",)),
-            "auto_show": parameters.BoolParameter(_("Auto plot"), False),
             "plot_kind": parameters.ChoiceParameter(
                 _("Plot kind"), choices=[("line", _("Line")),
                                          ("stem", _("Stem")),
@@ -62,7 +55,6 @@ class Plot(DynamicBlock):
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
 
-        auto_show = self.parameters["auto_show"].value
         plot_kind = self.parameters["plot_kind"].value
 
         label = None
@@ -99,12 +91,4 @@ class Plot(DynamicBlock):
             self.axes.set_xlabel(abscissa_string)
             self.axes.set_ylabel(ordinate_string)
         self.axes.grid(True)
-        self.fig.tight_layout()
         self.fig.canvas.draw()
-
-        if auto_show:
-            self.show()
-
-    def show(self):
-        """Shows the plot."""
-        self.fig.show()

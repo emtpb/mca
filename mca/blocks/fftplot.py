@@ -1,11 +1,10 @@
-import matplotlib.pyplot as plt
 import numpy as np
 
-from mca.framework import validator, data_types, Block, parameters
+from mca.framework import validator, data_types, Block, parameters, PlotBlock
 from mca.language import _
 
 
-class FFTPlot(Block):
+class FFTPlot(Block, PlotBlock):
     """Plots the FFT of the input signal.
 
     Attributes:
@@ -23,9 +22,7 @@ class FFTPlot(Block):
 
     def __init__(self, **kwargs):
         """Initializes FFTPlot class."""
-        super().__init__(**kwargs)
-        self.fig = plt.figure()
-        self.axes = self.fig.add_subplot(111)
+        super().__init__(rows=1, cols=1, **kwargs)
         self.legend = None
 
     def setup_io(self):
@@ -50,10 +47,6 @@ class FFTPlot(Block):
                                          ("stem", _("Stem"))], ),
             "normalize": parameters.BoolParameter(
                 _("Normalize"), default=False),
-            "show": parameters.ActionParameter("Show plot", self.show,
-                                               display_options=(
-                                               "block_button",)),
-            "auto_show": parameters.BoolParameter("Auto plot", False),
         })
 
     def _process(self):
@@ -69,7 +62,6 @@ class FFTPlot(Block):
         input_signal = self.inputs[0].data
         plot_mode = self.parameters["plot_mode"].value
         shift = self.parameters["shift"].value
-        auto_show = self.parameters["auto_show"].value
         normalize = self.parameters["normalize"].value
         plot_kind = self.parameters["plot_kind"].value
         values = input_signal.values
@@ -131,10 +123,3 @@ class FFTPlot(Block):
 
         self.axes.grid(True)
         self.fig.canvas.draw()
-
-        if auto_show:
-            self.show()
-
-    def show(self):
-        """Shows the plot."""
-        self.fig.show()

@@ -1,6 +1,9 @@
 import json
 import logging
-import sys
+
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
+from matplotlib.figure import Figure
+from matplotlib.backends.qt_compat import QtWidgets
 
 from mca import exceptions
 from mca.framework import block_io, io_registry, data_types, parameters
@@ -16,7 +19,7 @@ class Block:
         inputs: List that contains all its :class:`.Input`.
         outputs: List that contains all its :class:`.Output`.
         parameters: List that contains all parameters.
-        gui_data (dict): Holds GUI data. Data is separated in in the keys
+        gui_data (dict): Holds GUI data. Data is separated in the keys
                          'save_data' and 'run_time_data'. 'save_data' is dumped
                          into the save file when saving the block structure
                          and 'run_time_data' holds data is only used while the
@@ -27,6 +30,7 @@ class Block:
 
     def __init__(self, **kwargs):
         """Initializes the main Block class."""
+        super().__init__(**kwargs)
         logging.info(f"Initializing {self.name}")
         self.inputs = []
         self.outputs = []
@@ -45,10 +49,11 @@ class Block:
     def read_kwargs(self, kwargs):
         """Writes keyword arguments into the parameters."""
         for key in kwargs:
+            if key not in self.parameters:
+                continue
             if isinstance(kwargs[key], dict):
                 for sub_key in kwargs[key]:
-                    self.parameters[key].parameters[sub_key].value = \
-                    kwargs[key][sub_key]
+                    self.parameters[key].parameters[sub_key].value = kwargs[key][sub_key]
             else:
                 self.parameters[key].value = kwargs[key]
 
@@ -257,11 +262,11 @@ class DynamicBlock(Block):
 
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         """Initialize DynamicBlock class."""
         self.dynamic_output = None
         self.dynamic_input = None
-        super().__init__()
+        super().__init__(**kwargs)
 
     def add_input(self, input_):
         """Adds an Input to the Block.
@@ -334,7 +339,94 @@ class DynamicBlock(Block):
         io_registry.Registry.remove_output(self.outputs.pop(output_index))
 
     def _process(self):
-        """Processes data from the Inputs and the parameters and put new
-        data to the outputs.
-        """
         raise NotImplementedError
+
+    def setup_io(self):
+        raise NotImplementedError
+
+    def setup_parameters(self):
+        raise NotImplementedError
+
+
+class PlotBlock:
+    """Base class for plot class. All plot blocks should inherit from this
+    class. It uses the QT5 backend of matplotlib and the plot figure will be
+    embedded in the PySide2 GUI.
+
+    Attributes:
+        plot_window: Qt widget containing the figure.
+        axes(:py:class:`numpy.ndarray` or :obj:`matplotlib.axis.Axis`):
+            Depending on the number of rows and cols it is either a single
+            axis or an array of axes.
+        fig(:obj:`matplotlib.figure`): Matplotlib figure object.
+    """
+    def __init__(self, rows, cols):
+        """Initialize PlotBlock.
+
+        Args:
+            rows (int): Number of cols in the figure.
+            cols (int): Number of cols in the figure.
+        """
+        self.plot_window = PlotWindow(rows, cols)
+        self.axes = self.plot_window.axes
+        self.fig = self.plot_window.canvas.fig
+
+    def show(self):
+        self.plot_window.show()
+
+    def _process(self):
+        raise NotImplementedError
+
+    def setup_io(self):
+        raise NotImplementedError
+
+    def setup_parameters(self):
+        raise NotImplementedError
+
+
+class MplCanvas(FigureCanvasQTAgg):
+    """MatplotlibCanvas holding the figure object.
+
+    Attributes:
+        fig(:obj:`matplotlib.figure`): Matplotlib figure object.
+    """
+    def __init__(self, width=5, height=4, dpi=100):
+        """Initialize MplCanvas.
+
+        Args:
+            width: Width of the figure.
+            height: Height of the figure.
+            dpi: DPI of the figure.
+        """
+        self.fig = Figure(figsize=(width, height), dpi=dpi)
+        super(MplCanvas, self).__init__(self.fig)
+
+
+class PlotWindow(QtWidgets.QWidget):
+    """Qt widget containing the :obj:`matplotlib.figure`.
+
+    Attributes:
+        canvas: Matplotlib canvas containing the figure.
+        axes: Axes within the figure.
+    """
+    def __init__(self, rows, cols, **kwargs):
+        """Initialize PlotWindow.
+
+        Args:
+            rows (int): Number of cols in the figure.
+            cols (int): Number of cols in the figure.
+        """
+        super(PlotWindow, self).__init__(**kwargs)
+
+        self.canvas = MplCanvas(width=5, height=4, dpi=100)
+
+        toolbar = NavigationToolbar(self.canvas, parent=self)
+        layout = QtWidgets.QVBoxLayout()
+        layout.addWidget(toolbar)
+        layout.addWidget(self.canvas)
+
+        widget = QtWidgets.QWidget()
+        widget.setLayout(layout)
+        self.setLayout(QtWidgets.QVBoxLayout())
+        self.layout().addWidget(widget)
+        self.axes = self.canvas.fig.subplots(nrows=rows, ncols=cols)

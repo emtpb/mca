@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 
 from mca import exceptions
-from mca.framework import Block, parameters, data_types
+from mca.framework import Block, parameters, data_types, PlotBlock
 from mca.language import _
 
 
-class XYPlot(Block):
+class XYPlot(Block, PlotBlock):
     """Plots the ordinates of the input signals against each other."""
     name = _("XYPlot")
     description = _("Plots the ordinates of the input signals against "
@@ -14,10 +14,7 @@ class XYPlot(Block):
 
     def __init__(self, **kwargs):
         """Initializes XYPlot class."""
-        super().__init__(**kwargs)
-        self.fig = plt.figure()
-        self.axes = self.fig.add_subplot(111)
-        self.axes.grid(True)
+        super().__init__(rows=1, cols=1, **kwargs)
 
     def setup_io(self):
         self.new_input()
@@ -36,13 +33,9 @@ class XYPlot(Block):
                      ("second", _("Second"))],
             default="second"
         )
-        self.parameters["show"] = parameters.ActionParameter(
-            _("Show plot"),
-            self.show,
-            display_options=("block_button",))
 
     def _process(self):
-        self.axes.lines.clear()
+        self.axes.cla()
         if self.any_inputs_empty():
             self.fig.canvas.draw()
             return
@@ -86,8 +79,5 @@ class XYPlot(Block):
             unit=unit_o,
             symbol=symbol_o
         ))
-        self.fig.tight_layout()
+        self.axes.grid(True)
         self.fig.canvas.draw()
-
-    def show(self):
-        self.fig.show()

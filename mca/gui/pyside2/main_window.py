@@ -26,7 +26,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         """Initializes MainWindow."""
         QtWidgets.QMainWindow.__init__(self)
-        self.resize(1000, 800)
+        self.showMaximized()
 
         self.conf = config.Config()
 
@@ -63,10 +63,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.block_explorer = block_explorer.BlockExplorer(self.block_scene)
         self.block_scene.block_list = self.block_explorer.block_list
 
+        self.plot_dock_manager = QtWidgets.QMainWindow()
+
         if self.conf["explorer_pos"] == "left":
             self.main_widget.addWidget(self.block_explorer)
             self.main_widget.addWidget(self.view_widget)
+            self.main_widget.addWidget(self.plot_dock_manager)
         else:
+            self.main_widget.addWidget(self.plot_dock_manager)
             self.main_widget.addWidget(self.view_widget)
             self.main_widget.addWidget(self.block_explorer)
 
@@ -367,13 +371,15 @@ class MainWindow(QtWidgets.QMainWindow):
         """Aligns the explorer widget to the left side of the splitter
         widget.
         """
-        if self.main_widget.indexOf(self.block_explorer) == 1:
+        if self.main_widget.indexOf(self.block_explorer) == 2:
             self.main_widget.insertWidget(0, self.block_explorer)
+            self.main_widget.insertWidget(2, self.plot_dock_manager)
         self.conf["explorer_pos"] = "left"
 
     def align_explorer_right(self):
         """Aligns the explorer widget to the right side of the splitter widget.
         """
         if self.main_widget.indexOf(self.block_explorer) == 0:
-            self.main_widget.insertWidget(1, self.block_explorer)
+            self.main_widget.insertWidget(2, self.block_explorer)
+            self.main_widget.insertWidget(0, self.plot_dock_manager)
         self.conf["explorer_pos"] = "right"
