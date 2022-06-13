@@ -153,10 +153,10 @@ class MainWindow(QtWidgets.QMainWindow):
         theme_menu.addAction(dark_theme_action)
 
         appearance_menu = view_menu.addMenu(_("Appearance"))
-        explorer_menu = appearance_menu.addMenu(_("Explorer"))
-        explorer_left_action = explorer_menu.addAction(_("Align left"))
+        explorer_menu = appearance_menu.addMenu(_("Explorer|Plots"))
+        explorer_left_action = explorer_menu.addAction(_("Left|Right"))
         explorer_left_action.triggered.connect(self.align_explorer_left)
-        explorer_right_action = explorer_menu.addAction(_("Align right"))
+        explorer_right_action = explorer_menu.addAction(_("Right|Left"))
         explorer_right_action.triggered.connect(self.align_explorer_right)
 
     def init_view_toolbar(self):
