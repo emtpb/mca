@@ -115,6 +115,11 @@ class BlockItem(QtWidgets.QGraphicsItem):
         # Add button if the block is a PlotBlock
         if isinstance(self.block, PlotBlock):
             plot_dock_manager = self.view.parent().parent().parent().plot_dock_manager
+            splitter = plot_dock_manager.parent()
+            sizes = splitter.sizes()
+            if sizes[2] < 700:
+                sizes[2] = 700
+                splitter.setSizes(sizes)
             dock_widget = QtWidgets.QDockWidget(self.block.name,
                                                 plot_dock_manager)
             dock_widget.setWidget(self.block.plot_window)

@@ -74,6 +74,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.main_widget.addWidget(self.view_widget)
             self.main_widget.addWidget(self.block_explorer)
 
+        self.main_widget.setSizes([300, 1000, 0])
         self.setCentralWidget(self.main_widget)
         # Save warning message
         self.save_warning_message = QtWidgets.QMessageBox(
