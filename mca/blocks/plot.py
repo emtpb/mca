@@ -6,7 +6,7 @@ from mca.framework import validator, data_types, parameters, DynamicBlock, PlotB
 from mca.language import _
 
 
-class Plot(DynamicBlock, PlotBlock):
+class Plot(PlotBlock, DynamicBlock):
     """Plots all input signals as lines, stems or bars
     in a single figure.
 

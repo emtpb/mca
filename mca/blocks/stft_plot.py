@@ -1,10 +1,10 @@
 from scipy.signal import stft
 
-from mca.framework import validator, Block, parameters, data_types, PlotBlock
+from mca.framework import validator, parameters, data_types, PlotBlock
 from mca.language import _
 
 
-class STFTPlot(Block, PlotBlock):
+class STFTPlot(PlotBlock):
     """Plots the Short-Time Fourier Transformation of the input signal."""
     name = _("STFTPlot")
     description = _("Plots the Short-Time Fourier Transformation of the "

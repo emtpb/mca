@@ -1,11 +1,10 @@
-import matplotlib.pyplot as plt
 import numpy as np
 
 from mca.framework import validator, data_types, parameters, Block, PlotBlock
 from mca.language import _
 
 
-class Histogramm(Block, PlotBlock):
+class Histogramm(PlotBlock):
     """Plots absolute and relative (density) frequency of occurrences of
     values in a histogramm.
     """

@@ -30,7 +30,7 @@ class Block:
 
     def __init__(self, **kwargs):
         """Initializes the main Block class."""
-        super().__init__(**kwargs)
+        super().__init__()
         logging.info(f"Initializing {self.name}")
         self.inputs = []
         self.outputs = []
@@ -348,7 +348,7 @@ class DynamicBlock(Block):
         raise NotImplementedError
 
 
-class PlotBlock:
+class PlotBlock(Block):
     """Base class for plot class. All plot blocks should inherit from this
     class. It uses the QT5 backend of matplotlib and the plot figure will be
     embedded in the PySide2 GUI.
@@ -360,13 +360,14 @@ class PlotBlock:
             axis or an array of axes.
         fig(:obj:`matplotlib.figure`): Matplotlib figure object.
     """
-    def __init__(self, rows, cols):
+    def __init__(self, rows, cols, **kwargs):
         """Initialize PlotBlock.
 
         Args:
             rows (int): Number of cols in the figure.
             cols (int): Number of cols in the figure.
         """
+        super().__init__(**kwargs)
         self.plot_window = PlotWindow(rows, cols)
         self.axes = self.plot_window.axes
         self.fig = self.plot_window.canvas.fig

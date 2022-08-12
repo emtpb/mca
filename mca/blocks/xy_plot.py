@@ -1,11 +1,9 @@
-import matplotlib.pyplot as plt
-
 from mca import exceptions
-from mca.framework import Block, parameters, data_types, PlotBlock
+from mca.framework import parameters, data_types, PlotBlock
 from mca.language import _
 
 
-class XYPlot(Block, PlotBlock):
+class XYPlot(PlotBlock):
     """Plots the ordinates of the input signals against each other."""
     name = _("XYPlot")
     description = _("Plots the ordinates of the input signals against "

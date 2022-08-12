@@ -1,10 +1,10 @@
 import numpy as np
 
-from mca.framework import validator, data_types, Block, parameters, PlotBlock
+from mca.framework import validator, data_types, parameters, PlotBlock
 from mca.language import _
 
 
-class FFTPlot(Block, PlotBlock):
+class FFTPlot(PlotBlock):
     """Plots the FFT of the input signal.
 
     Attributes:
