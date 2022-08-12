@@ -31,6 +31,7 @@ from .interpolate import Interpolate
 from .limiter import Limiter
 from .multiplier import Multiplier
 from .plot import Plot
+from .polynom_function_generator import PolynomGenerator
 from .power_spectrum import PowerSpectrum
 from .quantization import Quantization
 from .real_to_complex import RealToComplex
