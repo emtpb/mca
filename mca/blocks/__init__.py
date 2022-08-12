@@ -30,6 +30,7 @@ from .integrator import Integrator
 from .interpolate import Interpolate
 from .limiter import Limiter
 from .multiplier import Multiplier
+from .normalization import Normalization
 from .plot import Plot
 from .polynom_function_generator import PolynomGenerator
 from .power_spectrum import PowerSpectrum
