@@ -26,6 +26,7 @@ from .fftplot import FFTPlot
 from .gausspulse import GaussPulse
 from .histogramm import Histogramm
 from .iir_filter import IRRFilter
+from .impulse import Impulse
 from .integrator import Integrator
 from .interpolate import Interpolate
 from .limiter import Limiter
