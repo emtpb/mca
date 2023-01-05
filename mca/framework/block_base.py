@@ -37,6 +37,7 @@ class Block:
         self.parameters = {
             "name": parameters.StrParameter(name=_("Name"), max_length=35,
                                             default=self.name)}
+        self.plot_parameters = {}
         self.gui_data = {"save_data": {}, "run_time_data": {}}
         self.setup_io()
         self.setup_parameters()
@@ -367,7 +368,9 @@ class PlotBlock(Block):
             rows (int): Number of cols in the figure.
             cols (int): Number of cols in the figure.
         """
+
         super().__init__(**kwargs)
+        self.setup_plot_parameters()
         self.plot_window = PlotWindow(rows, cols)
         self.axes = self.plot_window.axes
         self.fig = self.plot_window.canvas.fig
@@ -383,6 +386,9 @@ class PlotBlock(Block):
 
     def setup_parameters(self):
         raise NotImplementedError
+
+    def setup_plot_parameters(self):
+        pass
 
 
 class MplCanvas(FigureCanvasQTAgg):

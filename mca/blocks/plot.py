@@ -36,6 +36,17 @@ class Plot(PlotBlock, DynamicBlock):
                 default="line")
         })
 
+    def setup_plot_parameters(self):
+        self.plot_parameters["abscissa_scaling"] = parameters.ChoiceParameter(
+            name=_("Abscissa scaling"),
+            choices=(("linear", _("Linear")), ("log", _("Log")),
+                     ("symlog", _("Symmetrcial log")), ("logit", _("Logit"))),
+            default="linear"
+        )
+        self.plot_parameters["grid"] = parameters.BoolParameter(
+            name=_("Grid"), default=True
+        )
+
     def setup_io(self):
         self.dynamic_input = [1, None]
         self.new_input()
@@ -56,6 +67,9 @@ class Plot(PlotBlock, DynamicBlock):
         validator.check_same_units(ordinate_units)
 
         plot_kind = self.parameters["plot_kind"].value
+
+        abscissa_scaling = self.plot_parameters["abscissa_scaling"].value
+        grid = self.plot_parameters["grid"].value
 
         label = None
         for index, signal in enumerate(signals):
@@ -90,5 +104,6 @@ class Plot(PlotBlock, DynamicBlock):
             )
             self.axes.set_xlabel(abscissa_string)
             self.axes.set_ylabel(ordinate_string)
-        self.axes.grid(True)
+        self.axes.set_xscale(abscissa_scaling)
+        self.axes.grid(grid)
         self.fig.canvas.draw()

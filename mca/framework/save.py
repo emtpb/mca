@@ -1,7 +1,7 @@
 import json
 import logging
 
-from mca.framework import parameters, io_registry
+from mca.framework import parameters, io_registry, PlotBlock
 
 
 def save_block_structure(file_path):
@@ -30,6 +30,7 @@ def blocks_to_json(blocks):
     data = {"blocks": []}
     for block in blocks:
         parameter_dict = {}
+        plot_parameter_dict = {}
         for parameter_name, parameter in block.parameters.items():
             if isinstance(parameter, parameters.ParameterBlock):
                 sub_parameter_dict = {}
@@ -39,8 +40,12 @@ def blocks_to_json(blocks):
                 parameter_dict[parameter_name] = sub_parameter_dict
             else:
                 parameter_dict[parameter_name] = parameter.value
+        if isinstance(block, PlotBlock):
+            for parameter_name, parameter in block.plot_parameters.items():
+                plot_parameter_dict[parameter_name] = parameter.value
         save_block = {"class": str(type(block)),
                       "parameters": parameter_dict,
+                      "plot_parameters": plot_parameter_dict,
                       "inputs": [],
                       "outputs": [{
                           "id": output.id.int,

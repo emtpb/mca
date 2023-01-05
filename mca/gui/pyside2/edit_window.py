@@ -4,7 +4,7 @@ import os
 from PySide2 import QtWidgets, QtCore, QtGui
 
 import mca
-from mca.framework import parameters, DynamicBlock
+from mca.framework import parameters, DynamicBlock, PlotBlock
 from mca.gui.pyside2 import edit_widgets
 from mca.language import _
 
@@ -81,6 +81,7 @@ class EditWindow(QtWidgets.QDialog):
         self.metadata_tab = None
         self.metadata_contents = None
         self.metadata_contents_layout = None
+        # Add tab if block has outputs or is dynamic concerning outputs
         if self.block.outputs or (isinstance(self.block, DynamicBlock) and
                                   self.block.dynamic_output):
             self.metadata_contents = QtWidgets.QWidget()
@@ -88,11 +89,14 @@ class EditWindow(QtWidgets.QDialog):
                 self.metadata_contents)
             self.metadata_tab = QtWidgets.QWidget()
             self.metadata_layout = QtWidgets.QVBoxLayout(self.metadata_tab)
+
             scroll = QtWidgets.QScrollArea()
             scroll.setWidget(self.metadata_contents)
             scroll.setWidgetResizable(True)
+
             self.metadata_layout.addWidget(scroll)
             self.tab_widget.addTab(self.metadata_tab, _("Metadata"))
+
             info_box = QtWidgets.QGroupBox(_("Info"))
             info_layout = QtWidgets.QVBoxLayout(info_box)
             info_label = QtWidgets.QLabel(
@@ -104,9 +108,36 @@ class EditWindow(QtWidgets.QDialog):
             info_label.setMaximumHeight(100)
             info_label.setWordWrap(True)
             info_layout.addWidget(info_label)
+
             self.metadata_contents_layout.addWidget(info_box)
             self.add_metadata()
             self.metadata_contents_layout.addItem(QtWidgets.QSpacerItem(
+                0, 0,
+                QtWidgets.QSizePolicy.Minimum,
+                QtWidgets.QSizePolicy.Expanding))
+
+        self.plot_parameter_layout = None
+        self.plot_parameter_tab = None
+        self.plot_parameter_contents = None
+        self.plot_parameter_contents_layout = None
+        self.plot_parameter_widgets = []
+
+        if isinstance(self.block, PlotBlock):
+            self.plot_parameter_contents = QtWidgets.QWidget()
+            self.plot_parameter_contents_layout = QtWidgets.QVBoxLayout(
+                self.plot_parameter_contents)
+            self.plot_parameter_tab = QtWidgets.QWidget()
+            self.plot_parameter_layout = QtWidgets.QVBoxLayout(self.plot_parameter_tab)
+
+            scroll = QtWidgets.QScrollArea()
+            scroll.setWidget(self.plot_parameter_contents)
+            scroll.setWidgetResizable(True)
+
+            self.plot_parameter_layout.addWidget(scroll)
+            self.tab_widget.addTab(self.plot_parameter_tab, _("Plot options"))
+
+            self.add_plot_parameters()
+            self.plot_parameter_contents_layout.addItem(QtWidgets.QSpacerItem(
                 0, 0,
                 QtWidgets.QSizePolicy.Minimum,
                 QtWidgets.QSizePolicy.Expanding))
@@ -227,21 +258,51 @@ class EditWindow(QtWidgets.QDialog):
             metadata_box_layout.insertRow(8, "", ordinate_check_box)
             self.metadata_contents_layout.addWidget(metadata_box)
 
+    def add_plot_parameters(self):
+        """Arranges plot parameters of a block in rows in the window underneath
+        each other. One row includes the name of the parameter as a label, the
+        desired widget and the unit if given.
+        """
+        plot_parameters = self.block.plot_parameters.values()
+        plot_parameter_box = QtWidgets.QGroupBox(_("Plot options"))
+        plot_parameter_box_layout = QtWidgets.QGridLayout(plot_parameter_box)
+        # Iterate over the parameters and add them row wise to the edit window
+        for index, plot_parameter in enumerate(plot_parameters):
+            # Add name labels except for action and bool parameters and
+            # parameter blocks
+            if not isinstance(plot_parameter, parameters.BoolParameter) and \
+                    not isinstance(plot_parameter,
+                                   parameters.ActionParameter) and \
+                    not isinstance(plot_parameter, parameters.ParameterBlock):
+                name_label = QtWidgets.QLabel(plot_parameter.name + ":")
+                name_label.setFixedHeight(25)
+                plot_parameter_box_layout.addWidget(name_label, index, 0, 1, 1)
+            # Translate parameter to the corresponding widget
+            widget = edit_widgets.widget_dict[type(plot_parameter)](
+                plot_parameter)
+            self.plot_parameter_widgets.append(widget)
+            widget.read_parameter()
+            plot_parameter_box_layout.addWidget(widget, index, 1, 1, 1)
+            self.plot_parameter_contents_layout.addWidget(plot_parameter_box)
+
     def accept(self):
         """Applies changes to all parameters and closes the window."""
         self.apply_changes()
         super(EditWindow, self).accept()
 
-    def apply_changes(self, parameter_changes=True, metadata_changes=True):
+    def apply_changes(self, parameter_changes=True, metadata_changes=True,
+                      plot_parameter_changes=True):
         """Tries to apply changes. In case of an error the user gets a
         notification and can choose between reverting his last changes or
         continue editing and potentially fix the error.
 
         Args:
-            parameter_changes (bool): True, if changes to the parameter
+            parameter_changes (bool): True, if changes to the parameters
                                       should be applied.
             metadata_changes (bool): True, if changes to the metadata should
                                       be applied
+            plot_parameter_changes (bool): True, if changes to the
+                                           plot_parameters should be applied.
         """
         try:
             if parameter_changes:
@@ -250,6 +311,9 @@ class EditWindow(QtWidgets.QDialog):
             if metadata_changes:
                 for entry in self.metadata_widgets:
                     entry.write_attribute()
+            if plot_parameter_changes:
+                for plot_parameter in self.plot_parameter_widgets:
+                    plot_parameter.write_parameter()
             self.block.trigger_update()
             self.block_item.update()
         except Exception as error:

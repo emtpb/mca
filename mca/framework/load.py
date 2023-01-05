@@ -40,6 +40,8 @@ def json_to_blocks(json_string):
                         sub_parameter_name].value = sub_parameter
             else:
                 block_instance.parameters[parameter_name].value = parameter
+        for parameter_name, parameter in block_save["plot_parameters"].items():
+            block_instance.plot_parameters[parameter_name].value = parameter
         for index, input_save in enumerate(block_save["inputs"]):
             if index + 1 > len(block_instance.inputs):
                 block_instance.add_input(block_io.Input(block_instance))
