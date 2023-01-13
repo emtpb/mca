@@ -1,7 +1,7 @@
 import json
 import logging
 
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 from matplotlib.backends.qt_compat import QtWidgets
 
@@ -437,3 +437,22 @@ class PlotWindow(QtWidgets.QWidget):
         self.setLayout(QtWidgets.QVBoxLayout())
         self.layout().addWidget(widget)
         self.axes = self.canvas.fig.subplots(nrows=rows, ncols=cols)
+
+    def paintEvent(self, event):
+        if self.style().objectName() == "qdarkstyle":
+            fig_colour = "#60798B"
+            ax_colour = "#9DA9B5"
+            grid_colour = "white"
+        else:
+            fig_colour = "white"
+            ax_colour = "white"
+            grid_colour = "black"
+        self.canvas.fig.set_facecolor(fig_colour)
+        try:
+            for ax in self.axes:
+                ax.set_facecolor(ax_colour)
+                ax.grid(color=grid_colour)
+        except TypeError:
+            self.axes.set_facecolor(ax_colour)
+            self.axes.grid(color=grid_colour)
+        super().paintEvent(event)
