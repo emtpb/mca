@@ -169,6 +169,10 @@ class ChoiceParameterWidget(BaseParameterWidget, QtWidgets.QComboBox):
         QtWidgets.QComboBox.__init__(self)
         BaseParameterWidget.__init__(self, parameter)
         self.currentIndexChanged.connect(self.check_changed)
+        # Prevents the last item to expand in dark mode
+        delegate = QtWidgets.QStyledItemDelegate()
+        self.setItemDelegate(delegate)
+
         for i in range(len(self.parameter.choices)):
             self.addItem(self.parameter.choices[i][1],
                          userData=self.parameter.choices[i][0])
@@ -589,6 +593,9 @@ class ParameterBlockChoiceWidget(QtWidgets.QComboBox):
         QtWidgets.QComboBox.__init__(self)
         self.parameter_block = parameter_block
         self.parameters_to_widgets = parameters_to_widgets
+        # Prevents the last item to expand in dark mode
+        delegate = QtWidgets.QStyledItemDelegate()
+        self.setItemDelegate(delegate)
         # Add the conversions to the ComboBox
         for index, conversion in enumerate(
                 self.parameter_block.param_conversions):
