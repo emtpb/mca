@@ -2,6 +2,7 @@ import copy
 
 import numpy as np
 
+from mca.framework import helpers
 from mca.framework import validator, data_types, parameters, DynamicBlock, PlotBlock
 from mca.language import _
 
@@ -28,24 +29,27 @@ class Plot(PlotBlock, DynamicBlock):
         self.lines = []
 
     def setup_parameters(self):
-        self.parameters.update({
-            "plot_kind": parameters.ChoiceParameter(
+        pass
+
+    def setup_plot_parameters(self):
+        self.plot_parameters["plot_kind"] = parameters.ChoiceParameter(
                 _("Plot kind"), choices=[("line", _("Line")),
                                          ("stem", _("Stem")),
                                          ("bar", _("Bar"))],
                 default="line")
-        })
-
-    def setup_plot_parameters(self):
         self.plot_parameters["abscissa_scaling"] = parameters.ChoiceParameter(
             name=_("Abscissa scaling"),
             choices=(("linear", _("Linear")), ("log", _("Log")),
                      ("symlog", _("Symmetrcial log")), ("logit", _("Logit"))),
             default="linear"
         )
-        self.plot_parameters["grid"] = parameters.BoolParameter(
-            name=_("Grid"), default=True
+        self.plot_parameters["ordinate_scaling"] = parameters.ChoiceParameter(
+            name=_("Ordinate scaling"),
+            choices=(("linear", _("Linear")), ("log", _("Log")),
+                     ("symlog", _("Symmetrcial log")), ("logit", _("Logit"))),
+            default="linear"
         )
+        self.plot_parameters["marker"] = helpers.get_plt_marker_parameter()
 
     def setup_io(self):
         self.dynamic_input = [1, None]
@@ -66,10 +70,10 @@ class Plot(PlotBlock, DynamicBlock):
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
 
-        plot_kind = self.parameters["plot_kind"].value
-
+        plot_kind = self.plot_parameters["plot_kind"].value
         abscissa_scaling = self.plot_parameters["abscissa_scaling"].value
-        grid = self.plot_parameters["grid"].value
+        ordinate_scaling = self.plot_parameters["ordinate_scaling"].value
+        marker = self.plot_parameters["marker"].value
 
         label = None
         for index, signal in enumerate(signals):
@@ -80,10 +84,13 @@ class Plot(PlotBlock, DynamicBlock):
             ordinate = signal.ordinate
             label = signal.metadata.name
             if plot_kind == "line":
-                self.axes.plot(abscissa, ordinate, f"C{index}", label=label)
+                self.axes.plot(abscissa, ordinate, f"C{index}", label=label,
+                               marker=marker,
+                               markerfacecolor=f"C{index}")
             elif plot_kind == "stem":
                 self.axes.stem(abscissa, ordinate, f"C{index}", label=label,
-                               use_line_collection=True, basefmt=" ")
+                               use_line_collection=True, basefmt=" ",
+                               markerfmt=f"C{index}{marker}")
             elif plot_kind == "bar":
                 self.axes.bar(abscissa, ordinate, label=label,
                               color=f"C{index}",
@@ -105,5 +112,6 @@ class Plot(PlotBlock, DynamicBlock):
             self.axes.set_xlabel(abscissa_string)
             self.axes.set_ylabel(ordinate_string)
         self.axes.set_xscale(abscissa_scaling)
-        self.axes.grid(grid)
+        self.axes.set_yscale(ordinate_scaling)
+        self.axes.grid(True)
         self.fig.canvas.draw()

@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import validator, data_types, parameters, Block, PlotBlock
+from mca.framework import validator, data_types, parameters, PlotBlock, helpers
 from mca.language import _
 
 
@@ -29,6 +29,14 @@ class Histogramm(PlotBlock):
             "bins": parameters.IntParameter(_("Bins"), min_=1, default=100),
         })
 
+    def setup_plot_parameters(self):
+        self.plot_parameters["color"] = helpers.get_plt_color_parameter()
+        self.plot_parameters["align"] = parameters.ChoiceParameter(
+            name=_("Align"), choices=(("left", _("Left")), ("mid", _("Mid")),
+                                      ("right", _("Right"))),
+            default="mid"
+        )
+
     def setup_io(self):
         self.new_input()
 
@@ -48,6 +56,9 @@ class Histogramm(PlotBlock):
         plot_type = self.parameters["plot_type"].value
         bins = self.parameters["bins"].value
 
+        align = self.plot_parameters["align"].value
+        color = self.plot_parameters["color"].value
+
         if plot_type == "absolute":
             density = False
             y_label = _("Absolute frequency of occurrence")
@@ -65,10 +76,10 @@ class Histogramm(PlotBlock):
                            weights=np.ones(signal.ordinate.shape) / len(
                                signal.ordinate),
                            bins=bins,
-                           label=label)
+                           label=label, color=color, align=align)
         else:
             self.axes.hist(signal.ordinate, bins=bins, density=density,
-                           label=label)
+                           label=label, color=color, align=align)
 
         if label:
             self.legend = self.fig.legend()

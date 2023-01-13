@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.colors as crl
 
 from mca.framework import parameters
 from mca.language import _
@@ -78,6 +79,48 @@ def create_abscissa_parameter_block():
                                                             conversion_4],
                                          default_conversion=0)
     return abscissa
+
+
+def get_plt_marker_parameter(name=None):
+    """Returns a :class:`.ChoiceParameter` for matplotlib marker.
+
+    Args:
+        name (str): Name of the parameter. By default set to "Marker".
+    """
+    if name is None:
+        name = _("Marker")
+    marker = parameters.ChoiceParameter(
+        name=name, choices=((None, _("No marker")),
+                              (".", _("Point")),
+                              (",", _("Pixel")),
+                              ("o", _("Circle")),
+                              ("v", _("Triangle down")),
+                              ("^", _("Triangle up")),
+                              ("<", _("Triangle left")),
+                              (">", _("Triangle right")),
+                              ("8", _("Octagon")),
+                              ("s", _("Square")),
+                              ("p", _("Pentagon")),
+                              ("*", _("Star")),
+                              ("h", _("Hexagon"))
+                            )
+    )
+    return marker
+
+
+def get_plt_color_parameter(name=_("Color")):
+    """Returns a :class:`.ChoiceParameter` for matplotlib colors.
+
+    Args:
+        name (str): Name of the parameter. By default set to "Color".
+    """
+    colors = crl.BASE_COLORS
+    color_names = (_("Blue"), _("Green"), _("Red"), _("Cyan"), _("Magenta"),
+                   _("Yellow"), _("Black"), _("White"))
+    choices = [(color, color_name) for color, color_name in zip(colors.keys(),
+                                                                color_names)]
+    color_param = parameters.ChoiceParameter(name=name, choices=choices, default=choices[0])
+    return color_param
 
 
 def fill_zeros(signals):

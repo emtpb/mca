@@ -1,5 +1,5 @@
 from mca import exceptions
-from mca.framework import parameters, data_types, PlotBlock
+from mca.framework import parameters, data_types, PlotBlock, helpers
 from mca.language import _
 
 
@@ -32,6 +32,10 @@ class XYPlot(PlotBlock):
             default="second"
         )
 
+    def setup_plot_parameters(self):
+        self.plot_parameters["color"] = helpers.get_plt_color_parameter()
+        self.plot_parameters["marker"] = helpers.get_plt_marker_parameter()
+
     def _process(self):
         self.axes.cla()
         if self.any_inputs_empty():
@@ -39,6 +43,8 @@ class XYPlot(PlotBlock):
             return
         y_axis = self.parameters["y_axis"].value
         x_axis = self.parameters["x_axis"].value
+        marker = self.plot_parameters["marker"].value
+        color = self.plot_parameters["color"].value
 
         if y_axis == "first":
             input_signal_o = self.inputs[0].data
@@ -66,7 +72,7 @@ class XYPlot(PlotBlock):
             raise exceptions.IntervalError("Cannot plot ordinates with "
                                            "different lengths.")
 
-        self.axes.scatter(abscissa, ordinate, color="C0")
+        self.axes.scatter(abscissa, ordinate, color=color, marker=marker)
         self.axes.set_xlabel(data_types.metadata_to_axis_label(
             quantity=quantity_a,
             unit=unit_a,

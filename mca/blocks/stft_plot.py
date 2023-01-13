@@ -37,6 +37,18 @@ class STFTPlot(PlotBlock):
                 name=_("FFT Length"), min_=1, default=20),
         })
 
+    def setup_plot_parameters(self):
+        self.plot_parameters["cmap"] = parameters.ChoiceParameter(
+            name=_("Colormap"),
+            choices=(("viridis", _("Viridis")),
+                     ("plasma", _("Plasma")),
+                     ("inferno", _("Inferno")),
+                     ("magma", _("Magma")),
+                     ("cividis", _("Cividis"))
+                     ),
+            default="viridis"
+        )
+
     def _process(self):
         if self.color_bar:
             self.color_bar.remove()
@@ -53,11 +65,12 @@ class STFTPlot(PlotBlock):
         seg_length = self.parameters["seg_length"].value
         seg_overlap = self.parameters["seg_overlap"].value
         fft_length = self.parameters["fft_length"].value
+        cmap = self.plot_parameters["cmap"].value
 
         f, t, z = stft(x=input_signal.ordinate, fs=1 / input_signal.increment,
                        window=window, nperseg=seg_length, noverlap=seg_overlap,
                        nfft=fft_length)
-        im = self.axes.pcolormesh(t, f, abs(z))
+        im = self.axes.pcolormesh(t, f, abs(z), cmap=cmap)
         self.color_bar = self.fig.colorbar(im, ax=self.axes)
         metadata = data_types.MetaData(input_signal.metadata.name,
                                        unit_a=input_signal.metadata.unit_a,

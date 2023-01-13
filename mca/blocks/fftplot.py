@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import validator, data_types, parameters, PlotBlock
+from mca.framework import validator, data_types, parameters, PlotBlock, helpers
 from mca.language import _
 
 
@@ -42,12 +42,30 @@ class FFTPlot(PlotBlock):
                  ("absolute", _("Absolute")), ("phase", _("Phase"))],
                 default="absolute",
             ),
-            "plot_kind": parameters.ChoiceParameter(
-                _("Plot kind"), choices=[("line", _("Line")),
-                                         ("stem", _("Stem"))], ),
             "normalize": parameters.BoolParameter(
                 _("Normalize"), default=False),
         })
+
+    def setup_plot_parameters(self):
+        self.plot_parameters["plot_kind"] = parameters.ChoiceParameter(
+                _("Plot kind"), choices=[("line", _("Line")),
+                                         ("stem", _("Stem"))], )
+        self.plot_parameters["color"] = helpers.get_plt_color_parameter()
+        self.plot_parameters["abscissa_scaling"] = parameters.ChoiceParameter(
+            name=_("Abscissa scaling"),
+            choices=(("linear", _("Linear")), ("log", _("Log")),
+                     ("symlog", _("Symmetrcial log")), ("logit", _("Logit"))),
+            default="linear"
+        )
+        self.plot_parameters["ordinate_scaling"] = parameters.ChoiceParameter(
+            name=_("Ordinate scaling"),
+            choices=(("linear", _("Linear")), ("log", _("Log")),
+                     ("symlog", _("Symmetrcial log")), ("logit", _("Logit"))),
+            default="linear"
+        )
+        self.plot_parameters["marker"] = helpers.get_plt_marker_parameter()
+        self.plot_parameters["marker_color"] = helpers.get_plt_color_parameter(
+            _("Marker color"))
 
     def _process(self):
         self.axes.cla()
@@ -63,7 +81,14 @@ class FFTPlot(PlotBlock):
         plot_mode = self.parameters["plot_mode"].value
         shift = self.parameters["shift"].value
         normalize = self.parameters["normalize"].value
-        plot_kind = self.parameters["plot_kind"].value
+
+        plot_kind = self.plot_parameters["plot_kind"].value
+        abscissa_scaling = self.plot_parameters["abscissa_scaling"].value
+        ordinate_scaling = self.plot_parameters["ordinate_scaling"].value
+        marker = self.plot_parameters["marker"].value
+        color = self.plot_parameters["color"].value
+        marker_color = self.plot_parameters["marker_color"].value
+
         values = input_signal.values
 
         delta_f = 1 / (self.inputs[0].data.increment * values)
@@ -101,10 +126,13 @@ class FFTPlot(PlotBlock):
         )
         label = input_signal.metadata.name
         if plot_kind == "line":
-            self.axes.plot(abscissa, ordinate, "C0", label=label)
+            self.axes.plot(abscissa, ordinate, color, label=label, marker=marker,
+                           markerfacecolor=marker_color,
+                           markeredgecolor=marker_color)
         elif plot_kind == "stem":
-            self.axes.stem(abscissa, ordinate, "C0", label=label,
-                           use_line_collection=True, basefmt=" ")
+            self.axes.stem(abscissa, ordinate, color, label=label,
+                           use_line_collection=True, basefmt=" ",
+                           markerfmt=marker_color+marker)
         if label:
             self.legend = self.fig.legend()
 
@@ -120,6 +148,7 @@ class FFTPlot(PlotBlock):
             symbol=metadata.symbol_o
         )
         )
-
+        self.axes.set_xscale(abscissa_scaling)
+        self.axes.set_yscale(ordinate_scaling)
         self.axes.grid(True)
         self.fig.canvas.draw()
