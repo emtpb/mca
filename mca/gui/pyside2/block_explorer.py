@@ -14,9 +14,9 @@ class BlockExplorer(QtWidgets.QWidget):
      Attributes:
          search_bar: Matches the strings the tags and block classes within
                      the block list.
-         button_filter: Group of buttons which can only be pressed exclusively
-                        and sort the list by tags or by blocks.
-        block_list: Contains blocks and tags al items.
+         tag_check_box: Sets whether blocks should be grouped by tags or
+                        just be listed.
+         block_list: Contains blocks and tags al items.
      """
 
     def __init__(self, scene):
@@ -34,22 +34,22 @@ class BlockExplorer(QtWidgets.QWidget):
         self.search_bar.setClearButtonEnabled(True)
         self.search_bar.setPlaceholderText(_("Search..."))
 
-        self.button_filter = ButtonFilter()
-        self.block_list = BlockList(scene)
-        self.block_list.button_group = self.button_filter.button_group
+        self.tag_check_box = QtWidgets.QCheckBox(_("Show tags"))
+        self.tag_check_box.setChecked(True)
 
-        self.button_filter.tag_button.pressed.connect(self.block_list.show_all)
-        self.button_filter.block_button.pressed.connect(
-            self.block_list.show_blocks)
+        self.block_list = BlockList(scene)
+        self.block_list.tag_check_box = self.tag_check_box
+
+        self.tag_check_box.stateChanged.connect(self.block_list.show_blocks)
 
         self.block_list.search_bar = self.search_bar
         self.search_bar.textChanged.connect(self.block_list.show_items)
 
         self.layout().addWidget(self.search_bar)
-        self.layout().addWidget(self.button_filter)
+        self.layout().addWidget(self.tag_check_box)
         self.layout().addWidget(self.block_list)
 
-        self.block_list.show_all()
+        self.block_list.show_blocks()
 
 
 class BlockList(QtWidgets.QListWidget):
@@ -68,7 +68,7 @@ class BlockList(QtWidgets.QListWidget):
 
         self.scene = scene
         self.search_bar = None
-        self.button_group = None
+        self.tag_check_box = None
 
         self.setDragEnabled(True)
 
@@ -118,13 +118,10 @@ class BlockList(QtWidgets.QListWidget):
         self.menu.exec_(event.globalPos())
 
     def show_items(self):
-        """Shows and hides certain list items depending on the
-        search_bar string.
+        """Wrapper method for show blocks to connect to the
+        search_bar textChanged signal.
         """
-        if self.button_group.button(1).isChecked():
-            self.show_all()
-        else:
-            self.show_only_blocks()
+        self.show_blocks(self.tag_check_box.checkState())
 
     def hide_all_items(self):
         """Hide all items in the BlockList."""
@@ -132,34 +129,31 @@ class BlockList(QtWidgets.QListWidget):
         for item in all_items:
             self.setItemHidden(item, True)
 
-    def show_blocks(self):
-        """Show all block items matching the search string in the search bar."""
-        self.hide_all_items()
-        search_string = self.search_bar.text()
-        matching_items = self.findItems(search_string, QtCore.Qt.MatchContains)
-        for item in matching_items:
-            if item.data(4) == "block" and item.data(5) is False:
-                item.setHidden(False)
+    def show_blocks(self, tags=True):
+        """Show all block items matching the search string in the search bar.
 
-    def show_all(self):
-        """Show blocks and tags with their related blocks matching the
-        search string in the search bar. Blocks which already appear as
-        related blocks under a tag get hidden.
+        Args:
+            tags: If True, all blocks are grouped according to their tags. If a
+                  block has multiple tags it is listed under all its tags.
         """
         self.hide_all_items()
         search_string = self.search_bar.text()
         matching_items = self.findItems(search_string, QtCore.Qt.MatchContains)
-        matching_tags = filter(lambda x: x.data(4) == "tag", matching_items)
-        related_blocks = []
-        for tag in matching_tags:
-            related_blocks += tag.related_blocks
-        matching_blocks = list(map(lambda x: x.data(3), related_blocks))
-        for item in matching_items:
-            if search_string and item.data(
-                    5) is False and matching_blocks.count(item.data(3)) == 0:
-                item.setHidden(False)
-            elif item.data(4) == "tag":
-                item.setHidden(False)
+        if not tags:
+            for item in matching_items:
+                if item.data(4) == "block" and item.data(5) is False:
+                    item.setHidden(False)
+        else:
+            matching_tags = filter(lambda x: x.data(4) == "tag", matching_items)
+            related_blocks = []
+            for tag in matching_tags:
+                related_blocks += tag.related_blocks
+            matching_blocks = list(map(lambda x: x.data(3), related_blocks))
+            for item in matching_items:
+                if search_string and item.data(5) is False and matching_blocks.count(item.data(3)) == 0:
+                    item.setHidden(False)
+                elif item.data(4) == "tag":
+                    item.setHidden(False)
 
     def add_block(self, block, related_block=False):
         """Adds a block to the list.
@@ -229,42 +223,3 @@ class TagListItem(QtWidgets.QListWidgetItem):
         for block in self.related_blocks:
             block.setHidden(hide)
         super().setHidden(hide)
-
-
-class ButtonFilter(QtWidgets.QWidget):
-    """Widget for managing and arranging a group of buttons for filtering
-    the block list.
-
-    Attributes:
-        button_group: Abstract widget managing the behaviour of a
-                      group of buttons.
-        tag_button: Button to filter the :class:`.BlockList` for tags and
-                    their related blocks.
-        block_button: Button to filter only for block list items which are
-                      not related to a tag.
-    """
-
-    def __init__(self):
-        """Initialize ButtonFilter widget."""
-        QtWidgets.QWidget.__init__(self)
-        self.setLayout(QtWidgets.QHBoxLayout())
-        self.layout().setAlignment(QtCore.Qt.AlignLeft)
-        self.button_group = QtWidgets.QButtonGroup()
-        self.button_group.setExclusive(True)
-
-        self.tag_button = QtWidgets.QPushButton("T")
-        self.tag_button.setToolTip("Show blocks associated with tags")
-        self.tag_button.setCheckable(True)
-        self.tag_button.setChecked(True)
-        self.tag_button.setMaximumWidth(30)
-
-        self.block_button = QtWidgets.QPushButton("B")
-        self.block_button.setToolTip("Search only for blocks")
-        self.block_button.setCheckable(True)
-        self.block_button.setMaximumWidth(30)
-
-        self.layout().addWidget(self.tag_button)
-        self.layout().addWidget(self.block_button)
-
-        self.button_group.addButton(self.tag_button, 1)
-        self.button_group.addButton(self.block_button, 2)
