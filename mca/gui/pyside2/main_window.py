@@ -263,7 +263,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.save_file_path = file_name
         self.conf["save_file_dir"] = os.path.dirname(self.save_file_path)
         self.save_file()
-
+        if file_name in self.conf["recent_files"]:
+            self.conf["recent_files"].remove(file_name)
         self.conf["recent_files"] = [file_name] + self.conf["recent_files"][:3]
         self.update_recent_menu()
         return True
