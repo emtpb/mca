@@ -72,9 +72,9 @@ class Interpolate(Block):
                      kind=interpol_kind)
         new_ordinate = f(new_abscissa)
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(input_signal.metadata),
             abscissa_start=new_abscissa_start,
             values=new_values,
             increment=new_increment,
             ordinate=new_ordinate,
         )
+        self.outputs[0].external_metadata = self.inputs[0].metadata

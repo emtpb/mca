@@ -44,7 +44,6 @@ class AudioLoader(Block):
         if normalize:
             data = data / np.max(data)
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].metadata,
             abscissa_start=0,
             values=len(data),
             increment=1 / rate,

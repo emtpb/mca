@@ -39,5 +39,6 @@ class AudioPlayer(Block):
         input_signal = self.inputs[0].data
         sampling_frequency = self.parameters["sampling_freq"].value
         validator.check_type_signal(input_signal)
-        validator.check_same_units([input_signal.metadata.unit_a, Unit(["s"])])
+        validator.check_same_units([self.inputs[0].metadata.unit_a,
+                                    Unit(["s"])])
         sd.play(input_signal.ordinate, sampling_frequency)

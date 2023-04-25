@@ -27,25 +27,26 @@ class Multiplier(DynamicBlock):
         for i in self.inputs:
             validator.check_type_signal(i.data)
         signals = [copy.copy(i.data) for i in self.inputs if i.data]
-        abscissa_units = [signal.metadata.unit_a for signal in signals]
+        metadatas = [copy.copy(i.metadata) for i in self.inputs if i.metadata]
+        abscissa_units = [metadata.unit_a for metadata in metadatas]
         validator.check_same_units(abscissa_units)
         validator.check_intervals(signals)
 
         matched_signals = helpers.fill_zeros(signals)
         ordinate = np.ones(matched_signals[0].values)
-        unit_a = matched_signals[0].metadata.unit_a
+        unit_a = metadatas[0].unit_a
         unit_o = 1
-        for sgn in matched_signals:
+        for sgn, metadata in zip(matched_signals, metadatas):
             ordinate *= sgn.ordinate
-            unit_o *= sgn.metadata.unit_o
+            unit_o *= metadata.unit_o
         metadata = data_types.MetaData(None, unit_a, unit_o)
         abscissa_start = matched_signals[0].abscissa_start
         values = matched_signals[0].values
         increment = matched_signals[0].increment
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=abscissa_start,
             values=values,
             increment=increment,
             ordinate=ordinate,
         )
+        self.outputs[0].external_metadata = metadata

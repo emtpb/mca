@@ -305,8 +305,7 @@ def test_output_block():
 
 @pytest.fixture(scope="module")
 def sin_signal():
-    return mca.framework.data_types.Signal(mca.framework.data_types.MetaData(
-        "test", "s", "V", "Time", "Voltage", "t", "U"), 0, 628, 0.01,
+    return mca.framework.data_types.Signal(0, 628, 0.01,
         np.sin(2*np.pi*np.linspace(0, 0.01*627, 628)))
 
 
@@ -317,7 +316,7 @@ def sin_block(sin_signal):
 
 @pytest.fixture(scope="module")
 def unit_step_signal():
-    return mca.framework.data_types.Signal(None, -1, 200, 0.01,
+    return mca.framework.data_types.Signal(-1, 200, 0.01,
                              np.where(np.arange(-1, 1, 0.01) >= 0, 1, 0))
 
 

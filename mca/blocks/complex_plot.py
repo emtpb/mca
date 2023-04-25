@@ -89,8 +89,9 @@ class ComplexPlot(DynamicBlock, PlotBlock):
         for i in self.inputs:
             validator.check_type_signal(i.data)
         signals = [copy.copy(i.data) for i in self.inputs if i.data]
-        abscissa_units = [signal.metadata.unit_a for signal in signals]
-        ordinate_units = [signal.metadata.unit_o for signal in signals]
+        metadatas = [copy.copy(i.metadata) for i in self.inputs if i.metadata]
+        abscissa_units = [metadata.unit_a for metadata in metadatas]
+        ordinate_units = [metadata.unit_o for metadata in metadatas]
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
 
@@ -113,13 +114,13 @@ class ComplexPlot(DynamicBlock, PlotBlock):
 
         labels = False
 
-        for signal in signals:
+        for metadata, signal in zip(metadatas, signals):
             abscissa = np.linspace(signal.abscissa_start,
                                    signal.abscissa_start + signal.increment * (
                                                signal.values - 1),
                                    signal.values)
             ordinate = signal.ordinate
-            label = signal.metadata.name
+            label = metadata.name
             if label:
                 labels = True
             if plot_type == "real_imag":
@@ -161,7 +162,7 @@ class ComplexPlot(DynamicBlock, PlotBlock):
         else:
             self.legend = None
         if signals:
-            metadata = signals[0].metadata
+            metadata = metadatas[0]
             abscissa_string = data_types.metadata_to_axis_label(
                 quantity=metadata.quantity_a,
                 unit=metadata.unit_a,
@@ -186,5 +187,4 @@ class ComplexPlot(DynamicBlock, PlotBlock):
         self.second_axes.set_yscale(ordinate_scaling2)
         self.first_axes.grid(True)
         self.second_axes.grid(True)
-
         self.fig.canvas.draw()

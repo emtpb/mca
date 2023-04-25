@@ -24,23 +24,27 @@ class CrossCorrelation(Block):
             return
         validator.check_type_signal(self.inputs[0].data)
         validator.check_type_signal(self.inputs[1].data)
-        validator.check_same_units([self.inputs[0].data.metadata.unit_a,
-                                    self.inputs[1].data.metadata.unit_a])
+        validator.check_same_units([self.inputs[0].metadata.unit_a,
+                                    self.inputs[1].metadata.unit_a])
+
+        unit_o = self.inputs[0].metadata.unit_o * self.inputs[1].metadata.unit_o
+        unit_a = 1 / self.inputs[0].metadata.unit_a
+        metadata = data_types.MetaData(None, unit_a, unit_o)
+
         first_signal = self.inputs[0].data
         second_signal = self.inputs[1].data
         validator.check_intervals([first_signal, second_signal])
+
         ccf = np.correlate(first_signal.ordinate, second_signal.ordinate,
                            mode="full")
         abscissa_start = first_signal.abscissa_start - (
                     second_signal.values - 1) * second_signal.increment
         values = first_signal.values + second_signal.values - 1
-        unit_o = first_signal.metadata.unit_o * second_signal.metadata.unit_o
-        unit_a = 1 / first_signal.metadata.unit_a
-        metadata = data_types.MetaData(None, unit_a, unit_o)
+
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=abscissa_start,
             values=values,
             increment=first_signal.increment,
             ordinate=ccf,
         )
+        self.outputs[0].external_metadata = metadata

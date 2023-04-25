@@ -45,7 +45,6 @@ class AudioRecorder(Block):
                            channels=1).reshape(frames)
         sd.wait()
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].metadata,
             abscissa_start=0,
             values=frames,
             increment=1 / sampling_frequency,

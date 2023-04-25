@@ -59,7 +59,6 @@ class Chirp(Block):
         chirp = amp * sgn.chirp(t=abscissa, f0=freq1, t1=abscissa[-1], f1=freq2,
                                 phi=phase, method=sweep_kind)
         self.outputs[0].data = data_types.Signal(
-            self.outputs[0].get_metadata(None),
             abscissa_start,
             values,
             increment,

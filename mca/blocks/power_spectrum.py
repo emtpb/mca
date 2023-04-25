@@ -63,15 +63,15 @@ class PowerSpectrum(Block):
         abscissa_start = freq[0]
         values = len(freq)
         increment = freq[1] - freq[0]
-        unit_a = 1 / input_signal.metadata.unit_a
-        unit_o = input_signal.metadata.unit_o ** 2
+        unit_a = 1 / self.inputs[0].metadata.unit_a
+        unit_o = self.inputs[0].metadata.unit_o ** 2
         if scaling == "density":
             unit_o = Unit([unit_o.repr], [unit_a.repr], fix_repr=True)
         metadata = data_types.MetaData(None, unit_a, unit_o)
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=abscissa_start,
             values=values,
             increment=increment,
             ordinate=power_density,
         )
+        self.outputs[0].external_metadata = metadata

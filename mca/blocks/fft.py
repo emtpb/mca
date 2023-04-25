@@ -32,6 +32,10 @@ class FFT(Block):
         normalize = self.parameters["normalize"].value
         input_signal = self.inputs[0].data
 
+        unit_o = self.inputs[0].metadata.unit_o
+        unit_a = 1 / self.inputs[0].metadata.unit_a
+        metadata = data_types.MetaData(None, unit_a=unit_a, unit_o=unit_o)
+
         ordinate = np.fft.fft(input_signal.ordinate)
         increment = 1 / (
                 input_signal.increment * input_signal.values)
@@ -39,18 +43,11 @@ class FFT(Block):
 
         if normalize:
             ordinate = ordinate / values
-        unit_o = input_signal.metadata.unit_o
-
-        metadata = data_types.MetaData(
-            name="",
-            unit_a=1 / input_signal.metadata.unit_a,
-            unit_o=unit_o
-        )
 
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=0,
             values=values,
             increment=increment,
             ordinate=ordinate,
         )
+        self.outputs[0].external_metadata = metadata

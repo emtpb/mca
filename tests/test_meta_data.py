@@ -5,7 +5,6 @@ from mca.framework import data_types
 from united import Unit
 
 reference_signal = data_types.Signal(
-        metadata=data_types.MetaData("test", Unit(["s"]), Unit(["V"])),
         abscissa_start=0,
         values=10,
         increment=1,
@@ -13,19 +12,16 @@ reference_signal = data_types.Signal(
 test_cases_signal_unequal = [
     (reference_signal, None),
     (reference_signal, data_types.Signal(
-        metadata=data_types.MetaData("test", Unit(["s"]), Unit(["V"])),
         abscissa_start=0,
         values=9,
         increment=1,
         ordinate=np.arange(10))),
     (reference_signal, data_types.Signal(
-        metadata=data_types.MetaData("test", Unit(["s"]), Unit(["V"])),
         abscissa_start=0,
         values=10,
         increment=0.5,
         ordinate=np.arange(10))),
     (reference_signal, data_types.Signal(
-        metadata=data_types.MetaData("test", Unit(["s"]), Unit(["V"])),
         abscissa_start=0,
         values=10,
         increment=1,
@@ -40,7 +36,6 @@ def test_signal_unequal(first_signal, second_signal):
 
 def test_signal_equal():
     second_signal = data_types.Signal(
-        metadata=data_types.MetaData("test_1", Unit(["m"]), Unit(["I"])),
         abscissa_start=0,
         values=10,
         increment=1,

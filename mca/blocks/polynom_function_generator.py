@@ -58,7 +58,6 @@ class PolynomGenerator(Block):
                    d*abscissa**2 + e*abscissa + f
 
         self.outputs[0].data = data_types.Signal(
-            self.outputs[0].get_metadata(None),
             abscissa_start,
             values,
             increment,

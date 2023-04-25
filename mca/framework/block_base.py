@@ -59,8 +59,11 @@ class Block:
                 self.parameters[key].value = kwargs[key]
 
     def _process(self):
-        """Processes data from the Inputs and the parameters and puts new
-        data to the outputs.
+        """Processes data from Inputs and parameters.
+
+        This method describes the behaviour of the Block on what to do with
+        data. This usually refers to applying new data on Outputs, plotting
+        Input data or saving Input data.
         """
         raise NotImplementedError
 
@@ -119,7 +122,7 @@ class Block:
             io_registry.Registry.add_node(
                 block_io.Output(
                     self,
-                    metadata=metadata,
+                    initial_metadata=metadata,
                     metadata_input_dependent=metadata_input_dependent,
                     abscissa_metadata=abscissa_metadata,
                     ordinate_metadata=ordinate_metadata,

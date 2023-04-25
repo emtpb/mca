@@ -34,9 +34,9 @@ class Resample(Block):
         ordinate = resample(input_signal.ordinate, new_values)
         new_increment = 1 / sample_freq
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(input_signal.metadata),
             abscissa_start=input_signal.abscissa_start,
             values=new_values,
             increment=new_increment,
             ordinate=ordinate,
         )
+        self.outputs[0].external_metadata = self.inputs[0].metadata

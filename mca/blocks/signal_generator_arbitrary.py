@@ -57,10 +57,10 @@ class SignalGeneratorArbitrary(Block):
         except FileNotFoundError:
             raise exceptions.DataLoadingError("File not found")
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=arbitrary_data["abscissa_start"],
             values=arbitrary_data["values"],
             increment=arbitrary_data["increment"],
             ordinate=np.array(arbitrary_data["ordinate"])
         )
+        self.outputs[0].external_metadata = metadata
         self.trigger_update()

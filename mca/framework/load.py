@@ -41,7 +41,12 @@ def json_to_blocks(json_string):
             else:
                 block_instance.parameters[parameter_name].value = parameter
         for parameter_name, parameter in block_save["plot_parameters"].items():
-            block_instance.plot_parameters[parameter_name].value = parameter
+            if isinstance(parameter, dict):
+                for sub_parameter_name, sub_parameter in parameter.items():
+                    block_instance.plot_parameters[parameter_name].parameters[
+                        sub_parameter_name].value = sub_parameter
+            else:
+                block_instance.plot_parameters[parameter_name].value = parameter
         for index, input_save in enumerate(block_save["inputs"]):
             if index + 1 > len(block_instance.inputs):
                 block_instance.add_input(block_io.Input(block_instance))
@@ -57,7 +62,7 @@ def json_to_blocks(json_string):
             )
             if index + 1 > len(block_instance.outputs):
                 block_instance.add_output(block_io.Output(block_instance))
-            block_instance.outputs[index].metadata = metadata
+            block_instance.outputs[index].user_metadata = metadata
             block_instance.outputs[index].abscissa_metadata = output_save[
                 "abscissa_metadata"]
             block_instance.outputs[index].ordinate_metadata = output_save[

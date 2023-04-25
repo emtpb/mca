@@ -26,8 +26,9 @@ class Adder(DynamicBlock):
         for i in self.inputs:
             validator.check_type_signal(i.data)
         signals = [copy.copy(i.data) for i in self.inputs if i.data]
-        abscissa_units = [signal.metadata.unit_a for signal in signals]
-        ordinate_units = [signal.metadata.unit_o for signal in signals]
+        metadatas = [copy.copy(i.metadata) for i in self.inputs if i.metadata]
+        abscissa_units = [metadata.unit_a for metadata in metadatas]
+        ordinate_units = [metadata.unit_o for metadata in metadatas]
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
         validator.check_intervals(signals)
@@ -41,8 +42,8 @@ class Adder(DynamicBlock):
         values = modified_signals[0].values
         increment = modified_signals[0].increment
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(signals[0].metadata),
             abscissa_start=abscissa_start,
             values=values,
             increment=increment,
             ordinate=ordinate)
+        self.outputs[0].external_metadata = self.inputs[0].metadata

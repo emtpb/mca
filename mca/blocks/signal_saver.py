@@ -32,18 +32,19 @@ class SignalSaver(Block):
         if not self.inputs[0].data:
             raise exceptions.DataSavingError("No data to save.")
         signal = self.inputs[0].data
+        metadata = self.inputs[0].metadata
         filename = self.parameters["file_name"].value
         if not filename.endswith(".json"):
             raise exceptions.DataSavingError("File has to be a .json.")
         with open(filename, 'w') as save_file:
             save_data = {"data_type": "Signal",
-                         "name": signal.metadata.name,
-                         "quantity_a": signal.metadata.quantity_a,
-                         "symbol_a": signal.metadata.symbol_a,
-                         "unit_a": repr(signal.metadata.unit_a),
-                         "quantity_o": signal.metadata.quantity_o,
-                         "symbol_o": signal.metadata.symbol_o,
-                         "unit_o": repr(signal.metadata.unit_o),
+                         "name": metadata.name,
+                         "quantity_a": metadata.quantity_a,
+                         "symbol_a": metadata.symbol_a,
+                         "unit_a": repr(metadata.unit_a),
+                         "quantity_o": metadata.quantity_o,
+                         "symbol_o": metadata.symbol_o,
+                         "unit_o": repr(metadata.unit_o),
                          "abscissa_start": signal.abscissa_start,
                          "values": signal.values,
                          "increment": signal.increment,

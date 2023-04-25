@@ -37,8 +37,7 @@ class ComplexToReal(Block):
         imag_signal.ordinate = imag_signal.ordinate.imag
 
         self.outputs[0].data = real_signal
-        self.outputs[0].data.metadata = self.outputs[0].get_metadata(
-            real_signal.metadata)
         self.outputs[1].data = imag_signal
-        self.outputs[1].data.metadata = self.outputs[1].get_metadata(
-            imag_signal.metadata)
+
+        self.outputs[0].external_metadata = self.inputs[0].metadata
+        self.outputs[1].external_metadata = self.inputs[0].metadata

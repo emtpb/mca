@@ -10,14 +10,15 @@ def test_save_data(sin_block, sin_signal):
     b = sin_block
     a.inputs[0].connect(b.outputs[0])
     a.save_data()
+    metadata = a.inputs[0].metadata
     test_dict = {"data_type": "Signal",
-                 "name": sin_signal.metadata.name,
-                 "quantity_a": sin_signal.metadata.quantity_a,
-                 "symbol_a": sin_signal.metadata.symbol_a,
-                 "unit_a": repr(sin_signal.metadata.unit_a),
-                 "quantity_o": sin_signal.metadata.quantity_o,
-                 "symbol_o": sin_signal.metadata.symbol_o,
-                 "unit_o": repr(sin_signal.metadata.unit_o),
+                 "name": metadata.name,
+                 "quantity_a": metadata.quantity_a,
+                 "symbol_a": metadata.symbol_a,
+                 "unit_a": repr(metadata.unit_a),
+                 "quantity_o": metadata.quantity_o,
+                 "symbol_o": metadata.symbol_o,
+                 "unit_o": repr(metadata.unit_o),
                  "abscissa_start": sin_signal.abscissa_start,
                  "values": sin_signal.values,
                  "increment": sin_signal.increment,

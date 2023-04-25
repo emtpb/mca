@@ -42,22 +42,29 @@ def blocks_to_json(blocks):
                 parameter_dict[parameter_name] = parameter.value
         if isinstance(block, PlotBlock):
             for parameter_name, parameter in block.plot_parameters.items():
-                plot_parameter_dict[parameter_name] = parameter.value
+                if isinstance(parameter, parameters.ParameterBlock):
+                    sub_parameter_dict = {}
+                    for sub_parameter_name, sub_parameter in parameter.parameters.items():
+                        sub_parameter_dict[
+                            sub_parameter_name] = sub_parameter.value
+                    plot_parameter_dict[parameter_name] = sub_parameter_dict
+                else:
+                    plot_parameter_dict[parameter_name] = parameter.value
         save_block = {"class": str(type(block)),
                       "parameters": parameter_dict,
                       "plot_parameters": plot_parameter_dict,
                       "inputs": [],
                       "outputs": [{
                           "id": output.id.int,
-                          "metadata": {"signal_name": output.metadata.name,
-                                       "quantity_a": output.metadata.quantity_a,
-                                       "symbol_a": output.metadata.symbol_a,
+                          "metadata": {"signal_name": output.user_metadata.name,
+                                       "quantity_a": output.user_metadata.quantity_a,
+                                       "symbol_a": output.user_metadata.symbol_a,
                                        "unit_a": repr(
-                                           output.metadata.unit_a),
-                                       "quantity_o": output.metadata.quantity_o,
-                                       "symbol_o": output.metadata.symbol_o,
+                                           output.user_metadata.unit_a),
+                                       "quantity_o": output.user_metadata.quantity_o,
+                                       "symbol_o": output.user_metadata.symbol_o,
                                        "unit_o": repr(
-                                           output.metadata.unit_o)},
+                                           output.user_metadata.unit_o)},
                           "abscissa_metadata": output.abscissa_metadata,
                           "ordinate_metadata": output.ordinate_metadata
                       }

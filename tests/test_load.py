@@ -14,7 +14,7 @@ def adder_signal_generator():
     a = blocks.Adder()
     b = blocks.SignalGeneratorPeriodic(name="test", amp=3,
                                        abscissa={"values": 100, "start": 1})
-    b.outputs[0].metadata.name = "test1"
+    b.outputs[0].user_metadata.name = "test1"
     a.outputs[0].abscissa_metadata = True
     a.add_input(block_io.Input(a))
     a.inputs[2].connect(b.outputs[0])

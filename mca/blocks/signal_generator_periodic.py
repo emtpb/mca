@@ -57,7 +57,6 @@ class SignalGeneratorPeriodic(Block):
         elif function == "tri":
             ordinate = triangle(abscissa, freq, amp, phase)
         self.outputs[0].data = data_types.Signal(
-            self.outputs[0].get_metadata(None),
             abscissa_start,
             values,
             increment,

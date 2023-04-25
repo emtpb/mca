@@ -51,6 +51,7 @@ class Histogramm(PlotBlock):
             self.fig.canvas.draw()
             return
         signal = self.inputs[0].data
+        metadata = self.inputs[0].metadata
         validator.check_type_signal(signal)
 
         plot_type = self.parameters["plot_type"].value
@@ -68,9 +69,9 @@ class Histogramm(PlotBlock):
         else:
             density = True
             y_label = _(
-                "Relative density frequency of occurrence") + f" in {1 / signal.metadata.unit_o}"
+                "Relative density frequency of occurrence") + f" in {1 / metadata.unit_o}"
 
-        label = signal.metadata.name
+        label = self.inputs[0].metadata.name
         if plot_type == "relative":
             self.axes.hist(signal.ordinate,
                            weights=np.ones(signal.ordinate.shape) / len(
@@ -83,7 +84,6 @@ class Histogramm(PlotBlock):
 
         if label:
             self.legend = self.fig.legend()
-        metadata = signal.metadata
         ordinate_string = data_types.metadata_to_axis_label(
             quantity=metadata.quantity_o,
             unit=metadata.unit_o,

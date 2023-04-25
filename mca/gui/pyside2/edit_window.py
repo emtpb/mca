@@ -236,7 +236,7 @@ class EditWindow(QtWidgets.QDialog):
                                 (_("Ordinate unit:"), "unit_o"))
             for label, attribute in label_attributes:
                 entry_edit_line = edit_widgets.MetaDataEditWidget(
-                    metadata=output.metadata, attr=attribute
+                    metadata=output.user_metadata, attr=attribute
                 )
                 entry_edit_line.read_attribute()
                 entry_edit_line.setMaximumHeight(25)

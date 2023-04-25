@@ -38,7 +38,6 @@ class Impulse(Block):
         ordinate = np.zeros(values)
         ordinate[shift: shift+pulse_length] = 1
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(None),
             abscissa_start=abscissa_start,
             values=values,
             increment=increment,

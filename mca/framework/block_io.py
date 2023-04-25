@@ -53,6 +53,12 @@ class Input:
             return self.connected_output.data
 
     @property
+    def metadata(self):
+        """Returns metadata retrieved from the connected Output."""
+        if self.connected_output:
+            return self.connected_output.metadata
+
+    @property
     def connected_output(self):
         """Convenience method to get the current connected Output.
 
@@ -91,12 +97,12 @@ class Output:
         ordinate_metadata (bool): True, if the ordinate
                                    should be used when data gets assigned
                                    to this Output.
-        metadata: MetaData of the attribute data.
+        initial_metadata: MetaData of the attribute data.
         id: Used to identify the Inputs which were connected to the Output
             after saving.
     """
 
-    def __init__(self, block=None, metadata=None, name=None,
+    def __init__(self, block=None, initial_metadata=None, name=None,
                  metadata_input_dependent=True, abscissa_metadata=False,
                  ordinate_metadata=False):
         """Initializes Output class.
@@ -104,7 +110,7 @@ class Output:
         Args:
             block: Block to which the Output belongs to.
             name (str): Name of the Output.
-            metadata: Metadata of the data.
+            initial_metadata: Metadata of the data.
             metadata_input_dependent (bool): True, if the :class:`.MetaData` of
                                               the Output can be dependent on the
                                               MetaData of any Input.
@@ -122,46 +128,45 @@ class Output:
         self.metadata_input_dependent = metadata_input_dependent
         self.abscissa_metadata = abscissa_metadata
         self.ordinate_metadata = ordinate_metadata
-        if metadata is None:
-            self.metadata = data_types.default_metadata()
+        if initial_metadata is None:
+            self.user_metadata = data_types.default_metadata()
         else:
-            self.metadata = metadata
+            self.user_metadata = initial_metadata
+
+        self.external_metadata = None
+
         self.id = uuid.uuid4()
 
-    def get_metadata(self, external_metadata):
-        """Returns a MetaData object as a mix of given external meta
-        data and internal metadata depending on the attributes
-        abscissa_metadata and ordinate_metadata. Setting abscissa_metadata
-        to True forces the use of the internal abscissa metadata. Same goes for
-        ordinate_metadata. The metadata attribute "name" is always inherited
-        by the internal metadata.
+    @property
+    def metadata(self):
+        """Get the currently used metadata of the Output.
 
-        Args:
-            external_metadata: Given external metadata.
+        An Output owns two types of metadata.
+        
         """
-        if self.abscissa_metadata:
-            unit_a = self.metadata.unit_a
-            symbol_a = self.metadata.symbol_a
-            quantity_a = self.metadata.quantity_a
+        if self.abscissa_metadata or self.external_metadata is None:
+            unit_a = self.user_metadata.unit_a
+            symbol_a = self.user_metadata.symbol_a
+            quantity_a = self.user_metadata.quantity_a
             fixed_unit_a = True
         else:
-            unit_a = external_metadata.unit_a
+            unit_a = self.external_metadata.unit_a
             symbol_a = ""
-            quantity_a = external_metadata.quantity_a
+            quantity_a = self.external_metadata.quantity_a
             fixed_unit_a = False
 
-        if self.ordinate_metadata:
-            unit_o = self.metadata.unit_o
-            symbol_o = self.metadata.symbol_o
-            quantity_o = self.metadata.quantity_o
+        if self.ordinate_metadata or self.external_metadata is None:
+            unit_o = self.user_metadata.unit_o
+            symbol_o = self.user_metadata.symbol_o
+            quantity_o = self.user_metadata.quantity_o
             fixed_unit_o = True
         else:
-            unit_o = external_metadata.unit_o
+            unit_o = self.external_metadata.unit_o
             symbol_o = ""
-            quantity_o = external_metadata.quantity_o
+            quantity_o = self.external_metadata.quantity_o
             fixed_unit_o = False
 
-        return data_types.MetaData(name=self.metadata.name,
+        return data_types.MetaData(name=self.user_metadata.name,
                                    unit_a=unit_a,
                                    unit_o=unit_o,
                                    symbol_a=symbol_a,

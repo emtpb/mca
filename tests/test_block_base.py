@@ -512,19 +512,20 @@ def test_disconnect_all(seventh_scenario):
             d.inputs[0]] not in mca.framework.io_registry.Registry._graph.edges
 
 
-def test_get_metadata(default_metadata):
+def test_output_metadata(default_metadata):
     output_metadata = mca.framework.data_types.MetaData(name="test",
-                                                         unit_a="W",
-                                                         symbol_a="P",
-                                                         unit_o="kg",
-                                                         symbol_o="m")
-    output = mca.framework.block_io.Output(metadata=output_metadata)
-    result_metadata = output.get_metadata(default_metadata)
+                                                        unit_a="W",
+                                                        symbol_a="P",
+                                                        unit_o="kg",
+                                                        symbol_o="m")
+    output = mca.framework.block_io.Output(initial_metadata=output_metadata)
+    output.external_metadata = default_metadata
+    result_metadata = output.metadata
     assert result_metadata == default_metadata
     assert result_metadata.name == output_metadata.name
     output.abscissa_metadata = True
     output.ordinate_metadata = False
-    result_metadata = output.get_metadata(default_metadata)
+    result_metadata = output.metadata
     assert result_metadata.unit_a == output_metadata.unit_a
     assert result_metadata.symbol_a == output_metadata.symbol_a
     assert result_metadata.quantity_a == output_metadata.quantity_a
@@ -533,7 +534,7 @@ def test_get_metadata(default_metadata):
     assert result_metadata.quantity_o == default_metadata.quantity_o
     output.abscissa_metadata = False
     output.ordinate_metadata = True
-    result_metadata = output.get_metadata(default_metadata)
+    result_metadata = output.metadata
     assert result_metadata.unit_a == default_metadata.unit_a
     assert result_metadata.symbol_a == default_metadata.symbol_a
     assert result_metadata.quantity_a == default_metadata.quantity_a
@@ -542,6 +543,6 @@ def test_get_metadata(default_metadata):
     assert result_metadata.quantity_o == output_metadata.quantity_o
     output.abscissa_metadata = True
     output.ordinate_metadata = True
-    result_metadata = output.get_metadata(default_metadata)
+    result_metadata = output.metadata
     assert result_metadata == output_metadata
 

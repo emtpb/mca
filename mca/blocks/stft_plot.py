@@ -72,9 +72,9 @@ class STFTPlot(PlotBlock):
                        nfft=fft_length)
         im = self.axes.pcolormesh(t, f, abs(z), cmap=cmap)
         self.color_bar = self.fig.colorbar(im, ax=self.axes)
-        metadata = data_types.MetaData(input_signal.metadata.name,
-                                       unit_a=input_signal.metadata.unit_a,
-                                       unit_o=1 / input_signal.metadata.unit_a)
+        metadata = data_types.MetaData(self.inputs[0].metadata.name,
+                                       unit_a=self.inputs[0].metadata.unit_a,
+                                       unit_o=1 / self.inputs[0].metadata.unit_a)
         abscissa_string = data_types.metadata_to_axis_label(
             quantity=metadata.quantity_a,
             unit=metadata.unit_a,

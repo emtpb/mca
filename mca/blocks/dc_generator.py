@@ -31,7 +31,6 @@ class DCGenerator(Block):
         increment = self.parameters["abscissa"].parameters["increment"].value
         ordinate = dc_value * np.ones(values)
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(None),
             abscissa_start=abscissa_start,
             values=values,
             increment=increment,

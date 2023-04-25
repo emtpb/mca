@@ -32,7 +32,7 @@ class AudioSaver(Block):
             raise exceptions.DataSavingError("No data to save.")
         input_signal = self.inputs[0].data
         validator.check_type_signal(input_signal)
-        validator.check_same_units([input_signal.metadata.unit_a, Unit(["s"])])
+        validator.check_same_units([self.inputs[0].metadata.unit_a, Unit(["s"])])
         sampling_frequency = self.parameters["sampling_freq"].value
         filename = self.parameters["file_name"].value
         if not filename.endswith(".wav"):

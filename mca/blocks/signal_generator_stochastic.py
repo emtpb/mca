@@ -50,7 +50,6 @@ class SignalGeneratorStochastic(Block):
                         np.random.rand(values) - 0.5)
 
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(None),
             abscissa_start=abscissa_start,
             values=values,
             increment=increment,

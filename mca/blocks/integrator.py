@@ -29,6 +29,11 @@ class Integrator(Block):
         validator.check_type_signal(self.inputs[0].data)
         input_signal = self.inputs[0].data
         int_rule = self.parameters["int_rule"].value
+
+        unit_a = self.inputs[0].metadata.unit_a
+        unit_o = self.inputs[0].metadata.unit_o * self.inputs[0].metadata.unit_a
+        metadata = data_types.MetaData(None, unit_a=unit_a, unit_o=unit_o)
+
         if int_rule == "trapz":
             ordinate_int = integrate.cumtrapz(y=input_signal.ordinate,
                                               dx=input_signal.increment,
@@ -36,13 +41,12 @@ class Integrator(Block):
         elif int_rule == "rect":
             ordinate_int = np.cumsum(
                 input_signal.ordinate) * input_signal.increment
-        unit_a = input_signal.metadata.unit_a
-        unit_o = input_signal.metadata.unit_o * input_signal.metadata.unit_a
-        metadata = data_types.MetaData(None, unit_a=unit_a, unit_o=unit_o)
+
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=input_signal.abscissa_start,
             values=input_signal.values,
             increment=input_signal.increment,
             ordinate=ordinate_int,
         )
+
+        self.outputs[0].external_metadata = metadata

@@ -40,9 +40,9 @@ class Limiter(Block):
             min_threshold = -threshold
         ordinate = np.clip(input_signal.ordinate, min_threshold, max_threshold)
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(input_signal.metadata),
             abscissa_start=input_signal.abscissa_start,
             values=input_signal.values,
             increment=input_signal.increment,
             ordinate=ordinate,
         )
+        self.outputs[0].external_metadata = self.inputs[0].metadata

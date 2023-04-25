@@ -48,10 +48,11 @@ class XYPlot(PlotBlock):
 
         if y_axis == "first":
             input_signal_o = self.inputs[0].data
+            metadata_o = self.inputs[0].metadata
         elif y_axis == "second":
             input_signal_o = self.inputs[1].data
+            metadata_o = self.inputs[1].metadata
 
-        metadata_o = input_signal_o.metadata
         ordinate = input_signal_o.ordinate
         unit_o = metadata_o.unit_o
         quantity_o = metadata_o.quantity_o
@@ -59,10 +60,11 @@ class XYPlot(PlotBlock):
 
         if x_axis == "first":
             input_signal_a = self.inputs[0].data
+            metadata_a = self.inputs[0].metadata
         elif x_axis == "second":
             input_signal_a = self.inputs[1].data
+            metadata_a = self.inputs[1].metadata
 
-        metadata_a = input_signal_a.metadata
         abscissa = input_signal_a.ordinate
         unit_a = metadata_a.unit_o
         quantity_a = metadata_a.quantity_o

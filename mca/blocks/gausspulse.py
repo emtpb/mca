@@ -69,21 +69,18 @@ class GaussPulse(Block):
         imag *= amp
         envelope *= amp
         self.outputs[0].data = data_types.Signal(
-            self.outputs[0].get_metadata(None),
             abscissa_start,
             values,
             increment,
             real,
         )
         self.outputs[1].data = data_types.Signal(
-            self.outputs[1].get_metadata(None),
             abscissa_start,
             values,
             increment,
             imag,
         )
         self.outputs[2].data = data_types.Signal(
-            self.outputs[2].get_metadata(None),
             abscissa_start,
             values,
             increment,

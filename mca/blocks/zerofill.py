@@ -36,9 +36,9 @@ class Zerofill(Block):
                                    np.zeros(zpad_values)))
         values = dtime_values + zpad_values + input_signal.values
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(input_signal.metadata),
             abscissa_start=input_signal.abscissa_start,
             values=values,
             increment=input_signal.increment,
             ordinate=ordinate,
         )
+        self.outputs[0].external_metadata = self.inputs[0].metadata

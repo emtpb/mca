@@ -64,8 +64,9 @@ class Plot(PlotBlock, DynamicBlock):
             validator.check_type_signal(i.data)
 
         signals = [copy.copy(i.data) for i in self.inputs if i.data]
-        abscissa_units = [signal.metadata.unit_a for signal in signals]
-        ordinate_units = [signal.metadata.unit_o for signal in signals]
+        metadatas = [copy.copy(i.metadata) for i in self.inputs if i.metadata]
+        abscissa_units = [metadata.unit_a for metadata in metadatas]
+        ordinate_units = [metadata.unit_o for metadata in metadatas]
 
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
@@ -76,13 +77,13 @@ class Plot(PlotBlock, DynamicBlock):
         marker = self.plot_parameters["marker"].value
 
         label = None
-        for index, signal in enumerate(signals):
+        for (index, signal), metadata in zip(enumerate(signals), metadatas):
             abscissa = np.linspace(signal.abscissa_start,
                                    signal.abscissa_start + signal.increment * (
                                                signal.values - 1),
                                    signal.values)
             ordinate = signal.ordinate
-            label = signal.metadata.name
+            label = metadata.name
             if plot_kind == "line":
                 self.axes.plot(abscissa, ordinate, f"C{index}", label=label,
                                marker=marker,
@@ -98,7 +99,7 @@ class Plot(PlotBlock, DynamicBlock):
         if label:
             self.legend = self.fig.legend()
         if signals:
-            metadata = signals[0].metadata
+            metadata = metadatas[0]
             abscissa_string = data_types.metadata_to_axis_label(
                 quantity=metadata.quantity_a,
                 unit=metadata.unit_a,

@@ -13,7 +13,7 @@ def test_complex_to_real(test_input, expected_ordinate, test_output_block,
                          default_metadata):
     a = complex_to_real.ComplexToReal()
     b = test_output_block(
-        data_types.Signal(default_metadata, None, None, None, test_input))
+        data_types.Signal(None, None, None, test_input))
     a.inputs[0].connect(b.outputs[0])
     assert np.array_equal(a.outputs[0].data.ordinate, expected_ordinate[0])
     assert np.array_equal(a.outputs[1].data.ordinate, expected_ordinate[1])

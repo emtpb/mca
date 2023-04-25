@@ -95,7 +95,7 @@ class FFTPlot(PlotBlock):
         ordinate = np.fft.fft(input_signal.ordinate)
         if normalize:
             ordinate = ordinate / values
-        unit_o = input_signal.metadata.unit_o
+        unit_o = self.inputs[0].metadata.unit_o
         abscissa = np.linspace(0, delta_f * (values - 1), values)
 
         if shift == "shift" or \
@@ -120,11 +120,11 @@ class FFTPlot(PlotBlock):
         elif plot_mode == "phase":
             ordinate = np.angle(ordinate)
         metadata = data_types.MetaData(
-            input_signal.metadata.name,
-            unit_a=1 / input_signal.metadata.unit_a,
+            self.inputs[0].metadata.name,
+            unit_a=1 / self.inputs[0].metadata.unit_a,
             unit_o=unit_o,
         )
-        label = input_signal.metadata.name
+        label = self.inputs[0].metadata.name
         if plot_kind == "line":
             self.axes.plot(abscissa, ordinate, color, label=label, marker=marker,
                            markerfacecolor=marker_color,

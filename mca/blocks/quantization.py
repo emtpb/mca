@@ -57,16 +57,16 @@ class Quantization(Block):
         if raw:
             metadata = data_types.MetaData(
                 name="",
-                unit_a=input_signal.metadata.unit_a,
+                unit_a=self.inputs[0].metadata.unit_a,
                 unit_o="",
             )
         else:
-            metadata = input_signal.metadata
+            metadata = self.inputs[0].metadata
 
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=input_signal.abscissa_start,
             values=input_signal.values,
             increment=input_signal.increment,
             ordinate=ordinate,
         )
+        self.outputs[0].external_metadata = metadata
