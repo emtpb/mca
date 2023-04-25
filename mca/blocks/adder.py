@@ -1,7 +1,7 @@
 import copy
 import numpy as np
 
-from mca.framework import validator, data_types, DynamicBlock, helpers
+from mca.framework import validator, data_types, DynamicBlock, util
 from mca.language import _
 
 
@@ -33,7 +33,7 @@ class Adder(DynamicBlock):
         validator.check_same_units(ordinate_units)
         validator.check_intervals(signals)
 
-        modified_signals = helpers.fill_zeros(signals)
+        modified_signals = util.fill_zeros(signals)
 
         ordinate = np.zeros(modified_signals[0].values)
         for sgn in modified_signals:

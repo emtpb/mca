@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import validator, data_types, parameters, PlotBlock, helpers
+from mca.framework import validator, data_types, parameters, PlotBlock, util
 from mca.language import _
 
 
@@ -30,7 +30,7 @@ class Histogramm(PlotBlock):
         })
 
     def setup_plot_parameters(self):
-        self.plot_parameters["color"] = helpers.get_plt_color_parameter()
+        self.plot_parameters["color"] = util.get_plt_color_parameter()
         self.plot_parameters["align"] = parameters.ChoiceParameter(
             name=_("Align"), choices=(("left", _("Left")), ("mid", _("Mid")),
                                       ("right", _("Right"))),

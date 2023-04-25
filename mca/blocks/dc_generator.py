@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import data_types, Block, helpers, parameters
+from mca.framework import data_types, Block, util, parameters
 from mca.language import _
 
 
@@ -18,7 +18,7 @@ class DCGenerator(Block):
         )
 
     def setup_parameters(self):
-        abscissa = helpers.create_abscissa_parameter_block()
+        abscissa = util.create_abscissa_parameter_block()
         self.parameters.update({
             "dc_value": parameters.FloatParameter(_("DC Value"), default=1),
             "abscissa": abscissa,

@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import signal as sgn
 
-from mca.framework import data_types, parameters, helpers, Block
+from mca.framework import data_types, parameters, util, Block
 from mca.language import _
 
 
@@ -23,7 +23,7 @@ class Chirp(Block):
         )
 
     def setup_parameters(self):
-        abscissa = helpers.create_abscissa_parameter_block()
+        abscissa = util.create_abscissa_parameter_block()
         self.parameters.update({
             "sweep_kind": parameters.ChoiceParameter(
                 _("Sweep Kind"),

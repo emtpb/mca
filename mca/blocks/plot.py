@@ -2,7 +2,7 @@ import copy
 
 import numpy as np
 
-from mca.framework import helpers
+from mca.framework import util
 from mca.framework import validator, data_types, parameters, DynamicBlock, PlotBlock
 from mca.language import _
 
@@ -49,7 +49,7 @@ class Plot(PlotBlock, DynamicBlock):
                      ("symlog", _("Symmetrcial log")), ("logit", _("Logit"))),
             default="linear"
         )
-        self.plot_parameters["marker"] = helpers.get_plt_marker_parameter()
+        self.plot_parameters["marker"] = util.get_plt_marker_parameter()
 
     def setup_io(self):
         self.dynamic_input = [1, None]

@@ -2,7 +2,7 @@ import copy
 
 import numpy as np
 
-from mca.framework import validator, data_types, DynamicBlock, helpers
+from mca.framework import validator, data_types, DynamicBlock, util
 from mca.language import _
 
 
@@ -32,7 +32,7 @@ class Multiplier(DynamicBlock):
         validator.check_same_units(abscissa_units)
         validator.check_intervals(signals)
 
-        matched_signals = helpers.fill_zeros(signals)
+        matched_signals = util.fill_zeros(signals)
         ordinate = np.ones(matched_signals[0].values)
         unit_a = metadatas[0].unit_a
         unit_o = 1

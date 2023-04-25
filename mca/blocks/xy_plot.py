@@ -1,5 +1,5 @@
 from mca import exceptions
-from mca.framework import parameters, data_types, PlotBlock, helpers
+from mca.framework import parameters, data_types, util, PlotBlock
 from mca.language import _
 
 
@@ -33,8 +33,8 @@ class XYPlot(PlotBlock):
         )
 
     def setup_plot_parameters(self):
-        self.plot_parameters["color"] = helpers.get_plt_color_parameter()
-        self.plot_parameters["marker"] = helpers.get_plt_marker_parameter()
+        self.plot_parameters["color"] = util.get_plt_color_parameter()
+        self.plot_parameters["marker"] = util.get_plt_marker_parameter()
 
     def _process(self):
         self.axes.cla()

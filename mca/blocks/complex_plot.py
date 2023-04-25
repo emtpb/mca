@@ -3,7 +3,7 @@ import copy
 import numpy as np
 
 from mca.framework import validator, data_types, parameters, DynamicBlock,\
-    PlotBlock, helpers
+    PlotBlock, util
 from mca.language import _
 
 
@@ -54,9 +54,9 @@ class ComplexPlot(DynamicBlock, PlotBlock):
                      ("symlog", _("Symmetrcial log")), ("logit", _("Logit"))),
             default="linear"
         )
-        color = helpers.get_plt_color_parameter(_("Color"))
-        marker = helpers.get_plt_marker_parameter()
-        marker_color = helpers.get_plt_color_parameter(_("Marker Color"))
+        color = util.get_plt_color_parameter(_("Color"))
+        marker = util.get_plt_marker_parameter()
+        marker_color = util.get_plt_color_parameter(_("Marker Color"))
         self.plot_parameters["real_absolute"] = parameters.ParameterBlock(
             name=_("Real/Absolute"),
             parameters={"plot_kind": plot_kind,

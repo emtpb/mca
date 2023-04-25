@@ -1,4 +1,4 @@
-from mca.framework import validator, data_types, Block, helpers
+from mca.framework import validator, data_types, Block, util
 from mca.language import _
 
 
@@ -33,7 +33,7 @@ class Divider(Block):
         unit_o = self.inputs[0].metadata.unit_o / self.inputs[1].metadata.unit_o
         metadata = data_types.MetaData(None, unit_a, unit_o)
 
-        matched_signals = helpers.fill_zeros(input_signals)
+        matched_signals = util.fill_zeros(input_signals)
         ordinate = input_signals[0].ordinate / input_signals[1].ordinate
         values = matched_signals[0].values
         increment = matched_signals[0].increment

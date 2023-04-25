@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import data_types, Block, parameters, helpers
+from mca.framework import data_types, Block, parameters, util
 from mca.language import _
 
 
@@ -21,7 +21,7 @@ class PolynomGenerator(Block):
         )
 
     def setup_parameters(self):
-        abscissa = helpers.create_abscissa_parameter_block()
+        abscissa = util.create_abscissa_parameter_block()
         self.parameters["order_0"] = parameters.FloatParameter(
             name=_("Factor of the 0th order (x⁰)"), default=0)
         self.parameters["order_1"] = parameters.FloatParameter(

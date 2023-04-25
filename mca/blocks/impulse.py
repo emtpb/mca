@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import data_types, parameters, helpers, Block
+from mca.framework import data_types, parameters, util, Block
 from mca.language import _
 
 
@@ -27,7 +27,7 @@ class Impulse(Block):
         self.parameters["shift"] = parameters.IntParameter(
             _("Shift of the pulse on the abscissa"), min_=0, max_=None,
             default=0)
-        self.parameters["abscissa"] = helpers.create_abscissa_parameter_block()
+        self.parameters["abscissa"] = util.create_abscissa_parameter_block()
 
     def _process(self):
         pulse_length = self.parameters["pulse_length"].value

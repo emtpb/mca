@@ -2,7 +2,7 @@ import numpy as np
 from scipy.interpolate import interp1d
 
 from mca import exceptions
-from mca.framework import validator, data_types, Block, helpers, parameters
+from mca.framework import validator, data_types, Block, util, parameters
 from mca.language import _
 
 
@@ -22,7 +22,7 @@ class Interpolate(Block):
         self.new_input()
 
     def setup_parameters(self):
-        abscissa = helpers.create_abscissa_parameter_block()
+        abscissa = util.create_abscissa_parameter_block()
         abscissa.name = _("New abscissa")
         self.parameters.update(
             {"abscissa": abscissa,

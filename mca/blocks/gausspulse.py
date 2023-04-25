@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.signal import gausspulse
 
-from mca.framework import data_types, parameters, helpers, Block
+from mca.framework import data_types, parameters, util, Block
 from mca.language import _
 
 
@@ -35,7 +35,7 @@ class GaussPulse(Block):
         )
 
     def setup_parameters(self):
-        abscissa = helpers.create_abscissa_parameter_block()
+        abscissa = util.create_abscissa_parameter_block()
         abscissa.parameters["start"].value = -5
         self.parameters.update({
             "amp": parameters.FloatParameter("Amplitude", min_=0, default=1),

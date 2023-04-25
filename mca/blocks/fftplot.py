@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import validator, data_types, parameters, PlotBlock, helpers
+from mca.framework import validator, data_types, parameters, PlotBlock, util
 from mca.language import _
 
 
@@ -50,7 +50,7 @@ class FFTPlot(PlotBlock):
         self.plot_parameters["plot_kind"] = parameters.ChoiceParameter(
                 _("Plot kind"), choices=[("line", _("Line")),
                                          ("stem", _("Stem"))], )
-        self.plot_parameters["color"] = helpers.get_plt_color_parameter()
+        self.plot_parameters["color"] = util.get_plt_color_parameter()
         self.plot_parameters["abscissa_scaling"] = parameters.ChoiceParameter(
             name=_("Abscissa scaling"),
             choices=(("linear", _("Linear")), ("log", _("Log")),
@@ -63,8 +63,8 @@ class FFTPlot(PlotBlock):
                      ("symlog", _("Symmetrcial log")), ("logit", _("Logit"))),
             default="linear"
         )
-        self.plot_parameters["marker"] = helpers.get_plt_marker_parameter()
-        self.plot_parameters["marker_color"] = helpers.get_plt_color_parameter(
+        self.plot_parameters["marker"] = util.get_plt_marker_parameter()
+        self.plot_parameters["marker_color"] = util.get_plt_color_parameter(
             _("Marker color"))
 
     def _process(self):
