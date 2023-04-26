@@ -1,7 +1,7 @@
 from copy import deepcopy
 import numpy as np
 
-from mca.framework import validator, data_types, Block, parameters
+from mca.framework import validator, data_types, Block, util, parameters
 from mca.language import _
 
 
@@ -22,10 +22,9 @@ class Normalization(Block):
         self.parameters["max"] = parameters.FloatParameter(name=_("Max"),
                                                            default=1)
 
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
     def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
         min_value = self.parameters["min"].value
         max_value = self.parameters["max"].value
         input_signal = self.inputs[0].data

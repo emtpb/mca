@@ -1,7 +1,7 @@
 from scipy.signal import butter, cheby1, cheby2, ellip, lfilter, filtfilt
 
 from mca import exceptions
-from mca.framework import validator, data_types, Block, parameters
+from mca.framework import validator, data_types, Block, parameters, util
 from mca.language import _
 
 
@@ -51,11 +51,9 @@ class IRRFilter(Block):
                 name=_("Phase correction (filtfilt)"), default=False)
         })
 
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
     def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
-
         input_signal = self.inputs[0].data
         filter_type = self.parameters["filter_type"].value
         order = self.parameters["order"].value

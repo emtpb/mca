@@ -1,7 +1,7 @@
 import numpy as np
 
 from mca import exceptions
-from mca.framework import validator, data_types, Block
+from mca.framework import data_types, util, Block
 from mca.language import _
 
 
@@ -25,19 +25,12 @@ class RealToComplex(Block):
     def setup_parameters(self):
         pass
 
+    @util.abort_any_inputs_empty
+    @util.validate_type_signal
+    @util.validate_units(abscissa=True, ordinate=True)
     def _process(self):
-        if self.any_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
-        validator.check_type_signal(self.inputs[1].data)
-
         real_part = self.inputs[0].data
         imaginary_part = self.inputs[1].data
-
-        validator.check_same_units((self.inputs[0].metadata.unit_a,
-                                    self.inputs[1].metadata.unit_a))
-        validator.check_same_units((self.inputs[0].metadata.unit_o,
-                                    self.inputs[1].metadata.unit_o))
 
         if real_part.increment != imaginary_part.increment:
             raise exceptions.IntervalError("Real and Imaginary part need to "

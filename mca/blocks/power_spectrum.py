@@ -1,7 +1,7 @@
 from scipy.signal import welch
 from united import Unit
 
-from mca.framework import validator, data_types, Block, parameters
+from mca.framework import validator, data_types, Block, util, parameters
 from mca.language import _
 
 
@@ -41,11 +41,9 @@ class PowerSpectrum(Block):
                                         ("spectrum", _("Spectrum"))],
             default="spectrum")
 
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
     def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
-
         input_signal = self.inputs[0].data
         window = self.parameters["window"].value
         seg_length = self.parameters["seg_length"].value

@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import validator, data_types, Block, parameters
+from mca.framework import validator, data_types, util, Block, parameters
 from mca.language import _
 
 
@@ -25,11 +25,9 @@ class Quantization(Block):
             "raw": parameters.BoolParameter(_("Raw bits"), default=False)
         })
 
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
     def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
-
         input_signal = self.inputs[0].data
         bits = self.parameters["bits"].value
         max_value = self.parameters["max_value"].value

@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import validator, data_types, Block
+from mca.framework import data_types, util, Block
 from mca.language import _
 
 
@@ -17,10 +17,9 @@ class Differentiator(Block):
     def setup_parameters(self):
         pass
 
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
     def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
         input_signal = self.inputs[0].data
         gradient = np.gradient(input_signal.ordinate) / input_signal.increment
 

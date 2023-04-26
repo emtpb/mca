@@ -1,7 +1,7 @@
 from scipy.signal import csd
 from united import Unit
 
-from mca.framework import validator, data_types, Block, parameters
+from mca.framework import validator, data_types, util,  Block, parameters
 from mca.language import _
 
 
@@ -41,9 +41,8 @@ class CrossPowerSpectrum(Block):
                                         ("spectrum", _("Spectrum"))],
             default="spectrum")
 
+    @util.abort_any_inputs_empty
     def _process(self):
-        if self.any_inputs_empty():
-            return
         validator.check_type_signal(self.inputs[0].data)
         validator.check_type_signal(self.inputs[1].data)
 

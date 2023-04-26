@@ -1,5 +1,5 @@
 from mca import exceptions
-from mca.framework import validator, data_types, Block, parameters
+from mca.framework import validator, data_types, Block, parameters, util
 from mca.language import _
 
 
@@ -27,9 +27,8 @@ class Cutter(Block):
             "end_value": parameters.FloatParameter(_("End value"), default=1)
         })
 
+    @util.abort_all_inputs_empty
     def _process(self):
-        if self.all_inputs_empty():
-            return
         validator.check_type_signal(self.inputs[0].data)
 
         input_signal = self.inputs[0].data

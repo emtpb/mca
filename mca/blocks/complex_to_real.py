@@ -1,6 +1,6 @@
 import copy
 
-from mca.framework import validator, Block
+from mca.framework import util, Block
 from mca.language import _
 
 
@@ -26,11 +26,9 @@ class ComplexToReal(Block):
     def setup_parameters(self):
         pass
 
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
     def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
-
         real_signal = copy.copy(self.inputs[0].data)
         real_signal.ordinate = real_signal.ordinate.real
         imag_signal = copy.copy(self.inputs[0].data)

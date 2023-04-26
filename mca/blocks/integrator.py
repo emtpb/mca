@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import integrate
 
-from mca.framework import validator, data_types, Block, parameters
+from mca.framework import validator, data_types, util, Block, parameters
 from mca.language import _
 
 
@@ -23,10 +23,9 @@ class Integrator(Block):
                 default="trapz",
             )})
 
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
     def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
         input_signal = self.inputs[0].data
         int_rule = self.parameters["int_rule"].value
 

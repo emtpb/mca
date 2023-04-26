@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.colors as crl
 
-from mca.framework import parameters
+from mca.framework import parameters, validator
 from mca.language import _
 
 
@@ -165,3 +165,76 @@ def fill_zeros(signals):
         )
         new_signals.append(signal)
     return new_signals
+
+
+def abort_all_inputs_empty(process):
+    """Abort the process function when the data of all Inputs is None.
+
+    All outputs will be set to None. This function is supposed to be used as
+    decorator for the process method of a block.
+    """
+    def tmp(self):
+        if self.all_inputs_empty():
+            for output in self.outputs:
+                output.data = None
+        else:
+            process(self)
+    return tmp
+
+
+def abort_any_inputs_empty(process):
+    """Abort the process function when the data of any Input is None.
+
+    All outputs will be set to None. This function is supposed to be used as
+    decorator for the process method of a block.
+    """
+    def tmp(self):
+        if self.any_inputs_empty():
+            for output in self.outputs:
+                output.data = None
+        else:
+            process(self)
+    return tmp
+
+
+def validate_type_signal(process):
+    """Checks the data of all Inputs to be type of signal.
+
+    This function is supposed to be used as decorator for the process method
+    of a block.
+    """
+    def tmp(self):
+        for input_ in self.inputs:
+            if input_.data is not None:
+                validator.check_type_signal(input_.data)
+        process(self)
+    return tmp
+
+
+def validate_units(abscissa=False, ordinate=False):
+    """Checks if the units of the metadata of the Inputs are the same.
+
+    This function is supposed to be used as decorator for the process method
+    of a block.
+    """
+    def inner(process):
+        def tmp(self):
+            metadatas = [i.metadata for i in self.inputs if i.metadata]
+            if abscissa:
+                abscissa_units = [metadata.unit_a for metadata in metadatas]
+                validator.check_same_units(abscissa_units)
+            if ordinate:
+                ordinate_units = [metadata.unit_o for metadata in metadatas]
+                validator.check_same_units(ordinate_units)
+            process(self)
+        return tmp
+    return inner
+
+
+def validate_intervals(process):
+    """Checks if the intervals of all Input signals are compatible."""
+    def tmp(self):
+        signals = [i.data for i in self.inputs if i.data]
+        validator.check_intervals(signals)
+        process(self)
+    return tmp

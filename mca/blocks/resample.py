@@ -1,6 +1,6 @@
 from scipy.signal import resample
 
-from mca.framework import validator, data_types, Block, parameters
+from mca.framework import data_types, Block, util, parameters
 from mca.language import _
 
 
@@ -21,11 +21,9 @@ class Resample(Block):
                 min_=0, default=1, unit="Hz")
         })
 
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
     def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
-
         input_signal = self.inputs[0].data
         sample_freq = self.parameters["sample_freq"].value
 

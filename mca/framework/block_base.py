@@ -157,34 +157,23 @@ class Block:
         )
 
     def all_inputs_empty(self):
-        """Checks if all Inputs have no data and if that is the case
-        the data of the Outputs will be set to None.
+        """Checks if all Inputs have no data.
 
         Returns:
             bool: True if all Inputs contain no data.
         """
         no_data = all([input_.data is None for input_ in self.inputs])
-        if no_data:
-            for output in self.outputs:
-                output.data = None
-            return True
-        else:
-            return False
+        return no_data
 
     def any_inputs_empty(self):
-        """Checks if any Inputs have no data and if that is the case
+        """Checks if any Input has no data and if that is the case
         the data of the Outputs will be set to None.
 
         Returns:
             bool: True if all Inputs contain no data.
         """
         no_data = any([input_.data is None for input_ in self.inputs])
-        if no_data:
-            for output in self.outputs:
-                output.data = None
-            return True
-        else:
-            return False
+        return no_data
 
     def save_output_data(self, output_index, file_name):
         """Saves the data of the output in a json-file. Currently only supports

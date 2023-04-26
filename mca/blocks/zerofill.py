@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import validator, data_types, parameters, Block
+from mca.framework import validator, data_types, parameters, Block, util
 from mca.language import _
 
 
@@ -22,11 +22,9 @@ class Zerofill(Block):
             "zpad_values": parameters.IntParameter(
                 _("Zero Padding Values"), min_=0, default=0)})
 
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
     def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
-
         dtime_values = self.parameters["dtime_values"].value
         zpad_values = self.parameters["zpad_values"].value
 

@@ -37,11 +37,9 @@ class Interpolate(Block):
              )
              })
 
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
     def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
-
         input_signal = self.inputs[0].data
         new_abscissa_start = self.parameters["abscissa"].parameters[
             "start"].value

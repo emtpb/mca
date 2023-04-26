@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import validator, data_types, Block, parameters
+from mca.framework import validator, data_types, Block, parameters, util
 from mca.language import _
 
 
@@ -24,11 +24,9 @@ class FFT(Block):
         self.parameters.update({"normalize": parameters.BoolParameter(
             _("Normalize"), default=False)})
 
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
     def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
-
         normalize = self.parameters["normalize"].value
         input_signal = self.inputs[0].data
 

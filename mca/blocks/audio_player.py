@@ -1,7 +1,7 @@
 import sounddevice as sd
 from united import Unit
 
-from mca.framework import validator, parameters, Block
+from mca.framework import validator, parameters, util, Block
 from mca.language import _
 
 
@@ -32,13 +32,12 @@ class AudioPlayer(Block):
         if self.parameters["auto_play"].value is True:
             self.play_sound()
 
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
     def play_sound(self):
         """Plays a sound through the current default sound device."""
-        if self.all_inputs_empty():
-            return
         input_signal = self.inputs[0].data
         sampling_frequency = self.parameters["sampling_freq"].value
-        validator.check_type_signal(input_signal)
         validator.check_same_units([self.inputs[0].metadata.unit_a,
                                     Unit(["s"])])
         sd.play(input_signal.ordinate, sampling_frequency)

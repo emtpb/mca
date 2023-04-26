@@ -1,7 +1,7 @@
 import copy
 import numpy as np
 
-from mca.framework import validator, data_types, DynamicBlock, util
+from mca.framework import data_types, DynamicBlock, util
 from mca.language import _
 
 
@@ -20,21 +20,13 @@ class Adder(DynamicBlock):
     def setup_parameters(self):
         pass
 
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
+    @util.validate_units(abscissa=True, ordinate=True)
+    @util.validate_intervals
     def _process(self):
-        if self.all_inputs_empty():
-            return
-        for i in self.inputs:
-            validator.check_type_signal(i.data)
         signals = [copy.copy(i.data) for i in self.inputs if i.data]
-        metadatas = [copy.copy(i.metadata) for i in self.inputs if i.metadata]
-        abscissa_units = [metadata.unit_a for metadata in metadatas]
-        ordinate_units = [metadata.unit_o for metadata in metadatas]
-        validator.check_same_units(abscissa_units)
-        validator.check_same_units(ordinate_units)
-        validator.check_intervals(signals)
-
         modified_signals = util.fill_zeros(signals)
-
         ordinate = np.zeros(modified_signals[0].values)
         for sgn in modified_signals:
             ordinate += sgn.ordinate

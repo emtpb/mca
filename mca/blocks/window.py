@@ -1,6 +1,6 @@
 from scipy import signal
 
-from mca.framework import validator, data_types, parameters, Block
+from mca.framework import validator, data_types, parameters, util, Block
 from mca.language import _
 
 
@@ -31,11 +31,9 @@ class Window(Block):
                                              min_=0, default=1)
         })
 
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
     def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
-
         input_signal = self.inputs[0].data
         window_name = self.parameters["window_func"].value
 

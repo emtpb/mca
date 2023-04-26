@@ -1,4 +1,4 @@
-from mca.framework import validator, data_types, Block, util
+from mca.framework import data_types, Block, util
 from mca.language import _
 
 
@@ -17,17 +17,12 @@ class Divider(Block):
     def setup_parameters(self):
         pass
 
+    @util.abort_any_inputs_empty
+    @util.validate_type_signal
+    @util.validate_units(abscissa=True)
+    @util.validate_intervals
     def _process(self):
-        if self.any_inputs_empty():
-            return
-        for i in self.inputs:
-            validator.check_type_signal(i.data)
         input_signals = [self.inputs[0].data, self.inputs[1].data]
-        abscissa_units = [self.inputs[0].metadata.unit_a,
-                          self.inputs[1].metadata.unit_a]
-
-        validator.check_same_units(abscissa_units)
-        validator.check_intervals(input_signals)
 
         unit_a = self.inputs[0].metadata.unit_a
         unit_o = self.inputs[0].metadata.unit_o / self.inputs[1].metadata.unit_o
