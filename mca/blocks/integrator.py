@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import integrate
 
-from mca.framework import validator, data_types, util, Block, parameters
+from mca.framework import data_types, util, Block, parameters
 from mca.language import _
 
 

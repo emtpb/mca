@@ -2,7 +2,7 @@ import numpy as np
 from scipy.interpolate import interp1d
 
 from mca import exceptions
-from mca.framework import validator, data_types, Block, util, parameters
+from mca.framework import data_types, Block, util, parameters
 from mca.language import _
 
 

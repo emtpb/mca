@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import validator, data_types, Block, parameters, util
+from mca.framework import data_types, Block, parameters, util
 from mca.language import _
 
 

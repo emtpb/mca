@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.signal import hilbert
 
-from mca.framework import validator, data_types, util, Block
+from mca.framework import data_types, util, Block
 from mca.language import _
 
 

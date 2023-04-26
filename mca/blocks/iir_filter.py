@@ -1,7 +1,7 @@
 from scipy.signal import butter, cheby1, cheby2, ellip, lfilter, filtfilt
 
 from mca import exceptions
-from mca.framework import validator, data_types, Block, parameters, util
+from mca.framework import data_types, Block, parameters, util
 from mca.language import _
 
 

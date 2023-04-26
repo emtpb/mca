@@ -1,6 +1,6 @@
 from scipy import signal
 
-from mca.framework import validator, data_types, parameters, util, Block
+from mca.framework import data_types, parameters, util, Block
 from mca.language import _
 
 
