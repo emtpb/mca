@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.signal import gausspulse
 
-from mca.framework import data_types, parameters, util, Block
+from mca.framework import Block, data_types, parameters, util
 from mca.language import _
 
 
@@ -35,20 +35,25 @@ class GaussPulse(Block):
         )
 
     def setup_parameters(self):
+        self.parameters["amp"] = parameters.FloatParameter(
+            name=_("Amplitude"), min_=0, default=1
+        ),
+        self.parameters["cfreq"] = parameters.FloatParameter(
+            name=_("Center Frequency"), unit="Hz", min_=0, default=1
+        )
+        self.parameters["bw"] = parameters.FloatParameter(
+            name=_("Fractional bandwidth"), min_=0, max_=1, default=0.5
+        )
+        self.parameters["bwr"] = parameters.FloatParameter(
+            name=_("Reference level"), unit="dB", default=-6
+        )
         abscissa = util.create_abscissa_parameter_block()
+        # Start at -5 so the peak of the pulse is at 0
         abscissa.parameters["start"].value = -5
-        self.parameters.update({
-            "amp": parameters.FloatParameter("Amplitude", min_=0, default=1),
-            "cfreq": parameters.FloatParameter(_("Center Frequency"), unit="Hz",
-                                               min_=0, default=1),
-            "bw": parameters.FloatParameter(_("Fractional bandwidth"), min_=0,
-                                            max_=1, default=0.5),
-            "bwr": parameters.FloatParameter(_("Reference level"), unit="dB",
-                                             default=-6),
-            "abscissa": abscissa,
-        })
+        self.parameters["abscissa"] = abscissa
 
     def _process(self):
+        # Read parameters values
         amp = self.parameters["amp"].value
         center_freq = self.parameters["cfreq"].value
         frac_bw = self.parameters["bw"].value
@@ -56,33 +61,37 @@ class GaussPulse(Block):
         abscissa_start = self.parameters["abscissa"].parameters["start"].value
         values = self.parameters["abscissa"].parameters["values"].value
         increment = self.parameters["abscissa"].parameters["increment"].value
+        # Calculate the abscissa
         abscissa = (
             np.linspace(
                 abscissa_start, abscissa_start + (values - 1) * increment,
                 values
             )
         )
+        # Calculate the ordinates
         real, imag, envelope = gausspulse(
             abscissa, fc=center_freq, bw=frac_bw,
             bwr=ref_level, retquad=True, retenv=True)
+        # Amplify the ordinates
         real *= amp
         imag *= amp
         envelope *= amp
+        # Apply the signals to the outputs
         self.outputs[0].data = data_types.Signal(
-            abscissa_start,
-            values,
-            increment,
-            real,
+            abscissa_start=abscissa_start,
+            values=values,
+            increment=increment,
+            ordinate=real,
         )
         self.outputs[1].data = data_types.Signal(
-            abscissa_start,
-            values,
-            increment,
-            imag,
+            abscissa_start=abscissa_start,
+            values=values,
+            increment=increment,
+            ordinate=imag,
         )
         self.outputs[2].data = data_types.Signal(
-            abscissa_start,
-            values,
-            increment,
-            envelope,
+            abscissa_start=abscissa_start,
+            values=values,
+            increment=increment,
+            ordinate=envelope,
         )

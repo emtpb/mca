@@ -1,7 +1,7 @@
 from scipy.signal import csd
 from united import Unit
 
-from mca.framework import validator, data_types, util,  Block, parameters
+from mca.framework import Block, data_types, parameters, util
 from mca.language import _
 
 
@@ -14,7 +14,7 @@ class CrossPowerSpectrum(Block):
 
     def setup_io(self):
         self.new_output(metadata=data_types.MetaData(
-            "",
+            name="",
             unit_a="1/s",
             unit_o="V*V",
             quantity_a=_("Frequency")
@@ -42,20 +42,19 @@ class CrossPowerSpectrum(Block):
             default="spectrum")
 
     @util.abort_any_inputs_empty
+    @util.validate_type_signal
+    @util.validate_intervals
     def _process(self):
-        validator.check_type_signal(self.inputs[0].data)
-        validator.check_type_signal(self.inputs[1].data)
-
+        # Read the input data
         first_signal = self.inputs[0].data
         second_signal = self.inputs[1].data
-
-        validator.check_intervals([first_signal, second_signal])
-
+        # Read parameters values
         window = self.parameters["window"].value
         seg_length = self.parameters["seg_length"].value
         seg_overlap = self.parameters["seg_overlap"].value
         fft_length = self.parameters["fft_length"].value
         scaling = self.parameters["scaling"].value
+        # Calculate the ordinate
         freq, power_density = csd(x=first_signal.ordinate,
                                   y=second_signal.ordinate,
                                   fs=1 / first_signal.increment,
@@ -65,22 +64,28 @@ class CrossPowerSpectrum(Block):
                                   nfft=fft_length,
                                   scaling=scaling
                                   )
-
-        unit_o = self.inputs[0].metadata.unit_o * self.inputs[1].metadata.unit_o
-        unit_a = 1 / self.inputs[0].metadata.unit_a
-        if scaling == "density":
-            unit_o = Unit([unit_o.repr], [unit_a.repr], fix_repr=True)
-
+        # Calculate the abscissa start
         abscissa_start = freq[0]
+        # Calculate the amount of values
         values = len(freq)
+        # Calculate the increment
         increment = 1 / (
                 first_signal.increment * values)
-
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
             abscissa_start=abscissa_start,
             values=values,
             increment=increment,
             ordinate=power_density,
         )
-        self.outputs[0].external_metadata = data_types.MetaData(None,
-                                                                unit_a, unit_o)
+        # Calculate units for abscissa and ordinate
+        unit_o = self.inputs[0].metadata.unit_o * self.inputs[1].metadata.unit_o
+        unit_a = 1 / self.inputs[0].metadata.unit_a
+        # Divide ordinate unit by abscissa in case of density scaling
+        if scaling == "density":
+            unit_o = Unit(numerators=[unit_o.repr], denominators=[unit_a.repr],
+                          fix_repr=True)
+        # Apply new metadata to the output
+        self.outputs[0].external_metadata = data_types.MetaData(
+            name=None, unit_a=unit_a, unit_o=unit_o
+        )

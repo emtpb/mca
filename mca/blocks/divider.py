@@ -1,4 +1,4 @@
-from mca.framework import data_types, Block, util
+from mca.framework import Block, data_types, util
 from mca.language import _
 
 
@@ -9,8 +9,7 @@ class Divider(Block):
     tags = (_("Processing"),)
 
     def setup_io(self):
-        self.new_output(
-        )
+        self.new_output()
         self.new_input()
         self.new_input()
 
@@ -23,22 +22,21 @@ class Divider(Block):
     @util.validate_intervals
     def _process(self):
         input_signals = [self.inputs[0].data, self.inputs[1].data]
-
-        unit_a = self.inputs[0].metadata.unit_a
-        unit_o = self.inputs[0].metadata.unit_o / self.inputs[1].metadata.unit_o
-        metadata = data_types.MetaData(None, unit_a, unit_o)
-
+        # Fill the signals with zeros so their lengths match
         matched_signals = util.fill_zeros(input_signals)
+        # Calculate the ordinate
         ordinate = input_signals[0].ordinate / input_signals[1].ordinate
-        values = matched_signals[0].values
-        increment = matched_signals[0].increment
-        abscissa_start = matched_signals[0].abscissa_start
-
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
-            abscissa_start=abscissa_start,
-            values=values,
-            increment=increment,
+            abscissa_start=matched_signals[0].abscissa_start,
+            values=matched_signals[0].values,
+            increment=matched_signals[0].increment,
             ordinate=ordinate,
         )
-
-        self.outputs[0].external_metadata = metadata
+        # Calculate units for abscissa and ordinate
+        unit_a = self.inputs[0].metadata.unit_a
+        unit_o = self.inputs[0].metadata.unit_o / self.inputs[1].metadata.unit_o
+        # Apply new metadata to the output
+        self.outputs[0].external_metadata = data_types.MetaData(
+            name=None, unit_a=unit_a, unit_o=unit_o
+        )

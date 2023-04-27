@@ -17,14 +17,14 @@ def test_function():
                                        start, start + (values - 1) * increment,
                                        values)))
     assert a.outputs[0].data == sin_signal
-    a.parameters["function"].value = "rect"
+    a.parameters["signal_type"].value = "rect"
     a.trigger_update()
     rect_signal = data_types.Signal(start, values, increment,
                                     np.sign(np.sin(2 * np.pi * np.linspace(
                                         start, start + (values - 1) * increment,
                                         values))))
     assert a.outputs[0].data == rect_signal
-    a.parameters["function"].value = "tri"
+    a.parameters["signal_type"].value = "tri"
     a.trigger_update()
     triangle_signal = data_types.Signal(start, values, increment,
                                         sgn.sawtooth(2 * np.pi * np.linspace(

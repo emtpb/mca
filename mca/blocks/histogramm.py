@@ -41,25 +41,28 @@ class Histogramm(PlotBlock):
         self.new_input()
 
     def _process(self):
+        # Clear the axes and the legend
         self.axes.cla()
-
         if self.legend:
             self.legend.remove()
             self.legend = None
-
+        # Draw empty plot if the input has no data
         if self.all_inputs_empty():
             self.fig.canvas.draw()
             return
+        # Read the input data
         signal = self.inputs[0].data
+        # Read the input metadata
         metadata = self.inputs[0].metadata
+        # Validate the input data of type signal
         validator.check_type_signal(signal)
-
+        # Read the parameters values
         plot_type = self.parameters["plot_type"].value
         bins = self.parameters["bins"].value
-
+        # Read plot parameters values
         align = self.plot_parameters["align"].value
         color = self.plot_parameters["color"].value
-
+        # Adapt y label depending on the plot type
         if plot_type == "absolute":
             density = False
             y_label = _("Absolute frequency of occurrence")
@@ -70,8 +73,9 @@ class Histogramm(PlotBlock):
             density = True
             y_label = _(
                 "Relative density frequency of occurrence") + f" in {1 / metadata.unit_o}"
-
+        # Get the label for the legend
         label = self.inputs[0].metadata.name
+        # Plot and pass plot parameters
         if plot_type == "relative":
             self.axes.hist(signal.ordinate,
                            weights=np.ones(signal.ordinate.shape) / len(
@@ -81,9 +85,10 @@ class Histogramm(PlotBlock):
         else:
             self.axes.hist(signal.ordinate, bins=bins, density=density,
                            label=label, color=color, align=align)
-
+        # Add the legend
         if label:
             self.legend = self.fig.legend()
+        # Set the x label depending on the metadata of the input
         ordinate_string = data_types.metadata_to_axis_label(
             quantity=metadata.quantity_o,
             unit=metadata.unit_o,
@@ -91,7 +96,7 @@ class Histogramm(PlotBlock):
         )
         self.axes.set_ylabel(y_label)
         self.axes.set_xlabel(ordinate_string)
-
+        # Use grids
         self.axes.grid(True)
-
+        # Draw the plot
         self.fig.canvas.draw()

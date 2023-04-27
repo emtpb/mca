@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import data_types, util, Block
+from mca.framework import Block, data_types, util
 from mca.language import _
 
 
@@ -20,17 +20,21 @@ class Differentiator(Block):
     @util.abort_all_inputs_empty
     @util.validate_type_signal
     def _process(self):
+        # Read the input data
         input_signal = self.inputs[0].data
+        # Calculate the ordinate
         gradient = np.gradient(input_signal.ordinate) / input_signal.increment
-
-        unit_a = self.inputs[0].metadata.unit_a
-        unit_o = self.inputs[0].metadata.unit_o / self.inputs[0].metadata.unit_a
-        metadata = data_types.MetaData(None, unit_a=unit_a, unit_o=unit_o)
-
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
             abscissa_start=input_signal.abscissa_start,
             values=input_signal.values,
             increment=input_signal.increment,
             ordinate=gradient,
         )
-        self.outputs[0].external_metadata = metadata
+        # Calculate units for abscissa and ordinate
+        unit_a = self.inputs[0].metadata.unit_a
+        unit_o = self.inputs[0].metadata.unit_o / self.inputs[0].metadata.unit_a
+        # Apply metadata from the input to the output
+        self.outputs[0].external_metadata = data_types.MetaData(
+            name=None, unit_a=unit_a, unit_o=unit_o
+        )

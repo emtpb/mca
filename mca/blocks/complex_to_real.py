@@ -1,6 +1,6 @@
 import copy
 
-from mca.framework import util, Block
+from mca.framework import Block, util
 from mca.language import _
 
 
@@ -29,13 +29,15 @@ class ComplexToReal(Block):
     @util.abort_all_inputs_empty
     @util.validate_type_signal
     def _process(self):
+        # Read the input data
         real_signal = copy.copy(self.inputs[0].data)
-        real_signal.ordinate = real_signal.ordinate.real
         imag_signal = copy.copy(self.inputs[0].data)
+        # Calculate the ordinates
+        real_signal.ordinate = real_signal.ordinate.real
         imag_signal.ordinate = imag_signal.ordinate.imag
-
+        # Apply new signal to the outputs
         self.outputs[0].data = real_signal
         self.outputs[1].data = imag_signal
-
+        # Apply metadata from the input to the outputs
         self.outputs[0].external_metadata = self.inputs[0].metadata
         self.outputs[1].external_metadata = self.inputs[0].metadata

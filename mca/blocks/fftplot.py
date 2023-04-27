@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import validator, data_types, parameters, PlotBlock, util
+from mca.framework import PlotBlock, data_types, parameters, util, validator
 from mca.language import _
 
 
@@ -29,27 +29,27 @@ class FFTPlot(PlotBlock):
         self.new_input()
 
     def setup_parameters(self):
-        self.parameters.update({
-            "shift": parameters.ChoiceParameter(
-                _("Shift to ordinate"),
-                [("no_shift", _("No shift")), ("shift", _("Shift")),
-                 ("shift_positive", _("Shift and only positive frequencies"))],
+        self.parameters["shift"] = parameters.ChoiceParameter(
+                name=_("Shift to ordinate"),
+                choices=(("no_shift", _("No shift")), ("shift", _("Shift")),
+                         ("shift_positive",
+                          _("Shift and only positive frequencies"))),
                 default="no_shift",
-            ),
-            "plot_mode": parameters.ChoiceParameter(
-                _("Plot Mode"),
-                [("real", _("Real")), ("imaginary", _("Imaginary")),
-                 ("absolute", _("Absolute")), ("phase", _("Phase"))],
+        )
+        self.parameters["plot_mode"] = parameters.ChoiceParameter(
+                name=_("Plot Mode"),
+                choices=(("real", _("Real")), ("imaginary", _("Imaginary")),
+                         ("absolute", _("Absolute")), ("phase", _("Phase"))),
                 default="absolute",
-            ),
-            "normalize": parameters.BoolParameter(
-                _("Normalize"), default=False),
-        })
+        )
+        self.parameters["normalize"] = parameters.BoolParameter(
+                name=_("Normalize"), default=False
+        )
 
     def setup_plot_parameters(self):
         self.plot_parameters["plot_kind"] = parameters.ChoiceParameter(
-                _("Plot kind"), choices=[("line", _("Line")),
-                                         ("stem", _("Stem"))], )
+                name=_("Plot kind"), choices=(("line", _("Line")),
+                                              ("stem", _("Stem"))), )
         self.plot_parameters["color"] = util.get_plt_color_parameter()
         self.plot_parameters["abscissa_scaling"] = parameters.ChoiceParameter(
             name=_("Abscissa scaling"),
@@ -68,6 +68,7 @@ class FFTPlot(PlotBlock):
             _("Marker color"))
 
     def _process(self):
+        # Clear the axes and the legend
         self.axes.cla()
         if self.legend:
             self.legend.remove()
@@ -75,13 +76,15 @@ class FFTPlot(PlotBlock):
         if self.all_inputs_empty():
             self.fig.canvas.draw()
             return
+        # Validate the input data of type signal
         validator.check_type_signal(self.inputs[0].data)
-
+        # Read the input data
         input_signal = self.inputs[0].data
+        # Read the parameters values
         plot_mode = self.parameters["plot_mode"].value
         shift = self.parameters["shift"].value
         normalize = self.parameters["normalize"].value
-
+        # Read plot parameters values
         plot_kind = self.plot_parameters["plot_kind"].value
         abscissa_scaling = self.plot_parameters["abscissa_scaling"].value
         ordinate_scaling = self.plot_parameters["ordinate_scaling"].value
@@ -90,27 +93,32 @@ class FFTPlot(PlotBlock):
         marker_color = self.plot_parameters["marker_color"].value
 
         values = input_signal.values
-
+        # Calculate the frequency increment
         delta_f = 1 / (self.inputs[0].data.increment * values)
+        # Calculate the ordinate
         ordinate = np.fft.fft(input_signal.ordinate)
+        # Normalize the ordinate of needed
         if normalize:
             ordinate = ordinate / values
-        unit_o = self.inputs[0].metadata.unit_o
+        # Calculate the absicssa
         abscissa = np.linspace(0, delta_f * (values - 1), values)
-
+        # Shift the ordinate if needed
         if shift == "shift" or \
                 shift == "shift_positive":
             ordinate = np.fft.fftshift(ordinate)
         if shift == "shift" or shift == "shift_positive":
+            # Recalculate the abscissa
             if values % 2:
                 abscissa = np.linspace(-values / 2 * delta_f,
                                        values / 2 * delta_f, values)
             else:
                 abscissa = np.linspace(-values / 2 * delta_f,
                                        (values / 2 - 1) * delta_f, values)
+        # Cutoff the negative frequencies
         if shift == "shift_positive":
             ordinate = ordinate[len(ordinate) // 2:]
             abscissa = abscissa[len(abscissa) // 2:]
+        # The FFT is complex and a plot mode is needed
         if plot_mode == "real":
             ordinate = ordinate.real
         elif plot_mode == "imaginary":
@@ -119,12 +127,9 @@ class FFTPlot(PlotBlock):
             ordinate = abs(ordinate)
         elif plot_mode == "phase":
             ordinate = np.angle(ordinate)
-        metadata = data_types.MetaData(
-            self.inputs[0].metadata.name,
-            unit_a=1 / self.inputs[0].metadata.unit_a,
-            unit_o=unit_o,
-        )
+
         label = self.inputs[0].metadata.name
+        # Plot and pass plot parameters
         if plot_kind == "line":
             self.axes.plot(abscissa, ordinate, color, label=label, marker=marker,
                            markerfacecolor=marker_color,
@@ -135,20 +140,28 @@ class FFTPlot(PlotBlock):
                            markerfmt=marker_color+marker)
         if label:
             self.legend = self.fig.legend()
-
+        # Set the x and y labels depending on the metadata of the input
+        unit_o = self.inputs[0].metadata.unit_o
+        metadata = data_types.MetaData(
+            self.inputs[0].metadata.name,
+            unit_a=1 / self.inputs[0].metadata.unit_a,
+            unit_o=unit_o,
+        )
         self.axes.set_xlabel(data_types.metadata_to_axis_label(
             quantity=metadata.quantity_a,
             unit=metadata.unit_a,
             symbol=metadata.symbol_a
-        )
+            )
         )
         self.axes.set_ylabel(data_types.metadata_to_axis_label(
             quantity=metadata.quantity_o,
             unit=metadata.unit_o,
             symbol=metadata.symbol_o
-        )
+            )
         )
         self.axes.set_xscale(abscissa_scaling)
         self.axes.set_yscale(ordinate_scaling)
+        # Use grids
         self.axes.grid(True)
+        # Draw the plot
         self.fig.canvas.draw()

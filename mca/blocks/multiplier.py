@@ -2,7 +2,7 @@ import copy
 
 import numpy as np
 
-from mca.framework import validator, data_types, DynamicBlock, util
+from mca.framework import DynamicBlock, data_types, util
 from mca.language import _
 
 
@@ -13,8 +13,8 @@ class Multiplier(DynamicBlock):
     tags = (_("Processing"),)
 
     def setup_io(self):
-        self.new_output()
         self.dynamic_input = (1, None)
+        self.new_output()
         self.new_input()
         self.new_input()
 
@@ -26,24 +26,28 @@ class Multiplier(DynamicBlock):
     @util.validate_units(abscissa=True)
     @util.validate_intervals
     def _process(self):
+        # Read the input data
         signals = [copy.copy(i.data) for i in self.inputs if i.data]
+        # Read the input metadata
         metadatas = [copy.copy(i.metadata) for i in self.inputs if i.metadata]
-
+        # Fill the signals with zeros so their lengths match
         matched_signals = util.fill_zeros(signals)
+        # Initialize the ordinate and the units
         ordinate = np.ones(matched_signals[0].values)
         unit_a = metadatas[0].unit_a
         unit_o = 1
+        # Calculate the ordinate and the ordinate unit
         for sgn, metadata in zip(matched_signals, metadatas):
             ordinate *= sgn.ordinate
             unit_o *= metadata.unit_o
-        metadata = data_types.MetaData(None, unit_a, unit_o)
-        abscissa_start = matched_signals[0].abscissa_start
-        values = matched_signals[0].values
-        increment = matched_signals[0].increment
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
-            abscissa_start=abscissa_start,
-            values=values,
-            increment=increment,
+            abscissa_start=matched_signals[0].abscissa_start,
+            values=matched_signals[0].values,
+            increment=matched_signals[0].increment,
             ordinate=ordinate,
         )
-        self.outputs[0].external_metadata = metadata
+        # Apply new metadata to the output
+        self.outputs[0].external_metadata = data_types.MetaData(
+            name=None, unit_a=unit_a, unit_o=unit_o
+        )

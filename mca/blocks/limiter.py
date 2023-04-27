@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import validator, data_types, Block, util, parameters
+from mca.framework import Block, data_types, parameters, util
 from mca.language import _
 
 
@@ -30,18 +30,24 @@ class Limiter(Block):
     @util.abort_all_inputs_empty
     @util.validate_type_signal
     def _process(self):
+        # Read the input data
+        input_signal = self.inputs[0].data
+        # Read parameters values
         mode = self.parameters["mode"].value
         threshold = self.parameters["threshold"].value
-        input_signal = self.inputs[0].data
+        # Set the thresholds
         max_threshold = threshold
         min_threshold = None
         if mode == "bipolar":
             min_threshold = -threshold
+        # Calculate the ordinate
         ordinate = np.clip(input_signal.ordinate, min_threshold, max_threshold)
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
             abscissa_start=input_signal.abscissa_start,
             values=input_signal.values,
             increment=input_signal.increment,
             ordinate=ordinate,
         )
+        # Apply metadata from the input to the output
         self.outputs[0].external_metadata = self.inputs[0].metadata

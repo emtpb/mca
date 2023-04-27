@@ -1,5 +1,5 @@
 from mca import exceptions
-from mca.framework import validator, data_types, Block, parameters, util
+from mca.framework import Block, data_types, parameters, util
 from mca.language import _
 
 
@@ -21,20 +21,22 @@ class Cutter(Block):
         self.new_input()
 
     def setup_parameters(self):
-        self.parameters.update({
-            "start_value": parameters.FloatParameter(_("Start value"),
-                                                     default=0),
-            "end_value": parameters.FloatParameter(_("End value"), default=1)
-        })
+        self.parameters["start_value"] = parameters.FloatParameter(
+                name=_("Start value"), default=0
+        )
+        self.parameters["end_value"] = parameters.FloatParameter(
+                name=_("End value"), default=1
+        )
 
     @util.abort_all_inputs_empty
+    @util.validate_type_signal
     def _process(self):
-        validator.check_type_signal(self.inputs[0].data)
-
+        # Read the input data
         input_signal = self.inputs[0].data
+        # Read parameters values
         start_value = self.parameters["start_value"].value
         end_value = self.parameters["end_value"].value
-
+        # Validate the start and end values depending on the input signal
         if start_value < input_signal.abscissa_start:
             raise exceptions.ParameterValueError("Cut start has to be even or "
                                                  "greater than the abscissa "
@@ -46,22 +48,25 @@ class Cutter(Block):
                 input_signal.values - 1) < end_value:
             raise exceptions.ParameterValueError(
                 "Cut end must be even or less than the abscissa end.")
-
+        # Calculate the new start and end index
         start_index = int(
             (
                         start_value - input_signal.abscissa_start) / input_signal.increment)
         end_index = int(
             (
                         end_value - input_signal.abscissa_start) / input_signal.increment) + 1
-
+        # Calculate the abscissa start
         abscissa_start = input_signal.abscissa_start + input_signal.increment * start_index
+        # Calculate the amount of values
         values = end_index - start_index
+        # Calculate the ordinate
         ordinate = input_signal.ordinate[start_index:end_index]
-
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
             abscissa_start=abscissa_start,
             values=values,
             increment=input_signal.increment,
             ordinate=ordinate,
         )
+        # Apply metadata from the input to the output
         self.outputs[0].external_metadata = self.inputs[0].metadata

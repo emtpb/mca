@@ -1,7 +1,7 @@
 import json
 
 from mca import exceptions
-from mca.framework import validator, Block, parameters
+from mca.framework import Block, parameters, util
 from mca.language import _
 
 
@@ -15,27 +15,32 @@ class SignalSaver(Block):
         self.new_input()
 
     def setup_parameters(self):
-        self.parameters.update({
-            "file_name": parameters.PathParameter(_("Filename"),
-                                                  file_formats=[".json"]),
-            "save": parameters.ActionParameter(_("Save"),
-                                               self.save_data, display_options=(
-                "edit_window", "block_button"))})
+        self.parameters["file_name"] = parameters.PathParameter(
+            name=_("Filename"), file_formats=[".json"]
+        )
+        self.parameters["save"] = parameters.ActionParameter(
+            name=_("Save"), function=self.save_data,
+            display_options=("edit_window", "block_button")
+        )
 
     def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
+        pass
 
     def save_data(self):
-        """Saves the the input data in .json file."""
-        if not self.inputs[0].data:
+        """Saves the input data in .json file."""
+        # Raise error when the input has no data to save
+        if self.all_inputs_empty():
             raise exceptions.DataSavingError("No data to save.")
+        # Read the input data
         signal = self.inputs[0].data
+        # Read the input metadata
         metadata = self.inputs[0].metadata
+        # Read parameters values
         filename = self.parameters["file_name"].value
+        # Verify that the file ends with .json
         if not filename.endswith(".json"):
             raise exceptions.DataSavingError("File has to be a .json.")
+        # Save input data and metadata
         with open(filename, 'w') as save_file:
             save_data = {"data_type": "Signal",
                          "name": metadata.name,

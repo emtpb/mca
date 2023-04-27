@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import data_types, parameters, util, Block
+from mca.framework import Block, data_types, parameters, util
 from mca.language import _
 
 
@@ -21,34 +21,36 @@ class SignalGeneratorStochastic(Block):
         )
 
     def setup_parameters(self):
-        abscissa = util.create_abscissa_parameter_block()
-        self.parameters.update({
-            "dist": parameters.ChoiceParameter(
-                _("Distribution"),
-                choices=[("normal", _("Normal distribution")),
-                         ("uniform", _("Uniform distribution"))],
+        self.parameters["dist"] = parameters.ChoiceParameter(
+                name=_("Distribution"),
+                choices=(("normal", _("Normal distribution")),
+                         ("uniform", _("Uniform distribution"))),
                 default="normal"
-            ),
-            "mean": parameters.FloatParameter(_("Mean µ"), default=0),
-            "std_dev": parameters.FloatParameter(_("Standard deviation σ"),
-                                                 min_=0, default=1),
-            "abscissa": abscissa
-        })
+        )
+        self.parameters["mean"] = parameters.FloatParameter(
+            name=_("Mean µ"), default=0
+        )
+        self.parameters["std_dev"] = parameters.FloatParameter(
+            name=_("Standard deviation σ"), min_=0, default=1
+        )
+        abscissa = util.create_abscissa_parameter_block()
+        self.parameters["abscissa"] = abscissa
 
     def _process(self):
+        # Read the input data
         mean = self.parameters["mean"].value
         std_dev = self.parameters["std_dev"].value
         abscissa_start = self.parameters["abscissa"].parameters["start"].value
         values = self.parameters["abscissa"].parameters["values"].value
         increment = self.parameters["abscissa"].parameters["increment"].value
         dist = self.parameters["dist"].value
-
+        # Calculate the ordinate depending on the distribution
         if dist == "normal":
             ordinate = mean + std_dev * np.random.randn(values)
         elif dist == "uniform":
             ordinate = mean + std_dev * np.sqrt(12) * (
                         np.random.rand(values) - 0.5)
-
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
             abscissa_start=abscissa_start,
             values=values,

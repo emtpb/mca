@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import signal as sgn
 
-from mca.framework import data_types, parameters, util, Block
+from mca.framework import Block, data_types, parameters, util
 from mca.language import _
 
 
@@ -20,42 +20,55 @@ class SignalGeneratorPeriodic(Block):
         )
 
     def setup_parameters(self):
-        abscissa = util.create_abscissa_parameter_block()
-        self.parameters.update({
-            "function": parameters.ChoiceParameter(
-                _("Function"),
-                choices=[("rect", _("Rectangle")), ("tri", _("Triangle")),
-                         ("sin", _("Sine"))],
+
+        self.parameters["signal_type"] = parameters.ChoiceParameter(
+                name=_("Signal type"),
+                choices=(("rect", _("Rectangle")), ("tri", _("Triangle")),
+                         ("sin", _("Sine"))),
                 default="sin"
-            ),
-            "freq": parameters.FloatParameter(_("Frequency"), unit="Hz", min_=0,
-                                              default=1),
-            "amp": parameters.FloatParameter(_("Amplitude"), min_=0, default=1),
-            "phase": parameters.FloatParameter(_("Phase"), default=0,
-                                               unit="rad"),
-            "abscissa": abscissa,
-        })
+        )
+        self.parameters["signal_type"] = parameters.ChoiceParameter(
+            name=_("Signal type"),
+            choices=(("rect", _("Rectangle")), ("tri", _("Triangle")),
+                     ("sin", _("Sine"))),
+            default="sin"
+        )
+        self.parameters["freq"] = parameters.FloatParameter(
+            name=_("Frequency"), unit="Hz", min_=0, default=1
+        )
+        self.parameters["amp"] = parameters.FloatParameter(
+            name=_("Amplitude"), min_=0, default=1
+        )
+        self.parameters["phase"] = parameters.FloatParameter(
+            name=_("Phase"), default=0, unit="rad"
+        )
+        abscissa = util.create_abscissa_parameter_block()
+        self.parameters["abscissa"] = abscissa
 
     def _process(self):
+        # Read parameters values
         amp = self.parameters["amp"].value
         freq = self.parameters["freq"].value
         abscissa_start = self.parameters["abscissa"].parameters["start"].value
         values = self.parameters["abscissa"].parameters["values"].value
         increment = self.parameters["abscissa"].parameters["increment"].value
         phase = self.parameters["phase"].value
-        function = self.parameters["function"].value
+        signal_type = self.parameters["signal_type"].value
+        # Calculate the abscissa
         abscissa = (
             np.linspace(
                 abscissa_start, abscissa_start + (values - 1) * increment,
                 values
             )
         )
-        if function == "sin":
+        # Apply different signal types to calculate the ordinate
+        if signal_type == "sin":
             ordinate = amp * np.sin(2 * np.pi * freq * abscissa - phase)
-        elif function == "rect":
+        elif signal_type == "rect":
             ordinate = rect(abscissa, freq, amp, phase)
-        elif function == "tri":
+        elif signal_type == "tri":
             ordinate = triangle(abscissa, freq, amp, phase)
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
             abscissa_start,
             values,

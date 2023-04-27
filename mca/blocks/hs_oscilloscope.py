@@ -2,7 +2,7 @@ from copy import deepcopy
 
 from tiepie import Oscilloscope
 
-from mca.framework import data_types, parameters, Block
+from mca.framework import Block, data_types, parameters
 from mca.language import _
 
 
@@ -37,6 +37,28 @@ class HSOscilloscope(Block):
         )
 
     def setup_parameters(self):
+        self.parameters["device"] = parameters.ChoiceParameter(
+                name=_("Device"), choices=(("HS3", "HS3"),
+                                           ("HS5", "HS5")),
+                default="HS3"
+        )
+        self.parameters["connect"] = parameters.ActionParameter(
+                name=_("Connect"), function=self.connect_oscilloscope
+        )
+        self.parameters["adc_resolution"] = parameters.ChoiceParameter(
+            name=_("ADC Resolution"), choices=((8, "8"), (10, "10"),
+                                               (12, "12"), (14, "14")),
+            default=8
+        )
+        self.parameters["sample_freq"] = parameters.FloatParameter(
+            name=_("Sample Frequency"), unit="Hz", default=1e8
+        )
+        self.parameters["record_length"] = parameters.IntParameter(
+            name=_("Record Length"), default=5000
+        )
+        self.parameters["measure"] = parameters.ActionParameter(
+            name=_("Measure"), function=self.measure
+        )
         volt_range = parameters.ChoiceParameter(_("Range"),
                                                 choices=[(0.2, "0.2"),
                                                          (0.4, "0.4"),
@@ -73,37 +95,16 @@ class HSOscilloscope(Block):
                                             "enable_trig": trig_enabled_ch2,
                                             "trig_lvl": deepcopy(trig_lvl),
                                             "trig_kind": deepcopy(trig_kind)})
-        self.parameters.update({
-            "device": parameters.ChoiceParameter(
-                name=_("Device"),
-                choices=[("HS3", "HS3"), ("HS5", "HS5")],
-                default="HS3"),
-            "connect": parameters.ActionParameter(
-                _("Connect"),
-                function=self.connect_oscilloscope),
-            "adc_resolution": parameters.ChoiceParameter(_("ADC Resolution"),
-                                                         choices=[(8, "8"),
-                                                                  (10, "10"),
-                                                                  (12, "12"),
-                                                                  (14, "14")],
-                                                         default=8),
-            "sample_freq": parameters.FloatParameter(_("Sample Frequency"),
-                                                     unit="Hz", default=1e8),
-            "record_length": parameters.IntParameter(_("Record Length"),
-                                                     default=5000),
-            "measure": parameters.ActionParameter(_("Measure"),
-                                                  function=self.measure),
-            "ch1": ch1,
-            "ch2": ch2
-        })
+        self.parameters["ch1"] = ch1
+        self.parameters["ch2"] = ch2
 
     def _process(self):
         if self.oscilloscope:
             self.apply_parameters()
 
     def connect_oscilloscope(self):
-        """Connects to an oscilloscope by creating an instance of the
-        tiepie oscilloscope class.
+        """Connects to an oscilloscope device by creating an instance of the
+        handyscope oscilloscope class.
         """
         device = self.parameters["device"].value
         self.oscilloscope = Oscilloscope(device)
@@ -113,31 +114,37 @@ class HSOscilloscope(Block):
         """Measures and extracts data from the oscilloscope. This triggers an
         update in the block structure.
         """
+        # Check if an oscilloscope has been initialized
         if not self.oscilloscope:
             raise RuntimeError("No oscilloscope object initialized.")
+        # Apply the parameters
         self.apply_parameters()
+        # Start a measurement
         measurement = self.oscilloscope.measure()
         time_vector = self.oscilloscope.time_vector
+        # Get the abscissa start
+        abscissa_start = time_vector[0]
+        # Calculate the increment
         increment = 1 / self.parameters["sample_freq"].value
+        # Calculate the amount of values
         values = len(time_vector)
+        # Apply the signals to the output
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(None),
-            abscissa_start=0,
+            abscissa_start=abscissa_start,
             values=values,
             increment=increment,
             ordinate=measurement[0])
         self.outputs[1].data = data_types.Signal(
-            metadata=self.outputs[1].get_metadata(None),
-            abscissa_start=0,
+            abscissa_start=abscissa_start,
             values=values,
             increment=increment,
             ordinate=measurement[1])
+        # Trigger an update manually since this is not executed within the
+        # process method
         self.trigger_update()
 
     def apply_parameters(self):
-        """Applies the values of the parameters to the oscilloscope device
-        options.
-        """
+        """Applies the values of the parameters to the oscilloscope device."""
         self.oscilloscope.sample_freq = self.parameters["sample_freq"].value
         self.oscilloscope.resolution = self.parameters["adc_resolution"].value
         self.oscilloscope.record_length = self.parameters["record_length"].value

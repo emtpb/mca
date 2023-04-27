@@ -1,6 +1,6 @@
 import numpy as np
 
-from mca.framework import data_types, Block, parameters, util
+from mca.framework import Block, data_types, parameters, util
 from mca.language import _
 
 
@@ -21,7 +21,6 @@ class PolynomGenerator(Block):
         )
 
     def setup_parameters(self):
-        abscissa = util.create_abscissa_parameter_block()
         self.parameters["order_0"] = parameters.FloatParameter(
             name=_("Factor of the 0th order (x⁰)"), default=0)
         self.parameters["order_1"] = parameters.FloatParameter(
@@ -34,9 +33,11 @@ class PolynomGenerator(Block):
             name=_("Factor of the 4th order (x⁴)"), default=0)
         self.parameters["order_5"] = parameters.FloatParameter(
             name=_("Factor of the 5th order (x⁵)"), default=0)
+        abscissa = util.create_abscissa_parameter_block()
         self.parameters["abscissa"] = abscissa
 
     def _process(self):
+        # Read parameters values
         abscissa_start = self.parameters["abscissa"].parameters["start"].value
         values = self.parameters["abscissa"].parameters["values"].value
         increment = self.parameters["abscissa"].parameters["increment"].value
@@ -46,17 +47,17 @@ class PolynomGenerator(Block):
         d = self.parameters["order_2"].value
         e = self.parameters["order_1"].value
         f = self.parameters["order_0"].value
-
+        # Calculate the abscissa
         abscissa = (
             np.linspace(
                 abscissa_start, abscissa_start + (values - 1) * increment,
                 values
             )
         )
-
+        # Calculate the ordinate
         ordinate = a*abscissa**5 + b*abscissa**4 + c*abscissa**3 + \
                    d*abscissa**2 + e*abscissa + f
-
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
             abscissa_start,
             values,

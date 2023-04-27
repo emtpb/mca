@@ -1,7 +1,7 @@
 import copy
 import numpy as np
 
-from mca.framework import data_types, DynamicBlock, util
+from mca.framework import DynamicBlock, data_types, util
 from mca.language import _
 
 
@@ -25,17 +25,19 @@ class Adder(DynamicBlock):
     @util.validate_units(abscissa=True, ordinate=True)
     @util.validate_intervals
     def _process(self):
+        # Read the input data
         signals = [copy.copy(i.data) for i in self.inputs if i.data]
+        # Fill the signals with zeros so their lengths match
         modified_signals = util.fill_zeros(signals)
+        # Calculate the ordinate
         ordinate = np.zeros(modified_signals[0].values)
         for sgn in modified_signals:
             ordinate += sgn.ordinate
-        abscissa_start = modified_signals[0].abscissa_start
-        values = modified_signals[0].values
-        increment = modified_signals[0].increment
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
-            abscissa_start=abscissa_start,
-            values=values,
-            increment=increment,
+            abscissa_start=modified_signals[0].abscissa_start,
+            values=modified_signals[0].values,
+            increment=modified_signals[0].increment,
             ordinate=ordinate)
+        # Apply metadata from the input to the output
         self.outputs[0].external_metadata = self.inputs[0].metadata
