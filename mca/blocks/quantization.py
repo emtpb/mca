@@ -77,4 +77,4 @@ class Quantization(Block):
         else:
             metadata = self.inputs[0].metadata
         # Apply the new metadata to the output
-        self.outputs[0].external_metadata = metadata
+        self.outputs[0].process_metadata = metadata

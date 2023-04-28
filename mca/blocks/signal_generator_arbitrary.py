@@ -14,11 +14,7 @@ class SignalGeneratorArbitrary(Block):
     tags = (_("Generating"), _("Loading"))
 
     def setup_io(self):
-        self.new_output(
-            metadata_input_dependent=False,
-            ordinate_metadata=False,
-            abscissa_metadata=False,
-        )
+        self.new_output(user_metadata_required=True)
 
     def setup_parameters(self):
         self.parameters["file_name"] = parameters.PathParameter(
@@ -59,7 +55,7 @@ class SignalGeneratorArbitrary(Block):
             ordinate=np.array(arbitrary_data["ordinate"])
         )
         # Apply metadata from the loaded signal
-        self.outputs[0].external_metadata = data_types.MetaData(
+        self.outputs[0].process_metadata = data_types.MetaData(
                     name=arbitrary_data["name"],
                     unit_a=arbitrary_data["unit_a"],
                     unit_o=arbitrary_data["unit_o"],

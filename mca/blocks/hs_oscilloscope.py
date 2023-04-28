@@ -23,18 +23,8 @@ class HSOscilloscope(Block):
         self.oscilloscope = None
 
     def setup_io(self):
-        self.new_output(
-            name=_("Channel 1"),
-            metadata_input_dependent=False,
-            ordinate_metadata=True,
-            abscissa_metadata=True,
-        )
-        self.new_output(
-            name=_("Channel 2"),
-            metadata_input_dependent=False,
-            ordinate_metadata=True,
-            abscissa_metadata=True,
-        )
+        self.new_output(name=_("Channel 1"), user_metadata_required=True)
+        self.new_output(name=_("Channel 2"), user_metadata_required=True)
 
     def setup_parameters(self):
         self.parameters["device"] = parameters.ChoiceParameter(

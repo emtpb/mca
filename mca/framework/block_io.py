@@ -88,52 +88,50 @@ class Output:
         up_to_date (bool): Flag which indicates if the data of the Output is
             valid or needs to be updated.
         data: Data which the Output contains.
-        metadata_input_dependent (bool): True, if the MetaData of
-                                          the Output can be dependent on the
-                                          MetaData of any Input.
-        abscissa_metadata (bool): True, if the abscissa
-                                   should be used when data gets assigned
-                                   to the Output.
-        ordinate_metadata (bool): True, if the ordinate
-                                   should be used when data gets assigned
-                                   to this Output.
+        user_metadata_required (bool): True, if user_metadata is forced to be
+                                       used to set the metadata for Output.
+        use_process_abscissa_metadata (bool): Flag whether the process
+                                              abscissa metadata or the user
+                                              metadata should be used.
+        use_process_ordinate_metadata (bool): Flag whether the process
+                                              ordinate metadata or the user
+                                              metadata should be used.
         initial_metadata: MetaData of the attribute data.
         id: Used to identify the Inputs which were connected to the Output
             after saving.
     """
 
     def __init__(self, block=None, initial_metadata=None, name=None,
-                 metadata_input_dependent=True, abscissa_metadata=False,
-                 ordinate_metadata=False):
+                 user_metadata_required=False):
         """Initializes Output class.
 
         Args:
             block: Block to which the Output belongs to.
             name (str): Name of the Output.
             initial_metadata: Metadata of the data.
-            metadata_input_dependent (bool): True, if the :class:`.MetaData` of
-                                              the Output can be dependent on the
-                                              MetaData of any Input.
-            abscissa_metadata (bool): True, if the abscissa metadata
-                                       should be used when data gets assigned
-                                       to the Output.
-            ordinate_metadata (bool): True, if the ordinate metadata
-                                       should be used when data gets assigned
-                                       to this Output.
+            user_metadata_required (bool): True, if user_metadata is forced to
+                                           be used to set the metadata for
+                                           Output.
         """
         self.name = name
         self.block = block
         self.up_to_date = True
         self.data = None
-        self.metadata_input_dependent = metadata_input_dependent
-        self.abscissa_metadata = abscissa_metadata
-        self.ordinate_metadata = ordinate_metadata
+        self.user_metadata_required = user_metadata_required
+
+        if user_metadata_required:
+            self.use_process_abscissa_metadata = False
+            self.use_process_ordinate_metadata = False
+        else:
+            self.use_process_abscissa_metadata = True
+            self.use_process_ordinate_metadata = True
+
         if initial_metadata is None:
             self.user_metadata = data_types.default_metadata()
         else:
             self.user_metadata = initial_metadata
 
-        self.external_metadata = None
+        self.process_metadata = None
 
         self.id = uuid.uuid4()
 
@@ -142,29 +140,39 @@ class Output:
         """Get the currently used metadata of the Output.
 
         An Output owns two types of metadata.
-        
+
+        1. user_metadata: Static metadata which is part of the Output and can be
+                          modified by the user.
+        2. process_metadata: Dynamic metadata which is calculated in the Block
+                             process method.
+
+        Depending on the use_process_abscissa_metadata and
+        use_process_ordinate_metadata flags one of those two metadatas is
+        returned.
+
+        The name of the user_metadata is taken by default.
         """
-        if self.abscissa_metadata or self.external_metadata is None:
+        if self.use_process_abscissa_metadata and self.process_metadata is not None:
+            unit_a = self.process_metadata.unit_a
+            symbol_a = ""
+            quantity_a = self.process_metadata.quantity_a
+            fixed_unit_a = False
+        else:
             unit_a = self.user_metadata.unit_a
             symbol_a = self.user_metadata.symbol_a
             quantity_a = self.user_metadata.quantity_a
             fixed_unit_a = True
-        else:
-            unit_a = self.external_metadata.unit_a
-            symbol_a = ""
-            quantity_a = self.external_metadata.quantity_a
-            fixed_unit_a = False
 
-        if self.ordinate_metadata or self.external_metadata is None:
+        if self.use_process_ordinate_metadata or self.process_metadata is not None:
+            unit_o = self.process_metadata.unit_o
+            symbol_o = ""
+            quantity_o = self.process_metadata.quantity_o
+            fixed_unit_o = False
+        else:
             unit_o = self.user_metadata.unit_o
             symbol_o = self.user_metadata.symbol_o
             quantity_o = self.user_metadata.quantity_o
             fixed_unit_o = True
-        else:
-            unit_o = self.external_metadata.unit_o
-            symbol_o = ""
-            quantity_o = self.external_metadata.quantity_o
-            fixed_unit_o = False
 
         return data_types.MetaData(name=self.user_metadata.name,
                                    unit_a=unit_a,

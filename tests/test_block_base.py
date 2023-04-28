@@ -518,7 +518,7 @@ def test_output_metadata(default_metadata):
                                                         unit_o="kg",
                                                         symbol_o="m")
     output = mca.framework.block_io.Output(initial_metadata=output_metadata)
-    output.external_metadata = default_metadata
+    output.process_metadata = default_metadata
     result_metadata = output.metadata
     assert result_metadata == default_metadata
     assert result_metadata.name == output_metadata.name

@@ -65,8 +65,8 @@ def blocks_to_json(blocks):
                                        "symbol_o": output.user_metadata.symbol_o,
                                        "unit_o": repr(
                                            output.user_metadata.unit_o)},
-                          "abscissa_metadata": output.abscissa_metadata,
-                          "ordinate_metadata": output.ordinate_metadata
+                          "use_process_abscissa_metadata": output.use_process_abscissa_metadata,
+                          "use_process_ordinate_metadata": output.use_process_ordinate_metadata
                       }
                           for output in block.outputs],
                       "gui_data": block.gui_data["save_data"]}

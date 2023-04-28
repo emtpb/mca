@@ -50,6 +50,6 @@ class FFT(Block):
         unit_o = self.inputs[0].metadata.unit_o
         unit_a = 1 / self.inputs[0].metadata.unit_a
         # Apply new metadata to the output
-        self.outputs[0].external_metadata = data_types.MetaData(
+        self.outputs[0].process_metadata = data_types.MetaData(
             name=None, unit_a=unit_a, unit_o=unit_o
         )

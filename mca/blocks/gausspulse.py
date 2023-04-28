@@ -15,24 +15,9 @@ class GaussPulse(Block):
     tags = (_("Generating"),)
 
     def setup_io(self):
-        self.new_output(
-            name=_("Real part"),
-            metadata_input_dependent=False,
-            ordinate_metadata=True,
-            abscissa_metadata=True,
-        )
-        self.new_output(
-            name=_("Imaginary part"),
-            metadata_input_dependent=False,
-            ordinate_metadata=True,
-            abscissa_metadata=True,
-        )
-        self.new_output(
-            name=_("Envelope"),
-            metadata_input_dependent=False,
-            ordinate_metadata=True,
-            abscissa_metadata=True,
-        )
+        self.new_output(name=_("Real part"), user_metadata_required=True)
+        self.new_output(name=_("Imaginary part"), user_metadata_required=True)
+        self.new_output(name=_("Envelope"), user_metadata_required=True)
 
     def setup_parameters(self):
         self.parameters["amp"] = parameters.FloatParameter(

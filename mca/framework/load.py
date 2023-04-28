@@ -63,10 +63,10 @@ def json_to_blocks(json_string):
             if index + 1 > len(block_instance.outputs):
                 block_instance.add_output(block_io.Output(block_instance))
             block_instance.outputs[index].user_metadata = metadata
-            block_instance.outputs[index].abscissa_metadata = output_save[
-                "abscissa_metadata"]
-            block_instance.outputs[index].ordinate_metadata = output_save[
-                "ordinate_metadata"]
+            block_instance.outputs[index].use_process_abscissa_metadata = output_save[
+                "use_process_abscissa_metadata"]
+            block_instance.outputs[index].use_process_ordinate_metadata = output_save[
+                "use_process_ordinate_metadata"]
             block_instance.trigger_update()
     for block_index_outer, block_save_outer in enumerate(
             load_data["blocks"]):

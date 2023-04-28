@@ -56,4 +56,4 @@ class RealToComplex(Block):
             ordinate=ordinate,
         )
         # Apply metadata from the input to the output
-        self.outputs[0].external_metadata = self.inputs[0].metadata
+        self.outputs[0].process_metadata = self.inputs[0].metadata

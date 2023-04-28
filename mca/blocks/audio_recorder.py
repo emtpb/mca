@@ -11,11 +11,7 @@ class AudioRecorder(Block):
     tags = (_("Audio"),)
 
     def setup_io(self):
-        self.new_output(
-            metadata_input_dependent=False,
-            ordinate_metadata=True,
-            abscissa_metadata=True,
-        )
+        self.new_output(user_metadata_required=True)
 
     def setup_parameters(self):
         self.parameters["sampling_freq"] = parameters.IntParameter(

@@ -243,19 +243,25 @@ class EditWindow(QtWidgets.QDialog):
                 self.metadata_widgets.append(entry_edit_line)
                 metadata_box_layout.addRow(label, entry_edit_line)
             abscissa_check_box = edit_widgets.MetaDataBoolWidget(
-                _("Use abscissa metadata"), output, "abscissa_metadata")
+                _("Automatically calculate abscissa metadata"), output,
+                "use_process_abscissa_metadata")
             abscissa_check_box.read_attribute()
-            if not output.metadata_input_dependent:
+            if output.user_metadata_required:
                 abscissa_check_box.setEnabled(False)
-            self.metadata_widgets.append(abscissa_check_box)
-            metadata_box_layout.insertRow(4, "", abscissa_check_box)
+            else:
+                self.metadata_widgets.append(abscissa_check_box)
+            if not output.user_metadata_required:
+                metadata_box_layout.insertRow(1, "", abscissa_check_box)
             ordinate_check_box = edit_widgets.MetaDataBoolWidget(
-                _("Use ordinate metadata"), output, "ordinate_metadata")
+                _("Automatically calculate ordinate metadata"), output,
+                "use_process_ordinate_metadata")
             ordinate_check_box.read_attribute()
-            if not output.metadata_input_dependent:
+            if output.user_metadata_required:
                 ordinate_check_box.setEnabled(False)
-            self.metadata_widgets.append(ordinate_check_box)
-            metadata_box_layout.insertRow(8, "", ordinate_check_box)
+            else:
+                self.metadata_widgets.append(ordinate_check_box)
+            if not output.user_metadata_required:
+                metadata_box_layout.insertRow(5, "", ordinate_check_box)
             self.metadata_contents_layout.addWidget(metadata_box)
 
     def add_plot_parameters(self):

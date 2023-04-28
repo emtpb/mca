@@ -79,10 +79,8 @@ class Block:
         """Updates the data and the flags of the Outputs if all
         Inputs have valid data.
         """
-        if (not self.inputs) or all(
-                elem == True
-                for elem in [input_.up_to_date for input_ in self.inputs]
-        ):
+        if (not self.inputs) or all(elem == True
+                for elem in [input_.up_to_date for input_ in self.inputs]):
             self._process()
             for output in self.outputs:
                 output.up_to_date = True
@@ -94,24 +92,16 @@ class Block:
         for o in self.outputs:
             o.disconnect()
 
-    def new_output(self, metadata=None, metadata_input_dependent=True,
-                   abscissa_metadata=False, ordinate_metadata=False,
+    def new_output(self, metadata=None, user_metadata_required=False,
                    name=None):
-        """Creates and adds an new Output to the block. Used to create new
-        Outputs in the initialization of a new block.
+        """Creates and adds a new Output to the block. Used to create new
+        Outputs when initializing a block.
 
         Args:
             name (str): Name of the Output.
             metadata(:class:`.MetaData`): Metadata of the data.
-            metadata_input_dependent (bool): True, if the :class:`.MetaData` of
-                                              the Output can be dependent on the
-                                              MetaData of any Input.
-            abscissa_metadata (bool): True, if the abscissa metadata
-                                       should be used when data gets assigned
-                                       to the Output.
-            ordinate_metadata (bool): True, if the ordinate metadata
-                                       should be used when data gets assigned
-                                       to this Output.
+            user_metadata_required (bool): True, if user_metadata is forced to be
+                                           used to set the metadata for Output.
 
 
         .. see also::
@@ -123,9 +113,7 @@ class Block:
                 block_io.Output(
                     self,
                     initial_metadata=metadata,
-                    metadata_input_dependent=metadata_input_dependent,
-                    abscissa_metadata=abscissa_metadata,
-                    ordinate_metadata=ordinate_metadata,
+                    user_metadata_required=user_metadata_required,
                     name=name)
             )
         )

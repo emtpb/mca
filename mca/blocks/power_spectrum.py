@@ -88,6 +88,6 @@ class PowerSpectrum(Block):
             unit_o = Unit(numerators=[unit_o.repr], denominators=[unit_a.repr],
                           fix_repr=True)
         # Apply new metadata to the output
-        self.outputs[0].external_metadata = data_types.MetaData(
+        self.outputs[0].process_metadata = data_types.MetaData(
             name=None, unit_a=unit_a, unit_o=unit_o
         )

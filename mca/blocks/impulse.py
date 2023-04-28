@@ -16,9 +16,7 @@ class Impulse(Block):
     tags = (_("Generating"),)
 
     def setup_io(self):
-        self.new_output(metadata_input_dependent=False,
-                        ordinate_metadata=True,
-                        abscissa_metadata=True)
+        self.new_output(user_metadata_required=False)
 
     def setup_parameters(self):
         self.parameters["pulse_length"] = parameters.IntParameter(
