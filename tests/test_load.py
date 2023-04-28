@@ -32,7 +32,7 @@ def test_load_block_structure(adder_signal_generator):
         if isinstance(block, blocks.Adder):
             assert len(block.inputs) == 3
             assert block.inputs[2].connected_output is not None
-            assert block.outputs[0].abscissa_metadata is True
+            assert block.outputs[0].use_process_abscissa_metadata is True
         if isinstance(block, blocks.SignalGeneratorPeriodic):
             assert block.parameters["name"].value == "test"
             assert block.parameters["amp"].value == 3

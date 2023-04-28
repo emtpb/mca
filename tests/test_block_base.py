@@ -522,8 +522,8 @@ def test_output_metadata(default_metadata):
     result_metadata = output.metadata
     assert result_metadata == default_metadata
     assert result_metadata.name == output_metadata.name
-    output.abscissa_metadata = True
-    output.ordinate_metadata = False
+    output.use_process_abscissa_metadata = False
+    output.use_process_ordinate_metadata = True
     result_metadata = output.metadata
     assert result_metadata.unit_a == output_metadata.unit_a
     assert result_metadata.symbol_a == output_metadata.symbol_a
@@ -531,8 +531,8 @@ def test_output_metadata(default_metadata):
     assert result_metadata.unit_o == default_metadata.unit_o
     assert result_metadata.symbol_o == default_metadata.symbol_o
     assert result_metadata.quantity_o == default_metadata.quantity_o
-    output.abscissa_metadata = False
-    output.ordinate_metadata = True
+    output.use_process_abscissa_metadata = True
+    output.use_process_ordinate_metadata = False
     result_metadata = output.metadata
     assert result_metadata.unit_a == default_metadata.unit_a
     assert result_metadata.symbol_a == default_metadata.symbol_a
@@ -540,8 +540,8 @@ def test_output_metadata(default_metadata):
     assert result_metadata.unit_o == output_metadata.unit_o
     assert result_metadata.symbol_o == output_metadata.symbol_o
     assert result_metadata.quantity_o == output_metadata.quantity_o
-    output.abscissa_metadata = True
-    output.ordinate_metadata = True
+    output.use_process_abscissa_metadata = False
+    output.use_process_ordinate_metadata = False
     result_metadata = output.metadata
     assert result_metadata == output_metadata
 
