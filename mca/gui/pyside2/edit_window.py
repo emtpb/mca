@@ -99,12 +99,15 @@ class EditWindow(QtWidgets.QDialog):
 
             info_box = QtWidgets.QGroupBox(_("Info"))
             info_layout = QtWidgets.QVBoxLayout(info_box)
-            info_label = QtWidgets.QLabel(
-                _("Redefine the metadata for the "
-                  "outgoing signals. By default metadata is computed "
-                  "depending on the input metadata. In order to apply your "
-                  "own defined metadata tick the corresponding boxes "
-                  "'Use ordinate/abscissa metadata' below."))
+            if self.block.inputs:
+                info_label = QtWidgets.QLabel(
+                    _("Define the metadata for the "
+                      "outgoing signals. By default metadata is computed "
+                      "depending on the input metadata. In order to apply your "
+                      "own defined metadata untick the corresponding boxes."))
+            else:
+                info_label = QtWidgets.QLabel(_("Define the metadata for the "
+                                                "outgoing signals."))
             info_label.setMaximumHeight(100)
             info_label.setWordWrap(True)
             info_layout.addWidget(info_label)
@@ -245,21 +248,42 @@ class EditWindow(QtWidgets.QDialog):
             abscissa_check_box = edit_widgets.MetaDataBoolWidget(
                 _("Automatically calculate abscissa metadata"), output,
                 "use_process_abscissa_metadata")
-            abscissa_check_box.read_attribute()
             if output.user_metadata_required:
                 abscissa_check_box.setEnabled(False)
             else:
+                def tmp():
+                    if abscissa_check_box.isChecked():
+                        self.metadata_widgets[1].setEnabled(False)
+                        self.metadata_widgets[2].setEnabled(False)
+                        self.metadata_widgets[3].setEnabled(False)
+                    else:
+                        self.metadata_widgets[1].setEnabled(True)
+                        self.metadata_widgets[2].setEnabled(True)
+                        self.metadata_widgets[3].setEnabled(True)
+                abscissa_check_box.stateChanged.connect(tmp)
                 self.metadata_widgets.append(abscissa_check_box)
+            abscissa_check_box.read_attribute()
             if not output.user_metadata_required:
                 metadata_box_layout.insertRow(1, "", abscissa_check_box)
             ordinate_check_box = edit_widgets.MetaDataBoolWidget(
                 _("Automatically calculate ordinate metadata"), output,
                 "use_process_ordinate_metadata")
-            ordinate_check_box.read_attribute()
+
             if output.user_metadata_required:
                 ordinate_check_box.setEnabled(False)
             else:
+                def tmp():
+                    if ordinate_check_box.isChecked():
+                        self.metadata_widgets[4].setEnabled(False)
+                        self.metadata_widgets[5].setEnabled(False)
+                        self.metadata_widgets[6].setEnabled(False)
+                    else:
+                        self.metadata_widgets[4].setEnabled(True)
+                        self.metadata_widgets[5].setEnabled(True)
+                        self.metadata_widgets[6].setEnabled(True)
+                ordinate_check_box.stateChanged.connect(tmp)
                 self.metadata_widgets.append(ordinate_check_box)
+            ordinate_check_box.read_attribute()
             if not output.user_metadata_required:
                 metadata_box_layout.insertRow(5, "", ordinate_check_box)
             self.metadata_contents_layout.addWidget(metadata_box)
