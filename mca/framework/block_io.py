@@ -163,7 +163,7 @@ class Output:
             quantity_a = self.user_metadata.quantity_a
             fixed_unit_a = True
 
-        if self.use_process_ordinate_metadata or self.process_metadata is not None:
+        if self.use_process_ordinate_metadata and self.process_metadata is not None:
             unit_o = self.process_metadata.unit_o
             symbol_o = ""
             quantity_o = self.process_metadata.quantity_o
