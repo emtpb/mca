@@ -23,7 +23,7 @@ class SignalSaver(Block):
             display_options=("edit_window", "block_button")
         )
 
-    def _process(self):
+    def process(self):
         pass
 
     def save_data(self):

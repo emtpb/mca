@@ -44,7 +44,7 @@ class CrossPowerSpectrum(Block):
     @util.abort_any_inputs_empty
     @util.validate_type_signal
     @util.validate_intervals
-    def _process(self):
+    def process(self):
         # Read the input data
         first_signal = self.inputs[0].data
         second_signal = self.inputs[1].data

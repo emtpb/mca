@@ -25,7 +25,7 @@ class Multiplier(DynamicBlock):
     @util.validate_type_signal
     @util.validate_units(abscissa=True)
     @util.validate_intervals
-    def _process(self):
+    def process(self):
         # Read the input data
         signals = [copy.copy(i.data) for i in self.inputs if i.data]
         # Read the input metadata

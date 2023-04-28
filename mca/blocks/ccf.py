@@ -23,7 +23,7 @@ class CrossCorrelation(Block):
     @util.validate_type_signal
     @util.validate_units(abscissa=True)
     @util.validate_intervals
-    def _process(self):
+    def process(self):
         # Read the input data
         first_signal = self.inputs[0].data
         second_signal = self.inputs[1].data

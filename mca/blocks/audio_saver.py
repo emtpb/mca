@@ -26,7 +26,7 @@ class AudioSaver(Block):
     def setup_io(self):
         self.new_input()
 
-    def _process(self):
+    def process(self):
         pass
 
     def save_as_wav(self):

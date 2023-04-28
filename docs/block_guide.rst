@@ -103,7 +103,7 @@ for implementing a new block::
                                                     min_=0, default=1)
             })
 
-        def _process():
+        def process():
             if self.all_inputs_empty():
                 return
 
@@ -311,7 +311,7 @@ Considerations for processing
 =============================
 
 The most important method for defining the behaviour of the block is
-*_process()*. There are no restrictions when reimplementing this method,
+*process()*. There are no restrictions when reimplementing this method,
 however there are some guidelines which should be followed.
 
 The usual steps in the processing method are:
@@ -339,7 +339,7 @@ convenience methods:
 Usually those two methods cover most cases.
 Example from the dummy block::
 
-    def _process():
+    def process():
         if self.all_inputs_empty():
             return
         ...
@@ -392,7 +392,7 @@ Or use copy/deepcopy::
 4. Applying the data on the output
 ----------------------------------
 
-At the end of every *_process* method data should be applied to the outputs by
+At the end of every *process* method data should be applied to the outputs by
 setting the data attribute of the according output::
 
 

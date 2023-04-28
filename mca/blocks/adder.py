@@ -24,7 +24,7 @@ class Adder(DynamicBlock):
     @util.validate_type_signal
     @util.validate_units(abscissa=True, ordinate=True)
     @util.validate_intervals
-    def _process(self):
+    def process(self):
         # Read the input data
         signals = [copy.copy(i.data) for i in self.inputs if i.data]
         # Fill the signals with zeros so their lengths match

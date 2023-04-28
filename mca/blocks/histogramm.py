@@ -40,7 +40,7 @@ class Histogramm(PlotBlock):
     def setup_io(self):
         self.new_input()
 
-    def _process(self):
+    def process(self):
         # Clear the axes and the legend
         self.axes.cla()
         if self.legend:

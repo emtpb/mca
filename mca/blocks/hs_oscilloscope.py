@@ -88,7 +88,7 @@ class HSOscilloscope(Block):
         self.parameters["ch1"] = ch1
         self.parameters["ch2"] = ch2
 
-    def _process(self):
+    def process(self):
         if self.oscilloscope:
             self.apply_parameters()
 

@@ -78,7 +78,7 @@ class ComplexPlot(DynamicBlock, PlotBlock):
         self.dynamic_input = [1, None]
         self.new_input()
 
-    def _process(self):
+    def process(self):
         # Clear the axes and the legend
         self.first_axis.cla()
         self.second_axis.cla()

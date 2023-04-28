@@ -41,7 +41,7 @@ class SignalGeneratorPeriodic(Block):
         abscissa = util.create_abscissa_parameter_block()
         self.parameters["abscissa"] = abscissa
 
-    def _process(self):
+    def process(self):
         # Read parameters values
         amp = self.parameters["amp"].value
         freq = self.parameters["freq"].value

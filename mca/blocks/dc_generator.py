@@ -20,7 +20,7 @@ class DCGenerator(Block):
         abscissa = util.create_abscissa_parameter_block()
         self.parameters["abscissa"] = abscissa
 
-    def _process(self):
+    def process(self):
         # Read parameters values
         dc_value = self.parameters["dc_value"].value
         abscissa_start = self.parameters["abscissa"].parameters["start"].value

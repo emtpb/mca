@@ -20,7 +20,7 @@ class Divider(Block):
     @util.validate_type_signal
     @util.validate_units(abscissa=True)
     @util.validate_intervals
-    def _process(self):
+    def process(self):
         input_signals = [self.inputs[0].data, self.inputs[1].data]
         # Fill the signals with zeros so their lengths match
         matched_signals = util.fill_zeros(input_signals)

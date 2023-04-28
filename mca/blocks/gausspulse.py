@@ -37,7 +37,7 @@ class GaussPulse(Block):
         abscissa.parameters["start"].value = -5
         self.parameters["abscissa"] = abscissa
 
-    def _process(self):
+    def process(self):
         # Read parameters values
         amp = self.parameters["amp"].value
         center_freq = self.parameters["cfreq"].value

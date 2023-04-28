@@ -20,7 +20,7 @@ class AutoCorrelation(Block):
 
     @util.abort_all_inputs_empty
     @util.validate_type_signal
-    def _process(self):
+    def process(self):
         # Read the input data
         input_signal = self.inputs[0].data
         # Calculate the ordinate

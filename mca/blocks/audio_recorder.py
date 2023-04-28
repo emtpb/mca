@@ -27,7 +27,7 @@ class AudioRecorder(Block):
                              "edit_window")
         )
 
-    def _process(self):
+    def process(self):
         pass
 
     def record_sound(self):
@@ -50,5 +50,5 @@ class AudioRecorder(Block):
             values=frames,
             increment=1 / sampling_frequency,
             ordinate=recording)
-        # Trigger an update manually since this is not executed within _process
+        # Trigger an update manually since this is not executed within process
         self.trigger_update()

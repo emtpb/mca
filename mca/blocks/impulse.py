@@ -28,7 +28,7 @@ class Impulse(Block):
         )
         self.parameters["abscissa"] = util.create_abscissa_parameter_block()
 
-    def _process(self):
+    def process(self):
         # Read parameters values
         pulse_length = self.parameters["pulse_length"].value
         shift = self.parameters["shift"].value

@@ -26,7 +26,7 @@ class AudioLoader(Block):
             name=_("Normalize"), default=True
         )
 
-    def _process(self):
+    def process(self):
         pass
 
     def load_wav(self):

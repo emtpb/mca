@@ -23,7 +23,7 @@ class TestBlock(mca.framework.block_base.Block):
     def setup_parameters(self):
         pass
 
-    def _process(self):
+    def process(self):
         pass
 
 
@@ -50,7 +50,7 @@ class DynamicInputBlock(mca.framework.DynamicBlock):
     def setup_parameters(self):
         pass
 
-    def _process(self):
+    def process(self):
         self.outputs[0].data = 0
         for i in self.inputs:
             if i.data:
@@ -78,7 +78,7 @@ class DynamicOutputBlock(mca.framework.DynamicBlock):
     def setup_parameters(self):
         pass
 
-    def _process(self):
+    def process(self):
         if self.all_inputs_empty():
             return
         data = self.inputs[0].data
@@ -101,7 +101,7 @@ class OneOutputBlock(TestBlock):
     def __init__(self, **kwargs):
         super().__init__(0, 1)
 
-    def _process(self):
+    def process(self):
         self.outputs[0].data = 1
         self.process_count += 1
 
@@ -117,7 +117,7 @@ class OneInputBlock(TestBlock):
     def __init__(self, **kwargs):
         super().__init__(1, 0)
 
-    def _process(self):
+    def process(self):
         self.process_count += 1
 
 
@@ -132,7 +132,7 @@ class TwoOutputBlock(TestBlock):
     def __init__(self, **kwargs):
         super().__init__(0, 2)
 
-    def _process(self):
+    def process(self):
         self.outputs[0].data = 1
         self.outputs[1].data = 2
         self.process_count += 1
@@ -149,7 +149,7 @@ class TwoInputBlock(TestBlock):
     def __init__(self, **kwargs):
         super().__init__(2, 0)
 
-    def _process(self):
+    def process(self):
         self.process_count += 1
 
 
@@ -164,7 +164,7 @@ class OneInputOneOutputBlock(TestBlock):
     def __init__(self, **kwargs):
         super().__init__(1, 1)
 
-    def _process(self):
+    def process(self):
         self.process_count += 1
         if self.inputs[0].data:
             self.outputs[0].data = self.inputs[0].data + 1
@@ -183,7 +183,7 @@ class TwoInputOneOutputBlock(TestBlock):
     def __init__(self, **kwargs):
         super().__init__(2, 1)
 
-    def _process(self):
+    def process(self):
         self.process_count += 1
         if self.inputs[0].data and self.inputs[1].data:
             self.outputs[0].data = self.inputs[0].data + self.inputs[1].data
@@ -202,7 +202,7 @@ class OneInputTwoOutputBlock(TestBlock):
     def __init__(self, **kwargs):
         super().__init__(1, 2)
 
-    def _process(self):
+    def process(self):
         self.process_count += 1
         if self.inputs[0].data:
             self.outputs[0].data = self.inputs[0].data
@@ -219,7 +219,7 @@ class TwoInputTwoOutputBlock(TestBlock):
     def __init__(self, **kwargs):
         super().__init__(2, 2)
 
-    def _process(self):
+    def process(self):
         self.process_count += 1
         if self.inputs[0].data and self.inputs[1].data:
             self.outputs[0].data = self.inputs[0].data + self.inputs[1].data
@@ -266,7 +266,7 @@ class ParameterBlock(mca.framework.block_base.Block):
             "multiplier": multiplier
         })
 
-    def _process(self):
+    def process(self):
         pass
 
 
@@ -288,7 +288,7 @@ class TestOutputBlock(mca.framework.block_base.Block):
     def setup_parameters(self):
         pass
 
-    def _process(self):
+    def process(self):
         pass
 
 

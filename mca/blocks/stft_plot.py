@@ -51,7 +51,7 @@ class STFTPlot(PlotBlock):
             default="viridis"
         )
 
-    def _process(self):
+    def process(self):
         # Clear the axes and the color bar
         if self.color_bar:
             self.color_bar.remove()

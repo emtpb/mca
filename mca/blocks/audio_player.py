@@ -28,7 +28,7 @@ class AudioPlayer(Block):
         self.parameters["auto_play"] = parameters.BoolParameter(_("Auto play"),
                                                                 False)
 
-    def _process(self):
+    def process(self):
         if self.parameters["auto_play"].value is True:
             self.play_sound()
 

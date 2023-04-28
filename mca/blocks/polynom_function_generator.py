@@ -32,7 +32,7 @@ class PolynomGenerator(Block):
         abscissa = util.create_abscissa_parameter_block()
         self.parameters["abscissa"] = abscissa
 
-    def _process(self):
+    def process(self):
         # Read parameters values
         abscissa_start = self.parameters["abscissa"].parameters["start"].value
         values = self.parameters["abscissa"].parameters["values"].value

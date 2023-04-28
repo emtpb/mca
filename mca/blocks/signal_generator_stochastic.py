@@ -32,7 +32,7 @@ class SignalGeneratorStochastic(Block):
         abscissa = util.create_abscissa_parameter_block()
         self.parameters["abscissa"] = abscissa
 
-    def _process(self):
+    def process(self):
         # Read the input data
         mean = self.parameters["mean"].value
         std_dev = self.parameters["std_dev"].value

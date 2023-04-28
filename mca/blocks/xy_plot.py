@@ -36,7 +36,7 @@ class XYPlot(PlotBlock):
         self.plot_parameters["color"] = util.get_plt_color_parameter()
         self.plot_parameters["marker"] = util.get_plt_marker_parameter()
 
-    def _process(self):
+    def process(self):
         # Clear the axes
         self.axes.cla()
         # Draw empty plot when input has no data

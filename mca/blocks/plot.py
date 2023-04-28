@@ -56,7 +56,7 @@ class Plot(PlotBlock, DynamicBlock):
         self.dynamic_input = [1, None]
         self.new_input()
 
-    def _process(self):
+    def process(self):
         # Clear the axes and the legend
         self.axes.cla()
         if self.legend:

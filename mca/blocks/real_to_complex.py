@@ -28,7 +28,7 @@ class RealToComplex(Block):
     @util.abort_any_inputs_empty
     @util.validate_type_signal
     @util.validate_units(abscissa=True, ordinate=True)
-    def _process(self):
+    def process(self):
         # Read the input data
         real_part = self.inputs[0].data
         imaginary_part = self.inputs[1].data

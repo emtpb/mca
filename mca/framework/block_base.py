@@ -58,7 +58,7 @@ class Block:
             else:
                 self.parameters[key].value = kwargs[key]
 
-    def _process(self):
+    def process(self):
         """Processes data from Inputs and parameters.
 
         This method describes the behaviour of the Block on what to do with
@@ -81,7 +81,7 @@ class Block:
         """
         if (not self.inputs) or all(elem == True
                 for elem in [input_.up_to_date for input_ in self.inputs]):
-            self._process()
+            self.process()
             for output in self.outputs:
                 output.up_to_date = True
 
@@ -287,7 +287,7 @@ class DynamicBlock(Block):
             self.outputs.append(io_registry.Registry.add_node(output))
         else:
             self.outputs.append(io_registry.Registry.add_node(output))
-        self._process()
+        self.process()
 
     def delete_input(self, input_index):
         """Removes an Input from the Block.
@@ -319,7 +319,7 @@ class DynamicBlock(Block):
             raise exceptions.DynamicIOError("Minimum Outputs reached")
         io_registry.Registry.remove_output(self.outputs.pop(output_index))
 
-    def _process(self):
+    def process(self):
         raise NotImplementedError
 
     def setup_io(self):
@@ -358,7 +358,7 @@ class PlotBlock(Block):
     def show(self):
         self.plot_window.show()
 
-    def _process(self):
+    def process(self):
         raise NotImplementedError
 
     def setup_io(self):

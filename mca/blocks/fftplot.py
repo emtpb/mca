@@ -67,7 +67,7 @@ class FFTPlot(PlotBlock):
         self.plot_parameters["marker_color"] = util.get_plt_color_parameter(
             _("Marker color"))
 
-    def _process(self):
+    def process(self):
         # Clear the axes and the legend
         self.axes.cla()
         if self.legend:

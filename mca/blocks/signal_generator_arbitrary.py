@@ -27,7 +27,7 @@ class SignalGeneratorArbitrary(Block):
                 function=self.load_file
         )
 
-    def _process(self):
+    def process(self):
         pass
 
     def load_file(self):
