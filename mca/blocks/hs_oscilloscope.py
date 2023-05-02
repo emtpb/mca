@@ -1,20 +1,20 @@
 from copy import deepcopy
 
-from tiepie import Oscilloscope
+from handyscope import Oscilloscope
 
 from mca.framework import Block, data_types, parameters
 from mca.language import _
 
 
 class HSOscilloscope(Block):
-    """Extract data from a Handyscope oscilloscope. Parameters allow basic
-    setting of device options.
+    """Measure and extract data from a Handyscope oscilloscope.
+     Parameters allow basic setting of device options.
 
     Attributes:
         oscilloscope: HS oscilloscope device object.
     """
     name = _("HSOscilloscope")
-    description = _("Extract data from a Handyscope oscilloscope")
+    description = _("Measure and extract data from a Handyscope oscilloscope")
     tags = (_("Generating"),)
 
     def __init__(self, **kwargs):

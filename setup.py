@@ -33,7 +33,7 @@ setup(
     # Runtime dependencies
     install_requires=[
         'numpy', 'scipy', 'networkx', 'matplotlib', 'appdirs', 'PySide2',
-        'united', 'sounddevice', 'qdarkstyle'],
+        'united', 'sounddevice', 'qdarkstyle', 'handyscope'],
 
     # Python version requirement
     python_requires='>=3',

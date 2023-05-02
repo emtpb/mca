@@ -419,6 +419,7 @@ class PlotWindow(QtWidgets.QWidget):
         self.axes = self.canvas.fig.subplots(nrows=rows, ncols=cols)
 
     def paintEvent(self, event):
+        # Get colors depending on the style
         if self.style().objectName() == "qdarkstyle":
             fig_colour = "#60798B"
             ax_colour = "#9DA9B5"
@@ -427,6 +428,7 @@ class PlotWindow(QtWidgets.QWidget):
             fig_colour = "white"
             ax_colour = "white"
             grid_colour = "black"
+        # Apply the colors to the figure and the axes
         self.canvas.fig.set_facecolor(fig_colour)
         try:
             for ax in self.axes:
@@ -435,4 +437,5 @@ class PlotWindow(QtWidgets.QWidget):
         except TypeError:
             self.axes.set_facecolor(ax_colour)
             self.axes.grid(color=grid_colour)
+
         super().paintEvent(event)

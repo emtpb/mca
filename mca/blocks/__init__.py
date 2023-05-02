@@ -1,5 +1,4 @@
 import inspect
-import logging
 import sys
 
 from .absolute import Absolute
@@ -25,6 +24,7 @@ from .fft import FFT
 from .fftplot import FFTPlot
 from .gausspulse import GaussPulse
 from .histogramm import Histogramm
+from .hs_oscilloscope import HSOscilloscope
 from .iir_filter import IRRFilter
 from .impulse import Impulse
 from .integrator import Integrator
@@ -47,10 +47,7 @@ from .window import Window
 from .xy_plot import XYPlot
 from .zerofill import Zerofill
 
-try:
-    from .hs_oscilloscope import HSOscilloscope
-except ModuleNotFoundError:
-    logging.warning("Module 'tiepie' not found.")
+
 # Create list of all blocks
 block_classes = [i[1] for i in inspect.getmembers(sys.modules[__name__],
                                                   inspect.isclass)]
