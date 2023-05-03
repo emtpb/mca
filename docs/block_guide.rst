@@ -20,15 +20,12 @@ Data types
 
 There currently exists only one data type. This data type is called
 :class:`.Signal` . There are more data types planned for the future and this
-needs be taken into account and is discussed in :ref:`Consideration`.
+needs be taken into account and is discussed in :ref:`Validation`.
 
 The :class:`.Signal` consists of two 1-D Numpy Arrays and meta data. The two
 Numpy Arrays correspond to the abscissa and the ordinate. To save storage
 the abscissa is internally stored as 3 parameters instead of an entire
 Numpy Array. Those parameters are: Abscissa Start, Increment and Values.
-
-The meta data contains the name of the signal as well as the unit, symbol and
-quantity for the abscissa and the ordinate respectively.
 
 Structure of the package
 ------------------------
@@ -53,7 +50,7 @@ This tree view shows the structure of mca package.
         ├── de
             ├── LC_MESSAGES
                 ├── messages.mo
-                ├── messages.po
+                └── messages.po
     ├── config.py
     ├── exceptions.py
     ├── language.py
@@ -67,13 +64,13 @@ classes and tools for implementing new blocks.
 
 The *gui* folder contains the GUI implementation of the mca.
 
-The *locales* folder contains necessary gettext files for translations.
+The *locales* folder contains necessary gettext files for localization.
 
 Also worth noting are the files:
 
     * *exceptions.py* for mca specific exceptions and
 
-    * *language.py* containing the function for translating strings.
+    * *language.py* loads the localization/translation from the locales folder.
 
 
 First steps
@@ -82,7 +79,7 @@ First steps
 This guide will mostly use the dummy code below to explain common steps
 for implementing a new block::
 
-    from mca.framework import Block, parameters, data_types
+    from mca.framework import Block, parameters, data_types, util
     from mca import exceptions
     from mca.language import _
 
@@ -98,31 +95,30 @@ for implementing a new block::
 
 
         def setup_parameters():
-            self.parameters.update({
-                "offset": parameters.FloatParameter(name=_("Offset"),
-                                                    min_=0, default=1)
-            })
+            self.parameters["offset"] = parameters.FloatParameter(
+                name=_("Offset"), min_=0, default=1
+            )
 
+        @util.abort_all_inputs_empty
+        @util.validate_type_signal
         def process():
-            if self.all_inputs_empty():
-                return
-
+            # Read the input data
             input_signal = self.inputs[0].data
-            validator.check_type_signal(input_signal)
-
+            # Read the parameter
             offset = self.parameters["offset"].value
-
+            # Compute the ordinate
             ordinate = input_signal.ordinate + offset
-
+            # Apply new signal to the output
             self.outputs[0].data = data_types.Signal(
-                meta_data=self.outputs[0].get_meta_data(input_signal.meta_data),
                 abscissa_start=input_signal.abscissa_start,
                 values=input_signal.values,
                 increment=input_signal.increment,
                 ordinate=ordinate)
+            # Apply metadata from the input to the output
+            self.outputs[0].process_metadata = self.inputs[0].metadata
 
 This dummy block adds an offset to an input signal and returns the new signal
-at the output.
+at the output and just passes down the metadata.
 
 Every new block has to inherit from the base class :class:`.Block` . There
 exists also the subclass :class:`.DynamicBlock`. The difference between those two
@@ -162,8 +158,8 @@ added as a new tag::
 
 An __init__ method is usually not required for blocks. However sometimes it is
 needed to assign additional attributes other than block parameters. The
-:class:`.SignalPlot` for example adds another attribute *figure* to draw onto
-the same figure over multiple executions of the process function.
+:class:`.Plot` for example adds another attribute *lines* to keep
+track of the lines which have been plotted.
 
 
 .. _IOSetup:
@@ -171,7 +167,7 @@ the same figure over multiple executions of the process function.
 IO Setup
 ========
 
-Every block needs some kind of IO to pass or receive data from other blocks. This
+Every block needs inputs or outputs to pass or receive data from other blocks. This
 is done by reimplementing the method *setup_io*. Within that method
 :class:`Inputs <.Input>` and :class:`Outputs <.Output>` are added via calling
 :any:`new_input` and :any:`new_output`. In the dummy example one
@@ -303,62 +299,63 @@ additional parameters such as: *sampling_freq* and *measure_time*.
 There are multiple equivalent combinations of parameters
 for parametrizing an abscissa. Since it is common for blocks which generate signals
 having parameters for defining an abscissa, there exists a
-:any:`helper function <create_abscissa_parameter_block>`.
+:any:`utility function <create_abscissa_parameter_block>`.
 
-.. _Consideration:
+.. _Validation:
 
 Considerations for processing
 =============================
 
 The most important method for defining the behaviour of the block is
-*process()*. There are no restrictions when reimplementing this method,
-however there are some guidelines which should be followed.
+:func:`process <mca.framework.block_base.Block.process>`. There are no
+restrictions when reimplementing this method, however there are some
+guidelines which should be followed.
 
 The usual steps in the processing method are:
 
-    * 1. Checking available data on inputs
-    * 2. Validating parameters and input data
+    * 1. Validating the input data using util decorators (or manual validation)
+    * 2. Reading input data and parameters
     * 3. The actual processing
-    * 4. Applying the data on the output
+    * 4. Applying data and metadata to the outputs
 
-These steps can differ especially for blocks with either no inputs or
+These steps can partially differ/be omitted for blocks with either no inputs or
 no outputs.
 
-1. Checking available data on inputs
+1. Validating the input data using util decorators
+--------------------------------------------------
+
+Before processing any data from the inputs validation should be be performed.
+Most of the validation can be done via using util functions as decorators.
+In the Dummy example the following utility functions are used::
+
+        @util.abort_all_inputs_empty
+        @util.validate_type_signal
+        def process():
+            ...
+
+The first decorator :func:`@util.abort_all_inputs_empty <mca.framework.util.abort_all_inputs_empty>`
+makes the process function abort if all inputs have no data available. It also
+automatically sets the data of all outs to *None*.
+
+The second decorator :func:`@util.validate_type_signal <mca.framework.util.validate_type_signal>`
+validates the data of inputs on the :class:`.Signal` type.
+
+Other decorators for validation are listed in :mod:`mca.framework.util`.
+
+2. Reading input data and parameters
 ------------------------------------
 
-What is done in this step is handling the cases where your block can not
-return any output data based on missing input data. For two cases there exist
-convenience methods:
+This step is fairly trivial, but provides convenience and readability::
 
-    * *all_inputs_empty*: If all inputs yield no data, then set the data of all
-      outputs to None.
-    * *any_inputs_empty*: If any input yields no data, then set the data of all
-      outputs to None.
+    @util.abort_all_inputs_empty
+        @util.validate_type_signal
+        def process():
+            # Read the input data
+            input_signal = self.inputs[0].data
+            # Read the parameter
+            offset = self.parameters["offset"].value
 
-Usually those two methods cover most cases.
-Example from the dummy block::
-
-    def process():
-        if self.all_inputs_empty():
-            return
-        ...
-
-2. Validating input data and parameters
----------------------------------------
-
-For validating input data it is important to note that there are going to be
-more data types in the future other than :class:`.Signal`. There are some
-convenience functions provided by the :ref:`validator` module for example
-checking the data type to be :class:`.Signal` , units of the metadata,
-compatible abscissa intervals.
-
-The validating of parameters is mostly handled by the parameters classes
-themself (data type, range of integer and floats, ...). However in some cases
-the combinations of certain parameter values leads to errors. Do not refrain
-from using/raising :class:`Exceptions <.MCAError>` provided by the mca package.
-
-
+The data and parameters are assigned to short name variables.
 
 3. The actual processing
 ------------------------
@@ -370,7 +367,7 @@ be provided to other blocks. Thus refrain from assigning shallow copies
 and changing their attributes. This will modify also the output data
 object to which your input is connected.
 
-Do not do this::
+Avoid doing this::
 
     input_signal = self.inputs[0].data
     my_ordinate = input_signal.ordinate
@@ -392,28 +389,26 @@ Or use copy/deepcopy::
 4. Applying the data on the output
 ----------------------------------
 
-At the end of every *process* method data should be applied to the outputs by
-setting the data attribute of the according output::
+At the end of every :func:`process <mca.framework.block_base.Block.process>`
+method data should be applied to the outputs by setting the data attribute of
+the according output::
 
-
-    offset = self.parameters["offset"].value
 
     ordinate = input_signal.ordinate + offset
+    # Apply new signal to the output
     self.outputs[0].data = data_types.Signal(
-        meta_data=self.outputs[0].get_meta_data(input_signal.meta_data),
         abscissa_start=input_signal.abscissa_start,
         values=input_signal.values,
         increment=input_signal.increment,
         ordinate=ordinate)
+    # Apply metadata from the input to the output
+    self.outputs[0].process_metadata = self.inputs[0].metadata
 
 In the example above a new :class:`.Signal` object is instantiated and set to
-the data attribute of the desired output. What stands out here is the
-assignment of the metadata parameter. Usually the metadata
-of the input (except name and symbols) can be passed to the output if there
-are no changes in units. However there is the option that the user wants to
-pass arbitrary metadata during runtime to the output signal represented by flags
-at the output. *get_meta_data* checks whether the user set a flag to pass
-arbitrary and returns a metadata object accordingly.
+the data attribute of the desired output. The metadata from the input is just
+passed onto the output since adding an offset should not change the metadata.
+Some blocks require to process metadata as well. The :class:`.Multiplier` block
+for example multiplies the ordinate units of the input signals.
 
 
 Testing/Integration
