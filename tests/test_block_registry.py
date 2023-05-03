@@ -1,8 +1,4 @@
-import pytest
-import os
-
-from mca.framework import io_registry, block_io
-from mca import blocks
+from mca.framework import io_registry
 
 
 def test_clear(one_input_one_output_block):
