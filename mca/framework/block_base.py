@@ -163,43 +163,6 @@ class Block:
         no_data = any([input_.data is None for input_ in self.inputs])
         return no_data
 
-    def save_output_data(self, output_index, file_name):
-        """Saves the data of the output in a json-file. Currently only supports
-        saving the data type :class:`.Signal`.
-
-        Args:
-            output_index (int): Index of the output which data should be saved.
-            file_name (str): Name of the file with the full path.
-                             Requires .json as file type.
-        """
-        if not self.outputs[output_index].data:
-            raise exceptions.DataSavingError("Output has no data to save.")
-        with open(file_name, 'w') as save_file:
-            if isinstance(self.outputs[output_index].data, data_types.Signal):
-                save_data = {"data_type": "Signal",
-                             "name": self.outputs[
-                                 output_index].data.metadata.name,
-                             "quantity_a": self.outputs[
-                                 output_index].data.metadata.quantity_a,
-                             "symbol_a": self.outputs[
-                                 output_index].data.metadata.symbol_a,
-                             "unit_a": repr(self.outputs[
-                                                output_index].data.metadata.unit_a),
-                             "quantity_o": self.outputs[
-                                 output_index].data.metadata.quantity_o,
-                             "symbol_o": self.outputs[
-                                 output_index].data.metadata.symbol_o,
-                             "unit_o": repr(self.outputs[
-                                                output_index].data.metadata.unit_o),
-                             "abscissa_start": self.outputs[
-                                 output_index].data.abscissa_start,
-                             "values": self.outputs[output_index].data.values,
-                             "increment": self.outputs[
-                                 output_index].data.increment,
-                             "ordinate": str(
-                                 self.outputs[output_index].data.ordinate)}
-                json.dump(save_data, save_file)
-
 
 class DynamicBlock(Block):
     """Basic dynamic block class is the subclass of the
