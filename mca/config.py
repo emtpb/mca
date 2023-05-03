@@ -22,10 +22,13 @@ class Config(dict):
     def __init__(self):
         """Initializes the Config class."""
         super().__init__()
+        # Load the config with the default config
         self.update(Config.default_config)
+        # Try loading the user config
         try:
             with open(Config.user_config_path, 'r') as config_file:
                 user_config = json.load(config_file)
+        # Create a new empty user config
         except FileNotFoundError:
             os.makedirs(os.path.dirname(Config.user_config_path),
                         exist_ok=True)
@@ -36,7 +39,7 @@ class Config(dict):
 
     def __setitem__(self, key, value):
         """Sets a key with a value in the config
-        that will automatically update the  corresponding config file.
+        that will automatically update the corresponding config file.
         """
         super().__setitem__(key, value)
         with open(Config.user_config_path, 'w') as config_file:

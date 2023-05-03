@@ -12,7 +12,7 @@ def load_block_structure(file_path):
         file_path (str): Path of the .json file.
 
     Returns:
-        list: Contains all saved blocks in no particular order.
+        list: List of blocks created by the save file.
     """
     logging.info(f"Loading block structure from {file_path}")
     if io_registry.Registry.get_all_blocks():
@@ -25,14 +25,20 @@ def load_block_structure(file_path):
 
 
 def json_to_blocks(json_string):
+    # Load the json
     load_data = json.loads(json_string)
+    # Create dict which maps strings to block classes
     str_to_block_types = {str(block_class): block_class
                           for block_class in blocks.block_classes}
     block_structure = []
+    # Create all blocks in the save file
     for block_save in load_data["blocks"]:
+        # Create a block instance
         block_instance = str_to_block_types[block_save["class"]]()
         block_structure.append(block_instance)
+        # Pass the saved gui data
         block_instance.gui_data["save_data"] = block_save["gui_data"]
+        # Set the values for the parameters and the plot_parameters
         for parameter_name, parameter in block_save["parameters"].items():
             if isinstance(parameter, dict):
                 for sub_parameter_name, sub_parameter in parameter.items():
@@ -47,9 +53,11 @@ def json_to_blocks(json_string):
                         sub_parameter_name].value = sub_parameter
             else:
                 block_instance.plot_parameters[parameter_name].value = parameter
+        # Add additional outputs in case of a DynamicBlock
         for index, input_save in enumerate(block_save["inputs"]):
             if index + 1 > len(block_instance.inputs):
                 block_instance.add_input(block_io.Input(block_instance))
+        # Set the user metadata for the outputs
         for index, output_save in enumerate(block_save["outputs"]):
             metadata = data_types.MetaData(
                 output_save["metadata"]["signal_name"],
@@ -68,6 +76,7 @@ def json_to_blocks(json_string):
             block_instance.outputs[index].use_process_ordinate_metadata = output_save[
                 "use_process_ordinate_metadata"]
             block_instance.trigger_update()
+    # Connect inputs and outputs of the blocks
     for block_index_outer, block_save_outer in enumerate(
             load_data["blocks"]):
         for input_index, input_save in enumerate(

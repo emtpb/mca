@@ -251,6 +251,7 @@ class EditWindow(QtWidgets.QDialog):
             if output.user_metadata_required:
                 abscissa_check_box.setEnabled(False)
             else:
+                # Function to disable and enable the metadata widgets
                 def tmp():
                     if abscissa_check_box.isChecked():
                         self.metadata_widgets[1].setEnabled(False)
@@ -272,6 +273,7 @@ class EditWindow(QtWidgets.QDialog):
             if output.user_metadata_required:
                 ordinate_check_box.setEnabled(False)
             else:
+                # Function to disable and enable the metadata widgets
                 def tmp():
                     if ordinate_check_box.isChecked():
                         self.metadata_widgets[4].setEnabled(False)
@@ -334,6 +336,7 @@ class EditWindow(QtWidgets.QDialog):
             plot_parameter_changes (bool): True, if changes to the
                                            plot_parameters should be applied.
         """
+        # Try writing the parameters
         try:
             if parameter_changes:
                 for parameter_widget in self.parameter_widgets:
@@ -346,6 +349,7 @@ class EditWindow(QtWidgets.QDialog):
                     plot_parameter.write_parameter()
             self.block.trigger_update()
             self.block_item.update()
+        # Catch all exceptions and display them as a message
         except Exception as error:
             if error.args:
                 logging.error(error.args)
@@ -360,6 +364,7 @@ class EditWindow(QtWidgets.QDialog):
             self.warning_message.exec_()
             if self.warning_message.clickedButton() == self.warning_message.revert_button:
                 self.revert_changes()
+        # If no exceptions occur then the changes can be finalized
         else:
             if parameter_changes:
                 for parameter_widget in self.parameter_widgets:

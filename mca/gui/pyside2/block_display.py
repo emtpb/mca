@@ -214,6 +214,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
         if random_pos:
             width = self.views()[0].width()
             height = self.views()[0].height()
+            # Ensure that the position is somewhat in the view
             x_min = 0
             x_max = width - new_block.width
             if x_min > x_max:
@@ -238,6 +239,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
         Args:
             blocks (list): Existing block structure to represent.
         """
+        # Create the block items from the blocks
         for block in blocks:
             if block.gui_data["save_data"].get("pyside2"):
                 x_pos = block.gui_data["save_data"]["pyside2"]["pos"][0]
@@ -252,6 +254,7 @@ class BlockScene(QtWidgets.QGraphicsScene):
             self.create_block_item(block, x_pos, y_pos, width, height,
                                    open_edit_window=False,
                                    random_pos=False)
+        # Set the runtime data and connect inputs and outputs in the gui
         for block in blocks:
             for input_index, input_ in enumerate(block.inputs):
                 if input_.connected_output:
@@ -270,11 +273,15 @@ class BlockScene(QtWidgets.QGraphicsScene):
         """Copies the selected blocks from the scene as a json string
         to the clipboard.
         """
+        # Get the clipboard object
         app = QtWidgets.QApplication.instance()
         clipboard = app.clipboard()
+
         if self.selectedItems():
             mime_data = QtCore.QMimeData()
+            # Get the backend blocks of the selscted gui blocks
             backend_blocks = [block.block for block in self.selectedItems()]
+            # Compute the relative positions of the blocks
             x_min = min(
                 map(lambda block: block.gui_data["save_data"]["pyside2"]["pos"][
                     0], backend_blocks))
@@ -284,7 +291,9 @@ class BlockScene(QtWidgets.QGraphicsScene):
             for block in backend_blocks:
                 block.gui_data["save_data"]["pyside2"]["pos"][0] -= x_min
                 block.gui_data["save_data"]["pyside2"]["pos"][1] -= y_min
+            # Get the json representation from the blocks
             json_blocks = save.blocks_to_json(backend_blocks)
+            # Set the clipboard data
             mime_data.setText(json_blocks)
             clipboard.setMimeData(mime_data)
         else:

@@ -153,7 +153,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
                         width=self.block_width - 2 * self.button_margin,
                         height=self.button_height))
                 num_buttons += 1
-
+        # Runtime variables
         self._resize_all = False
         self._resize_width = False
         self._resize_height = False
@@ -231,6 +231,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
             self.block.name)
         custom_name_width = QtGui.QFontMetrics(self.custom_name_font).width(
             self.block.parameters["name"].value)
+        # Check if name has been changed
         if self.block.parameters["name"].value != self.block.name:
             min_name_length = max(name_width, custom_name_width) + 10
         else:
@@ -353,13 +354,19 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """Deletes the last input in the input list and deletes it also from
         the block instance. This method is connected to delete_input_action.
         """
+        # Disconnect the input in the gui
         self.inputs[-1].disconnect()
+        # Remove the backend input from the backend block
         self.block.delete_input(-1)
+        # Delete the gui input item
         self.scene().removeItem(self.inputs.pop(-1))
+
         self.modified()
+        # Check if removing inputs needs to be disabled
         if self.block.dynamic_input[0] is not None and \
                 len(self.block.inputs) == self.block.dynamic_input[0]:
             self.delete_input_action.setEnabled(False)
+        # Check if adding inputs can be enabled
         if self.block.dynamic_input[1] is not None and \
                 len(self.block.inputs) < self.block.dynamic_input[1]:
             self.add_input_action.setEnabled(True)
@@ -369,20 +376,28 @@ class BlockItem(QtWidgets.QGraphicsItem):
         into a :class:`.InputItem`. This method is connected to
         create_input_action.
         """
+        # Open window to set the input name
         name_window = NameWindow(parent=self.view.scene().parent().parent(),
                                  connection_type="input")
         exit_code = name_window.exec_()
+        # Abort if window was cancelled
         if exit_code == 0:
             return
         else:
+            # Get the input name
             name = name_window.name_edit.text()
+        # Create a new backend input
         new_mca_input = block_io.Input(block=self.block, name=name)
+        # Add the backend input to the block
         self.block.add_input(new_mca_input)
+        # Add a new gui input
         self.add_input(new_mca_input)
         self.modified()
+        # Check if adding inputs needs to be disabled
         if self.block.dynamic_input[1] is not None and \
                 len(self.block.inputs) == self.block.dynamic_input[1]:
             self.add_input_action.setEnabled(False)
+        # Check if removing inputs can be enabled
         if self.block.dynamic_input[0] is not None and \
                 len(self.block.inputs) > self.block.dynamic_input[0]:
             self.delete_input_action.setEnabled(True)
@@ -392,22 +407,31 @@ class BlockItem(QtWidgets.QGraphicsItem):
         into a :class:`.OutputItem`. This method is connected to
         create_output_action.
         """
+        # Open window to set the output name
         name_window = NameWindow(parent=self.view.scene().parent().parent(),
                                  connection_type="output")
         exit_code = name_window.exec_()
+        # Abort if window was cancelled
         if exit_code == 0:
             return
         else:
+            # Get the output name
             name = name_window.name_edit.text()
-        metadata = data_types.MetaData("", "s", "V")
+        # Set the metadata to default
+        metadata = data_types.default_metadata()
+        # Create ne backend output
         new_mca_output = block_io.Output(block=self.block, name=name,
                                          metadata=metadata)
+        # Add the backend output to the block
         self.block.add_output(new_mca_output)
+        # Add a new gui output
         self.add_output(new_mca_output)
         self.modified()
+        # Check if adding outputs needs to be disabled
         if self.block.dynamic_output[1] is not None and \
                 len(self.block.outputs) == self.block.dynamic_output[1]:
             self.add_output_action.setEnabled(False)
+        # Check if removing outputs can be enabled
         if self.block.dynamic_output[0] is not None and \
                 len(self.block.outputs) > self.block.dynamic_output[0]:
             self.delete_output_action.setEnabled(True)
@@ -431,14 +455,19 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """Disconnects all its inputs and outputs and removes itself
         from the scene.
         """
+        # Disconnect the inputs
         for i in self.inputs:
             i.disconnect()
+        # Disconnect the outputs
         for o in self.outputs:
             o.disconnect()
+
         self.modified()
+        # Remove the DockWidget for plot blocks
         if isinstance(self.block, PlotBlock):
             self.scene().parent().parent().plot_dock_manager.removeDockWidget(
                 self.block.gui_data["run_time_data"]["pyside2"]["dock_widget"])
+        # Remove itself from the scene and clean up
         self.scene().removeItem(self)
         self.block.delete()
         self.block = None
@@ -452,16 +481,19 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """Adds an existing :class:`.Input` from the block instance to a new
         :class:`.InputItem` and adds it to its input list.
         """
+        # Create a new input
         new_input = io_items.InputItem(
             x=self.select_point_diameter // 2,
             y=len(self.inputs) * (self.input_height + self.input_dist) +
-              self.select_point_diameter // 2 + 5,
+            self.select_point_diameter // 2 + 5,
             width=self.input_width,
             height=self.input_height,
             mca_input=input_,
             view=self.view,
             parent=self)
+        # Add the input
         self.inputs.append(new_input)
+        # Calculate the minimum needed height of the block
         needed_height = len(self.inputs) * (
                     self.input_height + self.input_dist) + 5
         if needed_height > self.block_height:
@@ -471,7 +503,9 @@ class BlockItem(QtWidgets.QGraphicsItem):
         """Adds an existing :class:`.Output` from the block instance to a new
         :class:`.OutputItem` and adds it to its output list.
         """
+        # Get the x-coordinate for the output
         pos_x = self.block_width + self.select_point_diameter // 2 + self.input_offset
+        # Create a new output
         new_output = io_items.OutputItem(
             x=pos_x,
             y=len(self.outputs) * (
@@ -480,15 +514,19 @@ class BlockItem(QtWidgets.QGraphicsItem):
             height=self.output_height,
             mca_output=output,
             view=self.view, parent=self)
+        # Add the output
         self.outputs.append(new_output)
+        # Calculate the minimum needed height of the block
         needed_height = len(self.outputs) * (
                     self.output_height + self.output_dist) + 5
         if needed_height > self.block_height:
             self.adjust_block_height(needed_height)
 
     def itemChange(self, change, value):
-        """Updates the connection lines of all its inputs and outputs when
-        the block moves.
+        """Updates the connection line positions of all its inputs and outputs
+        when the block moves.
+
+        Additionally updates the gui data for the backend block
         """
         try:
             self.save_gui_data()
@@ -506,17 +544,19 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.open_edit_window()
 
     def mousePressEvent(self, event):
-        """Method invoked when the block gets clicked with the left mouse
-        button. Increases its Z value guarantee to be displayed in front of
-        other colliding blocks. If the bottom right 20x20 pixels of the block
-        are clicked the block switches to resize mode.
+        """Method invoked when the block gets clicked with a mouse button.
+        Increases its Z value guarantee to be displayed in front of
+        other colliding blocks. If the borders of the block get clicked the
+        block will switch into the resize mode.
         """
         if event.button() == QtCore.Qt.MouseButton.RightButton:
             event.ignore()
+        # Set block into the foreground
         self.setZValue(1.0)
         self._start_pos = (event.screenPos().x(), event.screenPos().y())
         self._original_width = self.block_width
         self._original_height = self.block_height
+        # Decide whether to prepare resizing or dragging the block
         if self.isSelected():
             if event.pos().x() > self.width - 10 and \
                     event.pos().y() > self.height - 10:
@@ -538,7 +578,9 @@ class BlockItem(QtWidgets.QGraphicsItem):
         mouse. If resize_mode is False then the block gets moved otherwise
         the block gets resized.
         """
+        # Resize or drag the block
         if self._resize_all:
+            # Resizes width and height
             self.adjust_block_width(
                 self._original_width + event.screenPos().x() - self._start_pos[
                     0])
@@ -546,28 +588,36 @@ class BlockItem(QtWidgets.QGraphicsItem):
                 self._original_height + event.screenPos().y() - self._start_pos[
                     1])
         elif self._resize_width:
+            # Resizes only the width
             self.adjust_block_width(
                 self._original_width + event.screenPos().x() - self._start_pos[
                     0])
         elif self._resize_height:
+            # Resizes only the height
             self.adjust_block_height(
                 self._original_height + event.screenPos().y() - self._start_pos[
                     1])
         else:
-            pass
+            # Drags the block
             super().mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event):
         """Method invoked when a mouse button on the block gets released."""
+        # Set block back to same z value as all the other blocks
         self.setZValue(0.0)
+        # End resizing
         self._resize_all = False
         self._resize_width = False
         self._resize_height = False
+
         self.modified()
+
         self.setCursor(QtCore.Qt.ArrowCursor)
+        # Mouse release has to be passed manually to the action buttons
         for action_button in self.action_buttons:
             if action_button in self.scene().items(event.scenePos()):
                 action_button.mouseReleaseEvent(event)
+
         super().mouseReleaseEvent(event)
 
     def adjust_block_height(self, height):
@@ -577,9 +627,11 @@ class BlockItem(QtWidgets.QGraphicsItem):
         Args:
             height (int): Height to adjust the block to.
         """
+        # Compute the height needed by the inputs or outputs
         io_height = max(
             len(self.outputs) * (self.output_height + self.output_dist) + 5,
             len(self.inputs) * (self.input_height + self.input_dist) + 5)
+
         height = max(io_height, height, self.min_height)
         self.prepareGeometryChange()
         self.block_height = height
@@ -614,6 +666,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         block.
         """
         event.accept()
+        # Set the cursor to indicate resizing of the blocks
         if self.isSelected():
             if event.pos().x() >= self.width - 10 and \
                     event.pos().y() >= self.height - 10:
@@ -689,6 +742,7 @@ class NameWindow(QtWidgets.QDialog):
         self.name_label = QtWidgets.QLabel(
             parent=self.name_widget,
             text=label_text)
+
         self.name_edit = QtWidgets.QLineEdit(parent=self.name_widget)
         self.name_layout.addWidget(self.name_label)
         self.name_layout.addWidget(self.name_edit)
@@ -760,18 +814,25 @@ class BlockButton(QtWidgets.QGraphicsItem):
         self.apply_colors()
 
     def paint(self, painter, option, widget):
+        """Method to paint the button. This method gets invoked after
+        initialization and every time the button gets updated.
+        """
+        # Apply colors depending on the theme
         self.apply_colors()
         painter.setPen(QtCore.Qt.NoPen)
+        # Set different color when the button is pressed
         if self.pressed:
             painter.setBrush(self.press_color)
         else:
             painter.setBrush(self.default_color)
+
         painter.drawRoundedRect(0, 0, self.width, self.height, 5, 5)
 
         painter.setPen(self.name_color)
         font = painter.font()
         fm = QtGui.QFontMetrics(font)
         name_width = fm.width(self.name)
+
         painter.drawText(self.width // 2 - name_width // 2,
                          self.text_margin + self.height // 2,
                          self.name)

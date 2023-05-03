@@ -30,13 +30,13 @@ class IORegistry:
             descendant.up_to_date = False
 
     def _update_descendants(self, output):
-        """Goes threw all descendants and updates the flags and tries to update
+        """Goes through all descendants and updates the flags and tries to update
         the block of the descendants. For example if an output is updated
         all connected inputs will be updated and the outputs of the same Block 
         as the inputs and so on.
         
         Note:
-            A block will only update itself if all inputs are up to date.
+            A block will only update itself if all inputs are up-to-date.
         Args:
             output: Output from which the update process starts.
         """
@@ -104,25 +104,30 @@ class IORegistry:
         
         Args:
             output: Output which gets connected to the Input.
-            input_: Input which gets connected to Output.
+            input_: Input which gets connected to the Output.
         
         Raises:
             exceptions.BlockCircleError: Occurs when connecting two nodes leads
                                          to a circle in the structure.
         """
-        if not isinstance(output, block_io.Output) or not isinstance(
-                input_, block_io.Input
-        ):
-            message = "{} is not instance of {} or {} is not instance of {}".format(
-                output, block_io.Output, input_, block_io.Input
-            )
+        # Validate the types
+        if not isinstance(input_, block_io.Input):
+            message = f"{input_} is not instance of {block_io.Input}"
             raise exceptions.BlockConnectionError(message)
+        if not isinstance(output, block_io.Output):
+            message = f"{output} is not instance of {block_io.Output}"
+            raise exceptions.BlockConnectionError(message)
+        # Input is already connected
         if list(self._graph.predecessors(input_)):
             raise exceptions.BlockConnectionError("Input already connected")
+        # Add an edge between the input and output
         self._graph.add_edge(output, input_)
+        # Test if the edge caused a cycle
         if not nx.is_directed_acyclic_graph(self._graph):
+            # Remove the edge
             self._graph.remove_edge(output, input_)
             raise exceptions.BlockCircleError(input_.block)
+        # Update the blocks
         self.invalidate_and_update(input_.block)
 
     def disconnect_input(self, input_):
@@ -181,7 +186,7 @@ class IORegistry:
         """Removes Inputs and Outputs of a block (thus removing the block)
         from the IORegistry.
 
-        Removing a block means that all other blocks get disconnected from its
+        Removing a block causes all other blocks to get disconnected from its
         inputs and outputs.
 
         Args:
@@ -193,4 +198,5 @@ class IORegistry:
             self.remove_output(output)
 
 
+# The registry should be handled as a singleton
 Registry = IORegistry()

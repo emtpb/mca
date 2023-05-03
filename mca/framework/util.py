@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.colors as crl
 
-from mca.framework import parameters, validator
+from mca.framework import parameters, validator, data_types
 from mca.language import _
 
 
@@ -134,7 +134,9 @@ def fill_zeros(signals):
     """
     new_signals = []
     increment = signals[0].increment
+    # Get the minimum abscissa start of all signals
     min_abscissa_start = min(map(lambda signal: signal.abscissa_start, signals))
+    # Get the maximum abscissa end of all signals
     max_abscissa_end = max(
         map(
             lambda
@@ -142,11 +144,15 @@ def fill_zeros(signals):
             signals,
         )
     )
+    # Compute the amount of values needed
     max_values = round((max_abscissa_end - min_abscissa_start) / increment)
+    # Insert and append zeros to all signals to match in length
     for signal in signals:
+        # Amount of zeros to insert
         zeros_insert = round(
             (signal.abscissa_start - min_abscissa_start) / increment
         )
+        # Amount of zeros to append
         zeros_append = round(
             (
                     max_abscissa_end
@@ -154,16 +160,19 @@ def fill_zeros(signals):
             )
             / increment
         )
-        signal.abscissa_start = min_abscissa_start
-        signal.values = max_values
-        signal.ordinate = np.hstack(
+        # Set the signal attributes
+        new_ordinate = np.hstack(
             (
                 np.zeros(zeros_insert),
                 signal.ordinate,
                 np.zeros(zeros_append),
             )
         )
-        new_signals.append(signal)
+        new_signal = data_types.Signal(abscissa_start=min_abscissa_start,
+                                       values=max_values,
+                                       increment=signal.increment,
+                                       ordinate=new_ordinate)
+        new_signals.append(new_signal)
     return new_signals
 
 

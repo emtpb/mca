@@ -6,6 +6,7 @@ import PySide2
 import matplotlib
 from PySide2 import QtWidgets, QtCore
 
+# Make sure the plugin path is set correctly
 pyside_path = os.path.dirname(PySide2.__file__)
 if platform.system() == "Linux":
     plugin_path = os.path.join(pyside_path, "Qt", "plugins")

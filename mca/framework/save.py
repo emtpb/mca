@@ -28,9 +28,11 @@ def blocks_to_json(blocks):
      """
 
     data = {"blocks": []}
+    # Iterate over the blocks to fill their dicts
     for block in blocks:
         parameter_dict = {}
         plot_parameter_dict = {}
+        # Read the block parameters
         for parameter_name, parameter in block.parameters.items():
             if isinstance(parameter, parameters.ParameterBlock):
                 sub_parameter_dict = {}
@@ -40,6 +42,7 @@ def blocks_to_json(blocks):
                 parameter_dict[parameter_name] = sub_parameter_dict
             else:
                 parameter_dict[parameter_name] = parameter.value
+        # Read the block plot parameters
         if isinstance(block, PlotBlock):
             for parameter_name, parameter in block.plot_parameters.items():
                 if isinstance(parameter, parameters.ParameterBlock):
@@ -50,6 +53,7 @@ def blocks_to_json(blocks):
                     plot_parameter_dict[parameter_name] = sub_parameter_dict
                 else:
                     plot_parameter_dict[parameter_name] = parameter.value
+        # Save block signature
         save_block = {"class": str(type(block)),
                       "parameters": parameter_dict,
                       "plot_parameters": plot_parameter_dict,
@@ -70,6 +74,7 @@ def blocks_to_json(blocks):
                       }
                           for output in block.outputs],
                       "gui_data": block.gui_data["save_data"]}
+        # Save for each input to which output it was connected
         for input_ in block.inputs:
             input_save = {}
             if input_.connected_output:

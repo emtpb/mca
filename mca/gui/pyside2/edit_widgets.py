@@ -693,6 +693,7 @@ class ParameterBlockWidget(QtWidgets.QGroupBox):
             parameter.revert_changes()
 
 
+# Map parameters to widgets
 widget_dict = {parameters.BoolParameter: BoolParameterWidget,
                parameters.IntParameter: IntParameterWidget,
                parameters.FloatParameter: FloatParameterWidget,

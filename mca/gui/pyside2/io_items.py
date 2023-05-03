@@ -33,7 +33,7 @@ class InputItem(QtWidgets.QGraphicsItem):
             parent: Parent of this widget.
         """
         super(InputItem, self).__init__(parent=parent)
-
+        # Define the colors
         self.default_color = QtGui.QColor(0, 0, 204)
         self.hover_color = QtGui.QColor(51, 51, 255)
         self.current_color = self.default_color

@@ -29,14 +29,14 @@ class BlockExplorer(QtWidgets.QWidget):
 
         self.setMinimumSize(200, 0)
         self.setLayout(QtWidgets.QVBoxLayout())
-
+        # Init the searchbar
         self.search_bar = QtWidgets.QLineEdit()
         self.search_bar.setClearButtonEnabled(True)
         self.search_bar.setPlaceholderText(_("Search..."))
-
+        # Init the check boy for tags
         self.tag_check_box = QtWidgets.QCheckBox(_("Show tags"))
         self.tag_check_box.setChecked(True)
-
+        # Init the blocklist
         self.block_list = BlockList(scene)
         self.block_list.tag_check_box = self.tag_check_box
 
@@ -79,9 +79,10 @@ class BlockList(QtWidgets.QListWidget):
                                                  self.width(), 10)
         )
         self.menu.addAction(self.new_block_action)
-
+        # Add all blocks to the block list
         for block_class in blocks.block_classes:
             self.add_block(block_class)
+        # Add the tags to the lists
         for tag in blocks.tag_dict.keys():
             self.add_tag(tag)
 
@@ -136,22 +137,33 @@ class BlockList(QtWidgets.QListWidget):
             tags: If True, all blocks are grouped according to their tags. If a
                   block has multiple tags it is listed under all its tags.
         """
+        # By default hide all items
         self.hide_all_items()
+        # Get the matching items from the search_bar  string
         search_string = self.search_bar.text()
         matching_items = self.findItems(search_string, QtCore.Qt.MatchContains)
         if not tags:
+            # Show the blocks without tags
             for item in matching_items:
                 if item.data(4) == "block" and item.data(5) is False:
                     item.setHidden(False)
         else:
+            # Get the matching tags
             matching_tags = filter(lambda x: x.data(4) == "tag", matching_items)
             related_blocks = []
+            # Get the blocks which are related to the tags
             for tag in matching_tags:
                 related_blocks += tag.related_blocks
+            # Block classes which match due their tags matching with the search
+            # string
             matching_blocks = list(map(lambda x: x.data(3), related_blocks))
             for item in matching_items:
+                # Show blocks not associated with tags if they match with the
+                # search string and are not associated with a matching tag
+                # already
                 if search_string and item.data(5) is False and matching_blocks.count(item.data(3)) == 0:
                     item.setHidden(False)
+                # Show the tag and all its associated blocks
                 elif item.data(4) == "tag":
                     item.setHidden(False)
 
@@ -163,13 +175,19 @@ class BlockList(QtWidgets.QListWidget):
             related_block: Flag whether the block is related to a tag.
         """
         item = QtWidgets.QListWidgetItem()
+        # Set an icon file if exist
         if block.icon_file:
             item.setIcon(QtGui.QIcon(os.path.dirname(
                 mca.__file__) + "/blocks/icons/" + block.icon_file))
+        # Save the block class
         item.setData(3, block)
+        # Set the list type
         item.setData(4, "block")
+        # Set if it is related to a tag
         item.setData(5, related_block)
+        # Set the text
         item.setText(block.name)
+
         self.addItem(item)
         return item
 
@@ -202,10 +220,11 @@ class TagListItem(QtWidgets.QListWidgetItem):
             tag_name: Name of the tag.
         """
         QtWidgets.QListWidgetItem.__init__(self)
-
+        # Set the list type
         self.setData(4, "tag")
+        # Set the name
         self.setData(5, tag_name)
-
+        # Custom font
         font = self.font()
         font.setBold(True)
         font.setPointSize(13)
