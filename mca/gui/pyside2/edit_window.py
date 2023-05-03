@@ -372,12 +372,17 @@ class EditWindow(QtWidgets.QDialog):
             if metadata_changes:
                 for entry in self.metadata_widgets:
                     entry.apply_changes()
+            if plot_parameter_changes:
+                for entry in self.plot_parameter_widgets:
+                    entry.apply_changes()
 
     def revert_changes(self):
         """Revert the last changes made."""
         for parameter_widget in self.parameter_widgets:
             parameter_widget.revert_changes()
         for entry in self.metadata_widgets:
+            entry.revert_changes()
+        for entry in self.plot_parameter_widgets:
             entry.revert_changes()
         self.block.trigger_update()
 
