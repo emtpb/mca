@@ -116,7 +116,9 @@ class BlockList(QtWidgets.QListWidget):
         """Method invoked when right-clicking with the mouse. Opens
         the menu.
         """
-        self.menu.exec_(event.globalPos())
+        item = self.itemAt(event.pos())
+        if item.data(4) == "block":
+            self.menu.exec_(event.globalPos())
 
     def show_items(self):
         """Wrapper method for show blocks to connect to the
