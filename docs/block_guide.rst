@@ -433,36 +433,3 @@ this project is called `pybabel <http://babel.pocoo.org/en/latest/cmdline.html>`
 In general all displayed strings such as the block name, the description,
 the tags and parameter names should be translated.
 
-First mark translatable strings use the *_()* function from the *language*
-module::
-
-    from mca.language import _
-
-    class Dummy(Block):
-    """Adds an offset to the input signal."""
-        name = _("Dummy")
-        description = _("Adds an offset to the input signal.")
-        tags = (_("Processing"), _("Hello World"))
-
-After that extract the strings::
-
-    $ pybabel extract -o messages.pot ./blocks/dummy.py
-
-This will create a template file called *messages.pot* . Custom translations
-can be added in that file. However it is recommended to skip this until the
-next step since adding different translations for the same string which might
-already exist could lead to inconsistency. For example translating the
-tag *Processing* is not necessary since there already exists a translation for
-this tag and different translations for the same tag could lead to undesirable
-behaviour.
-
-Next update the *messages.po* file of the desired locale (here german)::
-
-    $ pybabel update -i messages.pot -d locales -l de
-
-Add any missing translation in the *messages.po* file. Finally compile the
-*messages.po* file which yields the file *messages.mo*::
-
-    $ pybabel compile -d locales -l de -f
-
-
