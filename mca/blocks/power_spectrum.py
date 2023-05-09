@@ -2,48 +2,47 @@ from scipy.signal import welch
 from united import Unit
 
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class PowerSpectrum(Block):
     """Computes the power spectrum of the input signal using Welch's
     method.
     """
-    name = _("PowerSpectrum")
-    description = _("Computes the power spectrum of the input signal using "
-                    "Welch's method")
-    tags = (_("Processing"),)
+    name = "PowerSpectrum"
+    description = ("Computes the power spectrum of the input signal using "
+                   "Welch's method")
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output(metadata=data_types.MetaData(
             name="",
             unit_a="1/s",
             unit_o="V*V",
-            quantity_a=_("Frequency")
+            quantity_a="Frequency"
         ))
         self.new_input()
 
     def setup_parameters(self):
         self.parameters["window"] = parameters.ChoiceParameter(
-            name=_("Window"),
+            name="Window",
             choices=(
-                ("boxcar", _("Rectangle")),
-                ("hann", _("Hann")),
-                ("hamming", _("Hamming")),
-                ("triangle", _("Triangle"))), default="hann"
+                ("boxcar", "Rectangle"),
+                ("hann", "Hann"),
+                ("hamming", "Hamming"),
+                ("triangle", "Triangle")), default="hann"
         )
         self.parameters["seg_length"] = parameters.IntParameter(
-            name=_("Segment Length"), min_=1, default=100
+            name="Segment Length", min_=1, default=100
         )
         self.parameters["seg_overlap"] = parameters.IntParameter(
-            name=_("Segment Overlap"), min_=0, default=10
+            name="Segment Overlap", min_=0, default=10
         )
         self.parameters["fft_length"] = parameters.IntParameter(
-            name=_("FFT Length"), min_=1, default=100
+            name="FFT Length", min_=1, default=100
         )
         self.parameters["scaling"] = parameters.ChoiceParameter(
-            name=_("Scaling"), choices=[("density", _("Density")),
-                                        ("spectrum", _("Spectrum"))],
+            name="Scaling", choices=[("density", "Density"),
+                                        ("spectrum", "Spectrum")],
             default="spectrum"
         )
 

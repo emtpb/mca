@@ -1,7 +1,6 @@
 import numpy as np
 
 from mca.framework import PlotBlock, data_types, parameters, util, validator
-from mca.language import _
 
 
 class FFTPlot(PlotBlock):
@@ -12,13 +11,13 @@ class FFTPlot(PlotBlock):
         axes: Reference of the axes.
         legend: Reference of the legend.
     """
-    name = _("FFTPlot")
-    description = _("Computes the FFT of the input signal and plots "
-                    "either the real part, imaginary part, "
-                    "the absolute or the phase of the FFT. "
-                    "Shifts the FFT optionally or cuts the input"
-                    "signal before the conversion.")
-    tags = (_("Processing"), _("Fouriertransformation"), _("Plotting"))
+    name = "FFTPlot"
+    description = ("Computes the FFT of the input signal and plots "
+                   "either the real part, imaginary part, "
+                   "the absolute or the phase of the FFT. "
+                   "Shifts the FFT optionally or cuts the input"
+                   "signal before the conversion.")
+    tags = ("Processing", "Fouriertransformation", "Plotting")
 
     def __init__(self, **kwargs):
         """Initializes FFTPlot class."""
@@ -30,42 +29,42 @@ class FFTPlot(PlotBlock):
 
     def setup_parameters(self):
         self.parameters["shift"] = parameters.ChoiceParameter(
-                name=_("Shift to ordinate"),
-                choices=(("no_shift", _("No shift")), ("shift", _("Shift")),
+                name="Shift to ordinate",
+                choices=(("no_shift", "No shift"), ("shift", "Shift"),
                          ("shift_positive",
-                          _("Shift and only positive frequencies"))),
+                          "Shift and only positive frequencies")),
                 default="no_shift",
         )
         self.parameters["plot_mode"] = parameters.ChoiceParameter(
-                name=_("Plot Mode"),
-                choices=(("real", _("Real")), ("imaginary", _("Imaginary")),
-                         ("absolute", _("Absolute")), ("phase", _("Phase"))),
+                name="Plot Mode",
+                choices=(("real", "Real"), ("imaginary", "Imaginary"),
+                         ("absolute", "Absolute"), ("phase", "Phase")),
                 default="absolute",
         )
         self.parameters["normalize"] = parameters.BoolParameter(
-                name=_("Normalize"), default=False
+                name="Normalize", default=False
         )
 
     def setup_plot_parameters(self):
         self.plot_parameters["plot_kind"] = parameters.ChoiceParameter(
-                name=_("Plot kind"), choices=(("line", _("Line")),
-                                              ("stem", _("Stem"))), )
+                name="Plot kind", choices=(("line", "Line"),
+                                              ("stem", "Stem")), )
         self.plot_parameters["color"] = util.get_plt_color_parameter()
         self.plot_parameters["abscissa_scaling"] = parameters.ChoiceParameter(
-            name=_("Abscissa scaling"),
-            choices=(("linear", _("Linear")), ("log", _("Log")),
-                     ("symlog", _("Symmetrcial log")), ("logit", _("Logit"))),
+            name="Abscissa scaling",
+            choices=(("linear", "Linear"), ("log", "Log"),
+                     ("symlog", "Symmetrcial log"), ("logit", "Logit")),
             default="linear"
         )
         self.plot_parameters["ordinate_scaling"] = parameters.ChoiceParameter(
-            name=_("Ordinate scaling"),
-            choices=(("linear", _("Linear")), ("log", _("Log")),
-                     ("symlog", _("Symmetrcial log")), ("logit", _("Logit"))),
+            name="Ordinate scaling",
+            choices=(("linear", "Linear"), ("log", "Log"),
+                     ("symlog", "Symmetrcial log"), ("logit", "Logit")),
             default="linear"
         )
         self.plot_parameters["marker"] = util.get_plt_marker_parameter()
         self.plot_parameters["marker_color"] = util.get_plt_color_parameter(
-            _("Marker color"))
+            "Marker color")
 
     def process(self):
         # Clear the axes and the legend

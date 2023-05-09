@@ -2,26 +2,25 @@ import scipy.io.wavfile
 from united import Unit
 
 from mca import exceptions
-from mca.framework import Block,parameters, validator
-from mca.language import _
+from mca.framework import Block, parameters, validator
 
 
 class AudioSaver(Block):
     """Saves the input signal as a .wav sound file."""
-    name = _("AudioSaver")
-    description = _("Saves the input signal as a .wav sound file.")
-    tags = (_("Saving"), _("Audio"))
+    name = "AudioSaver"
+    description = "Saves the input signal as a .wav sound file."
+    tags = ("Saving", "Audio")
 
     def setup_parameters(self):
         self.parameters["sampling_freq"] = parameters.IntParameter(
-            name=_("Sampling frequency"), min_=1, max_=None, unit="Hz",
+            name="Sampling frequency", min_=1, max_=None, unit="Hz",
             default=44100
         )
         self.parameters["file_name"] = parameters.PathParameter(
-            name=_("Filename"), file_formats=[".wav"]
+            name="Filename", file_formats=[".wav"]
         )
         self.parameters["save_file"] = parameters.ActionParameter(
-            name=_("Save as .wav"), function=self.save_as_wav)
+            name="Save as .wav", function=self.save_as_wav)
 
     def setup_io(self):
         self.new_input()

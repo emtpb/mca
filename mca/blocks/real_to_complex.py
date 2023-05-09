@@ -2,7 +2,6 @@ import numpy as np
 
 from mca import exceptions
 from mca.framework import Block, data_types, util
-from mca.language import _
 
 
 class RealToComplex(Block):
@@ -10,17 +9,17 @@ class RealToComplex(Block):
     first input turns into the real part of the output signal and the signal of
     the second input turns into the imaginary part of output signal.
     """
-    name = _("RealToComplex")
-    description = _("Combines two real signals into a complex signal."
-                    " The signal of the first input turns into the real part "
-                    "of the output signal and the signal of the second input "
-                    "turns into the imaginary part of output signal.")
-    tags = (_("Processing"),)
+    name = "RealToComplex"
+    description = ("Combines two real signals into a complex signal. "
+                   "The signal of the first input turns into the real part "
+                   "of the output signal and the signal of the second input "
+                   "turns into the imaginary part of output signal.")
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()
-        self.new_input(name=_("Real part"))
-        self.new_input(name=_("Imaginary part"))
+        self.new_input(name="Real part")
+        self.new_input(name="Imaginary part")
 
     def setup_parameters(self):
         pass

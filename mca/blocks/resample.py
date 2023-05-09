@@ -1,14 +1,13 @@
 from scipy.signal import resample
 
-from mca.framework import Block, data_types, parameters,  util
-from mca.language import _
+from mca.framework import Block, data_types, parameters, util
 
 
 class Resample(Block):
     """Resamples the input signal."""
-    name = _("Resample")
-    description = _("Resamples the input signal.")
-    tags = (_("Processing"),)
+    name = "Resample"
+    description = "Resamples the input signal."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()
@@ -16,7 +15,7 @@ class Resample(Block):
 
     def setup_parameters(self):
         self.parameters["sample_freq"] = parameters.FloatParameter(
-                name=_("Sampling frequency"),
+                name="Sampling frequency",
                 min_=0, default=1, unit="Hz"
         )
 

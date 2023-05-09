@@ -2,7 +2,6 @@ from scipy.signal import butter, cheby1, cheby2, ellip, lfilter, filtfilt
 
 from mca import exceptions
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class IRRFilter(Block):
@@ -10,13 +9,13 @@ class IRRFilter(Block):
     frequency is ignored when 'lowpass' or 'highpass' are selected as the
     characteristic.
     """
-    name = _("IIRFilter")
-    description = _("Filters with common IIR filters the input signal. The "
+    name = "IIRFilter"
+    description = ("Filters with common IIR filters the input signal. The "
                     "upper cut off frequency is ignored when 'lowpass' or "
                     "'highpass' are selected as the characteristic. For "
                     "specific 'Filter types' certain parameters are ignored "
                     "as well.")
-    tags = (_("Processing"),)
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()
@@ -24,38 +23,38 @@ class IRRFilter(Block):
 
     def setup_parameters(self):
         self.parameters["filter_type"] = parameters.ChoiceParameter(
-                name=_("Filter type"),
-                choices=(("butter", _("Butter")), ("cheby1", _("Cheby1")),
-                         ("cheby2", _("Cheby2")), ("ellip", _("Elliptic"))
+                name="Filter type",
+                choices=(("butter", "Butter"), ("cheby1", "Cheby1"),
+                         ("cheby2", "Cheby2"), ("ellip", "Elliptic")
                          ),
                 default="butter"
         )
         self.parameters["characteristic"] = parameters.ChoiceParameter(
-            name=_("Characteristic"), choices=(("low", _("Lowpass")),
-                                               ("high", _("Highpass")),
-                                               ("band", _("Bandpass")),
-                                               ("stop", _("Bandstop"))
+            name="Characteristic", choices=(("low", "Lowpass"),
+                                               ("high", "Highpass"),
+                                               ("band", "Bandpass"),
+                                               ("stop", "Bandstop")
                                                ),
             default="low"
         )
         self.parameters["order"] = parameters.IntParameter(
-            name=_("Order"), min_=1, default=1
+            name="Order", min_=1, default=1
         )
         self.parameters["cut_off"] = parameters.FloatParameter(
-            name=_("Cut off frequency"), min_=0, default=1, unit="Hz"
+            name="Cut off frequency", min_=0, default=1, unit="Hz"
         )
         self.parameters["upper_cut_off"] = parameters.FloatParameter(
-                name=_("Upper cut off frequency"), min_=0, default=10,
+                name="Upper cut off frequency", min_=0, default=10,
                 unit="Hz"
         )
         self.parameters["ripple"] = parameters.FloatParameter(
-            name=_("Ripple"), min_=0, default=5, unit="dB"
+            name="Ripple", min_=0, default=5, unit="dB"
         )
         self.parameters["attenuation"] = parameters.FloatParameter(
-            name=_("Attenuation"), min_=0, default=5, unit="dB"
+            name="Attenuation", min_=0, default=5, unit="dB"
         )
         self.parameters["phase_corr"] = parameters.BoolParameter(
-                name=_("Phase correction (filtfilt)"), default=False
+                name="Phase correction (filtfilt)", default=False
         )
 
     @util.abort_all_inputs_empty

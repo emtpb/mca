@@ -1,14 +1,13 @@
 import numpy as np
 
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class Zerofill(Block):
     """Adds dead time or zero padding to the input signal."""
-    name = _("Zerofill")
-    description = _("Adds dead time and zero padding to the input signal.")
-    tags = (_("Processing"),)
+    name = "Zerofill"
+    description = "Adds dead time and zero padding to the input signal."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()
@@ -16,10 +15,10 @@ class Zerofill(Block):
 
     def setup_parameters(self):
         self.parameters["dtime_values"] = parameters.IntParameter(
-                name=_("Dead Time Values"), min_=0, default=0
+                name="Dead Time Values", min_=0, default=0
         )
         self.parameters["zpad_values"] = parameters.IntParameter(
-                name=_("Zero Padding Values"), min_=0, default=0
+                name="Zero Padding Values", min_=0, default=0
         )
 
     @util.abort_all_inputs_empty

@@ -751,7 +751,7 @@ msgstr "Phasenkorrektur (filtfilt)"
 
 #: blocks/impulse.py:12
 msgid "Impulse"
-msgstr "Welligkeit"
+msgstr "Impuls"
 
 #: blocks/impulse.py:13
 msgid ""
@@ -1434,8 +1434,8 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: gui/pyside2/edit_widgets.py:331
-msgid "Something went wrong.\n"
-msgstr "Etwas ist schiefgelaufen.\n"
+msgid "Could not apply action".\n"
+msgstr "Aktion konnte nicht ausgeführt werden.\n"
 
 #: gui/pyside2/edit_window.py:42 gui/pyside2/edit_window.py:405
 msgid "Edit {}"

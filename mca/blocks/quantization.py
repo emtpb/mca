@@ -1,17 +1,16 @@
 import numpy as np
 
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class Quantization(Block):
     """Quantizes the input signal by a given amount of bits. Returns optionally
     the raw bit values.
     """
-    name = _("Quantization")
-    description = _("Quantizes the input signal by a given amount of bits. "
-                    "Returns optionally the raw bit values.")
-    tags = (_("Processing"),)
+    name = "Quantization"
+    description = ("Quantizes the input signal by a given amount of bits. "
+                   "Returns optionally the raw bit values.")
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()
@@ -19,16 +18,16 @@ class Quantization(Block):
 
     def setup_parameters(self):
         self.parameters["bits"] = parameters.IntParameter(
-            name=_("Bits"), min_=1, default=10
+            name="Bits", min_=1, default=10
         )
         self.parameters["max_value"] = parameters.FloatParameter(
-            name=_("Max value"), min_=0, default=1
+            name="Max value", min_=0, default=1
         )
         self.parameters["signed"] = parameters.BoolParameter(
-            name=_("Signed"), default=True
+            name="Signed", default=True
         )
         self.parameters["raw"] = parameters.BoolParameter(
-            name=_("Raw bits"), default=False
+            name="Raw bits", default=False
         )
 
     @util.abort_all_inputs_empty

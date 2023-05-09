@@ -1,21 +1,20 @@
 import numpy as np
 
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class DCGenerator(Block):
     """Generates a DC signal."""
-    name = _("DCGenerator")
-    description = _("Generates a DC signal.")
-    tags = (_("Generating"),)
+    name = "DCGenerator"
+    description = "Generates a DC signal."
+    tags = ("Generating",)
 
     def setup_io(self):
         self.new_output(user_metadata_required=True)
 
     def setup_parameters(self):
         self.parameters["dc_value"] = parameters.FloatParameter(
-            name=_("DC Value"), default=1
+            name="DC Value", default=1
         )
         abscissa = util.create_abscissa_parameter_block()
         self.parameters["abscissa"] = abscissa

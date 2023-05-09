@@ -2,35 +2,34 @@ import numpy as np
 from scipy.signal import gausspulse
 
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class GaussPulse(Block):
     """Generates a gaussian pulse signal. Returns real- and
     imaginary part as well as the envelope.
     """
-    name = _("GaussPulse")
-    description = _("Generates a gaussian pulse signal. Returns real- and "
-                    "imaginary part as well as the envelope.")
-    tags = (_("Generating"),)
+    name = "GaussPulse"
+    description = ("Generates a gaussian pulse signal. Returns real- and "
+                   "imaginary part as well as the envelope.")
+    tags = ("Generating",)
 
     def setup_io(self):
-        self.new_output(name=_("Real part"), user_metadata_required=True)
-        self.new_output(name=_("Imaginary part"), user_metadata_required=True)
-        self.new_output(name=_("Envelope"), user_metadata_required=True)
+        self.new_output(name="Real part", user_metadata_required=True)
+        self.new_output(name="Imaginary part", user_metadata_required=True)
+        self.new_output(name="Envelope", user_metadata_required=True)
 
     def setup_parameters(self):
         self.parameters["amp"] = parameters.FloatParameter(
-            name=_("Amplitude"), min_=0, default=1
+            name="Amplitude", min_=0, default=1
         ),
         self.parameters["cfreq"] = parameters.FloatParameter(
-            name=_("Center Frequency"), unit="Hz", min_=0, default=1
+            name="Center Frequency", unit="Hz", min_=0, default=1
         )
         self.parameters["bw"] = parameters.FloatParameter(
-            name=_("Fractional bandwidth"), min_=0, max_=1, default=0.5
+            name="Fractional bandwidth", min_=0, max_=1, default=0.5
         )
         self.parameters["bwr"] = parameters.FloatParameter(
-            name=_("Reference level"), unit="dB", default=-6
+            name="Reference level", unit="dB", default=-6
         )
         abscissa = util.create_abscissa_parameter_block()
         # Start at -5 so the peak of the pulse is at 0

@@ -1,12 +1,11 @@
 from mca.framework import Block, data_types, util
-from mca.language import _
 
 
 class Divider(Block):
     """Divides the two input signals."""
-    name = _("Divider")
-    description = _("Divides the two input signals.")
-    tags = (_("Processing"),)
+    name = "Divider"
+    description = "Divides the two input signals."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()

@@ -3,14 +3,13 @@ import copy
 import numpy as np
 
 from mca.framework import DynamicBlock, data_types, util
-from mca.language import _
 
 
 class Multiplier(DynamicBlock):
     """Multiplies the input signals with each other."""
-    name = _("Multiplier")
-    description = _("Multiplies the input signals with each other.")
-    tags = (_("Processing"),)
+    name = "Multiplier"
+    description = "Multiplies the input signals with each other."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.dynamic_input = (1, None)

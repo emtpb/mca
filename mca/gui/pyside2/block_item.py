@@ -144,7 +144,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
                           parameters.ActionParameter) and "block_button" in parameter.display_options:
                 self.action_buttons.append(
                     BlockButton(
-                        name=parameter.name,
+                        name=_(parameter.name),
                         function=parameter.function,
                         parent=self,
                         x=self.input_offset + self.select_point_diameter // 2 + 5,
@@ -217,7 +217,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         for parameter in self.block.parameters.values():
             if isinstance(parameter, parameters.ActionParameter) and \
                     "menu_action" in parameter.display_options:
-                action = QtWidgets.QAction(parameter.name, self.view)
+                action = QtWidgets.QAction(_(parameter.name), self.view)
                 action.triggered.connect(parameter.function)
                 self.menu.addAction(action)
 
@@ -332,7 +332,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         painter.setPen(self.name_color)
         painter.drawText(x_offset_block + 5, y_offset_block + 2,
                          self.block_width - 5, 25, 0,
-                         self.block.name)
+                         _(self.block.name))
         custom_name = self.block.parameters["name"].value
         # Draw user block name
         if custom_name != self.block.name:
@@ -419,8 +419,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
             name = name_window.name_edit.text()
         # Set the metadata to default
         metadata = data_types.default_metadata()
-        # Create ne backend output
-        new_mca_output = block_io.Output(block=self.block, name=name,
+        # Create a backend output
+        new_mca_output = block_io.Output(block=self.block, name=_(name),
                                          metadata=metadata)
         # Add the backend output to the block
         self.block.add_output(new_mca_output)

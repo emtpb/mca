@@ -1,6 +1,5 @@
 from mca import exceptions
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class Cutter(Block):
@@ -9,12 +8,12 @@ class Cutter(Block):
     Values within the abscissa range which do not match any sampling get
     rounded down.
     """
-    name = _("Cutter")
-    description = _("Cuts out a part of the input signal and puts the cut out "
-                    "signal to the output. Start and end values have to be in "
-                    "range of the abscissa values. Values within the abscissa "
-                    "range which do not match any sampling get rounded down.")
-    tags = (_("Processing"),)
+    name = "Cutter"
+    description = ("Cuts out a part of the input signal and puts the cut out "
+                   "signal to the output. Start and end values have to be in "
+                   "range of the abscissa values. Values within the abscissa "
+                   "range which do not match any sampling get rounded down.")
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()
@@ -22,10 +21,10 @@ class Cutter(Block):
 
     def setup_parameters(self):
         self.parameters["start_value"] = parameters.FloatParameter(
-                name=_("Start value"), default=0
+                name="Start value", default=0
         )
         self.parameters["end_value"] = parameters.FloatParameter(
-                name=_("End value"), default=1
+                name="End value", default=1
         )
 
     @util.abort_all_inputs_empty

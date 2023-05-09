@@ -1,25 +1,24 @@
 import numpy as np
 
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class FFT(Block):
     """Computes the FFT of the input signal."""
-    name = _("FFT")
-    description = _("Computes the FFT of the input signal.")
-    tags = (_("Processing"), _("Fouriertransformation"))
+    name = "FFT"
+    description = "Computes the FFT of the input signal."
+    tags = ("Processing", "Fouriertransformation")
 
     def setup_io(self):
         self.new_output(
             metadata=data_types.MetaData(
-                name="", unit_a="1/s", unit_o="V", quantity_a=_("Frequency"),)
+                name="", unit_a="1/s", unit_o="V", quantity_a="Frequency",)
         )
         self.new_input()
 
     def setup_parameters(self):
         self.parameters["normalize"] = parameters.BoolParameter(
-            name=_("Normalize"), default=False
+            name="Normalize", default=False
         )
 
     @util.abort_all_inputs_empty

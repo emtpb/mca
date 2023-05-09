@@ -1,14 +1,13 @@
 from mca import exceptions
 from mca.framework import PlotBlock, data_types, parameters, util
-from mca.language import _
 
 
 class XYPlot(PlotBlock):
     """Plots the ordinates of the input signals against each other."""
-    name = _("XYPlot")
-    description = _("Plots the ordinates of the input signals against "
-                    "each other.")
-    tags = (_("Plotting"),)
+    name = "XYPlot"
+    description = ("Plots the ordinates of the input signals against "
+                   "each other.")
+    tags = ("Plotting",)
 
     def __init__(self, **kwargs):
         """Initializes XYPlot class."""
@@ -20,15 +19,15 @@ class XYPlot(PlotBlock):
 
     def setup_parameters(self):
         self.parameters["y_axis"] = parameters.ChoiceParameter(
-            name=_("Input signal for ordinate axis"),
-            choices=(("first", _("First")),
-                     ("second", _("Second"))),
+            name="Input signal for ordinate axis",
+            choices=(("first", "First"),
+                     ("second", "Second")),
             default="first"
         )
         self.parameters["x_axis"] = parameters.ChoiceParameter(
-            name=_("Input signal for abscissa axis"),
-            choices=(("first", _("First")),
-                     ("second", _("Second"))),
+            name="Input signal for abscissa axis",
+            choices=(("first", "First"),
+                     ("second", "Second")),
             default="second"
         )
 

@@ -1,28 +1,27 @@
 import sounddevice as sd
 
 from mca.framework import Block, data_types, parameters
-from mca.language import _
 
 
 class AudioRecorder(Block):
     """Records a sound via the default audio input device."""
-    name = _("AudioRecorder")
-    description = _("Records a sound via the default audio input device.")
-    tags = (_("Audio"),)
+    name = "AudioRecorder"
+    description = "Records a sound via the default audio input device."
+    tags = ("Audio",)
 
     def setup_io(self):
         self.new_output(user_metadata_required=True)
 
     def setup_parameters(self):
         self.parameters["sampling_freq"] = parameters.IntParameter(
-            name=_("Sampling Frequency"),min_=1, max_=None, unit="Hz",
+            name="Sampling Frequency",min_=1, max_=None, unit="Hz",
             default=44100
         )
         self.parameters["record_time"] = parameters.FloatParameter(
-            name=_("Record time"), min_=0, max_=None,unit="s", default=5
+            name="Record time", min_=0, max_=None,unit="s", default=5
         )
         self.parameters["record_sound"] = parameters.ActionParameter(
-            name=_("Record sound"), function=self.record_sound,
+            name="Record sound", function=self.record_sound,
             display_options=("block_button",
                              "edit_window")
         )

@@ -1,15 +1,13 @@
 import numpy as np
 
 from mca.framework import Block, data_types, util
-from mca.language import _
 
 
 class AutoCorrelation(Block):
     """Computes the auto correlation of the input signal."""
-    name = _("ACF")
-    description = _(
-        "Computes the auto correlation function of the input signal.")
-    tags = (_("Processing"),)
+    name = "ACF"
+    description = "Computes the auto correlation function of the input signal."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()

@@ -4,26 +4,25 @@ import numpy as np
 
 from mca import exceptions
 from mca.framework import Block, data_types, parameters
-from mca.language import _
 
 
 class SignalGeneratorArbitrary(Block):
     """Loads arbitrary data to generate a signal on its output."""
-    name = _("SignalGeneratorArbitrary")
-    description = _("Loads arbitrary data to generate a signal on its output.")
-    tags = (_("Generating"), _("Loading"))
+    name = "SignalGeneratorArbitrary"
+    description = "Loads arbitrary data to generate a signal on its output."
+    tags = ("Generating", "Loading")
 
     def setup_io(self):
         self.new_output(user_metadata_required=True)
 
     def setup_parameters(self):
         self.parameters["file_name"] = parameters.PathParameter(
-                name=_("Arbitrary data path"),
+                name="Arbitrary data path",
                 loading=True,
                 file_formats=[".json"]
         )
         self.parameters["load_file"] = parameters.ActionParameter(
-                name=_("Load file"),
+                name="Load file",
                 function=self.load_file
         )
 

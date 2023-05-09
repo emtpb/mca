@@ -1,15 +1,13 @@
 import numpy as np
 
 from mca.framework import Block, data_types, util
-from mca.language import _
 
 
 class CrossCorrelation(Block):
     """Computes the cross correlation of the input signal."""
-    name = _("CCF")
-    description = _(
-        "Computes the cross correlation function of the input signal.")
-    tags = (_("Processing"),)
+    name = "CCF"
+    description = "Computes the cross correlation function of the input signal."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()

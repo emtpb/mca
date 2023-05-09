@@ -2,15 +2,14 @@ import numpy as np
 from scipy import signal as sgn
 
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class SignalGeneratorPeriodic(Block):
     """Generates a periodic sinus, rectangle or triangle signal."""
-    name = _("SignalGeneratorPeriodic")
-    description = _("Generates a periodic sinus, rectangle or "
-                    "triangle signal.")
-    tags = (_("Generating"),)
+    name = "SignalGeneratorPeriodic"
+    description = ("Generates a periodic sinus, rectangle or "
+                   "triangle signal.")
+    tags = ("Generating",)
 
     def setup_io(self):
         self.new_output(user_metadata_required=True)
@@ -18,25 +17,25 @@ class SignalGeneratorPeriodic(Block):
     def setup_parameters(self):
 
         self.parameters["signal_type"] = parameters.ChoiceParameter(
-                name=_("Signal type"),
-                choices=(("rect", _("Rectangle")), ("tri", _("Triangle")),
-                         ("sin", _("Sine"))),
+                name="Signal type",
+                choices=(("rect", "Rectangle"), ("tri", "Triangle"),
+                         ("sin", "Sine")),
                 default="sin"
         )
         self.parameters["signal_type"] = parameters.ChoiceParameter(
-            name=_("Signal type"),
-            choices=(("rect", _("Rectangle")), ("tri", _("Triangle")),
-                     ("sin", _("Sine"))),
+            name="Signal type",
+            choices=(("rect", "Rectangle"), ("tri", "Triangle"),
+                     ("sin", "Sine")),
             default="sin"
         )
         self.parameters["freq"] = parameters.FloatParameter(
-            name=_("Frequency"), unit="Hz", min_=0, default=1
+            name="Frequency", unit="Hz", min_=0, default=1
         )
         self.parameters["amp"] = parameters.FloatParameter(
-            name=_("Amplitude"), min_=0, default=1
+            name="Amplitude", min_=0, default=1
         )
         self.parameters["phase"] = parameters.FloatParameter(
-            name=_("Phase"), default=0, unit="rad"
+            name="Phase", default=0, unit="rad"
         )
         abscissa = util.create_abscissa_parameter_block()
         self.parameters["abscissa"] = abscissa

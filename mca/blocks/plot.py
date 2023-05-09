@@ -2,10 +2,9 @@ import copy
 
 import numpy as np
 
-from mca.framework import util
-from mca.framework import DynamicBlock, PlotBlock, data_types,  parameters, \
+from mca.framework import DynamicBlock, PlotBlock, data_types, parameters, \
     validator
-from mca.language import _
+from mca.framework import util
 
 
 class Plot(PlotBlock, DynamicBlock):
@@ -18,10 +17,10 @@ class Plot(PlotBlock, DynamicBlock):
         legend: Legend of the plot.
         lines: Lines of the plot which correspond to the inputs.
     """
-    name = _("Plot")
-    description = _("Plots all input signals as lines, stems or bars "
-                    "in a single figure.")
-    tags = (_("Plotting"),)
+    name = "Plot"
+    description = ("Plots all input signals as lines, stems or bars "
+                   "in a single figure.")
+    tags = ("Plotting",)
 
     def __init__(self, **kwargs):
         """Initializes Plot class."""
@@ -34,20 +33,20 @@ class Plot(PlotBlock, DynamicBlock):
 
     def setup_plot_parameters(self):
         self.plot_parameters["plot_kind"] = parameters.ChoiceParameter(
-                name=_("Plot kind"), choices=(("line", _("Line")),
-                                              ("stem", _("Stem")),
-                                              ("bar", _("Bar"))),
+                name="Plot kind", choices=(("line", "Line"),
+                                            ("stem", "Stem"),
+                                            ("bar", "Bar")),
                 default="line")
         self.plot_parameters["abscissa_scaling"] = parameters.ChoiceParameter(
-            name=_("Abscissa scaling"),
-            choices=(("linear", _("Linear")), ("log", _("Log")),
-                     ("symlog", _("Symmetrcial log")), ("logit", _("Logit"))),
+            name="Abscissa scaling",
+            choices=(("linear", "Linear"), ("log", "Log"),
+                     ("symlog", "Symmetrcial log"), ("logit", "Logit")),
             default="linear"
         )
         self.plot_parameters["ordinate_scaling"] = parameters.ChoiceParameter(
-            name=_("Ordinate scaling"),
-            choices=(("linear", _("Linear")), ("log", _("Log")),
-                     ("symlog", _("Symmetrcial log")), ("logit", _("Logit"))),
+            name="Ordinate scaling",
+            choices=(("linear", "Linear"), ("log", "Log"),
+                     ("symlog", "Symmetrcial log"), ("logit", "Logit")),
             default="linear"
         )
         self.plot_parameters["marker"] = util.get_plt_marker_parameter()

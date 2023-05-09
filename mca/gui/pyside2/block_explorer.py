@@ -188,7 +188,7 @@ class BlockList(QtWidgets.QListWidget):
         # Set if it is related to a tag
         item.setData(5, related_block)
         # Set the text
-        item.setText(block.name)
+        item.setText(_(block.name))
 
         self.addItem(item)
         return item
@@ -231,7 +231,7 @@ class TagListItem(QtWidgets.QListWidgetItem):
         font.setBold(True)
         font.setPointSize(13)
         self.setFont(font)
-        self.setText(tag_name)
+        self.setText(_(tag_name))
 
         self.related_blocks = []
 

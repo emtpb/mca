@@ -2,30 +2,29 @@ import sounddevice as sd
 from united import Unit
 
 from mca.framework import Block, parameters, util, validator
-from mca.language import _
 
 
 class AudioPlayer(Block):
     """Plays the input signal as a sound by using the current default
     sound device.
     """
-    name = _("AudioPlayer")
-    description = _("Plays the input signal as a sound by using the current "
-                    "default sound device.")
-    tags = (_("Audio"),)
+    name = "AudioPlayer"
+    description = ("Plays the input signal as a sound by using the current "
+                   "default sound device.")
+    tags = ("Audio",)
 
     def setup_io(self):
         self.new_input()
 
     def setup_parameters(self):
         self.parameters["sampling_freq"] = parameters.IntParameter(
-            _("Sampling frequency"), 1, None, "Hz", 44100
+            "Sampling frequency", 1, None, "Hz", 44100
         )
         self.parameters["play_sound"] = parameters.ActionParameter(
-            _("Play sound"), self.play_sound, display_options=("block_button",
+            "Play sound", self.play_sound, display_options=("block_button",
                                                                "edit_window")
         )
-        self.parameters["auto_play"] = parameters.BoolParameter(_("Auto play"),
+        self.parameters["auto_play"] = parameters.BoolParameter("Auto play",
                                                                 False)
 
     def process(self):

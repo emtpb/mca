@@ -1,31 +1,29 @@
 import numpy as np
 
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class Limiter(Block):
     """Limits the values of the input signal. Values exceeding this limit get
     set to the threshold.
     """
-    name = _("Limiter")
-    description = _("Limits the values of the input signal. Values exceeding "
-                    "this limit get set to the threshold.")
-    tags = (_("Processing"),)
+    name = "Limiter"
+    description = ("Limits the values of the input signal. Values exceeding "
+                   "this limit get set to the threshold.")
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()
         self.new_input()
 
     def setup_parameters(self):
-        self.parameters.update(
-            {"mode": parameters.ChoiceParameter(
-                _("Mode"),
-                choices=[("unipolar", _("Unipolar")),
-                         ("bipolar", _("Bipolar"))], default="unipolar"),
-                "threshold": parameters.FloatParameter(_("Threshold"),
-                                                       default=1)
-            })
+        self.parameters["mode"] = parameters.ChoiceParameter(
+                name="Mode",
+                choices=(("unipolar", "Unipolar"),
+                         ("bipolar", "Bipolar")),
+                default="unipolar")
+        self.parameters["threshold"] = parameters.FloatParameter("Threshold",
+                                                                 default=1)
 
     @util.abort_all_inputs_empty
     @util.validate_type_signal

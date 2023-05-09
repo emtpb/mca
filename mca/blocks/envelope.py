@@ -2,14 +2,13 @@ import numpy as np
 from scipy.signal import hilbert
 
 from mca.framework import Block, data_types, util
-from mca.language import _
 
 
 class Envelope(Block):
     """Computes the envelope of the input signal."""
-    name = _("Envelope")
-    description = _("Computes the envelope of the input signal.")
-    tags = (_("Processing"),)
+    name = "Envelope"
+    description = "Computes the envelope of the input signal."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()

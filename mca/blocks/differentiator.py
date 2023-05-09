@@ -1,14 +1,13 @@
 import numpy as np
 
 from mca.framework import Block, data_types, util
-from mca.language import _
 
 
 class Differentiator(Block):
     """Computes the gradient of the input signal."""
-    name = _("Differentiator")
-    description = _("Computes the gradient of the input signal.")
-    tags = (_("Processing"),)
+    name = "Differentiator"
+    description = "Computes the gradient of the input signal."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()

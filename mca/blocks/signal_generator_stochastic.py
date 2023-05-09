@@ -1,33 +1,32 @@
 import numpy as np
 
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class SignalGeneratorStochastic(Block):
     """Generates a stochastic signal with either normal or equal
     distribution.
     """
-    name = _("SignalGeneratorStochastic")
-    description = _("Generates a stochastic signal "
-                    "with either normal or equal distribution.")
-    tags = (_("Generating"), _("Stochastic"))
+    name = "SignalGeneratorStochastic"
+    description = ("Generates a stochastic signal "
+                   "with either normal or equal distribution.")
+    tags = ("Generating", "Stochastic")
 
     def setup_io(self):
         self.new_output(user_metadata_required=True)
 
     def setup_parameters(self):
         self.parameters["dist"] = parameters.ChoiceParameter(
-                name=_("Distribution"),
-                choices=(("normal", _("Normal distribution")),
-                         ("uniform", _("Uniform distribution"))),
+                name="Distribution",
+                choices=(("normal", "Normal distribution"),
+                         ("uniform", "Uniform distribution")),
                 default="normal"
         )
         self.parameters["mean"] = parameters.FloatParameter(
-            name=_("Mean µ"), default=0
+            name="Mean µ", default=0
         )
         self.parameters["std_dev"] = parameters.FloatParameter(
-            name=_("Standard deviation σ"), min_=0, default=1
+            name="Standard deviation σ", min_=0, default=1
         )
         abscissa = util.create_abscissa_parameter_block()
         self.parameters["abscissa"] = abscissa

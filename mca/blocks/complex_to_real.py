@@ -1,7 +1,6 @@
 import copy
 
 from mca.framework import Block, util
-from mca.language import _
 
 
 class ComplexToReal(Block):
@@ -11,16 +10,16 @@ class ComplexToReal(Block):
     First output yields the real part and second output yields the imaginary
     part.
     """
-    name = _("ComplexToReal")
-    description = _("Separates the real and imaginary part of "
-                    "the input signal into two output signals. First output "
-                    "yields the real part and second output yields the "
-                    "imaginary part.")
-    tags = (_("Processing"),)
+    name = "ComplexToReal"
+    description = ("Separates the real and imaginary part of "
+                   "the input signal into two output signals. First output "
+                   "yields the real part and second output yields the "
+                   "imaginary part.")
+    tags = ("Processing",)
 
     def setup_io(self):
-        self.new_output(name=_("Real part"))
-        self.new_output(name=_("Imaginary part"))
+        self.new_output(name="Real part")
+        self.new_output(name="Imaginary part")
         self.new_input()
 
     def setup_parameters(self):

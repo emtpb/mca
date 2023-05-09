@@ -1,12 +1,11 @@
 from mca.framework import Block, data_types, util
-from mca.language import _
 
 
 class Absolute(Block):
     """Computes the absolute of the input signal."""
-    name = _("Absolute")
-    description = _("Computes the absolute of the input signal.")
-    tags = (_("Processing"),)
+    name = "Absolute"
+    description = "Computes the absolute of the input signal."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()

@@ -3,7 +3,6 @@ from copy import deepcopy
 from handyscope import Oscilloscope
 
 from mca.framework import Block, data_types, parameters
-from mca.language import _
 
 
 class HSOscilloscope(Block):
@@ -13,9 +12,9 @@ class HSOscilloscope(Block):
     Attributes:
         oscilloscope: HS oscilloscope device object.
     """
-    name = _("HSOscilloscope")
-    description = _("Measure and extract data from a Handyscope oscilloscope")
-    tags = (_("Generating"),)
+    name = "HSOscilloscope"
+    description = "Measure and extract data from a Handyscope oscilloscope"
+    tags = ("Generating",)
 
     def __init__(self, **kwargs):
         """Initializes HSOscilloscope."""
@@ -23,33 +22,33 @@ class HSOscilloscope(Block):
         self.oscilloscope = None
 
     def setup_io(self):
-        self.new_output(name=_("Channel 1"), user_metadata_required=True)
-        self.new_output(name=_("Channel 2"), user_metadata_required=True)
+        self.new_output(name="Channel 1", user_metadata_required=True)
+        self.new_output(name="Channel 2", user_metadata_required=True)
 
     def setup_parameters(self):
         self.parameters["device"] = parameters.ChoiceParameter(
-                name=_("Device"), choices=(("HS3", "HS3"),
+                name="Device", choices=(("HS3", "HS3"),
                                            ("HS5", "HS5")),
                 default="HS3"
         )
         self.parameters["connect"] = parameters.ActionParameter(
-                name=_("Connect"), function=self.connect_oscilloscope
+                name="Connect", function=self.connect_oscilloscope
         )
         self.parameters["adc_resolution"] = parameters.ChoiceParameter(
-            name=_("ADC Resolution"), choices=((8, "8"), (10, "10"),
+            name="ADC Resolution", choices=((8, "8"), (10, "10"),
                                                (12, "12"), (14, "14")),
             default=8
         )
         self.parameters["sample_freq"] = parameters.FloatParameter(
-            name=_("Sample Frequency"), unit="Hz", default=1e8
+            name="Sample Frequency", unit="Hz", default=1e8
         )
         self.parameters["record_length"] = parameters.IntParameter(
-            name=_("Record Length"), default=5000
+            name="Record Length", default=5000
         )
         self.parameters["measure"] = parameters.ActionParameter(
-            name=_("Measure"), function=self.measure
+            name="Measure", function=self.measure
         )
-        volt_range = parameters.ChoiceParameter(_("Range"),
+        volt_range = parameters.ChoiceParameter("Range",
                                                 choices=[(0.2, "0.2"),
                                                          (0.4, "0.4"),
                                                          (0.8, "0.8"),
@@ -60,9 +59,9 @@ class HSOscilloscope(Block):
                                                          (40, "40"),
                                                          (80, "80")],
                                                 default=80)
-        trig_lvl = parameters.FloatParameter(_("Trigger Level"), min_=0,
+        trig_lvl = parameters.FloatParameter("Trigger Level", min_=0,
                                              max_=1, default=0.5)
-        trig_kind = parameters.ChoiceParameter(_("Trigger Kind"),
+        trig_kind = parameters.ChoiceParameter("Trigger Kind",
                                                choices=[
                                                    ("rising", "Rising Edge"),
                                                    ("falling", "Falling Edge"),
@@ -70,16 +69,16 @@ class HSOscilloscope(Block):
                                                    (
                                                    "out window", "Out Window")],
                                                default="rising")
-        trig_enabled_ch1 = parameters.BoolParameter(_("Enable Trigger"),
+        trig_enabled_ch1 = parameters.BoolParameter("Enable Trigger",
                                                     default=True)
-        ch1 = parameters.ParameterBlock(name=_("Channel 1"),
+        ch1 = parameters.ParameterBlock(name="Channel 1",
                                         parameters={"range": volt_range,
                                                     "enable_trig": trig_enabled_ch1,
                                                     "trig_lvl": trig_lvl,
                                                     "trig_kind": trig_kind})
-        trig_enabled_ch2 = parameters.BoolParameter(_("Enable Trigger"),
+        trig_enabled_ch2 = parameters.BoolParameter("Enable Trigger",
                                                     default=False)
-        ch2 = parameters.ParameterBlock(name=_("Channel 2"),
+        ch2 = parameters.ParameterBlock(name="Channel 2",
                                         parameters={
                                             "range": deepcopy(volt_range),
                                             "enable_trig": trig_enabled_ch2,

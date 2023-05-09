@@ -1,14 +1,13 @@
 from scipy import signal
 
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class Window(Block):
     """Applies a window function to the input signal."""
-    name = _("Window")
-    description = _("Applies a window function to the input signal.")
-    tags = (_("Processing"),)
+    name = "Window"
+    description = "Applies a window function to the input signal."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()
@@ -16,19 +15,19 @@ class Window(Block):
 
     def setup_parameters(self):
         self.parameters["window_func"] = parameters.ChoiceParameter(
-                name=_("Window Function"),
-                choices=(("tukey", _("Tukey")), ("hann", _("Hann")),
-                         ("hamming", _("Hamming")),
-                         ("exponential", _("Exponential")),
-                         ("gaussian", _("Gaussian")),
-                         ("triangle", _("Triangle"))),
+                name="Window Function",
+                choices=(("tukey", "Tukey"), ("hann", "Hann"),
+                         ("hamming", "Hamming"),
+                         ("exponential", "Exponential"),
+                         ("gaussian", "Gaussian"),
+                         ("triangle", "Triangle")),
                 default="hann"
             )
         self.parameters["alpha"] = parameters.FloatParameter(
-            name=_("Alpha (Tukey)"), min_=0, max_=1, default=0.5
+            name="Alpha (Tukey)", min_=0, max_=1, default=0.5
         )
         self.parameters["std"] = parameters.FloatParameter(
-            name=_("Standard Deviation (Gaussian)"), min_=0, default=1
+            name="Standard Deviation (Gaussian)", min_=0, default=1
         )
 
     @util.abort_all_inputs_empty

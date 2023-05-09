@@ -2,14 +2,13 @@ import numpy as np
 from scipy import integrate
 
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class Integrator(Block):
     """Computes the numerical integration of the input signal."""
-    name = _("Integrator")
-    description = _("Computes the numerical integration of the input signal.")
-    tags = (_("Processing"),)
+    name = "Integrator"
+    description = "Computes the numerical integration of the input signal."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()
@@ -17,9 +16,9 @@ class Integrator(Block):
 
     def setup_parameters(self):
         self.parameters["int_rule"] = parameters.ChoiceParameter(
-                name=_("Integration rule"),
-                choices=(("trapz", _("Trapezoidal")),
-                         ("rect", _("Rectangular"))),
+                name="Integration rule",
+                choices=(("trapz", "Trapezoidal"),
+                         ("rect", "Rectangular")),
                 default="trapz",
         )
 

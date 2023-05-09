@@ -39,7 +39,7 @@ class EditWindow(QtWidgets.QDialog):
         self.resize(600, 750)
         self.setMinimumSize((QtCore.QSize(500, 400)))
         self.setWindowTitle(
-            _("Edit {}").format(self.block.parameters["name"].value))
+            _("Edit {}").format(_(self.block.parameters["name"].value)))
 
         self.main_layout = QtWidgets.QVBoxLayout(self)
 
@@ -56,7 +56,7 @@ class EditWindow(QtWidgets.QDialog):
             general_tab_contents)
         description_box = QtWidgets.QGroupBox(_("Description"))
         description_box_layout = QtWidgets.QVBoxLayout(description_box)
-        description_label = QtWidgets.QLabel(self.block.description)
+        description_label = QtWidgets.QLabel(_(self.block.description))
         description_label.setMaximumHeight(100)
         description_label.setWordWrap(True)
         description_box_layout.addWidget(description_label)
@@ -198,7 +198,7 @@ class EditWindow(QtWidgets.QDialog):
                     not isinstance(block_parameter,
                                    parameters.ActionParameter) and \
                     not isinstance(block_parameter, parameters.ParameterBlock):
-                name_label = QtWidgets.QLabel(block_parameter.name + ":")
+                name_label = QtWidgets.QLabel(_(block_parameter.name) + ":")
                 name_label.setFixedHeight(25)
                 self.parameter_box_layout.addWidget(name_label, index, 0, 1, 1)
             # Translate parameter to the corresponding widget
@@ -351,16 +351,10 @@ class EditWindow(QtWidgets.QDialog):
             self.block_item.update()
         # Catch all exceptions and display them as a message
         except Exception as error:
-            if error.args:
-                logging.error(error.args)
-                self.warning_message.setText(
-                    _("Could not apply the changed parameters and metadata!"
-                      "Continue editing or revert changes?") +
-                    "\n" + _("Error message: ") + error.args[0])
-            else:
-                self.warning_message.setText(
-                    _("Could not apply the changed parameters and metadata!"
-                      "Continue editing or revert changes?"))
+            logging.error(repr(error))
+            self.warning_message.setText(
+                _("Could not apply the changed parameters and metadata!"
+                  "Continue editing or revert changes?") + "\n" + repr(error))
             self.warning_message.exec_()
             if self.warning_message.clickedButton() == self.warning_message.revert_button:
                 self.revert_changes()

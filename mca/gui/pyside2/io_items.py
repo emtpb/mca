@@ -161,12 +161,11 @@ class InputItem(QtWidgets.QGraphicsItem):
                 "Signals have incompatible abscissas."))
             self.mca_input.disconnect()
         except Exception as error:
-            if error.args:
-                logging.error(error.args)
-                QtWidgets.QMessageBox().warning(
-                    None, _("MCA"),
-                    _("Could not connect blocks") + "\n" +
-                    _("Error message: ") + error.args[0])
+            logging.error(repr(error))
+            QtWidgets.QMessageBox().warning(
+                None, _("MCA"),
+                _("Could not connect blocks") + "\n" +
+                repr(error))
             self.mca_input.disconnect()
         else:
             # Create a new connection line

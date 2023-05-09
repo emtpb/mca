@@ -1,14 +1,13 @@
 from scipy.signal import hilbert
 
 from mca.framework import Block, data_types, util
-from mca.language import _
 
 
 class AnalyticalSignal(Block):
     """Computes the analytical signal of the input signal."""
-    name = _("AnalyticalSignal")
-    description = _("Computes the analytical signal of the input signal.")
-    tags = (_("Processing"),)
+    name = "AnalyticalSignal"
+    description = "Computes the analytical signal of the input signal."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()

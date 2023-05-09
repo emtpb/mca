@@ -1,15 +1,14 @@
 import numpy as np
 
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class Normalization(Block):
     """Normalizes input signal by the specified range (By default -1 to 1)."""
-    name = _("Normalization")
-    description = _("Normalizes input signal by the specified range "
-                    "(By default 0-1).")
-    tags = (_("Processing"),)
+    name = "Normalization"
+    description = ("Normalizes input signal by the specified range "
+                   "(By default 0-1).")
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()
@@ -17,10 +16,10 @@ class Normalization(Block):
 
     def setup_parameters(self):
         self.parameters["min"] = parameters.FloatParameter(
-            name=_("Min"), default=0
+            name="Min", default=0
         )
         self.parameters["max"] = parameters.FloatParameter(
-            name=_("Max"), default=1
+            name="Max", default=1
         )
 
     @util.abort_all_inputs_empty

@@ -1,15 +1,15 @@
 import copy
+
 import numpy as np
 
 from mca.framework import DynamicBlock, data_types, util
-from mca.language import _
 
 
 class Adder(DynamicBlock):
     """Adds multiple signals to one new signal."""
-    name = _("Adder")
-    description = _("Adds multiple signals to one signal.")
-    tags = (_("Processing"),)
+    name = "Adder"
+    description = "Adds multiple signals to one signal."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.dynamic_input = (1, None)

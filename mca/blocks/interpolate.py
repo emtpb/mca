@@ -3,7 +3,6 @@ from scipy.interpolate import interp1d
 
 from mca import exceptions
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class Interpolate(Block):
@@ -11,11 +10,11 @@ class Interpolate(Block):
     range of the new abscissa has to within the range of the abscissa of the
     input signal.
     """
-    name = _("Interpolate")
-    description = _("Interpolates the input signal by defining a new abscissa."
-                    " The range of the new abscissa has to within the "
-                    "range of the abscissa of the input signal.")
-    tags = (_("Processing"),)
+    name = "Interpolate"
+    description = ("Interpolates the input signal by defining a new abscissa."
+                   " The range of the new abscissa has to within the "
+                   "range of the abscissa of the input signal.")
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()
@@ -23,14 +22,14 @@ class Interpolate(Block):
 
     def setup_parameters(self):
         abscissa = util.create_abscissa_parameter_block()
-        abscissa.name = _("New abscissa")
+        abscissa.name = "New abscissa"
         self.parameters["abscissa"] = abscissa
         self.parameters["interpol_kind"] = parameters.ChoiceParameter(
-                 name=_("Interpolation kind"),
-                 choices=(("linear", _("Linear")), ("slinear", _("SLinear")),
-                          ("quadratic", _("Quadratic")), ("cubic", _("Cubic")),
-                          ("zero", _("Zero")), ("previous", _("Previous")),
-                          ("next", _("Next")), ("nearest", _("Nearest"))
+                 name="Interpolation kind",
+                 choices=(("linear", "Linear"), ("slinear", "SLinear"),
+                          ("quadratic", "Quadratic"), ("cubic", "Cubic"),
+                          ("zero", "Zero"), ("previous", "Previous"),
+                          ("next", "Next"), ("nearest", "Nearest")
                           ),
                  default="linear"
         )

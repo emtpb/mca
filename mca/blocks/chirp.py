@@ -2,18 +2,17 @@ import numpy as np
 from scipy import signal as sgn
 
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class Chirp(Block):
     """Generates a chirp signal."""
-    name = _("Chirp")
-    description = _("Generates a chirp signal. Two frequencies have to be "
-                    "specified where the first frequency corresponds to the "
-                    "frequency at the beginning of the signal and second "
-                    "frequency corresponds to the frequency at the end of the "
-                    "signal.")
-    tags = (_("Generating"),)
+    name = "Chirp"
+    description = ("Generates a chirp signal. Two frequencies have to be "
+                   "specified where the first frequency corresponds to the "
+                   "frequency at the beginning of the signal and second "
+                   "frequency corresponds to the frequency at the end of the "
+                   "signal.")
+    tags = ("Generating",)
 
     def setup_io(self):
         self.new_output(user_metadata_required=True)
@@ -21,23 +20,23 @@ class Chirp(Block):
     def setup_parameters(self):
 
         self.parameters["sweep_kind"]= parameters.ChoiceParameter(
-                name=_("Sweep Kind"),
-                choices=[("linear", _("Linear")), ("quadratic", _("Quadratic")),
-                         ("logarithmic", _("Logarithmic")),
-                         ("hyperbolic", _("Hyperbolic"))],
+                name="Sweep Kind",
+                choices=[("linear", "Linear"), ("quadratic", "Quadratic"),
+                         ("logarithmic", "Logarithmic"),
+                         ("hyperbolic", "Hyperbolic")],
                 default="linear"
         )
         self.parameters["freq1"] = parameters.FloatParameter(
-            name=_("Start Frequency"), unit="Hz", min_=0, default=1
+            name="Start Frequency", unit="Hz", min_=0, default=1
         )
         self.parameters["freq2"] = parameters.FloatParameter(
-            name=_("End Frequency"), unit="Hz", min_=0, default=10
+            name="End Frequency", unit="Hz", min_=0, default=10
         )
         self.parameters["amp"] = parameters.FloatParameter(
-            name=_("Amplitude"), min_=0, default=1
+            name="Amplitude", min_=0, default=1
         )
         self.parameters["phase"] = parameters.FloatParameter(
-            name=_("Phase"), default=0, unit="°"
+            name="Phase", default=0, unit="°"
         )
         abscissa = util.create_abscissa_parameter_block()
         self.parameters["abscissa"] = abscissa

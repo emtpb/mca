@@ -47,7 +47,6 @@ from .window import Window
 from .xy_plot import XYPlot
 from .zerofill import Zerofill
 
-
 # Create list of all blocks
 block_classes = [i[1] for i in inspect.getmembers(sys.modules[__name__],
                                                   inspect.isclass)]

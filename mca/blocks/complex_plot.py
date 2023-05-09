@@ -4,7 +4,6 @@ import numpy as np
 
 from mca.framework import DynamicBlock, PlotBlock, data_types, parameters, \
     util, validator
-from mca.language import _
 
 
 class ComplexPlot(DynamicBlock, PlotBlock):
@@ -17,10 +16,10 @@ class ComplexPlot(DynamicBlock, PlotBlock):
                     input signal.
         legend: Reference of the legend.
     """
-    name = _("ComplexPlot")
-    description = _("Plots absolute and phase or real and imaginary part of "
+    name = "ComplexPlot"
+    description = ("Plots absolute and phase or real and imaginary part of "
                     "the input signal.")
-    tags = (_("Plotting"),)
+    tags = ("Plotting",)
 
     def __init__(self, **kwargs):
         """Initializes ComplexPlot class."""
@@ -31,32 +30,32 @@ class ComplexPlot(DynamicBlock, PlotBlock):
 
     def setup_parameters(self):
         self.parameters["plot_type"] = parameters.ChoiceParameter(
-            name=_("Plot type"), choices=(("real_imag", _("Real/Imaginary")),
-                                          ("abs_phase", _("Absolute/Phase"))),
+            name="Plot type", choices=(("real_imag", "Real/Imaginary"),
+                                          ("abs_phase", "Absolute/Phase")),
             default="abs_phase"
         )
 
     def setup_plot_parameters(self):
         plot_kind = parameters.ChoiceParameter(
-            name=_("Plot kind"), choices=[("line", _("Line")),
-                                          ("stem", _("Stem"))], )
+            name="Plot kind", choices=[("line", "Line"),
+                                          ("stem", "Stem")], )
         abscissa_scaling = parameters.ChoiceParameter(
-            name=_("Abscissa scaling"),
-            choices=(("linear", _("Linear")), ("log", _("Log")),
-                     ("symlog", _("Symmetrcial log")), ("logit", _("Logit"))),
+            name="Abscissa scaling",
+            choices=(("linear", "Linear"), ("log", "Log"),
+                     ("symlog", "Symmetrcial log"), ("logit", "Logit")),
             default="linear"
         )
         ordinate_scaling = parameters.ChoiceParameter(
-            name=_("Ordinate scaling"),
-            choices=(("linear", _("Linear")), ("log", _("Log")),
-                     ("symlog", _("Symmetrcial log")), ("logit", _("Logit"))),
+            name="Ordinate scaling",
+            choices=(("linear", "Linear"), ("log", "Log"),
+                     ("symlog", "Symmetrcial log"), ("logit", "Logit")),
             default="linear"
         )
-        color = util.get_plt_color_parameter(_("Color"))
+        color = util.get_plt_color_parameter("Color")
         marker = util.get_plt_marker_parameter()
-        marker_color = util.get_plt_color_parameter(_("Marker Color"))
+        marker_color = util.get_plt_color_parameter("Marker Color")
         self.plot_parameters["real_absolute"] = parameters.ParameterBlock(
-            name=_("Real/Absolute"),
+            name="Real/Absolute",
             parameters={"plot_kind": plot_kind,
                         "abscissa_scaling": abscissa_scaling,
                         "ordinate_scaling": ordinate_scaling,
@@ -65,7 +64,7 @@ class ComplexPlot(DynamicBlock, PlotBlock):
                         "marker_color": marker_color}
         )
         self.plot_parameters["imag_phase"] = parameters.ParameterBlock(
-            name=_("Imag/Phase"),
+            name="Imag/Phase",
             parameters={"plot_kind": copy.deepcopy(plot_kind),
                         "abscissa_scaling": copy.deepcopy(abscissa_scaling),
                         "ordinate_scaling": copy.deepcopy(ordinate_scaling),
@@ -183,7 +182,7 @@ class ComplexPlot(DynamicBlock, PlotBlock):
             self.first_axis.set_ylabel(ordinate_string)
             self.second_axis.set_xlabel(abscissa_string)
             if plot_type == "abs_phase":
-                self.second_axis.set_ylabel(_("Phase in rad"))
+                self.second_axis.set_ylabel("Phase in rad")
             else:
                 self.second_axis.set_ylabel(ordinate_string)
         # Set the scalings

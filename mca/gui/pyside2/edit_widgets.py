@@ -174,7 +174,7 @@ class ChoiceParameterWidget(BaseParameterWidget, QtWidgets.QComboBox):
         self.setItemDelegate(delegate)
 
         for i in range(len(self.parameter.choices)):
-            self.addItem(self.parameter.choices[i][1],
+            self.addItem(_(self.parameter.choices[i][1]),
                          userData=self.parameter.choices[i][0])
 
     def write_parameter(self):
@@ -302,7 +302,7 @@ class ActionParameterWidget(BaseParameterWidget, QtWidgets.QPushButton):
 
     def __init__(self, parameter):
         self.parameter = parameter
-        QtWidgets.QPushButton.__init__(self, self.parameter.name)
+        QtWidgets.QPushButton.__init__(self, _(self.parameter.name))
         BaseParameterWidget.__init__(self, parameter)
         self.pressed.connect(self.execute_function)
 
@@ -325,10 +325,9 @@ class ActionParameterWidget(BaseParameterWidget, QtWidgets.QPushButton):
         """Executes the function of the parameter."""
         try:
             self.parameter.function()
-        except exceptions.MCAError as error:
-            message = error.args[0]
+        except Exception as error:
             QtWidgets.QMessageBox.warning(
-                self, _("MCA"), _("Something went wrong." + "\n" + message),
+                self, _("MCA"), _("Could not apply action") + "\n" + repr(error),
                 QtWidgets.QMessageBox.Ok)
 
 

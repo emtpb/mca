@@ -3,27 +3,26 @@ import scipy.io.wavfile
 
 from mca import exceptions
 from mca.framework import Block, data_types, parameters
-from mca.language import _
 
 
 class AudioLoader(Block):
     """Loads a .wav to create an output signal."""
-    name = _("AudioLoader")
-    description = _("Loads a .wav to create an output signal.")
-    tags = (_("Loading"), _("Audio"))
+    name = "AudioLoader"
+    description = "Loads a .wav to create an output signal."
+    tags = ("Loading", "Audio")
 
     def setup_io(self):
         self.new_output(user_metadata_required=True)
 
     def setup_parameters(self):
         self.parameters["file_name"] = parameters.PathParameter(
-            name=_("Filename"), file_formats=[".wav"], loading=True
+            name="Filename", file_formats=[".wav"], loading=True
         )
         self.parameters["load_file"] = parameters.ActionParameter(
-            name=_("Load file"), function=self.load_wav
+            name="Load file", function=self.load_wav
         )
         self.parameters["normalize"] = parameters.BoolParameter(
-            name=_("Normalize"), default=True
+            name="Normalize", default=True
         )
 
     def process(self):

@@ -1,7 +1,6 @@
 import numpy as np
 
 from mca.framework import Block, data_types, parameters, util
-from mca.language import _
 
 
 class Impulse(Block):
@@ -9,21 +8,21 @@ class Impulse(Block):
     Note that the pulse length and the shift have no units and are related to
     the amount of values which are set by the abscissa parameter.
     """
-    name = _("Impulse")
-    description = _("Generates an impulse signal. Note that the pulse length "
-                    "and the shift have no units and are related to the amount "
-                    "of values which are set by the abscissa parameter.")
-    tags = (_("Generating"),)
+    name = "Impulse"
+    description = ("Generates an impulse signal. Note that the pulse length "
+                   "and the shift have no units and are related to the amount "
+                   "of values which are set by the abscissa parameter.")
+    tags = ("Generating",)
 
     def setup_io(self):
         self.new_output(user_metadata_required=False)
 
     def setup_parameters(self):
         self.parameters["pulse_length"] = parameters.IntParameter(
-            name=_("Pulse length"), min_=1, max_=None, default=1
+            name="Pulse length", min_=1, max_=None, default=1
         )
         self.parameters["shift"] = parameters.IntParameter(
-            name=_("Shift of the pulse"), min_=0, max_=None,
+            name="Shift of the pulse", min_=0, max_=None,
             default=0
         )
         self.parameters["abscissa"] = util.create_abscissa_parameter_block()

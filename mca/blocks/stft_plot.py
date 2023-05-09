@@ -1,15 +1,14 @@
 from scipy.signal import stft
 
 from mca.framework import PlotBlock, data_types, parameters, validator
-from mca.language import _
 
 
 class STFTPlot(PlotBlock):
     """Plots the Short-Time Fourier Transformation of the input signal."""
-    name = _("STFTPlot")
-    description = _("Plots the Short-Time Fourier Transformation of the "
-                    "input signal.")
-    tags = (_("Plotting"), _("Fouriertransformation"))
+    name = "STFTPlot"
+    description = ("Plots the Short-Time Fourier Transformation of the "
+                   "input signal.")
+    tags = ("Plotting", "Fouriertransformation")
 
     def __init__(self, **kwargs):
         """Initializes STFTPlot class."""
@@ -21,32 +20,32 @@ class STFTPlot(PlotBlock):
 
     def setup_parameters(self):
         self.parameters["window"] = parameters.ChoiceParameter(
-                name=_("Window"),
-                choices=(("boxcar", _("Rectangle")),
-                         ("hann", _("Hann")),
-                         ("hamming", _("Hamming")),
-                         ("triangle", _("Triangle"))
+                name="Window",
+                choices=(("boxcar", "Rectangle"),
+                         ("hann", "Hann"),
+                         ("hamming", "Hamming"),
+                         ("triangle", "Triangle")
                         ),
                 default="hann"
         )
         self.parameters["seg_length"] = parameters.IntParameter(
-                name=_("Segment Length"), min_=1, default=20
+                name="Segment Length", min_=1, default=20
         )
         self.parameters["seg_overlap"] = parameters.IntParameter(
-                name=_("Segment Overlap"), min_=0, default=10
+                name="Segment Overlap", min_=0, default=10
         )
         self.parameters["fft_length"] = parameters.IntParameter(
-                name=_("FFT Length"), min_=1, default=20
+                name="FFT Length", min_=1, default=20
         )
 
     def setup_plot_parameters(self):
         self.plot_parameters["cmap"] = parameters.ChoiceParameter(
-            name=_("Colormap"),
-            choices=(("viridis", _("Viridis")),
-                     ("plasma", _("Plasma")),
-                     ("inferno", _("Inferno")),
-                     ("magma", _("Magma")),
-                     ("cividis", _("Cividis"))
+            name="Colormap",
+            choices=(("viridis", "Viridis"),
+                     ("plasma", "Plasma"),
+                     ("inferno", "Inferno"),
+                     ("magma", "Magma"),
+                     ("cividis", "Cividis")
                      ),
             default="viridis"
         )

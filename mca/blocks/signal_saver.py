@@ -1,25 +1,24 @@
 import json
 
 from mca import exceptions
-from mca.framework import Block, parameters, util
-from mca.language import _
+from mca.framework import Block, parameters
 
 
 class SignalSaver(Block):
     """Saves the input signal in .json file."""
-    name = _("SignalSaver")
-    description = _("Saves the input signal in .json file.")
-    tags = (_("Saving"),)
+    name = "SignalSaver"
+    description = "Saves the input signal in .json file."
+    tags = ("Saving",)
 
     def setup_io(self):
         self.new_input()
 
     def setup_parameters(self):
         self.parameters["file_name"] = parameters.PathParameter(
-            name=_("Filename"), file_formats=[".json"]
+            name="Filename", file_formats=[".json"]
         )
         self.parameters["save"] = parameters.ActionParameter(
-            name=_("Save"), function=self.save_data,
+            name="Save", function=self.save_data,
             display_options=("edit_window", "block_button")
         )
 

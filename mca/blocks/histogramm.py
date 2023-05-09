@@ -8,10 +8,10 @@ class Histogramm(PlotBlock):
     """Plots absolute and relative (density) frequency of occurrences of
     values in a histogramm.
     """
-    name = _("Histogramm")
-    description = _("Plots absolute and relative (density) frequency of "
-                    "occurrences of values in a histogramm.")
-    tags = (_("Plotting"),)
+    name = "Histogramm"
+    description = ("Plots absolute and relative (density frequency of "
+                   "occurrences of values in a histogramm.")
+    tags = ("Plotting",)
 
     def __init__(self, **kwargs):
         """Initializes Histogramm class."""
@@ -19,21 +19,20 @@ class Histogramm(PlotBlock):
         self.legend = None
 
     def setup_parameters(self):
-        self.parameters.update({
-            "plot_type": parameters.ChoiceParameter(_("Plot type"), choices=(
-                ("absolute", _("Absolute frequency")),
-                ("relative", _("Relative frequency")),
-                ("density", _("Relative (density) frequency"))
-            ),
-                                                    default="absolute"),
-            "bins": parameters.IntParameter(_("Bins"), min_=1, default=100),
-        })
+        self.parameters["plot_type"] = parameters.ChoiceParameter(
+            "Plot type", choices=(
+                ("absolute", "Absolute frequency"),
+                ("relative", "Relative frequency"),
+                ("density", "Relative (density frequency)")),
+            default = "absolute")
+        self.parameters["bins"] = parameters.IntParameter("Bins",
+                                                          min_=1, default=100)
 
     def setup_plot_parameters(self):
         self.plot_parameters["color"] = util.get_plt_color_parameter()
         self.plot_parameters["align"] = parameters.ChoiceParameter(
-            name=_("Align"), choices=(("left", _("Left")), ("mid", _("Mid")),
-                                      ("right", _("Right"))),
+            name="Align", choices=(("left", "Left"), ("mid", "Mid"),
+                                   ("right", "Right")),
             default="mid"
         )
 
@@ -65,10 +64,10 @@ class Histogramm(PlotBlock):
         # Adapt y label depending on the plot type
         if plot_type == "absolute":
             density = False
-            y_label = _("Absolute frequency of occurrence")
+            y_label = "Absolute frequency of occurrence"
         elif plot_type == "relative":
             density = False
-            y_label = _("Relative frequency of occurrence")
+            y_label = "Relative frequency of occurrence"
         else:
             density = True
             y_label = _(
