@@ -110,7 +110,7 @@ class BlockList(QtWidgets.QListWidget):
                                          open_edit_window=True,
                                          random_pos=True)
         elif item.data(4) == "tag":
-            self.search_bar.setText(item.data(5))
+            self.search_bar.setText(_(item.data(5)))
 
     def contextMenuEvent(self, event):
         """Method invoked when right-clicking with the mouse. Opens
