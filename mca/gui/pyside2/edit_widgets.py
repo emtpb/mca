@@ -186,7 +186,7 @@ class ChoiceParameterWidget(BaseParameterWidget, QtWidgets.QComboBox):
     def read_parameter(self):
         for i in range(len(self.parameter.choices)):
             if self.parameter.choices[i][0] == self.parameter.value:
-                self.setCurrentText(self.parameter.choices[i][1])
+                self.setCurrentText(_(self.parameter.choices[i][1]))
 
     def check_changed(self):
         index = self.findText(self.currentText())
