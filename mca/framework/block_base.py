@@ -31,7 +31,7 @@ class Block:
     def __init__(self, **kwargs):
         """Initializes the main Block class."""
         super().__init__()
-        logging.info(f"Initializing {self.name}")
+        logging.info(f"Initializing {self}")
         self.inputs = []
         self.outputs = []
         self.parameters = {
@@ -220,6 +220,7 @@ class DynamicBlock(Block):
         Raises:
             :class:`.InputOutputError`: If adding the Input was not successful.
         """
+        logging.info(f"Adding input to {self}")
         if input_ in io_registry.Registry._graph.nodes:
             raise exceptions.DynamicIOError("Input already added")
         if not self.dynamic_input:
@@ -240,6 +241,7 @@ class DynamicBlock(Block):
         Raises:
             :class:`.InputOutputError`: If adding the Output was not successful.
         """
+        logging.info(f"Adding output to {self}")
         if output in io_registry.Registry._graph.nodes:
             raise exceptions.DynamicIOError("Output already added")
         if not self.dynamic_output:
@@ -261,6 +263,7 @@ class DynamicBlock(Block):
             :class:`.InputOutputError`: If the lower limit of the Inputs is
                 reached or dynamic_input is set to None.
         """
+        logging.info(f"Deleting input from {self}")
         if not self.dynamic_input:
             raise exceptions.DynamicIOError("No permission to delete Input")
         if self.dynamic_input[0] >= len(self.inputs):
@@ -276,6 +279,7 @@ class DynamicBlock(Block):
             :class:`.InputOutputError`: If the lower limit of the Outputs is
                 reached or dynamic_output is set to None.
         """
+        logging.info(f"Deleting output from {self}")
         if not self.dynamic_output:
             raise exceptions.DynamicIOError("No permission to delete Output")
         if self.dynamic_output[0] >= len(self.outputs):
@@ -311,7 +315,6 @@ class PlotBlock(Block):
             rows (int): Number of cols in the figure.
             cols (int): Number of cols in the figure.
         """
-
         super().__init__(**kwargs)
         self.setup_plot_parameters()
         self.plot_window = PlotWindow(rows, cols)

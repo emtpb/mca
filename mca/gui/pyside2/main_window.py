@@ -1,3 +1,4 @@
+import logging
 import os
 
 import qdarkstyle
@@ -342,12 +343,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def set_default_theme(self):
         """Sets the application style to default."""
+        logging.info("Setting theme to default.")
         self.conf["theme"] = "default"
         app = QtWidgets.QApplication.instance()
         app.setStyleSheet("")
 
     def set_dark_theme(self):
         """Sets the application style to dark."""
+        logging.info("Setting theme to dark.")
         self.conf["theme"] = "dark"
         app = QtWidgets.QApplication.instance()
         app.setStyleSheet(qdarkstyle.load_stylesheet_pyside2())
@@ -362,6 +365,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         def tmp():
             self.conf["language"] = language
+            logging.info(f"Changing language to {language}")
             msg_box = QtWidgets.QMessageBox()
             msg_box.setWindowTitle(_("MCA"))
             msg_box.setText(_("Changes will be applied after restart."))
@@ -373,6 +377,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """Aligns the explorer widget to the left side of the splitter
         widget.
         """
+        logging.info("Aligning the explorer to the left.")
         if self.main_widget.indexOf(self.block_explorer) == 2:
             self.main_widget.insertWidget(0, self.block_explorer)
             self.main_widget.insertWidget(2, self.plot_dock_manager)
@@ -381,6 +386,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def align_explorer_right(self):
         """Aligns the explorer widget to the right side of the splitter widget.
         """
+        logging.info("Aligning the explorer to the right.")
         if self.main_widget.indexOf(self.block_explorer) == 0:
             self.main_widget.insertWidget(2, self.block_explorer)
             self.main_widget.insertWidget(0, self.plot_dock_manager)
