@@ -226,9 +226,10 @@ class BlockItem(QtWidgets.QGraphicsItem):
         return QtCore.QRectF(0, 0, self.width, self.height)
 
     def required_name_width(self):
-        """Width required to display the block name and the custom user name."""
+        """Width required to display the block name and the custom block name.
+        """
         name_width = QtGui.QFontMetrics(self.default_font).width(
-            self.block.name)
+            _(self.block.name))
         custom_name_width = QtGui.QFontMetrics(self.custom_name_font).width(
             self.block.parameters["name"].value)
         # Check if name has been changed
@@ -240,8 +241,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     @property
     def width(self):
-        """Get the total width of the block item. This includes its inputs, outputs
-        and the selection circles around the block.
+        """Get the total width of the block item. This includes its inputs,
+        outputs and the selection circles around the block.
         """
         return self.block_width + self.select_point_diameter + self.output_offset + self.input_offset
 
