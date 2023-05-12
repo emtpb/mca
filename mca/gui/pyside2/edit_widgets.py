@@ -361,6 +361,7 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
         if self.parameter.file_formats:
             file_formats = "(*" + " *".join(self.parameter.file_formats) + ")"
             self.file_dialog.setNameFilter(file_formats)
+            self.file_dialog.setDefaultSuffix(self.parameter.file_formats[0])
         if self.parameter.loading:
             self.file_dialog.setAcceptMode(QtWidgets.QFileDialog.AcceptOpen)
         else:
@@ -368,6 +369,8 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
         if dir_path:
             self.file_dialog.setDirectory(dir_path)
         self.button.clicked.connect(self.open_file_dialog)
+        self.file_edit.editingFinished.connect(self.write_parameter)
+        self.file_edit.editingFinished.connect(self.apply_changes)
 
     def write_parameter(self):
         self.parameter.value = self.file_edit.text()
