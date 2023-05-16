@@ -1,3 +1,4 @@
+from dsch import schema
 import numpy as np
 from united import Unit
 
@@ -47,6 +48,29 @@ class Signal:
         if not np.allclose(self.ordinate, other.ordinate):
             return False
         return True
+
+
+# Dsch schema to save and load signals
+signal_schema = schema.Compilation({
+    "signal": schema.Compilation(
+        {"abscissa_start": schema.Scalar(dtype="float"),
+         "values": schema.Scalar(dtype="int"),
+         "increment": schema.Scalar(dtype="float"),
+         "ordinate": schema.Array(dtype="float")
+         }
+    ),
+    "metadata": schema.Compilation(
+        {
+            "name": schema.String(),
+            "abscissa_unit": schema.String(),
+            "abscissa_symbol": schema.String(),
+            "abscissa_quantity": schema.String(),
+            "ordinate_unit": schema.String(),
+            "ordinate_symbol": schema.String(),
+            "ordinate_quantity": schema.String(),
+        }
+    )
+})
 
 
 class MetaData:
