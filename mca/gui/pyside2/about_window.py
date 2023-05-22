@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 from PySide2 import QtWidgets, QtCore, QtGui
 
@@ -36,7 +36,8 @@ class AboutWindow(QtWidgets.QDialog):
         self.emt_logo = QtWidgets.QLabel(self)
         self.emt_logo.setGeometry(QtCore.QRect(10, 10, 451, 241))
         self.emt_logo.setPixmap(QtGui.QPixmap(
-            os.path.dirname(__file__) + "/../../images/emt_logo.png"))
+            str(Path(__file__).parent / "../../resources/emt_logo.png"))
+        )
         self.emt_logo.setScaledContents(False)
         # Create widget for the info
         self.about_info = QtWidgets.QWidget(self)
@@ -68,8 +69,8 @@ class AboutWindow(QtWidgets.QDialog):
         version_label.setText(_("Version:"))
         version_label.setFont(font)
 
-        mca_path = os.path.abspath(os.path.dirname(mca.__file__))
-        with open(os.path.join(mca_path, 'version.txt')) as version_file:
+        mca_path = Path(mca.__file__).parent
+        with open(mca_path / 'version.txt') as version_file:
             version = version_file.read()
         version_field_label = QtWidgets.QLabel(self.about_info)
         version_field_label.setText(version)

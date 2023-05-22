@@ -1,5 +1,5 @@
 import logging
-import os
+from pathlib import Path
 
 import qdarkstyle
 from PySide2 import QtWidgets, QtGui
@@ -32,9 +32,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.conf = config.Config()
 
         self.about_window = about_window.AboutWindow(self)
-
         self.setWindowIcon(QtGui.QIcon(
-            os.path.dirname(__file__) + "/../../images/emt_logo.png"))
+            str(Path(__file__).parent / "../../resources/emt_logo.png"))
+        )
         if self.conf["theme"] == "default":
             self.set_default_theme()
         else:

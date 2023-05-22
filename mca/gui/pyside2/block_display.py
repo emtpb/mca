@@ -1,5 +1,6 @@
 import json
 import random
+import pathlib
 
 from PySide2 import QtWidgets, QtCore, QtGui
 
@@ -25,9 +26,13 @@ class BlockView(QtWidgets.QGraphicsView):
         QtWidgets.QGraphicsView.__init__(self, scene=scene, parent=parent)
         self.setMinimumSize(500, 400)
         self.zoom_factor = 1
+        # Relative path for the toolbar icons
+        gui_path = pathlib.Path(__file__).parent
+        icon_path = gui_path / "../../resources/icons/"
         # Define actions
         self.zoom_in_action = QtWidgets.QAction(
-            QtGui.QIcon.fromTheme("zoom-in"), _("Zoom in"))
+            QtGui.QIcon(str(icon_path / "magnifying-glass-plus.png")),
+            _("Zoom in"))
         self.zoom_in_action.setShortcut("Ctrl++")
         self.zoom_in_action.triggered.connect(self.zoom_in)
         self.zoom_in_action.setToolTip(
@@ -35,7 +40,9 @@ class BlockView(QtWidgets.QGraphicsView):
         self.addAction(self.zoom_in_action)
 
         self.zoom_out_action = QtWidgets.QAction(
-            QtGui.QIcon.fromTheme("zoom-out"), _("Zoom out"))
+            QtGui.QIcon(str(icon_path / "magnifying-glass-minus.png")),
+            _("Zoom out")
+        )
         self.zoom_out_action.setShortcut("Ctrl+-")
         self.zoom_out_action.triggered.connect(self.zoom_out)
         self.zoom_out_action.setToolTip("{}, {}".format(_("Zoom out"),
@@ -43,36 +50,39 @@ class BlockView(QtWidgets.QGraphicsView):
         self.addAction(self.zoom_out_action)
 
         self.zoom_original_action = QtWidgets.QAction(
-            QtGui.QIcon.fromTheme("zoom-original"), _("Zoom original"))
+            QtGui.QIcon(str(icon_path / "increase.png")), _("Zoom original")
+        )
         self.zoom_original_action.triggered.connect(self.zoom_original)
 
-        self.copy_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("edit-copy"),
-                                             _("Copy"))
+        self.copy_action = QtWidgets.QAction(QtGui.QIcon(
+            str(icon_path / "copy.png")), _("Copy")
+        )
         self.copy_action.triggered.connect(self.scene().copy_selected)
         self.copy_action.setShortcut("Ctrl+C")
         self.copy_action.setToolTip("{}, {}".format(_("Copy"), _("Ctrl+C")))
 
         self.paste_action = QtWidgets.QAction(
-            QtGui.QIcon.fromTheme("edit-paste"),
-            _("Paste"))
+            QtGui.QIcon(str(icon_path / "paste.png")), _("Paste")
+        )
         self.paste_action.triggered.connect(self.scene().paste_selected)
         self.paste_action.setShortcut("Ctrl+V")
         self.paste_action.setToolTip("{}, {}".format(_("Paste"), "Ctrl+V"))
 
-        self.cut_action = QtWidgets.QAction(QtGui.QIcon.fromTheme("edit-cut"),
-                                            _("Cut"))
+        self.cut_action = QtWidgets.QAction(
+            QtGui.QIcon(str(icon_path / "cut-with-scissors.png")), _("Cut")
+        )
         self.cut_action.triggered.connect(self.scene().cut_selected)
         self.cut_action.setShortcut("Ctrl+X")
         self.cut_action.setToolTip("{}, {}".format(_("Cut"), _("Ctrl+X")))
 
         self.delete_action = QtWidgets.QAction(
-            QtGui.QIcon.fromTheme("edit-delete"), _("Delete"))
+            QtGui.QIcon(str(icon_path / "bin.png")), _("Delete"))
         self.delete_action.triggered.connect(self.scene().delete_selected)
         self.delete_action.setShortcut("Del")
         self.delete_action.setToolTip("{}, {}".format(_("Delete"), _("Del")))
-        self.clear_action = QtWidgets.QAction(
-            QtGui.QIcon.fromTheme("edit-clear"),
-            _("Clear"))
+        self.clear_action = QtWidgets.QAction(QtGui.QIcon(
+            str(icon_path / "archeology.png")), _("Clear")
+        )
         self.clear_action.triggered.connect(self.scene().clear)
 
         self.setBackgroundBrush(draw_pattern(40, QtGui.Qt.gray))
