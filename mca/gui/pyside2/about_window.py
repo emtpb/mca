@@ -24,24 +24,16 @@ class AboutWindow(QtWidgets.QDialog):
         """
         QtWidgets.QDialog.__init__(self, parent=parent)
         self.setWindowTitle(_("MCA"))
-        self.setFixedSize(510, 430)
-        # Create button box
-        self.button_box = QtWidgets.QDialogButtonBox(self)
-        self.button_box.setGeometry(QtCore.QRect(160, 385, 341, 32))
-        self.button_box.setOrientation(QtCore.Qt.Horizontal)
-        self.button_box.setStandardButtons(QtWidgets.QDialogButtonBox.Close)
-        self.button_box.button(QtWidgets.QDialogButtonBox.Close).setText(
-            _("Close"))
+        self.setLayout(QtWidgets.QVBoxLayout())
         # Add logo
-        self.emt_logo = QtWidgets.QLabel(self)
-        self.emt_logo.setGeometry(QtCore.QRect(10, 10, 451, 241))
+        self.emt_logo = QtWidgets.QLabel()
         self.emt_logo.setPixmap(QtGui.QPixmap(
-            str(Path(__file__).parent / "../../resources/emt_logo.png"))
-        )
+            str(Path(__file__).parent / "../../resources/emt_logo_cropped.png")))
+
         self.emt_logo.setScaledContents(False)
+        self.layout().addWidget(self.emt_logo)
         # Create widget for the info
-        self.about_info = QtWidgets.QWidget(self)
-        self.about_info.setGeometry(QtCore.QRect(20, 300, 726, 90))
+        self.about_info = QtWidgets.QWidget()
         self.about_info_layout = QtWidgets.QFormLayout(self.about_info)
         # Create labels
         font = QtGui.QFont()
@@ -88,6 +80,14 @@ class AboutWindow(QtWidgets.QDialog):
                                          version_label)
         self.about_info_layout.setWidget(2, QtWidgets.QFormLayout.FieldRole,
                                          version_field_label)
+        self.layout().addWidget(self.about_info)
+        # Create button box
+        self.button_box = QtWidgets.QDialogButtonBox()
+        self.button_box.setOrientation(QtCore.Qt.Horizontal)
+        self.button_box.setStandardButtons(QtWidgets.QDialogButtonBox.Close)
+        self.button_box.button(QtWidgets.QDialogButtonBox.Close).setText(
+            _("Close"))
+        self.layout().addWidget(self.button_box)
 
         self.button_box.accepted.connect(self.accept)
         self.button_box.rejected.connect(self.reject)
