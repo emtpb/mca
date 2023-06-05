@@ -75,8 +75,7 @@ class BlockList(QtWidgets.QListWidget):
         self.menu = QtWidgets.QMenu()
         self.new_block_action = QtWidgets.QAction(_("New block"))
         self.new_block_action.triggered.connect(
-            lambda: self.scene.create_block_item(self.currentItem().data(3)(),
-                                                 self.width(), 10)
+            lambda: self.scene.create_block_item(self.currentItem().data(3)())
         )
         self.menu.addAction(self.new_block_action)
         # Add all blocks to the block list
@@ -106,9 +105,8 @@ class BlockList(QtWidgets.QListWidget):
             return
         if item.data(4) == "block":
             selected_block_class = item.data(3)
-            self.scene.create_block_item(selected_block_class(), 0, 0,
-                                         open_edit_window=False,
-                                         random_pos=True)
+            self.scene.create_block_item(selected_block_class(),
+                                         open_edit_window=False)
         elif item.data(4) == "tag":
             self.search_bar.setText(_(item.data(5)))
 

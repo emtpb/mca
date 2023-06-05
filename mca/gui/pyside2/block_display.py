@@ -188,10 +188,9 @@ class BlockScene(QtWidgets.QGraphicsScene):
         """
         event.accept()
         event.setDropAction(QtCore.Qt.CopyAction)
-        x = event.scenePos().x()
-        y = event.scenePos().y()
+        pos = (event.scenePos().x(), event.scenePos().y())
         block_class = event.source().selectedItems()[0].data(3)
-        self.create_block_item(block_class(), x, y, open_edit_window=False)
+        self.create_block_item(block_class(), pos=pos, open_edit_window=False)
 
     def clear(self):
         """Removes all items from the BlockScene."""
@@ -199,43 +198,44 @@ class BlockScene(QtWidgets.QGraphicsScene):
             if isinstance(item, block_item.BlockItem):
                 item.delete()
 
-    def create_block_item(self, block, x, y, width=100, height=100,
-                          open_edit_window=False, random_pos=False):
+    def create_block_item(self, block, pos=None, width=100, height=100,
+                          open_edit_window=False):
         """Creates a new :class:`.BlockItem` to an existing :class:`.Block`.
-        Tries to find the next free spot of (x,y) to create the block. A free
-        spot means there is enough space to crate 100x100 block without
-        overlapping another block.
 
         Args:
-            x (int): X coordinate of the BlockItem in the scene.
-            y (int): Y coordinate of the BlockItem in the scene.
+
             block: :class:`.Block` instance the block item represents.
+            pos (tuple): (x,y) - Position of the block. If set to None a
+                         pseudo random position will be calculated based on
+                         the position of current blocks in the scene.
             width (int): Width of the BlockItem.
             height (int): Width of the BlockItem.
             open_edit_window (bool): True, if the edit window
                                      should be opened immediately after
                                      initializing the block.
-            random_pos (bool): True, if the position should be random within
-                               the view.
 
         """
-        new_block = block_item.BlockItem(self.views()[0], block, x, y, width,
-                                         height)
-        if random_pos:
-            width = self.views()[0].width()
-            height = self.views()[0].height()
-            # Ensure that the position is somewhat in the view
-            x_min = 0
-            x_max = width - new_block.width
-            if x_min > x_max:
-                x_max = x_min
-            x = random.randint(x_min, x_max)
-            y_min = 0
-            y_max = height - new_block.height
-            if y_min > y_max:
-                y_max = y_min
-            y = random.randint(y_min, y_max)
-            new_block.setPos(x, y)
+        if pos is None:
+            # Compute the average position of the blocks
+            avg_x, avg_y = 0, 0
+            for item in self.items():
+                avg_x += item.scenePos().x()
+                avg_y += item.scenePos().y()
+            if len(self.items()) > 0:
+                avg_x = avg_x / len(self.items())
+                avg_y = avg_y / len(self.items())
+            # Add some noise to the coordinates
+            x = avg_x + random.randint(-100, 100)
+            y = avg_y + random.randint(-100, 100)
+        else:
+            x = pos[0]
+            y = pos[1]
+
+        new_block = block_item.BlockItem(self.views()[0], block,
+                                         x=x,
+                                         y=y,
+                                         block_width=width,
+                                         block_height=height)
 
         self.addItem(new_block)
         if open_edit_window:
@@ -252,18 +252,15 @@ class BlockScene(QtWidgets.QGraphicsScene):
         # Create the block items from the blocks
         for block in blocks:
             if block.gui_data["save_data"].get("pyside2"):
-                x_pos = block.gui_data["save_data"]["pyside2"]["pos"][0]
-                y_pos = block.gui_data["save_data"]["pyside2"]["pos"][1]
+                pos = block.gui_data["save_data"]["pyside2"]["pos"]
                 width = block.gui_data["save_data"]["pyside2"]["size"][0]
                 height = block.gui_data["save_data"]["pyside2"]["size"][1]
             else:
-                x_pos = 0
-                y_pos = 0
+                pos = (0, 0)
                 width = 100
                 height = 100
-            self.create_block_item(block, x_pos, y_pos, width, height,
-                                   open_edit_window=False,
-                                   random_pos=False)
+            self.create_block_item(block=block, pos=pos, width=width,
+                                   height=height, open_edit_window=False)
         # Set the runtime data and connect inputs and outputs in the gui
         for block in blocks:
             for input_index, input_ in enumerate(block.inputs):
