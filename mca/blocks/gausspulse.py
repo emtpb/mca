@@ -21,7 +21,7 @@ class GaussPulse(Block):
     def setup_parameters(self):
         self.parameters["amp"] = parameters.FloatParameter(
             name="Amplitude", min_=0, default=1
-        ),
+        )
         self.parameters["cfreq"] = parameters.FloatParameter(
             name="Center Frequency", unit="Hz", min_=0, default=1
         )
