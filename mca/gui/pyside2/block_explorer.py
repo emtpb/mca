@@ -107,7 +107,7 @@ class BlockList(QtWidgets.QListWidget):
         if item.data(4) == "block":
             selected_block_class = item.data(3)
             self.scene.create_block_item(selected_block_class(), 0, 0,
-                                         open_edit_window=True,
+                                         open_edit_window=False,
                                          random_pos=True)
         elif item.data(4) == "tag":
             self.search_bar.setText(_(item.data(5)))

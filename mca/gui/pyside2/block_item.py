@@ -207,6 +207,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.menu.addAction(self.delete_action)
         self.add_block_actions_to_menu()
 
+        self.block.update()
+
         self.save_gui_data()
 
     def add_block_actions_to_menu(self):
