@@ -7,13 +7,13 @@ from PySide2 import QtWidgets, QtGui
 resource_path = Path(__file__).parent / "../../resources/"
 
 gifs_to_descriptions = ((resource_path / "create_block.gif",
-                         "Create a block"),
+                         _("Create a block")),
                         (resource_path / "connect_blocks.gif",
-                         "Connect two blocks"),
+                         _("Connect two blocks")),
                         (resource_path / "plot_signal.gif",
-                         "Plot a signal"),
+                         _("Plot a signal")),
                         (resource_path / "edit_parameters.gif",
-                         "Edit parameters")
+                         _("Edit parameters"))
                         )
 
 
@@ -45,12 +45,12 @@ class IntroductionWindow(QtWidgets.QDialog):
         self.video_label.setMovie(self.movie)
 
         self.button_box = QtWidgets.QDialogButtonBox()
-        self.previous_button = QtWidgets.QPushButton("Previous")
-        self.next_button = QtWidgets.QPushButton("Next")
+        self.previous_button = QtWidgets.QPushButton(_("Previous"))
+        self.next_button = QtWidgets.QPushButton(_("Next"))
         self.previous_button.pressed.connect(self.prev_index)
         self.next_button.pressed.connect(self.next_index)
         self.previous_button.setDisabled(True)
-        self.close_button = QtWidgets.QPushButton("Close")
+        self.close_button = QtWidgets.QPushButton(_("Close"))
         self.close_button.pressed.connect(self.close)
         self.button_box.addButton(self.next_button,
                                   QtWidgets.QDialogButtonBox.AcceptRole)
