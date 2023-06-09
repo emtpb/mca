@@ -17,7 +17,9 @@ class Config(dict):
                       "load_file_dir": os.path.expanduser("~"),
                       "recent_files": [],
                       "theme": "default",
-                      "explorer_pos": "left"}
+                      "explorer_pos": "left",
+                      "window_size": None,
+                      "first_startup": True}
 
     def __init__(self):
         """Initializes the Config class."""

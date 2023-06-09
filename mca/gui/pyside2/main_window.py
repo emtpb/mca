@@ -7,7 +7,7 @@ from PySide2 import QtWidgets, QtGui
 
 from mca import config
 from mca.framework import save, load
-from mca.gui.pyside2 import block_explorer, block_display, about_window
+from mca.gui.pyside2 import block_explorer, block_display, about_window, introduction_window
 from mca.language import _
 
 
@@ -28,9 +28,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         """Initializes MainWindow."""
         QtWidgets.QMainWindow.__init__(self)
-        self.showMaximized()
-
         self.conf = config.Config()
+
+        self.showMaximized()
 
         self.about_window = about_window.AboutWindow(self)
         self.setWindowIcon(QtGui.QIcon(
@@ -95,6 +95,11 @@ class MainWindow(QtWidgets.QMainWindow):
             _("Cancel"))
         self.save_warning_message.button(QtWidgets.QMessageBox.No).setText(
             _("No"))
+
+        if self.conf["first_startup"]:
+            intro_window = introduction_window.IntroductionWindow(self)
+            intro_window.exec_()
+            self.conf["first_startup"] = False
 
     def init_menu(self):
         """Initializes the top menu bar of the main window."""
