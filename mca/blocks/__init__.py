@@ -39,6 +39,7 @@ from .quantization import Quantization
 from .real_to_complex import RealToComplex
 from .resample import Resample
 from .signal_loader import SignalLoader
+from .signal_generator import SignalGenerator
 from .signal_generator_periodic import SignalGeneratorPeriodic
 from .signal_generator_stochastic import SignalGeneratorStochastic
 from .signal_saver import SignalSaver
