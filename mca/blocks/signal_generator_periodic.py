@@ -15,13 +15,6 @@ class SignalGeneratorPeriodic(Block):
         self.new_output(user_metadata_required=True)
 
     def setup_parameters(self):
-
-        self.parameters["signal_type"] = parameters.ChoiceParameter(
-                name="Signal type",
-                choices=(("rect", "Rectangle"), ("tri", "Triangle"),
-                         ("sin", "Sine")),
-                default="sin"
-        )
         self.parameters["signal_type"] = parameters.ChoiceParameter(
             name="Signal type",
             choices=(("rect", "Rectangle"), ("tri", "Triangle"),
