@@ -425,11 +425,25 @@ should be listed in the block list.
 Translations
 ============
 
+
+
 Translations within MCA are handled with `gettext <https://www.gnu.org/software/gettext/>`_ .
 The `python gettext package <https://docs.python.org/3/library/gettext.html>`_
 is in the python standard library included.
 The tool used to create, extract, update and compile translations (locales) in
 this project is called `pybabel <http://babel.pocoo.org/en/latest/cmdline.html>`_ .
-In general all displayed strings such as the block name, the description,
-the tags and parameter names should be translated.
+The extraction can be done by running::
 
+    $ python extract_localizations.py
+
+This extracts strings from the framework and the gui with pybabel
+as well as from the block classes using regular expressions.
+The resulting *messages.pot* file can than be used to update locales
+(in this case the german locale)::
+
+    $ pybabel update -i messages.pot -d mca/locales -l de -N
+
+Add any missing translation in the *messages.po* file. Finally compile the
+*messages.po* file which yields the file *messages.mo*::
+
+    $ pybabel compile -d mca/locales -l de
