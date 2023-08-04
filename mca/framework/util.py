@@ -24,7 +24,7 @@ def create_abscissa_parameter_block():
                                          min_=0, unit="Hz")
     measure_time = parameters.FloatParameter(_("Measure time"), default=10.0,
                                              min_=0, unit="s")
-    start = parameters.FloatParameter("Start", default=0)
+    start = parameters.FloatParameter(_("Start"), default=0)
 
     def dt_to_fabt():
         sampling.value = 1 / increment.value

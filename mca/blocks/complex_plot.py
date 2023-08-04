@@ -51,9 +51,9 @@ class ComplexPlot(DynamicBlock, PlotBlock):
                      ("symlog", "Symmetrcial log"), ("logit", "Logit")),
             default="linear"
         )
-        color = util.get_plt_color_parameter("Color")
+        color = util.get_plt_color_parameter(name="Color")
         marker = util.get_plt_marker_parameter()
-        marker_color = util.get_plt_color_parameter("Marker Color")
+        marker_color = util.get_plt_color_parameter(name="Marker Color")
         self.plot_parameters["real_absolute"] = parameters.ParameterBlock(
             name="Real/Absolute",
             parameters={"plot_kind": plot_kind,

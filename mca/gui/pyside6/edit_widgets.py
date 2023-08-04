@@ -601,7 +601,7 @@ class ParameterBlockChoiceWidget(QtWidgets.QComboBox):
         # Add the conversions to the ComboBox
         for index, conversion in enumerate(
                 self.parameter_block.param_conversions):
-            names = [parameter.name for parameter in conversion.main_parameters]
+            names = [_(parameter.name) for parameter in conversion.main_parameters]
             self.addItem("/".join(names), userData=index)
         self.enable_parameter_widgets()
         self.currentIndexChanged.connect(self.change_conversion)

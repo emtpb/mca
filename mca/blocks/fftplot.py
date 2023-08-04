@@ -12,7 +12,7 @@ class FFTPlot(PlotBlock):
         legend: Reference of the legend.
     """
     name = "FFTPlot"
-    description = ("Computes the FFT of the input signal and plots "
+    description = ("Computes the FFT of the input signal and plots " 
                    "either the real part, imaginary part, "
                    "the absolute or the phase of the FFT. "
                    "Shifts the FFT optionally or cuts the input"
@@ -65,7 +65,7 @@ class FFTPlot(PlotBlock):
         )
         self.plot_parameters["marker"] = util.get_plt_marker_parameter()
         self.plot_parameters["marker_color"] = util.get_plt_color_parameter(
-            "Marker color")
+            name="Marker color")
 
     def process(self):
         # Clear the axes and the legend

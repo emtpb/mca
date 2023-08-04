@@ -21,9 +21,9 @@ class Chirp(Block):
 
         self.parameters["sweep_kind"]= parameters.ChoiceParameter(
                 name="Sweep Kind",
-                choices=[("linear", "Linear"), ("quadratic", "Quadratic"),
+                choices=(("linear", "Linear"), ("quadratic", "Quadratic"),
                          ("logarithmic", "Logarithmic"),
-                         ("hyperbolic", "Hyperbolic")],
+                         ("hyperbolic", "Hyperbolic")),
                 default="linear"
         )
         self.parameters["freq1"] = parameters.FloatParameter(

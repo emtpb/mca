@@ -49,7 +49,7 @@ class HSOscilloscope(Block):
             name="Measure", function=self.measure
         )
         volt_range = parameters.ChoiceParameter("Range",
-                                                choices=[(0.2, "0.2"),
+                                                choices=((0.2, "0.2"),
                                                          (0.4, "0.4"),
                                                          (0.8, "0.8"),
                                                          (2, "2"),
@@ -57,17 +57,17 @@ class HSOscilloscope(Block):
                                                          (8, "8"),
                                                          (20, "20"),
                                                          (40, "40"),
-                                                         (80, "80")],
+                                                         (80, "80")),
                                                 default=80)
-        trig_lvl = parameters.FloatParameter("Trigger Level", min_=0,
+        trig_lvl = parameters.FloatParameter(name="Trigger Level", min_=0,
                                              max_=1, default=0.5)
-        trig_kind = parameters.ChoiceParameter("Trigger Kind",
-                                               choices=[
+        trig_kind = parameters.ChoiceParameter(name="Trigger Kind",
+                                               choices=(
                                                    ("rising", "Rising Edge"),
                                                    ("falling", "Falling Edge"),
                                                    ("in window", "In Window"),
                                                    (
-                                                   "out window", "Out Window")],
+                                                   "out window", "Out Window")),
                                                default="rising")
         trig_enabled_ch1 = parameters.BoolParameter("Enable Trigger",
                                                     default=True)

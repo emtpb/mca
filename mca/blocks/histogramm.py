@@ -9,7 +9,7 @@ class Histogramm(PlotBlock):
     values in a histogramm.
     """
     name = "Histogramm"
-    description = ("Plots absolute and relative (density frequency of "
+    description = ("Plots absolute and relative density frequency of "
                    "occurrences of values in a histogramm.")
     tags = ("Plotting",)
 
@@ -25,8 +25,8 @@ class Histogramm(PlotBlock):
                 ("relative", "Relative frequency"),
                 ("density", "Relative (density frequency)")),
             default = "absolute")
-        self.parameters["bins"] = parameters.IntParameter("Bins",
-                                                          min_=1, default=100)
+        self.parameters["bins"] = parameters.IntParameter(name="Bins", min_=1,
+                                                          default=100)
 
     def setup_plot_parameters(self):
         self.plot_parameters["color"] = util.get_plt_color_parameter()
@@ -70,8 +70,7 @@ class Histogramm(PlotBlock):
             y_label = "Relative frequency of occurrence"
         else:
             density = True
-            y_label = _(
-                "Relative density frequency of occurrence") + f" in {1 / metadata.unit_o}"
+            y_label = "Relative density frequency of occurrence" + f" in {1 / metadata.unit_o}"
         # Get the label for the legend
         label = self.inputs[0].metadata.name
         # Plot and pass plot parameters
