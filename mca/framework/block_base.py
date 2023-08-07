@@ -395,7 +395,13 @@ class PlotWindow(QtWidgets.QWidget):
             for ax in self.axes:
                 ax.set_facecolor(ax_colour)
                 ax.grid(color=grid_colour)
+                ax.tick_params(colors=grid_colour)
+                ax.xaxis.label.set_color(grid_colour)
+                ax.yaxis.label.set_color(grid_colour)
         except TypeError:
+            self.axes.tick_params(colors=grid_colour)
+            self.axes.xaxis.label.set_color(grid_colour)
+            self.axes.yaxis.label.set_color(grid_colour)
             self.axes.set_facecolor(ax_colour)
             self.axes.grid(color=grid_colour)
 

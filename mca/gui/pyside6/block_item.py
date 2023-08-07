@@ -275,8 +275,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         initialization and every time the block gets updated.
         """
         self.name_color = self.view.palette().color(QtGui.QPalette.Text)
-        self.default_color = QtGui.QColor("#33d424")
-        self.hover_color = QtGui.QColor("#58d44c")
+        self.default_color = QtGui.QColor("#608a5c")
+        self.hover_color = QtGui.QColor("#82bd7d")
         self.selection_color = QtGui.QColor("#259AE9")
 
         select_point_radius = self.select_point_diameter // 2
