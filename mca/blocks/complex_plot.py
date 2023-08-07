@@ -38,7 +38,7 @@ class ComplexPlot(DynamicBlock, PlotBlock):
     def setup_plot_parameters(self):
         plot_kind = parameters.ChoiceParameter(
             name="Plot kind", choices=[("line", "Line"),
-                                          ("stem", "Stem")], )
+                                       ("stem", "Stem")], default="line")
         abscissa_scaling = parameters.ChoiceParameter(
             name="Abscissa scaling",
             choices=(("linear", "Linear"), ("log", "Log"),

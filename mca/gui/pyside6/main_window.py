@@ -2,12 +2,11 @@ import logging
 import os
 from pathlib import Path
 
-import qdarkstyle
-from PySide2 import QtWidgets, QtGui
+from PySide6 import QtWidgets, QtGui
 
 from mca import config
 from mca.framework import save, load
-from mca.gui.pyside2 import block_explorer, block_display, about_window, introduction_window
+from mca.gui.pyside6 import block_explorer, block_display, about_window, introduction_window
 from mca.language import _
 
 
@@ -36,10 +35,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon(
             str(Path(__file__).parent / "../../resources/emt_logo.png"))
         )
-        if self.conf["theme"] == "default":
-            self.set_default_theme()
-        else:
-            self.set_dark_theme()
 
         self.open_recent_menu = None
         self.save_file_path = None
@@ -109,22 +104,22 @@ class MainWindow(QtWidgets.QMainWindow):
         language_menu = menu.addMenu(_("Language"))
         view_menu = menu.addMenu(_("View"))
 
-        open_about_window = QtWidgets.QAction(_("About"), self)
+        open_about_window = QtGui.QAction(_("About"), self)
         open_about_window.triggered.connect(self.about_window.show)
 
         menu.addAction(open_about_window)
         languages = [("Deutsch", "de"), ("English", "en")]
 
         for i in languages:
-            action = QtWidgets.QAction(i[0], self)
+            action = QtGui.QAction(i[0], self)
             action.triggered.connect(self.change_language(i[1]))
             language_menu.addAction(action)
 
-        new_action = QtWidgets.QAction(_("New"), self)
+        new_action = QtGui.QAction(_("New"), self)
         new_action.triggered.connect(self.new_file)
         file_menu.addAction(new_action)
 
-        open_action = QtWidgets.QAction(_("Open"), self)
+        open_action = QtGui.QAction(_("Open"), self)
         open_action.setShortcut("Ctrl+O")
         open_action.triggered.connect(self.open_file_dialog)
         file_menu.addAction(open_action)
@@ -134,30 +129,22 @@ class MainWindow(QtWidgets.QMainWindow):
 
         file_menu.addMenu(self.open_recent_menu)
 
-        save_action = QtWidgets.QAction(_("Save"), self)
+        save_action = QtGui.QAction(_("Save"), self)
         save_action.setShortcut("Ctrl+S")
         save_action.triggered.connect(self.save_file)
 
         file_menu.addAction(save_action)
 
-        save_as_action = QtWidgets.QAction(_("Save as"), self)
+        save_as_action = QtGui.QAction(_("Save as"), self)
         save_as_action.setShortcut("Ctrl+Shift+S")
         save_as_action.triggered.connect(self.save_file_as)
         file_menu.addAction(save_as_action)
 
-        exit_action = QtWidgets.QAction(_("Exit"), self)
+        exit_action = QtGui.QAction(_("Exit"), self)
         exit_action.setShortcut("Ctrl+Q")
         exit_action.setStatusTip(_("Close Application"))
         exit_action.triggered.connect(self.close)
         file_menu.addAction(exit_action)
-
-        theme_menu = view_menu.addMenu(_("Theme"))
-        default_theme_action = QtWidgets.QAction(_("Default"), self)
-        default_theme_action.triggered.connect(self.set_default_theme)
-        dark_theme_action = QtWidgets.QAction(_("Dark"), self)
-        dark_theme_action.triggered.connect(self.set_dark_theme)
-        theme_menu.addAction(default_theme_action)
-        theme_menu.addAction(dark_theme_action)
 
         appearance_menu = view_menu.addMenu(_("Appearance"))
         explorer_menu = appearance_menu.addMenu(_("Explorer|Plots"))
@@ -245,7 +232,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         self.open_recent_menu.clear()
         for file_name in self.conf["recent_files"]:
-            open_file_action = QtWidgets.QAction(file_name, self)
+            open_file_action = QtGui.QAction(file_name, self)
             open_file_action.triggered.connect(
                 self.open_file_direct(file_name))
             self.open_recent_menu.addAction(open_file_action)
@@ -346,21 +333,6 @@ class MainWindow(QtWidgets.QMainWindow):
         if self._modified:
             show_file = "*" + show_file
         self.setWindowTitle("{} - {}".format(show_file, _("MCA")))
-
-    def set_default_theme(self):
-        """Sets the application style to default."""
-        logging.info("Setting theme to default.")
-        self.conf["theme"] = "default"
-        app = QtWidgets.QApplication.instance()
-        app.setStyleSheet("")
-
-    def set_dark_theme(self):
-        """Sets the application style to dark."""
-        logging.info("Setting theme to dark.")
-        self.conf["theme"] = "dark"
-        app = QtWidgets.QApplication.instance()
-        app.setStyleSheet(qdarkstyle.load_stylesheet_pyside2())
-        self.style().setObjectName("qdarkstyle")
 
     def change_language(self, language):
         """Returns a function which changes the language in the config.

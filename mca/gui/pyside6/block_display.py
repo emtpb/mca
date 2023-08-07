@@ -2,10 +2,10 @@ import json
 import random
 import pathlib
 
-from PySide2 import QtWidgets, QtCore, QtGui
+from PySide6 import QtWidgets, QtCore, QtGui
 
 from mca.framework import load, save
-from mca.gui.pyside2 import block_item
+from mca.gui.pyside6 import block_item
 from mca.language import _
 
 
@@ -30,7 +30,7 @@ class BlockView(QtWidgets.QGraphicsView):
         gui_path = pathlib.Path(__file__).parent
         icon_path = gui_path / "../../resources/icons/"
         # Define actions
-        self.zoom_in_action = QtWidgets.QAction(
+        self.zoom_in_action = QtGui.QAction(
             QtGui.QIcon(str(icon_path / "magnifying-glass-plus.png")),
             _("Zoom in"))
         self.zoom_in_action.setShortcut("Ctrl++")
@@ -39,7 +39,7 @@ class BlockView(QtWidgets.QGraphicsView):
             "{}, {}".format(_("Zoom in"), _("Ctrl +")))
         self.addAction(self.zoom_in_action)
 
-        self.zoom_out_action = QtWidgets.QAction(
+        self.zoom_out_action = QtGui.QAction(
             QtGui.QIcon(str(icon_path / "magnifying-glass-minus.png")),
             _("Zoom out")
         )
@@ -49,44 +49,44 @@ class BlockView(QtWidgets.QGraphicsView):
                                                         _("Ctrl -")))
         self.addAction(self.zoom_out_action)
 
-        self.zoom_original_action = QtWidgets.QAction(
+        self.zoom_original_action = QtGui.QAction(
             QtGui.QIcon(str(icon_path / "increase.png")), _("Zoom original")
         )
         self.zoom_original_action.triggered.connect(self.zoom_original)
 
-        self.copy_action = QtWidgets.QAction(QtGui.QIcon(
+        self.copy_action = QtGui.QAction(QtGui.QIcon(
             str(icon_path / "copy.png")), _("Copy")
         )
         self.copy_action.triggered.connect(self.scene().copy_selected)
         self.copy_action.setShortcut("Ctrl+C")
         self.copy_action.setToolTip("{}, {}".format(_("Copy"), _("Ctrl+C")))
 
-        self.paste_action = QtWidgets.QAction(
+        self.paste_action = QtGui.QAction(
             QtGui.QIcon(str(icon_path / "paste.png")), _("Paste")
         )
         self.paste_action.triggered.connect(self.scene().paste_selected)
         self.paste_action.setShortcut("Ctrl+V")
         self.paste_action.setToolTip("{}, {}".format(_("Paste"), "Ctrl+V"))
 
-        self.cut_action = QtWidgets.QAction(
+        self.cut_action = QtGui.QAction(
             QtGui.QIcon(str(icon_path / "cut-with-scissors.png")), _("Cut")
         )
         self.cut_action.triggered.connect(self.scene().cut_selected)
         self.cut_action.setShortcut("Ctrl+X")
         self.cut_action.setToolTip("{}, {}".format(_("Cut"), _("Ctrl+X")))
 
-        self.delete_action = QtWidgets.QAction(
+        self.delete_action = QtGui.QAction(
             QtGui.QIcon(str(icon_path / "bin.png")), _("Delete"))
         self.delete_action.triggered.connect(self.scene().delete_selected)
         self.delete_action.setShortcut("Del")
         self.delete_action.setToolTip("{}, {}".format(_("Delete"), _("Del")))
-        self.clear_action = QtWidgets.QAction(QtGui.QIcon(
+        self.clear_action = QtGui.QAction(QtGui.QIcon(
             str(icon_path / "archeology.png")), _("Clear")
         )
         self.clear_action.triggered.connect(self.scene().clear)
 
         self.setBackgroundBrush(draw_pattern(40, QtGui.Qt.gray))
-        self.setDragMode(self.RubberBandDrag)
+        self.setDragMode(QtWidgets.QGraphicsView.RubberBandDrag)
 
         self.default_context_menu = QtWidgets.QMenu(self)
         self.default_context_menu.addAction(self.paste_action)
@@ -251,10 +251,10 @@ class BlockScene(QtWidgets.QGraphicsScene):
         """
         # Create the block items from the blocks
         for block in blocks:
-            if block.gui_data["save_data"].get("pyside2"):
-                pos = block.gui_data["save_data"]["pyside2"]["pos"]
-                width = block.gui_data["save_data"]["pyside2"]["size"][0]
-                height = block.gui_data["save_data"]["pyside2"]["size"][1]
+            if block.gui_data["save_data"].get("pyside6"):
+                pos = block.gui_data["save_data"]["pyside6"]["pos"]
+                width = block.gui_data["save_data"]["pyside6"]["size"][0]
+                height = block.gui_data["save_data"]["pyside6"]["size"][1]
             else:
                 pos = (0, 0)
                 width = 100
@@ -266,11 +266,11 @@ class BlockScene(QtWidgets.QGraphicsScene):
             for input_index, input_ in enumerate(block.inputs):
                 if input_.connected_output:
                     output = input_.connected_output
-                    block_item = block.gui_data["run_time_data"]["pyside2"][
+                    block_item = block.gui_data["run_time_data"]["pyside6"][
                         "block_item"]
                     input_item = block_item.inputs[input_index]
                     block_item = \
-                    output.block.gui_data["run_time_data"]["pyside2"][
+                    output.block.gui_data["run_time_data"]["pyside6"][
                         "block_item"]
                     output_item = block_item.outputs[
                         output.block.outputs.index(output)]
@@ -290,14 +290,14 @@ class BlockScene(QtWidgets.QGraphicsScene):
             backend_blocks = [block.block for block in self.selectedItems()]
             # Compute the relative positions of the blocks
             x_min = min(
-                map(lambda block: block.gui_data["save_data"]["pyside2"]["pos"][
+                map(lambda block: block.gui_data["save_data"]["pyside6"]["pos"][
                     0], backend_blocks))
             y_min = min(
-                map(lambda block: block.gui_data["save_data"]["pyside2"]["pos"][
+                map(lambda block: block.gui_data["save_data"]["pyside6"]["pos"][
                     1], backend_blocks))
             for block in backend_blocks:
-                block.gui_data["save_data"]["pyside2"]["pos"][0] -= x_min
-                block.gui_data["save_data"]["pyside2"]["pos"][1] -= y_min
+                block.gui_data["save_data"]["pyside6"]["pos"][0] -= x_min
+                block.gui_data["save_data"]["pyside6"]["pos"][1] -= y_min
             # Get the json representation from the blocks
             json_blocks = save.blocks_to_json(backend_blocks)
             # Set the clipboard data
@@ -328,27 +328,27 @@ class BlockScene(QtWidgets.QGraphicsScene):
             scene_pos = self.views()[0].mapToScene(view_pos)
             # Paste all block centered to the mouse
             x_min = min(
-                map(lambda block: block.gui_data["save_data"]["pyside2"]["pos"][
+                map(lambda block: block.gui_data["save_data"]["pyside6"]["pos"][
                     0], pasted_blocks))
             y_min = min(
-                map(lambda block: block.gui_data["save_data"]["pyside2"]["pos"][
+                map(lambda block: block.gui_data["save_data"]["pyside6"]["pos"][
                     1], pasted_blocks))
             x_max = max(
-                map(lambda block: block.gui_data["save_data"]["pyside2"]["pos"][
+                map(lambda block: block.gui_data["save_data"]["pyside6"]["pos"][
                                       0] +
-                                  block.gui_data["save_data"]["pyside2"][
+                                  block.gui_data["save_data"]["pyside6"][
                                       "size"][0], pasted_blocks))
             y_max = max(
-                map(lambda block: block.gui_data["save_data"]["pyside2"]["pos"][
+                map(lambda block: block.gui_data["save_data"]["pyside6"]["pos"][
                                       1] +
-                                  block.gui_data["save_data"]["pyside2"][
+                                  block.gui_data["save_data"]["pyside6"][
                                       "size"][1], pasted_blocks))
             paste_width = x_max - x_min
             paste_height = y_max - y_min
             for block in pasted_blocks:
-                block.gui_data["save_data"]["pyside2"]["pos"][
+                block.gui_data["save_data"]["pyside6"]["pos"][
                     0] += scene_pos.x() - paste_width // 2
-                block.gui_data["save_data"]["pyside2"]["pos"][
+                block.gui_data["save_data"]["pyside6"]["pos"][
                     1] += scene_pos.y() - paste_height // 2
         self.create_blocks(pasted_blocks)
 

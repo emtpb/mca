@@ -103,7 +103,8 @@ def get_plt_marker_parameter(name=None):
                               ("p", _("Pentagon")),
                               ("*", _("Star")),
                               ("h", _("Hexagon"))
-                            )
+                            ),
+        default=None
     )
     return marker
 
@@ -119,7 +120,7 @@ def get_plt_color_parameter(name=_("Color")):
                    _("Yellow"), _("Black"), _("White"))
     choices = [(color, color_name) for color, color_name in zip(colors.keys(),
                                                                 color_names)]
-    color_param = parameters.ChoiceParameter(name=name, choices=choices, default=choices[0])
+    color_param = parameters.ChoiceParameter(name=name, choices=choices, default=choices[0][0])
     return color_param
 
 

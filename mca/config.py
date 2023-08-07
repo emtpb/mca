@@ -16,7 +16,6 @@ class Config(dict):
                       "save_file_dir": os.path.expanduser("~"),
                       "load_file_dir": os.path.expanduser("~"),
                       "recent_files": [],
-                      "theme": "default",
                       "explorer_pos": "left",
                       "window_size": None,
                       "first_startup": True}

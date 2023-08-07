@@ -1,7 +1,7 @@
-from PySide2 import QtWidgets, QtCore, QtGui
+from PySide6 import QtWidgets, QtCore, QtGui
 
 from mca.framework import data_types, DynamicBlock, block_io, parameters, PlotBlock
-from mca.gui.pyside2 import edit_window, io_items
+from mca.gui.pyside6 import edit_window, io_items
 from mca.language import _
 
 
@@ -56,7 +56,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
         self.view = view
         self.block = block
-        self.block.gui_data["run_time_data"]["pyside2"] = {"block_item": self}
+        self.block.gui_data["run_time_data"]["pyside6"] = {"block_item": self}
 
         # Color settings
         self.default_color = None
@@ -82,7 +82,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.output_width = 10
         self.output_dist = 10
 
-        self.select_point_diameter = 12
+        self.select_point_diameter = 10
 
         self.block_width = block_width
         self.block_height = block_height
@@ -98,9 +98,9 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.inputs = []
         self.outputs = []
         # Set Flags
-        self.setFlag(self.ItemIsMovable, True)
-        self.setFlag(self.ItemSendsGeometryChanges, True)
-        self.setFlag(self.ItemIsSelectable, True)
+        self.setFlag(QtWidgets.QGraphicsItem.ItemIsMovable, True)
+        self.setFlag(QtWidgets.QGraphicsItem.ItemSendsGeometryChanges, True)
+        self.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, True)
 
         # Create visual inputs and outputs for the existing ones
         for i in self.block.inputs:
@@ -125,7 +125,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
             dock_widget.setWidget(self.block.plot_window)
             plot_dock_manager.addDockWidget(QtCore.Qt.RightDockWidgetArea,
                                             dock_widget)
-            block.gui_data["run_time_data"]["pyside2"]["dock_widget"] = dock_widget
+            block.gui_data["run_time_data"]["pyside6"]["dock_widget"] = dock_widget
             show_function = show_function_generator(self.block)
             self.action_buttons.append(
                 BlockButton(
@@ -165,20 +165,19 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.menu = QtWidgets.QMenu(self.view)
         # Add edit action
         if self.block.parameters:
-            self.edit_action = QtWidgets.QAction(_("Edit"), self.view)
+            self.edit_action = QtGui.QAction(_("Edit"), self.view)
             self.edit_action.triggered.connect(self.open_edit_window)
             self.menu.addAction(self.edit_action)
         # Add actions for dynamic blocks
         if isinstance(self.block, DynamicBlock):
             if self.block.dynamic_input:
-                self.add_input_action = QtWidgets.QAction(_("Add Input"),
-                                                          self.view)
+                self.add_input_action = QtGui.QAction(_("Add Input"), self.view)
                 self.add_input_action.triggered.connect(self.create_new_input)
                 if self.block.dynamic_input[1] is not None and \
                         len(self.block.inputs) == self.block.dynamic_input[1]:
                     self.add_input_action.setEnabled(False)
                 self.menu.addAction(self.add_input_action)
-                self.delete_input_action = QtWidgets.QAction(_("Delete Input"),
+                self.delete_input_action = QtGui.QAction(_("Delete Input"),
                                                              self.view)
                 self.delete_input_action.triggered.connect(self.delete_input)
                 if self.block.dynamic_input[0] is not None and \
@@ -186,14 +185,14 @@ class BlockItem(QtWidgets.QGraphicsItem):
                     self.delete_input_action.setEnabled(False)
                 self.menu.addAction(self.delete_input_action)
             if self.block.dynamic_output:
-                self.add_output_action = QtWidgets.QAction(_("Add Output"),
+                self.add_output_action = QtGui.QAction(_("Add Output"),
                                                            self.view)
                 self.add_output_action.triggered.connect(self.create_new_output)
                 if self.block.dynamic_output[1] is not None and \
                         len(self.block.outputs) == self.block.dynamic_output[1]:
                     self.add_output_action.setEnabled(False)
                 self.menu.addAction(self.add_output_action)
-                self.delete_output_action = QtWidgets.QAction(
+                self.delete_output_action = QtGui.QAction(
                     _("Delete Output"),
                     self.view)
                 self.delete_output_action.triggered.connect(self.delete_output)
@@ -201,7 +200,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
                         len(self.block.outputs) == self.block.dynamic_output[0]:
                     self.delete_output_action.setEnabled(False)
                 self.menu.addAction(self.delete_output_action)
-        self.delete_action = QtWidgets.QAction(
+        self.delete_action = QtGui.QAction(
             QtGui.QIcon.fromTheme("edit-delete"), _("Delete"), self.view)
         self.delete_action.triggered.connect(self.delete)
         self.menu.addAction(self.delete_action)
@@ -219,7 +218,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         for parameter in self.block.parameters.values():
             if isinstance(parameter, parameters.ActionParameter) and \
                     "menu_action" in parameter.display_options:
-                action = QtWidgets.QAction(_(parameter.name), self.view)
+                action = QtGui.QAction(_(parameter.name), self.view)
                 action.triggered.connect(parameter.function)
                 self.menu.addAction(action)
 
@@ -230,10 +229,10 @@ class BlockItem(QtWidgets.QGraphicsItem):
     def required_name_width(self):
         """Width required to display the block name and the custom block name.
         """
-        name_width = QtGui.QFontMetrics(self.default_font).width(
-            _(self.block.name))
-        custom_name_width = QtGui.QFontMetrics(self.custom_name_font).width(
-            self.block.parameters["name"].value)
+        name_width = QtGui.QFontMetrics(self.default_font).boundingRect(
+            _(self.block.name)).width()
+        custom_name_width = QtGui.QFontMetrics(self.custom_name_font).boundingRect(
+            self.block.parameters["name"].value).width()
         # Check if name has been changed
         if self.block.parameters["name"].value != self.block.name:
             min_name_length = max(name_width, custom_name_width) + 10
@@ -271,23 +270,15 @@ class BlockItem(QtWidgets.QGraphicsItem):
         else:
             return 0
 
-    def apply_colors(self):
-        """Applies the current colors depending on the chosen style."""
-        self.selection_color = QtGui.QColor("#259AE9")
-        if self.view.style().objectName() == "qdarkstyle":
-            self.name_color = QtGui.QColor("#FFFFFF")
-            self.default_color = QtGui.QColor("#455364")
-            self.hover_color = QtGui.QColor("#54687A")
-        else:
-            self.name_color = QtGui.QColor("#000000")
-            self.default_color = QtGui.QColor("#b8b8b8")
-            self.hover_color = QtGui.QColor("#c0c0c0")
-
     def paint(self, painter, option, widget):
         """Method to paint the block. This method gets invoked after
         initialization and every time the block gets updated.
         """
-        self.apply_colors()
+        self.name_color = self.view.palette().color(QtGui.QPalette.Text)
+        self.default_color = QtGui.QColor("#33d424")
+        self.hover_color = QtGui.QColor("#58d44c")
+        self.selection_color = QtGui.QColor("#259AE9")
+
         select_point_radius = self.select_point_diameter // 2
         x_offset_block = select_point_radius + self.input_offset
         y_offset_block = select_point_radius
@@ -469,7 +460,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         # Remove the DockWidget for plot blocks
         if isinstance(self.block, PlotBlock):
             self.scene().parent().parent().plot_dock_manager.removeDockWidget(
-                self.block.gui_data["run_time_data"]["pyside2"]["dock_widget"])
+                self.block.gui_data["run_time_data"]["pyside6"]["dock_widget"])
         # Remove itself from the scene and clean up
         self.scene().removeItem(self)
         self.block.delete()
@@ -535,7 +526,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
             self.save_gui_data()
         except AttributeError:
             pass
-        if change == self.ItemPositionChange:
+        if change == QtWidgets.QGraphicsItem.ItemPositionChange:
             for i in self.inputs:
                 i.update_connection_line()
             for o in self.outputs:
@@ -697,7 +688,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
 
     def save_gui_data(self):
         """Stores position and size in the :class:`.Block` gui_data dict."""
-        self.block.gui_data["save_data"]["pyside2"] = {
+        self.block.gui_data["save_data"]["pyside6"] = {
             "pos": [self.scenePos().x(),
                     self.scenePos().y()],
             "size": [self.block_width, self.block_height]}
@@ -834,7 +825,7 @@ class BlockButton(QtWidgets.QGraphicsItem):
         painter.setPen(self.name_color)
         font = painter.font()
         fm = QtGui.QFontMetrics(font)
-        name_width = fm.width(self.name)
+        name_width = fm.boundingRect(self.name).width()
 
         painter.drawText(self.width // 2 - name_width // 2,
                          self.text_margin + self.height // 2,
@@ -857,19 +848,14 @@ class BlockButton(QtWidgets.QGraphicsItem):
 
     def apply_colors(self):
         """Applies the current colors depending on the chosen style."""
-        if self.parentItem().view.style().objectName() == "qdarkstyle":
-            self.name_color = QtGui.QColor("#FFFFFF")
-            self.default_color = QtGui.QColor("#788D9C")
-            self.press_color = QtGui.QColor("#60798B")
-        else:
-            self.name_color = QtGui.QColor("#000000")
-            self.default_color = QtGui.QColor("#d3d3d3")
-            self.press_color = QtGui.QColor("#b5b5b5")
+        self.name_color = self.parentItem().view.palette().color(QtGui.QPalette.ButtonText)
+        self.default_color = QtGui.QColor("#076959")
+        self.press_color = QtGui.QColor("#288575")
 
 
 def show_function_generator(block):
     """Generates functions for reopening plot windows of plot blocks."""
     def show_function():
-        block.gui_data["run_time_data"]["pyside2"]["dock_widget"].setVisible(True)
+        block.gui_data["run_time_data"]["pyside6"]["dock_widget"].setVisible(True)
         block.fig.tight_layout()
     return show_function

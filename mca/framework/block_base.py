@@ -1,12 +1,11 @@
-import json
 import logging
 
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
-from matplotlib.backends.qt_compat import QtWidgets
+from matplotlib.backends.qt_compat import QtWidgets, QtGui
 
 from mca import exceptions
-from mca.framework import block_io, io_registry, data_types, parameters
+from mca.framework import block_io, io_registry, parameters
 from mca.language import _
 
 
@@ -386,16 +385,12 @@ class PlotWindow(QtWidgets.QWidget):
 
     def paintEvent(self, event):
         # Get colors depending on the style
-        if self.style().objectName() == "qdarkstyle":
-            fig_colour = "#60798B"
-            ax_colour = "#9DA9B5"
-            grid_colour = "white"
-        else:
-            fig_colour = "white"
-            ax_colour = "white"
-            grid_colour = "black"
+        fig_colour = self.palette().color(QtGui.QPalette.Base).name()
+        ax_colour = self.palette().color(QtGui.QPalette.Window).name()
+        grid_colour = self.palette().color(QtGui.QPalette.Text).name()
         # Apply the colors to the figure and the axes
         self.canvas.fig.set_facecolor(fig_colour)
+
         try:
             for ax in self.axes:
                 ax.set_facecolor(ax_colour)

@@ -1,6 +1,6 @@
 import logging
 
-from PySide2 import QtWidgets, QtCore, QtGui
+from PySide6 import QtWidgets, QtCore, QtGui
 
 from mca import exceptions
 from mca.language import _
@@ -48,7 +48,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         self.connection_line = None
 
         self.menu = QtWidgets.QMenu(self.view)
-        self.disconnect_action = QtWidgets.QAction(_("Disconnect"), self.view)
+        self.disconnect_action = QtGui.QAction(_("Disconnect"), self.view)
         self.disconnect_action.triggered.connect(self.disconnect)
         self.menu.addAction(self.disconnect_action)
 
@@ -271,7 +271,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
         self.connection_lines = []
 
         self.menu = QtWidgets.QMenu(self.view)
-        self.disconnect_action = QtWidgets.QAction(_("Disconnect"), self.view)
+        self.disconnect_action = QtGui.QAction(_("Disconnect"), self.view)
         self.disconnect_action.triggered.connect(self.disconnect)
         self.menu.addAction(self.disconnect_action)
 
@@ -395,8 +395,8 @@ class ConnectionLine(QtWidgets.QGraphicsLineItem):
         QtWidgets.QGraphicsLineItem.__init__(self, x1, y1, x2, y2)
 
         self.setAcceptHoverEvents(True)
-        self.default_color = QtGui.QColor("#0dd41d")
-        self.hover_color = QtGui.QColor("#7efc88")
+        self.default_color = QtGui.QColor("#9c279a")
+        self.hover_color = QtGui.QColor("#e051de")
         self.line_width = 2
         self.setPen(QtGui.QPen(self.default_color, self.line_width))
 

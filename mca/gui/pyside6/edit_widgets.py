@@ -1,6 +1,6 @@
 import os
 
-from PySide2 import QtWidgets
+from PySide6 import QtWidgets
 from united import Unit
 
 from mca import exceptions

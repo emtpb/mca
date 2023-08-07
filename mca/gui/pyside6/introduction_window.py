@@ -1,7 +1,7 @@
 from pathlib import Path
 from mca.language import _
 
-from PySide2 import QtWidgets, QtGui
+from PySide6 import QtWidgets, QtGui
 
 
 resource_path = Path(__file__).parent / "../../resources/"

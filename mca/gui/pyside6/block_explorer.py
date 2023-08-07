@@ -1,6 +1,6 @@
 import os
 
-from PySide2 import QtWidgets, QtCore, QtGui
+from PySide6 import QtWidgets, QtCore, QtGui
 
 import mca
 from mca import blocks
@@ -73,7 +73,7 @@ class BlockList(QtWidgets.QListWidget):
         self.setDragEnabled(True)
 
         self.menu = QtWidgets.QMenu()
-        self.new_block_action = QtWidgets.QAction(_("New block"))
+        self.new_block_action = QtGui.QAction(_("New block"))
         self.new_block_action.triggered.connect(
             lambda: self.scene.create_block_item(self.currentItem().data(3)())
         )
@@ -128,7 +128,7 @@ class BlockList(QtWidgets.QListWidget):
         """Hide all items in the BlockList."""
         all_items = self.findItems("", QtCore.Qt.MatchStartsWith)
         for item in all_items:
-            self.setItemHidden(item, True)
+            item.setHidden(True)
 
     def show_blocks(self, tags=True):
         """Show all block items matching the search string in the search bar.

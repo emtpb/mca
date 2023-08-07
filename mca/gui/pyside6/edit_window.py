@@ -1,11 +1,11 @@
 import logging
 import os
 
-from PySide2 import QtWidgets, QtCore, QtGui
+from PySide6 import QtWidgets, QtCore, QtGui
 
 import mca
 from mca.framework import parameters, DynamicBlock, PlotBlock
-from mca.gui.pyside2 import edit_widgets
+from mca.gui.pyside6 import edit_widgets
 from mca.language import _
 
 
