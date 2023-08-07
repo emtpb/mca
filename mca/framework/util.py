@@ -90,7 +90,7 @@ def get_plt_marker_parameter(name=None):
     if name is None:
         name = _("Marker")
     marker = parameters.ChoiceParameter(
-        name=name, choices=(("None", _("No marker")),
+        name=name, choices=(("", _("No marker")),
                             (".", _("Point")),
                               (",", _("Pixel")),
                               ("o", _("Circle")),
@@ -104,7 +104,7 @@ def get_plt_marker_parameter(name=None):
                               ("*", _("Star")),
                               ("h", _("Hexagon"))
                             ),
-        default="None"
+        default=""
     )
     return marker
 
