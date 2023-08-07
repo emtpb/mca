@@ -48,7 +48,8 @@ class FFTPlot(PlotBlock):
     def setup_plot_parameters(self):
         self.plot_parameters["plot_kind"] = parameters.ChoiceParameter(
                 name="Plot kind", choices=(("line", "Line"),
-                                              ("stem", "Stem")), )
+                                           ("stem", "Stem")),
+                default="line")
         self.plot_parameters["color"] = util.get_plt_color_parameter()
         self.plot_parameters["abscissa_scaling"] = parameters.ChoiceParameter(
             name="Abscissa scaling",
