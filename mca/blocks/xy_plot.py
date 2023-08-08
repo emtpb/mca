@@ -34,6 +34,8 @@ class XYPlot(PlotBlock):
     def setup_plot_parameters(self):
         self.plot_parameters["color"] = util.get_plt_color_parameter()
         self.plot_parameters["marker"] = util.get_plt_marker_parameter()
+        self.plot_parameters["marker"].default = "."
+        self.plot_parameters["marker"].value = "."
 
     def process(self):
         # Clear the axes
