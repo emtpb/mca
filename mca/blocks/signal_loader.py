@@ -5,7 +5,7 @@ from mca.framework import Block, data_types, parameters
 
 class SignalLoader(Block):
     """Loads a signal from a file (previously saved by the SignalSaver)."""
-    name = "SignalLoader"
+    name = "Signal Loader"
     description = "Loads a signal from a file " \
                   "(previously saved by the SignalSaver)."
     tags = ("Generating", "Loading")

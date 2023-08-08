@@ -5,7 +5,7 @@ from mca.framework import Block, data_types, parameters, util
 
 class DCGenerator(Block):
     """Generates a DC signal."""
-    name = "DCGenerator"
+    name = "Signal Generator (DC)"
     description = "Generates a DC signal."
     tags = ("Generating",)
 

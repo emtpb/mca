@@ -7,7 +7,7 @@ from mca.framework import Block, parameters, validator
 
 class AudioSaver(Block):
     """Saves the input signal as a .wav sound file."""
-    name = "AudioSaver"
+    name = "Audio Saver"
     description = "Saves the input signal as a .wav sound file."
     tags = ("Saving", "Audio")
 

@@ -10,7 +10,7 @@ class ComplexToReal(Block):
     First output yields the real part and second output yields the imaginary
     part.
     """
-    name = "ComplexToReal"
+    name = "Complex-Real"
     description = ("Separates the real and imaginary part of "
                    "the input signal into two output signals. First output "
                    "yields the real part and second output yields the "

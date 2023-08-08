@@ -7,7 +7,7 @@ from mca.framework import Block, data_types, parameters
 
 class AudioLoader(Block):
     """Loads a .wav to create an output signal."""
-    name = "AudioLoader"
+    name = "Audio Loader"
     description = "Loads a .wav to create an output signal."
     tags = ("Loading", "Audio")
 

@@ -5,7 +5,7 @@ from mca.framework import Block, data_types, parameters
 
 class AudioRecorder(Block):
     """Records a sound via the default audio input device."""
-    name = "AudioRecorder"
+    name = "Audio Recorder"
     description = "Records a sound via the default audio input device."
     tags = ("Audio",)
 

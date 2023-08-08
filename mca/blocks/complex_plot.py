@@ -16,7 +16,7 @@ class ComplexPlot(DynamicBlock, PlotBlock):
                     input signal.
         legend: Reference of the legend.
     """
-    name = "ComplexPlot"
+    name = "Complex Plot"
     description = ("Plots absolute and phase or real and imaginary part of "
                     "the input signal.")
     tags = ("Plotting",)

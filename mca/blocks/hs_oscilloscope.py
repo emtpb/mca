@@ -12,7 +12,7 @@ class HSOscilloscope(Block):
     Attributes:
         oscilloscope: HS oscilloscope device object.
     """
-    name = "HSOscilloscope"
+    name = "HS Oscilloscope"
     description = "Measure and extract data from a Handyscope oscilloscope"
     tags = ("Generating",)
 

@@ -5,7 +5,7 @@ from mca.framework import Block, data_types, util
 
 class AnalyticalSignal(Block):
     """Computes the analytical signal of the input signal."""
-    name = "AnalyticalSignal"
+    name = "Analytical Signal"
     description = "Computes the analytical signal of the input signal."
     tags = ("Processing",)
 

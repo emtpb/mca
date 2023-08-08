@@ -9,7 +9,7 @@ class RealToComplex(Block):
     first input turns into the real part of the output signal and the signal of
     the second input turns into the imaginary part of output signal.
     """
-    name = "RealToComplex"
+    name = "Real-Complex"
     description = ("Combines two real signals into a complex signal. "
                    "The signal of the first input turns into the real part "
                    "of the output signal and the signal of the second input "

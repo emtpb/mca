@@ -7,7 +7,7 @@ class PolynomGenerator(Block):
     """Generates a signal based on a polynomial function with the maximum
     order of 5.
     """
-    name = "PolynomGenerator"
+    name = "Signal Generator (Polynom)"
     description = ("Generates a signal based on a polynomial function "
                     "with the maximum order of 5 (a*x⁵+b*x⁴+c*x³+d*x²+e*x¹+f*x⁰)")
     tags = ("Generating",)

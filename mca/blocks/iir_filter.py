@@ -9,7 +9,7 @@ class IRRFilter(Block):
     frequency is ignored when 'lowpass' or 'highpass' are selected as the
     characteristic.
     """
-    name = "IIRFilter"
+    name = "IIR Filter"
     description = ("Filters with common IIR filters the input signal. The "
                     "upper cut off frequency is ignored when 'lowpass' or "
                     "'highpass' are selected as the characteristic. For "

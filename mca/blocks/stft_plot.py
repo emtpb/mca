@@ -5,7 +5,7 @@ from mca.framework import PlotBlock, data_types, parameters, validator
 
 class STFTPlot(PlotBlock):
     """Plots the Short-Time Fourier Transformation of the input signal."""
-    name = "STFTPlot"
+    name = "STFT Plot"
     description = ("Plots the Short-Time Fourier Transformation of the "
                    "input signal.")
     tags = ("Plotting", "Fouriertransformation")

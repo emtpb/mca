@@ -8,7 +8,7 @@ class GaussPulse(Block):
     """Generates a gaussian pulse signal. Returns real- and
     imaginary part as well as the envelope.
     """
-    name = "GaussPulse"
+    name = "Gauss Pulse"
     description = ("Generates a gaussian pulse signal. Returns real- and "
                    "imaginary part as well as the envelope.")
     tags = ("Generating",)

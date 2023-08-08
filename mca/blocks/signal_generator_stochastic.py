@@ -7,7 +7,7 @@ class SignalGeneratorStochastic(Block):
     """Generates a stochastic signal with either normal or equal
     distribution.
     """
-    name = "SignalGeneratorStochastic"
+    name = "Signal Generator (Stochastic)"
     description = ("Generates a stochastic signal "
                    "with either normal or equal distribution.")
     tags = ("Generating", "Stochastic")

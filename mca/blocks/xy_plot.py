@@ -4,7 +4,7 @@ from mca.framework import PlotBlock, data_types, parameters, util
 
 class XYPlot(PlotBlock):
     """Plots the ordinates of the input signals against each other."""
-    name = "XYPlot"
+    name = "XY Plot"
     description = ("Plots the ordinates of the input signals against "
                    "each other.")
     tags = ("Plotting",)

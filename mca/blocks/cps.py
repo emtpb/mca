@@ -6,7 +6,7 @@ from mca.framework import Block, data_types, parameters, util
 
 class CrossPowerSpectrum(Block):
     """Computes the cross power spectrum of the input signals."""
-    name = "CrossPowerSpectrum"
+    name = "Cross Power Spectrum"
     description = ("Computes the cross power spectrum of the "
                    "input signals.")
     tags = ("Processing",)

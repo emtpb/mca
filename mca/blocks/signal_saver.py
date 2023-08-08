@@ -9,7 +9,7 @@ from mca.framework import Block, data_types, parameters
 
 class SignalSaver(Block):
     """Saves the input signal in a .npz, .mat or .hdf5 file."""
-    name = "SignalSaver"
+    name = "Signal Saver"
     description = "Saves the input signal in a .npz, .mat, .hdf5 file."
     tags = ("Saving",)
 

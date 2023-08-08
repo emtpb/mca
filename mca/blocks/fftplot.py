@@ -11,7 +11,7 @@ class FFTPlot(PlotBlock):
         axes: Reference of the axes.
         legend: Reference of the legend.
     """
-    name = "FFTPlot"
+    name = "FFT Plot"
     description = ("Computes the FFT of the input signal and plots " 
                    "either the real part, imaginary part, "
                    "the absolute or the phase of the FFT. "

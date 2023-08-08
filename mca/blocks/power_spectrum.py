@@ -8,7 +8,7 @@ class PowerSpectrum(Block):
     """Computes the power spectrum of the input signal using Welch's
     method.
     """
-    name = "PowerSpectrum"
+    name = "Power Spectrum"
     description = ("Computes the power spectrum of the input signal using "
                    "Welch's method")
     tags = ("Processing",)

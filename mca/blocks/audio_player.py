@@ -11,7 +11,7 @@ class AudioPlayer(Block):
     as mono and if both inputs are connected then the sound will be played as
     stereo.
     """
-    name = "AudioPlayer"
+    name = "Audio Player"
     description = ("Plays the input signal as a sound by using the current "
                    "default sound device.")
     tags = ("Audio",)
