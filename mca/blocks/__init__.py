@@ -22,6 +22,7 @@ from .divider import Divider
 from .envelope import Envelope
 from .fft import FFT
 from .fftplot import FFTPlot
+from .fft_shift import FFTShift
 from .gausspulse import GaussPulse
 from .histogramm import Histogramm
 from .hs_oscilloscope import HSOscilloscope
