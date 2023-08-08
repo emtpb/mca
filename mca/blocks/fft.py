@@ -4,7 +4,7 @@ from mca.framework import Block, data_types, parameters, util
 
 
 class FFT(Block):
-    """Computes the FFT of the input signal."""
+    """Computes the FFT or the inverse FFT of the input signal."""
     name = "FFT"
     description = "Computes the FFT of the input signal."
     tags = ("Processing", "Fouriertransformation")
@@ -20,6 +20,9 @@ class FFT(Block):
         self.parameters["normalize"] = parameters.BoolParameter(
             name="Normalize", default=False
         )
+        self.parameters["inverse"] = parameters.BoolParameter(
+            name="Inverse", default=False
+        )
 
     @util.abort_all_inputs_empty
     @util.validate_type_signal
@@ -28,8 +31,12 @@ class FFT(Block):
         input_signal = self.inputs[0].data
         # Read parameters values
         normalize = self.parameters["normalize"].value
+        inverse = self.parameters["inverse"].value
         # Calculate the ordinate
-        fft = np.fft.fft(input_signal.ordinate)
+        if not inverse:
+            fft = np.fft.fft(input_signal.ordinate)
+        else:
+            fft = np.fft.ifft(input_signal.ordinate)
         # Calculate the increment
         increment = 1 / (
                 input_signal.increment * input_signal.values)
