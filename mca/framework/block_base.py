@@ -458,5 +458,5 @@ class PlotWindow(QtWidgets.QWidget):
             self.axes.yaxis.label.set_color(grid_colour)
             self.axes.set_facecolor(ax_colour)
             self.axes.grid(color=grid_colour)
-
+        self.canvas.draw()
         super().paintEvent(event)
