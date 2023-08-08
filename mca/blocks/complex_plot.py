@@ -168,23 +168,18 @@ class ComplexPlot(DynamicBlock, PlotBlock):
         # Set the x and y labels depending on the metadata of the inputs
         if signals:
             metadata = metadatas[0]
-            abscissa_string = data_types.metadata_to_axis_label(
-                quantity=metadata.quantity_a,
-                unit=metadata.unit_a,
-                symbol=metadata.symbol_a
-            )
-            ordinate_string = data_types.metadata_to_axis_label(
-                quantity=metadata.quantity_o,
-                unit=metadata.unit_o,
-                symbol=metadata.symbol_o
-            )
-            self.first_axis.set_xlabel(abscissa_string)
-            self.first_axis.set_ylabel(ordinate_string)
-            self.second_axis.set_xlabel(abscissa_string)
+            self.set_xlabel(axis=self.first_axis, quantity=metadata.quantity_a,
+                            unit=metadata.unit_a, symbol=metadata.symbol_a)
+            self.set_ylabel(axis=self.first_axis, quantity=metadata.quantity_o,
+                            unit=metadata.unit_o, symbol=metadata.symbol_o)
+            self.set_xlabel(axis=self.second_axis, quantity=metadata.quantity_a,
+                            unit=metadata.unit_a, symbol=metadata.symbol_a)
             if plot_type == "abs_phase":
-                self.second_axis.set_ylabel("Phase in rad")
+                self.set_ylabel(self.second_axis, quantity="Phase", unit="rad")
             else:
-                self.second_axis.set_ylabel(ordinate_string)
+                self.set_ylabel(axis=self.second_axis,
+                                quantity=metadata.quantity_o,
+                                unit=metadata.unit_o, symbol=metadata.symbol_o)
         # Set the scalings
         self.first_axis.set_xscale(abscissa_scaling1)
         self.first_axis.set_yscale(ordinate_scaling1)

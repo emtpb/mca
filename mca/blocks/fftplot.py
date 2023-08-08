@@ -147,18 +147,10 @@ class FFTPlot(PlotBlock):
             unit_a=1 / self.inputs[0].metadata.unit_a,
             unit_o=unit_o,
         )
-        self.axes.set_xlabel(data_types.metadata_to_axis_label(
-            quantity=metadata.quantity_a,
-            unit=metadata.unit_a,
-            symbol=metadata.symbol_a
-            )
-        )
-        self.axes.set_ylabel(data_types.metadata_to_axis_label(
-            quantity=metadata.quantity_o,
-            unit=metadata.unit_o,
-            symbol=metadata.symbol_o
-            )
-        )
+        self.set_xlabel(axis=self.axes, quantity=metadata.quantity_a,
+                        unit=metadata.unit_a, symbol=metadata.symbol_a)
+        self.set_ylabel(axis=self.axes, quantity=metadata.quantity_o,
+                        unit=metadata.unit_o, symbol=metadata.symbol_o)
         self.axes.set_xscale(abscissa_scaling)
         self.axes.set_yscale(ordinate_scaling)
         # Use grids

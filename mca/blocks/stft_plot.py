@@ -84,18 +84,10 @@ class STFTPlot(PlotBlock):
                                        unit_a=self.inputs[0].metadata.unit_a,
                                        unit_o=1 / self.inputs[0].metadata.unit_a)
         # Set axis label depending on the metadata
-        abscissa_string = data_types.metadata_to_axis_label(
-            quantity=metadata.quantity_a,
-            unit=metadata.unit_a,
-            symbol=metadata.symbol_a
-        )
-        ordinate_string = data_types.metadata_to_axis_label(
-            quantity=metadata.quantity_o,
-            unit=metadata.unit_o,
-            symbol=metadata.symbol_o
-        )
-        self.axes.set_xlabel(abscissa_string)
-        self.axes.set_ylabel(ordinate_string)
+        self.set_xlabel(axis=self.axes, quantity=metadata.quantity_a,
+                        unit=metadata.unit_a, symbol=metadata.symbol_a)
+        self.set_ylabel(axis=self.axes, quantity=metadata.quantity_o,
+                        unit=metadata.unit_o, symbol=metadata.symbol_o)
         # Use grid
         self.axes.grid(True)
         # Draw the plot

@@ -320,6 +320,60 @@ class PlotBlock(Block):
         self.axes = self.plot_window.axes
         self.fig = self.plot_window.canvas.fig
 
+    @property
+    def label_color(self):
+        """Get color the labels of the plot should have.
+
+        Returns:
+            str: Color of the label as hexadecimal.
+        """
+        return self.plot_window.palette().color(
+            QtGui.QPalette.Text).name()
+
+    def set_ylabel(self, axis, unit, quantity=None, symbol=None, **kwargs):
+        """Wrapper method for calling axis.set_ylabel. The label is not set
+        directly, but rather get constructed based on the symbol, quantity
+        and the unit of the metadata. This wrapper also sets the color
+        depending on the theme.
+
+        Args:
+            axis: Axis to set the y-label of.
+            unit: Unit for the y-label.
+            symbol: Symbol for the y-label.
+            quantity: Quantity for the y-label.
+        """
+        if symbol and quantity:
+            label = "{} {} / {}".format(quantity, symbol, unit)
+        elif symbol:
+            label = "{} / {}".format(symbol, unit)
+        elif quantity:
+            label = "{} in {}".format(quantity, unit)
+        else:
+            label = repr(unit)
+        axis.set_ylabel(label, color=self.label_color, **kwargs)
+
+    def set_xlabel(self, axis, unit, quantity=None, symbol=None, **kwargs):
+        """Wrapper method for calling axis.set_xlabel. The label is not set
+        directly, but rather get constructed based on the symbol, quantity
+        and the unit of the metadata. This wrapper also sets the color
+        depending on the theme.
+
+        Args:
+            axis: Axis to set the y-label of.
+            unit: Unit for the y-label.
+            symbol: Symbol for the y-label.
+            quantity: Quantity for the y-label.
+        """
+        if symbol and quantity:
+            label = "{} {} / {}".format(quantity, symbol, unit)
+        elif symbol:
+            label = "{} / {}".format(symbol, unit)
+        elif quantity:
+            label = "{} in {}".format(quantity, unit)
+        else:
+            label = repr(unit)
+        axis.set_xlabel(label, color=self.label_color, **kwargs)
+
     def show(self):
         self.plot_window.show()
 

@@ -109,18 +109,10 @@ class Plot(PlotBlock, DynamicBlock):
         # Set the x and y labels depending on the metadata of the inputs
         if signals:
             metadata = metadatas[0]
-            abscissa_string = data_types.metadata_to_axis_label(
-                quantity=metadata.quantity_a,
-                unit=metadata.unit_a,
-                symbol=metadata.symbol_a
-            )
-            ordinate_string = data_types.metadata_to_axis_label(
-                quantity=metadata.quantity_o,
-                unit=metadata.unit_o,
-                symbol=metadata.symbol_o
-            )
-            self.axes.set_xlabel(abscissa_string)
-            self.axes.set_ylabel(ordinate_string)
+            self.set_xlabel(axis=self.axes, quantity=metadata.quantity_a,
+                            unit=metadata.unit_a, symbol=metadata.symbol_a)
+            self.set_ylabel(axis=self.axes, quantity=metadata.quantity_o,
+                            unit=metadata.unit_o, symbol=metadata.symbol_o)
         # Set the scalings
         self.axes.set_xscale(abscissa_scaling)
         self.axes.set_yscale(ordinate_scaling)

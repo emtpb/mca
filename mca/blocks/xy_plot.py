@@ -77,16 +77,10 @@ class XYPlot(PlotBlock):
         # Plot
         self.axes.scatter(abscissa, ordinate, color=color, marker=marker)
         # Set the axis labels depending on the metadata
-        self.axes.set_xlabel(data_types.metadata_to_axis_label(
-            quantity=quantity_a,
-            unit=unit_a,
-            symbol=symbol_a
-        ))
-        self.axes.set_ylabel(data_types.metadata_to_axis_label(
-            quantity=quantity_o,
-            unit=unit_o,
-            symbol=symbol_o
-        ))
+        self.set_xlabel(axis=self.axes, quantity=quantity_a,
+                        unit=unit_a, symbol=symbol_a)
+        self.set_ylabel(axis=self.axes, quantity=quantity_o,
+                        unit=unit_o, symbol=symbol_o)
         # Use grid
         self.axes.grid(True)
         # Draw the plot

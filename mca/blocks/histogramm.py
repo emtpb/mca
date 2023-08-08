@@ -88,13 +88,9 @@ class Histogramm(PlotBlock):
         if label:
             self.legend = self.fig.legend()
         # Set the x label depending on the metadata of the input
-        ordinate_string = data_types.metadata_to_axis_label(
-            quantity=metadata.quantity_o,
-            unit=metadata.unit_o,
-            symbol=metadata.symbol_o
-        )
-        self.axes.set_ylabel(y_label)
-        self.axes.set_xlabel(ordinate_string)
+        self.set_xlabel(axis=self.axes, quantity=metadata.quantity_o,
+                        unit=metadata.unit_o, symbol=metadata.symbol_o)
+        self.axes.set_ylabel(y_label, color=self.label_color)
         # Use grids
         self.axes.grid(True)
         # Draw the plot

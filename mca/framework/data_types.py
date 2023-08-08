@@ -208,18 +208,6 @@ def string_to_unit(string, fixed_unit=False):
     return Unit(numerator, denominator, fix_repr=fixed_unit)
 
 
-def metadata_to_axis_label(unit, quantity=None, symbol=None):
-    """Returns a string axis labels given a quantity, unit and (symbol)."""
-    if symbol and quantity:
-        return "{} {} / {}".format(quantity, symbol, unit)
-    elif symbol:
-        return "{} / {}".format(symbol, unit)
-    elif quantity:
-        return "{} in {}".format(quantity, unit)
-    else:
-        return repr(unit)
-
-
 def default_metadata():
     return MetaData(
         name="",
