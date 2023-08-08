@@ -60,18 +60,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.block_explorer = block_explorer.BlockExplorer(self.block_scene)
         self.block_scene.block_list = self.block_explorer.block_list
 
-        self.plot_dock_manager = QtWidgets.QMainWindow()
+        self.main_widget.addWidget(self.block_explorer)
+        self.main_widget.addWidget(self.view_widget)
 
-        if self.conf["explorer_pos"] == "left":
-            self.main_widget.addWidget(self.block_explorer)
-            self.main_widget.addWidget(self.view_widget)
-            self.main_widget.addWidget(self.plot_dock_manager)
-        else:
-            self.main_widget.addWidget(self.plot_dock_manager)
-            self.main_widget.addWidget(self.view_widget)
-            self.main_widget.addWidget(self.block_explorer)
+        self.setDockNestingEnabled(True)
 
-        self.main_widget.setSizes([300, 1000, 0])
+        self.main_widget.setSizes([300, 1000])
         self.setCentralWidget(self.main_widget)
         # Save warning message
         self.save_warning_message = QtWidgets.QMessageBox(
@@ -102,7 +96,6 @@ class MainWindow(QtWidgets.QMainWindow):
         menu = self.menuBar()
         file_menu = menu.addMenu(_("File"))
         language_menu = menu.addMenu(_("Language"))
-        view_menu = menu.addMenu(_("View"))
 
         open_about_window = QtGui.QAction(_("About"), self)
         open_about_window.triggered.connect(self.about_window.show)
@@ -145,13 +138,6 @@ class MainWindow(QtWidgets.QMainWindow):
         exit_action.setStatusTip(_("Close Application"))
         exit_action.triggered.connect(self.close)
         file_menu.addAction(exit_action)
-
-        appearance_menu = view_menu.addMenu(_("Appearance"))
-        explorer_menu = appearance_menu.addMenu(_("Explorer|Plots"))
-        explorer_left_action = explorer_menu.addAction(_("Left|Right"))
-        explorer_left_action.triggered.connect(self.align_explorer_left)
-        explorer_right_action = explorer_menu.addAction(_("Right|Left"))
-        explorer_right_action.triggered.connect(self.align_explorer_right)
 
     def init_view_toolbar(self):
         """Initializes the toolbar for the block view."""
@@ -350,22 +336,3 @@ class MainWindow(QtWidgets.QMainWindow):
             msg_box.exec()
 
         return tmp
-
-    def align_explorer_left(self):
-        """Aligns the explorer widget to the left side of the splitter
-        widget.
-        """
-        logging.info("Aligning the explorer to the left.")
-        if self.main_widget.indexOf(self.block_explorer) == 2:
-            self.main_widget.insertWidget(0, self.block_explorer)
-            self.main_widget.insertWidget(2, self.plot_dock_manager)
-        self.conf["explorer_pos"] = "left"
-
-    def align_explorer_right(self):
-        """Aligns the explorer widget to the right side of the splitter widget.
-        """
-        logging.info("Aligning the explorer to the right.")
-        if self.main_widget.indexOf(self.block_explorer) == 0:
-            self.main_widget.insertWidget(2, self.block_explorer)
-            self.main_widget.insertWidget(0, self.plot_dock_manager)
-        self.conf["explorer_pos"] = "right"

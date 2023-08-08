@@ -114,17 +114,12 @@ class BlockItem(QtWidgets.QGraphicsItem):
         num_buttons = 0
         # Add button if the block is a PlotBlock
         if isinstance(self.block, PlotBlock):
-            plot_dock_manager = self.view.parent().parent().parent().plot_dock_manager
-            splitter = plot_dock_manager.parent()
-            sizes = splitter.sizes()
-            if sizes[2] < 700:
-                sizes[2] = 700
-                splitter.setSizes(sizes)
+            main_window = self.view.parent().parent().parent()
             dock_widget = QtWidgets.QDockWidget(self.block.name,
-                                                plot_dock_manager)
+                                                main_window)
             dock_widget.setWidget(self.block.plot_window)
-            plot_dock_manager.addDockWidget(QtCore.Qt.RightDockWidgetArea,
-                                            dock_widget)
+            main_window.addDockWidget(QtCore.Qt.RightDockWidgetArea,
+                                      dock_widget)
             block.gui_data["run_time_data"]["pyside6"]["dock_widget"] = dock_widget
             show_function = show_function_generator(self.block)
             self.action_buttons.append(
@@ -459,7 +454,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.modified()
         # Remove the DockWidget for plot blocks
         if isinstance(self.block, PlotBlock):
-            self.scene().parent().parent().plot_dock_manager.removeDockWidget(
+            self.scene().parent().parent().removeDockWidget(
                 self.block.gui_data["run_time_data"]["pyside6"]["dock_widget"])
         # Remove itself from the scene and clean up
         self.scene().removeItem(self)
