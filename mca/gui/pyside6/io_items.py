@@ -143,6 +143,7 @@ class InputItem(QtWidgets.QGraphicsItem):
                             skipped. It is assumed that has already been done
                             by the backend.
         """
+        remove_connection_line = False
         try:
             if not loading:
                 self.mca_input.connect(output_item.mca_output)
@@ -150,16 +151,22 @@ class InputItem(QtWidgets.QGraphicsItem):
             logging.error("Cyclic structures are not allowed.")
             QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                 "Cyclic structures are not allowed."))
+            remove_connection_line = True
         except exceptions.UnitError:
             logging.error("Signals have incompatible metadata.")
             QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                 "Signals have incompatible metadata."))
             self.mca_input.disconnect()
+            remove_connection_line = True
         except exceptions.IntervalError:
             logging.error("Signals have incompatible abscissas.")
             QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                 "Signals have incompatible abscissas."))
             self.mca_input.disconnect()
+            remove_connection_line = True
+        except exceptions.BlockConnectionError:
+            self.disconnect()
+            self.mca_input.connect(output_item.mca_output)
         except Exception as error:
             logging.error(repr(error))
             QtWidgets.QMessageBox().warning(
@@ -167,7 +174,8 @@ class InputItem(QtWidgets.QGraphicsItem):
                 _("Could not connect blocks") + "\n" +
                 repr(error))
             self.mca_input.disconnect()
-        else:
+            remove_connection_line = True
+        if not remove_connection_line:
             # Create a new connection line
             if connection_line is None:
                 self.connection_line = ConnectionLine(
@@ -194,7 +202,7 @@ class InputItem(QtWidgets.QGraphicsItem):
             return
 
         # Remove the connection line in case an error occurred
-        if connection_line:
+        else:
             self.scene().removeItem(connection_line)
             if connection_line in output_item.connection_lines:
                 output_item.connection_lines.remove(connection_line)
