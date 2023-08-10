@@ -192,15 +192,24 @@ class EditWindow(QtWidgets.QDialog):
             if hasattr(block_parameter, "display_options") and \
                     "edit_window" not in block_parameter.display_options:
                 continue
+            if not isinstance(block_parameter, parameters.ParameterBlock):
+                if block_parameter.description is not None:
+                    info_pixmap = self.style().standardPixmap(
+                        QtWidgets.QStyle.StandardPixmap.SP_MessageBoxInformation)
+                    info_label = QtWidgets.QLabel()
+                    info_label.setToolTip(
+                        f"<html><head/><body><p>{block_parameter.description}</p></body></html>")
+
+                    info_label.setPixmap(info_pixmap)
+                    self.parameter_box_layout.addWidget(info_label, index, 0, 1,
+                                                        1)
             # Add name labels except for action and bool parameters and
             # parameter blocks
-            if not isinstance(block_parameter, parameters.BoolParameter) and \
-                    not isinstance(block_parameter,
-                                   parameters.ActionParameter) and \
-                    not isinstance(block_parameter, parameters.ParameterBlock):
+            if not isinstance(block_parameter, parameters.ActionParameter) and \
+               not isinstance(block_parameter, parameters.ParameterBlock):
                 name_label = QtWidgets.QLabel(_(block_parameter.name) + ":")
                 name_label.setFixedHeight(25)
-                self.parameter_box_layout.addWidget(name_label, index, 0, 1, 1)
+                self.parameter_box_layout.addWidget(name_label, index, 1, 1, 1)
             # Translate parameter to the corresponding widget
             widget = edit_widgets.widget_dict[type(block_parameter)](
                 block_parameter)
@@ -209,13 +218,13 @@ class EditWindow(QtWidgets.QDialog):
             # Add widgets to the layout though parameters blocks
             # take two columns
             if isinstance(block_parameter, parameters.ParameterBlock):
-                self.parameter_box_layout.addWidget(widget, index, 0, 1, 2)
+                self.parameter_box_layout.addWidget(widget, index, 1, 1, 2)
             else:
-                self.parameter_box_layout.addWidget(widget, index, 1, 1, 1)
+                self.parameter_box_layout.addWidget(widget, index, 2, 1, 1)
             # Add the unit to the parameter
             if hasattr(block_parameter, "unit"):
                 unit_label = QtWidgets.QLabel(block_parameter.unit)
-                self.parameter_box_layout.addWidget(unit_label, index, 2, 1, 1)
+                self.parameter_box_layout.addWidget(unit_label, index, 3, 1, 1)
 
     def add_metadata(self):
         """Arranges the metadata of the outputs of the block in the window."""

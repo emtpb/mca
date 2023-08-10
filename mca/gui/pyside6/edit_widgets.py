@@ -262,7 +262,7 @@ class BoolParameterWidget(BaseParameterWidget, QtWidgets.QCheckBox):
 
     def __init__(self, parameter):
         """Initializes BoolParameterWidget class."""
-        QtWidgets.QCheckBox.__init__(self, parameter.name)
+        QtWidgets.QCheckBox.__init__(self)
         BaseParameterWidget.__init__(self, parameter)
         self.stateChanged.connect(self.check_changed)
 
@@ -634,7 +634,7 @@ class ParameterBlockWidget(QtWidgets.QGroupBox):
 
     Attributes:
         parameter_block: Reference of the ParameterBlock.
-        main_layout: Layout for this widget.
+        parameter_layout: Layout for this widget.
         parameters_to_widgets (dict): Mapping of the parameter to the
                                       corresponding widgets.
     """
@@ -647,28 +647,42 @@ class ParameterBlockWidget(QtWidgets.QGroupBox):
         """
         self.parameter_block = parameter_block
         QtWidgets.QGroupBox.__init__(self, title=parameter_block.name)
-        self.main_layout = QtWidgets.QGridLayout(self)
+        self.main_layout = QtWidgets.QVBoxLayout(self)
+        self.parameter_widget = QtWidgets.QWidget()
+
+        self.parameter_layout = QtWidgets.QGridLayout(self.parameter_widget)
+
         self.parameters_to_widgets = {}
+
         # Create and arrange the parameter widgets
-        for index, parameter in enumerate(
-                self.parameter_block.parameters.values(), 1):
+        for index, parameter in enumerate(self.parameter_block.parameters.values()):
+            if parameter.description is not None:
+                info_pixmap = self.style().standardPixmap(
+                    QtWidgets.QStyle.StandardPixmap.SP_MessageBoxInformation)
+                info_label = QtWidgets.QLabel()
+                info_label.setToolTip(
+                    f"<html><head/><body><p>{parameter.description}</p></body></html>")
+                info_label.setPixmap(info_pixmap)
+                self.parameter_layout.addWidget(info_label, index, 0, 1, 1)
             if not isinstance(parameter, parameters.BoolParameter) and \
                     not isinstance(parameter, parameters.ActionParameter):
+
                 name_label = QtWidgets.QLabel(parameter.name + ":")
                 name_label.setFixedHeight(25)
-                self.main_layout.addWidget(name_label, index, 0, 1, 1)
+                self.parameter_layout.addWidget(name_label, index, 1, 1, 1)
             widget = widget_dict[type(parameter)](parameter)
             self.parameters_to_widgets[parameter] = widget
             widget.read_parameter()
-            self.main_layout.addWidget(widget, index, 1, 1, 1)
+            self.parameter_layout.addWidget(widget, index, 2, 1, 1)
             if parameter.unit:
                 unit_label = QtWidgets.QLabel(parameter.unit)
-                self.main_layout.addWidget(unit_label, index, 2, 1, 1)
+                self.parameter_layout.addWidget(unit_label, index, 3, 1, 1)
         # Add the choice widget
         if self.parameter_block.param_conversions:
             conversion_choice = ParameterBlockChoiceWidget(self.parameter_block,
                                                            self.parameters_to_widgets)
-            self.main_layout.addWidget(conversion_choice, 0, 0, 1, 1)
+            self.main_layout.addWidget(conversion_choice)
+        self.main_layout.addWidget(self.parameter_widget)
 
     def write_parameter(self):
         for parameter in self.parameters_to_widgets.values():
