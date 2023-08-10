@@ -9,19 +9,24 @@ class BaseParameter:
     Attributes:
         name (str): Name of the parameter.
         unit (str): Unit of the parameter.
+        description (str): Description of the parameter.
+        parameter_block : Reference of the parameter block the parameter
+                          belongs to.
     """
 
-    def __init__(self, name, unit=None, default=None):
+    def __init__(self, name, unit=None, default=None, description=None):
         """Initialize BaseParameter class.
         
         Args:
             name (str): Name of the parameter.
             unit (str): Unit of the parameter.
+            description (str): Description of the parameter.
             default: Default for the internal value of the parameter.
         """
         self.name = name
         self.unit = unit
         self._value = default
+        self.description = description
         self.parameter_block = None
 
     def validate(self, value):
@@ -56,7 +61,8 @@ class FloatParameter(BaseParameter):
         default (float): Value of the parameter.
         """
 
-    def __init__(self, name, min_=None, max_=None, unit=None, default=None):
+    def __init__(self, name, min_=None, max_=None, unit=None, default=None,
+                 description=None):
         """Initialize FloatParameter class.
         
         Args:
@@ -65,8 +71,10 @@ class FloatParameter(BaseParameter):
             max_ (float): Maximum value of the parameter.
             unit (str): Unit of the parameter.
             default (float): Value of the parameter.
+            description (str): Description of the parameter.
         """
-        super().__init__(name=name, unit=unit, default=default)
+        super().__init__(name=name, unit=unit, default=default,
+                         description=description)
         self.min = min_
         self.max = max_
 
@@ -100,7 +108,8 @@ class IntParameter(BaseParameter):
         default (int): Value of the parameter.
     """
 
-    def __init__(self, name, min_=None, max_=None, unit=None, default=None):
+    def __init__(self, name, min_=None, max_=None, unit=None, default=None,
+                 description=None):
         """Initialize IntParameter class.
         
         Args:
@@ -109,8 +118,10 @@ class IntParameter(BaseParameter):
             max_ (int): Maximum value of the parameter.
             unit (str): Unit of the parameter.
             default (int): Value of the parameter.
+            description (str): Description of the parameter.
         """
-        super().__init__(name=name, unit=unit, default=default)
+        super().__init__(name=name, unit=unit, default=default,
+                         description=description)
         self.min = min_
         self.max = max_
 
@@ -156,15 +167,16 @@ class StrParameter(BaseParameter):
         max_length (int): Maximum length of the string.
     """
 
-    def __init__(self, name, max_length=20, default=None):
+    def __init__(self, name, max_length=20, default=None, description=None):
         """Initialize StrParameter class.
         
         Args:
             name (str): Name of the parameter.
             max_length (int): Maximum length of the string.
             default (str): Value of the parameter.
+            description (str): Description of the parameter.
         """
-        super().__init__(name=name, default=default)
+        super().__init__(name=name, default=default, description=description)
         self.max_length = max_length
 
     def validate(self, value):
@@ -193,7 +205,8 @@ class ChoiceParameter(BaseParameter):
         default: Value of the parameter.
     """
 
-    def __init__(self, name, choices, unit=None, default=None):
+    def __init__(self, name, choices, unit=None, default=None,
+                 description=None):
         """Initialize ChoiceParameter class.
         
         Args:
@@ -202,8 +215,10 @@ class ChoiceParameter(BaseParameter):
                      a translatable display name.
             unit (str): Unit of the parameter.
             default: Value of the parameter of one of the choices.
+            description (str): Description of the parameter.
         """
-        super().__init__(name=name, unit=unit, default=default)
+        super().__init__(name=name, unit=unit, default=default,
+                         description=description)
         self.choices = choices
 
     def validate(self, value):
@@ -227,16 +242,17 @@ class BoolParameter(BaseParameter):
     Attributes:
         name (str): Name of the Parameter.
         default (bool): Value of the Parameter.
+        description (str): Description of the parameter.
     """
 
-    def __init__(self, name, default=None):
+    def __init__(self, name, default=None, description=None):
         """Initialize BoolParameter class.
         
         Args:
             name (str): Name of the Parameter.
             default (bool): Value of the Parameter.
         """
-        super().__init__(name=name, default=default, )
+        super().__init__(name=name, default=default, description=description)
 
     def validate(self, value):
         """Validates a value on bool type.
@@ -261,7 +277,8 @@ class ActionParameter(BaseParameter):
                             block_button.
     """
 
-    def __init__(self, name, function, display_options=("edit_window",)):
+    def __init__(self, name, function, display_options=("edit_window",),
+                 description=None):
         """Initialize ActionParameter.
 
         Args:
@@ -270,8 +287,9 @@ class ActionParameter(BaseParameter):
             display_options (tuple): Options for the GUI to specify how to
                             display the parameter. Options: edit_window,
                             menu_action, block_button.
+            description (str): Description of the parameter.
         """
-        super().__init__(name)
+        super().__init__(name, description=description)
         self.function = function
         self.display_options = display_options
 
@@ -286,7 +304,8 @@ class PathParameter(BaseParameter):
         default: Path of the file.
     """
 
-    def __init__(self, name, file_formats=None, loading=False, default=""):
+    def __init__(self, name, file_formats=None, loading=False, default="",
+                 description=None):
         """Initialize PathParameter.
 
         Args:
@@ -294,7 +313,7 @@ class PathParameter(BaseParameter):
            default (str): Path to the desired file.
            file_formats (list): List of allowed file formats.
         """
-        super().__init__(name, default)
+        super().__init__(name=name, default=default, description=description)
         if not file_formats:
             file_formats = []
         self.file_formats = file_formats
