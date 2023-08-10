@@ -65,11 +65,19 @@ class EditWindow(QtWidgets.QDialog):
         self.parameter_box = QtWidgets.QGroupBox(_("Parameters"))
         self.parameter_box_layout = QtWidgets.QGridLayout(self.parameter_box)
         general_tab_contents_layout.addWidget(self.parameter_box)
+        if block.references:
+            reference_box = QtWidgets.QGroupBox(_("References"))
+            reference_box_layout = QtWidgets.QVBoxLayout(reference_box)
+            for key, value in block.references.items():
+                reference_label = QtWidgets.QLabel()
+                reference_label.setText(f'<a href="{value}">{key}</a>')
+                reference_label.setOpenExternalLinks(True)
+                reference_box_layout.addWidget(reference_label)
+            general_tab_contents_layout.addWidget(reference_box)
         general_tab_contents_layout.addItem(QtWidgets.QSpacerItem(
             0, 0,
             QtWidgets.QSizePolicy.Minimum,
             QtWidgets.QSizePolicy.Expanding))
-
         scroll = QtWidgets.QScrollArea()
         scroll.setWidget(general_tab_contents)
         scroll.setWidgetResizable(True)
