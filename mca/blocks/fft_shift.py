@@ -29,18 +29,20 @@ class FFTShift(Block):
         # Read parameters values
         inverse = self.parameters["inverse"].value
         # Calculate the ordinate
-        if not inverse:
-            shifted = np.fft.fftshift(input_signal.ordinate)
-        else:
-            shifted = np.fft.ifftshift(input_signal.ordinate)
         # Calculate the increment
-        increment = 1 / (
-                input_signal.increment * input_signal.values)
+        increment = input_signal.increment
         # Calculate the amount of values
         values = input_signal.values
-        # Apply new signal to the output
+
+        if not inverse:
+            shifted = np.fft.fftshift(input_signal.ordinate)
+            abscissa_start = -input_signal.increment*input_signal.values / 2
+        else:
+            shifted = np.fft.ifftshift(input_signal.ordinate)
+            abscissa_start = 0
+
         self.outputs[0].data = data_types.Signal(
-            abscissa_start=0,
+            abscissa_start=abscissa_start,
             values=values,
             increment=increment,
             ordinate=shifted,
