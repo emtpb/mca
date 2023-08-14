@@ -17,6 +17,8 @@ class Zerofill(Block):
         self.parameters["dtime_values"] = parameters.IntParameter(
                 name="Dead Time Values", min_=0, default=0
         )
+        self.parameters["shift_dead"] = parameters.BoolParameter(
+            name="Shift the signal by the dead time", default=False)
         self.parameters["zpad_values"] = parameters.IntParameter(
                 name="Zero Padding Values", min_=0, default=0
         )
@@ -28,6 +30,7 @@ class Zerofill(Block):
         input_signal = self.inputs[0].data
         # Read parameters values
         dtime_values = self.parameters["dtime_values"].value
+        shift_dead = self.parameters["shift_dead"].value
         zpad_values = self.parameters["zpad_values"].value
         # Calculate the ordinate
         ordinate = np.concatenate((np.zeros(dtime_values),
@@ -35,9 +38,14 @@ class Zerofill(Block):
                                    np.zeros(zpad_values)))
         # Calculate the amount of values
         values = dtime_values + zpad_values + input_signal.values
+
+        if not shift_dead:
+            abscissa_start = input_signal.abscissa_start - dtime_values*input_signal.increment
+        else:
+            abscissa_start = input_signal.abscissa_start
         # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
-            abscissa_start=input_signal.abscissa_start,
+            abscissa_start=abscissa_start,
             values=values,
             increment=input_signal.increment,
             ordinate=ordinate,
