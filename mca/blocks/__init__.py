@@ -14,6 +14,7 @@ from .ccf import CrossCorrelation
 from .chirp import Chirp
 from .complex_plot import ComplexPlot
 from .complex_to_real import ComplexToReal
+from .convolution import Convolution
 from .cps import CrossPowerSpectrum
 from .cutter import Cutter
 from .dc_generator import DCGenerator
