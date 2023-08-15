@@ -6,7 +6,9 @@ from mca.framework import Block, data_types, util
 class AutoCorrelation(Block):
     """Computes the auto correlation of the input signal."""
     name = "ACF"
-    description = "Computes the auto correlation function of the input signal."
+    description = ("Computes the auto correlation function of the input "
+        "signal. The auto correlation measures a signals similarity to a "
+        "time-shifted version of itself.")
     tags = ("Processing",)
     references = {"numpy.correlate":
         "https://numpy.org/doc/1.25/reference/generated/numpy.correlate.html"}

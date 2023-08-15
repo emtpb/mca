@@ -7,7 +7,9 @@ from mca.framework import Block, data_types, util
 class Envelope(Block):
     """Computes the envelope of the input signal."""
     name = "Envelope"
-    description = "Computes the envelope of the input signal."
+    description = ("Computes the envelope of the input signal. "
+        "It is given by the magnitude of the analytical signal "
+        "(hilbert transformation)")
     tags = ("Processing",)
     references = {"scipy.signal.hilbert":
         "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.hilbert.html"}

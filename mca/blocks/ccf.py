@@ -6,7 +6,9 @@ from mca.framework import Block, data_types, util
 class CrossCorrelation(Block):
     """Computes the cross correlation of the input signal."""
     name = "CCF"
-    description = "Computes the cross correlation function of the input signal."
+    description = ("Computes the cross correlation function of the input "
+        "signals. The cross correlation measures the similarity "
+        "between to signals at different time offsets.")
     tags = ("Processing",)
     references = {"numpy.correlate":
         "https://numpy.org/doc/1.25/reference/generated/numpy.correlate.html"}
