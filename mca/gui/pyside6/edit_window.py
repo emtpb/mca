@@ -2,6 +2,7 @@ import logging
 import os
 
 from PySide6 import QtWidgets, QtCore, QtGui
+from PySide6.QtSvgWidgets import QSvgWidget
 
 import mca
 from mca.framework import parameters, DynamicBlock, PlotBlock
@@ -60,6 +61,11 @@ class EditWindow(QtWidgets.QDialog):
         description_label.setMaximumHeight(100)
         description_label.setWordWrap(True)
         description_box_layout.addWidget(description_label)
+        if block.svg:
+            description_svg = QSvgWidget()
+            description_svg.load(block.svg)
+            description_svg.renderer().setAspectRatioMode(QtCore.Qt.KeepAspectRatio)
+            description_box_layout.addWidget(description_svg)
         general_tab_contents_layout.addWidget(description_box)
 
         self.parameter_box = QtWidgets.QGroupBox(_("Parameters"))
