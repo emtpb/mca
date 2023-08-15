@@ -9,6 +9,8 @@ class STFTPlot(PlotBlock):
     description = ("Plots the Short-Time Fourier Transformation of the "
                    "input signal.")
     tags = ("Plotting", "Fouriertransformation")
+    references = {"scipy.signal.stft":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.stft.html"}
 
     def __init__(self, **kwargs):
         """Initializes STFTPlot class."""

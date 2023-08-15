@@ -8,6 +8,8 @@ class AutoCorrelation(Block):
     name = "ACF"
     description = "Computes the auto correlation function of the input signal."
     tags = ("Processing",)
+    references = {"numpy.correlate":
+        "https://numpy.org/doc/1.25/reference/generated/numpy.correlate.html"}
 
     def setup_io(self):
         self.new_output()

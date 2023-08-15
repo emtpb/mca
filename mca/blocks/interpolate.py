@@ -15,6 +15,8 @@ class Interpolate(Block):
                    " The range of the new abscissa has to within the "
                    "range of the abscissa of the input signal.")
     tags = ("Processing",)
+    references = {"scipy.interpolate.interp1d (Legacy)":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.interp1d.html"}
 
     def setup_io(self):
         self.new_output()

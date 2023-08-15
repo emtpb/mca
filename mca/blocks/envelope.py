@@ -9,6 +9,8 @@ class Envelope(Block):
     name = "Envelope"
     description = "Computes the envelope of the input signal."
     tags = ("Processing",)
+    references = {"scipy.signal.hilbert":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.hilbert.html"}
 
     def setup_io(self):
         self.new_output()

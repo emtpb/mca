@@ -9,6 +9,10 @@ class Integrator(Block):
     name = "Integrator"
     description = "Computes the numerical integration of the input signal."
     tags = ("Processing",)
+    references = {"scipy.integrate.cumulative_trapezoid":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.cumulative_trapezoid.html",
+        "numpy.cumsum":
+        "https://numpy.org/doc/stable/reference/generated/numpy.cumsum.html"}
 
     def setup_io(self):
         self.new_output()
