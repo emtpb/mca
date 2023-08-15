@@ -46,7 +46,7 @@ class AudioPlayer(Block):
         elif not self.inputs[0].data and self.inputs[1].data:
             data = self.inputs[1].data.ordinate
         else:
-            data = np.vstack((self.inputs[0].data.ordinate,
+            data = np.hstack((self.inputs[0].data.ordinate,
                               self.inputs[1].data.ordinate))
         # Read parameters values
         sampling_frequency = self.parameters["sampling_freq"].value
