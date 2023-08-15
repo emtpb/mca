@@ -6,7 +6,7 @@ from mca.framework import Block, data_types, parameters, util
 class FFT(Block):
     """Computes the FFT or the inverse FFT of the input signal."""
     name = "FFT"
-    description = "Computes the FFT of the input signal."
+    description = "Computes the FFT or the inverse FFT of the input signal."
     tags = ("Processing", "Fouriertransformation")
     references = {"numpy.fft.fft":
         "https://numpy.org/doc/1.25/reference/generated/numpy.fft.fft.html",

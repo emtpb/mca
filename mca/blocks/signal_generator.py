@@ -5,7 +5,7 @@ from mca.framework import Block, data_types, parameters, util
 
 
 class SignalGenerator(Block):
-    """Generates a periodic sinus, rectangle or triangle signal."""
+    """Generates a rectangle or triangle signal."""
     name = "Signal Generator"
     description = "Generates a rectangle or triangle signal."
     tags = ("Generating",)
