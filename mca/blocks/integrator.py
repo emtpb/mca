@@ -34,7 +34,7 @@ class Integrator(Block):
         int_rule = self.parameters["int_rule"].value
         # Calculate the ordinate
         if int_rule == "trapz":
-            ordinate_int = integrate.cumtrapz(y=input_signal.ordinate,
+            ordinate_int = integrate.cumulative_trapezoid(y=input_signal.ordinate,
                                               dx=input_signal.increment,
                                               initial=0)
         elif int_rule == "rect":
