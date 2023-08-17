@@ -9,12 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      # You can use PyPy versions in python-version.
-      # For example, pypy2.7 and pypy3.9
-      matrix:
-        python-version: ["3.10"]
-
 
     steps:
       - name: Checkout
@@ -23,10 +17,10 @@ jobs:
       - name: Start
         run: ls -la
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ["3.10"]
 
       - name: Install dependencies
         run: pip install pyinstaller .
