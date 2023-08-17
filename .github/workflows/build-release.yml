@@ -1,0 +1,12 @@
+name: build-release
+run-name: Building new release...
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Hello from the other side"
