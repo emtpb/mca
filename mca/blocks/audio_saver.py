@@ -10,6 +10,8 @@ class AudioSaver(Block):
     name = "Audio Saver"
     description = "Saves the input signal as a .wav sound file."
     tags = ("Saving", "Audio")
+    references = {"scipy.io.wavfile.write":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.io.wavfile.write.html"}
 
     def setup_parameters(self):
         self.parameters["sampling_freq"] = parameters.IntParameter(

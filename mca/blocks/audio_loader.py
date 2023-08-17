@@ -8,8 +8,11 @@ from mca.framework import Block, data_types, parameters
 class AudioLoader(Block):
     """Loads a .wav to create an output signal."""
     name = "Audio Loader"
-    description = "Loads a .wav to create an output signal."
+    description = ("Loads a .wav to create an output signal. Minimum and maximum"
+                " value depend on the .wav format provided (see reference)")
     tags = ("Loading", "Audio")
+    references = {"scipy.io.wavfile.read":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.io.wavfile.read.html"}
 
     def setup_io(self):
         self.new_output(user_metadata_required=True)
@@ -22,7 +25,8 @@ class AudioLoader(Block):
             name="Load file", function=self.load_wav
         )
         self.parameters["normalize"] = parameters.BoolParameter(
-            name="Normalize", default=True
+            name="Normalize", default=True,
+            description="Normalize the signal by dividing by the absolute maximum value"
         )
 
     def process(self):
@@ -43,7 +47,7 @@ class AudioLoader(Block):
             raise exceptions.DataLoadingError("File not found")
         # Normalize the data
         if normalize:
-            data = data / np.max(data)
+            data = data / np.max(np.abs(data))
         # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
             abscissa_start=0,
