@@ -3,6 +3,7 @@ run-name: Building new release...
 on:
   release:
     types: [published]
+  workflow-dispatch:
 
 jobs:
   build:
