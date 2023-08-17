@@ -2,11 +2,11 @@
 from PyInstaller.utils.hooks import collect_data_files
 
 block_cipher = None
-datas = [('mca/mca/images/emt_logo.png', 'images'),
-            ('mca/mca/locales/de/LC_MESSAGES/messages*', 'locales/de/LC_MESSAGES/'), 
-            ('mca/mca/version.txt', 'mca')]
+datas = [('mca/images/emt_logo.png', 'images'),
+            ('mca/locales/de/LC_MESSAGES/messages*', 'locales/de/LC_MESSAGES/'), 
+            ('mca/version.txt', 'mca')]
 
-a = Analysis(['mca/mca/main.py'],
+a = Analysis(['mca/main.py'],
              pathex=[],
              binaries=[],
              datas=datas,

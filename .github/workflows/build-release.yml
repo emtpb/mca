@@ -33,3 +33,6 @@ jobs:
 
       - name: Build standalone
         run: pyinstaller mca-linux.spec
+
+      - name: la
+        run: ls -la
