@@ -15,8 +15,9 @@ jobs:
         python-version: ["2.7", "3.7", "3.8", "3.9", "3.10", "3.11"]
 
     steps:
-      - run: echo "Hello from the other side"
-      - run: ls -la
+      - name: Start
+        run: echo "Hello from the other side"
+        run: ls -la
 
       - name: Checkout
         uses: actions/checkout@v3
