@@ -5,7 +5,7 @@ from mca.framework import Block, data_types, util
 
 class CrossCorrelation(Block):
     """Computes the cross correlation of the input signal."""
-    name = "CCF"
+    name = "Crosscorrelation"
     description = ("Computes the cross correlation function of the input "
         "signals. The cross correlation measures the similarity "
         "between to signals at different time offsets.")

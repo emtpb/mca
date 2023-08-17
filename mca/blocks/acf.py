@@ -5,7 +5,7 @@ from mca.framework import Block, data_types, util
 
 class AutoCorrelation(Block):
     """Computes the auto correlation of the input signal."""
-    name = "ACF"
+    name = "Autocorrelation"
     description = ("Computes the auto correlation function of the input "
         "signal. The auto correlation measures a signals similarity to a "
         "time-shifted version of itself.")
