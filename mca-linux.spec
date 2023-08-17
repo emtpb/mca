@@ -3,7 +3,7 @@ from PyInstaller.utils.hooks import collect_data_files
 
 block_cipher = None
 datas = [('mca/resources/*', 'mca/resources'),
-            ('mca/locales/de/LC_MESSAGES/messages*', 'mca/locales/de/LC_MESSAGES/'), 
+            ('mca/locales/de/LC_MESSAGES/messages.mo', 'mca/locales/de/LC_MESSAGES/'), 
             ('mca/version.txt', 'mca')]
 
 
@@ -27,7 +27,7 @@ exe = EXE(pyz,
           a.scripts, 
           [],
           exclude_binaries=True,
-          name='mca-linux',
+          name='mca',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -45,4 +45,4 @@ coll = COLLECT(exe,
                strip=False,
                upx=True,
                upx_exclude=[],
-               name='mca-linux')
+               name='mca')

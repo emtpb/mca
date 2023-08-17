@@ -28,5 +28,8 @@ jobs:
       - name: Build standalone
         run: pyinstaller mca-linux.spec
 
+      - name: Zip folder
+        run: zip dist/mca mca
+
       - name: la
         run: ls -la
