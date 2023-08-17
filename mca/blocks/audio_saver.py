@@ -1,41 +1,51 @@
-from united import Unit
 import scipy.io.wavfile
+from united import Unit
 
-from mca.framework import validator, parameters, Block
-from mca.language import _
 from mca import exceptions
+from mca.framework import Block, parameters, validator
 
 
 class AudioSaver(Block):
     """Saves the input signal as a .wav sound file."""
-    name = _("AudioSaver")
-    description = _("Saves the input signal as a .wav sound file.")
-    tags = (_("Saving"), _("Audio"))
+    name = "Audio Saver"
+    description = "Saves the input signal as a .wav sound file."
+    tags = ("Saving", "Audio")
 
     def setup_parameters(self):
-        self.parameters.update(
-            {"sampling_freq": parameters.IntParameter(_("Sampling frequency"),
-                                                      1, None, "Hz", 44100),
-             "file_name": parameters.PathParameter(_("Filename"), [".wav"]),
-             "save_file": parameters.ActionParameter(_("Save as .wav"),
-                                                     self.save_as_wav)})
+        self.parameters["sampling_freq"] = parameters.IntParameter(
+            name="Sampling frequency", min_=1, max_=None, unit="Hz",
+            default=44100
+        )
+        self.parameters["file_name"] = parameters.PathParameter(
+            name="Filename", file_formats=[".wav"]
+        )
+        self.parameters["save_file"] = parameters.ActionParameter(
+            name="Save as .wav", function=self.save_as_wav)
 
     def setup_io(self):
         self.new_input()
 
-    def _process(self):
+    def process(self):
         pass
 
     def save_as_wav(self):
         """Saves the input signal as a .wav file."""
+        # Raise error when the input has no data to save
         if self.all_inputs_empty():
             raise exceptions.DataSavingError("No data to save.")
+        # Read the input data
         input_signal = self.inputs[0].data
+        # Validate that the input data is of type signal
         validator.check_type_signal(input_signal)
-        validator.check_same_units([input_signal.metadata.unit_a, Unit(["s"])])
+        # Validate that the abscissa is in seconds
+        validator.check_same_units([self.inputs[0].metadata.unit_a,
+                                    Unit(["s"])])
+        # Read parameters values
         sampling_frequency = self.parameters["sampling_freq"].value
         filename = self.parameters["file_name"].value
+        # Verify that the file ends with .wav
         if not filename.endswith(".wav"):
             raise exceptions.DataSavingError("File has to be a .wav.")
+        # Write the file
         scipy.io.wavfile.write(filename, sampling_frequency,
                                input_signal.ordinate)

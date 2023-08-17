@@ -1,47 +1,41 @@
-from mca.framework import validator, data_types, Block, helpers
-from mca.language import _
+from mca.framework import Block, data_types, util
 
 
 class Divider(Block):
     """Divides the two input signals."""
-    name = _("Divider")
-    description = _("Divides the two input signals.")
-    tags = (_("Processing"),)
+    name = "Divider"
+    description = "Divides the two input signals."
+    tags = ("Processing",)
 
     def setup_io(self):
-        self.new_output(
-            )
+        self.new_output()
         self.new_input()
         self.new_input()
 
     def setup_parameters(self):
         pass
 
-    def _process(self):
-        if self.any_inputs_empty():
-            return
-        for i in self.inputs:
-            validator.check_type_signal(i.data)
+    @util.abort_any_inputs_empty
+    @util.validate_type_signal
+    @util.validate_units(abscissa=True)
+    @util.validate_intervals
+    def process(self):
         input_signals = [self.inputs[0].data, self.inputs[1].data]
-        abscissa_units = [signal.metadata.unit_a for signal in input_signals]
-
-        validator.check_same_units(abscissa_units)
-        validator.check_intervals(input_signals)
-
-        matched_signals = helpers.fill_zeros(input_signals)
-        ordinate = input_signals[0].ordinate/input_signals[1].ordinate
-        values = matched_signals[0].values
-        increment = matched_signals[0].increment
-
-        unit_a = matched_signals[0].metadata.unit_a
-        unit_o = input_signals[0].metadata.unit_o / input_signals[1].metadata.unit_o
-        metadata = data_types.MetaData(None, unit_a, unit_o)
-        abscissa_start = matched_signals[0].abscissa_start
-
+        # Fill the signals with zeros so their lengths match
+        matched_signals = util.fill_zeros(input_signals)
+        # Calculate the ordinate
+        ordinate = input_signals[0].ordinate / input_signals[1].ordinate
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(metadata),
-            abscissa_start=abscissa_start,
-            values=values,
-            increment=increment,
+            abscissa_start=matched_signals[0].abscissa_start,
+            values=matched_signals[0].values,
+            increment=matched_signals[0].increment,
             ordinate=ordinate,
+        )
+        # Calculate units for abscissa and ordinate
+        unit_a = self.inputs[0].metadata.unit_a
+        unit_o = self.inputs[0].metadata.unit_o / self.inputs[1].metadata.unit_o
+        # Apply new metadata to the output
+        self.outputs[0].process_metadata = data_types.MetaData(
+            name=None, unit_a=unit_a, unit_o=unit_o
         )

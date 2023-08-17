@@ -1,5 +1,6 @@
-from PySide2 import QtWidgets, QtCore, QtGui
 import logging
+
+from PySide6 import QtWidgets, QtCore, QtGui
 
 from mca import exceptions
 from mca.language import _
@@ -32,7 +33,7 @@ class InputItem(QtWidgets.QGraphicsItem):
             parent: Parent of this widget.
         """
         super(InputItem, self).__init__(parent=parent)
-
+        # Define the colors
         self.default_color = QtGui.QColor(0, 0, 204)
         self.hover_color = QtGui.QColor(51, 51, 255)
         self.current_color = self.default_color
@@ -47,7 +48,7 @@ class InputItem(QtWidgets.QGraphicsItem):
         self.connection_line = None
 
         self.menu = QtWidgets.QMenu(self.view)
-        self.disconnect_action = QtWidgets.QAction(_("Disconnect"), self.view)
+        self.disconnect_action = QtGui.QAction(_("Disconnect"), self.view)
         self.disconnect_action.triggered.connect(self.disconnect)
         self.menu.addAction(self.disconnect_action)
 
@@ -142,6 +143,7 @@ class InputItem(QtWidgets.QGraphicsItem):
                             skipped. It is assumed that has already been done
                             by the backend.
         """
+        remove_connection_line = False
         try:
             if not loading:
                 self.mca_input.connect(output_item.mca_output)
@@ -149,25 +151,31 @@ class InputItem(QtWidgets.QGraphicsItem):
             logging.error("Cyclic structures are not allowed.")
             QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                 "Cyclic structures are not allowed."))
+            remove_connection_line = True
         except exceptions.UnitError:
             logging.error("Signals have incompatible metadata.")
             QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                 "Signals have incompatible metadata."))
             self.mca_input.disconnect()
+            remove_connection_line = True
         except exceptions.IntervalError:
             logging.error("Signals have incompatible abscissas.")
             QtWidgets.QMessageBox().warning(None, _("MCA"), _(
                 "Signals have incompatible abscissas."))
             self.mca_input.disconnect()
+            remove_connection_line = True
+        except exceptions.BlockConnectionError:
+            self.disconnect()
+            self.mca_input.connect(output_item.mca_output)
         except Exception as error:
-            if error.args:
-                logging.error(error.args)
-                QtWidgets.QMessageBox().warning(
-                    None, _("MCA"),
-                    _("Could not connect blocks") + "\n" +
-                    _("Error message: ") + error.args[0])
+            logging.error(repr(error))
+            QtWidgets.QMessageBox().warning(
+                None, _("MCA"),
+                _("Could not connect blocks") + "\n" +
+                repr(error))
             self.mca_input.disconnect()
-        else:
+            remove_connection_line = True
+        if not remove_connection_line:
             # Create a new connection line
             if connection_line is None:
                 self.connection_line = ConnectionLine(
@@ -187,13 +195,14 @@ class InputItem(QtWidgets.QGraphicsItem):
                 self.connection_line = connection_line
                 self.connection_line.p2 = (self.scenePos().x(),
                                            self.scenePos().y() + self.height / 2)
-                self.connection_line.p1 = (output_item.scenePos().x() + output_item.width,
-                                           output_item.scenePos().y() + output_item.height / 2)
+                self.connection_line.p1 = (
+                output_item.scenePos().x() + output_item.width,
+                output_item.scenePos().y() + output_item.height / 2)
             self.modified()
             return
 
         # Remove the connection line in case an error occurred
-        if connection_line:
+        else:
             self.scene().removeItem(connection_line)
             if connection_line in output_item.connection_lines:
                 output_item.connection_lines.remove(connection_line)
@@ -270,7 +279,7 @@ class OutputItem(QtWidgets.QGraphicsItem):
         self.connection_lines = []
 
         self.menu = QtWidgets.QMenu(self.view)
-        self.disconnect_action = QtWidgets.QAction(_("Disconnect"), self.view)
+        self.disconnect_action = QtGui.QAction(_("Disconnect"), self.view)
         self.disconnect_action.triggered.connect(self.disconnect)
         self.menu.addAction(self.disconnect_action)
 
@@ -394,8 +403,8 @@ class ConnectionLine(QtWidgets.QGraphicsLineItem):
         QtWidgets.QGraphicsLineItem.__init__(self, x1, y1, x2, y2)
 
         self.setAcceptHoverEvents(True)
-        self.default_color = QtGui.QColor("#0dd41d")
-        self.hover_color = QtGui.QColor("#7efc88")
+        self.default_color = QtGui.QColor("#00f73a")
+        self.hover_color = QtGui.QColor("#4cfc75")
         self.line_width = 2
         self.setPen(QtGui.QPen(self.default_color, self.line_width))
 

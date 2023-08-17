@@ -1,12 +1,13 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import copy
 
-from mca.framework import validator, data_types, parameters, DynamicBlock
-from mca.language import _
+import numpy as np
+
+from mca.framework import DynamicBlock, PlotBlock, data_types, parameters, \
+    validator
+from mca.framework import util
 
 
-class Plot(DynamicBlock):
+class Plot(PlotBlock, DynamicBlock):
     """Plots all input signals as lines, stems or bars
     in a single figure.
 
@@ -16,91 +17,106 @@ class Plot(DynamicBlock):
         legend: Legend of the plot.
         lines: Lines of the plot which correspond to the inputs.
     """
-    name = _("Plot")
-    description = _("Plots all input signals as lines, stems or bars "
-                    "in a single figure.")
-    tags = (_("Plotting"),)
+    name = "Plot"
+    description = ("Plots all input signals as lines, stems or bars "
+                   "in a single figure.")
+    tags = ("Plotting",)
 
     def __init__(self, **kwargs):
         """Initializes Plot class."""
-        super().__init__(**kwargs)
-        self.fig = plt.figure()
-        self.axes = self.fig.add_subplot(111)
+        super().__init__(rows=1, cols=1, **kwargs)
         self.legend = None
         self.lines = []
 
     def setup_parameters(self):
-        self.parameters.update({
-            "show": parameters.ActionParameter(_("Show plot"), self.show,
-                                               display_options=("block_button",)),
-            "auto_show": parameters.BoolParameter(_("Auto plot"), False),
-            "plot_kind": parameters.ChoiceParameter(
-                _("Plot kind"), choices=[("line", _("Line")),
-                                         ("stem", _("Stem")),
-                                         ("bar", _("Bar"))],
+        pass
+
+    def setup_plot_parameters(self):
+        self.plot_parameters["plot_kind"] = parameters.ChoiceParameter(
+                name="Plot kind", choices=(("line", "Line"),
+                                            ("stem", "Stem"),
+                                            ("bar", "Bar")),
                 default="line")
-        })
+        self.plot_parameters["abscissa_scaling"] = parameters.ChoiceParameter(
+            name="Abscissa scaling",
+            choices=(("linear", "Linear"), ("log", "Log"),
+                     ("symlog", "Symmetrcial log"), ("logit", "Logit")),
+            default="linear"
+        )
+        self.plot_parameters["ordinate_scaling"] = parameters.ChoiceParameter(
+            name="Ordinate scaling",
+            choices=(("linear", "Linear"), ("log", "Log"),
+                     ("symlog", "Symmetrcial log"), ("logit", "Logit")),
+            default="linear"
+        )
+        self.plot_parameters["marker"] = util.get_plt_marker_parameter()
 
     def setup_io(self):
         self.dynamic_input = [1, None]
         self.new_input()
 
-    def _process(self):
+    def process(self):
+        # Clear the axes and the legend
         self.axes.cla()
         if self.legend:
             self.legend.remove()
             self.legend = None
+        # Validate the input data of type signal
         for i in self.inputs:
             validator.check_type_signal(i.data)
-
+        # Read the input data
         signals = [copy.copy(i.data) for i in self.inputs if i.data]
-        abscissa_units = [signal.metadata.unit_a for signal in signals]
-        ordinate_units = [signal.metadata.unit_o for signal in signals]
-
+        # Read the input metadata
+        metadatas = [copy.copy(i.metadata) for i in self.inputs if i.metadata]
+        # Read the input metadata units
+        abscissa_units = [metadata.unit_a for metadata in metadatas]
+        ordinate_units = [metadata.unit_o for metadata in metadatas]
+        # Validate the abscissa and ordinate units
         validator.check_same_units(abscissa_units)
         validator.check_same_units(ordinate_units)
+        # Read plot parameters values
+        plot_kind = self.plot_parameters["plot_kind"].value
+        abscissa_scaling = self.plot_parameters["abscissa_scaling"].value
+        ordinate_scaling = self.plot_parameters["ordinate_scaling"].value
+        marker = self.plot_parameters["marker"].value
 
-        auto_show = self.parameters["auto_show"].value
-        plot_kind = self.parameters["plot_kind"].value
-
-        label = None
-        for index, signal in enumerate(signals):
+        labels_exist = any([metadata.name for metadata in metadatas])
+        # Iterate over every signal and its metadata to plot it
+        for (index, signal), metadata in zip(enumerate(signals), metadatas):
+            # Create the abscissa vector
             abscissa = np.linspace(signal.abscissa_start,
-                                   signal.abscissa_start + signal.increment * (signal.values - 1),
+                                   signal.abscissa_start + signal.increment * (
+                                               signal.values - 1),
                                    signal.values)
             ordinate = signal.ordinate
-            label = signal.metadata.name
+            label = metadata.name
+            # Plot and pass plot parameters
             if plot_kind == "line":
-                self.axes.plot(abscissa, ordinate, f"C{index}", label=label)
+                self.axes.plot(abscissa, ordinate, f"C{index}", label=label,
+                               marker=marker,
+                               markerfacecolor=f"C{index}")
             elif plot_kind == "stem":
                 self.axes.stem(abscissa, ordinate, f"C{index}", label=label,
-                               use_line_collection=True, basefmt=" ")
+                               use_line_collection=True, basefmt=" ",
+                               markerfmt=f"C{index}{marker}")
             elif plot_kind == "bar":
-                self.axes.bar(abscissa, ordinate, label=label, color=f"C{index}",
+                self.axes.bar(abscissa, ordinate, label=label,
+                              color=f"C{index}",
                               align="edge", width=signal.increment)
-        if label:
+        # If any of the metadata of the inputs is named then create a legend
+        if labels_exist:
             self.legend = self.fig.legend()
+        # Set the x and y labels depending on the metadata of the inputs
         if signals:
-            metadata = signals[0].metadata
-            abscissa_string = data_types.metadata_to_axis_label(
-                quantity=metadata.quantity_a,
-                unit=metadata.unit_a,
-                symbol=metadata.symbol_a
-            )
-            ordinate_string = data_types.metadata_to_axis_label(
-                quantity=metadata.quantity_o,
-                unit=metadata.unit_o,
-                symbol=metadata.symbol_o
-            )
-            self.axes.set_xlabel(abscissa_string)
-            self.axes.set_ylabel(ordinate_string)
+            metadata = metadatas[0]
+            self.set_xlabel(axis=self.axes, quantity=metadata.quantity_a,
+                            unit=metadata.unit_a, symbol=metadata.symbol_a)
+            self.set_ylabel(axis=self.axes, quantity=metadata.quantity_o,
+                            unit=metadata.unit_o, symbol=metadata.symbol_o)
+        # Set the scalings
+        self.axes.set_xscale(abscissa_scaling)
+        self.axes.set_yscale(ordinate_scaling)
+        # Use grids
         self.axes.grid(True)
-        self.fig.tight_layout()
+        # Draw the plot
         self.fig.canvas.draw()
-
-        if auto_show:
-            self.show()
-
-    def show(self):
-        """Shows the plot."""
-        self.fig.show()

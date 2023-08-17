@@ -1,24 +1,17 @@
-import matplotlib.pyplot as plt
-
-from mca.framework import Block, parameters, data_types
-from mca.language import _
-
 from mca import exceptions
+from mca.framework import PlotBlock, data_types, parameters, util
 
 
-class XYPlot(Block):
+class XYPlot(PlotBlock):
     """Plots the ordinates of the input signals against each other."""
-    name = _("XYPlot")
-    description = _("Plots the ordinates of the input signals against "
-                    "each other.")
-    tags = (_("Plotting"),)
+    name = "XY Plot"
+    description = ("Plots the ordinates of the input signals against "
+                   "each other.")
+    tags = ("Plotting",)
 
     def __init__(self, **kwargs):
         """Initializes XYPlot class."""
-        super().__init__(**kwargs)
-        self.fig = plt.figure()
-        self.axes = self.fig.add_subplot(111)
-        self.axes.grid(True)
+        super().__init__(rows=1, cols=1, **kwargs)
 
     def setup_io(self):
         self.new_input()
@@ -26,69 +19,71 @@ class XYPlot(Block):
 
     def setup_parameters(self):
         self.parameters["y_axis"] = parameters.ChoiceParameter(
-            name=_("Input signal for ordinate axis"),
-            choices=[("first", _("First")),
-                     ("second", _("Second"))],
+            name="Input signal for ordinate axis",
+            choices=(("first", "First"),
+                     ("second", "Second")),
             default="first"
         )
         self.parameters["x_axis"] = parameters.ChoiceParameter(
-            name=_("Input signal for abscissa axis"),
-            choices=[("first", _("First")),
-                     ("second", _("Second"))],
+            name="Input signal for abscissa axis",
+            choices=(("first", "First"),
+                     ("second", "Second")),
             default="second"
         )
-        self.parameters["show"] = parameters.ActionParameter(
-            _("Show plot"),
-            self.show,
-            display_options=("block_button",))
 
-    def _process(self):
-        self.axes.lines.clear()
+    def setup_plot_parameters(self):
+        self.plot_parameters["color"] = util.get_plt_color_parameter()
+        self.plot_parameters["marker"] = util.get_plt_marker_parameter()
+        self.plot_parameters["marker"].default = "."
+        self.plot_parameters["marker"].value = "."
+
+    def process(self):
+        # Clear the axes
+        self.axes.cla()
+        # Draw empty plot when input has no data
         if self.any_inputs_empty():
             self.fig.canvas.draw()
             return
+        # Read the parameters values
         y_axis = self.parameters["y_axis"].value
         x_axis = self.parameters["x_axis"].value
-
+        # Read plot parameters values
+        marker = self.plot_parameters["marker"].value
+        color = self.plot_parameters["color"].value
+        # Interchange the x and y mapping for input data
         if y_axis == "first":
             input_signal_o = self.inputs[0].data
+            metadata_o = self.inputs[0].metadata
         elif y_axis == "second":
             input_signal_o = self.inputs[1].data
-
-        metadata_o = input_signal_o.metadata
+            metadata_o = self.inputs[1].metadata
         ordinate = input_signal_o.ordinate
         unit_o = metadata_o.unit_o
         quantity_o = metadata_o.quantity_o
         symbol_o = metadata_o.symbol_o
-
+        # Interchange the x and y mapping for input data
         if x_axis == "first":
             input_signal_a = self.inputs[0].data
+            metadata_a = self.inputs[0].metadata
         elif x_axis == "second":
             input_signal_a = self.inputs[1].data
-
-        metadata_a = input_signal_a.metadata
+            metadata_a = self.inputs[1].metadata
         abscissa = input_signal_a.ordinate
         unit_a = metadata_a.unit_o
         quantity_a = metadata_a.quantity_o
         symbol_a = metadata_a.symbol_o
-
+        # Validate the vector lengths
         if len(ordinate) != len(abscissa):
             raise exceptions.IntervalError("Cannot plot ordinates with "
                                            "different lengths.")
-
-        self.axes.scatter(abscissa, ordinate, color="C0")
-        self.axes.set_xlabel(data_types.metadata_to_axis_label(
-                quantity=quantity_a,
-                unit=unit_a,
-                symbol=symbol_a
-            ))
-        self.axes.set_ylabel(data_types.metadata_to_axis_label(
-                quantity=quantity_o,
-                unit=unit_o,
-                symbol=symbol_o
-            ))
-        self.fig.tight_layout()
+        # Plot
+        self.axes.scatter(abscissa, ordinate, color=color, marker=marker)
+        # Set the axis labels depending on the metadata
+        self.set_xlabel(axis=self.axes, quantity=quantity_a,
+                        unit=unit_a, symbol=symbol_a)
+        self.set_ylabel(axis=self.axes, quantity=quantity_o,
+                        unit=unit_o, symbol=symbol_o)
+        # Use grid
+        self.axes.grid(True)
+        # Draw the plot
         self.fig.canvas.draw()
-
-    def show(self):
-        self.fig.show()

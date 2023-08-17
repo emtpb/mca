@@ -1,7 +1,6 @@
 import copy
 
-from mca.framework import validator, data_types, Block
-from mca.language import _
+from mca.framework import Block, util
 
 
 class ComplexToReal(Block):
@@ -11,34 +10,33 @@ class ComplexToReal(Block):
     First output yields the real part and second output yields the imaginary
     part.
     """
-    name = _("ComplexToReal")
-    description = _("Separates the real and imaginary part of "
-                    "the input signal into two output signals. First output "
-                    "yields the real part and second output yields the "
-                    "imaginary part.")
-    tags = (_("Processing"),)
+    name = "Complex-Real"
+    description = ("Separates the real and imaginary part of "
+                   "the input signal into two output signals. First output "
+                   "yields the real part and second output yields the "
+                   "imaginary part.")
+    tags = ("Processing",)
 
     def setup_io(self):
-        self.new_output(name=_("Real part"))
-        self.new_output(name=_("Imaginary part"))
+        self.new_output(name="Real part")
+        self.new_output(name="Imaginary part")
         self.new_input()
 
     def setup_parameters(self):
         pass
 
-    def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
-
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
+    def process(self):
+        # Read the input data
         real_signal = copy.copy(self.inputs[0].data)
-        real_signal.ordinate = real_signal.ordinate.real
         imag_signal = copy.copy(self.inputs[0].data)
+        # Calculate the ordinates
+        real_signal.ordinate = real_signal.ordinate.real
         imag_signal.ordinate = imag_signal.ordinate.imag
-
+        # Apply new signal to the outputs
         self.outputs[0].data = real_signal
-        self.outputs[0].data.metadata = self.outputs[0].get_metadata(
-            real_signal.metadata)
         self.outputs[1].data = imag_signal
-        self.outputs[1].data.metadata = self.outputs[1].get_metadata(
-            imag_signal.metadata)
+        # Apply metadata from the input to the outputs
+        self.outputs[0].process_metadata = self.inputs[0].metadata
+        self.outputs[1].process_metadata = self.inputs[0].metadata

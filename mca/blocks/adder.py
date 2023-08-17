@@ -1,15 +1,15 @@
-import numpy as np
 import copy
 
-from mca.framework import validator, data_types, DynamicBlock, helpers
-from mca.language import _
+import numpy as np
+
+from mca.framework import DynamicBlock, data_types, util
 
 
 class Adder(DynamicBlock):
     """Adds multiple signals to one new signal."""
-    name = _("Adder")
-    description = _("Adds multiple signals to one signal.")
-    tags = (_("Processing"),)
+    name = "Adder"
+    description = "Adds multiple signals to one signal."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.dynamic_input = (1, None)
@@ -20,29 +20,24 @@ class Adder(DynamicBlock):
     def setup_parameters(self):
         pass
 
-    def _process(self):
-        if self.all_inputs_empty():
-            return
-        for i in self.inputs:
-            validator.check_type_signal(i.data)
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
+    @util.validate_units(abscissa=True, ordinate=True)
+    @util.validate_intervals
+    def process(self):
+        # Read the input data
         signals = [copy.copy(i.data) for i in self.inputs if i.data]
-        abscissa_units = [signal.metadata.unit_a for signal in signals]
-        ordinate_units = [signal.metadata.unit_o for signal in signals]
-        validator.check_same_units(abscissa_units)
-        validator.check_same_units(ordinate_units)
-        validator.check_intervals(signals)
-
-        modified_signals = helpers.fill_zeros(signals)
-
+        # Fill the signals with zeros so their lengths match
+        modified_signals = util.fill_zeros(signals)
+        # Calculate the ordinate
         ordinate = np.zeros(modified_signals[0].values)
         for sgn in modified_signals:
             ordinate += sgn.ordinate
-        abscissa_start = modified_signals[0].abscissa_start
-        values = modified_signals[0].values
-        increment = modified_signals[0].increment
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(signals[0].metadata),
-            abscissa_start=abscissa_start,
-            values=values,
-            increment=increment,
+            abscissa_start=modified_signals[0].abscissa_start,
+            values=modified_signals[0].values,
+            increment=modified_signals[0].increment,
             ordinate=ordinate)
+        # Apply metadata from the input to the output
+        self.outputs[0].process_metadata = self.inputs[0].metadata

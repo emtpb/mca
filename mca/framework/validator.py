@@ -46,7 +46,7 @@ def check_intervals(signals):
                 raise exceptions.IntervalError("Increment of two signals "
                                                "are not equal")
             diff = ((
-                                i.abscissa_start - signal.abscissa_start) / signal.increment) % 1
+                            i.abscissa_start - signal.abscissa_start) / signal.increment) % 1
             if 0.000001 < diff < 0.9999999:
                 raise exceptions.IntervalError("Two signals are incompatible"
                                                "due signal starts")
@@ -64,7 +64,8 @@ def check_type_signal(data):
     if data:
         if not isinstance(data, data_types.Signal):
             raise exceptions.DataTypeError("Block expects the data "
-                                           "type signal and not {}".format(type(data)))
+                                           "type signal and not {}".format(
+                type(data)))
 
 
 def check_same_units(units):

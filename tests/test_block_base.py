@@ -470,7 +470,6 @@ def test_dynamic_output_data(dynamic_output_scenario):
 
 def test_check_all_empty_inputs(two_input_one_output_block, two_output_block):
     a = two_input_one_output_block()
-    a.outputs[0].data = 1
     assert a.all_inputs_empty() is True
     assert a.outputs[0].data is None
     b = two_output_block()
@@ -512,36 +511,37 @@ def test_disconnect_all(seventh_scenario):
             d.inputs[0]] not in mca.framework.io_registry.Registry._graph.edges
 
 
-def test_get_metadata(default_metadata):
+def test_output_metadata(default_metadata):
     output_metadata = mca.framework.data_types.MetaData(name="test",
-                                                         unit_a="W",
-                                                         symbol_a="P",
-                                                         unit_o="kg",
-                                                         symbol_o="m")
-    output = mca.framework.block_io.Output(metadata=output_metadata)
-    result_metadata = output.get_metadata(default_metadata)
+                                                        unit_a="W",
+                                                        symbol_a="P",
+                                                        unit_o="kg",
+                                                        symbol_o="m")
+    output = mca.framework.block_io.Output(initial_metadata=output_metadata)
+    output.process_metadata = default_metadata
+    result_metadata = output.metadata
     assert result_metadata == default_metadata
     assert result_metadata.name == output_metadata.name
-    output.abscissa_metadata = True
-    output.ordinate_metadata = False
-    result_metadata = output.get_metadata(default_metadata)
+    output.use_process_abscissa_metadata = False
+    output.use_process_ordinate_metadata = True
+    result_metadata = output.metadata
     assert result_metadata.unit_a == output_metadata.unit_a
     assert result_metadata.symbol_a == output_metadata.symbol_a
     assert result_metadata.quantity_a == output_metadata.quantity_a
     assert result_metadata.unit_o == default_metadata.unit_o
     assert result_metadata.symbol_o == default_metadata.symbol_o
     assert result_metadata.quantity_o == default_metadata.quantity_o
-    output.abscissa_metadata = False
-    output.ordinate_metadata = True
-    result_metadata = output.get_metadata(default_metadata)
+    output.use_process_abscissa_metadata = True
+    output.use_process_ordinate_metadata = False
+    result_metadata = output.metadata
     assert result_metadata.unit_a == default_metadata.unit_a
     assert result_metadata.symbol_a == default_metadata.symbol_a
     assert result_metadata.quantity_a == default_metadata.quantity_a
     assert result_metadata.unit_o == output_metadata.unit_o
     assert result_metadata.symbol_o == output_metadata.symbol_o
     assert result_metadata.quantity_o == output_metadata.quantity_o
-    output.abscissa_metadata = True
-    output.ordinate_metadata = True
-    result_metadata = output.get_metadata(default_metadata)
+    output.use_process_abscissa_metadata = False
+    output.use_process_ordinate_metadata = False
+    result_metadata = output.metadata
     assert result_metadata == output_metadata
 

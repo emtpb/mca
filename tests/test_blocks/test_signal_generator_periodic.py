@@ -12,21 +12,21 @@ def test_function():
     start = a.parameters["abscissa"].parameters["start"].value
     values = a.parameters["abscissa"].parameters["values"].value
     increment = a.parameters["abscissa"].parameters["increment"].value
-    sin_signal = data_types.Signal(None, start, values, increment,
+    sin_signal = data_types.Signal(start, values, increment,
                                    np.sin(2 * np.pi * np.linspace(
                                        start, start + (values - 1) * increment,
                                        values)))
     assert a.outputs[0].data == sin_signal
-    a.parameters["function"].value = "rect"
+    a.parameters["signal_type"].value = "rect"
     a.trigger_update()
-    rect_signal = data_types.Signal(None, start, values, increment,
+    rect_signal = data_types.Signal(start, values, increment,
                                     np.sign(np.sin(2 * np.pi * np.linspace(
                                         start, start + (values - 1) * increment,
                                         values))))
     assert a.outputs[0].data == rect_signal
-    a.parameters["function"].value = "tri"
+    a.parameters["signal_type"].value = "tri"
     a.trigger_update()
-    triangle_signal = data_types.Signal(None, start, values, increment,
+    triangle_signal = data_types.Signal(start, values, increment,
                                         sgn.sawtooth(2 * np.pi * np.linspace(
                                             start, start + (values - 1) * increment,
                                             values) + np.pi / 2, 0.5))
@@ -40,7 +40,7 @@ def test_frequency(test_input):
     start = a.parameters["abscissa"].parameters["start"].value
     values = a.parameters["abscissa"].parameters["values"].value
     increment = a.parameters["abscissa"].parameters["increment"].value
-    test_signal = data_types.Signal(None, start, values, increment,
+    test_signal = data_types.Signal(start, values, increment,
                                     np.sin(2 * test_input * np.pi * np.linspace(
                                         start, start + (values - 1) * increment,
                                         values)))
@@ -54,7 +54,7 @@ def test_amp(test_input):
     start = a.parameters["abscissa"].parameters["start"].value
     values = a.parameters["abscissa"].parameters["values"].value
     increment = a.parameters["abscissa"].parameters["increment"].value
-    test_signal = data_types.Signal(None, start, values, increment,
+    test_signal = data_types.Signal(start, values, increment,
                                     test_input * np.sin(2 * np.pi * np.linspace(
                                         start, start + (values - 1) * increment,
                                         values)))
@@ -68,7 +68,7 @@ def test_phase(test_input):
     start = a.parameters["abscissa"].parameters["start"].value
     values = a.parameters["abscissa"].parameters["values"].value
     increment = a.parameters["abscissa"].parameters["increment"].value
-    test_signal = data_types.Signal(None, start, values, increment,
+    test_signal = data_types.Signal(start, values, increment,
                                     np.sin(2 * np.pi * np.linspace(
                                         start, start + (values - 1) * increment,
                                         values)-test_input))
@@ -82,7 +82,7 @@ def test_start(test_input):
     start = a.parameters["abscissa"].parameters["start"].value
     values = a.parameters["abscissa"].parameters["values"].value
     increment = a.parameters["abscissa"].parameters["increment"].value
-    test_signal = data_types.Signal(None, start, values, increment,
+    test_signal = data_types.Signal(start, values, increment,
                                     np.sin(2 * np.pi * np.linspace(
                                         start, start + (values - 1) * increment,
                                         values)))
@@ -97,7 +97,7 @@ def test_values(test_input):
     start = a.parameters["abscissa"].parameters["start"].value
     values = a.parameters["abscissa"].parameters["values"].value
     increment = a.parameters["abscissa"].parameters["increment"].value
-    test_signal = data_types.Signal(None, start, values, increment,
+    test_signal = data_types.Signal(start, values, increment,
                                     np.sin(2 * np.pi * np.linspace(
                                         start, start + (values - 1) * increment,
                                         values)))
@@ -111,7 +111,7 @@ def test_increment(test_input):
     start = a.parameters["abscissa"].parameters["start"].value
     values = a.parameters["abscissa"].parameters["values"].value
     increment = a.parameters["abscissa"].parameters["increment"].value
-    test_signal = data_types.Signal(None, start, values, increment,
+    test_signal = data_types.Signal(start, values, increment,
                                     np.sin(2 * np.pi * np.linspace(
                                         start, start + (values - 1) * increment,
                                         values)))

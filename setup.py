@@ -32,14 +32,15 @@ setup(
 
     # Runtime dependencies
     install_requires=[
-        'numpy', 'scipy', 'networkx', 'matplotlib', 'appdirs', 'PySide2',
-        'united', 'sounddevice', 'qdarkstyle'],
+        'numpy', 'scipy', 'networkx', 'matplotlib', 'appdirs', 'PySide6',
+        'united', 'sounddevice', 'qdarkstyle', 'handyscope', 'dsch'],
 
     # Python version requirement
     python_requires='>=3',
 
     # Additional package data
-    package_data={'mca': ['version.txt', 'images/emt_logo.png',
+    package_data={'mca': ['version.txt', 'resources/*',
+                          'resources/icons/*',
                           'locales/*/LC_MESSAGES/*.po',
                           'locales/*/LC_MESSAGES/*.mo']},
 

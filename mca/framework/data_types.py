@@ -1,5 +1,6 @@
-from united import Unit
+from dsch import schema
 import numpy as np
+from united import Unit
 
 from mca.language import _
 
@@ -7,33 +8,28 @@ from mca.language import _
 class Signal:
     """Standard data type of mca.
     
-    The class describes a signal with two axes and its Meta Data.
+    The class describes a signal with two axes.
     The ordinate is stored in a one dimensional numpy array. Since this
     data type only allows equidistant sampled signals the abscissa is described
     with three parameters: starting point (abscissa_start), amount of values
     (values) and the sampling increment (increment).
     
     Attributes:
-        metadata: Meta Data of the signal with quantity, symbol and
-                   unit for abscissa- and ordinate-axis.
         abscissa_start (float): Starting point of the signal.
         values (int): Amount of values the signal contains.
         increment (float): Increment between two values.
-        ordinate : Ordinate as a .
+        ordinate : Ordinate as a :py:class:`numpy.ndarray` .
     """
 
-    def __init__(self, metadata, abscissa_start, values, increment, ordinate):
+    def __init__(self, abscissa_start, values, increment, ordinate):
         """Initializes Signal.
         
         Args:
-            metadata: Metadata of the signal with quantity, symbol and unit
-                for abscissa and ordinate.
             abscissa_start (float): Starting point of the signal.
             values (int): Amount of values the signal contains.
             increment (float): Increment between two values.
             ordinate : Ordinate stored in a numpy_array.
         """
-        self.metadata = metadata
         self.abscissa_start = abscissa_start
         self.values = values
         self.increment = increment
@@ -54,6 +50,29 @@ class Signal:
         return True
 
 
+# Dsch schema to save and load signals
+signal_schema = schema.Compilation({
+    "signal": schema.Compilation(
+        {"abscissa_start": schema.Scalar(dtype="float"),
+         "values": schema.Scalar(dtype="int"),
+         "increment": schema.Scalar(dtype="float"),
+         "ordinate": schema.Array(dtype="float")
+         }
+    ),
+    "metadata": schema.Compilation(
+        {
+            "name": schema.String(),
+            "abscissa_unit": schema.String(),
+            "abscissa_symbol": schema.String(),
+            "abscissa_quantity": schema.String(),
+            "ordinate_unit": schema.String(),
+            "ordinate_symbol": schema.String(),
+            "ordinate_quantity": schema.String(),
+        }
+    )
+})
+
+
 class MetaData:
     """Metadata class for the :class:`.Signal` class.
 
@@ -67,6 +86,7 @@ class MetaData:
         symbol_o (str): Symbol of the ordinate.
 
     """
+
     def __init__(self, name, unit_a, unit_o, quantity_a="", quantity_o="",
                  symbol_a="", symbol_o="", fixed_unit_a=False,
                  fixed_unit_o=False):
@@ -186,18 +206,6 @@ def string_to_unit(string, fixed_unit=False):
     if len(fraction) > 1:
         denominator = fraction[1].split("*")
     return Unit(numerator, denominator, fix_repr=fixed_unit)
-
-
-def metadata_to_axis_label(unit, quantity=None, symbol=None):
-    """Returns a string axis labels given a quantity, unit and (symbol)."""
-    if symbol and quantity:
-        return "{} {} / {}".format(quantity, symbol, unit)
-    elif symbol:
-        return "{} / {}".format(symbol, unit)
-    elif quantity:
-        return "{} in {}".format(quantity, unit)
-    else:
-        return repr(unit)
 
 
 def default_metadata():

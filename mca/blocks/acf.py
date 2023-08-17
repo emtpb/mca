@@ -1,14 +1,13 @@
-from mca.framework import validator, data_types, Block
-from mca.language import _
-
 import numpy as np
+
+from mca.framework import Block, data_types, util
 
 
 class AutoCorrelation(Block):
     """Computes the auto correlation of the input signal."""
-    name = _("ACF")
-    description = _("Computes the auto correlation function of the input signal.")
-    tags = (_("Processing"),)
+    name = "ACF"
+    description = "Computes the auto correlation function of the input signal."
+    tags = ("Processing",)
 
     def setup_io(self):
         self.new_output()
@@ -17,21 +16,30 @@ class AutoCorrelation(Block):
     def setup_parameters(self):
         pass
 
-    def _process(self):
-        if self.all_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
+    @util.abort_all_inputs_empty
+    @util.validate_type_signal
+    def process(self):
+        # Read the input data
         input_signal = self.inputs[0].data
+        # Calculate the ordinate
         ordinate = np.correlate(input_signal.ordinate, input_signal.ordinate,
                                 mode="full")
-        abscissa_start = input_signal.abscissa_start - (input_signal.values-1)*input_signal.increment
-        unit_o = input_signal.metadata.unit_o ** 2
-        unit_a = input_signal.metadata.unit_a
-        metadata = data_types.MetaData(None, unit_a, unit_o)
+        # Calculate the abscissa start
+        abscissa_start = input_signal.abscissa_start - (
+                    input_signal.values - 1) * input_signal.increment
+        # Calculate the amount of values
+        values = input_signal.values * 2 - 1
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=abscissa_start,
-            values=input_signal.values*2-1,
+            values=values,
             increment=input_signal.increment,
             ordinate=ordinate,
+        )
+        # Calculate units for abscissa and ordinate
+        unit_o = self.inputs[0].metadata.unit_o ** 2
+        unit_a = self.inputs[0].metadata.unit_a
+        # Apply new metadata to the output
+        self.outputs[0].process_metadata = data_types.MetaData(
+            name=None, unit_a=unit_a, unit_o=unit_o
         )

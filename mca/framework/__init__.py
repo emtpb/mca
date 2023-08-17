@@ -1,1 +1,1 @@
-from .block_base import Block, DynamicBlock
+from .block_base import Block, DynamicBlock, PlotBlock
