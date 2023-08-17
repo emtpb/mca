@@ -26,7 +26,7 @@ from .fftplot import FFTPlot
 from .fft_shift import FFTShift
 from .gausspulse import GaussPulse
 from .histogramm import Histogramm
-from .hs_oscilloscope import HSOscilloscope
+#from .hs_oscilloscope import HSOscilloscope
 from .iir_filter import IRRFilter
 from .impulse import Impulse
 from .integrator import Integrator
