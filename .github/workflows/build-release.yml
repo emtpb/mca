@@ -29,7 +29,7 @@ jobs:
         run: pyinstaller mca-linux.spec
 
       - name: Zip folder
-        run: zip -r dist/mca mca
+        run: zip -r mca.zip dist/mca
 
       # - name: Create release
       #   id: create_release
@@ -51,7 +51,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          asset_path: ./dist/mca.zip
+          asset_path: ./mca.zip
           asset_name: mca-${{ github.event.release.name }}.zip
           asset_content_type: application/zip
           upload_url: ${{ steps.release.outputs.upload_url}}
