@@ -2,7 +2,7 @@ name: build-release
 run-name: Building new release...
 on:
   release:
-    types: [created]
+    types: [published]
   workflow_dispatch:
   #push:
 
@@ -52,6 +52,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           asset_path: ./dist/mca.zip
-          asset_name: mca-${{ github.ref }}.zip
+          asset_name: mca-${{ github.event.release.name }}.zip
           asset_content_type: application/zip
           upload_url: ${{ steps.release.outputs.upload_url}}
