@@ -25,11 +25,14 @@ jobs:
       - name: Install dependencies
         run: pip install pyinstaller .
 
+      - name: Check dependencies
+        run: pip list
+
       - name: Build standalone
         run: pyinstaller mca-linux.spec
 
       - name: Zip folder
-        run: zip -r mca.zip dist/mca
+k        run: zip -r mca.zip dist/mca
 
       # - name: Create release
       #   id: create_release
