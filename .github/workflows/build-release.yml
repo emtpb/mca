@@ -27,6 +27,7 @@ jobs:
           python -m venv mca-venv
           source mca-venv/bin/activate
           pip install pyinstaller .
+          ls -la mca-venv/lib/python3.11/site-packages/PySide6/Qt/lib
           pyinstaller mca-linux.spec
 
       - name: Check dist folder
