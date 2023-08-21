@@ -27,14 +27,14 @@ jobs:
           python -m venv mca-venv
           source mca-venv/bin/activate
           pip install pyinstaller .
-          ls -la mca-venv/lib/python3.11/site-packages/PySide6/Qt/lib
           pyinstaller mca/main.py
+          cat main.spec
 
       - name: Check dist folder
-        run: ls -la dist/mca
+        run: ls -la dist/main
 
       - name: Zip folder
-        run: zip -r mca.zip dist/mca
+        run: zip -r mca.zip dist/main
 
       # - name: Create release
       #   id: create_release
