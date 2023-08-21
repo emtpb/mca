@@ -32,7 +32,7 @@ jobs:
         run: pyinstaller mca-linux.spec
 
       - name: Zip folder
-k        run: zip -r mca.zip dist/mca
+        run: zip -r mca.zip dist/mca
 
       # - name: Create release
       #   id: create_release
