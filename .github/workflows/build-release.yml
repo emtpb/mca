@@ -23,13 +23,13 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install pyinstaller .
-
-      - name: Check dependencies
-        run: pip list
+        run: pip install pyinstaller
 
       - name: Build standalone
         run: pyinstaller mca-linux.spec
+
+      - name: Check dist folder
+        run: ls -la dist/mca
 
       - name: Zip folder
         run: zip -r mca.zip dist/mca
