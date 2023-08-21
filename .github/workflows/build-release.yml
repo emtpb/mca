@@ -21,20 +21,13 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
-
-      - name: Create venv
-        run: python -m venv mca-venv
-
-      - name: Activate venv
-        run: source mca-venv/bin/activate
       
-      - name: Install dependencies
-        run: pip install pyinstaller .
-
-      
-
       - name: Build standalone
-        run: pyinstaller mca-linux.spec
+        run: |
+          python -m venv mca-venv
+          source mca-venv/bin/activate
+          pip install pyinstaller .
+          pyinstaller mca-linux.spec
 
       - name: Check dist folder
         run: ls -la dist/mca
