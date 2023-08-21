@@ -24,9 +24,9 @@ jobs:
             libxi-dev libxrender-dev \
             libxkbcommon-dev libxkbcommon-x11-dev libatspi2.0-dev \
             libopengl0 '^libxcb.*-dev'
-            libgl1 \
             libegl1 \
             libdbus-glib-1-2
+            # libgl1 \
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
