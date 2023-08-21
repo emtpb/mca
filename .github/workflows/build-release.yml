@@ -24,17 +24,17 @@ jobs:
       
       - name: Build standalone
         run: |
+          pip install --upgrade pip
           python -m venv mca-venv
           source mca-venv/bin/activate
           pip install pyinstaller .
-          pyinstaller mca/main.py
-          cat main.spec
+          pyinstaller mca-linux.spec
 
       - name: Check dist folder
-        run: ls -la dist/main
+        run: ls -la dist/mca
 
       - name: Zip folder
-        run: zip -r mca.zip dist/main
+        run: zip -r mca.zip dist/mca
 
       # - name: Create release
       #   id: create_release
