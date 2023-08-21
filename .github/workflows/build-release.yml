@@ -24,10 +24,10 @@ jobs:
       
       - name: Build standalone
         run: |
-          pip install --upgrade pip
           python -m venv mca-venv
           source mca-venv/bin/activate
-          pip install pyinstaller .
+          pip install --upgrade pip
+          pip install . pyinstaller
           pyinstaller mca-linux.spec
 
       - name: Check dist folder
