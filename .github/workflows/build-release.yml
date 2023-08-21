@@ -22,8 +22,16 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Create venv
+        run: python -m venv mca-venv
+
+      - name: Activate venv
+        run: source mca-venv/bin/activate
+      
       - name: Install dependencies
         run: pip install pyinstaller .
+
+      
 
       - name: Build standalone
         run: pyinstaller mca-linux.spec
