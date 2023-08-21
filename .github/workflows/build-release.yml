@@ -23,7 +23,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install pyinstaller
+        run: pip install pyinstaller .
 
       - name: Build standalone
         run: pyinstaller mca-linux.spec
