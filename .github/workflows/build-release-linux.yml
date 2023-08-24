@@ -33,7 +33,7 @@ jobs:
       - name: Zip folder
         run: |
           mca-version=$(cat mca/resources/version.txt)
-          (cd dist && zip -r ../mca-${mca-version}.zip .)
+          (cd dist && zip -r ../mca-$mca-version.zip .)
 
       - name: Upload linux zip
         uses: alexellis/upload-assets@0.4.0
