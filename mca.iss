@@ -2,8 +2,23 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Multi Channel Analyzer"
-;#define MyAppVersion "0.3.0" ;Gets parsed from command line
+;#define MyAppVersion "0.3.0" ;Gets parsed from version.txt line
 #define MyAppExeName "mca.exe"
+
+#define RetrieveVersion(str FileName) \
+  Local[0] = AddBackslash(GetEnv("TEMP")) + "version.txt", \
+  Local[1] = \
+    "-ExecutionPolicy Bypass -Command """ + \
+    "$version = ((Get-Content '" + FileName + "'));" + \
+    "Set-Content -Path '" + Local[0] + "' -Value $version;" + \
+    """", \
+  Exec("powershell.exe", Local[1], SourcePath, , SW_HIDE), \
+  Local[2] = FileOpen(Local[0]), \
+  Local[3] = FileRead(Local[2]), \
+  FileClose(Local[2]), \
+  DeleteFileNow(Local[0]), \
+  Local[3]
+#define MyAppVersion RetrieveVersion(".\\dist\\mca\\mca\\version.txt")
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
