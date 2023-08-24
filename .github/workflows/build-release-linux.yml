@@ -32,7 +32,8 @@ jobs:
 
       - name: Zip folder
         run: |
-          MCA_VERSION=$(cat mca/resources/version.txt)
+          la -la ./mca/resources
+          MCA_VERSION=$(cat ./mca/resources/version.txt)
           (cd dist && zip -r ../mca-$MCA_VERSION.zip ./mca)
 
       - name: Upload linux zip
