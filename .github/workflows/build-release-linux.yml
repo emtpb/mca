@@ -31,7 +31,7 @@ jobs:
           pyinstaller mca-linux.spec
 
       - name: Zip folder
-        run: zip -r mca.zip dist/mca
+        run: (cd dist && zip -r ../mca.zip mca)
 
       - name: "Get upload_url"
         run: echo "::set-output name=upload_url::https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH)/assets{?name,label}"
