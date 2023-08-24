@@ -28,7 +28,7 @@ jobs:
             "%programfiles(x86)%\\Inno Setup 6\\iscc.exe" "mca.iss"
         shell: cmd
 
-      - name: Upload release binaries
+      - name: Upload windows exe
         uses: alexellis/upload-assets@0.4.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
