@@ -1,10 +1,8 @@
-name: build-release
-run-name: Building new release...
+name: build-release-linux
+run-name: Building new Linux release...
 on:
   release:
     types: [published]
-  workflow_dispatch:
-  #push:
 
 jobs:
   build:
@@ -28,14 +26,9 @@ jobs:
 
       - name: Build standalone
         run: |
-          python -m venv mca-venv
-          source mca-venv/bin/activate
           pip install --upgrade pip
           pip install . pyinstaller
           pyinstaller mca-linux.spec
-
-      - name: Check dist folder
-        run: ls -la dist/mca
 
       - name: Zip folder
         run: zip -r mca.zip dist/mca
@@ -52,7 +45,7 @@ jobs:
       #     prerelease: false
 
       - name: "Get upload_url"
-        run: echo "::set-output name=upload_url::https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH)/assets{?name,label}"  
+        run: echo "::set-output name=upload_url::https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH)/assets{?name,label}"
         id: release
 
       - name: Upload Release Asset
