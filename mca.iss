@@ -2,9 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Multi Channel Analyzer"
-#ifndef MyAppVersion
-  #define MyAppVersion ""
-#endif
+;#define MyAppVersion "0.3.0" ;Gets parsed from command line
 #define MyAppExeName "mca.exe"
 
 [Setup]
