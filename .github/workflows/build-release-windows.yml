@@ -26,7 +26,7 @@ jobs:
       - name: Run InnoSetup
         run: |
             $Env:MCA_VERSION = (Get-Content .\dist\mca\mca\version.txt)
-            "%programfiles(x86)%\\Inno Setup 6\\iscc.exe" "mca.iss" /DMyAppVersion=$Env:MCA_VERSION
+            "%programfiles(x86)%\\Inno Setup 6\\iscc.exe" "mca.iss" /DMyAppVersion="$Env:MCA_VERSION"
         shell: cmd
 
       - name: Upload release binaries
