@@ -3,7 +3,7 @@ from PyInstaller.utils.hooks import collect_data_files
 
 block_cipher = None
 datas = [('mca/resources/*', 'mca/resources'),
-            ('mca/locales/de/LC_MESSAGES/messages.mo', 'mca/locales/de/LC_MESSAGES/'), 
+            ('mca/locales/de/LC_MESSAGES/messages.mo', 'mca/locales/de/LC_MESSAGES/'),
             ('mca/version.txt', 'mca')]
 
 
@@ -24,7 +24,7 @@ pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 
 exe = EXE(pyz,
-          a.scripts, 
+          a.scripts,
           [],
           exclude_binaries=True,
           name='mca-exec',
