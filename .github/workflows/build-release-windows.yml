@@ -37,7 +37,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          asset_path: ./mca-*-setup.exe
+          asset_path: mca-*-setup.exe
           asset_name: mca-${{ github.event.release.name }}.exe
           asset_content_type: application
           upload_url: ${{ steps.release.outputs.upload_url}}
