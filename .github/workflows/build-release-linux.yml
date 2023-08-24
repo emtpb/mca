@@ -33,17 +33,6 @@ jobs:
       - name: Zip folder
         run: zip -r mca.zip dist/mca
 
-      # - name: Create release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: ${{ github.ref }}
-      #     release_name: MCA ${{ github.ref }}
-      #     draft: false
-      #     prerelease: false
-
       - name: "Get upload_url"
         run: echo "::set-output name=upload_url::https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH)/assets{?name,label}"
         id: release
