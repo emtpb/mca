@@ -229,3 +229,5 @@ $RECYCLE.BIN/
 /mca/.vs
 /.vs
 /mca/extract.sh
+*.exe
+*.zip
