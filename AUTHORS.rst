@@ -13,6 +13,7 @@ Development Lead
 ================
 
 * Kevin Koch <kevink2@mail.uni-paderborn.de>
+* Tom Nellius <tnellius@mail.uni-paderborn.de>
 
 
 Contributors
