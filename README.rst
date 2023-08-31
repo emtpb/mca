@@ -12,15 +12,12 @@ easy and trivial manner.
 Features
 ========
 
-* Loading and saving block diagrams
-* Graphical User Interface (PySide2)
-
+* Loading and saving block structure
+* Graphical User Interface (PySide6)
+    * Easy editing of blocks
     * Language Support
 * Audio Support
 * Support for Handyscope oscilloscope devices (HS3, HS5)
-
-    * Using the Handyscope blocks requires manual installation of the tiepie
-      library
 
 
 Requirements

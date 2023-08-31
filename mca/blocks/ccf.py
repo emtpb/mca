@@ -1,14 +1,17 @@
 import numpy as np
 
-from mca.framework import validator, data_types, Block
-from mca.language import _
+from mca.framework import Block, data_types, util
 
 
 class CrossCorrelation(Block):
     """Computes the cross correlation of the input signal."""
-    name = _("CCF")
-    description = _("Computes the cross correlation function of the input signal.")
-    tags = (_("Processing"),)
+    name = "Crosscorrelation"
+    description = ("Computes the cross correlation function of the input "
+        "signals. The cross correlation measures the similarity "
+        "between to signals at different time offsets.")
+    tags = ("Processing",)
+    references = {"numpy.correlate":
+        "https://numpy.org/doc/1.25/reference/generated/numpy.correlate.html"}
 
     def setup_io(self):
         self.new_output()
@@ -18,27 +21,33 @@ class CrossCorrelation(Block):
     def setup_parameters(self):
         pass
 
-    def _process(self):
-        if self.any_inputs_empty():
-            return
-        validator.check_type_signal(self.inputs[0].data)
-        validator.check_type_signal(self.inputs[1].data)
-        validator.check_same_units([self.inputs[0].data.metadata.unit_a,
-                                   self.inputs[1].data.metadata.unit_a])
+    @util.abort_any_inputs_empty
+    @util.validate_type_signal
+    @util.validate_units(abscissa=True)
+    @util.validate_intervals
+    def process(self):
+        # Read the input data
         first_signal = self.inputs[0].data
         second_signal = self.inputs[1].data
-        validator.check_intervals([first_signal, second_signal])
+        # Calculate the ordinate
         ccf = np.correlate(first_signal.ordinate, second_signal.ordinate,
                            mode="full")
-        abscissa_start = first_signal.abscissa_start - (second_signal.values-1)*second_signal.increment
+        # Calculate the abscissa start
+        abscissa_start = first_signal.abscissa_start - (
+                    second_signal.values - 1) * second_signal.increment
+        # Calculate the amount of values
         values = first_signal.values + second_signal.values - 1
-        unit_o = first_signal.metadata.unit_o * second_signal.metadata.unit_o
-        unit_a = 1 / first_signal.metadata.unit_a
-        metadata = data_types.MetaData(None, unit_a, unit_o)
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(metadata),
             abscissa_start=abscissa_start,
             values=values,
             increment=first_signal.increment,
             ordinate=ccf,
+        )
+        # Calculate units for abscissa and ordinate
+        unit_o = self.inputs[0].metadata.unit_o * self.inputs[1].metadata.unit_o
+        unit_a = 1 / self.inputs[0].metadata.unit_a
+        # Apply new metadata to the output
+        self.outputs[0].process_metadata = data_types.MetaData(
+            name=None, unit_a=unit_a,unit_o=unit_o
         )

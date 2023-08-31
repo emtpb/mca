@@ -1,10 +1,12 @@
-from PySide2 import QtWidgets, QtGui
+import logging
 import os
-import qdarkstyle
+from pathlib import Path
+
+from PySide6 import QtWidgets, QtGui
 
 from mca import config
 from mca.framework import save, load
-from mca.gui.pyside2 import block_explorer, block_display, about_window
+from mca.gui.pyside6 import block_explorer, block_display, about_window, introduction_window
 from mca.language import _
 
 
@@ -22,21 +24,21 @@ class MainWindow(QtWidgets.QMainWindow):
         save_file_path: Path of the file to save the block structure to.
     """
 
-    def __init__(self):
-        """Initializes MainWindow."""
-        QtWidgets.QMainWindow.__init__(self)
-        self.resize(1000, 800)
+    def __init__(self, file=None):
+        """Initializes MainWindow.
 
+        Args:
+            file (str): File to open on startup.
+        """
+        QtWidgets.QMainWindow.__init__(self)
         self.conf = config.Config()
 
-        self.about_window = about_window.AboutWindow(self)
+        self.showMaximized()
 
+        self.about_window = about_window.AboutWindow(self)
         self.setWindowIcon(QtGui.QIcon(
-            os.path.dirname(__file__) + "/../../images/emt_logo.png"))
-        if self.conf["theme"] == "default":
-            self.set_default_theme()
-        else:
-            self.set_dark_theme()
+            str(Path(__file__).parent / "../../resources/emt_logo.png"))
+        )
 
         self.open_recent_menu = None
         self.save_file_path = None
@@ -48,7 +50,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.main_widget = QtWidgets.QSplitter(self)
 
         self.block_scene = block_display.BlockScene(self.main_widget)
-        self.block_view = block_display.BlockView(scene=self.block_scene, parent=self)
+        self.block_view = block_display.BlockView(scene=self.block_scene,
+                                                  parent=self)
         self.block_view.show()
 
         self.view_widget = QtWidgets.QWidget()
@@ -61,29 +64,38 @@ class MainWindow(QtWidgets.QMainWindow):
         self.block_explorer = block_explorer.BlockExplorer(self.block_scene)
         self.block_scene.block_list = self.block_explorer.block_list
 
-        if self.conf["explorer_pos"] == "left":
-            self.main_widget.addWidget(self.block_explorer)
-            self.main_widget.addWidget(self.view_widget)
-        else:
-            self.main_widget.addWidget(self.view_widget)
-            self.main_widget.addWidget(self.block_explorer)
+        self.main_widget.addWidget(self.block_explorer)
+        self.main_widget.addWidget(self.view_widget)
 
+        self.setDockNestingEnabled(True)
+
+        self.main_widget.setSizes([300, 1000])
         self.setCentralWidget(self.main_widget)
         # Save warning message
         self.save_warning_message = QtWidgets.QMessageBox(
             parent=self,
             icon=QtWidgets.QMessageBox.Warning,
-            text=_("The document has been modified.\nDo you want to save your changes?"),
+            text=_(
+                "The document has been modified.\nDo you want to save your changes?"),
         )
         self.save_warning_message.setWindowTitle(_("MCA"))
         self.save_warning_message.setStandardButtons(QtWidgets.QMessageBox.Yes
                                                      | QtWidgets.QMessageBox.Cancel
                                                      | QtWidgets.QMessageBox.No)
-        self.save_warning_message.button(QtWidgets.QMessageBox.Yes).setText(_("Yes"))
+        self.save_warning_message.button(QtWidgets.QMessageBox.Yes).setText(
+            _("Yes"))
         self.save_warning_message.button(QtWidgets.QMessageBox.Cancel).setText(
             _("Cancel"))
         self.save_warning_message.button(QtWidgets.QMessageBox.No).setText(
             _("No"))
+
+        if file:
+            self.open_file(file)
+
+        if self.conf["first_startup"]:
+            intro_window = introduction_window.IntroductionWindow(self)
+            intro_window.exec_()
+            self.conf["first_startup"] = False
 
     def init_menu(self):
         """Initializes the top menu bar of the main window."""
@@ -91,24 +103,23 @@ class MainWindow(QtWidgets.QMainWindow):
         menu = self.menuBar()
         file_menu = menu.addMenu(_("File"))
         language_menu = menu.addMenu(_("Language"))
-        view_menu = menu.addMenu(_("View"))
 
-        open_about_window = QtWidgets.QAction(_("About"), self)
+        open_about_window = QtGui.QAction(_("About"), self)
         open_about_window.triggered.connect(self.about_window.show)
 
         menu.addAction(open_about_window)
         languages = [("Deutsch", "de"), ("English", "en")]
 
         for i in languages:
-            action = QtWidgets.QAction(i[0], self)
+            action = QtGui.QAction(i[0], self)
             action.triggered.connect(self.change_language(i[1]))
             language_menu.addAction(action)
 
-        new_action = QtWidgets.QAction(_("New"), self)
+        new_action = QtGui.QAction(_("New"), self)
         new_action.triggered.connect(self.new_file)
         file_menu.addAction(new_action)
 
-        open_action = QtWidgets.QAction(_("Open"), self)
+        open_action = QtGui.QAction(_("Open"), self)
         open_action.setShortcut("Ctrl+O")
         open_action.triggered.connect(self.open_file_dialog)
         file_menu.addAction(open_action)
@@ -118,37 +129,22 @@ class MainWindow(QtWidgets.QMainWindow):
 
         file_menu.addMenu(self.open_recent_menu)
 
-        save_action = QtWidgets.QAction(_("Save"), self)
+        save_action = QtGui.QAction(_("Save"), self)
         save_action.setShortcut("Ctrl+S")
         save_action.triggered.connect(self.save_file)
 
         file_menu.addAction(save_action)
 
-        save_as_action = QtWidgets.QAction(_("Save as"), self)
+        save_as_action = QtGui.QAction(_("Save as"), self)
         save_as_action.setShortcut("Ctrl+Shift+S")
         save_as_action.triggered.connect(self.save_file_as)
         file_menu.addAction(save_as_action)
 
-        exit_action = QtWidgets.QAction(_("Exit"), self)
+        exit_action = QtGui.QAction(_("Exit"), self)
         exit_action.setShortcut("Ctrl+Q")
         exit_action.setStatusTip(_("Close Application"))
         exit_action.triggered.connect(self.close)
         file_menu.addAction(exit_action)
-
-        theme_menu = view_menu.addMenu(_("Theme"))
-        default_theme_action = QtWidgets.QAction(_("Default"), self)
-        default_theme_action.triggered.connect(self.set_default_theme)
-        dark_theme_action = QtWidgets.QAction(_("Dark"), self)
-        dark_theme_action.triggered.connect(self.set_dark_theme)
-        theme_menu.addAction(default_theme_action)
-        theme_menu.addAction(dark_theme_action)
-
-        appearance_menu = view_menu.addMenu(_("Appearance"))
-        explorer_menu = appearance_menu.addMenu(_("Explorer"))
-        explorer_left_action = explorer_menu.addAction(_("Align left"))
-        explorer_left_action.triggered.connect(self.align_explorer_left)
-        explorer_right_action = explorer_menu.addAction(_("Align right"))
-        explorer_right_action.triggered.connect(self.align_explorer_right)
 
     def init_view_toolbar(self):
         """Initializes the toolbar for the block view."""
@@ -193,9 +189,11 @@ class MainWindow(QtWidgets.QMainWindow):
         Args:
             file_name (str): Path of the file to open.
         """
+
         def tmp():
             if self.save_maybe():
                 self.open_file(file_name)
+
         return tmp
 
     def open_file(self, file_path):
@@ -206,7 +204,8 @@ class MainWindow(QtWidgets.QMainWindow):
             file_path (str): Path of the file to open.
         """
         if not os.path.exists(file_path):
-            QtWidgets.QMessageBox.warning(self, _("MCA"), _("File does not exist"),
+            QtWidgets.QMessageBox.warning(self, _("MCA"),
+                                          _("File does not exist"),
                                           QtWidgets.QMessageBox.Ok)
             return
         self.block_scene.clear()
@@ -226,7 +225,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         self.open_recent_menu.clear()
         for file_name in self.conf["recent_files"]:
-            open_file_action = QtWidgets.QAction(file_name, self)
+            open_file_action = QtGui.QAction(file_name, self)
             open_file_action.triggered.connect(
                 self.open_file_direct(file_name))
             self.open_recent_menu.addAction(open_file_action)
@@ -251,7 +250,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.save_file_path = file_name
         self.conf["save_file_dir"] = os.path.dirname(self.save_file_path)
         self.save_file()
-
+        if file_name in self.conf["recent_files"]:
+            self.conf["recent_files"].remove(file_name)
         self.conf["recent_files"] = [file_name] + self.conf["recent_files"][:3]
         self.update_recent_menu()
         return True
@@ -296,9 +296,11 @@ class MainWindow(QtWidgets.QMainWindow):
         """Clears the :class:`.BlockScene` from all blocks."""
         message_box = QtWidgets.QMessageBox(parent=self,
                                             icon=QtWidgets.QMessageBox.Question,
-                                            text=_("Are you sure you want to remove all blocks?"))
+                                            text=_(
+                                                "Are you sure you want to remove all blocks?"))
         message_box.setWindowTitle(_("MCA"))
-        message_box.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Cancel)
+        message_box.setStandardButtons(
+            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Cancel)
         message_box.button(QtWidgets.QMessageBox.Cancel).setText(_("Cancel"))
         message_box.button(QtWidgets.QMessageBox.Yes).setText(
             _("Yes"))
@@ -325,19 +327,6 @@ class MainWindow(QtWidgets.QMainWindow):
             show_file = "*" + show_file
         self.setWindowTitle("{} - {}".format(show_file, _("MCA")))
 
-    def set_default_theme(self):
-        """Sets the application style to default."""
-        self.conf["theme"] = "default"
-        app = QtWidgets.QApplication.instance()
-        app.setStyleSheet("")
-
-    def set_dark_theme(self):
-        """Sets the application style to dark."""
-        self.conf["theme"] = "dark"
-        app = QtWidgets.QApplication.instance()
-        app.setStyleSheet(qdarkstyle.load_stylesheet_pyside2())
-        self.style().setObjectName("qdarkstyle")
-
     def change_language(self, language):
         """Returns a function which changes the language in the config.
 
@@ -347,23 +336,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
         def tmp():
             self.conf["language"] = language
+            logging.info(f"Changing language to {language}")
             msg_box = QtWidgets.QMessageBox()
             msg_box.setWindowTitle(_("MCA"))
             msg_box.setText(_("Changes will be applied after restart."))
             msg_box.exec()
+
         return tmp
-
-    def align_explorer_left(self):
-        """Aligns the explorer widget to the left side of the splitter
-        widget.
-        """
-        if self.main_widget.indexOf(self.block_explorer) == 1:
-            self.main_widget.insertWidget(0, self.block_explorer)
-        self.conf["explorer_pos"] = "left"
-
-    def align_explorer_right(self):
-        """Aligns the explorer widget to the right side of the splitter widget.
-        """
-        if self.main_widget.indexOf(self.block_explorer) == 0:
-            self.main_widget.insertWidget(1, self.block_explorer)
-        self.conf["explorer_pos"] = "right"

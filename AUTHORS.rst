@@ -13,9 +13,11 @@ Development Lead
 ================
 
 * Kevin Koch <kevink2@mail.uni-paderborn.de>
+* Tom Nellius <tnellius@mail.uni-paderborn.de>
 
 
 Contributors
 ============
 
-None yet. Why not be the first?
+* Manuel Webersen
+* Dietmar Wetzlar

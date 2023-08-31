@@ -1,0 +1,36 @@
+name: build-release-windows
+run-name: Building new Windows release...
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Build standalone
+        run: |
+          pip install --upgrade pip
+          pip install . pyinstaller
+          pyinstaller mca-windows.spec
+
+      - name: Run InnoSetup
+        run: |
+            "%programfiles(x86)%\\Inno Setup 6\\iscc.exe" "mca.iss"
+        shell: cmd
+
+      - name: Upload windows exe
+        uses: alexellis/upload-assets@0.4.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          asset_paths: '["./mca-*-setup.exe"]'

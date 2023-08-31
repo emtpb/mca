@@ -1,8 +1,11 @@
-import json
 import logging
 
-from mca.framework import block_io, io_registry, data_types, parameters
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
+from matplotlib.figure import Figure
+from matplotlib.backends.qt_compat import QtWidgets, QtGui
+
 from mca import exceptions
+from mca.framework import block_io, io_registry, parameters
 from mca.language import _
 
 
@@ -15,7 +18,7 @@ class Block:
         inputs: List that contains all its :class:`.Input`.
         outputs: List that contains all its :class:`.Output`.
         parameters: List that contains all parameters.
-        gui_data (dict): Holds GUI data. Data is separated in in the keys
+        gui_data (dict): Holds GUI data. Data is separated in the keys
                          'save_data' and 'run_time_data'. 'save_data' is dumped
                          into the save file when saving the block structure
                          and 'run_time_data' holds data is only used while the
@@ -23,15 +26,19 @@ class Block:
     """
     icon_file = None
     tags = []
+    references = {}
+    svg = None
 
     def __init__(self, **kwargs):
         """Initializes the main Block class."""
-        logging.info(f"Initializing {self.name}")
+        super().__init__()
+        logging.info(f"Initializing {self}")
         self.inputs = []
         self.outputs = []
         self.parameters = {
             "name": parameters.StrParameter(name=_("Name"), max_length=35,
                                             default=self.name)}
+        self.plot_parameters = {}
         self.gui_data = {"save_data": {}, "run_time_data": {}}
         self.setup_io()
         self.setup_parameters()
@@ -44,15 +51,20 @@ class Block:
     def read_kwargs(self, kwargs):
         """Writes keyword arguments into the parameters."""
         for key in kwargs:
+            if key not in self.parameters:
+                continue
             if isinstance(kwargs[key], dict):
                 for sub_key in kwargs[key]:
                     self.parameters[key].parameters[sub_key].value = kwargs[key][sub_key]
             else:
                 self.parameters[key].value = kwargs[key]
 
-    def _process(self):
-        """Processes data from the Inputs and the parameters and puts new
-        data to the outputs.
+    def process(self):
+        """Processes data from Inputs and parameters.
+
+        This method describes the behaviour of the Block on what to do with
+        data. This usually refers to applying new data on Outputs, plotting
+        Input data or saving Input data.
         """
         raise NotImplementedError
 
@@ -66,12 +78,11 @@ class Block:
 
     def update(self):
         """Updates the data and the flags of the Outputs if all
-        Inputs have valid data."""
-        if (not self.inputs) or all(
-                elem == True
-                for elem in [input_.up_to_date for input_ in self.inputs]
-        ):
-            self._process()
+        Inputs have valid data.
+        """
+        if (not self.inputs) or all(elem == True
+                for elem in [input_.up_to_date for input_ in self.inputs]):
+            self.process()
             for output in self.outputs:
                 output.up_to_date = True
 
@@ -82,24 +93,16 @@ class Block:
         for o in self.outputs:
             o.disconnect()
 
-    def new_output(self, metadata=None, metadata_input_dependent=True,
-                   abscissa_metadata=False, ordinate_metadata=False,
+    def new_output(self, metadata=None, user_metadata_required=False,
                    name=None):
-        """Creates and adds an new Output to the block. Used to create new
-        Outputs in the initialization of a new block.
+        """Creates and adds a new Output to the block. Used to create new
+        Outputs when initializing a block.
 
         Args:
             name (str): Name of the Output.
             metadata(:class:`.MetaData`): Metadata of the data.
-            metadata_input_dependent (bool): True, if the :class:`.MetaData` of
-                                              the Output can be dependent on the
-                                              MetaData of any Input.
-            abscissa_metadata (bool): True, if the abscissa metadata
-                                       should be used when data gets assigned
-                                       to the Output.
-            ordinate_metadata (bool): True, if the ordinate metadata
-                                       should be used when data gets assigned
-                                       to this Output.
+            user_metadata_required (bool): True, if user_metadata is forced to be
+                                           used to set the metadata for Output.
 
 
         .. see also::
@@ -110,13 +113,26 @@ class Block:
             io_registry.Registry.add_node(
                 block_io.Output(
                     self,
-                    metadata=metadata,
-                    metadata_input_dependent=metadata_input_dependent,
-                    abscissa_metadata=abscissa_metadata,
-                    ordinate_metadata=ordinate_metadata,
+                    initial_metadata=metadata,
+                    user_metadata_required=user_metadata_required,
                     name=name)
             )
         )
+
+    def delete(self):
+        """Removes its inputs and outputs from the registry and cleans up all
+        internal references to allow the garbage collector to remove the object
+        once all explicit references are deleted.
+        """
+        for input_ in self.inputs:
+            input_.delete()
+        for output in self.outputs:
+            output.delete()
+        self.gui_data = None
+        for parameter in self.parameters.values():
+            if isinstance(parameter, parameters.ActionParameter):
+                parameter.function = None
+        logging.info(f"Deleting {self}")
 
     def new_input(self, name=None):
         """Creates and adds an new Input to the block. Used to create new
@@ -130,71 +146,23 @@ class Block:
         )
 
     def all_inputs_empty(self):
-        """Checks if all Inputs have no data and if that is the case
-        the data of the Outputs will be set to None.
+        """Checks if all Inputs have no data.
 
         Returns:
             bool: True if all Inputs contain no data.
         """
         no_data = all([input_.data is None for input_ in self.inputs])
-        if no_data:
-            for output in self.outputs:
-                output.data = None
-            return True
-        else:
-            return False
+        return no_data
 
     def any_inputs_empty(self):
-        """Checks if any Inputs have no data and if that is the case
+        """Checks if any Input has no data and if that is the case
         the data of the Outputs will be set to None.
 
         Returns:
             bool: True if all Inputs contain no data.
         """
         no_data = any([input_.data is None for input_ in self.inputs])
-        if no_data:
-            for output in self.outputs:
-                output.data = None
-            return True
-        else:
-            return False
-
-    def save_output_data(self, output_index, file_name):
-        """Saves the data of the output in a json-file. Currently only supports
-        saving the data type :class:`.Signal`.
-
-        Args:
-            output_index (int): Index of the output which data should be saved.
-            file_name (str): Name of the file with the full path.
-                             Requires .json as file type.
-        """
-        if not self.outputs[output_index].data:
-            raise exceptions.DataSavingError("Output has no data to save.")
-        with open(file_name, 'w') as save_file:
-            if isinstance(self.outputs[output_index].data, data_types.Signal):
-                save_data = {"data_type": "Signal",
-                             "name": self.outputs[
-                                 output_index].data.metadata.name,
-                             "quantity_a": self.outputs[
-                                 output_index].data.metadata.quantity_a,
-                             "symbol_a": self.outputs[
-                                 output_index].data.metadata.symbol_a,
-                             "unit_a": repr(self.outputs[
-                                 output_index].data.metadata.unit_a),
-                             "quantity_o": self.outputs[
-                                 output_index].data.metadata.quantity_o,
-                             "symbol_o": self.outputs[
-                                 output_index].data.metadata.symbol_o,
-                             "unit_o": repr(self.outputs[
-                                 output_index].data.metadata.unit_o),
-                             "abscissa_start": self.outputs[
-                                 output_index].data.abscissa_start,
-                             "values": self.outputs[output_index].data.values,
-                             "increment": self.outputs[
-                                 output_index].data.increment,
-                             "ordinate": str(
-                                 self.outputs[output_index].data.ordinate)}
-                json.dump(save_data, save_file)
+        return no_data
 
 
 class DynamicBlock(Block):
@@ -239,11 +207,11 @@ class DynamicBlock(Block):
 
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         """Initialize DynamicBlock class."""
         self.dynamic_output = None
         self.dynamic_input = None
-        super().__init__()
+        super().__init__(**kwargs)
 
     def add_input(self, input_):
         """Adds an Input to the Block.
@@ -253,6 +221,7 @@ class DynamicBlock(Block):
         Raises:
             :class:`.InputOutputError`: If adding the Input was not successful.
         """
+        logging.info(f"Adding input to {self}")
         if input_ in io_registry.Registry._graph.nodes:
             raise exceptions.DynamicIOError("Input already added")
         if not self.dynamic_input:
@@ -273,6 +242,7 @@ class DynamicBlock(Block):
         Raises:
             :class:`.InputOutputError`: If adding the Output was not successful.
         """
+        logging.info(f"Adding output to {self}")
         if output in io_registry.Registry._graph.nodes:
             raise exceptions.DynamicIOError("Output already added")
         if not self.dynamic_output:
@@ -283,7 +253,7 @@ class DynamicBlock(Block):
             self.outputs.append(io_registry.Registry.add_node(output))
         else:
             self.outputs.append(io_registry.Registry.add_node(output))
-        self._process()
+        self.process()
 
     def delete_input(self, input_index):
         """Removes an Input from the Block.
@@ -294,6 +264,7 @@ class DynamicBlock(Block):
             :class:`.InputOutputError`: If the lower limit of the Inputs is
                 reached or dynamic_input is set to None.
         """
+        logging.info(f"Deleting input from {self}")
         if not self.dynamic_input:
             raise exceptions.DynamicIOError("No permission to delete Input")
         if self.dynamic_input[0] >= len(self.inputs):
@@ -309,14 +280,185 @@ class DynamicBlock(Block):
             :class:`.InputOutputError`: If the lower limit of the Outputs is
                 reached or dynamic_output is set to None.
         """
+        logging.info(f"Deleting output from {self}")
         if not self.dynamic_output:
             raise exceptions.DynamicIOError("No permission to delete Output")
         if self.dynamic_output[0] >= len(self.outputs):
             raise exceptions.DynamicIOError("Minimum Outputs reached")
         io_registry.Registry.remove_output(self.outputs.pop(output_index))
 
-    def _process(self):
-        """Processes data from the Inputs and the parameters and put new
-        data to the outputs.
-        """
+    def process(self):
         raise NotImplementedError
+
+    def setup_io(self):
+        raise NotImplementedError
+
+    def setup_parameters(self):
+        raise NotImplementedError
+
+
+class PlotBlock(Block):
+    """Base class for plot class. All plot blocks should inherit from this
+    class. It uses the QT5 backend of matplotlib and the plot figure will be
+    embedded in the PySide2 GUI.
+
+    Attributes:
+        plot_window: Qt widget containing the figure.
+        axes(:py:class:`numpy.ndarray` or :obj:`matplotlib.axis.Axis`):
+            Depending on the number of rows and cols it is either a single
+            axis or an array of axes.
+        fig(:obj:`matplotlib.figure`): Matplotlib figure object.
+    """
+    def __init__(self, rows, cols, **kwargs):
+        """Initialize PlotBlock.
+
+        Args:
+            rows (int): Number of cols in the figure.
+            cols (int): Number of cols in the figure.
+        """
+        super().__init__(**kwargs)
+        self.setup_plot_parameters()
+        self.plot_window = PlotWindow(rows, cols)
+        self.axes = self.plot_window.axes
+        self.fig = self.plot_window.canvas.fig
+
+    @property
+    def label_color(self):
+        """Get color the labels of the plot should have.
+
+        Returns:
+            str: Color of the label as hexadecimal.
+        """
+        return self.plot_window.palette().color(
+            QtGui.QPalette.Text).name()
+
+    def set_ylabel(self, axis, unit, quantity=None, symbol=None, **kwargs):
+        """Wrapper method for calling axis.set_ylabel. The label is not set
+        directly, but rather get constructed based on the symbol, quantity
+        and the unit of the metadata. This wrapper also sets the color
+        depending on the theme.
+
+        Args:
+            axis: Axis to set the y-label of.
+            unit: Unit for the y-label.
+            symbol: Symbol for the y-label.
+            quantity: Quantity for the y-label.
+        """
+        if symbol and quantity:
+            label = "{} {} / {}".format(quantity, symbol, unit)
+        elif symbol:
+            label = "{} / {}".format(symbol, unit)
+        elif quantity:
+            label = "{} in {}".format(quantity, unit)
+        else:
+            label = repr(unit)
+        axis.set_ylabel(label, color=self.label_color, **kwargs)
+
+    def set_xlabel(self, axis, unit, quantity=None, symbol=None, **kwargs):
+        """Wrapper method for calling axis.set_xlabel. The label is not set
+        directly, but rather get constructed based on the symbol, quantity
+        and the unit of the metadata. This wrapper also sets the color
+        depending on the theme.
+
+        Args:
+            axis: Axis to set the y-label of.
+            unit: Unit for the y-label.
+            symbol: Symbol for the y-label.
+            quantity: Quantity for the y-label.
+        """
+        if symbol and quantity:
+            label = "{} {} / {}".format(quantity, symbol, unit)
+        elif symbol:
+            label = "{} / {}".format(symbol, unit)
+        elif quantity:
+            label = "{} in {}".format(quantity, unit)
+        else:
+            label = repr(unit)
+        axis.set_xlabel(label, color=self.label_color, **kwargs)
+
+    def show(self):
+        self.plot_window.show()
+
+    def process(self):
+        raise NotImplementedError
+
+    def setup_io(self):
+        raise NotImplementedError
+
+    def setup_parameters(self):
+        raise NotImplementedError
+
+    def setup_plot_parameters(self):
+        pass
+
+
+class MplCanvas(FigureCanvasQTAgg):
+    """MatplotlibCanvas holding the figure object.
+
+    Attributes:
+        fig(:obj:`matplotlib.figure`): Matplotlib figure object.
+    """
+    def __init__(self, width=5, height=4, dpi=100):
+        """Initialize MplCanvas.
+
+        Args:
+            width: Width of the figure.
+            height: Height of the figure.
+            dpi: DPI of the figure.
+        """
+        self.fig = Figure(figsize=(width, height), dpi=dpi)
+        super(MplCanvas, self).__init__(self.fig)
+
+
+class PlotWindow(QtWidgets.QWidget):
+    """Qt widget containing the :obj:`matplotlib.figure`.
+
+    Attributes:
+        canvas: Matplotlib canvas containing the figure.
+        axes: Axes within the figure.
+    """
+    def __init__(self, rows, cols, **kwargs):
+        """Initialize PlotWindow.
+
+        Args:
+            rows (int): Number of cols in the figure.
+            cols (int): Number of cols in the figure.
+        """
+        super(PlotWindow, self).__init__(**kwargs)
+
+        self.canvas = MplCanvas(width=5, height=4, dpi=100)
+
+        toolbar = NavigationToolbar(self.canvas, parent=self)
+        layout = QtWidgets.QVBoxLayout()
+        layout.addWidget(toolbar)
+        layout.addWidget(self.canvas)
+
+        widget = QtWidgets.QWidget()
+        widget.setLayout(layout)
+        self.setLayout(QtWidgets.QVBoxLayout())
+        self.layout().addWidget(widget)
+        self.axes = self.canvas.fig.subplots(nrows=rows, ncols=cols)
+
+    def paintEvent(self, event):
+        # Get colors depending on the style
+        fig_colour = self.palette().color(QtGui.QPalette.Base).name()
+        ax_colour = self.palette().color(QtGui.QPalette.Window).name()
+        grid_colour = self.palette().color(QtGui.QPalette.Text).name()
+        # Apply the colors to the figure and the axes
+        self.canvas.fig.set_facecolor(fig_colour)
+
+        try:
+            for ax in self.axes:
+                ax.set_facecolor(ax_colour)
+                ax.grid(color=grid_colour)
+                ax.tick_params(colors=grid_colour)
+                ax.xaxis.label.set_color(grid_colour)
+                ax.yaxis.label.set_color(grid_colour)
+        except TypeError:
+            self.axes.tick_params(colors=grid_colour)
+            self.axes.xaxis.label.set_color(grid_colour)
+            self.axes.yaxis.label.set_color(grid_colour)
+            self.axes.set_facecolor(ax_colour)
+            self.axes.grid(color=grid_colour)
+        self.canvas.draw()
+        super().paintEvent(event)

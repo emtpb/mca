@@ -1,10 +1,11 @@
 import argparse
-import appdirs
 import logging
 import os
 
+import appdirs
+
 import mca
-from mca.gui.pyside2 import main as pyside2_main
+from mca.gui.pyside6 import main as pyside6_main
 
 
 def main():
@@ -16,9 +17,12 @@ def main():
         os.makedirs(log_folder)
     logging.basicConfig(filename=os.path.join(log_folder, "mca.log"),
                         level=logging.INFO, filemode="w")
-    parser = argparse.ArgumentParser(description='Execute the Multi Channel Analyzer')
-    parser.add_argument("-g", "--gui", type=str, choices=["pyside2"],
-                        help='Choose the gui for the mca', default="pyside2")
+    parser = argparse.ArgumentParser(
+        description='Execute the Multi Channel Analyzer')
+    parser.add_argument("file", help="Block structure file to open on startup.",
+                        nargs="?", default=None)
+    parser.add_argument("-g", "--gui", type=str, choices=["pyside6"],
+                        help='Choose the gui for the mca', default="pyside6")
     parser.add_argument("-V", "--version", help='Get the version',
                         action='store_true', dest="version")
     args = vars(parser.parse_args())
@@ -30,10 +34,9 @@ def main():
         print("Multi Channel Analyzer Version: {}".format(version))
         return
 
-    if args["gui"] == "pyside2":
-        pyside2_main.main()
+    if args["gui"] == "pyside6":
+        pyside6_main.main(args["file"])
 
 
 if __name__ == '__main__':
     main()
-

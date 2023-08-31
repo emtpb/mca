@@ -8,6 +8,41 @@ This project follows the guidelines of `Keep a changelog`_ and adheres to
 .. _Keep a changelog: http://keepachangelog.com/
 .. _Semantic versioning: https://semver.org/
 
+
+0.4.0 - 2022-31-8
+=================
+
+Added
+-----
+* Embedded matplotlib plots
+* Normalize block
+* Impulse block
+* Convolution block
+* FFT Shift block
+* Plot options
+* Added `icons < https://www.freepik.com>`_ to toolbar
+* Framework for parameter descriptions
+* Option to add code references to a block
+* Add opening files from command line
+
+Changed
+-------
+* Double clicking a block sets it to a random position
+* Tags are switched with a check box instead of a combo box
+* Add decorators in the util module to make validation easier
+* Replace .json file by using dsch to save and load signals
+* Update from PySide2 to PySide6
+* GUI implicitly localizes strings
+* Block names
+* Block descriptions
+* Audio blocks now allow 2 channels
+
+
+Fixed
+-----
+* Deleting blocks did not free them from memory resulting in a memory leak
+* Only open context menu when blocks are clicked
+
 0.3.0 - 2022-01-06
 ==================
 

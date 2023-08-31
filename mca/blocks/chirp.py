@@ -1,47 +1,50 @@
 import numpy as np
 from scipy import signal as sgn
 
-from mca.framework import data_types, parameters, helpers,  Block
-from mca.language import _
+from mca.framework import Block, data_types, parameters, util
 
 
 class Chirp(Block):
     """Generates a chirp signal."""
-    name = _("Chirp")
-    description = _("Generates a chirp signal. Two frequencies have to be "
-                    "specified where the first frequency corresponds to the "
-                    "frequency at the beginning of the signal and second "
-                    "frequency corresponds to the frequency at the end of the "
-                    "signal.")
-    tags = (_("Generating"),)
+    name = "Chirp"
+    description = ("Generates a chirp signal. Two frequencies have to be "
+                   "specified where the first frequency corresponds to the "
+                   "frequency at the beginning of the signal and second "
+                   "frequency corresponds to the frequency at the end of the "
+                   "signal.")
+    tags = ("Generating",)
+    references = {"scipy.signal.chirp":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.chirp.html"}
 
     def setup_io(self):
-        self.new_output(
-            metadata_input_dependent=False,
-            ordinate_metadata=True,
-            abscissa_metadata=True,
-        )
+        self.new_output(user_metadata_required=True)
 
     def setup_parameters(self):
-        abscissa = helpers.create_abscissa_parameter_block()
-        self.parameters.update({
-            "sweep_kind": parameters.ChoiceParameter(
-                _("Sweep Kind"),
-                choices=[("linear", _("Linear")), ("quadratic", _("Quadratic")),
-                         ("logarithmic", _("Logarithmic")),
-                         ("hyperbolic", _("Hyperbolic"))],
-                default="linear"
-            ),
-            "freq1": parameters.FloatParameter(_("Start Frequency"),
-                                               unit="Hz", min_=0, default=1),
-            "freq2": parameters.FloatParameter(_("End Frequency"),
-                                               unit="Hz", min_=0, default=10),
-            "amp": parameters.FloatParameter("Amplitude", min_=0, default=1),
-            "phase": parameters.FloatParameter("Phase", default=0, unit="°"),
-            "abscissa": abscissa,
-        })
 
-    def _process(self):
+        self.parameters["sweep_kind"]= parameters.ChoiceParameter(
+                name="Sweep Kind",
+                choices=(("linear", "Linear"), ("quadratic", "Quadratic"),
+                         ("logarithmic", "Logarithmic"),
+                         ("hyperbolic", "Hyperbolic")),
+                default="linear"
+        )
+        self.parameters["freq1"] = parameters.FloatParameter(
+            name="Start Frequency", unit="Hz", min_=0, default=1
+        )
+        self.parameters["freq2"] = parameters.FloatParameter(
+            name="End Frequency", unit="Hz", min_=0, default=10
+        )
+        self.parameters["amp"] = parameters.FloatParameter(
+            name="Amplitude", min_=0, default=1
+        )
+        self.parameters["phase"] = parameters.FloatParameter(
+            name="Phase", default=0, unit="°"
+        )
+        abscissa = util.create_abscissa_parameter_block()
+        self.parameters["abscissa"] = abscissa
+
+    def process(self):
+        # Read parameters values
         amp = self.parameters["amp"].value
         freq1 = self.parameters["freq1"].value
         freq2 = self.parameters["freq2"].value
@@ -50,16 +53,18 @@ class Chirp(Block):
         increment = self.parameters["abscissa"].parameters["increment"].value
         phase = self.parameters["phase"].value
         sweep_kind = self.parameters["sweep_kind"].value
+        # Create the abscissa vector
         abscissa = (
             np.linspace(
                 abscissa_start, abscissa_start + (values - 1) * increment,
                 values
             )
         )
+        # Calculate the ordinate
         chirp = amp * sgn.chirp(t=abscissa, f0=freq1, t1=abscissa[-1], f1=freq2,
                                 phi=phase, method=sweep_kind)
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
-            self.outputs[0].get_metadata(None),
             abscissa_start,
             values,
             increment,

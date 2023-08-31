@@ -1,37 +1,34 @@
 import numpy as np
 
-from mca.framework import data_types, Block, helpers, parameters
-from mca.language import _
+from mca.framework import Block, data_types, parameters, util
 
 
 class DCGenerator(Block):
     """Generates a DC signal."""
-    name = _("DCGenerator")
-    description = _("Generates a DC signal.")
-    tags = (_("Generating"),)
+    name = "Signal Generator (DC)"
+    description = "Generates a DC signal."
+    tags = ("Generating",)
 
     def setup_io(self):
-        self.new_output(
-            metadata_input_dependent=False,
-            ordinate_metadata=True,
-            abscissa_metadata=True,
-        )
+        self.new_output(user_metadata_required=True)
 
     def setup_parameters(self):
-        abscissa = helpers.create_abscissa_parameter_block()
-        self.parameters.update({
-            "dc_value": parameters.FloatParameter(_("DC Value"), default=1),
-            "abscissa": abscissa,
-        })
+        self.parameters["dc_value"] = parameters.FloatParameter(
+            name="DC Value", default=1
+        )
+        abscissa = util.create_abscissa_parameter_block()
+        self.parameters["abscissa"] = abscissa
 
-    def _process(self):
+    def process(self):
+        # Read parameters values
         dc_value = self.parameters["dc_value"].value
         abscissa_start = self.parameters["abscissa"].parameters["start"].value
         values = self.parameters["abscissa"].parameters["values"].value
         increment = self.parameters["abscissa"].parameters["increment"].value
-        ordinate = dc_value*np.ones(values)
+        # Calculate the ordinate
+        ordinate = dc_value * np.ones(values)
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(None),
             abscissa_start=abscissa_start,
             values=values,
             increment=increment,

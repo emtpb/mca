@@ -1,55 +1,52 @@
 import numpy as np
 
-from mca.framework import data_types, parameters, helpers, Block
-from mca.language import _
+from mca.framework import Block, data_types, parameters, util
 
 
 class SignalGeneratorStochastic(Block):
     """Generates a stochastic signal with either normal or equal
     distribution.
     """
-    name = _("SignalGeneratorStochastic")
-    description = _("Generates a stochastic signal "
-                    "with either normal or equal distribution.")
-    tags = (_("Generating"), _("Stochastic"))
+    name = "Signal Generator (Stochastic)"
+    description = ("Generates a stochastic signal "
+                   "with either normal or equal distribution.")
+    tags = ("Generating", "Stochastic")
 
     def setup_io(self):
-        self.new_output(
-            metadata_input_dependent=False,
-            ordinate_metadata=True,
-            abscissa_metadata=True,
-        )
+        self.new_output(user_metadata_required=True)
 
     def setup_parameters(self):
-        abscissa = helpers.create_abscissa_parameter_block()
-        self.parameters.update({
-            "dist": parameters.ChoiceParameter(
-                _("Distribution"),
-                choices=[("normal", _("Normal distribution")),
-                         ("uniform", _("Uniform distribution"))],
+        self.parameters["dist"] = parameters.ChoiceParameter(
+                name="Distribution",
+                choices=(("normal", "Normal distribution"),
+                         ("uniform", "Uniform distribution")),
                 default="normal"
-            ),
-            "mean": parameters.FloatParameter(_("Mean µ"), default=0),
-            "std_dev": parameters.FloatParameter(_("Standard deviation σ"),
-                                                 min_=0, default=1),
-            "abscissa": abscissa
-        })
+        )
+        self.parameters["mean"] = parameters.FloatParameter(
+            name="Mean µ", default=0
+        )
+        self.parameters["std_dev"] = parameters.FloatParameter(
+            name="Standard deviation σ", min_=0, default=1
+        )
+        abscissa = util.create_abscissa_parameter_block()
+        self.parameters["abscissa"] = abscissa
 
-    def _process(self):
+    def process(self):
+        # Read the input data
         mean = self.parameters["mean"].value
         std_dev = self.parameters["std_dev"].value
         abscissa_start = self.parameters["abscissa"].parameters["start"].value
         values = self.parameters["abscissa"].parameters["values"].value
         increment = self.parameters["abscissa"].parameters["increment"].value
         dist = self.parameters["dist"].value
-
+        # Calculate the ordinate depending on the distribution
         if dist == "normal":
-            ordinate = mean + std_dev*np.random.randn(values)
+            ordinate = mean + std_dev * np.random.randn(values)
         elif dist == "uniform":
-            ordinate = mean + std_dev * np.sqrt(12) * (np.random.rand(values)-0.5)
-
+            ordinate = mean + std_dev * np.sqrt(12) * (
+                        np.random.rand(values) - 0.5)
+        # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
-            metadata=self.outputs[0].get_metadata(None),
             abscissa_start=abscissa_start,
             values=values,
             increment=increment,
