@@ -8,7 +8,11 @@ from mca.framework import Block, data_types, parameters
 
 
 class AudioLoader(Block):
-    """Loads a .wav to create an output signal."""
+    """Loads a .wav to create an output signal. The audio file can have either
+    1 or 2 channels. If the audio file has only 1 channel then the channel is
+    just duplicated on both outputs. If the audio file has 2 channels then
+    the channels are split onto the 2 outputs.
+    """
     name = "Audio Loader"
     description = "Loads a .wav to create an output signal."
     tags = ("Loading", "Audio")
