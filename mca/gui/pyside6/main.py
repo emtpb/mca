@@ -16,13 +16,17 @@ elif platform.system() == "Windows":
     os.environ["QT_PLUGIN_PATH"] = plugin_path
 
 
-def main():
+def main(file=None):
     """Main function for the PySide2 GUI of mca. Switches the matplotlib
-    backend to Qt5 and opens the :class:`.MainWindow` ."""
+    backend to Qt5 and opens the :class:`.MainWindow` .
+
+    Args:
+        file (str): File to open on startup.
+    """
     from mca.gui.pyside6 import main_window
     matplotlib.use("qt5agg")
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
     app = PySide6.QtWidgets.QApplication(sys.argv)
-    window = main_window.MainWindow()
+    window = main_window.MainWindow(file=file)
     window.show()
     app.exec_()

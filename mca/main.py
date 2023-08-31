@@ -19,6 +19,8 @@ def main():
                         level=logging.INFO, filemode="w")
     parser = argparse.ArgumentParser(
         description='Execute the Multi Channel Analyzer')
+    parser.add_argument("file", help="Block structure file to open on startup.",
+                        nargs="?", default=None)
     parser.add_argument("-g", "--gui", type=str, choices=["pyside6"],
                         help='Choose the gui for the mca', default="pyside6")
     parser.add_argument("-V", "--version", help='Get the version',
@@ -33,7 +35,7 @@ def main():
         return
 
     if args["gui"] == "pyside6":
-        pyside6_main.main()
+        pyside6_main.main(args["file"])
 
 
 if __name__ == '__main__':
