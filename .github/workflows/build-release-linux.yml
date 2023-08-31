@@ -1,0 +1,43 @@
+name: build-release-linux
+run-name: Building new Linux release...
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Start
+        run: |
+          sudo apt-get update
+          sudo apt-get upgrade
+          sudo apt install -y libfontconfig1-dev libfreetype6-dev libx11-dev libx11-xcb-dev libxext-dev libxfixes-dev libxi-dev libxrender-dev libxkbcommon-dev libxkbcommon-x11-dev libatspi2.0-dev libopengl0 '^libxcb.*-dev' libegl1 libdbus-glib-1-2
+            # libgl1
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Build standalone
+        run: |
+          pip install --upgrade pip
+          pip install . pyinstaller
+          pyinstaller mca-linux.spec
+
+      - name: Zip folder
+        run: |
+          MCA_VERSION=$(cat ./mca/version.txt)
+          (cd dist && zip -r ../mca-$MCA_VERSION.zip ./mca)
+
+      - name: Upload linux zip
+        uses: alexellis/upload-assets@0.4.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          asset_paths: '["./mca-*.zip"]'
