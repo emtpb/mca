@@ -11,6 +11,8 @@ class Limiter(Block):
     description = ("Limits the values of the input signal. Values exceeding "
                    "this limit get set to the threshold.")
     tags = ("Processing",)
+    references = {"numpy.clip":
+        "https://numpy.org/doc/stable/reference/generated/numpy.clip.html"}
 
     def setup_io(self):
         self.new_output()

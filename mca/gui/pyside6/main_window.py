@@ -24,8 +24,12 @@ class MainWindow(QtWidgets.QMainWindow):
         save_file_path: Path of the file to save the block structure to.
     """
 
-    def __init__(self):
-        """Initializes MainWindow."""
+    def __init__(self, file=None):
+        """Initializes MainWindow.
+
+        Args:
+            file (str): File to open on startup.
+        """
         QtWidgets.QMainWindow.__init__(self)
         self.conf = config.Config()
 
@@ -84,6 +88,9 @@ class MainWindow(QtWidgets.QMainWindow):
             _("Cancel"))
         self.save_warning_message.button(QtWidgets.QMessageBox.No).setText(
             _("No"))
+
+        if file:
+            self.open_file(file)
 
         if self.conf["first_startup"]:
             intro_window = introduction_window.IntroductionWindow(self)

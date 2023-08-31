@@ -8,8 +8,8 @@ from mca.framework import Block, parameters, util, validator
 class AudioPlayer(Block):
     """Plays the input signals as a sound by using the current default
     sound device. If only one input is connected, then the sound will be played
-    as mono and if both inputs are connected then the sound will be played as
-    stereo.
+    using 1 channel (mono) and if both inputs are connected then
+    the 2 channels will be used (stereo).
     """
     name = "Audio Player"
     description = ("Plays the input signal as a sound by using the current "

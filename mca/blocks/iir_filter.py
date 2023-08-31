@@ -16,6 +16,18 @@ class IRRFilter(Block):
                     "specific 'Filter types' certain parameters are ignored "
                     "as well.")
     tags = ("Processing",)
+    references = {"scipy.signal.butter":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.butter.html",
+        "scipy.signal.cheby1":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.cheby1.html",
+        "scipy.signal.cheby2":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.cheby2.html",
+        "scipy.signal.ellip":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.ellip.html",
+        "scipy.signal.lfilter":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.lfilter.html",
+        "scipy.signal.filtfilt":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.filtfilt.html"}
 
     def setup_io(self):
         self.new_output()

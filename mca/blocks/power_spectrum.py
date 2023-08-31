@@ -12,6 +12,8 @@ class PowerSpectrum(Block):
     description = ("Computes the power spectrum of the input signal using "
                    "Welch's method")
     tags = ("Processing",)
+    references = {"scipy.signal.welch":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.welch.html"}
 
     def setup_io(self):
         self.new_output(metadata=data_types.MetaData(

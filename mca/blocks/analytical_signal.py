@@ -6,8 +6,10 @@ from mca.framework import Block, data_types, util
 class AnalyticalSignal(Block):
     """Computes the analytical signal of the input signal."""
     name = "Analytical Signal"
-    description = "Computes the analytical signal of the input signal."
+    description = "Computes the analytical signal of the input signal using the Hilbert transform."
     tags = ("Processing",)
+    references = {"scipy.signal.hilbert":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.hilbert.html"}
 
     def setup_io(self):
         self.new_output()

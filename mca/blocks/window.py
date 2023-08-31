@@ -8,6 +8,16 @@ class Window(Block):
     name = "Window"
     description = "Applies a window function to the input signal."
     tags = ("Processing",)
+    references = {"scipy.signal.windows.tukey":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.tukey.html",
+        "scipy.signal.windows.hamming":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.hamming.html",
+        "scipy.signal.windows.exponential":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.exponential.html",
+        "scipy.signal.windows.gaussian":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.gaussian.html",
+        "scipy.signal.windows.triang":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.triang.html"}
 
     def setup_io(self):
         self.new_output()

@@ -11,6 +11,8 @@ class Quantization(Block):
     description = ("Quantizes the input signal by a given amount of bits. "
                    "Returns optionally the raw bit values.")
     tags = ("Processing",)
+    references = {"numpy.rint":
+        "https://numpy.org/doc/stable/reference/generated/numpy.rint.html"}
 
     def setup_io(self):
         self.new_output()
