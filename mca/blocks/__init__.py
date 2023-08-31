@@ -14,6 +14,7 @@ from .ccf import CrossCorrelation
 from .chirp import Chirp
 from .complex_plot import ComplexPlot
 from .complex_to_real import ComplexToReal
+from .convolution import Convolution
 from .cps import CrossPowerSpectrum
 from .cutter import Cutter
 from .dc_generator import DCGenerator
@@ -25,7 +26,7 @@ from .fftplot import FFTPlot
 from .fft_shift import FFTShift
 from .gausspulse import GaussPulse
 from .histogramm import Histogramm
-from .hs_oscilloscope import HSOscilloscope
+# from .hs_oscilloscope import HSOscilloscope
 from .iir_filter import IRRFilter
 from .impulse import Impulse
 from .integrator import Integrator

@@ -1,3 +1,5 @@
+import copy
+
 import numpy as np
 import scipy.io.wavfile
 
@@ -15,6 +17,7 @@ class AudioLoader(Block):
         "https://docs.scipy.org/doc/scipy/reference/generated/scipy.io.wavfile.read.html"}
 
     def setup_io(self):
+        self.new_output(user_metadata_required=True)
         self.new_output(user_metadata_required=True)
 
     def setup_parameters(self):
@@ -48,11 +51,26 @@ class AudioLoader(Block):
         # Normalize the data
         if normalize:
             data = data / np.max(np.abs(data))
+            
+        values = data.shape[0]
+        if len(data.shape) == 2:
+            data = np.swapaxes(data, 0, 1)
+            left = data[0]
+            right = data[1]
+        else:
+            left = data
+            right = copy.copy(data)
+            
         # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
             abscissa_start=0,
-            values=len(data),
+            values=values,
             increment=1 / rate,
-            ordinate=data)
+            ordinate=left)
+        self.outputs[1].data = data_types.Signal(
+            abscissa_start=0,
+            values=values,
+            increment=1 / rate,
+            ordinate=right)
         # Trigger an update manually since this is not executed within process
         self.trigger_update()
