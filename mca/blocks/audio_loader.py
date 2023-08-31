@@ -14,8 +14,11 @@ class AudioLoader(Block):
     the channels are split onto the 2 outputs.
     """
     name = "Audio Loader"
-    description = "Loads a .wav to create an output signal."
+    description = ("Loads a .wav to create an output signal. Minimum and maximum"
+                " value depend on the .wav format provided (see reference)")
     tags = ("Loading", "Audio")
+    references = {"scipy.io.wavfile.read":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.io.wavfile.read.html"}
 
     def setup_io(self):
         self.new_output(user_metadata_required=True)
@@ -30,7 +33,8 @@ class AudioLoader(Block):
         )
         self.parameters["file_name"].triggers = [self.parameters["load_file"]]
         self.parameters["normalize"] = parameters.BoolParameter(
-            name="Normalize", default=True
+            name="Normalize", default=True,
+            description="Normalize the signal by dividing by the absolute maximum value"
         )
 
     def process(self):
@@ -51,8 +55,8 @@ class AudioLoader(Block):
             raise exceptions.DataLoadingError("File not found")
         # Normalize the data
         if normalize:
-            data = data / np.max(data)
-
+            data = data / np.max(np.abs(data))
+            
         values = data.shape[0]
         if len(data.shape) == 2:
             data = np.swapaxes(data, 0, 1)
@@ -61,6 +65,7 @@ class AudioLoader(Block):
         else:
             left = data
             right = copy.copy(data)
+            
         # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
             abscissa_start=0,

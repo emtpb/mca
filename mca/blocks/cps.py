@@ -8,8 +8,11 @@ class CrossPowerSpectrum(Block):
     """Computes the cross power spectrum of the input signals."""
     name = "Cross Power Spectrum"
     description = ("Computes the cross power spectrum of the "
-                   "input signals.")
+        "input signals. The cross power spectrum measures "
+        "the similarity between two signals in the frequency domain")
     tags = ("Processing",)
+    reference = {"scipy.signal.csd":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.csd.html"}
 
     def setup_io(self):
         self.new_output(metadata=data_types.MetaData(

@@ -12,6 +12,8 @@ class GaussPulse(Block):
     description = ("Generates a gaussian pulse signal. Returns real- and "
                    "imaginary part as well as the envelope.")
     tags = ("Generating",)
+    references = {"scipy.signal.gausspulse":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.gausspulse.html"}
 
     def setup_io(self):
         self.new_output(name="Real part", user_metadata_required=True)

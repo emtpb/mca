@@ -13,6 +13,8 @@ class Chirp(Block):
                    "frequency corresponds to the frequency at the end of the "
                    "signal.")
     tags = ("Generating",)
+    references = {"scipy.signal.chirp":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.chirp.html"}
 
     def setup_io(self):
         self.new_output(user_metadata_required=True)

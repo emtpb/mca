@@ -8,6 +8,8 @@ class Resample(Block):
     name = "Resample"
     description = "Resamples the input signal."
     tags = ("Processing",)
+    references = {"scipy.signal.resample":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html"}
 
     def setup_io(self):
         self.new_output()

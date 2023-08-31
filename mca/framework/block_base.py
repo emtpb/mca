@@ -27,6 +27,7 @@ class Block:
     icon_file = None
     tags = []
     references = {}
+    svg = None
 
     def __init__(self, **kwargs):
         """Initializes the main Block class."""

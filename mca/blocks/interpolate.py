@@ -7,14 +7,16 @@ from mca.framework import Block, data_types, parameters, util
 
 class Interpolate(Block):
     """Interpolates the input signal by defining a new abscissa. The
-    range of the new abscissa has to within the range of the abscissa of the
+    range of the new abscissa has to be within the range of the abscissa of the
     input signal.
     """
     name = "Interpolate"
     description = ("Interpolates the input signal by defining a new abscissa."
-                   " The range of the new abscissa has to within the "
+                   " The range of the new abscissa has to be within the "
                    "range of the abscissa of the input signal.")
     tags = ("Processing",)
+    references = {"scipy.interpolate.interp1d (Legacy)":
+        "https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.interp1d.html"}
 
     def setup_io(self):
         self.new_output()

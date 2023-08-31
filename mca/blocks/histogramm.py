@@ -12,6 +12,8 @@ class Histogramm(PlotBlock):
     description = ("Plots absolute and relative density frequency of "
                    "occurrences of values in a histogramm.")
     tags = ("Plotting",)
+    references = {"matplotlib.axes.Axes.hist":
+        "https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.hist.html"}
 
     def __init__(self, **kwargs):
         """Initializes Histogramm class."""
