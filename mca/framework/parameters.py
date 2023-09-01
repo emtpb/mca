@@ -12,12 +12,9 @@ class BaseParameter:
         description (str): Description of the parameter.
         parameter_block : Reference of the parameter block the parameter
                           belongs to.
-        triggers (list): List of action parameters which should trigger if
-                         the parameter value changes.
     """
 
-    def __init__(self, name, unit=None, default=None, description=None,
-                 triggers=None):
+    def __init__(self, name, unit=None, default=None, description=None):
         """Initialize BaseParameter class.
         
         Args:
@@ -25,18 +22,12 @@ class BaseParameter:
             unit (str): Unit of the parameter.
             description (str): Description of the parameter.
             default: Default for the internal value of the parameter.
-            triggers (list): List of action parameters which should trigger if
-                 the parameter value changes.
         """
         self.name = name
         self.unit = unit
         self._value = default
         self.description = description
         self.parameter_block = None
-        if triggers is None:
-            self.triggers = []
-        else:
-            self.triggers = triggers
 
     def validate(self, value):
         raise NotImplementedError
@@ -59,8 +50,6 @@ class BaseParameter:
         self._value = val
         if self.parameter_block:
             self.parameter_block.update(source=self)
-        for trigger in self.triggers:
-            trigger.function()
 
 
 class FloatParameter(BaseParameter):
