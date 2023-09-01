@@ -31,7 +31,6 @@ class AudioLoader(Block):
         self.parameters["load_file"] = parameters.ActionParameter(
             name="Load file", function=self.load_wav
         )
-        self.parameters["file_name"].triggers = [self.parameters["load_file"]]
         self.parameters["normalize"] = parameters.BoolParameter(
             name="Normalize", default=True,
             description="Normalize the signal by dividing by the absolute maximum value"
