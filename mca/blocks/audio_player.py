@@ -3,6 +3,7 @@ import sounddevice as sd
 from united import Unit
 
 from mca.framework import Block, parameters, util, validator
+from mca import exceptions
 
 
 class AudioPlayer(Block):
@@ -21,6 +22,8 @@ class AudioPlayer(Block):
         self.new_input()
 
     def setup_parameters(self):
+        self.parameters["manual_sampl_freq"] = parameters.BoolParameter(
+            name="Manually set sampling frequency", default=False)
         self.parameters["sampling_freq"] = parameters.IntParameter(
             name="Sampling frequency", min_=1, max_=None, unit="Hz",
             default=44100
@@ -49,9 +52,24 @@ class AudioPlayer(Block):
             data = np.hstack((self.inputs[0].data.ordinate,
                               self.inputs[1].data.ordinate))
         # Read parameters values
-        sampling_frequency = self.parameters["sampling_freq"].value
+        manual_sampling = self.parameters["manual_sampl_freq"].value
+        manual_sampling_frequency = self.parameters["sampling_freq"].value
         # Validate that the abscissa is in seconds
         validator.check_same_units([self.inputs[0].metadata.unit_a,
                                     Unit(["s"])])
+        if manual_sampling:
+            sampling_frequency = manual_sampling_frequency
+        else:
+            if self.inputs[0].data and self.inputs[1].data:
+                increment_0 = self.inputs[0].data.increment
+                increment_1 = self.inputs[1].data.increment
+                if increment_0 != increment_1:
+                    raise exceptions.IntervalError("Cannot play stereo sound "
+                                                   "with different sampling frequencies")
+                sampling_frequency = 1/increment_0
+            elif self.inputs[0].data:
+                sampling_frequency = 1/self.inputs[0].data.increment
+            elif self.inputs[1].data:
+                sampling_frequency = 1 / self.inputs[1].data.increment
         # Play the input signal as sound through the default sound device
         sd.play(data, sampling_frequency)
