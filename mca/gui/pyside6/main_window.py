@@ -92,10 +92,10 @@ class MainWindow(QtWidgets.QMainWindow):
         if file:
             self.open_file(file)
 
-        if self.conf["first_startup"]:
-            intro_window = introduction_window.IntroductionWindow(self)
-            intro_window.exec_()
-            self.conf["first_startup"] = False
+        # if self.conf["first_startup"]:
+        #    intro_window = introduction_window.IntroductionWindow(self)
+        #    intro_window.exec_()
+        #    self.conf["first_startup"] = False
 
     def init_menu(self):
         """Initializes the top menu bar of the main window."""
