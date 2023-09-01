@@ -838,7 +838,13 @@ class BlockButton(QtWidgets.QGraphicsItem):
 
     def mouseReleaseEvent(self, event):
         self.pressed = False
-        self.function()
+        try:
+            self.function()
+        except Exception as error:
+            QtWidgets.QMessageBox.warning(
+                self.parentItem().view, _("MCA"), _("Could not apply action") + "\n" + repr(error),
+                QtWidgets.QMessageBox.Ok)
+
         super().mousePressEvent(event)
 
     def apply_colors(self):
