@@ -419,6 +419,7 @@ class FileParameterWidget(BaseParameterWidget, QtWidgets.QWidget):
         """
         if self.file_dialog.exec_():
             self.file_edit.setText(self.file_dialog.selectedFiles()[0])
+            self.write_parameter()
 
 
 class MetaDataEditWidget(QtWidgets.QLineEdit):
