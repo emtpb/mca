@@ -44,13 +44,13 @@ class AudioLoader(Block):
         # Read out the parameters
         filename = self.parameters["file_name"].value
         normalize = self.parameters["normalize"].value
-        # Verify that the file ends with .wav
+        # If no file is given set the output to None
         if not filename:
             for output in self.outputs:
                 output.data = None
             self.trigger_update()
             return
-
+        # Verify that the file ends with .wav
         if not filename.endswith(".wav"):
             raise exceptions.DataLoadingError("File has to be a .wav")
         # Read wave file and raise custom error when FileNotFound error is raised
