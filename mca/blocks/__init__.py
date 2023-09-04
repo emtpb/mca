@@ -20,6 +20,7 @@ from .cutter import Cutter
 from .dc_generator import DCGenerator
 from .differentiator import Differentiator
 from .divider import Divider
+from .down_sample import DownSample
 from .envelope import Envelope
 from .fft import FFT
 from .fftplot import FFTPlot
