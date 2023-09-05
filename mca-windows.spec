@@ -14,8 +14,8 @@ datas = [("mca\\resources\\icons\\archeology.png", "mca\\resources\\icons"),
             ("mca\\resources\\gifs\\create_block.gif", "mca\\resources\\gifs"),
             ("mca\\resources\\gifs\\edit_parameters.gif", "mca\\resources\\gifs"),
             ("mca\\resources\\gifs\\plot_signal.gif", "mca\\resources\\gifs"),
-            ("mca\\resources\\emt_logo.png", "mca\\resources"),
-            ("mca\\resources\\emt_logo_cropped.png", "mca\\resources"),
+            ("mca\\resources\\icons\\mca.png", "mca\\resources\\icons"),
+            ("mca\\resources\\icons\\mca_cropped.png", "mca\\resources\\icons"),
             ("mca\\locales\\de\\LC_MESSAGES\\messages.mo", "mca\\locales\\de\\LC_MESSAGES\\"),
             ("mca\\version.txt", "mca")]
 

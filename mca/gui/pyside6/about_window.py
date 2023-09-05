@@ -10,7 +10,7 @@ class AboutWindow(QtWidgets.QDialog):
     """Window to display the about window information.
 
     Attributes:
-        emt_logo: Logo of the window.
+        mca_logo: Logo of the window.
         about_info: Widget to display the information.
         about_info_layout: Arranges the labels.
         button_box: Button to close the window.
@@ -26,12 +26,11 @@ class AboutWindow(QtWidgets.QDialog):
         self.setWindowTitle(_("MCA"))
         self.setLayout(QtWidgets.QVBoxLayout())
         # Add logo
-        self.emt_logo = QtWidgets.QLabel()
-        self.emt_logo.setPixmap(QtGui.QPixmap(
-            str(Path(__file__).parent / "../../resources/emt_logo_cropped.png")))
+        self.mca_logo = QtWidgets.QLabel()
+        pixmap = QtGui.QPixmap(
+            str(Path(__file__).parent / "../../resources/icons/mca_cropped.png"))
 
-        self.emt_logo.setScaledContents(False)
-        self.layout().addWidget(self.emt_logo)
+        self.layout().addWidget(self.mca_logo)
         # Create widget for the info
         self.about_info = QtWidgets.QWidget()
         self.about_info_layout = QtWidgets.QFormLayout(self.about_info)
@@ -81,6 +80,10 @@ class AboutWindow(QtWidgets.QDialog):
         self.about_info_layout.setWidget(2, QtWidgets.QFormLayout.FieldRole,
                                          version_field_label)
         self.layout().addWidget(self.about_info)
+
+        self.mca_logo.setPixmap(pixmap.scaled(self.mca_logo.width(),
+                                              self.mca_logo.height(),
+                                              QtCore.Qt.KeepAspectRatio))
         # Create button box
         self.button_box = QtWidgets.QDialogButtonBox()
         self.button_box.setOrientation(QtCore.Qt.Horizontal)
@@ -91,3 +94,6 @@ class AboutWindow(QtWidgets.QDialog):
 
         self.button_box.accepted.connect(self.accept)
         self.button_box.rejected.connect(self.reject)
+
+        self.setMaximumWidth(self.width())
+        self.setMaximumHeight(self.height())

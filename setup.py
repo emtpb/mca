@@ -39,7 +39,7 @@ setup(
     python_requires='>=3',
 
     # Additional package data
-    package_data={'mca': ['version.txt', 'resources/*',
+    package_data={'mca': ['version.txt', 'resources/gifs/*',
                           'resources/icons/*',
                           'locales/*/LC_MESSAGES/*.po',
                           'locales/*/LC_MESSAGES/*.mo']},
