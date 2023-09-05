@@ -3,7 +3,7 @@ from PyInstaller.utils.hooks import collect_data_files
 
 block_cipher = None
 datas = [('mca/resources/gifs/*', 'mca/resources/gifs/'),
-         ('mca/resources/icons/*', 'mca/resources/icons/')
+         ('mca/resources/icons/*', 'mca/resources/icons/'),
             ('mca/locales/de/LC_MESSAGES/messages.mo', 'mca/locales/de/LC_MESSAGES/'),
             ('mca/version.txt', 'mca')]
 
