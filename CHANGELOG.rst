@@ -9,7 +9,27 @@ This project follows the guidelines of `Keep a changelog`_ and adheres to
 .. _Semantic versioning: https://semver.org/
 
 
-0.4.0 - 2022-31-8
+0.4.1 - 2023-05-9
+=================
+
+Added
+-----
+* Downsample block
+
+Changed
+-------
+* Audio Player now detects the sampling frequency
+
+Removed
+-------
+* Temporarily removed introduction window
+
+Fixed
+-----
+* Fixed some issues with the file parameters
+
+
+0.4.0 - 2023-31-8
 =================
 
 Added
