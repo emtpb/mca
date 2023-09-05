@@ -37,7 +37,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.about_window = about_window.AboutWindow(self)
         self.setWindowIcon(QtGui.QIcon(
-            str(Path(__file__).parent / "../../resources/emt_logo.png"))
+            str(Path(__file__).parent / "../../resources/icons/mca.png"))
         )
 
         self.open_recent_menu = None
