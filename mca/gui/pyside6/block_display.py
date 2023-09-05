@@ -115,7 +115,7 @@ class BlockView(QtWidgets.QGraphicsView):
     def mousePressEvent(self, event):
         """Method invoked when a mouse button has been pressed."""
         if event.button() == QtGui.Qt.MiddleButton:
-            self.setDragMode(self.ScrollHandDrag)
+            self.setDragMode(QtWidgets.QGraphicsView.ScrollHandDrag)
             new_event = QtGui.QMouseEvent(
                 QtCore.QEvent.GraphicsSceneMousePress,
                 event.pos(), QtGui.Qt.MouseButton.LeftButton,
@@ -139,7 +139,7 @@ class BlockView(QtWidgets.QGraphicsView):
                 event.buttons(),
                 QtGui.Qt.KeyboardModifier.NoModifier)
             self.mouseReleaseEvent(new_event)
-            self.setDragMode(self.RubberBandDrag)
+            self.setDragMode(QtWidgets.QGraphicsView.RubberBandDrag)
         super().mouseReleaseEvent(event)
 
     def wheelEvent(self, event):
