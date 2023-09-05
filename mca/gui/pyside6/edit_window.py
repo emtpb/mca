@@ -1,10 +1,9 @@
 import logging
-import os
+from pathlib import Path
 
 from PySide6 import QtWidgets, QtCore, QtGui
 from PySide6.QtSvgWidgets import QSvgWidget
 
-import mca
 from mca.framework import parameters, DynamicBlock, PlotBlock
 from mca.gui.pyside6 import edit_widgets
 from mca.language import _
@@ -176,10 +175,8 @@ class EditWindow(QtWidgets.QDialog):
         self.button_box.clicked.connect(self.apply)
         self.main_layout.addWidget(self.button_box)
         # Set custom window icon
-        if self.block.icon_file:
-            icon = QtGui.QIcon(os.path.dirname(
-                mca.__file__) + "/blocks/icons/" + self.block.icon_file)
-            self.setWindowIcon(icon)
+        self.setWindowIcon(QtGui.QIcon(
+            str(Path(__file__).parent / "../../resources/icons/mca.png")))
         # Create warning message
         self.warning_message = QtWidgets.QMessageBox()
         self.warning_message.setWindowTitle(_("MCA"))
