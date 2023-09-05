@@ -51,12 +51,14 @@ class AudioPlayer(Block):
         else:
             data = np.hstack((self.inputs[0].data.ordinate,
                               self.inputs[1].data.ordinate))
+        # Validate the units of the input signal
+        for input_ in self.inputs:
+            if input_.metadata:
+                validator.check_same_units([input_.metadata.unit_a,
+                                            Unit(["s"])])
         # Read parameters values
         manual_sampling = self.parameters["manual_sampl_freq"].value
         manual_sampling_frequency = self.parameters["sampling_freq"].value
-        # Validate that the abscissa is in seconds
-        validator.check_same_units([self.inputs[0].metadata.unit_a,
-                                    Unit(["s"])])
         if manual_sampling:
             sampling_frequency = manual_sampling_frequency
         else:
