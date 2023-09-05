@@ -51,8 +51,7 @@ class AboutWindow(QtWidgets.QDialog):
         homepage_label.setFont(font)
 
         homepage_field_label = QtWidgets.QLabel(self.about_info)
-        homepage_field_label.setText(
-            _('<a href="https://ei.uni-paderborn.de/en/electrical-engineering/emt/electrical-engineering/home">EMT</a>'))
+        homepage_field_label.setText('<a href="https://emt.uni-paderborn.de">EMT</a>')
         homepage_field_label.setOpenExternalLinks(True)
         homepage_field_label.setFont(font)
 
