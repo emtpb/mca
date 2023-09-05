@@ -4,7 +4,7 @@ from mca.language import _
 from PySide6 import QtWidgets, QtGui
 
 
-resource_path = Path(__file__).parent / "../../resources/"
+resource_path = Path(__file__).parent / "../../resources/gifs"
 
 gifs_to_descriptions = ((resource_path / "create_block.gif",
                          _("Create a block")),
