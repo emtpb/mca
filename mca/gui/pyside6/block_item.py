@@ -326,8 +326,8 @@ class BlockItem(QtWidgets.QGraphicsItem):
         # Draw user block name
         if custom_name != self.block.name:
             painter.setFont(self.custom_name_font)
-            fm = QtGui.QFontMetrics(self.custom_name_font)
-            custom_name_width = fm.width(custom_name)
+            fm = QtGui.QFontMetrics(self.custom_name_font).boundingRect(custom_name)
+            custom_name_width = fm.width()
             painter.drawText(
                 x_offset_block + 5,
                 y_offset_block + 20, custom_name_width, 25, 0,
