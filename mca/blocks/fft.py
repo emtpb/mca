@@ -7,7 +7,7 @@ class FFT(Block):
     """Computes the FFT or the inverse FFT of the input signal."""
     name = "FFT"
     description = "Computes the FFT or the inverse FFT of the input signal."
-    tags = ("Processing", "Fouriertransformation")
+    tags = ("Processing", "Fourier transform")
     references = {"numpy.fft.fft":
         "https://numpy.org/doc/1.25/reference/generated/numpy.fft.fft.html",
         "numpy.fft.ifft":

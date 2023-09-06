@@ -8,7 +8,7 @@ class STFTPlot(PlotBlock):
     name = "STFT Plot"
     description = ("Plots the Short-Time Fourier Transformation of the "
                    "input signal.")
-    tags = ("Plotting", "Fouriertransformation")
+    tags = ("Plotting", "Fourier transform")
     references = {"scipy.signal.stft":
         "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.stft.html"}
 

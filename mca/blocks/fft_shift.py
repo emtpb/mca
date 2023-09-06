@@ -7,7 +7,7 @@ class FFTShift(Block):
     """Perform an FFT shift or the inverse FFT shift on the input signal."""
     name = "FFT Shift"
     description = "Perform an FFT shift on the input signal."
-    tags = ("Processing", "Fouriertransformation")
+    tags = ("Processing", "Fourier transform")
     references = {"numpy.fft.fftshift":
         "https://numpy.org/doc/1.25/reference/generated/numpy.fft.fftshift.html",
         "numpy.fft.ifftshift":
