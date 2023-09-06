@@ -35,6 +35,11 @@ class AudioPlayer(Block):
         self.parameters["auto_play"] = parameters.BoolParameter(
             name="Auto play", default=False)
 
+        self.parameters["normalize"] = parameters.BoolParameter(
+            name="Normalize", default=True,
+            description="Normalize the input signal to have a maximum of "
+                        "value of 1")
+
     def process(self):
         if self.parameters["auto_play"].value is True:
             self.play_sound()
@@ -59,6 +64,9 @@ class AudioPlayer(Block):
         # Read parameters values
         manual_sampling = self.parameters["manual_sampl_freq"].value
         manual_sampling_frequency = self.parameters["sampling_freq"].value
+        normalize = self.parameters["normalize"].value
+        if normalize:
+            data = data / np.max(abs(data))
         if manual_sampling:
             sampling_frequency = manual_sampling_frequency
         else:
