@@ -7,7 +7,7 @@ blocks via inputs and outputs in a block diagram.
 Allows sequential and parallel execution of various processing steps in a
 easy and trivial manner.
 
-
+.. image:: docs/figures/mca_gui.png
 
 Features
 ========
@@ -15,8 +15,8 @@ Features
 * Loading and saving block structure
 * Graphical User Interface (PySide6)
 
-    * Easy editing of blocks
-    * Language Support
+  * Easy editing of blocks
+  * Language Support
 * Audio Support
 * Support for Handyscope oscilloscope devices (HS3, HS5)
 
