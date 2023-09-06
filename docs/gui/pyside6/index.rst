@@ -1,8 +1,8 @@
 ***********
-PySide2 GUI
+PySide6 GUI
 ***********
 
-Contains the documentation of all modules and classes of the PySide2 based Graphical User Interface.
+Contains the documentation of all modules and classes of the PySide6 based Graphical User Interface.
 
 .. toctree::
     :maxdepth: 1

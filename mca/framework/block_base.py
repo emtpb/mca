@@ -300,7 +300,7 @@ class DynamicBlock(Block):
 class PlotBlock(Block):
     """Base class for plot class. All plot blocks should inherit from this
     class. It uses the QT5 backend of matplotlib and the plot figure will be
-    embedded in the PySide2 GUI.
+    embedded in the PySide GUI.
 
     Attributes:
         plot_window: Qt widget containing the figure.

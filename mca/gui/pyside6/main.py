@@ -17,7 +17,7 @@ elif platform.system() == "Windows":
 
 
 def main(file=None):
-    """Main function for the PySide2 GUI of mca. Switches the matplotlib
+    """Main function for the PySide GUI of mca. Switches the matplotlib
     backend to Qt5 and opens the :class:`.MainWindow` .
 
     Args:

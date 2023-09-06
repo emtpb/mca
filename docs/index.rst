@@ -2,7 +2,7 @@
 Welcome to Multi Channel Analyzer's documentation!
 **************************************************
 
-Example Python Project containing all necessary files for a Python distribution.
+An easy-to-use graphical software to learn signal analysis methods.
 
 
 Contents
@@ -12,7 +12,6 @@ Contents
    :maxdepth: 2
 
    readme
-   installation
    usage
    api
    authors

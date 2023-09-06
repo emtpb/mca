@@ -40,7 +40,7 @@ Added
 * Convolution block
 * FFT Shift block
 * Plot options
-* Added `icons < https://www.freepik.com>`_ to toolbar
+* Added `icons <https://www.freepik.com>`_ to toolbar
 * Framework for parameter descriptions
 * Option to add code references to a block
 * Add opening files from command line

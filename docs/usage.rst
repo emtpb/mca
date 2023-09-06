@@ -2,7 +2,12 @@
 Usage
 *****
 
-To use Multi Channel Analyzer in a project::
+Most users will just start the GUI by launching the installed executable.
+If installed via pip, call `mca` from the command line (if you have added
+your python scripts path to your PATH).
+
+However, it is also possible to use Multi Channel Analyzer programmatically
+in a project, for example::
 
    from mca import blocks
    # Example for plotting the absolute of the FFT of a sine signal

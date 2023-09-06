@@ -34,8 +34,13 @@ CCF
 
 .. automodule:: mca.blocks.ccf
 
+Convolution
+===========
+
+.. automodule:: mca.blocks.convolution
+
 ComplexToReal
-===============
+=============
 
 .. automodule:: mca.blocks.complex_to_real
 
@@ -59,6 +64,11 @@ Divider
 
 .. automodule:: mca.blocks.divider
 
+Downsample
+==========
+
+.. automodule:: mca.blocks.down_sample
+
 Envelope
 ========
 
@@ -68,6 +78,11 @@ FFT
 ===
 
 .. automodule:: mca.blocks.fft
+
+FFT Shift
+=========
+
+.. automodule:: mca.blocks.fft_shift
 
 IIR Filter
 ==========
@@ -93,6 +108,11 @@ Multiplier
 ==========
 
 .. automodule:: mca.blocks.multiplier
+
+Normalization
+=============
+
+.. automodule:: mca.blocks.normalization
 
 Power Spectrum
 ==============
