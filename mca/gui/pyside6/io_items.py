@@ -405,7 +405,7 @@ class ConnectionLine(QtWidgets.QGraphicsLineItem):
         self.setAcceptHoverEvents(True)
         self.default_color = QtGui.QColor("#00f73a")
         self.hover_color = QtGui.QColor("#4cfc75")
-        self.line_width = 2
+        self.line_width = 3
         self.setPen(QtGui.QPen(self.default_color, self.line_width))
 
         self.input_item = input_item

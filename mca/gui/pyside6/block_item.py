@@ -74,12 +74,12 @@ class BlockItem(QtWidgets.QGraphicsItem):
         self.setAcceptHoverEvents(True)
 
         # Define heights and widths
-        self.input_height = 20
-        self.input_width = 10
+        self.input_height = 26
+        self.input_width = 13
         self.input_dist = 10
 
-        self.output_height = 20
-        self.output_width = 10
+        self.output_height = 26
+        self.output_width = 13
         self.output_dist = 10
 
         self.select_point_diameter = 10
