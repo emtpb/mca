@@ -36,7 +36,7 @@ Analyzer with pip:
 
 .. code-block:: console
 
-   $ pip install git+https://github.com/emtpb/mca.git
+   pip install git+https://github.com/emtpb/mca.git
 
 This will always install the most recent stable release.
 
@@ -50,7 +50,7 @@ package manager:
 
 .. code-block:: console
 
-    $ sudo apt-get install libportaudio2
+    sudo apt-get install libportaudio2
 
 .. _GitHub releases: https://github.com/emtpb/mca/releases
 .. _pip: https://pip.pypa.io
@@ -67,19 +67,19 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-   $ git clone git://github.com/emtpb/mca
+   git clone git://github.com/emtpb/mca
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-   $ curl -OL https://github.com/emtpb/mca/tarball/master
+   curl -OL https://github.com/emtpb/mca/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
 .. code-block:: console
 
-   $ python setup.py install
+   python setup.py install
 
 
 .. _Github repo: https://github.com/emtpb/mca
@@ -95,7 +95,7 @@ If installed via pip, call
 
 .. code-block:: console
 
-   $ mca
+   mca
 
 from the command line (if you have added your python scripts path to your 
 PATH).
