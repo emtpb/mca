@@ -8,6 +8,20 @@ This project follows the guidelines of `Keep a changelog`_ and adheres to
 .. _Keep a changelog: http://keepachangelog.com/
 .. _Semantic versioning: https://semver.org/
 
+0.4.2 - 2023-07-9
+=================
+
+Added
+-----
+* MacOS CI workflow
+
+Changed
+-------
+* Normalize input data for audio player
+
+Fixed
+-----
+* Fixed a bug using wayland not loading pyside6 modules
 
 0.4.1 - 2023-05-9
 =================
