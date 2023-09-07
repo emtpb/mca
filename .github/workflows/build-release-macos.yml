@@ -1,0 +1,36 @@
+name: build-release-macos
+run-name: Building new macOS release...
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Build standalone
+        run: |
+          pip install --upgrade pip
+          pip install . pyinstaller
+          pyinstaller mca-macos.spec
+
+      - name: Zip app bundle
+        run: |
+          MCA_VERSION=$(cat ./mca/version.txt)
+          (cd dist && zip -r ../mca-macos-$MCA_VERSION.zip ./mca.app)
+
+      - name: Upload macOS app
+        uses: alexellis/upload-assets@0.4.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          asset_paths: '["./mca-macos-*.zip"]'
