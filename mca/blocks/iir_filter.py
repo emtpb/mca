@@ -84,19 +84,19 @@ class IRRFilter(Block):
         attenuation = self.parameters["attenuation"].value
         phase_corr = self.parameters["phase_corr"].value
         # Validation for the cut_off frequencies
-        if cut_off > (2 / input_signal.increment):
+        if 2 * cut_off > (1 / input_signal.increment):
             raise exceptions.ParameterValueError("Cut off frequency can not "
                                                  "exceed the nyquist frequency "
                                                  "of the input signal.")
         if (characteristic == "band") or (characteristic == "stop"):
-            if upper_cut_off > (2 / input_signal.increment):
+            if 2 * upper_cut_off > (1 / input_signal.increment):
                 raise exceptions.ParameterValueError(
                     "Upper cut off frequency can not exceed the nyquist "
                     "frequency of the input signal.")
-            f_norm = (cut_off / (2 / input_signal.increment),
-                      upper_cut_off / (2 / input_signal.increment))
+            f_norm = (2 * cut_off * input_signal.increment,
+                      2 * upper_cut_off * input_signal.increment)
         else:
-            f_norm = cut_off / (2 / input_signal.increment)
+            f_norm = 2 * cut_off * input_signal.increment
         # Get the according filter
         if filter_type == "butter":
             b, a = butter(N=order, Wn=f_norm, btype=characteristic)
