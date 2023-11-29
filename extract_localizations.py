@@ -27,23 +27,25 @@ with open(pot_path, "a") as pot_file:
             for name in name_matches:
                 pot_file.write(f"msgid {name}\n")
                 pot_file.write(f"msgstr \"\"\n\n")
-        # Match description strings of a block class
-        description_match = re.search(r"(description\s*=\s*\(?)((\s*\"[^\"]+\"\s*\\?\s*)+)(\)?)", content)
-        if description_match:
-            description = description_match.group(2)
-            description = description.strip()
-            # If the description is a multine string then it has to be formatted
-            # differently
-            if "\n" in description:
-                lines = description.split("\n")
-                lines = [line.strip("\\") for line in lines]
-                stripped_lines = [line.strip() for line in lines]
-                description = "\n".join(stripped_lines)
-                pot_file.write(f"msgid \"\"\n{description}\n")
-                pot_file.write(f"msgstr \"\"\n\"\"\n\n")
-            else:
-                pot_file.write(f"msgid {description}\n")
-                pot_file.write(f"msgstr \"\"\n\n")
+        # Match description strings
+        description_matches = re.findall(r"(description\s*=\s*\(?)((\s*\"[^\"]+\"\s*\\?\s*)+)(\)?)", content)
+        if description_matches:
+            for description_match in description_matches:
+                description = description_match[1]
+                description = description.strip()
+
+                # If the description is a multine string then it has to be
+                # formatted differently
+                if "\n" in description:
+                    lines = description.split("\n")
+                    lines = [line.strip("\\") for line in lines]
+                    stripped_lines = [line.strip() for line in lines]
+                    description = "\n".join(stripped_lines)
+                    pot_file.write(f"msgid \"\"\n{description}\n")
+                    pot_file.write(f"msgstr \"\"\n\"\"\n\n")
+                else:
+                    pot_file.write(f"msgid {description}\n")
+                    pot_file.write(f"msgstr \"\"\n\n")
         # Match the choices of ChoiceParameters
         choice_matches = re.findall(
             r"(choices\s*=\s*\()((\s*\(\s*\"[^\"]+\"\s*,\s*\"[^\"]+\"\s*\),?)+)\s*\)", content)
