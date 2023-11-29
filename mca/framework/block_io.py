@@ -133,7 +133,7 @@ class Output:
 
         self.process_metadata = None
 
-        self.id = uuid.uuid4()
+        self.id = uuid.uuid4().int
 
     @property
     def metadata(self):

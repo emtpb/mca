@@ -59,7 +59,7 @@ def blocks_to_json(blocks):
                       "plot_parameters": plot_parameter_dict,
                       "inputs": [],
                       "outputs": [{
-                          "id": output.id.int,
+                          "id": output.id,
                           "metadata": {"signal_name": output.user_metadata.name,
                                        "quantity_a": output.user_metadata.quantity_a,
                                        "symbol_a": output.user_metadata.symbol_a,
@@ -79,7 +79,7 @@ def blocks_to_json(blocks):
             input_save = {}
             if input_.connected_output:
                 input_save[
-                    "connected_output"] = input_.connected_output.id.int
+                    "connected_output"] = input_.connected_output.id
             save_block["inputs"].append(input_save)
         data["blocks"].append(save_block)
     return json.dumps(data)
