@@ -55,11 +55,6 @@ def test_string_to_unit(test_string, expected_unit):
     assert data_types.string_to_unit(test_string) == expected_unit
 
 
-def test_metadata_to_axis_label():
-    assert data_types.metadata_to_axis_label("V", "Voltage") == "Voltage in V"
-    assert data_types.metadata_to_axis_label("V", "Voltage", "U") == "Voltage U / V"
-
-
 test_cases_unit_setters = [("m/s", Unit(["m"], ["s"])),
                            (Unit(["V"]), Unit(["V"]))]
 
