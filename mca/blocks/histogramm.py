@@ -22,11 +22,11 @@ class Histogramm(PlotBlock):
 
     def setup_parameters(self):
         self.parameters["plot_type"] = parameters.ChoiceParameter(
-            "Plot type", choices=(
+            name="Plot type", choices=(
                 ("absolute", "Absolute frequency"),
                 ("relative", "Relative frequency"),
                 ("density", "Relative (density frequency)")),
-            default = "absolute")
+            default="absolute")
         self.parameters["bins"] = parameters.IntParameter(name="Bins", min_=1,
                                                           default=100)
 

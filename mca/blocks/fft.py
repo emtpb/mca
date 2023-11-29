@@ -22,10 +22,13 @@ class FFT(Block):
 
     def setup_parameters(self):
         self.parameters["normalize"] = parameters.BoolParameter(
-            name="Normalize", default=False
+            name="Normalize", default=False,
+            description="Normalize the FFT by dividing with the total amount "
+                        "of values"
         )
         self.parameters["inverse"] = parameters.BoolParameter(
-            name="Inverse", default=False
+            name="Inverse", default=False,
+            description="Compute the inverse FFT"
         )
 
     @util.abort_all_inputs_empty

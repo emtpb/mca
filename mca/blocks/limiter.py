@@ -24,8 +24,8 @@ class Limiter(Block):
                 choices=(("unipolar", "Unipolar"),
                          ("bipolar", "Bipolar")),
                 default="unipolar")
-        self.parameters["threshold"] = parameters.FloatParameter("Threshold",
-                                                                 default=1)
+        self.parameters["threshold"] = parameters.FloatParameter(
+            name="Threshold", default=1)
 
     @util.abort_all_inputs_empty
     @util.validate_type_signal

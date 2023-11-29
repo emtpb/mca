@@ -15,7 +15,7 @@ class SignalLoader(Block):
 
     def setup_parameters(self):
         self.parameters["file_name"] = parameters.PathParameter(
-                name="Arbitrary data path",
+                name="Filename",
                 loading=True,
                 file_formats=[".npz", ".mat", ".hdf5"]
         )

@@ -15,7 +15,7 @@ class AudioLoader(Block):
     """
     name = "Audio Loader"
     description = ("Loads a .wav to create an output signal. Minimum and maximum"
-                " value depend on the .wav format provided (see reference)")
+                    " value depend on the .wav format provided (see reference)")
     tags = ("Loading", "Audio")
     references = {"scipy.io.wavfile.read":
         "https://docs.scipy.org/doc/scipy/reference/generated/scipy.io.wavfile.read.html"}

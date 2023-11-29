@@ -43,27 +43,33 @@ class IRRFilter(Block):
         )
         self.parameters["characteristic"] = parameters.ChoiceParameter(
             name="Characteristic", choices=(("low", "Lowpass"),
-                                               ("high", "Highpass"),
-                                               ("band", "Bandpass"),
-                                               ("stop", "Bandstop")
-                                               ),
+                                            ("high", "Highpass"),
+                                            ("band", "Bandpass"),
+                                            ("stop", "Bandstop")
+                                            ),
             default="low"
         )
         self.parameters["order"] = parameters.IntParameter(
             name="Order", min_=1, default=1
         )
         self.parameters["cut_off"] = parameters.FloatParameter(
-            name="Cut off frequency", min_=0, default=1, unit="Hz"
+            name="Cut off frequency", min_=0, default=1, unit="Hz",
+            description="For bandpass and bandstop this is used at the"
+                        " lower cut off frequency"
         )
         self.parameters["upper_cut_off"] = parameters.FloatParameter(
                 name="Upper cut off frequency", min_=0, default=10,
-                unit="Hz"
+                unit="Hz", description="Only valid for bandpass and bandstop"
         )
         self.parameters["ripple"] = parameters.FloatParameter(
-            name="Ripple", min_=0, default=5, unit="dB"
+            name="Ripple", min_=0, default=5, unit="dB",
+            description="The maximum ripple allowed below unity gain in the "
+                        "passband. Only available for Cheby1 and Elliptic"
         )
         self.parameters["attenuation"] = parameters.FloatParameter(
-            name="Attenuation", min_=0, default=5, unit="dB"
+            name="Attenuation", min_=0, default=5, unit="dB",
+            description="The minimum attenuation required in the stop band."
+                        "Only available for Cheby2 and Elliptic"
         )
         self.parameters["phase_corr"] = parameters.BoolParameter(
                 name="Phase correction (filtfilt)", default=False

@@ -20,8 +20,7 @@ class Chirp(Block):
         self.new_output(user_metadata_required=True)
 
     def setup_parameters(self):
-
-        self.parameters["sweep_kind"]= parameters.ChoiceParameter(
+        self.parameters["sweep_kind"] = parameters.ChoiceParameter(
                 name="Sweep Kind",
                 choices=(("linear", "Linear"), ("quadratic", "Quadratic"),
                          ("logarithmic", "Logarithmic"),

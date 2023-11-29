@@ -33,7 +33,11 @@ class Interpolate(Block):
                           ("zero", "Zero"), ("previous", "Previous"),
                           ("next", "Next"), ("nearest", "Nearest")
                           ),
-                 default="linear"
+                 default="linear",
+                 description="Zero, SLinear, Quadratic and Cubic refer to a spline"
+                             " interpolation of zeroth, first, second or third order. "
+                             "Previous and Next simply return the previous or next "
+                             "value of the point. Nearest rounds down"
         )
 
     @util.abort_all_inputs_empty

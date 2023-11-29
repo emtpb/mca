@@ -34,15 +34,21 @@ class FFTPlot(PlotBlock):
                          ("shift_positive",
                           "Shift and only positive frequencies")),
                 default="no_shift",
+                description="By default the Fourier transform is not shifted."
+                            "Shifts the zero-frequency component to the center "
+                            "of the spectrum. Additionally negative frequencies "
+                            "can completely be removed"
         )
         self.parameters["plot_mode"] = parameters.ChoiceParameter(
                 name="Plot Mode",
                 choices=(("real", "Real"), ("imaginary", "Imaginary"),
                          ("absolute", "Absolute"), ("phase", "Phase")),
-                default="absolute",
+                default="absolute"
         )
         self.parameters["normalize"] = parameters.BoolParameter(
-                name="Normalize", default=False
+                name="Normalize", default=False,
+                description="Normalize the FFT by dividing with the total "
+                            "amount of values"
         )
 
     def setup_plot_parameters(self):

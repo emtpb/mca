@@ -23,7 +23,8 @@ class Impulse(Block):
         )
         self.parameters["shift"] = parameters.IntParameter(
             name="Shift of the pulse", min_=0, max_=None,
-            default=0
+            default=0,
+            description="Amount of values to shift on the abscissa"
         )
         self.parameters["abscissa"] = util.create_abscissa_parameter_block()
 

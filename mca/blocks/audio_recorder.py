@@ -14,7 +14,7 @@ class AudioRecorder(Block):
 
     def setup_parameters(self):
         self.parameters["sampling_freq"] = parameters.IntParameter(
-            name="Sampling Frequency",min_=1, max_=None, unit="Hz",
+            name="Sampling Frequency", min_=1, max_=None, unit="Hz",
             default=44100
         )
         self.parameters["record_time"] = parameters.FloatParameter(

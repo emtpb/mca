@@ -2,7 +2,7 @@ import copy
 
 import numpy as np
 
-from mca.framework import DynamicBlock, PlotBlock, data_types, parameters, \
+from mca.framework import DynamicBlock, PlotBlock, parameters, \
     validator
 from mca.framework import util
 

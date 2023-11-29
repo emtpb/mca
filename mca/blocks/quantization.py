@@ -23,7 +23,7 @@ class Quantization(Block):
             name="Bits", min_=1, default=10
         )
         self.parameters["max_value"] = parameters.FloatParameter(
-            name="Max value", min_=0, default=1
+            name="Max value", min_=0, default=1,
         )
         self.parameters["signed"] = parameters.BoolParameter(
             name="Signed", default=True
