@@ -11,7 +11,7 @@ class AutoCorrelation(Block):
         "time-shifted version of itself.")
     tags = ("Processing",)
     references = {"numpy.correlate":
-        "https://numpy.org/doc/1.25/reference/generated/numpy.correlate.html"}
+        "https://numpy.org/doc/stable/reference/generated/numpy.correlate.html"}
 
     def setup_io(self):
         self.new_output()

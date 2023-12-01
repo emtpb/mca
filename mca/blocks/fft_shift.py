@@ -9,9 +9,9 @@ class FFTShift(Block):
     description = "Perform an FFT shift on the input signal."
     tags = ("Processing", "Fourier transform")
     references = {"numpy.fft.fftshift":
-        "https://numpy.org/doc/1.25/reference/generated/numpy.fft.fftshift.html",
+        "https://numpy.org/doc/stable/reference/generated/numpy.fft.fftshift.html",
         "numpy.fft.ifftshift":
-        "https://numpy.org/doc/1.25/reference/generated/numpy.fft.ifftshift.html"}
+        "https://numpy.org/doc/stable/reference/generated/numpy.fft.ifftshift.html"}
 
     def setup_io(self):
         self.new_output(

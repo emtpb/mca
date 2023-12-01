@@ -9,9 +9,9 @@ class FFT(Block):
     description = "Computes the FFT or the inverse FFT of the input signal."
     tags = ("Processing", "Fourier transform")
     references = {"numpy.fft.fft":
-        "https://numpy.org/doc/1.25/reference/generated/numpy.fft.fft.html",
+        "https://numpy.org/doc/stable/reference/generated/numpy.fft.fft.html",
         "numpy.fft.ifft":
-        "https://numpy.org/doc/1.25/reference/generated/numpy.fft.ifft.html"}
+        "https://numpy.org/doc/stable/reference/generated/numpy.fft.ifft.html"}
 
     def setup_io(self):
         self.new_output(
