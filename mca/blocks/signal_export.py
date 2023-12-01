@@ -1,17 +1,16 @@
 import os.path
 
 import dsch
-from dsch import schema
 
 from mca import exceptions
 from mca.framework import Block, data_types, parameters
 
 
-class SignalSaver(Block):
+class SignalExport(Block):
     """Saves the input signal in a .npz, .mat or .hdf5 file."""
-    name = "Signal Saver"
-    description = "Saves the input signal in a .npz, .mat, .hdf5 file."
-    tags = ("Saving",)
+    name = "Signal Export"
+    description = "Exports the input signal as a .npz, .mat, .hdf5 file."
+    tags = ("Export",)
 
     def setup_io(self):
         self.new_input()
@@ -21,7 +20,7 @@ class SignalSaver(Block):
             name="Filename", file_formats=(".npz", ".mat", ".hdf5")
         )
         self.parameters["save"] = parameters.ActionParameter(
-            name="Save", function=self.save_data,
+            name="Export file", function=self.save_data,
             display_options=("edit_window", "block_button")
         )
 

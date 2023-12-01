@@ -5,11 +5,11 @@ from mca import exceptions
 from mca.framework import Block, parameters, validator
 
 
-class AudioSaver(Block):
-    """Saves the input signal as a .wav sound file."""
-    name = "Audio Saver"
-    description = "Saves the input signal as a .wav sound file."
-    tags = ("Saving", "Audio")
+class AudioExport(Block):
+    """Exports the input signal as a .wav sound file."""
+    name = "Audio Export"
+    description = "Exports the input signal as a .wav sound file."
+    tags = ("Export", "Audio")
     references = {"scipy.io.wavfile.write":
         "https://docs.scipy.org/doc/scipy/reference/generated/scipy.io.wavfile.write.html"}
 
@@ -22,7 +22,7 @@ class AudioSaver(Block):
             name="Filename", file_formats=[".wav"]
         )
         self.parameters["save_file"] = parameters.ActionParameter(
-            name="Save as .wav", function=self.save_as_wav)
+            name="Export as .wav", function=self.save_as_wav)
 
     def setup_io(self):
         self.new_input()

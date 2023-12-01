@@ -7,10 +7,10 @@ from .acf import AutoCorrelation
 from .adder import Adder
 from .amplifier import Amplifier
 from .analytical_signal import AnalyticalSignal
-from .audio_loader import AudioLoader
+from .audio_import import AudioImport
 from .audio_player import AudioPlayer
 from .audio_recorder import AudioRecorder
-from .audio_saver import AudioSaver
+from .audio_export import AudioExport
 from .ccf import CrossCorrelation
 from .chirp import Chirp
 from .complex_plot import ComplexPlot
@@ -42,11 +42,11 @@ from .power_spectrum import PowerSpectrum
 from .quantization import Quantization
 from .real_to_complex import RealToComplex
 from .resample import Resample
-from .signal_loader import SignalLoader
+from .signal_import import SignalImport
 from .signal_generator import SignalGenerator
 from .signal_generator_periodic import SignalGeneratorPeriodic
 from .signal_generator_stochastic import SignalGeneratorStochastic
-from .signal_saver import SignalSaver
+from .signal_export import SignalExport
 from .stft_plot import STFTPlot
 from .window import Window
 from .xy_plot import XYPlot

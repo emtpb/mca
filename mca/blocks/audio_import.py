@@ -7,16 +7,16 @@ from mca import exceptions
 from mca.framework import Block, data_types, parameters
 
 
-class AudioLoader(Block):
-    """Loads a .wav to create an output signal. The audio file can have either
+class AudioImport(Block):
+    """Imports a .wav to create an output signal. The audio file can have either
     1 or 2 channels. If the audio file has only 1 channel then the channel is
     just duplicated on both outputs. If the audio file has 2 channels then
     the channels are split onto the 2 outputs.
     """
-    name = "Audio Loader"
-    description = ("Loads a .wav to create an output signal. Minimum and maximum"
+    name = "Audio Import"
+    description = ("Imports a .wav to create an output signal. Minimum and maximum"
                     " value depend on the .wav format provided (see reference)")
-    tags = ("Loading", "Audio")
+    tags = ("Import", "Audio")
     references = {"scipy.io.wavfile.read":
         "https://docs.scipy.org/doc/scipy/reference/generated/scipy.io.wavfile.read.html"}
 
@@ -29,7 +29,7 @@ class AudioLoader(Block):
             name="Filename", file_formats=[".wav"], loading=True
         )
         self.parameters["load_file"] = parameters.ActionParameter(
-            name="Load file", function=self.load_wav
+            name="Import file", function=self.load_wav
         )
         self.parameters["normalize"] = parameters.BoolParameter(
             name="Normalize", default=True,

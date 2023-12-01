@@ -3,12 +3,12 @@ import dsch
 from mca.framework import Block, data_types, parameters
 
 
-class SignalLoader(Block):
-    """Loads a signal from a file (previously saved by the SignalSaver)."""
-    name = "Signal Loader"
-    description = "Loads a signal from a file " \
-                  "(previously saved by the SignalSaver)."
-    tags = ("Generating", "Loading")
+class SignalImport(Block):
+    """Imports a signal from a file (previously exported by Signal Export)."""
+    name = "Signal Import"
+    description = "Imports a signal from a file " \
+                  "(previously exported by Signal Export)."
+    tags = ("Generating", "Import")
 
     def setup_io(self):
         self.new_output()
@@ -20,7 +20,7 @@ class SignalLoader(Block):
                 file_formats=[".npz", ".mat", ".hdf5"]
         )
         self.parameters["load_file"] = parameters.ActionParameter(
-                name="Load file",
+                name="Import file",
                 function=self.load_file
         )
 
@@ -28,7 +28,7 @@ class SignalLoader(Block):
         pass
 
     def load_file(self):
-        """Loads a signal from a file (previously saved by the SignalSaver)."""
+        """Loads a signal from a file (previously saved by the SignalImport)."""
         # Read parameters values
         file_name = self.parameters["file_name"].value
 
