@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2023-08-04 14:39+0200\n"
+"POT-Creation-Date: 2023-11-29 17:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -18,311 +18,330 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: mca/framework/block_base.py:38
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/block_base.py:39
 msgid "Name"
 msgstr "Name"
 
-#: mca/framework/data_types.py:228
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/data_types.py:216
 msgid "Time"
 msgstr "Zeit"
 
-#: mca/framework/data_types.py:229
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/data_types.py:217
 msgid "Voltage"
 msgstr "Spannung"
 
-#: mca/framework/util.py:20
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:20
 msgid "Values"
 msgstr "Werte"
 
-#: mca/framework/util.py:21
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:21
 msgid "Increment"
 msgstr "Inkrement"
 
-#: mca/framework/util.py:23
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:23
 msgid "Sampling frequency"
 msgstr "Abtastfrequenz"
 
-#: mca/framework/util.py:25
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:25
 msgid "Measure time"
 msgstr "Messzeit"
 
-#: mca/framework/util.py:27
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:27
 #, fuzzy
 msgid "Start"
 msgstr "Stern"
 
-#: mca/framework/util.py:69
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:69
 msgid "Abscissa"
 msgstr "Abszisse"
 
-#: mca/framework/util.py:91
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:91
 msgid "Marker"
 msgstr "Marker"
 
-#: mca/framework/util.py:93
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:93
 msgid "No marker"
 msgstr "Kein Marker"
 
-#: mca/framework/util.py:94
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:94
 msgid "Point"
 msgstr "Punkt"
 
-#: mca/framework/util.py:95
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:95
 msgid "Pixel"
 msgstr "Pixel"
 
-#: mca/framework/util.py:96
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:96
 msgid "Circle"
 msgstr "Kreis"
 
-#: mca/framework/util.py:97
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:97
 msgid "Triangle down"
 msgstr "Dreieck unten"
 
-#: mca/framework/util.py:98
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:98
 msgid "Triangle up"
 msgstr "Dreieck oben"
 
-#: mca/framework/util.py:99
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:99
 msgid "Triangle left"
 msgstr "Dreieck links"
 
-#: mca/framework/util.py:100
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:100
 msgid "Triangle right"
 msgstr "Dreieck rechts"
 
-#: mca/framework/util.py:101
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:101
 msgid "Octagon"
 msgstr "Achteck"
 
-#: mca/framework/util.py:102
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:102
 msgid "Square"
 msgstr "Quadrat"
 
-#: mca/framework/util.py:103
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:103
 msgid "Pentagon"
 msgstr "Fünfeck"
 
-#: mca/framework/util.py:104
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:104
 msgid "Star"
 msgstr "Stern"
 
-#: mca/framework/util.py:105
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:105
 msgid "Hexagon"
 msgstr "Sechseck"
 
-#: mca/framework/util.py:111
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:112
 msgid "Color"
 msgstr "Farbe"
 
-#: mca/framework/util.py:118
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:119
 msgid "Blue"
 msgstr "Blau"
 
-#: mca/framework/util.py:118
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:119
 msgid "Green"
 msgstr "Grün"
 
-#: mca/framework/util.py:118
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:119
 msgid "Red"
 msgstr "Rot"
 
-#: mca/framework/util.py:118
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:119
 msgid "Cyan"
 msgstr "Türkis"
 
-#: mca/framework/util.py:118
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:119
 msgid "Magenta"
 msgstr "Magenta"
 
-#: mca/framework/util.py:119
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:120
 msgid "Yellow"
 msgstr "Gelb"
 
-#: mca/framework/util.py:119
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:120
 msgid "Black"
 msgstr "Schwarz"
 
-#: mca/framework/util.py:119
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:120
 msgid "White"
 msgstr "Weiß"
 
-#: mca/gui/pyside2/about_window.py:26 mca/gui/pyside2/edit_widgets.py:330
-#: mca/gui/pyside2/edit_window.py:171 mca/gui/pyside2/introduction_window.py:34
-#: mca/gui/pyside2/io_items.py:151 mca/gui/pyside2/io_items.py:155
-#: mca/gui/pyside2/io_items.py:160 mca/gui/pyside2/io_items.py:166
-#: mca/gui/pyside2/main_window.py:88 mca/gui/pyside2/main_window.py:227
-#: mca/gui/pyside2/main_window.py:265 mca/gui/pyside2/main_window.py:321
-#: mca/gui/pyside2/main_window.py:348 mca/gui/pyside2/main_window.py:376
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/about_window.py:26
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_item.py:845
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_widgets.py:330
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:182
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/introduction_window.py:34
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/io_items.py:152
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/io_items.py:157
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/io_items.py:163
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/io_items.py:173
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:81
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:207
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:245
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:301
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:328
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:341
 msgid "MCA"
 msgstr "MKA"
 
-#: mca/gui/pyside2/about_window.py:43
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/about_window.py:42
 msgid "Developed by:"
 msgstr "Entwickelt von:"
 
-#: mca/gui/pyside2/about_window.py:47
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/about_window.py:46
 msgid "Measurement Engineering Group"
 msgstr "Fachgebiet Elektrische Messtechnik"
 
-#: mca/gui/pyside2/about_window.py:51
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/about_window.py:50
 msgid "Homepage:"
 msgstr "Startseite:"
 
-#: mca/gui/pyside2/about_window.py:56
-msgid ""
-"<a href=\"https://ei.uni-paderborn.de/en/electrical-engineering/emt"
-"/electrical-engineering/home\">EMT</a>"
-msgstr "<a href=\"https://ei.uni-paderborn.de/emt/startseite\">EMT</a>"
-
-#: mca/gui/pyside2/about_window.py:61
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/about_window.py:59
 msgid "Version:"
 msgstr "Version:"
 
-#: mca/gui/pyside2/about_window.py:89 mca/gui/pyside2/introduction_window.py:53
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/about_window.py:91
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/introduction_window.py:53
 msgid "Close"
 msgstr "Schließen"
 
-#: mca/gui/pyside2/block_display.py:35 mca/gui/pyside2/block_display.py:39
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:35
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:39
 msgid "Zoom in"
 msgstr "Reinzoomen"
 
-#: mca/gui/pyside2/block_display.py:39
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:39
 msgid "Ctrl +"
 msgstr "Strg +"
 
-#: mca/gui/pyside2/block_display.py:44 mca/gui/pyside2/block_display.py:48
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:44
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:48
 msgid "Zoom out"
 msgstr "Rauszoomen"
 
-#: mca/gui/pyside2/block_display.py:49
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:49
 msgid "Ctrl -"
 msgstr "Strg -"
 
-#: mca/gui/pyside2/block_display.py:53
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:53
 msgid "Zoom original"
 msgstr "Originalgröße"
 
-#: mca/gui/pyside2/block_display.py:58 mca/gui/pyside2/block_display.py:62
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:58
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:62
 msgid "Copy"
 msgstr "Kopieren"
 
-#: mca/gui/pyside2/block_display.py:62
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:62
 msgid "Ctrl+C"
 msgstr "Strg+C"
 
-#: mca/gui/pyside2/block_display.py:65 mca/gui/pyside2/block_display.py:69
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:65
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:69
 msgid "Paste"
 msgstr "Einfügen"
 
-#: mca/gui/pyside2/block_display.py:72 mca/gui/pyside2/block_display.py:76
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:72
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:76
 msgid "Cut"
 msgstr "Ausschneiden"
 
-#: mca/gui/pyside2/block_display.py:76
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:76
 msgid "Ctrl+X"
 msgstr "Strg+X"
 
-#: mca/gui/pyside2/block_display.py:79 mca/gui/pyside2/block_display.py:82
-#: mca/gui/pyside2/block_item.py:205
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:79
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:82
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_item.py:199
 msgid "Delete"
 msgstr "Löschen"
 
-#: mca/gui/pyside2/block_display.py:82
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:82
 msgid "Del"
 msgstr "Entf"
 
-#: mca/gui/pyside2/block_display.py:84
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_display.py:84
 msgid "Clear"
 msgstr "Alles löschen"
 
-#: mca/gui/pyside2/block_explorer.py:35
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_explorer.py:35
 msgid "Search..."
 msgstr "Suchen..."
 
-#: mca/gui/pyside2/block_explorer.py:37
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_explorer.py:37
 msgid "Show tags"
 msgstr "Tags anzeigen"
 
-#: mca/gui/pyside2/block_explorer.py:76
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_explorer.py:76
 msgid "New block"
 msgstr "Neuer Block"
 
-#: mca/gui/pyside2/block_item.py:132
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_item.py:127
 msgid "Show plot"
 msgstr "Plot anzeigen"
 
-#: mca/gui/pyside2/block_item.py:168
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_item.py:163
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: mca/gui/pyside2/block_item.py:174
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_item.py:169
 msgid "Add Input"
 msgstr "Input hinzufügen"
 
-#: mca/gui/pyside2/block_item.py:181
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_item.py:175
 msgid "Delete Input"
 msgstr "Input löschen"
 
-#: mca/gui/pyside2/block_item.py:189
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_item.py:183
 msgid "Add Output"
 msgstr "Output hinzufügen"
 
-#: mca/gui/pyside2/block_item.py:197
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_item.py:191
 msgid "Delete Output"
 msgstr "Output löschen"
 
-#: mca/gui/pyside2/block_item.py:742
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_item.py:728
 msgid "Name of the Input:"
 msgstr "Name des Inputs:"
 
-#: mca/gui/pyside2/block_item.py:744
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_item.py:730
 msgid "Name of the Output:"
 msgstr "Name des Outputs:"
 
-#: mca/gui/pyside2/block_item.py:760 mca/gui/pyside2/edit_window.py:155
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_item.py:746
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:168
 msgid "Ok"
 msgstr "Ok"
 
-#: mca/gui/pyside2/block_item.py:762 mca/gui/pyside2/edit_window.py:157
-#: mca/gui/pyside2/main_window.py:95 mca/gui/pyside2/main_window.py:324
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_item.py:748
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:170
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:88
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:304
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: mca/gui/pyside2/edit_widgets.py:330
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/block_item.py:845
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_widgets.py:330
 #, fuzzy
 msgid "Could not apply action"
 msgstr "Aktion konnte nicht ausgeführt werden.\n"
 
-#: mca/gui/pyside2/edit_window.py:42 mca/gui/pyside2/edit_window.py:399
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:42
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:419
 msgid "Edit {}"
 msgstr "{} bearbeiten"
 
-#: mca/gui/pyside2/edit_window.py:42
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:42
 msgid "name"
 msgstr "Name"
 
-#: mca/gui/pyside2/edit_window.py:57
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:57
 msgid "Description"
 msgstr "Beschreibung"
 
-#: mca/gui/pyside2/edit_window.py:65
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:70
 msgid "Parameters"
 msgstr "Parameter"
 
-#: mca/gui/pyside2/edit_window.py:77
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:74
+#, fuzzy
+msgid "References"
+msgstr "Referenzpegel"
+
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:90
 msgid "General"
 msgstr "Allgemein"
 
-#: mca/gui/pyside2/edit_window.py:98
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:111
 msgid "Metadata"
 msgstr "Metadaten"
 
-#: mca/gui/pyside2/edit_window.py:100
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:113
 msgid "Info"
 msgstr "Info"
 
-#: mca/gui/pyside2/edit_window.py:104
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:117
 msgid ""
 "Define the metadata for the outgoing signals. By default metadata is "
 "computed depending on the input metadata. In order to apply your own "
@@ -333,19 +352,21 @@ msgstr ""
 "Signale. Um eigene Metadaten anzugeben, müssen die entsprechenden Haken "
 "entfernt werden."
 
-#: mca/gui/pyside2/edit_window.py:109
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:122
 msgid "Define the metadata for the outgoing signals."
 msgstr "Definiere die Metadaten für Ausgangssignale."
 
-#: mca/gui/pyside2/edit_window.py:140 mca/gui/pyside2/edit_window.py:299
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:153
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:319
 msgid "Plot options"
 msgstr "Plotoptionen"
 
-#: mca/gui/pyside2/edit_window.py:159
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:172
 msgid "Apply"
 msgstr "Übernehmen"
 
-#: mca/gui/pyside2/edit_window.py:174 mca/gui/pyside2/edit_window.py:356
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:185
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:376
 msgid ""
 "Could not apply the changed parameters and metadata!Continue editing or "
 "revert changes?"
@@ -353,106 +374,107 @@ msgstr ""
 "Die veränderten Parameter und Metadaten konnten nicht angewendet werden! "
 "Mit der Bearbeitung fortfahren oder Änderung rückgängig machen?"
 
-#: mca/gui/pyside2/edit_window.py:177
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:188
 msgid "Continue"
 msgstr "Fortfahren"
 
-#: mca/gui/pyside2/edit_window.py:180
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:191
 msgid "Revert"
 msgstr "Rückgängig"
 
-#: mca/gui/pyside2/edit_window.py:228
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:248
 msgid "Output '{}' metadata:"
 msgstr "Output '{}' Metadaten"
 
-#: mca/gui/pyside2/edit_window.py:231
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:251
 msgid "Output {} metadata:"
 msgstr "Output {} MetaDaten:"
 
-#: mca/gui/pyside2/edit_window.py:233
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:253
 msgid "Signal name:"
 msgstr "Signalname:"
 
-#: mca/gui/pyside2/edit_window.py:234
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:254
 msgid "Abscissa quantity:"
 msgstr "Abszissengröße:"
 
-#: mca/gui/pyside2/edit_window.py:235
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:255
 msgid "Abscissa symbol:"
 msgstr "Abszissensymbol:"
 
-#: mca/gui/pyside2/edit_window.py:236
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:256
 msgid "Abscissa unit:"
 msgstr "Abszisseneinheit:"
 
-#: mca/gui/pyside2/edit_window.py:237
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:257
 msgid "Ordinate quantity:"
 msgstr "Ordinatengröße:"
 
-#: mca/gui/pyside2/edit_window.py:238
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:258
 msgid "Ordinate symbol:"
 msgstr "Ordinatensymbol:"
 
-#: mca/gui/pyside2/edit_window.py:239
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:259
 msgid "Ordinate unit:"
 msgstr "Ordinateneinheit:"
 
-#: mca/gui/pyside2/edit_window.py:249
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:269
 msgid "Automatically calculate abscissa metadata"
 msgstr "Automatisch Abszissenmetadaten berechnen"
 
-#: mca/gui/pyside2/edit_window.py:270
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/edit_window.py:290
 msgid "Automatically calculate ordinate metadata"
 msgstr "Automatisch Ordinatenmetadaten berechnen"
 
-#: mca/gui/pyside2/introduction_window.py:10
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/introduction_window.py:10
 #, fuzzy
 msgid "Create a block"
 msgstr "Neuer Block"
 
-#: mca/gui/pyside2/introduction_window.py:12
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/introduction_window.py:12
 #, fuzzy
 msgid "Connect two blocks"
 msgstr "Blöcke konnten nicht verbunden werden"
 
-#: mca/gui/pyside2/introduction_window.py:14
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/introduction_window.py:14
 msgid "Plot a signal"
 msgstr "Plotte ein Signal"
 
-#: mca/gui/pyside2/introduction_window.py:16
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/introduction_window.py:16
 #, fuzzy
 msgid "Edit parameters"
 msgstr "Parameter"
 
-#: mca/gui/pyside2/introduction_window.py:48
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/introduction_window.py:48
 msgid "Previous"
 msgstr "Vorheriger Wert"
 
-#: mca/gui/pyside2/introduction_window.py:49
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/introduction_window.py:49
 msgid "Next"
 msgstr "Nächster Wert"
 
-#: mca/gui/pyside2/io_items.py:51 mca/gui/pyside2/io_items.py:274
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/io_items.py:51
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/io_items.py:282
 msgid "Disconnect"
 msgstr "Verbindung trennen"
 
-#: mca/gui/pyside2/io_items.py:151
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/io_items.py:152
 msgid "Cyclic structures are not allowed."
 msgstr "Zyklische Strukturen sind nicht erlaubt."
 
-#: mca/gui/pyside2/io_items.py:155
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/io_items.py:157
 msgid "Signals have incompatible metadata."
 msgstr "Signale haben inkompatible Metadaten."
 
-#: mca/gui/pyside2/io_items.py:160
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/io_items.py:163
 msgid "Signals have incompatible abscissas."
 msgstr "Signale haben inkompatible Abszissen."
 
-#: mca/gui/pyside2/io_items.py:167
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/io_items.py:174
 msgid "Could not connect blocks"
 msgstr "Blöcke konnten nicht verbunden werden"
 
-#: mca/gui/pyside2/main_window.py:85
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:78
 msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
@@ -460,112 +482,83 @@ msgstr ""
 "Das Dokument wurde verändert.\n"
 "Wollen Sie die Änderungen speichern?"
 
-#: mca/gui/pyside2/main_window.py:93 mca/gui/pyside2/main_window.py:326
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:86
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:306
 msgid "Yes"
 msgstr "Ja"
 
-#: mca/gui/pyside2/main_window.py:97
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:90
 msgid "No"
 msgstr "Nein"
 
-#: mca/gui/pyside2/main_window.py:108
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:104
 msgid "File"
 msgstr "Datei"
 
-#: mca/gui/pyside2/main_window.py:109
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:105
 msgid "Language"
 msgstr "Sprache"
 
-#: mca/gui/pyside2/main_window.py:110
-msgid "View"
-msgstr "Ansicht"
-
-#: mca/gui/pyside2/main_window.py:112
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:107
 msgid "About"
 msgstr "Über"
 
-#: mca/gui/pyside2/main_window.py:123
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:118
 msgid "New"
 msgstr "Neu"
 
-#: mca/gui/pyside2/main_window.py:127
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:122
 msgid "Open"
 msgstr "Öffnen"
 
-#: mca/gui/pyside2/main_window.py:132
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:127
 msgid "Open Recent"
 msgstr "Zuletzt geöffnet"
 
-#: mca/gui/pyside2/main_window.py:137 mca/gui/pyside2/main_window.py:260
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:132
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:240
 msgid "Save"
 msgstr "Speichern"
 
-#: mca/gui/pyside2/main_window.py:143
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:138
 msgid "Save as"
 msgstr "Speichern als"
 
-#: mca/gui/pyside2/main_window.py:148
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:143
 msgid "Exit"
 msgstr "Verlassen"
 
-#: mca/gui/pyside2/main_window.py:150
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:145
 msgid "Close Application"
 msgstr "Programm beenden"
 
-#: mca/gui/pyside2/main_window.py:154
-msgid "Theme"
-msgstr "Theme"
-
-#: mca/gui/pyside2/main_window.py:155
-msgid "Default"
-msgstr "Standard"
-
-#: mca/gui/pyside2/main_window.py:157
-msgid "Dark"
-msgstr "Dunkel"
-
-#: mca/gui/pyside2/main_window.py:162
-msgid "Appearance"
-msgstr "Aussehen"
-
-#: mca/gui/pyside2/main_window.py:163
-msgid "Explorer|Plots"
-msgstr "Explorer|Plots"
-
-#: mca/gui/pyside2/main_window.py:164
-msgid "Left|Right"
-msgstr "Links|Rechts"
-
-#: mca/gui/pyside2/main_window.py:166
-msgid "Right|Left"
-msgstr "Rechts|Links"
-
-#: mca/gui/pyside2/main_window.py:201
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:181
 msgid "Select a file to open"
 msgstr "Auswählen um Datei zu öffnen"
 
-#: mca/gui/pyside2/main_window.py:228
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:208
 msgid "File does not exist"
 msgstr "Die Datei existiert nicht"
 
-#: mca/gui/pyside2/main_window.py:266
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:246
 msgid "File has to be a .json"
 msgstr "Datei muss eine .json sein"
 
-#: mca/gui/pyside2/main_window.py:319
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:299
 msgid "Are you sure you want to remove all blocks?"
 msgstr "Sind Sie sicher, dass Sie alle Blöcke entfernen wollen?"
 
-#: mca/gui/pyside2/main_window.py:345
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:325
 msgid "untitled.json"
 msgstr "Unbennant.json"
 
-#: mca/gui/pyside2/main_window.py:377
+#: /upb/departments/emt/Student/kevink2/packages/mca/mca/gui/pyside6/main_window.py:342
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
 
-msgid "SignalGenerator"
-msgstr "SignalGenerator"
+
+msgid "Signal Generator"
+msgstr "Signalgenerator"
 
 msgid "Signal type"
 msgstr "Signaltyp"
@@ -573,16 +566,16 @@ msgstr "Signaltyp"
 msgid "Width"
 msgstr "Breite"
 
-#, fuzzy
+
 msgid "Height"
-msgstr "Rechts"
+msgstr "Höhe"
 
 msgid "Shift"
 msgstr "Verschieben"
 
-#, fuzzy
+
 msgid "Generates a rectangle or triangle signal."
-msgstr "Generiert ein periodisches Sinus-, Rechteck- oder Dreiecksignal."
+msgstr "Generiert ein Rechteck- oder Dreiecksignal."
 
 msgid "Rectangle"
 msgstr "Rechteck"
@@ -599,14 +592,23 @@ msgstr "Neue Abszisse"
 msgid "Interpolation kind"
 msgstr "Interpolationstyp"
 
+
 msgid ""
 "Interpolates the input signal by defining a new abscissa. The range of "
-"the new abscissa has to within the range of the abscissa of the input "
+"the new abscissa has to be within the range of the abscissa of the input "
 "signal."
 msgstr ""
 "Interpoliert das Eingangssignal, indem eine neue Abszisse definiert wird."
 " Der Bereich der neuen Abszisse muss innerhalb des Bereichs der alten "
 "Abszisse liegen."
+
+msgid ""
+"Zero, SLinear, Quadratic and Cubic refer to a spline interpolation of "
+"zeroth, first, second or third order. Previous and Next simply return the"
+" previous or next value of the point. Nearest rounds down"
+msgstr ""
+"Null, SLinear, Quadratisch and Kubisch beziehen sich bei der "
+"Spline-Interpolation auf die nullte, erste, zweite und dritte Ordnung. "
 
 msgid "Linear"
 msgstr "Linear"
@@ -626,14 +628,20 @@ msgstr "Null"
 msgid "Nearest"
 msgstr "Nähester Wert"
 
-msgid "ACF"
-msgstr "AKF"
+msgid "Autocorrelation"
+msgstr "Autokorrelation"
 
-msgid "Computes the auto correlation function of the input signal."
-msgstr "Berechnet die Autokorrelationsfunktion des Eingangssignals."
+msgid ""
+"Computes the auto correlation function of the input signal. The auto "
+"correlation measures a signals similarity to a time-shifted version of "
+"itself."
+msgstr ""
+"Berechnet die Autokorrelationsfunktion des Eingangssignals. "
+"Die Autokorrelationsfunktion gibt an wie ähnlich ein zeitverschobenes Signal"
+"zum ursprünglichen Signal ist."
 
-msgid "SignalGeneratorPeriodic"
-msgstr "SignalGeneratorPeriodisch"
+msgid "Signal Generator (Periodic)"
+msgstr "Signalgenerator (Periodisch)"
 
 msgid "Frequency"
 msgstr "Frequenz"
@@ -650,8 +658,9 @@ msgstr "Generiert ein periodisches Sinus-, Rechteck- oder Dreiecksignal."
 msgid "Sine"
 msgstr "Sinus"
 
-msgid "RealToComplex"
-msgstr "RealZuKomplex"
+
+msgid "Real-Complex"
+msgstr "Real-Komplex"
 
 msgid "Real part"
 msgstr "Realteil"
@@ -669,8 +678,8 @@ msgstr ""
 "und das Signal am zweiten Eingang entspricht dem Imaginärteil des "
 "Ausgangssignals."
 
-msgid "HSOscilloscope"
-msgstr "HSOscilloscope"
+msgid "HS Oscilloscope"
+msgstr "HS Oscilloscope"
 
 msgid "Channel 1"
 msgstr "Kanal 1"
@@ -723,8 +732,8 @@ msgstr ""
 msgid "Out Window"
 msgstr ""
 
-msgid "ComplexToReal"
-msgstr "KomplexZuReal"
+msgid "Complex-Real"
+msgstr "Komplex-Real"
 
 msgid ""
 "Separates the real and imaginary part of the input signal into two output"
@@ -755,15 +764,15 @@ msgstr ""
 "Normalisiert das Eingangssignal auf den angebeben Wertebereich "
 "(Standardmäßig 0-1)."
 
-msgid "SignalSaver"
+#, fuzzy
+msgid "Signal Saver"
 msgstr "SignalSpeicherung"
 
 msgid "Filename"
 msgstr "Dateiname"
 
-#, fuzzy
 msgid "Saves the input signal in a .npz, .mat, .hdf5 file."
-msgstr "Speichert das Eingangssignal in einer.json Datei."
+msgstr "Speichert das Eingangssignal in einer .npz, .mat, .hdf5 Datei."
 
 msgid "Chirp"
 msgstr "Chirp"
@@ -793,8 +802,8 @@ msgstr "Logarithmisch"
 msgid "Hyperbolic"
 msgstr "Hyperbolisch"
 
-msgid "AudioRecorder"
-msgstr "AudioRecorder"
+msgid "Audio Recorder"
+msgstr "Audiorecorder"
 
 msgid "Sampling Frequency"
 msgstr "Samplingfrequenz"
@@ -808,14 +817,48 @@ msgstr "Sound aufnehmen"
 msgid "Records a sound via the default audio input device."
 msgstr "Nimmt ein Audiosignal mithilfe des standardmäßigen Audiogeräts auf."
 
-msgid "AudioPlayer"
+msgid "Convolution"
+msgstr "Faltung"
+
+msgid "Mode"
+msgstr "Mode"
+
+#, fuzzy
+msgid "Computes the convolution of the two input signals."
+msgstr "Berechnet die Einhüllende des Eingangssignals."
+
+msgid ""
+"Full: Returns the full convolution with the length of M+N-1.\n"
+"Same: Returns the convolution of length max(N,M).\n"
+"Valid: Returns the convolution only where both input signals fully "
+"overlap.\n"
+msgstr ""
+
+msgid "Full"
+msgstr "Voll"
+
+msgid "Same"
+msgstr "Gleich"
+
+msgid "Valid"
+msgstr "Valide"
+
+#, fuzzy
+msgid "Audio Player"
 msgstr "AudioPlayer"
+
+#, fuzzy
+msgid "Manually set sampling frequency"
+msgstr "Abtastfrequenz"
 
 msgid "Play sound"
 msgstr "Audiosignal abspielen"
 
 msgid "Auto play"
 msgstr "Automatisch abspielen"
+
+msgid "Normalize"
+msgstr "Normiert"
 
 msgid ""
 "Plays the input signal as a sound by using the current default sound "
@@ -824,18 +867,19 @@ msgstr ""
 "Spielt das Eingangssignal als Audiosignal ab. Dabei wird das "
 "standardmäßige Audiogerät verwendet."
 
-#, fuzzy
+msgid "Normalize the input signal to have a maximum of value of 1"
+msgstr "Normalisiert das Eingangssignal, sodass das Maximum 1 entspricht"
+
 msgid "SignalLoader"
 msgstr "SignalSpeicherung"
-
-msgid "Arbitrary data path"
-msgstr "Pfad der Arbiträrdaten"
 
 msgid "Load file"
 msgstr "Lade Datei"
 
 msgid "Loads a signal from a file (previously saved by the SignalSaver)."
-msgstr "Lädt ein Signal aus einer Datei, welche mit dem SignalSpeicherungsblock erstellt wurde."
+msgstr ""
+"Lädt ein Signal aus einer Datei, welche mit dem SignalSpeicherungsblock "
+"erstellt wurde."
 
 msgid "Plot"
 msgstr "Plot"
@@ -872,7 +916,7 @@ msgstr "Symetrisch Logarithmisch"
 msgid "Logit"
 msgstr "Logit"
 
-msgid "AudioSaver"
+msgid "Audio Saver"
 msgstr "AudioSpeicherung"
 
 msgid "Save as .wav"
@@ -881,8 +925,8 @@ msgstr "Als .wav speichern"
 msgid "Saves the input signal as a .wav sound file."
 msgstr "Speichert das Eingangssignal als .wav Datei ab."
 
-msgid "STFTPlot"
-msgstr "STFTPlot"
+msgid "STFT Plot"
+msgstr "STFT Plot"
 
 msgid "Window"
 msgstr "Fensterung"
@@ -929,6 +973,9 @@ msgstr "Zerofill"
 msgid "Dead Time Values"
 msgstr "Totzeit Werte"
 
+msgid "Shift the signal by the dead time"
+msgstr "Verschibt das signal mit der angegebenen Totzeit"
+
 msgid "Zero Padding Values"
 msgstr "Zeropadding Werte"
 
@@ -941,7 +988,7 @@ msgstr "Multiplizierer"
 msgid "Multiplies the input signals with each other."
 msgstr "Multipliziert die Eingangssignale miteinander."
 
-msgid "PowerSpectrum"
+msgid "Power Spectrum"
 msgstr "Leistungsspektrum"
 
 msgid "Scaling"
@@ -965,17 +1012,14 @@ msgstr "Trapez"
 msgid "Rectangular"
 msgstr "Rechteck"
 
-msgid "FFTPlot"
-msgstr "FFTPlot"
+msgid "FFT Plot"
+msgstr "FFT Plot"
 
 msgid "Shift to ordinate"
 msgstr "Zur Ordinate verschieben"
 
 msgid "Plot Mode"
 msgstr "Plotmodus"
-
-msgid "Normalize"
-msgstr "Normiert"
 
 msgid "Marker color"
 msgstr "Markerfarbe"
@@ -988,6 +1032,15 @@ msgstr ""
 "Berechnet die FFT des Eingangssignals und plottet entweder den Realteil, "
 "den Imaginärteil, den Betrag oder die Phase der FFT. Kann die negativen "
 "Frequenzen verschieben oder diese wegschneiden."
+
+msgid ""
+"By default the Fourier transform is not shifted.Shifts the zero-frequency"
+" component to the center of the spectrum. Additionally negative "
+"frequencies can completely be removed"
+msgstr ""
+
+msgid "Normalize the FFT by dividing with the total amount of values"
+msgstr "Normalisiert die FFT, indem durch die Anzahl der Werte geteilt wird"
 
 msgid "No shift"
 msgstr "Kein Verschieben"
@@ -1004,8 +1057,8 @@ msgstr "Imaginär"
 msgid "Absolute"
 msgstr "Betrag"
 
-msgid "XYPlot"
-msgstr "XYPlot"
+msgid "XY Plot"
+msgstr "XY Plot"
 
 msgid "Input signal for ordinate axis"
 msgstr "Eingangssignal für die Ordinatenachse"
@@ -1022,8 +1075,8 @@ msgstr "Erster"
 msgid "Second"
 msgstr "Zweiter"
 
-msgid "ComplexPlot"
-msgstr "KomplexPlot"
+msgid "Complex Plot"
+msgstr "Komplex Plot"
 
 msgid "Plot type"
 msgstr "Plotvariante"
@@ -1064,6 +1117,9 @@ msgstr ""
 "Verschiebungkeine Einheit haben und sich auf die Anzahl der "
 "Abszissenwerte beziehen."
 
+msgid "Amount of values to shift on the abscissa"
+msgstr "Anzahl der Werte, die auf der Abszisse verschoben werden sollen"
+
 msgid "Divider"
 msgstr "Dividierer"
 
@@ -1076,8 +1132,8 @@ msgstr "Differenzierer"
 msgid "Computes the gradient of the input signal."
 msgstr "Berechnet den Gradienten des Eingangssignals."
 
-msgid "IIRFilter"
-msgstr "IIRFilter"
+msgid "IIR Filter"
+msgstr "IIR Filter"
 
 msgid "Filter type"
 msgstr "Filtertyp"
@@ -1114,6 +1170,24 @@ msgstr ""
 "Charakteristik ausgewählt ist. Für spezifische 'Filtertypen' werden "
 "bestimmte Parameter auch ignoriert."
 
+msgid "For bandpass and bandstop this is used at the lower cut off frequency"
+msgstr ""
+"Für den Bandpass und den Bandstop wird dieser Parameter als untere ""
+"Grenzfrequenz verwendet"
+
+msgid "Only valid for bandpass and bandstop"
+msgstr "Nur gültig für den Bandpass und den Bandstop"
+
+msgid ""
+"The maximum ripple allowed below unity gain in the passband. Only "
+"available for Cheby1 and Elliptic"
+msgstr ""
+
+msgid ""
+"The minimum attenuation required in the stop band.Only available for "
+"Cheby2 and Elliptic"
+msgstr ""
+
 msgid "Butter"
 msgstr "Butter"
 
@@ -1138,17 +1212,24 @@ msgstr "Bandpass"
 msgid "Bandstop"
 msgstr "Bandstop"
 
-msgid "CrossPowerSpectrum"
+msgid "Cross Power Spectrum"
 msgstr "Kreuzleistungsspektrum"
 
-msgid "Computes the cross power spectrum of the input signals."
-msgstr "Berechnet das Kreuzleistungsspektrum des Eingangssignal."
+msgid ""
+"Computes the cross power spectrum of the input signals. The cross power "
+"spectrum measures the similarity between two signals in the frequency "
+"domain"
+msgstr ""
 
-msgid "AnalyticalSignal"
-msgstr "AnalytischesSignal"
+msgid "Analytical Signal"
+msgstr "Analytischessignal"
 
-msgid "Computes the analytical signal of the input signal."
-msgstr "Berechnet das analytische Signal des Eingangssignals."
+msgid ""
+"Computes the analytical signal of the input signal using the Hilbert "
+"transform."
+msgstr ""
+"Berechnet das analytische Signal des Eingangssignals mithilfe der "
+"Hilbertransformation."
 
 msgid "Cutter"
 msgstr "Cutter"
@@ -1177,8 +1258,8 @@ msgstr "Addierer"
 msgid "Adds multiple signals to one signal."
 msgstr "Addiert mehrere Signale zu einem Signal."
 
-msgid "GaussPulse"
-msgstr "GaussPuls"
+msgid "Gauss Pulse"
+msgstr "Gausspuls"
 
 msgid "Envelope"
 msgstr "Einhüllende"
@@ -1199,8 +1280,8 @@ msgstr ""
 "Generiert ein Gausspulssignal. Gibt Real-, Imaginärteil und die "
 "Einhüllende zurück."
 
-msgid "SignalGeneratorStochastic"
-msgstr "SignalGeneratorStochastic"
+msgid "Signal Generator (Stochastic)"
+msgstr "Signalgenerator (Stochastisch)"
 
 msgid "Distribution"
 msgstr "Verteilung"
@@ -1277,17 +1358,33 @@ msgstr "Exponentiell"
 msgid "Gaussian"
 msgstr "Gauß"
 
-msgid "CCF"
-msgstr "KKF"
+msgid "FFT Shift"
+msgstr "FFT Shift"
 
-msgid "Computes the cross correlation function of the input signal."
-msgstr "Berechnet die Kreuzkorrelationsfunktion des Eingangssignals."
+msgid "Inverse"
+msgstr "Inverse"
+
+#, fuzzy
+msgid "Perform an FFT shift on the input signal."
+msgstr "Wendet eine Fensterfunktion auf das Eingangssignal an."
+
+msgid "Crosscorrelation"
+msgstr "Kreuzkorrelation"
+
+msgid ""
+"Computes the cross correlation function of the input signals. The cross "
+"correlation measures the similarity between to signals at different time "
+"offsets."
+msgstr ""
+"Berechnet die Kreuzkorrelationsfunktion der beiden Eingangssignale. Die "
+"Kreuzkorrelation misst die Ähnlichekit zwischen zwei Signalen mit verschiedenen"
+"Zeitverschiebungen."
 
 msgid "Limiter"
 msgstr "Begrenzer"
 
-msgid "Mode"
-msgstr "Mode"
+msgid "Threshold"
+msgstr "Schwellenwert"
 
 msgid ""
 "Limits the values of the input signal. Values exceeding this limit get "
@@ -1305,14 +1402,38 @@ msgstr "Bipolar"
 msgid "Computes the absolute of the input signal."
 msgstr "Berechnet den Betrag des Eingangssignals."
 
-msgid "AudioLoader"
+#, fuzzy
+msgid "Downsample"
+msgstr "Downsample"
+
+msgid "Step"
+msgstr "Reduktionsfaktor"
+
+msgid ""
+"Downsample the input signal by taking only nth-data point. The overall "
+"length of the signal approximately stays the same."
+msgstr ""
+"Reduziert die Anzahl der Datenpunkte des Eingangssignal um einen Faktor. "
+
+msgid ""
+"Step between the data points to sample. This can only be positive Integer"
+" values starting from 1"
+msgstr ""
+
+msgid "Audio Loader"
 msgstr "AudioLader"
 
-msgid "Loads a .wav to create an output signal."
-msgstr "Lade eine .wav Datei um ein Ausgangssignal zu generieren."
+msgid ""
+"Loads a .wav to create an output signal. Minimum and maximum value depend"
+" on the .wav format provided (see reference)"
+msgstr ""
+""
 
-msgid "PolynomGenerator"
-msgstr "PolynomGenerator"
+msgid "Normalize the signal by dividing by the absolute maximum value"
+msgstr ""
+
+msgid "Signal Generator (Polynom)"
+msgstr "Signalgenerator (Polynom)"
 
 msgid "Factor of the 0th order (x⁰)"
 msgstr "Faktor der 0. Ordnung (x⁰)"
@@ -1364,14 +1485,21 @@ msgstr ""
 msgid "FFT"
 msgstr "FFT"
 
-msgid "Computes the FFT of the input signal."
-msgstr "Berechnet die FFT des Eingangssignals."
+msgid "Computes the FFT or the inverse FFT of the input signal."
+msgstr "Berechnet die FFT oder die inverse FFT des Eingangssignals."
 
-msgid "Computes the envelope of the input signal."
-msgstr "Berechnet die Einhüllende des Eingangssignals."
+msgid "Compute the inverse FFT"
+msgstr "Berechne die die inverse FFT"
 
-msgid "DCGenerator"
-msgstr "DCGenerator"
+msgid ""
+"Computes the envelope of the input signal. It is given by the magnitude "
+"of the analytical signal (hilbert transformation)"
+msgstr ""
+"Berechnet die Einhüllende des Eingangssignals gegeben durch den Betrag
+"des analytischen Signals (Hilbert Transformation)"
+
+msgid "Signal Generator (DC)"
+msgstr "Signalgenerator (DC)"
 
 msgid "DC Value"
 msgstr "DC Wert"
@@ -1394,28 +1522,28 @@ msgstr "Verstärkung"
 msgid "Amplifies the input signal by the desired factor."
 msgstr "Verstärkt das Eingangssignal mit dem angebenen Faktor."
 
-msgid "Saving"
-msgstr "Speichern"
-
 msgid "Loading"
 msgstr "Ladend"
 
-msgid "Generating"
-msgstr "Generierung"
-
-msgid "Plotting"
-msgstr "Plotten"
+msgid "Saving"
+msgstr "Speichern"
 
 msgid "Audio"
 msgstr "Audio"
 
+msgid "Generating"
+msgstr "Generierung"
+
 msgid "Processing"
 msgstr "Verarbeitung"
+
+msgid "Plotting"
+msgstr "Plotten"
 
 msgid "Stochastic"
 msgstr "Stochastisch"
 
-msgid "Fouriertransformation"
+msgid "Fourier transform"
 msgstr "Fouriertransformation"
 
 #~ msgid "Plots absolute and phase or real and imaginary part of the input signal"
@@ -1745,4 +1873,75 @@ msgstr "Fouriertransformation"
 
 #~ msgid "Loads arbitrary data to generate a signal on its output."
 #~ msgstr "Läd Arbiträrdaten und generiert aus diesen ein Ausgangssignal."
+
+#~ msgid ""
+#~ "<a href=\"https://ei.uni-paderborn.de/en/electrical-"
+#~ "engineering/emt/electrical-engineering/home\">EMT</a>"
+#~ msgstr "<a href=\"https://ei.uni-paderborn.de/emt/startseite\">EMT</a>"
+
+#~ msgid "View"
+#~ msgstr "Ansicht"
+
+#~ msgid "Theme"
+#~ msgstr "Theme"
+
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Dark"
+#~ msgstr "Dunkel"
+
+#~ msgid "Appearance"
+#~ msgstr "Aussehen"
+
+#~ msgid "Explorer|Plots"
+#~ msgstr "Explorer|Plots"
+
+#~ msgid "Left|Right"
+#~ msgstr "Links|Rechts"
+
+#~ msgid "Right|Left"
+#~ msgstr "Rechts|Links"
+
+#~ msgid "ACF"
+#~ msgstr "AKF"
+
+#~ msgid "Computes the auto correlation function of the input signal."
+#~ msgstr "Berechnet die Autokorrelationsfunktion des Eingangssignals."
+
+#~ msgid "Arbitrary data path"
+#~ msgstr "Pfad der Arbiträrdaten"
+
+#~ msgid "STFTPlot"
+#~ msgstr "STFTPlot"
+
+#~ msgid "FFTPlot"
+#~ msgstr "FFTPlot"
+
+#~ msgid "XYPlot"
+#~ msgstr "XYPlot"
+
+#~ msgid "IIRFilter"
+#~ msgstr "IIRFilter"
+
+#~ msgid "Computes the cross power spectrum of the input signals."
+#~ msgstr "Berechnet das Kreuzleistungsspektrum des Eingangssignal."
+
+#~ msgid "CCF"
+#~ msgstr "KKF"
+
+#~ msgid "Computes the cross correlation function of the input signal."
+#~ msgstr "Berechnet die Kreuzkorrelationsfunktion des Eingangssignals."
+
+#~ msgid "Loads a .wav to create an output signal."
+#~ msgstr "Lade eine .wav Datei um ein Ausgangssignal zu generieren."
+
+#~ msgid "PolynomGenerator"
+#~ msgstr "PolynomGenerator"
+
+#~ msgid "Computes the FFT of the input signal."
+#~ msgstr "Berechnet die FFT des Eingangssignals."
+
+#~ msgid "DCGenerator"
+#~ msgstr "DCGenerator"
 
