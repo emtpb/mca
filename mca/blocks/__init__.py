@@ -1,5 +1,6 @@
 import inspect
 import sys
+from mca.language import _
 
 from .absolute import Absolute
 from .acf import AutoCorrelation
@@ -54,7 +55,7 @@ from .zerofill import Zerofill
 # Create list of all blocks
 block_classes = [i[1] for i in inspect.getmembers(sys.modules[__name__],
                                                   inspect.isclass)]
-block_classes.sort(key=lambda x: x.name)
+block_classes.sort(key=lambda x: _(x.name))
 
 tags = set()
 
