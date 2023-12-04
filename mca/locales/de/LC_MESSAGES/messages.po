@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  1.0\n"
 "Report-Msgid-Bugs-To: kevink2@mail.uni-paderborn.de\n"
-"POT-Creation-Date: 2023-11-29 17:00+0100\n"
+"POT-Creation-Date: 2023-12-04 13:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <kevink2@mail.uni-paderborn.de>\n"
 "Language: de\n"
@@ -556,7 +556,6 @@ msgstr "Unbennant.json"
 msgid "Changes will be applied after restart."
 msgstr "Einstellungen werden nach Neustart übernommen."
 
-
 msgid "Signal Generator"
 msgstr "Signalgenerator"
 
@@ -566,13 +565,11 @@ msgstr "Signaltyp"
 msgid "Width"
 msgstr "Breite"
 
-
 msgid "Height"
 msgstr "Höhe"
 
 msgid "Shift"
 msgstr "Verschieben"
-
 
 msgid "Generates a rectangle or triangle signal."
 msgstr "Generiert ein Rechteck- oder Dreiecksignal."
@@ -592,7 +589,6 @@ msgstr "Neue Abszisse"
 msgid "Interpolation kind"
 msgstr "Interpolationstyp"
 
-
 msgid ""
 "Interpolates the input signal by defining a new abscissa. The range of "
 "the new abscissa has to be within the range of the abscissa of the input "
@@ -607,8 +603,8 @@ msgid ""
 "zeroth, first, second or third order. Previous and Next simply return the"
 " previous or next value of the point. Nearest rounds down"
 msgstr ""
-"Null, SLinear, Quadratisch and Kubisch beziehen sich bei der "
-"Spline-Interpolation auf die nullte, erste, zweite und dritte Ordnung. "
+"Null, SLinear, Quadratisch and Kubisch beziehen sich bei der Spline-"
+"Interpolation auf die nullte, erste, zweite und dritte Ordnung. "
 
 msgid "Linear"
 msgstr "Linear"
@@ -636,9 +632,9 @@ msgid ""
 "correlation measures a signals similarity to a time-shifted version of "
 "itself."
 msgstr ""
-"Berechnet die Autokorrelationsfunktion des Eingangssignals. "
-"Die Autokorrelationsfunktion gibt an wie ähnlich ein zeitverschobenes Signal"
-"zum ursprünglichen Signal ist."
+"Berechnet die Autokorrelationsfunktion des Eingangssignals. Die "
+"Autokorrelationsfunktion gibt an wie ähnlich ein zeitverschobenes "
+"Signalzum ursprünglichen Signal ist."
 
 msgid "Signal Generator (Periodic)"
 msgstr "Signalgenerator (Periodisch)"
@@ -657,7 +653,6 @@ msgstr "Generiert ein periodisches Sinus-, Rechteck- oder Dreiecksignal."
 
 msgid "Sine"
 msgstr "Sinus"
-
 
 msgid "Real-Complex"
 msgstr "Real-Komplex"
@@ -744,6 +739,18 @@ msgstr ""
 "auf. Der erste Ausgang liefert des Realteil und der zweite Ausgang des "
 "Imginärteil"
 
+msgid "Signal Export"
+msgstr "Signalexport"
+
+msgid "Filename"
+msgstr "Dateiname"
+
+msgid "Export file"
+msgstr "Datei exportieren"
+
+msgid "Exports the input signal as a .npz, .mat, .hdf5 file."
+msgstr "Exportiert das Eingangssignal als .npz, .mat, .hdf5 file."
+
 msgid "Resample"
 msgstr "Resample"
 
@@ -763,16 +770,6 @@ msgid "Normalizes input signal by the specified range (By default 0-1)."
 msgstr ""
 "Normalisiert das Eingangssignal auf den angebeben Wertebereich "
 "(Standardmäßig 0-1)."
-
-#, fuzzy
-msgid "Signal Saver"
-msgstr "SignalSpeicherung"
-
-msgid "Filename"
-msgstr "Dateiname"
-
-msgid "Saves the input signal in a .npz, .mat, .hdf5 file."
-msgstr "Speichert das Eingangssignal in einer .npz, .mat, .hdf5 Datei."
 
 msgid "Chirp"
 msgstr "Chirp"
@@ -823,9 +820,8 @@ msgstr "Faltung"
 msgid "Mode"
 msgstr "Mode"
 
-#, fuzzy
 msgid "Computes the convolution of the two input signals."
-msgstr "Berechnet die Einhüllende des Eingangssignals."
+msgstr "Berechnet die Faltung der beiden Eingangssignale."
 
 msgid ""
 "Full: Returns the full convolution with the length of M+N-1.\n"
@@ -833,6 +829,9 @@ msgid ""
 "Valid: Returns the convolution only where both input signals fully "
 "overlap.\n"
 msgstr ""
+"Voll: Gibt die volle Faltung zurück mit der Länge M+N-1.\n"
+"Gleich: Gibt die Faltung mit der Länge max(N,M) zurück.\n"
+"Valid: Gibt die Faltung zurück wo beide Eingangssignale sich überlappen.\n"
 
 msgid "Full"
 msgstr "Voll"
@@ -843,13 +842,11 @@ msgstr "Gleich"
 msgid "Valid"
 msgstr "Valide"
 
-#, fuzzy
 msgid "Audio Player"
-msgstr "AudioPlayer"
+msgstr "Audio Player"
 
-#, fuzzy
 msgid "Manually set sampling frequency"
-msgstr "Abtastfrequenz"
+msgstr "Manuell die Samplingfrequenz einstellen"
 
 msgid "Play sound"
 msgstr "Audiosignal abspielen"
@@ -869,17 +866,6 @@ msgstr ""
 
 msgid "Normalize the input signal to have a maximum of value of 1"
 msgstr "Normalisiert das Eingangssignal, sodass das Maximum 1 entspricht"
-
-msgid "SignalLoader"
-msgstr "SignalSpeicherung"
-
-msgid "Load file"
-msgstr "Lade Datei"
-
-msgid "Loads a signal from a file (previously saved by the SignalSaver)."
-msgstr ""
-"Lädt ein Signal aus einer Datei, welche mit dem SignalSpeicherungsblock "
-"erstellt wurde."
 
 msgid "Plot"
 msgstr "Plot"
@@ -916,14 +902,14 @@ msgstr "Symetrisch Logarithmisch"
 msgid "Logit"
 msgstr "Logit"
 
-msgid "Audio Saver"
-msgstr "AudioSpeicherung"
+msgid "Signal Import"
+msgstr "Signal Import"
 
-msgid "Save as .wav"
-msgstr "Als .wav speichern"
+msgid "Import file"
+msgstr "Datei importieren"
 
-msgid "Saves the input signal as a .wav sound file."
-msgstr "Speichert das Eingangssignal als .wav Datei ab."
+msgid "Imports a signal from a file (previously exported by Signal Export)."
+msgstr "Importiert das ein Signal (Zuvor mit Signal Export exportiert)"
 
 msgid "STFT Plot"
 msgstr "STFT Plot"
@@ -987,6 +973,15 @@ msgstr "Multiplizierer"
 
 msgid "Multiplies the input signals with each other."
 msgstr "Multipliziert die Eingangssignale miteinander."
+
+msgid "Audio Export"
+msgstr "Audio Export"
+
+msgid "Export as .wav"
+msgstr "Als .wav exportieren"
+
+msgid "Exports the input signal as a .wav sound file."
+msgstr "Exportiert das Eingangssignal als .wav Datei."
 
 msgid "Power Spectrum"
 msgstr "Leistungsspektrum"
@@ -1172,8 +1167,8 @@ msgstr ""
 
 msgid "For bandpass and bandstop this is used at the lower cut off frequency"
 msgstr ""
-"Für den Bandpass und den Bandstop wird dieser Parameter als untere ""
-"Grenzfrequenz verwendet"
+"Für den Bandpass und den Bandstop wird dieser Parameter als untere "
+"\"Grenzfrequenz verwendet"
 
 msgid "Only valid for bandpass and bandstop"
 msgstr "Nur gültig für den Bandpass und den Bandstop"
@@ -1187,6 +1182,8 @@ msgid ""
 "The minimum attenuation required in the stop band.Only available for "
 "Cheby2 and Elliptic"
 msgstr ""
+"Die minimale Dämpfung benötigt für den Sperrbereich. Nur für Cheby2 und "
+"Elliptisch verfügbar"
 
 msgid "Butter"
 msgstr "Butter"
@@ -1220,6 +1217,9 @@ msgid ""
 "spectrum measures the similarity between two signals in the frequency "
 "domain"
 msgstr ""
+"Berechnet das Kreuzleistungssprektrum der Eingangssignale. Das "
+"Kreuzleistungssprektrum misst die Ähnlichkeit zweier Signale im "
+"Frequenzbereich."
 
 msgid "Analytical Signal"
 msgstr "Analytischessignal"
@@ -1364,7 +1364,6 @@ msgstr "FFT Shift"
 msgid "Inverse"
 msgstr "Inverse"
 
-#, fuzzy
 msgid "Perform an FFT shift on the input signal."
 msgstr "Wendet eine Fensterfunktion auf das Eingangssignal an."
 
@@ -1377,8 +1376,23 @@ msgid ""
 "offsets."
 msgstr ""
 "Berechnet die Kreuzkorrelationsfunktion der beiden Eingangssignale. Die "
-"Kreuzkorrelation misst die Ähnlichekit zwischen zwei Signalen mit verschiedenen"
-"Zeitverschiebungen."
+"Kreuzkorrelation misst die Ähnlichekit zwischen zwei Signalen mit "
+"verschiedenenZeitverschiebungen."
+
+msgid "Audio Import"
+msgstr "Audio Import"
+
+msgid ""
+"Imports a .wav to create an output signal. Minimum and maximum value "
+"depend on the .wav format provided (see reference)"
+msgstr ""
+"Importiert eine .wav Datei um ein Ausgangssignal zu erzeugen. Der "
+"minimale und maximale Wert hängen .wav-Format ab."
+
+msgid "Normalize the signal by dividing by the absolute maximum value"
+msgstr ""
+"Normalisiert das Signal, indem es durch den absoluten maximalen "
+"Wertgeteilt wird"
 
 msgid "Limiter"
 msgstr "Begrenzer"
@@ -1402,35 +1416,23 @@ msgstr "Bipolar"
 msgid "Computes the absolute of the input signal."
 msgstr "Berechnet den Betrag des Eingangssignals."
 
-#, fuzzy
 msgid "Downsample"
 msgstr "Downsample"
 
-msgid "Step"
-msgstr "Reduktionsfaktor"
+msgid "Downsampling factor"
+msgstr "Downsamplingfaktor"
 
 msgid ""
 "Downsample the input signal by taking only nth-data point. The overall "
 "length of the signal approximately stays the same."
-msgstr ""
-"Reduziert die Anzahl der Datenpunkte des Eingangssignal um einen Faktor. "
+msgstr "Reduziert die Anzahl der Datenpunkte des Eingangssignal um einen Faktor. "
 
 msgid ""
-"Step between the data points to sample. This can only be positive Integer"
-" values starting from 1"
+"The amount of samples to reduce. A factor of 10 only keeps every 10th "
+"sample"
 msgstr ""
-
-msgid "Audio Loader"
-msgstr "AudioLader"
-
-msgid ""
-"Loads a .wav to create an output signal. Minimum and maximum value depend"
-" on the .wav format provided (see reference)"
-msgstr ""
-""
-
-msgid "Normalize the signal by dividing by the absolute maximum value"
-msgstr ""
+"Die Anzahl an Samples die reduziert werden sollen. Ein Faktor von 10 "
+"behält jedes 10. Sample"
 
 msgid "Signal Generator (Polynom)"
 msgstr "Signalgenerator (Polynom)"
@@ -1495,8 +1497,8 @@ msgid ""
 "Computes the envelope of the input signal. It is given by the magnitude "
 "of the analytical signal (hilbert transformation)"
 msgstr ""
-"Berechnet die Einhüllende des Eingangssignals gegeben durch den Betrag
-"des analytischen Signals (Hilbert Transformation)"
+"Berechnet die Einhüllende des Eingangssignals gegeben durch den Betrades "
+"analytischen Signals (Hilbert Transformation)"
 
 msgid "Signal Generator (DC)"
 msgstr "Signalgenerator (DC)"
@@ -1522,29 +1524,29 @@ msgstr "Verstärkung"
 msgid "Amplifies the input signal by the desired factor."
 msgstr "Verstärkt das Eingangssignal mit dem angebenen Faktor."
 
-msgid "Loading"
-msgstr "Ladend"
-
-msgid "Saving"
-msgstr "Speichern"
-
 msgid "Audio"
 msgstr "Audio"
 
 msgid "Generating"
 msgstr "Generierung"
 
-msgid "Processing"
-msgstr "Verarbeitung"
+msgid "Export"
+msgstr "Exportieren"
+
+msgid "Import"
+msgstr "Importieren"
 
 msgid "Plotting"
 msgstr "Plotten"
 
+msgid "Fourier transform"
+msgstr "Fouriertransformation"
+
 msgid "Stochastic"
 msgstr "Stochastisch"
 
-msgid "Fourier transform"
-msgstr "Fouriertransformation"
+msgid "Processing"
+msgstr "Verarbeitung"
 
 #~ msgid "Plots absolute and phase or real and imaginary part of the input signal"
 #~ msgstr ""
@@ -1944,4 +1946,56 @@ msgstr "Fouriertransformation"
 
 #~ msgid "DCGenerator"
 #~ msgstr "DCGenerator"
+
+#~ msgid "Signal Saver"
+#~ msgstr "SignalSpeicherung"
+
+#~ msgid "Saves the input signal in a .npz, .mat, .hdf5 file."
+#~ msgstr "Speichert das Eingangssignal in einer .npz, .mat, .hdf5 Datei."
+
+#~ msgid "SignalLoader"
+#~ msgstr "SignalSpeicherung"
+
+#~ msgid "Load file"
+#~ msgstr "Lade Datei"
+
+#~ msgid "Loads a signal from a file (previously saved by the SignalSaver)."
+#~ msgstr ""
+#~ "Lädt ein Signal aus einer Datei, "
+#~ "welche mit dem SignalSpeicherungsblock "
+#~ "erstellt wurde."
+
+#~ msgid "Audio Saver"
+#~ msgstr "AudioSpeicherung"
+
+#~ msgid "Save as .wav"
+#~ msgstr "Als .wav speichern"
+
+#~ msgid "Saves the input signal as a .wav sound file."
+#~ msgstr "Speichert das Eingangssignal als .wav Datei ab."
+
+#~ msgid "Audio Loader"
+#~ msgstr "AudioLader"
+
+#~ msgid ""
+#~ "Loads a .wav to create an output"
+#~ " signal. Minimum and maximum value "
+#~ "depend on the .wav format provided "
+#~ "(see reference)"
+#~ msgstr ""
+
+#~ msgid "Loading"
+#~ msgstr "Ladend"
+
+#~ msgid "Saving"
+#~ msgstr "Speichern"
+
+#~ msgid "Step"
+#~ msgstr "Reduktionsfaktor"
+
+#~ msgid ""
+#~ "Step between the data points to "
+#~ "sample. This can only be positive "
+#~ "Integer values starting from 1"
+#~ msgstr ""
 

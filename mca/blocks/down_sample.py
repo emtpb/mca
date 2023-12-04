@@ -18,12 +18,10 @@ class DownSample(Block):
         self.new_input()
 
     def setup_parameters(self):
-        self.parameters["step"] = parameters.IntParameter(name="Step",
-                                                          min_=1,
-                                                          default=1,
-                                                          description="Step between the data points to sample."
-                                                                      " This can only be positive Integer values starting from 1"
-                                                          )
+        self.parameters["factor"] = parameters.IntParameter(
+            name="Downsampling factor", min_=1, default=1,
+            description="The amount of samples to reduce. A factor of 10 only "
+                        "keeps every 10th sample")
 
     @util.abort_all_inputs_empty
     @util.validate_type_signal
@@ -31,11 +29,11 @@ class DownSample(Block):
         # Read the input data
         input_signal = self.inputs[0].data
         # Read parameters values
-        step = self.parameters["step"].value
+        factor = self.parameters["factor"].value
 
-        ordinate = input_signal.ordinate[::step]
-        increment = input_signal.increment * step
-        values = int(np.ceil(input_signal.values / step))
+        ordinate = input_signal.ordinate[::factor]
+        increment = input_signal.increment * factor
+        values = int(np.ceil(input_signal.values / factor))
 
         # Apply new signal to the output
         self.outputs[0].data = data_types.Signal(
