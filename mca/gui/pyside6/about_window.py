@@ -28,7 +28,7 @@ class AboutWindow(QtWidgets.QDialog):
         # Add logo
         self.mca_logo = QtWidgets.QLabel()
         pixmap = QtGui.QPixmap(
-            str(Path(__file__).parent / "../../resources/icons/mca_cropped.png"))
+            str(Path(__file__).parent / "../../resources/icons/mca.png"))
 
         self.layout().addWidget(self.mca_logo)
         # Create widget for the info
