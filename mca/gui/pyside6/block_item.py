@@ -521,7 +521,7 @@ class BlockItem(QtWidgets.QGraphicsItem):
             self.save_gui_data()
         except AttributeError:
             pass
-        if change == QtWidgets.QGraphicsItem.ItemPositionChange:
+        if change == QtWidgets.QGraphicsItem.ItemPositionHasChanged:
             for i in self.inputs:
                 i.update_connection_line()
             for o in self.outputs:
