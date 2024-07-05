@@ -38,8 +38,7 @@ class EditWindow(QtWidgets.QDialog):
         self.block_item = block_item
         self.resize(600, 750)
         self.setMinimumSize((QtCore.QSize(500, 400)))
-        self.setWindowTitle(
-            _("Edit {}").format(_(self.block.parameters["name"].value)))
+        self.setWindowTitle(_("Edit {}").format(_(self.block.parameters["name"].value)))
 
         self.main_layout = QtWidgets.QVBoxLayout(self)
 
@@ -52,8 +51,7 @@ class EditWindow(QtWidgets.QDialog):
         general_tab = QtWidgets.QWidget()
         general_tab_layout = QtWidgets.QGridLayout(general_tab)
         general_tab_contents = QtWidgets.QWidget()
-        general_tab_contents_layout = QtWidgets.QVBoxLayout(
-            general_tab_contents)
+        general_tab_contents_layout = QtWidgets.QVBoxLayout(general_tab_contents)
         description_box = QtWidgets.QGroupBox(_("Description"))
         description_box_layout = QtWidgets.QVBoxLayout(description_box)
         description_label = QtWidgets.QLabel(_(self.block.description))
@@ -79,10 +77,11 @@ class EditWindow(QtWidgets.QDialog):
                 reference_label.setOpenExternalLinks(True)
                 reference_box_layout.addWidget(reference_label)
             general_tab_contents_layout.addWidget(reference_box)
-        general_tab_contents_layout.addItem(QtWidgets.QSpacerItem(
-            0, 0,
-            QtWidgets.QSizePolicy.Minimum,
-            QtWidgets.QSizePolicy.Expanding))
+        general_tab_contents_layout.addItem(
+            QtWidgets.QSpacerItem(
+                0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+            )
+        )
         scroll = QtWidgets.QScrollArea()
         scroll.setWidget(general_tab_contents)
         scroll.setWidgetResizable(True)
@@ -95,11 +94,13 @@ class EditWindow(QtWidgets.QDialog):
         self.metadata_contents = None
         self.metadata_contents_layout = None
         # Add tab if block has outputs or is dynamic concerning outputs
-        if self.block.outputs or (isinstance(self.block, DynamicBlock) and
-                                  self.block.dynamic_output):
+        if self.block.outputs or (
+            isinstance(self.block, DynamicBlock) and self.block.dynamic_output
+        ):
             self.metadata_contents = QtWidgets.QWidget()
             self.metadata_contents_layout = QtWidgets.QVBoxLayout(
-                self.metadata_contents)
+                self.metadata_contents
+            )
             self.metadata_tab = QtWidgets.QWidget()
             self.metadata_layout = QtWidgets.QVBoxLayout(self.metadata_tab)
 
@@ -114,23 +115,28 @@ class EditWindow(QtWidgets.QDialog):
             info_layout = QtWidgets.QVBoxLayout(info_box)
             if self.block.inputs:
                 info_label = QtWidgets.QLabel(
-                    _("Define the metadata for the "
-                      "outgoing signals. By default metadata is computed "
-                      "depending on the input metadata. In order to apply your "
-                      "own defined metadata untick the corresponding boxes."))
+                    _(
+                        "Define the metadata for the "
+                        "outgoing signals. By default metadata is computed "
+                        "depending on the input metadata. In order to apply your "
+                        "own defined metadata untick the corresponding boxes."
+                    )
+                )
             else:
-                info_label = QtWidgets.QLabel(_("Define the metadata for the "
-                                                "outgoing signals."))
+                info_label = QtWidgets.QLabel(
+                    _("Define the metadata for the " "outgoing signals.")
+                )
             info_label.setMaximumHeight(100)
             info_label.setWordWrap(True)
             info_layout.addWidget(info_label)
 
             self.metadata_contents_layout.addWidget(info_box)
             self.add_metadata()
-            self.metadata_contents_layout.addItem(QtWidgets.QSpacerItem(
-                0, 0,
-                QtWidgets.QSizePolicy.Minimum,
-                QtWidgets.QSizePolicy.Expanding))
+            self.metadata_contents_layout.addItem(
+                QtWidgets.QSpacerItem(
+                    0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+                )
+            )
 
         self.plot_parameter_layout = None
         self.plot_parameter_tab = None
@@ -141,7 +147,8 @@ class EditWindow(QtWidgets.QDialog):
         if isinstance(self.block, PlotBlock):
             self.plot_parameter_contents = QtWidgets.QWidget()
             self.plot_parameter_contents_layout = QtWidgets.QVBoxLayout(
-                self.plot_parameter_contents)
+                self.plot_parameter_contents
+            )
             self.plot_parameter_tab = QtWidgets.QWidget()
             self.plot_parameter_layout = QtWidgets.QVBoxLayout(self.plot_parameter_tab)
 
@@ -153,43 +160,48 @@ class EditWindow(QtWidgets.QDialog):
             self.tab_widget.addTab(self.plot_parameter_tab, _("Plot options"))
 
             self.add_plot_parameters()
-            self.plot_parameter_contents_layout.addItem(QtWidgets.QSpacerItem(
-                0, 0,
-                QtWidgets.QSizePolicy.Minimum,
-                QtWidgets.QSizePolicy.Expanding))
+            self.plot_parameter_contents_layout.addItem(
+                QtWidgets.QSpacerItem(
+                    0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+                )
+            )
         # Set buttons
         self.button_box = QtWidgets.QDialogButtonBox()
         self.button_box.setGeometry(QtCore.QRect(140, 360, 329, 23))
         self.button_box.setContentsMargins(0, 0, 10, 10)
         self.button_box.setOrientation(QtCore.Qt.Horizontal)
-        self.button_box.setStandardButtons(QtWidgets.QDialogButtonBox.Ok
-                                           | QtWidgets.QDialogButtonBox.Cancel
-                                           | QtWidgets.QDialogButtonBox.Apply)
+        self.button_box.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Ok
+            | QtWidgets.QDialogButtonBox.Cancel
+            | QtWidgets.QDialogButtonBox.Apply
+        )
         self.button_box.button(QtWidgets.QDialogButtonBox.Ok).setText(_("Ok"))
-        self.button_box.button(QtWidgets.QDialogButtonBox.Cancel).setText(
-            _("Cancel"))
-        self.button_box.button(QtWidgets.QDialogButtonBox.Apply).setText(
-            _("Apply"))
+        self.button_box.button(QtWidgets.QDialogButtonBox.Cancel).setText(_("Cancel"))
+        self.button_box.button(QtWidgets.QDialogButtonBox.Apply).setText(_("Apply"))
         self.button_box.accepted.connect(self.accept)
         self.button_box.rejected.connect(self.reject)
         self.button_box.clicked.connect(self.apply)
         self.main_layout.addWidget(self.button_box)
         # Set custom window icon
-        self.setWindowIcon(QtGui.QIcon(
-            str(Path(__file__).parent / "../../resources/icons/mca.png")))
+        self.setWindowIcon(
+            QtGui.QIcon(str(Path(__file__).parent / "../../resources/icons/mca.png"))
+        )
         # Create warning message
         self.warning_message = QtWidgets.QMessageBox()
         self.warning_message.setWindowTitle(_("MCA"))
         self.warning_message.setIcon(QtWidgets.QMessageBox.Warning)
         self.warning_message.setText(
-            _("Could not apply the changed parameters and metadata!"
-              "Continue editing or revert changes?"))
+            _(
+                "Could not apply the changed parameters and metadata!"
+                "Continue editing or revert changes?"
+            )
+        )
         self.warning_message.continue_button = self.warning_message.addButton(
-            _("Continue"),
-            QtWidgets.QMessageBox.YesRole)
+            _("Continue"), QtWidgets.QMessageBox.YesRole
+        )
         self.warning_message.revert_button = self.warning_message.addButton(
-            _("Revert"),
-            QtWidgets.QMessageBox.NoRole)
+            _("Revert"), QtWidgets.QMessageBox.NoRole
+        )
 
     def add_parameters(self):
         """Arranges parameters of a block in rows in the window underneath each
@@ -200,30 +212,33 @@ class EditWindow(QtWidgets.QDialog):
         # Iterate over the parameters and add them row wise to the edit window
         for index, block_parameter in enumerate(block_parameters):
             # Skip if the parameter is not meant to be displayed here
-            if hasattr(block_parameter, "display_options") and \
-                    "edit_window" not in block_parameter.display_options:
+            if (
+                hasattr(block_parameter, "display_options")
+                and "edit_window" not in block_parameter.display_options
+            ):
                 continue
             if not isinstance(block_parameter, parameters.ParameterBlock):
                 if block_parameter.description is not None:
                     info_pixmap = self.style().standardPixmap(
-                        QtWidgets.QStyle.StandardPixmap.SP_MessageBoxInformation)
+                        QtWidgets.QStyle.StandardPixmap.SP_MessageBoxInformation
+                    )
                     info_label = QtWidgets.QLabel()
                     info_label.setToolTip(
-                        f"<html><head/><body><p>{block_parameter.description}</p></body></html>")
+                        f"<html><head/><body><p>{_(block_parameter.description)}</p></body></html>"
+                    )
 
                     info_label.setPixmap(info_pixmap)
-                    self.parameter_box_layout.addWidget(info_label, index, 0, 1,
-                                                        1)
+                    self.parameter_box_layout.addWidget(info_label, index, 0, 1, 1)
             # Add name labels except for action and bool parameters and
             # parameter blocks
-            if not isinstance(block_parameter, parameters.ActionParameter) and \
-               not isinstance(block_parameter, parameters.ParameterBlock):
+            if not isinstance(
+                block_parameter, parameters.ActionParameter
+            ) and not isinstance(block_parameter, parameters.ParameterBlock):
                 name_label = QtWidgets.QLabel(_(block_parameter.name) + ":")
                 name_label.setFixedHeight(25)
                 self.parameter_box_layout.addWidget(name_label, index, 1, 1, 1)
             # Translate parameter to the corresponding widget
-            widget = edit_widgets.widget_dict[type(block_parameter)](
-                block_parameter)
+            widget = edit_widgets.widget_dict[type(block_parameter)](block_parameter)
             self.parameter_widgets.append(widget)
             widget.read_parameter()
             # Add widgets to the layout though parameters blocks
@@ -245,18 +260,22 @@ class EditWindow(QtWidgets.QDialog):
         for output_index, output in enumerate(self.block.outputs):
             if output.name:
                 metadata_box = QtWidgets.QGroupBox(
-                    _("Output '{}' metadata:").format(output.name))
+                    _("Output '{}' metadata:").format(output.name)
+                )
             else:
                 metadata_box = QtWidgets.QGroupBox(
-                    _("Output {} metadata:").format(output_index))
+                    _("Output {} metadata:").format(output_index)
+                )
             metadata_box_layout = QtWidgets.QFormLayout(metadata_box)
-            label_attributes = ((_("Signal name:"), "name"),
-                                (_("Abscissa quantity:"), "quantity_a"),
-                                (_("Abscissa symbol:"), "symbol_a"),
-                                (_("Abscissa unit:"), "unit_a"),
-                                (_("Ordinate quantity:"), "quantity_o"),
-                                (_("Ordinate symbol:"), "symbol_o"),
-                                (_("Ordinate unit:"), "unit_o"))
+            label_attributes = (
+                (_("Signal name:"), "name"),
+                (_("Abscissa quantity:"), "quantity_a"),
+                (_("Abscissa symbol:"), "symbol_a"),
+                (_("Abscissa unit:"), "unit_a"),
+                (_("Ordinate quantity:"), "quantity_o"),
+                (_("Ordinate symbol:"), "symbol_o"),
+                (_("Ordinate unit:"), "unit_o"),
+            )
             for label, attribute in label_attributes:
                 entry_edit_line = edit_widgets.MetaDataEditWidget(
                     metadata=output.user_metadata, attr=attribute
@@ -266,8 +285,10 @@ class EditWindow(QtWidgets.QDialog):
                 self.metadata_widgets.append(entry_edit_line)
                 metadata_box_layout.addRow(label, entry_edit_line)
             abscissa_check_box = edit_widgets.MetaDataBoolWidget(
-                _("Automatically calculate abscissa metadata"), output,
-                "use_process_abscissa_metadata")
+                _("Automatically calculate abscissa metadata"),
+                output,
+                "use_process_abscissa_metadata",
+            )
             if output.user_metadata_required:
                 abscissa_check_box.setEnabled(False)
             else:
@@ -281,14 +302,17 @@ class EditWindow(QtWidgets.QDialog):
                         self.metadata_widgets[1].setEnabled(True)
                         self.metadata_widgets[2].setEnabled(True)
                         self.metadata_widgets[3].setEnabled(True)
+
                 abscissa_check_box.stateChanged.connect(tmp)
                 self.metadata_widgets.append(abscissa_check_box)
             abscissa_check_box.read_attribute()
             if not output.user_metadata_required:
                 metadata_box_layout.insertRow(1, "", abscissa_check_box)
             ordinate_check_box = edit_widgets.MetaDataBoolWidget(
-                _("Automatically calculate ordinate metadata"), output,
-                "use_process_ordinate_metadata")
+                _("Automatically calculate ordinate metadata"),
+                output,
+                "use_process_ordinate_metadata",
+            )
 
             if output.user_metadata_required:
                 ordinate_check_box.setEnabled(False)
@@ -303,6 +327,7 @@ class EditWindow(QtWidgets.QDialog):
                         self.metadata_widgets[4].setEnabled(True)
                         self.metadata_widgets[5].setEnabled(True)
                         self.metadata_widgets[6].setEnabled(True)
+
                 ordinate_check_box.stateChanged.connect(tmp)
                 self.metadata_widgets.append(ordinate_check_box)
             ordinate_check_box.read_attribute()
@@ -322,16 +347,16 @@ class EditWindow(QtWidgets.QDialog):
         for index, plot_parameter in enumerate(plot_parameters):
             # Add name labels except for action and bool parameters and
             # parameter blocks
-            if not isinstance(plot_parameter, parameters.BoolParameter) and \
-                    not isinstance(plot_parameter,
-                                   parameters.ActionParameter) and \
-                    not isinstance(plot_parameter, parameters.ParameterBlock):
+            if (
+                not isinstance(plot_parameter, parameters.BoolParameter)
+                and not isinstance(plot_parameter, parameters.ActionParameter)
+                and not isinstance(plot_parameter, parameters.ParameterBlock)
+            ):
                 name_label = QtWidgets.QLabel(plot_parameter.name + ":")
                 name_label.setFixedHeight(25)
                 plot_parameter_box_layout.addWidget(name_label, index, 0, 1, 1)
             # Translate parameter to the corresponding widget
-            widget = edit_widgets.widget_dict[type(plot_parameter)](
-                plot_parameter)
+            widget = edit_widgets.widget_dict[type(plot_parameter)](plot_parameter)
             self.plot_parameter_widgets.append(widget)
             widget.read_parameter()
             plot_parameter_box_layout.addWidget(widget, index, 1, 1, 1)
@@ -342,8 +367,9 @@ class EditWindow(QtWidgets.QDialog):
         self.apply_changes()
         super(EditWindow, self).accept()
 
-    def apply_changes(self, parameter_changes=True, metadata_changes=True,
-                      plot_parameter_changes=True):
+    def apply_changes(
+        self, parameter_changes=True, metadata_changes=True, plot_parameter_changes=True
+    ):
         """Tries to apply changes. In case of an error the user gets a
         notification and can choose between reverting his last changes or
         continue editing and potentially fix the error.
@@ -373,10 +399,18 @@ class EditWindow(QtWidgets.QDialog):
         except Exception as error:
             logging.error(repr(error))
             self.warning_message.setText(
-                _("Could not apply the changed parameters and metadata!"
-                  "Continue editing or revert changes?") + "\n" + repr(error))
+                _(
+                    "Could not apply the changed parameters and metadata!"
+                    "Continue editing or revert changes?"
+                )
+                + "\n"
+                + repr(error)
+            )
             self.warning_message.exec_()
-            if self.warning_message.clickedButton() == self.warning_message.revert_button:
+            if (
+                self.warning_message.clickedButton()
+                == self.warning_message.revert_button
+            ):
                 self.revert_changes()
         # If no exceptions occur then the changes can be finalized
         else:
@@ -416,15 +450,12 @@ class EditWindow(QtWidgets.QDialog):
         """
         if isinstance(self.block, DynamicBlock) and self.block.dynamic_output:
             self.add_metadata()
-        self.setWindowTitle(_("Edit {}").format(
-            self.block.parameters["name"].value)
-        )
+        self.setWindowTitle(_("Edit {}").format(self.block.parameters["name"].value))
         super(EditWindow, self).show()
 
     def apply(self, button):
         """Apply all changes made in the EditWindow. This is a helper function
         and effectively only calls apply_changes.
         """
-        if self.button_box.buttonRole(
-                button) == QtWidgets.QDialogButtonBox.ApplyRole:
+        if self.button_box.buttonRole(button) == QtWidgets.QDialogButtonBox.ApplyRole:
             self.apply_changes()
