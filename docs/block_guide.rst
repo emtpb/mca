@@ -443,7 +443,8 @@ The resulting *messages.pot* file can than be used to update locales
 
     $ pybabel update -i messages.pot -d mca/locales -l de -N
 
-Add any missing translation in the *messages.po* file. Finally compile the
+Add any missing translation in the *messages.po* file. It is highly recommended 
+to use gtranslator to edit the .po file. Finally compile the
 *messages.po* file which yields the file *messages.mo*::
 
     $ pybabel compile -d mca/locales -l de
