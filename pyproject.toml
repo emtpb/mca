@@ -45,3 +45,6 @@ build-backend = "setuptools.build_meta"
 
 # Automatically generate version number from git tags
 [tool.setuptools_scm]
+
+[tool.setuptools]
+py-modules = ["mca"]
