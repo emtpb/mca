@@ -94,7 +94,7 @@ msgstr "Dreieck rechts"
 
 #: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:101
 msgid "Octagon"
-msgstr "Achteck"
+msgstr "Oktagon"
 
 #: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:102
 msgid "Square"
@@ -102,7 +102,7 @@ msgstr "Quadrat"
 
 #: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:103
 msgid "Pentagon"
-msgstr "Fünfeck"
+msgstr "Pentagon"
 
 #: /upb/departments/emt/Student/kevink2/packages/mca/mca/framework/util.py:104
 msgid "Star"
