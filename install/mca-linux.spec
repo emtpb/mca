@@ -2,13 +2,13 @@
 from PyInstaller.utils.hooks import collect_data_files
 
 block_cipher = None
-datas = [('mca/resources/gifs/*', 'mca/resources/gifs/'),
-         ('mca/resources/icons/*', 'mca/resources/icons/'),
-            ('mca/locales/de/LC_MESSAGES/messages.mo', 'mca/locales/de/LC_MESSAGES/'),
-            ('mca/version.txt', 'mca')]
+datas = [('../mca/resources/gifs/*', './mca/resources/gifs/'),
+         ('../mca/resources/icons/*', './mca/resources/icons/'),
+         ('../mca/locales/de/LC_MESSAGES/messages.mo', './mca/locales/de/LC_MESSAGES/'),
+         ('../mca/version.txt', './mca')]
 
 
-a = Analysis(['mca/main.py'],
+a = Analysis(['../mca/main.py'],
              pathex=[],
              binaries=[],
              datas=datas,
@@ -37,7 +37,8 @@ exe = EXE(pyz,
           argv_emulation=False,
           disable_windowed_traceback=False,
           target_arch=None,
-          codesign_identity=None)
+          codesign_identity=None,
+          entitlements_file=None , icon='mca.ico')
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
@@ -46,7 +47,3 @@ coll = COLLECT(exe,
                upx=True,
                upx_exclude=[],
                name='mca')
-app = BUNDLE(coll,
-             name='mca.app',
-             icon='mca.icns',
-             bundle_identifier=None)
