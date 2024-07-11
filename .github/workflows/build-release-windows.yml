@@ -25,7 +25,7 @@ jobs:
 
       - name: Run InnoSetup
         run: |
-            "%programfiles(x86)%\\Inno Setup 6\\iscc.exe" "mca.iss"
+            "%programfiles(x86)%\\Inno Setup 6\\iscc.exe" "install\\mca.iss"
         shell: cmd
 
       - name: Upload windows exe
