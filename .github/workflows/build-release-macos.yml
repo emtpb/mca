@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-  build:
+  build-aarch64:
     runs-on: macos-latest
 
     steps:
@@ -26,11 +26,41 @@ jobs:
       - name: Zip app bundle
         run: |
           MCA_VERSION=$(cat ./mca/version.txt)
-          (cd dist && zip -r ../mca-macos-$MCA_VERSION.zip ./mca.app)
+          (cd dist && zip -r ../mca-macos-aarch64-$MCA_VERSION.zip ./mca.app)
 
       - name: Upload macOS app
         uses: alexellis/upload-assets@0.4.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          asset_paths: '["./mca-macos-*.zip"]'
+          asset_paths: '["./mca-macos-aarch64-*.zip"]'
+
+  build-x86_64:
+    runs-on: macos-13
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Build standalone
+        run: |
+          pip install --upgrade pip
+          pip install . pyinstaller
+          pyinstaller ./install/mca-macos.spec
+
+      - name: Zip app bundle
+        run: |
+          MCA_VERSION=$(cat ./mca/version.txt)
+          (cd dist && zip -r ../mca-macos-x86_64-$MCA_VERSION.zip ./mca.app)
+
+      - name: Upload macOS app
+        uses: alexellis/upload-assets@0.4.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          asset_paths: '["./mca-macos-x86_64-*.zip"]'   
