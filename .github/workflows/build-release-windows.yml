@@ -33,4 +33,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          asset_paths: '["./mca-*-setup.exe"]'
+          asset_paths: '["./install/mca-*-setup.exe"]'
