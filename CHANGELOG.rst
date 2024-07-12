@@ -8,6 +8,25 @@ This project follows the guidelines of `Keep a changelog`_ and adheres to
 .. _Keep a changelog: http://keepachangelog.com/
 .. _Semantic versioning: https://semver.org/
 
+
+0.4.3 - 2024-12-7
+=================
+
+Added
+-----
+* Parameter descriptions
+* Add option 
+
+Changed
+-------
+* Replace setup.py with pyproject.toml
+* MCA Logo
+
+
+Fixed
+-----
+* Connection lines were not updated correctly when moving a block
+
 0.4.2 - 2023-07-9
 =================
 
