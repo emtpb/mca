@@ -21,7 +21,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install . pyinstaller
-          pyinstaller mca-macos.spec
+          pyinstaller ./install/mca-macos.spec
 
       - name: Zip app bundle
         run: |
