@@ -19,7 +19,7 @@ classifiers = [
     "Topic :: Scientific/Engineering",
 ]
 # Runtime dependencies
-dependencies = ['numpy', 'scipy', 'networkx', 'matplotlib', 'appdirs', 'PySide6',
+dependencies = ['numpy<2.0.0', 'scipy', 'networkx', 'matplotlib<3.9.0', 'appdirs', 'PySide6',
                 'united', 'sounddevice', 'handyscope', 'dsch']
 
 [project.optional-dependencies]
